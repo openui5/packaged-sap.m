@@ -1,6 +1,6 @@
 /*!
  * SAP UI development toolkit for HTML5 (SAPUI5/OpenUI5)
- * (c) Copyright 2009-2014 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2015 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
@@ -22,7 +22,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './ComboBoxBase', './Dialog', './Li
 	 * @extends sap.m.ComboBoxBase
 	 *
 	 * @author SAP SE 
-	 * @version 1.26.2
+	 * @version 1.26.3
 	 *
 	 * @constructor
 	 * @public
@@ -542,14 +542,18 @@ sap.ui.define(['jquery.sap.global', './Bar', './ComboBoxBase', './Dialog', './Li
 	 */
 	MultiComboBox.prototype.onBeforeRendering = function() {
 		ComboBoxBase.prototype.onBeforeRendering.apply(this, arguments);
-	
+		
 		var aItems = this.getItems();
+
 		this._synchronizeSelectedItemAndKey(aItems);
 		this._clearList();
 		this._clearTokenizer();
 		this._fillList(aItems);
+
+		// Re-apply editable state to make sure tokens are rendered in right state.
+		this.setEditable(this.getEditable());
 	};
-	
+
 	/**
 	 * This hook method is called before the MultiComboBox's Pop-up is rendered.
 	 * 
@@ -805,6 +809,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './ComboBoxBase', './Dialog', './Li
 			this.getList().setSelectedItem(this.getListItem(mOptions.item), true);
 		}
 	
+		
 		// Fill Tokenizer
 		var oToken = new sap.m.Token({
 			key : mOptions.key,

@@ -1,6 +1,6 @@
 /*!
  * SAP UI development toolkit for HTML5 (SAPUI5/OpenUI5)
- * (c) Copyright 2009-2014 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2015 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
@@ -196,11 +196,13 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/theming/Parameters'],
 		rm.writeClasses();
 		rm.write(">");
 		
-		rm.write("<span");
+		rm.write("<div");
+		rm.addClass("sapMListNoDataText");
 		rm.writeAttribute("id", oControl.getId("nodata-text"));
+		rm.writeClasses();
 		rm.write(">");
 		rm.writeEscaped(oControl.getNoDataText(true));
-		rm.write("</span>");
+		rm.write("</div>");
 		
 		rm.write("</li>");
 	};

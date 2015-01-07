@@ -1,6 +1,6 @@
 /*!
  * SAP UI development toolkit for HTML5 (SAPUI5/OpenUI5)
- * (c) Copyright 2009-2014 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2015 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
@@ -22,7 +22,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.26.2
+	 * @version 1.26.3
 	 *
 	 * @constructor
 	 * @public
@@ -707,8 +707,6 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 					jQuery.sap.byId(sMessageId).remove();
 				});
 			}
-	
-			var $This = jQuery(this.getDomRefForValueStateMessage());
 			var $Input = jQuery(this.getFocusDomRef());
 			var mDock = Popup.Dock;
 			var bIsRightAligned = $Input.css("text-align") === "right";
@@ -717,8 +715,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 			var sTextClass = "sapMInputBaseMessageText";
 			var $Content = jQuery("<div>",{
 				"id": sMessageId,
-				"class": sClass,
-				"style": "max-width:" + $This.outerWidth() + "px"
+				"class": sClass
 			}).append(
 				jQuery("<span>",{
 					"id": sMessageId + "-text",

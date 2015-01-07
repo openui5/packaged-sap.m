@@ -1,6 +1,6 @@
 /*!
  * SAP UI development toolkit for HTML5 (SAPUI5/OpenUI5)
- * (c) Copyright 2009-2014 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2015 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
@@ -24,7 +24,7 @@ sap.ui.define(['jquery.sap.global', './GroupHeaderListItem', './library', 'sap/u
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.26.2
+	 * @version 1.26.3
 	 *
 	 * @constructor
 	 * @public
@@ -455,9 +455,9 @@ sap.ui.define(['jquery.sap.global', './GroupHeaderListItem', './library', 'sap/u
 		}
 	};
 	
-	ListBase.prototype.bindAggregation = function(sName) {
-		sName == "items" && this._resetItemsBinding();
-		return this._applyAggregation("bind", arguments);
+	ListBase.prototype.setBindingContext = function() {
+		this._resetItemsBinding();
+		return Control.prototype.setBindingContext.apply(this, arguments);
 	};
 	
 	ListBase.prototype._bindAggregation = function(sName) {
@@ -942,6 +942,7 @@ sap.ui.define(['jquery.sap.global', './GroupHeaderListItem', './library', 'sap/u
 			this.removeSelections(true);
 			this._hideBusyIndicator();
 			this._oGrowingDelegate && this._oGrowingDelegate.reset();
+			this._oItemNavigation && this._oItemNavigation.setFocusedIndex(-1);
 		}
 	};
 	
@@ -1482,9 +1483,9 @@ sap.ui.define(['jquery.sap.global', './GroupHeaderListItem', './library', 'sap/u
 	 * @since 1.26
 	 */
 	ListBase.prototype.setNavigationItems = function(oItemNavigation, oNavigationRoot) {
-		if (oNavigationRoot) {
-			var aNavigationItems = jQuery(oNavigationRoot).children(".sapMLIB").get();
-			oItemNavigation.setItemDomRefs(aNavigationItems);
+		var aNavigationItems = jQuery(oNavigationRoot).children(".sapMLIB").get();
+		oItemNavigation.setItemDomRefs(aNavigationItems);
+		if (oItemNavigation.getFocusedIndex() == -1) {
 			oItemNavigation.setFocusedIndex(0);
 		}
 	};

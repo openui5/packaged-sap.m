@@ -1,6 +1,6 @@
 /*!
  * SAP UI development toolkit for HTML5 (SAPUI5/OpenUI5)
- * (c) Copyright 2009-2014 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2015 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
@@ -23,7 +23,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Button', './InstanceManager', '.
 	 * @implements sap.ui.core.PopupInterface
 	 *
 	 * @author SAP SE
-	 * @version 1.26.2
+	 * @version 1.26.3
 	 *
 	 * @constructor
 	 * @public
@@ -398,7 +398,10 @@ sap.ui.define(['jquery.sap.global', './Bar', './Button', './InstanceManager', '.
 					zynga: false,
 					preventDefault: false,
 					nonTouchScrolling: "scrollbar",
-					bounce: this.getBounce() === "" ? undefined : this.getBounce()
+					bounce: this.getBounce() === "" ? undefined : this.getBounce(),
+					// In android stock browser, iScroll has to be used
+					// The scrolling layer using native scrolling is transparent for the browser to dispatch events
+					iscroll: sap.ui.Device.browser.name === "an" ? "force" : undefined
 				});
 			}
 		}

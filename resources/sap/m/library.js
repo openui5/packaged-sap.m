@@ -1,6 +1,6 @@
 /*!
  * SAP UI development toolkit for HTML5 (SAPUI5/OpenUI5)
- * (c) Copyright 2009-2014 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2015 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
@@ -22,14 +22,14 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/Device',
 	 * @namespace
 	 * @name sap.m
 	 * @author SAP SE
-	 * @version 1.26.2
+	 * @version 1.26.3
 	 * @public
 	 */
 	
 	// delegate further initialization of this library to the Core
 	sap.ui.getCore().initLibrary({
 		name : "sap.m",
-		version: "1.26.2",
+		version: "1.26.3",
 		dependencies : ["sap.ui.core"],
 		types: [
 			"sap.m.BackgroundDesign",
@@ -2261,17 +2261,22 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/Device',
 		var _fnSuggestionItemSelected = function(oEvent) {
 			var oCtrl = oEvent.getSource();
 			var mValueListAnnotation = oCtrl.data(oCtrl.getId() + "-#valueListAnnotation");
+			var oModel = oCtrl.getModel();
+			var oInputBinding = oCtrl.getBinding("value");
+			var sInputPath = oModel.resolve(oInputBinding.getPath(), oInputBinding.getContext());
 			
 			if (!mValueListAnnotation) {
 				return;
 			}
 			var oRow = oEvent.getParameter("selectedRow");
 			jQuery.each(oRow.getCells(), function(iIndex, oCell) {
+				var oCellBinding =  oCell.getBinding("text");
 				jQuery.each(mValueListAnnotation.outParameters, function(sKey, oObj) {
-					if (!oObj.displayOnly && oObj.value == oCell.getBinding("text").getPath()) {
-						var oValue = oCell.getBinding("text").getValue();
-						if (oValue) {
-							oCtrl.getModel().setProperty(sKey,oValue,oCtrl.getBinding("value").getContext());
+					if (!oObj.displayOnly && oObj.value == oCellBinding.getPath()) {
+						var oValue = oCellBinding.getValue();
+						var sValuePath = oModel.resolve(sKey, oInputBinding.getContext());
+						if (oValue && sValuePath !== sInputPath) {
+							oModel.setProperty(sValuePath, oValue);
 						}
 					}
 				});
@@ -2512,7 +2517,9 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/Device',
 			return new sap.m.Input(mConfig);
 		},
 		createImage: function(mConfig){
-			return new sap.m.Image(mConfig);
+			var oImage = new sap.m.Image(mConfig);
+			oImage.setDensityAware(false); // by default we do not have density aware images in the Table
+			return oImage;
 		},
 		bFinal: true
 	});

@@ -1,6 +1,6 @@
 /*!
  * SAP UI development toolkit for HTML5 (SAPUI5/OpenUI5)
- * (c) Copyright 2009-2014 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2015 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
@@ -140,7 +140,17 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/base/Object'],
 		// call to reset paging
 		reset : function() {
 			this._iItemCount = 0;
-			this._bLastAsyncCheck = false;
+		},
+		
+		// determines growing reset with binding change reason
+		// according to UX sort/filter/refresh/context should reset the growing
+		shouldReset : function(sChangeReason) {
+			var mChangeReason = sap.ui.model.ChangeReason;
+			
+			return 	sChangeReason == mChangeReason.Sort ||
+					sChangeReason == mChangeReason.Filter ||
+					sChangeReason == mChangeReason.Context ||
+					sChangeReason == mChangeReason.Refresh;
 		},
 
 		// get actual and total info
@@ -440,10 +450,6 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/base/Object'],
 		 * refresh items ... called from oData model.
 		 */
 		refreshItems : function(sChangeReason) {
-			// set iItemCount to initial value if not set or filtered
-			if (!this._iItemCount || sChangeReason == sap.ui.model.ChangeReason.Filter) {
-				this._iItemCount = this._oControl.getGrowingThreshold();
-			}
 			if (!this._bDataRequested) {
 				this._bDataRequested = true;
 				this._onBeforePageLoaded(sChangeReason);
@@ -459,8 +465,8 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/base/Object'],
 				oBinding = oBindingInfo.binding,
 				fnFactory = oBindingInfo.factory;
 
-			// set iItemCount to initial value if not set or filtered
-			if (!this._iItemCount || sChangeReason == sap.ui.model.ChangeReason.Filter) {
+			// set iItemCount to initial value if not set or no items at the control yet
+			if (!this._iItemCount || this.shouldReset(sChangeReason) || !this._oControl.getItems().length) {
 				this._iItemCount = this._oControl.getGrowingThreshold();
 			}
 
@@ -629,7 +635,6 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/base/Object'],
 			if (!this._bDataRequested) {
 				this._onAfterPageLoaded(sChangeReason);
 			}
-
 		},
 
 		/**

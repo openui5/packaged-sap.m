@@ -1,6 +1,6 @@
 /*!
  * SAP UI development toolkit for HTML5 (SAPUI5/OpenUI5)
- * (c) Copyright 2009-2014 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2015 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
@@ -23,7 +23,7 @@ sap.ui.define(['jquery.sap.global', './ListBase', './library'],
 	 * @extends sap.m.ListBase
 	 *
 	 * @author SAP SE
-	 * @version 1.26.2
+	 * @version 1.26.3
 	 *
 	 * @constructor
 	 * @public
@@ -86,11 +86,14 @@ sap.ui.define(['jquery.sap.global', './ListBase', './library'],
 	Table.prototype.onAfterRendering = function() {
 		ListBase.prototype.onAfterRendering.call(this);
 	
+		var $Table = jQuery(this.getTableDomRef());
+		
 		// if any item has navigation, add required class
-		if (this._navRenderedBy) {
-			jQuery(this.getTableDomRef()).addClass("sapMListTblHasNav");
-		}
-	
+		this._navRenderedBy && $Table.addClass("sapMListTblHasNav");
+		
+		// notify columns after rendering
+		this._notifyColumns("ColumnRendered", $Table, !this.getFixedLayout());
+
 		this.updateSelectAllCheckbox();
 		this._renderOverlay();
 	};
@@ -249,9 +252,10 @@ sap.ui.define(['jquery.sap.global', './ListBase', './library'],
 		var aItemDomRefs = $Header.add($Rows).add($Footer).get();
 		this._oItemNavigation.setItemDomRefs(aItemDomRefs);
 		
-		// header and footer in the item navigation but initial focus is the first item row 
-		if ($Header[0] && aItemDomRefs.length && oItemNavigation.getFocusedIndex() == -1) {
-			oItemNavigation.setFocusedIndex(1);
+		// header and footer are in the item navigation but 
+		// initial focus should be at the first item row
+		if (oItemNavigation.getFocusedIndex() == -1) {
+			oItemNavigation.setFocusedIndex($Header[0] ? 1 : 0);
 		}
 	};
 	
@@ -333,7 +337,7 @@ sap.ui.define(['jquery.sap.global', './ListBase', './library'],
 		if (aVisibleColumns.length == 1) {
 			$firstVisibleCol.width("");	// cover the space
 		} else {
-			$firstVisibleCol.width($firstVisibleCol.attr("data-sap-orig-width"));
+			$firstVisibleCol.width($firstVisibleCol.attr("data-sap-width"));
 		}
 	
 		// update GroupHeader colspan according to visible column count
@@ -348,9 +352,9 @@ sap.ui.define(['jquery.sap.global', './ListBase', './library'],
 	};
 	
 	// notify all columns with given action and param
-	Table.prototype._notifyColumns = function(action, param) {
+	Table.prototype._notifyColumns = function(sAction, vParam1, vParam2) {
 		this.getColumns().forEach(function(oColumn) {
-			oColumn["on" + action](param);
+			oColumn["on" + sAction](vParam1, vParam2);
 		});
 	};
 	

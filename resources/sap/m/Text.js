@@ -1,6 +1,6 @@
 /*!
  * SAP UI development toolkit for HTML5 (SAPUI5/OpenUI5)
- * (c) Copyright 2009-2014 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2015 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
@@ -23,7 +23,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control'],
 	 * @implements sap.ui.core.IShrinkable
 	 *
 	 * @author SAP SE
-	 * @version 1.26.2
+	 * @version 1.26.3
 	 *
 	 * @constructor
 	 * @public
@@ -228,8 +228,8 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control'],
 	 */
 	Text.prototype.getLineHeight = function(oDomRef) {
 		// return cached value if possible and available
-		if (this.cacheLineHeight && this._iLineHeight) {
-			return this._iLineHeight;
+		if (this.cacheLineHeight && this._fLineHeight) {
+			return this._fLineHeight;
 		}
 	
 		// check whether dom ref exist or not
@@ -256,17 +256,18 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control'],
 		}
 	
 		// on rasterizing the font, sub pixel line-heights are converted to integer
-		// this can differ from browser font rendering engine, in this case
-		// we should create one line text on the fly and check the height
-		var iLineHeight = Math.floor(fLineHeight);
-	
-		// cache line height
-		if (this.cacheLineHeight && iLineHeight) {
-			this._iLineHeight = iLineHeight;
+		// for most of the font rendering engine but this is not the case for firefox
+		if (!sap.ui.Device.browser.firefox) {
+			fLineHeight = Math.floor(fLineHeight);
 		}
-	
+
+		// cache line height
+		if (this.cacheLineHeight && fLineHeight) {
+			this._fLineHeight = fLineHeight;
+		}
+
 		// return
-		return iLineHeight;
+		return fLineHeight;
 	};
 	
 	/**

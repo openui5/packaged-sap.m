@@ -1,11 +1,11 @@
 /*!
  * SAP UI development toolkit for HTML5 (SAPUI5/OpenUI5)
- * (c) Copyright 2009-2014 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2015 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 /*!
  * SAP UI development toolkit for HTML5 (SAPUI5/OpenUI5)
- * (c) Copyright 2009-2014 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2015 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 /* Global CSS for 'base' theme */
@@ -1405,11 +1405,9 @@ html[dir=rtl] .sapMILIDiv {
   opacity: 0;
   pointer-events: auto;
   display: -webkit-box;
-  display: -moz-box;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-align: center;
-  -moz-box-align: center;
   -ms-flex-align: center;
   align-items: center;
 }
@@ -1461,18 +1459,21 @@ html[dir=rtl] .sapMILIDiv {
   user-select: none;
   list-style-type: none;
   display: -webkit-box;
-  display: -moz-box;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-align: center;
-  -moz-box-align: center;
   -ms-flex-align: center;
   align-items: center;
   -webkit-box-pack: center;
-  -moz-box-pack: center;
-  -ms-justify-content: center;
+  -ms-flex-pack: center;
   justify-content: center;
   height: 2.75em;
+}
+.sapMListNoDataText {
+  -ms-flex-negative: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .sapMListShowSeparatorsAll {
   /*class will be added for others, just a reminder*/
@@ -3035,6 +3036,9 @@ html[data-sap-ui-browser="ie11"] .sapMObjLItem .sapMLIBContent {
 .sapMFilterPanel .sapMPanelWrappingDiv {
   border-bottom: 0px;
 }
+.sapMFilterPanel .panelTopMargin {
+  margin-top: 1rem;
+}
 /* ============================================= */
 /* CSS for control sap.m/P13nPanel.control */
 /* ============================================= */
@@ -3133,9 +3137,10 @@ html[data-sap-ui-os^="iOS7"][data-sap-ui-browser^="msf"]:not(.sap-tablet) .sapUi
 /* ============================================= */
 /* CSS for control sap.m/Panel.control           */
 /* ============================================= */
+.sapMPanel {
+  overflow: hidden;
+}
 .sapMPanelHdr {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
   box-sizing: border-box;
   -webkit-text-size-adjust: none;
   /* To improve readability Mobile Safari automatically increases the size of small text so let's disable this */
@@ -3143,6 +3148,10 @@ html[data-sap-ui-os^="iOS7"][data-sap-ui-browser^="msf"]:not(.sap-tablet) .sapUi
   overflow: hidden;
   text-overflow: ellipsis;
   text-transform: none;
+}
+.sapMPanelContent {
+  box-sizing: border-box;
+  overflow: auto;
 }
 .sapMPanelExpandablePart {
   clear: both;
@@ -4482,6 +4491,10 @@ html[dir=rtl] .sapMStdTileInfo {
   display: inline-block;
   vertical-align: top;
   outline: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 .sapMSwtCont:not(.sapMSwtContDisabled) {
   cursor: pointer;
@@ -4568,10 +4581,6 @@ html[dir=rtl] .sapMStdTileInfo {
 .sapMListTbl td:focus,
 .sapMListTbl > tr:focus {
   outline: none;
-}
-.sapMListTblCell {
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 .sapMListTblCellNoData {
   text-align: center;
@@ -5275,6 +5284,7 @@ html[dir=rtl] .sapMTC .sapMTCEdgeRight {
   width: 100%;
   padding-left: 1rem;
   padding-right: 1rem;
+  -moz-box-sizing: border-box;
   box-sizing: border-box;
   flex: auto;
 }
@@ -5360,6 +5370,26 @@ html[dir=rtl] .sapMTC .sapMTCEdgeRight {
 .sapMBusyIndicator.sapMUCloadingIcon .sapMBusySvg {
   height: 2.5rem;
   width: 2.5rem;
+}
+/* In iOS/mac the line content is shown at the bottom of the line.
+the following lines remove the responsible top margin/padding  */
+html[data-sap-ui-os^="mac"] .sapMUCItemHL > .sapUiHLayoutChildWrapper > .sapMUCItemIcon,
+html[data-sap-ui-os^="iOS"] .sapMUCItemHL > .sapUiHLayoutChildWrapper > .sapMUCItemIcon,
+html[data-sap-ui-os^="mac"] .sapMUCItemHL > .sapUiHLayoutChildWrapper > .sapMUCItemImage,
+html[data-sap-ui-os^="iOS"] .sapMUCItemHL > .sapUiHLayoutChildWrapper > .sapMUCItemImage {
+  margin-top: 0rem;
+}
+html[data-sap-ui-os^="mac"] .sapMUCBtnHL,
+html[data-sap-ui-os^="iOS"] .sapMUCBtnHL {
+  margin-top: 0rem;
+}
+html[data-sap-ui-os^="mac"] .sapMBusyIndicator.sapMUCloadingIcon,
+html[data-sap-ui-os^="iOS"] .sapMBusyIndicator.sapMUCloadingIcon {
+  padding-top: 0rem;
+}
+html[data-sap-ui-os^="mac"] .sapMUC .sapUiVlt,
+html[data-sap-ui-os^="iOS"] .sapMUC .sapUiVlt {
+  margin-top: 0rem;
 }
 /* ************************************************************************************* */
 /* Borderless Design (Cozy Form Factor)                                                  */
@@ -5488,6 +5518,12 @@ html[dir=rtl] .sapMTC .sapMTCEdgeRight {
 /* ************************************************************************************* */
 /* Compact Form Factor                                                                   */
 /* ************************************************************************************* */
+/* In iOS/mac the content of the line is shown at the bottom of the line.
+the following lines remove the responsible top margin */
+html[data-sap-ui-os^="mac"].sapUiSizeCompact .sapMUC .sapMUCBtnHL,
+html[data-sap-ui-os^="iOS"].sapUiSizeCompact .sapMUC .sapMUCBtnHL {
+  margin-top: 1rem;
+}
 .sapUiSizeCompact .sapMUC {
   /* Button Horizontal Layout  */
   /* ********************************************************************************* */
@@ -6343,10 +6379,6 @@ div.sapMBtnInner.sapMBtnEmphasized {
 /* increase outline offset */
 .sapMTB > .sapMBtnInner.sapMFocusable:focus {
   outline-offset: -0.125rem;
-}
-.sapUiUfdShellBackground,
-.sapMGlobalBackgroundColor {
-  background-image: none;
 }
 /* ------------------------------------------------ */
 /* Compact size                                     */
@@ -8737,6 +8769,8 @@ html[dir=rtl] .sapMILI-CTX .sapMInputBasePlaceholder {
   font-size: 0.75rem;
   font-family: Arial, Helvetica, sans-serif;
   padding: 0.3rem 0.625rem;
+  min-width: 6rem;
+  max-width: 22rem;
 }
 .sapMInputBaseMessageError,
 .sapMInputBaseMessageWarning {
@@ -9518,8 +9552,8 @@ html[data-sap-ui-browser*='ie9'] .sapMListNoData {
   outline: none;
   position: relative;
 }
-.sap-desktop[data-sap-ui-browser^="ie"] .sapMLIB:not(.sapMListTblRow):focus:after {
-  content: " ";
+.sap-desktop[data-sap-ui-browser^="ie"] .sapMLIB:not(.sapMListTblRow):focus::before {
+  content: "";
   border: 0.125rem dotted #ffffff;
   position: absolute;
   top: 0;
@@ -9894,16 +9928,6 @@ html[data-sap-ui-browser*='ie9'] .sapMListNoData {
 /* focus to allow go down via keyboard navigation into list */
 .sap-desktop .sapMMultiComboBoxList li.sapMComboBoxBaseItem:focus {
   position: relative;
-}
-.sap-desktop .sapMMultiComboBoxList .sapMComboBoxBaseItem:focus:before {
-  border: 0.125rem dotted #ffffff;
-  content: "";
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  pointer-events: none;
 }
 .sap-desktop li.sapMMultiComboBoxItemRangeSelection {
   background-color: #0f5d94;

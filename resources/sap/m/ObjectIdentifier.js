@@ -1,6 +1,6 @@
 /*!
  * SAP UI development toolkit for HTML5 (SAPUI5/OpenUI5)
- * (c) Copyright 2009-2014 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2015 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @class
 	 * ObjectIdentifier is a display control that enables the user to easily identify a specific object. The object identifier title is the key identifier of the object and additional text and icons can be used to further distinguish it from other objects.
 	 * @extends sap.ui.core.Control
-	 * @version 1.26.2
+	 * @version 1.26.3
 	 *
 	 * @constructor
 	 * @public
@@ -258,6 +258,8 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 			this.setAggregation("_textControl", oTextControl);
 		}
 
+		oTextControl.setVisible(!!this.getText());
+		
 		return oTextControl;
 	};
 	
@@ -306,9 +308,10 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	ObjectIdentifier.prototype.setText = function (sText) {
 		//always suppress rerendering because text div is rendered
 		//if text is empty or not
+		this.setProperty("text", sText, true);
+		
 		var oTextControl = this._getTextControl();
 		oTextControl.setProperty("text", sText, false);
-		this.setProperty("text", sText, true);
 		this.$("text").toggleClass("sapMObjectIdentifierTextBellow", 
 				!!this.getProperty("text") && !!this.getProperty("title"));
 	

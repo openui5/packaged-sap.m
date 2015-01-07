@@ -1,6 +1,6 @@
 /*!
  * SAP UI development toolkit for HTML5 (SAPUI5/OpenUI5)
- * (c) Copyright 2009-2014 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2015 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './InputBase', './library', 'sap/ui/model/ty
 	 * This is an date input control with a calendar DatePicker.
 	 * It internal uses the sap.ui.unified.Calendar. So the sap.ui.unified library should be loaded from applications using this control. (Otherwise it will be loaded by opening the DatePicker.)
 	 * @extends sap.m.InputBase
-	 * @version 1.26.2
+	 * @version 1.26.3
 	 *
 	 * @constructor
 	 * @public
@@ -295,6 +295,10 @@ sap.ui.define(['jquery.sap.global', './InputBase', './library', 'sap/ui/model/ty
 
 			if (jQuery.sap.equal(this.getDateValue(), oDate)) {
 				return this;
+			}
+
+			if (oDate && !(oDate instanceof Date)) {
+				throw new Error("Date must be a JavaScript date object; " + this);
 			}
 
 			if (oDate && (oDate.getTime() < this._oMinDate.getTime() || oDate.getTime() > this._oMaxDate.getTime())) {
@@ -697,7 +701,7 @@ sap.ui.define(['jquery.sap.global', './InputBase', './library', 'sap/ui/model/ty
 				oThis._curpos = iCurpos;
 				oThis._$input.cursorPos(oThis._curpos);
 
-				var sValue = oThis._getInputValue();
+				var sValue = oThis.getValue();
 				oThis.fireChangeEvent(sValue, {valid: true});
 			}
 

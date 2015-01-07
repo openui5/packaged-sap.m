@@ -1,6 +1,6 @@
 /*!
  * SAP UI development toolkit for HTML5 (SAPUI5/OpenUI5)
- * (c) Copyright 2009-2014 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2015 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
@@ -22,7 +22,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Element', 'sap/ui/
 	 * @extends sap.ui.core.Element
 	 *
 	 * @author SAP SE
-	 * @version 1.26.2
+	 * @version 1.26.3
 	 *
 	 * @constructor
 	 * @public
@@ -584,9 +584,8 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Element', 'sap/ui/
 		return this._lastValue;
 	};
 	
-	
 	/**
-	 * Calls from Table to notify all items are removed
+	 * Gets called from the Table when the all items are removed
 	 *
 	 * @since 1.16
 	 * @protected
@@ -595,6 +594,68 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Element', 'sap/ui/
 		this.clearLastValue();
 	};
 	
+	/**
+	 * Determines whether the given width is relative or not
+	 *
+	 * @private
+	 * @returns {boolean}
+	 */
+	Column.prototype.isRelativeWidth = function() {
+		return /^(|auto|[-+]?\d+\.?\d*%|inherit)$/i.test(this.getWidth());
+	};
+	
+	/**
+	 * Determines whether box-sizing content-box works for columns or not
+	 * Native android browsers does not honour content-box for fixed table layout
+	 * https://bugs.webkit.org/show_bug.cgi?id=18565
+	 * 
+	 * @protected
+	 * @readonly
+	 * @static
+	 */
+	Column.bContentBoxSupport = (function() {
+		var iWidth = 5,
+			sTable = "<table style='table-layout:fixed; width:" + iWidth + "px; position:absolute; left:-999px; top:-999px'>" +
+						"<tr><td style='width:" + iWidth + "px; padding:1px; border:1px solid transparent;'></td></tr>" +
+					"</table>",
+			$Table = jQuery(sTable);
+
+		jQuery(document.documentElement).append($Table);
+		var iContentWidth = $Table.find("td").width();
+		$Table.remove();
+
+		return (iContentWidth == iWidth);
+	})();
+	
+	/**
+	 * Gets called from the parent after all cells in column are rendered
+	 *
+	 * @param {jQuery} $Table Table jQuery reference
+	 * @param {Boolean} [bAutoTableLayout] Table layout
+	 * @see sap.m.Column#bContentBoxSupport
+	 * @protected
+	 */
+	Column.prototype.onColumnRendered = function($Table, bAutoTableLayout) {
+		// native android browsers does not honour box-sizing content-box for fixed table layout
+		// if there is no content-box support and column is visible and not in popin then run the workaround
+		if (bAutoTableLayout ||
+			Column.bContentBoxSupport ||
+			!this.getVisible() ||
+			this.isRelativeWidth() ||
+			this.isPopin() ||
+			this.isNeverVisible()) {
+			return;
+		}
+
+		var $Header = $Table.find("th").eq(this._index),
+			iOuterWidth = $Header.outerWidth(),
+			iContentWidth = $Header.width(),
+			iWidth = 2 * iOuterWidth - iContentWidth;
+
+		// set the outer-width as column width
+		$Header.attr("data-sap-width", iWidth + "px");
+		$Header.width(iWidth);
+	};
 
 	return Column;
 

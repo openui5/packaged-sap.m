@@ -1,6 +1,6 @@
 /*!
  * SAP UI development toolkit for HTML5 (SAPUI5/OpenUI5)
- * (c) Copyright 2009-2014 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2015 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 sap.ui.define(['jquery.sap.global', './BarRenderer'],
@@ -67,9 +67,11 @@ sap.ui.define(['jquery.sap.global', './BarRenderer'],
 		if (!bHorizontalScrolling) {
 			oRm.addClass("sapMDialogHorScrollDisabled");
 		}
-	
-		oRm.addClass("sapMDialogPhone");
-	
+
+		if (sap.ui.Device.system.phone) {
+			oRm.addClass("sapMDialogPhone");
+		}
+
 		// test dialog with sap-ui-xx-formfactor=compact
 		if (sap.m._bSizeCompact) {
 			oRm.addClass("sapUiSizeCompact");

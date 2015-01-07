@@ -1,26 +1,25 @@
-/*!
- * SAP UI development toolkit for HTML5 (SAPUI5/OpenUI5)
- * (c) Copyright 2009-2014 SAP SE or an SAP affiliate company.
+/*
+ * ! SAP UI development toolkit for HTML5 (SAPUI5/OpenUI5)
+ * (c) Copyright 2009-2015 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
-sap.ui.define(['jquery.sap.global'],
-	function(jQuery) {
+sap.ui.define([
+	'jquery.sap.global'
+], function(jQuery) {
 	"use strict";
-
 
 	/**
 	 * ConditionPanel renderer.
+	 * 
 	 * @namespace
 	 */
 	var P13nConditionPanelRenderer = {};
-	
+
 	/**
 	 * Renders the HTML for the given control, using the provided {@link sap.ui.core.RenderManager}.
 	 * 
-	 * @param {sap.ui.core.RenderManager}
-	 *            oRm the RenderManager that can be used for writing to the render output buffer
-	 * @param {sap.ui.core.Control}
-	 *            oControl an object representation of the control that should be rendered
+	 * @param {sap.ui.core.RenderManager} oRm the RenderManager that can be used for writing to the render output buffer
+	 * @param {sap.ui.core.Control} oControl an object representation of the control that should be rendered
 	 */
 	P13nConditionPanelRenderer.render = function(oRm, oControl) {
 		// start ConditionPanel
@@ -30,12 +29,12 @@ sap.ui.define(['jquery.sap.global'],
 		oRm.writeClasses();
 		oRm.writeStyles();
 		oRm.write(">");
-	
+
 		// render content
 		oRm.write("<div");
 		oRm.addClass("sapMConditionPanelContent");
 		oRm.addClass("sapMConditionPanelBG");
-	
+
 		oRm.writeClasses();
 		oRm.write(">");
 		var aChildren = oControl.getAggregation("content");
@@ -44,10 +43,10 @@ sap.ui.define(['jquery.sap.global'],
 			oRm.renderControl(aChildren[i]);
 		}
 		oRm.write("</div>");
-	
+
 		oRm.write("</section>");
 	};
 
 	return P13nConditionPanelRenderer;
 
-}, /* bExport= */ true);
+}, /* bExport= */true);

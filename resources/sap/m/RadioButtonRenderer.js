@@ -1,6 +1,6 @@
 /*!
  * SAP UI development toolkit for HTML5 (SAPUI5/OpenUI5)
- * (c) Copyright 2009-2014 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2015 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
@@ -22,11 +22,6 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/ValueStateSupport'],
 	 * @param {sap.ui.core.Control} oRadioButton an object representation of the control that should be rendered
 	 */
 	RadioButtonRenderer.render = function(oRm, oRadioButton) {
-		// Return immediately if control is invisible
-		if (!oRadioButton.getVisible()) {
-			return;
-		}
-	
 		// get control properties
 		var bEnabled = oRadioButton.getEnabled();
 		var bEditable = oRadioButton.getEditable();
