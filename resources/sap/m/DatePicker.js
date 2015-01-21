@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './InputBase', './library', 'sap/ui/model/ty
 	 * This is an date input control with a calendar DatePicker.
 	 * It internal uses the sap.ui.unified.Calendar. So the sap.ui.unified library should be loaded from applications using this control. (Otherwise it will be loaded by opening the DatePicker.)
 	 * @extends sap.m.InputBase
-	 * @version 1.26.3
+	 * @version 1.26.4
 	 *
 	 * @constructor
 	 * @public
@@ -141,7 +141,8 @@ sap.ui.define(['jquery.sap.global', './InputBase', './library', 'sap/ui/model/ty
 
 			InputBase.prototype.onfocusin.apply(this, arguments);
 
-			if (sap.ui.Device.browser.mobile && !jQuery(oEvent.target).hasClass("sapUiIcon") && !this._bFocusNoPopup) {
+			if (sap.ui.Device.browser.mobile && !jQuery(oEvent.target).hasClass("sapUiIcon") && !this._bFocusNoPopup &&
+					this.getEditable() && this.getEnabled()) {
 				// on mobile devices open calendar
 				var that = this;
 
@@ -236,7 +237,8 @@ sap.ui.define(['jquery.sap.global', './InputBase', './library', 'sap/ui/model/ty
 			var that = this;
 			if (jQuery(oEvent.target).hasClass("sapUiIcon")) {
 				_toggleOpen(that);
-			} else	if (sap.ui.Device.browser.mobile && (!this._oPopup || !this._oPopup.isOpen())) {
+			} else if (sap.ui.Device.browser.mobile && (!this._oPopup || !this._oPopup.isOpen()) &&
+					this.getEditable() && this.getEnabled()) {
 				_open(that);
 			}
 

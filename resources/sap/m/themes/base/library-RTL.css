@@ -147,6 +147,7 @@
 }
 .sapMBarPH {
   display: inline-block;
+  height: 3rem;
 }
 .sapMBarMiddle {
   text-align: center;
@@ -355,7 +356,7 @@ html[data-sap-ui-browser*='ie'] .sapMBtnContentWithIcon {
   height: 100%;
   position: relative;
   white-space: nowrap;
-  text-align: left;
+  text-align: begin;
   /*  Removes  inline-block  gaps  due  to  whitespace  */
   font-size: 0;
   /*  Configure  animations  */
@@ -372,6 +373,13 @@ html[data-sap-ui-browser*='ie'] .sapMBtnContentWithIcon {
   -moz-transition-duration: 0.5s;
   -ms-transition-duration: 0.5s;
   transition-duration: 0.5s;
+}
+/* special handling for IE, as it does not support text-align: end */
+html[data-sap-ui-browser^="ie"] .sapMCrslInner {
+  text-align: left;
+}
+html[dir=rtl][data-sap-ui-browser^="ie"] .sapMCrslInner {
+  text-align: right;
 }
 .sapMCrslItemTable {
   display: table;
@@ -989,7 +997,10 @@ html[data-sap-ui-browser="ie9"] .sapMFeedListItemTitleDiv {
   display: block;
 }
 .sapMFeedListItemTitleDiv .sapMLIBContent {
-  width: 100%;
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  -ms-flex: auto;
+  flex: auto;
   overflow: hidden;
 }
 /* phone adoption */
@@ -1215,6 +1226,10 @@ html[data-sap-ui-browser="ie9"] .sapMFeedListItemTitleDiv {
 .sapMInputBaseInner::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
+}
+/* remove user agent pseudo-element clear button (IE specifix) */
+.sapMInputBaseInner::-ms-clear {
+  display: none;
 }
 .sapMInputBaseInner {
   -webkit-appearance: none;
