@@ -17,7 +17,7 @@ sap.ui.define([
 	 * @param {object} [mSettings] initial settings for the new control
 	 * @class The ConditionPanel Control will be used to realize the Sorting, Filtering and Grouping panel of the new Personalization dialog.
 	 * @extends sap.m.P13nPanel
-	 * @version 1.26.4
+	 * @version 1.26.6
 	 * @constructor
 	 * @public
 	 * @experimental Since version 1.25. !!! THIS CONTROL IS ONLY FOR INTERNAL USE !!!

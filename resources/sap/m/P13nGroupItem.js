@@ -17,7 +17,7 @@ sap.ui.define([
 	 * @param {object} [mSettings] initial settings for the new control
 	 * @class tbd
 	 * @extends sap.ui.core.Item
-	 * @version 1.26.4
+	 * @version 1.26.6
 	 * @constructor
 	 * @public
 	 * @alias sap.m.P13nGroupItem

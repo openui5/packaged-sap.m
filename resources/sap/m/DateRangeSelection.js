@@ -18,7 +18,7 @@ sap.ui.define(['jquery.sap.global', './DatePicker', './library'],
 	 * @class
 	 * This is a date range selection control. It internal uses the sap.ui.unified.Calendar. So the sap.ui.unified library should be loaded from applications using this control.
 	 * @extends sap.m.DatePicker
-	 * @version 1.26.4
+	 * @version 1.26.6
 	 *
 	 * @constructor
 	 * @public

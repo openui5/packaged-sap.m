@@ -47,6 +47,10 @@ sap.ui.define(['jquery.sap.global', './InputBaseRenderer', 'sap/ui/core/Renderer
 			if (!oControl.getEnabled()) {
 				oRm.addClass(CSS_CLASS + "Disabled");
 			}
+
+			if (!oControl.getEditable()) {
+				oRm.addClass(CSS_CLASS + "Readonly");
+			}
 		};
 
 		/**
@@ -56,7 +60,12 @@ sap.ui.define(['jquery.sap.global', './InputBaseRenderer', 'sap/ui/core/Renderer
 		 * @param {sap.ui.core.Control} oControl An object representation of the control that should be rendered.
 		 */
 		ComboBoxBaseRenderer.addInnerClasses = function(oRm, oControl) {
-			oRm.addClass(ComboBoxBaseRenderer.CSS_CLASS + "InputInner");
+			var CSS_CLASS = ComboBoxBaseRenderer.CSS_CLASS;
+			oRm.addClass(CSS_CLASS + "InputInner");
+
+			if (!oControl.getEditable()) {
+				oRm.addClass(CSS_CLASS + "InputInnerReadonly");
+			}
 		};
 
 		/**

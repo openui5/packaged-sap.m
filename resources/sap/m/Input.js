@@ -22,7 +22,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 	 * @extends sap.m.InputBase
 	 *
 	 * @author SAP SE
-	 * @version 1.26.4
+	 * @version 1.26.6
 	 *
 	 * @constructor
 	 * @public
@@ -269,6 +269,12 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 		InputBase.prototype.init.call(this);
 		this._inputProxy = jQuery.proxy(this._onInput, this);
 		this._fnFilter = Input._DEFAULTFILTER;
+
+		// Show suggestions in a dialog on tablets and phones:
+		this._bUseDialog = sap.ui.Device.system.tablet || sap.ui.Device.system.phone;
+
+		// Show suggestions in a full screen dialog on phones:
+		this._bFullScreen = sap.ui.Device.system.phone;
 	};
 	
 	/**
@@ -343,19 +349,19 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 		InputBase.prototype.onAfterRendering.call(this);
 		this.bindToInputEvent(this._inputProxy);
 	
-		if (!sap.ui.Device.system.phone) {
+		if (!this._bFullScreen) {
 			this._resizePopup();
 			this._sPopupResizeHandler = sap.ui.core.ResizeHandler.register(this.getDomRef(), function() {
 				that._resizePopup();
 			});
 		}
 	
-		if (sap.ui.Device.system.phone) {
+		if (this._bUseDialog) {
 			// click event has to be used in order to focus on the input in dialog
-			this.$().on("click", jQuery.proxy(function () {
-				if (this.getShowSuggestion() && this._oSuggestionPopup) {
+			// do not open suggestion dialog by click over the value help icon
+			this.$().on("click", jQuery.proxy(function (oEvent) {
+				if (this.getShowSuggestion() && this._oSuggestionPopup && oEvent.target.id != this.getId() + "__vhi") {
 					this._oSuggestionPopup.open();
-					this._oPopupInput._$input.focus();
 				}
 			}, this));
 		}
@@ -743,7 +749,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 			this._sPopupResizeHandler = null;
 		}
 	
-		if (sap.ui.Device.system.phone && this._oSuggestionPopup) {
+		if (this._bUseDialog && this._oSuggestionPopup) {
 			this.$().off("click");
 		}
 	};
@@ -777,7 +783,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 					this._refreshItemsDelayed();
 				}
 			});
-		} else if (sap.ui.Device.system.phone) {
+		} else if (this._bUseDialog) {
 			if (this._oList instanceof Table) {
 				// CSN# 1421140/2014: hide the table for empty/initial results to not show the table columns
 				this._oList.addStyleClass("sapMInputSuggestionTableHidden");
@@ -841,9 +847,13 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 				]
 			}));
 		};
-	
-		Input.prototype._addShowMoreButton = function() {
-			if (!this._oSuggestionPopup || !this._hasTabularSuggestions()) {
+
+		/*
+		 * Adds a more button to the footer of the tabular suggestion popup/dialog
+		 * @param{boolean} [bTabular] optional parameter to force override the tabular suggestions check
+		 */
+		Input.prototype._addShowMoreButton = function(bTabular) {
+			if (!this._oSuggestionPopup || !bTabular && !this._hasTabularSuggestions()) {
 				return;
 			}
 	
@@ -857,7 +867,10 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 				this._oSuggestionPopup.setFooter(oButtonToolbar);
 			}
 		};
-	
+
+		/*
+		 * Removes the more button from the footer of the tabular suggestion popup/dialog
+		 */
 		Input.prototype._removeShowMoreButton = function() {
 			if (!this._oSuggestionPopup || !this._hasTabularSuggestions()) {
 				return;
@@ -892,7 +905,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 	
 			// No need to fire suggest event when suggestion feature isn't enabled or runs on the phone.
 			// Because suggest event should only be fired by the input in dialog when runs on the phone.
-			if (this.getShowSuggestion() && !sap.ui.Device.system.phone) {
+			if (this.getShowSuggestion() && !this._bUseDialog) {
 				this._triggerSuggest(value);
 			}
 		};
@@ -1002,7 +1015,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 		function createSuggestionPopup(oInput) {
 			var oMessageBundle = sap.ui.getCore().getLibraryResourceBundle("sap.m");
 	
-			if (sap.ui.Device.system.phone) {
+			if (oInput._bUseDialog) {
 				oInput._oPopupInput = new Input(oInput.getId() + "-popup-input", {
 					width : "100%",
 					valueLiveUpdate: true,
@@ -1027,7 +1040,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 				}).addStyleClass("sapMInputSuggInDialog");
 			}
 	
-			oInput._oSuggestionPopup = !sap.ui.Device.system.phone ?
+			oInput._oSuggestionPopup = !oInput._bUseDialog ?
 				(new Popover(oInput.getId() + "-popup", {
 					showHeader : false,
 					placement : sap.m.PlacementType.Vertical,
@@ -1050,7 +1063,8 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 							oInput._oSuggestionPopup.close();
 						}
 					}),
-					stretch : true,
+					stretch : oInput._bFullScreen,
+					contentHeight : oInput._bFullScreen ? undefined : "20rem",
 					customHeader : new Bar(oInput.getId()
 							+ "-popup-header", {
 						contentMiddle : oInput._oPopupInput
@@ -1086,7 +1100,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 	
 			// add popup as dependent to also propagate the model and bindings to the content of the popover
 			oInput.addDependent(oInput._oSuggestionPopup);
-			if (!sap.ui.Device.system.phone) {
+			if (!oInput._bUseDialog) {
 				overwritePopover(oInput._oSuggestionPopup, oInput);
 			}
 	
@@ -1125,12 +1139,12 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 				oInput._oList = oInput._getSuggestionsTable();
 	
 				if (oInput.getShowTableSuggestionValueHelp()) {
-					oInput._addShowMoreButton();
+					oInput._addShowMoreButton(bTabular);
 				}
 			}
 	
 			if (oInput._oSuggestionPopup) {
-				if (sap.ui.Device.system.phone) {
+				if (oInput._bUseDialog) {
 					// oInput._oList needs to be manually rendered otherwise it triggers a rerendering of the whole
 					// dialog and may close the opened on screen keyboard
 					oInput._oSuggestionPopup.addAggregation("content", oInput._oList, true);
@@ -1195,7 +1209,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 	
 			if (!(bShowSuggestion
 					&& oInput.getDomRef()
-					&& (sap.ui.Device.system.phone || oInput.$().hasClass("sapMInputFocused")))
+					&& (oInput._bUseDialog || oInput.$().hasClass("sapMInputFocused")))
 			) {
 				return false;
 			}
@@ -1228,7 +1242,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 	
 			if (!bFilter && oInput.getFilterSuggests()) {
 				// when the input has no value, close the Popup when not runs on the phone because the opened dialog on phone shouldn't be closed.
-				if (!sap.ui.Device.system.phone) {
+				if (!oInput._bUseDialog) {
 					oPopup.close();
 				} else {
 					// hide table on phone when value is empty
@@ -1243,7 +1257,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 	
 			if (oInput._hasTabularSuggestions()) {
 				// show list on phone (is hidden when search string is empty)
-				if (sap.ui.Device.system.phone && oInput._oList) {
+				if (oInput._bUseDialog && oInput._oList) {
 					oInput._oList.removeStyleClass("sapMInputSuggestionTableHidden");
 				}
 	
@@ -1295,7 +1309,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 							}
 
 							// update the input field
-							if (sap.ui.Device.system.phone) {
+							if (oInput._bUseDialog) {
 								oInput._oPopupInput.setValue(sNewValue);
 								oInput._oPopupInput._doSelect();
 							} else {
@@ -1325,7 +1339,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 					}
 				}
 	
-				if (!sap.ui.Device.system.phone) {
+				if (!oInput._bUseDialog) {
 					if (oInput._sCloseTimer) {
 						clearTimeout(oInput._sCloseTimer);
 						oInput._sCloseTimer = null;
@@ -1340,7 +1354,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 					}
 				}
 			} else {
-				if (!sap.ui.Device.system.phone) {
+				if (!oInput._bUseDialog) {
 					if (oPopup.isOpen()) {
 						oInput._sCloseTimer = setTimeout(function() {
 							oPopup.close();
@@ -1428,7 +1442,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 					}
 
 					// update the input field
-					if (sap.ui.Device.system.phone) {
+					if (that._bUseDialog) {
 						that._oPopupInput.setValue(sNewValue);
 						that._oPopupInput._doSelect();
 					} else {
@@ -1443,7 +1457,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 				}
 			});
 			// initially hide the table on phone
-			if (sap.ui.Device.system.phone) {
+			if (this._bUseDialog) {
 				this._oSuggestionTable.addStyleClass("sapMInputSuggestionTableHidden");
 			}
 	

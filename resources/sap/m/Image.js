@@ -26,7 +26,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control'],
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.26.4
+	 * @version 1.26.6
 	 *
 	 * @constructor
 	 * @public
@@ -129,18 +129,20 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control'],
 	 * @param {jQuery.Event} oEvent
 	 * @private
 	 */
-	Image.prototype.onload = function(oEvent) {
-	
+	Image.prototype.onload = function(oEvent) {	
 		// This is used to fix the late load event handler problem on ios platform, if the event handler
 		// has not been called right after image is loaded, event is triggered manually in onAfterRendering
 		// method.
 		if (!this._defaultEventTriggered) {
 			this._defaultEventTriggered = true;
 		}
-	
+
+		// reset the flag for the next rerendering
+		this._bVersion2Tried = false;
+
 		var $DomNode = this.$(),
 			oDomRef = $DomNode[0];
-	
+
 		if (!this._isWidthOrHeightSet()) {
 			if (this._iLoadImageDensity > 1) {
 				if (($DomNode.width() === oDomRef.naturalWidth) && ($DomNode.height() === oDomRef.naturalHeight)) {
@@ -148,7 +150,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control'],
 				}
 			}
 		}
-	
+
 		$DomNode.removeClass("sapMNoImg");
 	};
 	
@@ -186,7 +188,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control'],
 		} else if (d === 1.5) {
 			if (this._bVersion2Tried) {
 				setTimeout(jQuery.proxy(function() {
-	
+
 					// if version 2 isn't on the server, load the default image
 					this._iLoadImageDensity = 1;
 					$DomNode.attr("src", this._generateSrcByDensity(this._isActiveState ? this.getActiveSrc() : this.getSrc(), 1));

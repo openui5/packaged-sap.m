@@ -23,7 +23,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.26.4
+	 * @version 1.26.6
 	 *
 	 * @constructor
 	 * @public
@@ -153,7 +153,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	};
 
 	/**
-	 * Sets the rating value. The method is automatically checking whether the value is in the valid range of 0-{@link #getMaxValue maxValue} and if it is a valid number.
+	 * Sets the rating value. The method is automatically checking whether the value is in the valid range of 0-{@link #getMaxValue maxValue} and if it is a valid number. Calling the setter with null or undefined will reset the value to it's default.
 	 *
 	 * @param {float} fValue The rating value to be set.
 	 * @returns {sap.m.RatingIndicator} Returns <code>this</code> to facilitate method chaining.
@@ -161,6 +161,8 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @public
 	 */
 	RatingIndicator.prototype.setValue = function (fValue) {
+		// validates the property and sets null/undefined values to the default 
+		fValue = this.validateProperty("value", fValue);
 
 		// do not set negative values (will be returned by calculation function if there is an error)
 		if (fValue < 0) {

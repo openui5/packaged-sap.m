@@ -22,7 +22,7 @@ sap.ui.define(['jquery.sap.global', './Dialog', './Popover', './library', 'sap/u
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.26.4
+	 * @version 1.26.6
 	 *
 	 * @constructor
 	 * @public
@@ -542,10 +542,12 @@ sap.ui.define(['jquery.sap.global', './Dialog', './Popover', './library', 'sap/u
 	
 	// forward the other necessary methods to the inner instance, but do not check the existence of generated methods like (addItem)
 	["invalidate", "close", "isOpen", "addStyleClass", "removeStyleClass", "toggleStyleClass", "hasStyleClass",
-		"setBindingContext", "getBindingContext", "getBinding", "getBindingInfo", "getBindingPath"].forEach(function(sName){
-			ResponsivePopover.prototype[sName] = function(){
-				var res = this._oControl[sName].apply(this._oControl ,arguments);
-				return res === this._oControl ? this : res;
+		"setBindingContext", "getBindingContext", "getBinding", "getBindingInfo", "getBindingPath", "getDomRef"].forEach(function(sName){
+			ResponsivePopover.prototype[sName] = function() {
+				if (this._oControl && this._oControl[sName]) {
+					var res = this._oControl[sName].apply(this._oControl ,arguments);
+					return res === this._oControl ? this : res;
+				}
 			};
 	});
 

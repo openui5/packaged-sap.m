@@ -9,8 +9,6 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	function(jQuery, library, Control, EnabledPropagator, ItemNavigation) {
 	"use strict";
 
-
-
 	/**
 	 * Constructor for a new IconTabHeader.
 	 *
@@ -22,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.26.4
+	 * @version 1.26.6
 	 *
 	 * @constructor
 	 * @public
@@ -430,7 +428,9 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		this._sResizeListenerId = sap.ui.core.ResizeHandler.register(this.getDomRef(),  jQuery.proxy(this._fnResize, this));
 
 		// Change ITB content height on resize when ITB stretchContentHeight is set to true (IE9 fix)
-		if (!jQuery.support.newFlexBoxLayout && this.getParent().getStretchContentHeight()) {
+		if (!jQuery.support.newFlexBoxLayout &&
+			this.getParent() instanceof sap.m.IconTabBar && 
+			this.getParent().getStretchContentHeight()) {
 			this._sResizeListenerNoFlexboxSupportId = sap.ui.core.ResizeHandler.register(this.getParent().getDomRef(), jQuery.proxy(this._fnResizeNoFlexboxSupport, this));
 			this._fnResizeNoFlexboxSupport();
 		}
@@ -538,7 +538,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		if (this._bDoScroll) { //iScroll is used, therefore we need other calculation then in desktop mode
 			var domScrollCont = this.getDomRef("scrollContainer");
 			var domHead = this.getDomRef("head");
-			
+
 			if (domHead && domScrollCont) {
 				if (domHead.offsetWidth > domScrollCont.offsetWidth) {
 					bScrolling = true;
@@ -733,6 +733,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 					}
 
 				} else {
+
 					// should be one of the items - select it
 					if (oControl instanceof sap.ui.core.Icon || oControl instanceof sap.m.Image) {
 						// click on icon: fetch filter instead
@@ -744,15 +745,12 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 					}
 					// select item if it is an iconTab but not a separator
 					else if (oControl.getMetadata().isInstanceOf("sap.m.IconTab") && !(oControl instanceof sap.m.IconTabSeparator)) {
-						//for tabs with showAll property true or for text only version click on whole area leads to selection
-						if (oControl.getShowAll() || this._bTextOnly) {
-							this.setSelectedItem(oControl);
-						}
+						this.setSelectedItem(oControl);
 					}
 				}
 			} else {
 				//no target id, so we have to check if showAll is set or it's a text only item, because clicking on the number then also leads to selecting the item
-				if (oControl.getMetadata().isInstanceOf("sap.m.IconTab") && !(oControl instanceof sap.m.IconTabSeparator) && (oControl.getShowAll() || this._bTextOnly)) {
+				if (oControl.getMetadata().isInstanceOf("sap.m.IconTab") && !(oControl instanceof sap.m.IconTabSeparator)) {
 					this.setSelectedItem(oControl);
 				}
 			}
@@ -914,20 +912,12 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 */
 	//overwritten method, returns for most cases the iconDomRef, if the given tab has no icon, the textDomRef is returned.
 	IconTabHeader.prototype.getFocusDomRef = function (oFocusTab) {
-
 		var oTab = oFocusTab || this.oSelectedItem;
-
 		if (!oTab) {
 			return null;
 		}
 
-		if (!this._bTextOnly) {
-			if (oTab.getShowAll()) {
-				return oTab.getDomRef();
-			}
-			return oTab.getDomRef("icon");
-		}
-		return oTab.getDomRef("text");
+		return oTab.getDomRef();
 	};
 
 	IconTabHeader.prototype.applyFocusInfo = function (oFocusInfo) {
@@ -955,10 +945,12 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		this._iTouchStartPageX = oTargetTouch.pageX;
 		this._iTouchDragX = 0;
 
-		// if the item is text-only and we click outside the text area, move the focus to the text
-		var oItemTouched = jQuery(oEvent.target);
-		if (this._bTextOnly && !oItemTouched.hasClass('sapMITBText')) {
-			oItemTouched.parents('.sapMITBItem').children('.sapMITBText').focus();
+		//if the browser is IE prevent click events on dom elements in the tab, because the IE will focus them, not the tab itself.
+		if (sap.ui.Device.browser.internet_explorer) {
+			var $target = jQuery(oEvent.target);
+			if ($target.hasClass('sapMITBFilterIcon') || $target.hasClass('sapMITBCount') || $target.hasClass('sapMITBText') || $target.hasClass('sapMITBTab') || $target.hasClass('sapMITBContentArrow')) {
+				oEvent.preventDefault();
+			}
 		}
 	};
 
@@ -1014,7 +1006,6 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	IconTabHeader.prototype.onsapselect = function(oEvent) {
 		this._handleActivation(oEvent);
 	};
-
 
 	/* =========================================================== */
 	/*           end: event handlers                               */
