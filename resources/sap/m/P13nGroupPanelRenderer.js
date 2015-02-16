@@ -1,5 +1,5 @@
-/*
- * ! SAP UI development toolkit for HTML5 (SAPUI5/OpenUI5)
+/*!
+ * SAP UI development toolkit for HTML5 (SAPUI5/OpenUI5)
  * (c) Copyright 2009-2015 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
@@ -10,7 +10,6 @@ sap.ui.define([
 
 	/**
 	 * GroupPanel renderer.
-	 * 
 	 * @namespace
 	 */
 	var P13nGroupPanelRenderer = {};
@@ -18,16 +17,18 @@ sap.ui.define([
 	/**
 	 * Renders the HTML for the given control, using the provided {@link sap.ui.core.RenderManager}.
 	 * 
-	 * @param {sap.ui.core.RenderManager} oRm the RenderManager that can be used for writing to the render output buffer
-	 * @param {sap.ui.core.Control} oControl an object representation of the control that should be rendered
+	 * @param {sap.ui.core.RenderManager}
+	 *            oRm the RenderManager that can be used for writing to the render output buffer
+	 * @param {sap.ui.core.Control}
+	 *            oControl an object representation of the control that should be rendered
 	 */
 	P13nGroupPanelRenderer.render = function(oRm, oControl) {
 		// start GroupPanel
 		oRm.write("<section");
 		oRm.writeControlData(oControl);
 		oRm.addClass("sapMGroupPanel");
-		// oRm.addStyle("width", oControl.getWidth());
-		// oRm.addStyle("height", oControl.getHeight());
+		//	oRm.addStyle("width", oControl.getWidth());
+		//	oRm.addStyle("height", oControl.getHeight());
 		oRm.writeClasses();
 		oRm.writeStyles();
 		oRm.write(">");

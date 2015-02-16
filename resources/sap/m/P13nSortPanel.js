@@ -1,5 +1,5 @@
-/*
- * ! SAP UI development toolkit for HTML5 (SAPUI5/OpenUI5)
+/*!
+ * SAP UI development toolkit for HTML5 (SAPUI5/OpenUI5)
  * (c) Copyright 2009-2015 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
@@ -13,11 +13,15 @@ sap.ui.define([
 	/**
 	 * Constructor for a new P13nSortPanel.
 	 * 
-	 * @param {string} [sId] id for the new control, generated automatically if no id is given
-	 * @param {object} [mSettings] initial settings for the new control
+	 * @param {string}
+	 *            [sId] id for the new control, generated automatically if no id is given
+	 * @param {object}
+	 *            [mSettings] initial settings for the new control
+	 * 
 	 * @class The SortPanel Control can be used to...
 	 * @extends sap.m.P13nPanel
-	 * @version 1.26.6
+	 * @version 1.26.7
+	 * 
 	 * @constructor
 	 * @public
 	 * @alias sap.m.P13nSortPanel
@@ -31,8 +35,9 @@ sap.ui.define([
 			properties: {
 
 				/**
-				 * defines if the mediaQuery or a ContainerResize will be used for layout update. When the ConditionPanel is used on a dialog the
-				 * property should be set to true!
+				 * defines if the mediaQuery or a ContainerResize will be used for layout update. When the
+				 * ConditionPanel is used on a dialog the property should be set to true!
+				 * @since 1.26
 				 */
 				containerQuery: {
 					type: "boolean",
@@ -41,8 +46,9 @@ sap.ui.define([
 				},
 
 				/**
-				 * can be used to control the layout behavior. Default is "" which will automatically change the layout. With "Desktop", "Table"
-				 * or"Phone" you can set a fixed layout.
+				 * can be used to control the layout behavior. Default is "" which will automatically change the
+				 * layout. With "Desktop", "Table" or"Phone" you can set a fixed layout.
+				 * @since 1.26
 				 */
 				layoutMode: {
 					type: "string",
@@ -63,7 +69,8 @@ sap.ui.define([
 				},
 
 				/**
-				 * tbd
+				 * defined Sort Items
+				 * @since 1.26
 				 */
 				sortItems: {
 					type: "sap.m.P13nSortItem",
@@ -75,17 +82,20 @@ sap.ui.define([
 			events: {
 
 				/**
-				 * event raised when a Item was added
+				 * event raised when a SortItem was added
+				 * @since 1.26
 				 */
 				addSortItem: {},
 
 				/**
 				 * remove a sort item
+				 * @since 1.26
 				 */
 				removeSortItem: {},
 
-				/**
+				/**								 
 				 * update a sort item
+				 * @since 1.26
 				 */
 				updateSortItem: {}
 			}
@@ -93,20 +103,11 @@ sap.ui.define([
 	});
 
 	/**
-	 * sets the array of conditions.
-	 * 
-	 * @param {object[]} aConditions the complete list of conditions
-	 */
-	P13nSortPanel.prototype.setConditions = function(aConditions) {
-		this._oSortPanel.setConditions(aConditions);
-	};
-
-	/**
 	 * returns the array of conditions.
 	 * 
 	 * @private
 	 */
-	P13nSortPanel.prototype.getConditions = function() {
+	P13nSortPanel.prototype._getConditions = function() {
 		return this._oSortPanel.getConditions();
 	};
 
@@ -123,19 +124,21 @@ sap.ui.define([
 	};
 
 	/**
-	 * check if the entered/modified conditions are correct, marks invalid fields yellow (Warning state) and opens a popup message dialog to give the
-	 * user the feedback that some values are wrong or missing.
+	 * check if the entered/modified conditions are correct, marks invalid fields yellow (Warning state) and
+	 * opens a popup message dialog to give the user the feedback that some values are wrong or missing.
 	 * 
 	 * @public
+	 * @since 1.26
 	 */
 	P13nSortPanel.prototype.validateConditions = function() {
 		return this._oSortPanel.validateConditions();
 	};
 
 	/**
-	 * removes all invalid sort conditions.
-	 * 
+	 * removes all invalid sort conditions.					 
+	 *  
 	 * @public
+	 * @since 1.28
 	 */
 	P13nSortPanel.prototype.removeInvalidConditions = function() {
 		this._oSortPanel.removeInvalidConditions();
@@ -145,16 +148,17 @@ sap.ui.define([
 	 * removes all errors/warning states from of all sort conditions.
 	 * 
 	 * @public
+	 * @since 1.28
 	 */
 	P13nSortPanel.prototype.removeValidationErrors = function() {
 		this._oSortPanel.removeValidationErrors();
 	};
 
-	P13nSortPanel.prototype.onBeforeNavigation = function() {
+	P13nSortPanel.prototype.onBeforeNavigationFrom = function() {
 		return this.validateConditions();
 	};
 
-	P13nSortPanel.prototype.onAfterNavigation = function() {
+	P13nSortPanel.prototype.onAfterNavigationFrom = function() {
 		return this.removeInvalidConditions();
 	};
 
@@ -162,7 +166,9 @@ sap.ui.define([
 	 * setter for the supported operations array
 	 * 
 	 * @public
-	 * @param {array} array of operations [sap.m.P13nConditionOperation.BT, sap.m.P13nConditionOperation.EQ]
+	 * @since 1.26
+	 * @param {array}
+	 *            array of operations [sap.m.P13nConditionOperation.BT, sap.m.P13nConditionOperation.EQ]
 	 */
 	P13nSortPanel.prototype.setOperations = function(aOperation) {
 		this._aOperations = aOperation;
@@ -170,24 +176,6 @@ sap.ui.define([
 		if (this._oSortPanel) {
 			this._oSortPanel.setOperations(this._aOperations);
 		}
-	};
-
-	/**
-	 * setter for a KeyFields array
-	 * 
-	 * @public
-	 * @param {array} array of KeyFields [{key: "CompanyCode", text: "ID"}, {key:"CompanyName", text : "Name"}]
-	 */
-	P13nSortPanel.prototype.setKeyFields = function(aKeyFields) {
-		this._aKeyFields = aKeyFields;
-
-		if (this._oSortPanel) {
-			this._oSortPanel.setKeyFields(this._aKeyFields);
-		}
-	};
-
-	P13nSortPanel.prototype.getKeyFields = function() {
-		return this._aKeyFields;
 	};
 
 	/**
@@ -269,13 +257,13 @@ sap.ui.define([
 					operation: oSortItem_.getOperation()
 				});
 			});
-			this.setConditions(aConditions);
+			this._oSortPanel.setConditions(aConditions);
 		}
 	};
 
 	P13nSortPanel.prototype.insertSortItem = function(oSortItem) {
 		this.insertAggregation("sortItems", oSortItem);
-		// TODO: implement this
+		//TODO: implement this
 		return this;
 	};
 
@@ -288,7 +276,7 @@ sap.ui.define([
 	P13nSortPanel.prototype.removeAllSortItems = function() {
 		var aSortItems = this.removeAllAggregation("sortItems");
 
-		this.setConditions([]);
+		this._oSortPanel.setConditions([]);
 
 		return aSortItems;
 	};
@@ -297,7 +285,7 @@ sap.ui.define([
 		this.destroyAggregation("sortItems");
 
 		if (!this._bIgnoreBindCalls) {
-			this.setConditions([]);
+			this._oSortPanel.setConditions([]);
 		}
 
 		return this;

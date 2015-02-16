@@ -1,5 +1,5 @@
-/*
- * ! SAP UI development toolkit for HTML5 (SAPUI5/OpenUI5)
+/*!
+ * SAP UI development toolkit for HTML5 (SAPUI5/OpenUI5)
  * (c) Copyright 2009-2015 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
@@ -13,15 +13,20 @@ sap.ui.define([
 	/**
 	 * Constructor for a new P13nFilterPanel.
 	 * 
-	 * @param {string} [sId] id for the new control, generated automatically if no id is given
-	 * @param {object} [mSettings] initial settings for the new control
+	 * @param {string}
+	 *            [sId] id for the new control, generated automatically if no id is given
+	 * @param {object}
+	 *            [mSettings] initial settings for the new control
+	 * 
 	 * @class The FilterPanel Control can be used to...
 	 * @extends sap.m.P13nPanel
-	 * @version 1.26.6
+	 * @version 1.26.7
+	 * 
 	 * @constructor
 	 * @public
 	 * @alias sap.m.P13nFilterPanel
-	 * @ui5-metamodel This control/element also will be described in the UI5 (legacy) designtime metamodel
+	 * @ui5-metamodel This control/element also will be described in the UI5 (legacy) designtime
+	 *                metamodel
 	 */
 	var P13nFilterPanel = P13nPanel.extend("sap.m.P13nFilterPanel", /** @lends sap.m.P13nFilterPanel.prototype */
 	{
@@ -32,6 +37,7 @@ sap.ui.define([
 
 				/**
 				 * defines the max number of include filter.
+				 * @since 1.26
 				 */
 				maxIncludes: {
 					type: "string",
@@ -41,6 +47,7 @@ sap.ui.define([
 
 				/**
 				 * defines the max number of exclude filter
+				 * @since 1.26
 				 */
 				maxExcludes: {
 					type: "string",
@@ -49,8 +56,9 @@ sap.ui.define([
 				},
 
 				/**
-				 * defines if the mediaQuery or a ContainerResize will be used for layout update. When the ConditionPanel is used on a dialog the
-				 * property should be set to true!
+				 * defines if the mediaQuery or a ContainerResize will be used for layout update. When
+				 * the ConditionPanel is used on a dialog the property should be set to true!
+				 * @since 1.26
 				 */
 				containerQuery: {
 					type: "boolean",
@@ -59,8 +67,9 @@ sap.ui.define([
 				},
 
 				/**
-				 * can be used to control the layout behavior. Default is "" which will automatically change the layout. With "Desktop", "Table"
-				 * or"Phone" you can set a fixed layout.
+				 * can be used to control the layout behavior. Default is "" which will automatically
+				 * change the layout. With "Desktop", "Table" or"Phone" you can set a fixed layout.
+				 * @since 1.26
 				 */
 				layoutMode: {
 					type: "string",
@@ -81,7 +90,8 @@ sap.ui.define([
 				},
 
 				/**
-				 * tbd
+				 * defined Filter Items
+				 * @since 1.26
 				 */
 				filterItems: {
 					type: "sap.m.P13nFilterItem",
@@ -94,16 +104,19 @@ sap.ui.define([
 
 				/**
 				 * event raised when a filterItem was added
+				 * @since 1.26
 				 */
 				addFilterItem: {},
 
 				/**
 				 * remove a filter item
+				 * @since 1.26
 				 */
 				removeFilterItem: {},
 
-				/**
+				/**								 
 				 * update a filter item
+				 * @since 1.26
 				 */
 				updateFilterItem: {}
 			}
@@ -115,7 +128,10 @@ sap.ui.define([
 	/**
 	 * sets the array of conditions.
 	 * 
-	 * @param {object[]} aConditions the complete list of conditions
+	 * @public
+	 * @since 1.26
+	 * @param {object[]}
+	 *            aConditions the complete list of conditions
 	 */
 	P13nFilterPanel.prototype.setConditions = function(aConditions) {
 		var aIConditions = [];
@@ -140,26 +156,35 @@ sap.ui.define([
 	};
 
 	/**
-	 * returns the array of conditions.
+	 * add a new condition object 
 	 * 
 	 * @private
+	 * @param {object}
+	 *            oCondition the new condition
+	 */
+	P13nFilterPanel.prototype._addCondition = function(oCondition) {
+		if (!oCondition.exclude) {
+			this._oIncludeFilterPanel.addCondition(oCondition);
+		} else {
+			this._oExcludeFilterPanel.addCondition(oCondition);
+		}
+
+		if (this._oExcludeFilterPanel.getConditions().length > 0) {
+			this._oExcludePanel.setExpanded(true);
+		}
+	};
+
+	/**
+	 * returns the array of conditions.
+	 * 
+	 * @public
+	 * @since 1.26
 	 */
 	P13nFilterPanel.prototype.getConditions = function() {
 		var aIConditions = this._oIncludeFilterPanel.getConditions();
 		var aEConditions = this._oExcludeFilterPanel.getConditions();
 
 		return aIConditions.concat(aEConditions);
-	};
-
-	/**
-	 * remove the condition from the panel with the given key
-	 * 
-	 * @private
-	 * @param {string} sKey the key of the condition
-	 */
-	P13nFilterPanel.prototype.removeCondition = function(sKey) {
-		this._oIncludeFilterPanel.removeCondition(sKey);
-		this._oExcludeFilterPanel.removeCondition(sKey);
 	};
 
 	P13nFilterPanel.prototype.setContainerQuery = function(bContainerQuery) {
@@ -180,16 +205,19 @@ sap.ui.define([
 	 * check if the entered/modified conditions are correct, marks invalid fields yellow (Warning state)
 	 * 
 	 * @public
-	 * @returns {boolean} false, if there is an invalid condition
+	 * @since 1.26
+	 * @returns {boolean}
+	 * 			false, if there is an invalid condition 
 	 */
 	P13nFilterPanel.prototype.validateConditions = function() {
 		return this._oIncludeFilterPanel.validateConditions() && this._oExcludeFilterPanel.validateConditions();
 	};
 
 	/**
-	 * removes all invalid conditions.
-	 * 
+	 * removes all invalid conditions.					 
+	 *  
 	 * @public
+	 * @since 1.28
 	 */
 	P13nFilterPanel.prototype.removeInvalidConditions = function() {
 		this._oIncludeFilterPanel.removeInvalidConditions();
@@ -200,17 +228,18 @@ sap.ui.define([
 	 * removes all errors/warning states from of all filter conditions.
 	 * 
 	 * @public
+	 * @since 1.28
 	 */
 	P13nFilterPanel.prototype.removeValidationErrors = function() {
 		this._oIncludeFilterPanel.removeValidationErrors();
 		this._oExcludeFilterPanel.removeValidationErrors();
 	};
 
-	P13nFilterPanel.prototype.onBeforeNavigation = function() {
+	P13nFilterPanel.prototype.onBeforeNavigationFrom = function() {
 		return this.validateConditions();
 	};
 
-	P13nFilterPanel.prototype.onAfterNavigation = function() {
+	P13nFilterPanel.prototype.onAfterNavigationFrom = function() {
 		return this.removeInvalidConditions();
 	};
 
@@ -218,7 +247,9 @@ sap.ui.define([
 	 * setter for the supported Include operations array
 	 * 
 	 * @public
-	 * @param {array} array of operations [sap.m.P13nConditionOperation.BT, sap.m.P13nConditionOperation.EQ]
+	 * @since 1.26
+	 * @param {array}
+	 *            array of operations [sap.m.P13nConditionOperation.BT, sap.m.P13nConditionOperation.EQ]
 	 */
 	P13nFilterPanel.prototype.setIncludeOperations = function(aOperation) {
 		this._aIncludeOperations = aOperation;
@@ -229,10 +260,12 @@ sap.ui.define([
 	};
 
 	/**
-	 * getter for the Include operations
+	 * getter for the Include operations 
 	 * 
 	 * @public
-	 * @returns {array} array of operations [sap.m.P13nConditionOperation.BT, sap.m.P13nConditionOperation.EQ]
+	 * @since 1.26
+	 * @returns {array}
+	 *            array of operations [sap.m.P13nConditionOperation.BT, sap.m.P13nConditionOperation.EQ]
 	 */
 	P13nFilterPanel.prototype.getIncludeOperations = function() {
 		if (this._oIncludeFilterPanel) {
@@ -244,7 +277,9 @@ sap.ui.define([
 	 * setter for the supported Exclude operations array
 	 * 
 	 * @public
-	 * @param {array} array of operations [sap.m.P13nConditionOperation.BT, sap.m.P13nConditionOperation.EQ]
+	 * @since 1.26
+	 * @param {array}
+	 *            array of operations [sap.m.P13nConditionOperation.BT, sap.m.P13nConditionOperation.EQ]
 	 */
 	P13nFilterPanel.prototype.setExcludeOperations = function(aOperation) {
 		this._aExcludeOperations = aOperation;
@@ -255,10 +290,12 @@ sap.ui.define([
 	};
 
 	/**
-	 * getter for the Exclude operations
+	 * getter for the Exclude operations 
 	 * 
 	 * @public
-	 * @returns {array} array of operations [sap.m.P13nConditionOperation.BT, sap.m.P13nConditionOperation.EQ]
+	 * @since 1.26
+	 * @returns {array}
+	 *            array of operations [sap.m.P13nConditionOperation.BT, sap.m.P13nConditionOperation.EQ]
 	 */
 	P13nFilterPanel.prototype.getExcludeOperations = function() {
 		if (this._oExcludeFilterPanel) {
@@ -270,7 +307,10 @@ sap.ui.define([
 	 * setter for a KeyFields array
 	 * 
 	 * @public
-	 * @param {array} array of KeyFields [{key: "CompanyCode", text: "ID"}, {key:"CompanyName", text : "Name"}]
+	 * @since 1.26
+	 * @param {array}
+	 *            array of KeyFields [{key: "CompanyCode", text: "ID"}, {key:"CompanyName", text :
+	 *            "Name"}]
 	 */
 	P13nFilterPanel.prototype.setKeyFields = function(aKeyFields) {
 		this._aKeyFields = aKeyFields;
@@ -312,7 +352,7 @@ sap.ui.define([
 
 		if (iMaxIncludes > 0) {
 			if (iMaxExcludes <= 0) {
-				// in case we do not shows the exclude panel remove the include panel header text and add an extra top margin
+				// in case we do not show the exclude panel remove the include panel header text and add an extra top margin
 				this._oIncludePanel.setHeaderText(null);
 				this._oIncludePanel.setExpandable(false);
 				this._oIncludePanel.addStyleClass("panelTopMargin");
@@ -430,6 +470,8 @@ sap.ui.define([
 			tooltip: oItem.getTooltip(),
 			maxLength: oItem.getMaxLength(),
 			type: oItem.getType(),
+			precision: oItem.getPrecision(),
+			scale: oItem.getScale(),
 			isDefault: oItem.getIsDefault()
 		};
 
@@ -458,25 +500,22 @@ sap.ui.define([
 		this.addAggregation("filterItems", oFilterItem);
 
 		if (!this._bIgnoreBindCalls) {
-			var aConditions = [];
-			this.getFilterItems().forEach(function(oFilterItem_) {
-				aConditions.push({
-					exclude: oFilterItem_.getExclude(),
-					key: oFilterItem_.getKey(),
-					keyField: oFilterItem_.getColumnKey(),
-					operation: oFilterItem_.getOperation(),
-					value1: oFilterItem_.getValue1(),
-					value2: oFilterItem_.getValue2()
-				});
-			});
+			var oCondition = {
+				exclude: oFilterItem.getExclude(),
+				key: oFilterItem.getKey(),
+				keyField: oFilterItem.getColumnKey(),
+				operation: oFilterItem.getOperation(),
+				value1: oFilterItem.getValue1(),
+				value2: oFilterItem.getValue2()
+			}; 
 
-			this.setConditions(aConditions);
+			this._addCondition(oCondition);
 		}
 	};
 
 	P13nFilterPanel.prototype.insertFilterItem = function(oFilterItem) {
 		this.insertAggregation("filterItems", oFilterItem);
-		// TODO: implement this
+		//TODO: implement this
 		return this;
 	};
 
@@ -489,8 +528,10 @@ sap.ui.define([
 	P13nFilterPanel.prototype.removeAllFilterItems = function() {
 		var aFilterItems = this.removeAllAggregation("filterItems");
 
-		this.setConditions([]);
-
+		if (!this._bIgnoreBindCalls) {
+			this.setConditions([]);
+		}
+		
 		return aFilterItems;
 	};
 
@@ -549,10 +590,12 @@ sap.ui.define([
 				that._bIgnoreBindCalls = false;
 			}
 			if (sOperation === "remove") {
+				that._bIgnoreBindCalls = true;
 				that.fireRemoveFilterItem({
 					key: sKey,
 					index: iIndex
 				});
+				that._bIgnoreBindCalls = false;
 			}
 		};
 	};

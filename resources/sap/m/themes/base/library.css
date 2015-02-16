@@ -601,6 +601,7 @@ html[dir=rtl] .sapMDTICustomDateTime .dwc:last-child {
   display: inline-block;
   /*this is for horizontal scrolling enablement*/
   min-height: 100%;
+  width: 100%;
   vertical-align: middle;
 }
 /* disable scrolling automatically for sap.m.Page sap.m.NavContainer sap.m.ScrollingContainer inside Dialog */
@@ -4752,10 +4753,6 @@ html[data-sap-ui-browser="ie9"] .sapMPersoDialog .sapMPersoDialogFixedBar .sapMP
   word-break: break-all;
   word-break: break-word;
   /* Non standard for old webkits */
-  -webkit-hyphens: auto;
-  -moz-hyphens: auto;
-  -ms-hyphens: auto;
-  hyphens: auto;
 }
 .sapMTextMaxWidth {
   max-width: 100%;

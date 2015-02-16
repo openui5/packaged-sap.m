@@ -606,6 +606,7 @@ html[dir=rtl] .sapMDTICustomDateTime .dwc:last-child {
   display: inline-block;
   /*this is for horizontal scrolling enablement*/
   min-height: 100%;
+  width: 100%;
   vertical-align: middle;
 }
 /* disable scrolling automatically for sap.m.Page sap.m.NavContainer sap.m.ScrollingContainer inside Dialog */
@@ -4757,10 +4758,6 @@ html[data-sap-ui-browser="ie9"] .sapMPersoDialog .sapMPersoDialogFixedBar .sapMP
   word-break: break-all;
   word-break: break-word;
   /* Non standard for old webkits */
-  -webkit-hyphens: auto;
-  -moz-hyphens: auto;
-  -ms-hyphens: auto;
-  hyphens: auto;
 }
 .sapMTextMaxWidth {
   max-width: 100%;
@@ -6980,7 +6977,7 @@ html[data-sap-ui-browser^=ie] .sapMCrslBulleted > span {
   padding-bottom: 0;
 }
 .sapMListTblSubCntSpr {
-  font-size: 16px;
+  font-size: 0.875rem;
 }
 .sapMListTblSubCntRow + .sapMListTblSubCntRow {
   margin-top: .5rem;
@@ -10006,14 +10003,19 @@ html[data-sap-ui-browser*='ie9'] .sapMListNoData {
 .sapMMultiComboBox > .sapMInputBasePlaceholder {
   z-index: 1;
 }
+.sapMMultiComboBox .sapMComboBoxBaseArrow {
+  z-index: 2;
+}
 /* ------------------------------ */
 /* InputInner                     */
 /* ------------------------------ */
 .sapMMultiComboBoxInputContainer > input.sapMComboBoxBaseInputInner {
   height: 2.375rem;
+  padding-left: 0;
 }
 .sapUiSizeCompact .sapMMultiComboBoxInputContainer > input.sapMComboBoxBaseInputInner {
   height: 1.625rem;
+  padding-left: 0;
 }
 /* ------------------------------ */
 /* ValueState                     */
@@ -10175,9 +10177,6 @@ html[data-sap-ui-browser*='ie9'] .sapMListNoData {
 .sapUiSizeCompact .sapMMultiInput .sapMInputBaseInner {
   padding-right: 0.0rem;
   padding-left: 0.1rem;
-}
-.sapMMultiInput > .sapMInputBasePlaceholder {
-  z-index: 1;
 }
 /* ============================================= */
 /* CSS for control sap.m/ObjectAttribute.control */

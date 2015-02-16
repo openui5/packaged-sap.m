@@ -17,7 +17,7 @@ sap.ui.define([
 	 * @param {object} [mSettings] initial settings for the new control
 	 * @class tbd
 	 * @extends sap.ui.core.Item
-	 * @version 1.26.6
+	 * @version 1.26.7
 	 * @constructor
 	 * @public
 	 * @alias sap.m.P13nSortItem
@@ -31,7 +31,8 @@ sap.ui.define([
 			properties: {
 
 				/**
-				 * tbd
+				 * sap.m.P13nConditionOperation
+				 * @since 1.26.0
 				 */
 				operation: {
 					type: "string",
@@ -40,7 +41,8 @@ sap.ui.define([
 				},
 
 				/**
-				 * tbd
+				 * key of the column
+				 * @since 1.26.0
 				 */
 				columnKey: {
 					type: "string",

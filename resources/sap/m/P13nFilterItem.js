@@ -17,7 +17,7 @@ sap.ui.define([
 	 * @param {object} [mSettings] initial settings for the new control
 	 * @class tbd
 	 * @extends sap.ui.core.Item
-	 * @version 1.26.6
+	 * @version 1.26.7
 	 * @constructor
 	 * @public
 	 * @alias sap.m.P13nFilterItem
@@ -31,7 +31,8 @@ sap.ui.define([
 			properties: {
 
 				/**
-				 * tbd
+				 * sap.m.P13nConditionOperation
+				 * @since 1.26.0 
 				 */
 				operation: {
 					type: "string",
@@ -40,7 +41,8 @@ sap.ui.define([
 				},
 
 				/**
-				 * tbd
+				 * value of the filter  
+				 * @since 1.26.0 
 				 */
 				value1: {
 					type: "string",
@@ -49,7 +51,8 @@ sap.ui.define([
 				},
 
 				/**
-				 * tbd
+				 * to value of the between filter
+				 * @since 1.26.0 
 				 */
 				value2: {
 					type: "string",
@@ -58,7 +61,8 @@ sap.ui.define([
 				},
 
 				/**
-				 * tbd
+				 * key of the column
+				 * @since 1.26.0 
 				 */
 				columnKey: {
 					type: "string",
@@ -68,6 +72,7 @@ sap.ui.define([
 
 				/**
 				 * defines if the filter is an include or exclude filter item
+				 * @since 1.26.0 
 				 */
 				exclude: {
 					type: "boolean",
