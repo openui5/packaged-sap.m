@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.26.7
+	 * @version 1.26.8
 	 *
 	 * @constructor
 	 * @public
@@ -208,16 +208,6 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		if (this._sResizeListenerNoFlexboxSupportId) {
 			sap.ui.core.ResizeHandler.deregister(this._sResizeListenerNoFlexboxSupportId);
 			this._sResizeListenerNoFlexboxSupportId = null;
-		}
-	};
-
-	IconTabHeader.prototype.invalidate = function() {
-		if (this.getParent() instanceof sap.m.IconTabBar && !this.getParent()._bHideHeader) {
-			// invalidate IconTabBar when the header is attached to it
-			this.getParent().invalidate();
-		} else {
-			// invalidate just the header when it is detached (IconTabFilter will do the magic for content invalidation)
-			Control.prototype.invalidate.apply(this, arguments);
 		}
 	};
 
