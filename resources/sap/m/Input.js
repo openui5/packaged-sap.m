@@ -22,7 +22,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 	 * @extends sap.m.InputBase
 	 *
 	 * @author SAP SE
-	 * @version 1.28.0
+	 * @version 1.28.1
 	 *
 	 * @constructor
 	 * @public
@@ -279,8 +279,8 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 		this._inputProxy = jQuery.proxy(this._onInput, this);
 		this._fnFilter = Input._DEFAULTFILTER;
 
-		// Show suggestions in a dialog on tablets and phones:
-		this._bUseDialog = sap.ui.Device.system.tablet || sap.ui.Device.system.phone;
+		// Show suggestions in a dialog on phones:
+		this._bUseDialog = sap.ui.Device.system.phone;
 
 		// Show suggestions in a full screen dialog on phones:
 		this._bFullScreen = sap.ui.Device.system.phone;

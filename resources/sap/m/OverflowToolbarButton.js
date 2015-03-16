@@ -24,7 +24,7 @@ sap.ui.define(['sap/m/Button', 'sap/m/ButtonRenderer'],
 	 * @extends sap.m.Button
 	 *
 	 * @author SAP SE
-	 * @version 1.28.0
+	 * @version 1.28.1
 	 *
 	 * @constructor
 	 * @private
@@ -36,11 +36,11 @@ sap.ui.define(['sap/m/Button', 'sap/m/ButtonRenderer'],
 	});
 
 	OverflowToolbarButton.prototype._getText = function() {
-		if (this._bInOverflow) {
-			return Button.prototype._getText.call(this);
-		}
+			if (this._bInOverflow) {
+				return Button.prototype._getText.call(this);
+			}
 
-		return "";
+			return "";
 	};
 		
 	return OverflowToolbarButton;

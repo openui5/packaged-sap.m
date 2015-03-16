@@ -12,13 +12,13 @@ sap.ui.define(['sap/ui/base/Object'], function (Object) {
 		 * @alias sap.ui.demo.mdtemplate.model.ListSelector
 		 */
 		constructor : function () {
-
+			this._oWhenListHasBeenSet = new Promise(function (fnResolveListHasBeenSet) {
+				this._fnResolveListHasBeenSet = fnResolveListHasBeenSet;
+			}.bind(this));
 			// This promise needs to be created in the constructor, since it is allowed to invoke selectItem functions before calling setBoundMasterList
 			this.oWhenListLoadingIsDone = new Promise(function (fnResolve, fnReject) {
 				// Used to wait until the setBound masterList function is invoked
-				new Promise(function (fnResolveListHasBeenSet) {
-					this._fnResolveListHasBeenSet = fnResolveListHasBeenSet;
-				}.bind(this))
+				this._oWhenListHasBeenSet
 					.then(function (oList) {
 						oList.attachEventOnce("updateFinished", function() {
 							var oFirstListItem = oList.getItems()[0];
@@ -27,8 +27,8 @@ sap.ui.define(['sap/ui/base/Object'], function (Object) {
 								// Have to make sure that first list Item is selected
 								// and a select event is triggered. Like that, the corresponding
 								// detail page is loaded automatically
-								//oList.setSelectedItem(oFirstListItem, true, true);
-								fnResolve(oFirstListItem.getBindingContext().getPath());
+								fnResolve({list: oList, 
+									path: oFirstListItem.getBindingContext().getPath()});
 							} else {
 								// No items in the list
 								fnReject();
@@ -56,17 +56,17 @@ sap.ui.define(['sap/ui/base/Object'], function (Object) {
 		 * After the list is loaded, the first item will be selected, if there are items and if the ListMode is not None.
 		 * @public
 		 */
-		selectAndScrollToFirstItem : function () {
-			this.oWhenListLoadingIsDone.then(this._selectAndScrollToFirstItem.bind(this));
+		selectFirstItem : function () {
+			this.oWhenListLoadingIsDone.then(this._selectFirstItem.bind(this));
 		},
 
 		/**
 		 * Searches for the first item of the list then
 		 * @private
 		 */
-		_selectAndScrollToFirstItem : function(sPath) {
+		_selectFirstItem : function(sPath) {
 			if (sPath) {
-				this.selectAndScrollToAListItem(sPath);
+				this.selectAListItem(sPath);
 			}
 		},
 
@@ -77,7 +77,7 @@ sap.ui.define(['sap/ui/base/Object'], function (Object) {
 		 * @param sBindingPath the binding path matching the binding path of a list item
 		 * @public
 		 */
-		selectAndScrollToAListItem : function (sBindingPath) {
+		selectAListItem : function (sBindingPath) {
 
 			this.oWhenListLoadingIsDone.then(function () {
 				var oList = this._oList,
@@ -102,7 +102,22 @@ sap.ui.define(['sap/ui/base/Object'], function (Object) {
 					}
 				});
 			}.bind(this));
+		},
+		
+		/**
+		 * Removes all selections from master list. 
+		 * Does not trigger 'selectionChange' event on master list, though.
+		 * 
+		 * @public
+		 */
+		clearMasterListSelection : function () {
+			//use promise to make sure that 'this._oList' is available
+			this._oWhenListHasBeenSet.then(function () {
+				this._oList.removeSelections(true);
+			}.bind(this));
 		}
+		
+		
 	});
 
 }, /* bExport= */ true);

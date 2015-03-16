@@ -20,7 +20,7 @@ sap.ui.define([
 	 *        tables.
 	 * @extends sap.m.Dialog
 	 * @author SAP SE
-	 * @version 1.28.0
+	 * @version 1.28.1
 	 * @constructor
 	 * @public
 	 * @since 1.26.0
@@ -379,7 +379,7 @@ sap.ui.define([
 	/**
 	 * Returns visible panel.
 	 * 
-	 * @returns {sap.m.P13nPanel || null}
+	 * @returns {sap.m.P13nPanel | null}
 	 * @public
 	 * @since 1.26.0
 	 */

@@ -27,7 +27,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control'],
 	 * @implements sap.m.ObjectHeaderContainer
 	 *
 	 * @author SAP SE
-	 * @version 1.28.0
+	 * @version 1.28.1
 	 *
 	 * @constructor
 	 * @public
@@ -341,7 +341,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control'],
 	 * @overwrite
 	 * @public
 	 * @param {boolean} bValue the new value
-	 * @returns {this} this pointer for chaining
+	 * @returns {sap.m.IconTabBar} this pointer for chaining
 	 */
 	IconTabBar.prototype.setShowSelection = function (bValue) {
 		this._getIconTabHeader().setShowSelection(bValue);
@@ -363,7 +363,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control'],
 	 * @overwrite
 	 * @public
 	 * @param {string} sValue the new value
-	 * @returns {this} this pointer for chaining
+	 * @returns {sap.m.IconTabBar} this pointer for chaining
 	 */
 	IconTabBar.prototype.setSelectedKey = function (sValue) {
 		this._getIconTabHeader().setSelectedKey(sValue);
@@ -428,7 +428,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control'],
 	 * @public
 	 * @param {string} sAggregationName the name for the binding
 	 * @param {object} oBindingInfo the configuration parameters for the binding
-	 * @returns {this} this pointer for chaining
+	 * @returns {sap.m.IconTabBar} this pointer for chaining
 	 */
 	IconTabBar.prototype.bindAggregation = function () {
 		var args = Array.prototype.slice.call(arguments);

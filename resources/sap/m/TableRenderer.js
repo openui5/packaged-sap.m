@@ -51,10 +51,11 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Renderer', './ListBaseRenderer'
 						!oColumn.isNeverVisible() &&
 						!oColumn.isHidden();
 			}).length == 1,
-			createBlankCell = function(cls, id) {
+			createBlankCell = function(cls, id, bAriaHidden) {
 				rm.write("<");
 				rm.write(cellTag);
 				rm.writeAttribute("role", cellRole);
+				bAriaHidden && rm.writeAttribute("aria-hidden", "true");
 				id && rm.writeAttribute("id", idPrefix + id);
 				rm.addClass(clsPrefix + cls);
 				rm.writeClasses();
@@ -143,7 +144,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Renderer', './ListBaseRenderer'
 			oColumn.setIndex(index++);
 		});
 	
-		createBlankCell("NavCol", type + "Nav");
+		createBlankCell("NavCol", type + "Nav", !oTable._iItemNeedsColumn);
 	
 		if (iModeOrder == 1) {
 			createBlankCell("SelCol");
@@ -174,6 +175,11 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Renderer', './ListBaseRenderer'
 		rm.write("<table");
 		rm.addClass("sapMListTbl");
 		rm.addStyle("table-layout", oControl.getFixedLayout() ? "fixed" : "auto");
+		
+		// make the type column visible if needed
+		if (oControl._iItemNeedsColumn) {
+			rm.addClass("sapMListTblHasNav");
+		}
 	};
 	
 	/**
@@ -211,7 +217,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Renderer', './ListBaseRenderer'
 		rm.writeAttribute("tabindex", "-1");
 		rm.writeAttribute("id", oControl.getId("nodata"));
 		rm.addClass("sapMLIB sapMListTblRow sapMLIBTypeInactive");
-		if (!oControl._headerHidden || (!oControl.getHeaderText() && !oControl.getHeaderToolbar()) ) {
+		if (!oControl._headerHidden || (!oControl.getHeaderText() && !oControl.getHeaderToolbar())) {
 			rm.addClass("sapMLIBShowSeparator");
 		}
 		rm.writeClasses();

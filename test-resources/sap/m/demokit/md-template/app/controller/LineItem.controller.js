@@ -67,7 +67,7 @@ sap.ui.define([
 			this.getModel().whenThereIsDataForTheElementBinding(oView.getElementBinding())
 				.then(
 				function (sPath) {
-					this.getOwnerComponent().oListSelector.selectAndScrollToAListItem(sPath);
+					this.getOwnerComponent().oListSelector.selectAListItem(sPath);
 					this._checkLineItemAndBind();
 				}.bind(this),
 				function () {
@@ -166,7 +166,7 @@ sap.ui.define([
 		 *
 		 */ 
 		onNavBack : function () {
-			this.getRouter().myNavBack("main");
+			this.getRouter().navTo("object", {objectId: this._oObject.sObjectId});
 		},
 	
 	

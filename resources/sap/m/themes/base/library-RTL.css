@@ -524,10 +524,6 @@ html[dir=rtl][data-sap-ui-browser^="ie"] .sapMCrslInner {
 /* CSS for controlsap.m/CustomListItem.control */
 /* ============================================= */
 .sapMCLI {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
   display: -webkit-box;
   display: -moz-box;
   display: -ms-flexbox;
@@ -1368,6 +1364,17 @@ html[data-sap-ui-browser="ie9"] .sapMFeedListItemTitleDiv {
 }
 .sapMInputSuggestionTableHidden {
   visibility: hidden;
+}
+/* valueHelpOnly overwrites text cursor for input */
+.sapMInputVHO,
+.sapMInput.sapMInputVHO > input {
+  cursor: pointer;
+}
+/* if ValueHalp and Description, place icon left to description */
+.sapMInputDescription.sapMInputVH > span {
+  position: relative;
+  display: inline-Block;
+  height: 100%;
 }
 /* ============================================= */
 /* CSS for control sap.m/InputBase.control       */
@@ -4873,6 +4880,11 @@ html[dir=rtl] .sapMStdTileInfo {
 .sapMListTblHeaderNone {
   height: 0;
 }
+.sapMListTblCellDup > .sapMListTblCellDupCnt {
+  /* hide content visually but have it available for screen readers */
+  position: absolute;
+  clip: rect(0, 0, 0, 0);
+}
 tr.sapMListTblHeaderNone > th {
   border: 0;
   margin-top: 0;
@@ -5688,14 +5700,12 @@ html[dir=rtl] .sapMTC .sapMTCEdgeRight {
   border-bottom-width: 0.0625rem;
   border-bottom-style: solid;
 }
-.sapMUCItemHL {
-  height: 5rem;
-  width: 100%;
-  padding-right: 1rem;
-  padding-left: 1rem;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  flex: auto;
+.sapMLIB.sapMUCItem.sapMUCListSingleItem,
+.sapMLIB.sapMUCItem.sapMUCListFirstItem,
+.sapMLIB.sapMUCItem.sapMUCListLastItem,
+.sapMLIB.sapMUCItem.sapMUCListItem {
+  padding-right: 0.9rem;
+  /* 0.1rem gets the image/icon so that the left side of the keyboard frame is displayed */
 }
 /* Item Icon */
 .sapMUCItemIcon {
@@ -5708,6 +5718,7 @@ html[dir=rtl] .sapMTC .sapMTCEdgeRight {
 /* Text: Filename */
 .sapMUC .sapMUCFileName.sapMLnk {
   margin-top: 0.125rem;
+  margin-right: 0.1rem;
   font-family: Arial, Helvetica, sans-serif;
   font-weight: normal;
   white-space: nowrap;
@@ -5723,23 +5734,28 @@ html[dir=rtl] .sapMTC .sapMTCEdgeRight {
   height: 1rem;
   margin-top: 0.625rem;
   margin-bottom: 0.125rem;
+  margin-right: 0.1rem;
   font-family: Arial, Helvetica, sans-serif;
   font-weight: normal;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
   vertical-align: bottom;
 }
 .sapMUC .sapUiVlt {
   margin: 1rem 0rem 1rem 0rem;
-  overflow: visible;
+  overflow: hidden;
 }
 /* Button Horizontal Layout  */
 .sapMUCBtnHL {
-  position: absolute;
   left: 0rem;
   margin: 1rem 0rem 1rem 1rem;
-  display: flex;
+  -webkit-box-flex: none;
+  /* OLD - iOS 6-, Safari 3.1-6 */
+  -webkit-flex: none;
+  /* Chrome */
+  -moz-flex: none;
+  -ms-flex: none;
+  /* IE 10 */
+  flex: none;
+  /* NEW, Firefox 20+	*/
 }
 /* Buttons */
 .sapMBtn.sapMUCEditBtn,
@@ -5750,20 +5766,36 @@ html[dir=rtl] .sapMTC .sapMTCEdgeRight {
 }
 .sapMUCText {
   height: 3rem;
+  -webkit-box-flex: 10;
+  /* OLD - iOS 6-, Safari 3.1-6 */
+  -webkit-flex: 10;
+  /* Chrome */
+  -moz-flex: 10;
+  -ms-flex: 10;
+  /* IE 10 */
+  flex: 10 10 auto;
+  /* NEW, Firefox 20+	*/
 }
-.sapMUCItemHL > .sapUiHLayoutChildWrapper {
-  height: 3rem;
-  vertical-align: middle;
-}
-.sapMUCItemHL > .sapUiHLayoutChildWrapper > .sapMUCItemIcon,
-.sapMUCItemHL > .sapUiHLayoutChildWrapper > .sapMUCItemImage {
+.sapMUCItemIcon,
+.sapMUCItemImage {
   height: 3rem;
   width: 3rem;
   padding-right: 0rem;
-  margin-left: 0.75rem;
+  margin-left: 0.65rem;
+  margin-right: 0.1rem;
   margin-top: 1rem;
   margin-bottom: 1rem;
-  vertical-align: middle;
+  -webkit-box-flex: none;
+  /* OLD - iOS 6-, Safari 3.1-6 */
+  -moz-box-flex: none;
+  /* OLD - Firefox 19- */
+  -webkit-flex: none;
+  /* Chrome */
+  -moz-flex: none;
+  -ms-flex: none;
+  /* IE 10 */
+  flex: none;
+  /* NEW, Firefox 20+ */
 }
 .sapMUCEditHL {
   position: absolute;
@@ -5782,10 +5814,10 @@ html[dir=rtl] .sapMTC .sapMTCEdgeRight {
 }
 /* In iOS/mac the line content is shown at the bottom of the line.
 the following lines remove the responsible top margin/padding  */
-html[data-sap-ui-os^="mac"][data-sap-ui-browser^="sf"] .sapMUCItemHL > .sapUiHLayoutChildWrapper > .sapMUCItemIcon,
-html[data-sap-ui-os^="iOS"] .sapMUCItemHL > .sapUiHLayoutChildWrapper > .sapMUCItemIcon,
-html[data-sap-ui-os^="mac"][data-sap-ui-browser^="sf"] .sapMUCItemHL > .sapUiHLayoutChildWrapper > .sapMUCItemImage,
-html[data-sap-ui-os^="iOS"] .sapMUCItemHL > .sapUiHLayoutChildWrapper > .sapMUCItemImage {
+html[data-sap-ui-os^="mac"][data-sap-ui-browser^="sf"] .sapMUCItemIcon,
+html[data-sap-ui-os^="iOS"] .sapMUCItemIcon,
+html[data-sap-ui-os^="mac"][data-sap-ui-browser^="sf"] .sapMUCItemImage,
+html[data-sap-ui-os^="iOS"] .sapMUCItemImage {
   margin-top: 0rem;
 }
 html[data-sap-ui-os^="mac"][data-sap-ui-browser^="sf"] .sapMUCBtnHL,
@@ -5824,10 +5856,10 @@ html[data-sap-ui-os^="mac"][data-sap-ui-browser^="sf"] .sapMUC .sapMListShowSepa
 html[data-sap-ui-os^="iOS"] .sapMUC .sapMListShowSeparatorsNone .sapMLIB.sapMUCListItem > .sapMLIBContent.sapMLIBContentMargin {
   margin-top: 0rem;
 }
-html[data-sap-ui-os^="mac"][data-sap-ui-browser^="sf"] .sapMUC .sapMListShowSeparatorsNone .sapMLIB.sapMUCListItem .sapMUCItemHL > .sapUiHLayoutChildWrapper > .sapMUCItemIcon,
-html[data-sap-ui-os^="iOS"] .sapMUC .sapMListShowSeparatorsNone .sapMLIB.sapMUCListItem .sapMUCItemHL > .sapUiHLayoutChildWrapper > .sapMUCItemIcon,
-html[data-sap-ui-os^="mac"][data-sap-ui-browser^="sf"] .sapMUC .sapMListShowSeparatorsNone .sapMLIB.sapMUCListItem .sapMUCItemHL > .sapUiHLayoutChildWrapper > .sapMUCItemImage,
-html[data-sap-ui-os^="iOS"] .sapMUC .sapMListShowSeparatorsNone .sapMLIB.sapMUCListItem .sapMUCItemHL > .sapUiHLayoutChildWrapper > .sapMUCItemImage {
+html[data-sap-ui-os^="mac"][data-sap-ui-browser^="sf"] .sapMUC .sapMListShowSeparatorsNone .sapMLIB.sapMUCListItem .sapMUCItemIcon,
+html[data-sap-ui-os^="iOS"] .sapMUC .sapMListShowSeparatorsNone .sapMLIB.sapMUCListItem .sapMUCItemIcon,
+html[data-sap-ui-os^="mac"][data-sap-ui-browser^="sf"] .sapMUC .sapMListShowSeparatorsNone .sapMLIB.sapMUCListItem .sapMUCItemImage,
+html[data-sap-ui-os^="iOS"] .sapMUC .sapMListShowSeparatorsNone .sapMLIB.sapMUCListItem .sapMUCItemImage {
   margin-top: 0rem;
 }
 html[data-sap-ui-os^="mac"][data-sap-ui-browser^="sf"] .sapMUC .sapMListShowSeparatorsNone .sapMLIB.sapMUCListItem .sapMUCText,
@@ -5838,10 +5870,10 @@ html[data-sap-ui-os^="mac"][data-sap-ui-browser^="sf"] .sapMUC .sapMListShowSepa
 html[data-sap-ui-os^="iOS"] .sapMUC .sapMListShowSeparatorsNone .sapMLIB.sapMUCListItem .sapMUCBtnHL {
   margin-top: 0rem;
 }
-html[data-sap-ui-os^="mac"][data-sap-ui-browser^="sf"] .sapMUC .sapMListShowSeparatorsNone .sapMLIB.sapMUCListSingleItem .sapMUCItemHL > .sapUiHLayoutChildWrapper > .sapMUCItemIcon,
-html[data-sap-ui-os^="iOS"] .sapMUC .sapMListShowSeparatorsNone .sapMLIB.sapMUCListSingleItem .sapMUCItemHL > .sapUiHLayoutChildWrapper > .sapMUCItemIcon,
-html[data-sap-ui-os^="mac"][data-sap-ui-browser^="sf"] .sapMUC .sapMListShowSeparatorsNone .sapMLIB.sapMUCListSingleItem .sapMUCItemHL > .sapUiHLayoutChildWrapper > .sapMUCItemImage,
-html[data-sap-ui-os^="iOS"] .sapMUC .sapMListShowSeparatorsNone .sapMLIB.sapMUCListSingleItem .sapMUCItemHL > .sapUiHLayoutChildWrapper > .sapMUCItemImage {
+html[data-sap-ui-os^="mac"][data-sap-ui-browser^="sf"] .sapMUC .sapMListShowSeparatorsNone .sapMLIB.sapMUCListSingleItem .sapMUCItemIcon,
+html[data-sap-ui-os^="iOS"] .sapMUC .sapMListShowSeparatorsNone .sapMLIB.sapMUCListSingleItem .sapMUCItemIcon,
+html[data-sap-ui-os^="mac"][data-sap-ui-browser^="sf"] .sapMUC .sapMListShowSeparatorsNone .sapMLIB.sapMUCListSingleItem .sapMUCItemImage,
+html[data-sap-ui-os^="iOS"] .sapMUC .sapMListShowSeparatorsNone .sapMLIB.sapMUCListSingleItem .sapMUCItemImage {
   margin-top: 0rem;
 }
 html[data-sap-ui-os^="mac"][data-sap-ui-browser^="sf"] .sapMUC .sapMListShowSeparatorsNone .sapMLIB.sapMUCListSingleItem .sapMUCText,
@@ -5852,10 +5884,10 @@ html[data-sap-ui-os^="mac"][data-sap-ui-browser^="sf"] .sapMUC .sapMListShowSepa
 html[data-sap-ui-os^="iOS"] .sapMUC .sapMListShowSeparatorsNone .sapMLIB.sapMUCListSingleItem .sapMUCBtnHL {
   margin-top: 0rem;
 }
-html[data-sap-ui-os^="mac"][data-sap-ui-browser^="sf"] .sapMUC .sapMListShowSeparatorsNone .sapMLIB.sapMUCListFirstItem .sapMUCItemHL > .sapUiHLayoutChildWrapper > .sapMUCItemIcon,
-html[data-sap-ui-os^="iOS"] .sapMUC .sapMListShowSeparatorsNone .sapMLIB.sapMUCListFirstItem .sapMUCItemHL > .sapUiHLayoutChildWrapper > .sapMUCItemIcon,
-html[data-sap-ui-os^="mac"][data-sap-ui-browser^="sf"] .sapMUC .sapMListShowSeparatorsNone .sapMLIB.sapMUCListFirstItem .sapMUCItemHL > .sapUiHLayoutChildWrapper > .sapMUCItemImage,
-html[data-sap-ui-os^="iOS"] .sapMUC .sapMListShowSeparatorsNone .sapMLIB.sapMUCListFirstItem .sapMUCItemHL > .sapUiHLayoutChildWrapper > .sapMUCItemImage {
+html[data-sap-ui-os^="mac"][data-sap-ui-browser^="sf"] .sapMUC .sapMListShowSeparatorsNone .sapMLIB.sapMUCListFirstItem .sapMUCItemIcon,
+html[data-sap-ui-os^="iOS"] .sapMUC .sapMListShowSeparatorsNone .sapMLIB.sapMUCListFirstItem .sapMUCItemIcon,
+html[data-sap-ui-os^="mac"][data-sap-ui-browser^="sf"] .sapMUC .sapMListShowSeparatorsNone .sapMLIB.sapMUCListFirstItem .sapMUCItemImage,
+html[data-sap-ui-os^="iOS"] .sapMUC .sapMListShowSeparatorsNone .sapMLIB.sapMUCListFirstItem .sapMUCItemImage {
   margin-top: 0.5rem;
 }
 html[data-sap-ui-os^="mac"][data-sap-ui-browser^="sf"] .sapMUC .sapMListShowSeparatorsNone .sapMLIB.sapMUCListFirstItem .sapMUCText,
@@ -5870,10 +5902,10 @@ html[data-sap-ui-os^="mac"][data-sap-ui-browser^="sf"] .sapMUC .sapMListShowSepa
 html[data-sap-ui-os^="iOS"] .sapMUC .sapMListShowSeparatorsNone .sapMLIB.sapMUCListLastItem > .sapMLIBContent.sapMLIBContentMargin {
   margin-top: 0rem;
 }
-html[data-sap-ui-os^="mac"][data-sap-ui-browser^="sf"] .sapMUC .sapMListShowSeparatorsNone .sapMLIB.sapMUCListLastItem .sapMUCItemHL > .sapUiHLayoutChildWrapper > .sapMUCItemIcon,
-html[data-sap-ui-os^="iOS"] .sapMUC .sapMListShowSeparatorsNone .sapMLIB.sapMUCListLastItem .sapMUCItemHL > .sapUiHLayoutChildWrapper > .sapMUCItemIcon,
-html[data-sap-ui-os^="mac"][data-sap-ui-browser^="sf"] .sapMUC .sapMListShowSeparatorsNone .sapMLIB.sapMUCListLastItem .sapMUCItemHL > .sapUiHLayoutChildWrapper > .sapMUCItemImage,
-html[data-sap-ui-os^="iOS"] .sapMUC .sapMListShowSeparatorsNone .sapMLIB.sapMUCListLastItem .sapMUCItemHL > .sapUiHLayoutChildWrapper > .sapMUCItemImage {
+html[data-sap-ui-os^="mac"][data-sap-ui-browser^="sf"] .sapMUC .sapMListShowSeparatorsNone .sapMLIB.sapMUCListLastItem .sapMUCItemIcon,
+html[data-sap-ui-os^="iOS"] .sapMUC .sapMListShowSeparatorsNone .sapMLIB.sapMUCListLastItem .sapMUCItemIcon,
+html[data-sap-ui-os^="mac"][data-sap-ui-browser^="sf"] .sapMUC .sapMListShowSeparatorsNone .sapMLIB.sapMUCListLastItem .sapMUCItemImage,
+html[data-sap-ui-os^="iOS"] .sapMUC .sapMListShowSeparatorsNone .sapMLIB.sapMUCListLastItem .sapMUCItemImage {
   margin-top: 0rem;
 }
 html[data-sap-ui-os^="mac"][data-sap-ui-browser^="sf"] .sapMUC .sapMListShowSeparatorsNone .sapMLIB.sapMUCListLastItem .sapMUCText,
@@ -5916,11 +5948,8 @@ html[data-sap-ui-os^="iOS"] .sapMUC .sapMListShowSeparatorsNone .sapMLIB.sapMUCL
 .sapMUC .sapMListShowSeparatorsNone .sapMLIB.sapMUCListItem {
   height: 4rem;
 }
-.sapMUC .sapMListShowSeparatorsNone .sapMLIB.sapMUCListItem .sapMUCItemHL {
-  height: 4rem;
-}
-.sapMUC .sapMListShowSeparatorsNone .sapMLIB.sapMUCListItem .sapMUCItemHL > .sapUiHLayoutChildWrapper > .sapMUCItemIcon,
-.sapMUC .sapMListShowSeparatorsNone .sapMLIB.sapMUCListItem .sapMUCItemHL > .sapUiHLayoutChildWrapper > .sapMUCItemImage {
+.sapMUC .sapMListShowSeparatorsNone .sapMLIB.sapMUCListItem .sapMUCItemIcon,
+.sapMUC .sapMListShowSeparatorsNone .sapMLIB.sapMUCListItem .sapMUCItemImage {
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
 }
@@ -5938,11 +5967,8 @@ html[data-sap-ui-os^="iOS"] .sapMUC .sapMListShowSeparatorsNone .sapMLIB.sapMUCL
   padding-top: 1rem;
   padding-bottom: 0.9375rem;
 }
-.sapMUC .sapMListShowSeparatorsNone .sapMLIB.sapMUCListSingleItem .sapMUCItemHL {
-  height: 5rem;
-}
-.sapMUC .sapMListShowSeparatorsNone .sapMLIB.sapMUCListSingleItem .sapMUCItemHL > .sapUiHLayoutChildWrapper > .sapMUCItemIcon,
-.sapMUC .sapMListShowSeparatorsNone .sapMLIB.sapMUCListSingleItem .sapMUCItemHL > .sapUiHLayoutChildWrapper > .sapMUCItemImage {
+.sapMUC .sapMListShowSeparatorsNone .sapMLIB.sapMUCListSingleItem .sapMUCItemIcon,
+.sapMUC .sapMListShowSeparatorsNone .sapMLIB.sapMUCListSingleItem .sapMUCItemImage {
   padding-top: 0rem;
   padding-bottom: 0rem;
 }
@@ -5958,23 +5984,15 @@ html[data-sap-ui-os^="iOS"] .sapMUC .sapMListShowSeparatorsNone .sapMLIB.sapMUCL
 }
 .sapMUC .sapMListShowSeparatorsNone .sapMLIB.sapMUCListFirstItem {
   height: 4.5rem;
-  padding-top: 1rem;
 }
 .sapMUC .sapMListShowSeparatorsNone .sapMLIB.sapMUCListFirstItem > .sapMLIBContent.sapMLIBContentMargin {
   margin-top: -0.5rem;
 }
-.sapMUC .sapMListShowSeparatorsNone .sapMLIB.sapMUCListFirstItem .sapMUCItemHL {
-  height: 4.5rem;
-}
 .sapMUC .sapMListShowSeparatorsNone .sapMLIB.sapMUCListFirstItem .sapMUCBtnHL {
   margin: 1rem 0rem 0.5rem 1rem;
 }
-.sapMUC .sapMListShowSeparatorsNone .sapMLIB.sapMUCListFirstItem .sapMUCItemHL > .sapUiHLayoutChildWrapper {
-  height: 3rem;
-  vertical-align: middle;
-}
-.sapMUC .sapMListShowSeparatorsNone .sapMLIB.sapMUCListFirstItem .sapMUCItemHL > .sapUiHLayoutChildWrapper > .sapMUCItemIcon,
-.sapMUC .sapMListShowSeparatorsNone .sapMLIB.sapMUCListFirstItem .sapMUCItemHL > .sapUiHLayoutChildWrapper > .sapMUCItemImage {
+.sapMUC .sapMListShowSeparatorsNone .sapMLIB.sapMUCListFirstItem .sapMUCItemIcon,
+.sapMUC .sapMListShowSeparatorsNone .sapMLIB.sapMUCListFirstItem .sapMUCItemImage {
   margin-top: 1rem;
   margin-bottom: 0.5rem;
 }
@@ -5986,16 +6004,12 @@ html[data-sap-ui-os^="iOS"] .sapMUC .sapMListShowSeparatorsNone .sapMLIB.sapMUCL
 }
 .sapMUC .sapMListShowSeparatorsNone .sapMLIB.sapMUCListLastItem {
   height: 4.5rem;
-  padding-bottom: 0.9375rem;
 }
 .sapMUC .sapMListShowSeparatorsNone .sapMLIB.sapMUCListLastItem > .sapMLIBContent.sapMLIBContentMargin {
   margin-top: 0.5rem;
 }
-.sapMUC .sapMListShowSeparatorsNone .sapMLIB.sapMUCListLastItem .sapMUCItemHL {
-  height: 4.5rem;
-}
-.sapMUC .sapMListShowSeparatorsNone .sapMLIB.sapMUCListLastItem .sapMUCItemHL > .sapUiHLayoutChildWrapper > .sapMUCItemIcon,
-.sapMUC .sapMListShowSeparatorsNone .sapMLIB.sapMUCListLastItem .sapMUCItemHL > .sapUiHLayoutChildWrapper > .sapMUCItemImage {
+.sapMUC .sapMListShowSeparatorsNone .sapMLIB.sapMUCListLastItem .sapMUCItemIcon,
+.sapMUC .sapMListShowSeparatorsNone .sapMLIB.sapMUCListLastItem .sapMUCItemImage {
   margin-top: 0.5rem;
   margin-bottom: 1rem;
 }
@@ -6117,7 +6131,6 @@ html[data-sap-ui-os^="iOS"].sapUiSizeCompact .sapMUC .sapMListShowSeparatorsNone
   margin: 1.5rem 0rem 1.5rem 1rem;
 }
 .sapUiSizeCompact .sapMUC .sapMListShowSeparatorsNone .sapMLIB.sapMUCListFirstItem {
-  padding-top: 1rem;
   padding-bottom: 0.4375rem;
 }
 .sapUiSizeCompact .sapMUC .sapMListShowSeparatorsNone .sapMLIB.sapMUCListFirstItem .sapMUCBtnHL {
@@ -6128,7 +6141,6 @@ html[data-sap-ui-os^="iOS"].sapUiSizeCompact .sapMUC .sapMListShowSeparatorsNone
 }
 .sapUiSizeCompact .sapMUC .sapMListShowSeparatorsNone .sapMLIB.sapMUCListLastItem {
   padding-top: 0.5rem;
-  padding-bottom: 0.9375rem;
 }
 .sapUiSizeCompact .sapMUC .sapMListShowSeparatorsNone .sapMLIB.sapMUCListLastItem .sapMUCBtnHL {
   margin: 1.5rem 0rem 1rem 1rem;
@@ -6144,6 +6156,56 @@ html[data-sap-ui-os^="iOS"].sapUiSizeCompact .sapMUC .sapMListShowSeparatorsNone
 }
 .sapMUC .sapUiIcon:focus {
   outline-style: dotted;
+  outline-width: 1px;
+  /*suddenly there comes 3 px outline-width from the Icon control which is not in sync with other outlines of our control */
+}
+/* *************************************************************************************** */
+/* fix for buttons lying over the text at resizing */
+/* *************************************************************************************** */
+.sapMUCItem {
+  white-space: nowrap;
+  overflow: hidden;
+}
+.sapMUCListFirstItem > .sapMLIBContent,
+.sapMUCListLastItem > .sapMLIBContent,
+.sapMUCListSingleItem > .sapMLIBContent,
+.sapMUCListItem > .sapMLIBContent {
+  display: -webkit-box;
+  /* OLD - iOS 6-, Safari 3.1-6 */
+  display: -ms-flexbox;
+  /* IE10 */
+  display: -webkit-flex;
+  /* NEW - Chrome */
+  display: -moz-flex;
+  /*NEW		*/
+  display: -ms-flex;
+  /*NEW 		*/
+  display: flex;
+  /*FF 20+ 	*/
+  overflow: hidden;
+  /*necessary for text truncation in FF */
+}
+.sapMUCDescriptionHL.sapUiHLayout {
+  display: -webkit-box;
+  /* OLD - iOS 6-, Safari 3.1-6 */
+  display: -ms-flexbox;
+  /* IE10 */
+  display: -webkit-flex;
+  /* NEW - Chrome */
+  display: -moz-flex;
+  /*NEW		*/
+  display: -ms-flex;
+  /*NEW 		*/
+  display: flex;
+  /*FF 20+ */
+}
+.sapMUCDescriptionHL > .sapUiHLayoutChildWrapper {
+  width: 100%;
+  overflow: hidden;
+}
+/* fallback for IE9 as it doesn't support flex; text truncation doesn't take place but at least the buttons are displayed correctly in full screen mode */
+.sapMUCBtnNoFlex {
+  position: absolute;
 }
 /* =============================================== */
 /* CSS for control sap.m/ViewSettingsDialog.control */

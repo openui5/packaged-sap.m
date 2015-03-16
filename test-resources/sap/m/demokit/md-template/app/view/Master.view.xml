@@ -36,10 +36,12 @@
 						}
 					}"
 				noDataText="{i18n>masterListNoDataText}"
+				busyIndicatorDelay="0"
 				mode="{
 					path: 'device>/isPhone',
 					formatter: 'sap.ui.demo.mdtemplate.model.formatter.listMode'
 				}"
+				updateFinished="onUpdateFinished"
 				select="onSelect">
 				<infoToolbar>
 					<Toolbar
@@ -88,11 +90,13 @@
 						key="UnitNumber"
 						text="{i18n>masterSort2}"/>
 				</Select>
+				
 				<!-- complex sort/group/filter with ViewSettingsDialog -->
 				<Button
 					id="filter"
 					icon="sap-icon://filter"
 					press="onOpenViewSettings"/>
+				
 				<Select
 					id="groupSelect"
 					type="IconOnly"

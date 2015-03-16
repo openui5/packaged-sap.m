@@ -23,7 +23,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		 *		- The application is loading
 		 *	The layout is unchanged but the text varies depending on the use case.
 		 * @extends sap.ui.core.Control
-		 * @version 1.28.0
+		 * @version 1.28.1
 		 *
 		 * @constructor
 		 * @public
@@ -50,6 +50,10 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 				 * Determines whether the header of the MessagePage is rendered when it's embedded in another page.
 				 */
 				showHeader : { type : "boolean", group : "Appearance", defaultValue : true },
+				/**
+				 * A nav button will be rendered in the header if this property is set to true.
+				 */
+				showNavButton : {type : "boolean", group : "Appearance", defaultValue : false},
 				/**
 				 * MessagePage main icon
 				 */
@@ -88,6 +92,13 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 				 * Association to controls / ids which label this control (see WAI-ARIA attribute aria-labelledby).
 				 */
 				ariaLabelledBy : {type : "sap.ui.core.Control", multiple : true, singularName : "ariaLabelledBy"}
+			},
+			events : {
+				/**
+				 * this event is fired when Nav Button is pressed
+				 * @since 1.28.1
+				 */
+				navButtonPress : {}
 			}
 		}});
 
@@ -95,7 +106,10 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 			var oBundle = sap.ui.getCore().getLibraryResourceBundle("sap.m");
 
 			this.setAggregation("_page", new sap.m.Page({
-				showHeader: this.getShowHeader()
+				showHeader : this.getShowHeader(),
+				navButtonPress : jQuery.proxy(function() {
+					this.fireNavButtonPress();
+				}, this)
 			}));
 			this.setProperty("text", oBundle.getText("MESSAGE_PAGE_TEXT"), true);
 			this.setProperty("description", oBundle.getText("MESSAGE_PAGE_DESCRIPTION"), true);
@@ -147,6 +161,11 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		MessagePage.prototype.setShowHeader = function(bShowHeader) {
 			this.setProperty("showHeader", bShowHeader, true); // no re-rendering
 			this.getAggregation("_page").setShowHeader(bShowHeader);
+		};
+
+		MessagePage.prototype.setShowNavButton = function(bShowNavButton) {
+			this.setProperty("showNavButton", bShowNavButton, true); // no re-rendering
+			this.getAggregation("_page").setShowNavButton(bShowNavButton);
 		};
 
 		MessagePage.prototype.setTextDirection = function(sTextDirection) {
@@ -210,6 +229,5 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 
 			return this._oIconControl;
 		};
-
 		return MessagePage;
 	}, /* bExport= */ true);

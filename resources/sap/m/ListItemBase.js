@@ -22,7 +22,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control'],
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.28.0
+	 * @version 1.28.1
 	 *
 	 * @constructor
 	 * @public
@@ -438,14 +438,20 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control'],
 		if (oSelectionControl) {
 			oSelectionControl.setSelected(bSelected);
 		}
-	
-		// update DOM for class and aria
-		this.$().toggleClass("sapMLIBSelected", bSelected).attr("aria-selected", bSelected);
+
+		// run the hook to update dom state 
+		this.updateSelectedDOM(bSelected, this.$());
 	
 		// set the property and do not invalidate
 		this.setProperty("selected", bSelected, true);
 		
 		return this;
+	};
+	
+	// Updates the selected state of the DOM
+	ListItemBase.prototype.updateSelectedDOM = function(bSelected, $LI) {
+		$LI.toggleClass("sapMLIBSelected", bSelected);
+		$LI.attr("aria-selected", bSelected);
 	};
 	
 	/**
@@ -726,7 +732,6 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control'],
 			this.fireDetailPress();
 			oEvent.preventDefault();
 			oEvent.setMarked();
-			return;
 		}
 	};
 	

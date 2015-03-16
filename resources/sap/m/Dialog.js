@@ -24,7 +24,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './InstanceManager', './Toolbar', '
 	 * @implements sap.ui.core.PopupInterface
 	 *
 	 * @author SAP SE
-	 * @version 1.28.0
+	 * @version 1.28.1
 	 *
 	 * @constructor
 	 * @public
@@ -170,7 +170,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './InstanceManager', './Toolbar', '
 			 * LeftButton is shown at the left edge of the bar in iOS, and at the right side of the bar for the other platforms. Please set this to null if you want to remove the left button from the bar. And the button is only removed from the bar, not destroyed. When showHeader is set to false, this property will be ignored. Setting leftButton will also set the beginButton internally.
 			 * @deprecated Since version 1.15.1.
 			 *
-			 * LeftButton has benn deprecated since 1.15.1. Please use the beginButton instead which is more RTL friendly.
+			 * LeftButton has been deprecated since 1.15.1. Please use the beginButton instead which is more RTL friendly.
 			 */
 			leftButton : {type : "sap.m.Button", multiple : false, deprecated: true},
 
@@ -246,9 +246,9 @@ sap.ui.define(['jquery.sap.global', './Bar', './InstanceManager', './Toolbar', '
 	Dialog._mStateClasses[ValueState.Error] = "sapMDialogError";
 
 	Dialog._mIcons = {};
-	Dialog._mIcons[ValueState.Success] = IconPool.getIconURI("accept");
-	Dialog._mIcons[ValueState.Warning] = IconPool.getIconURI("warning2");
-	Dialog._mIcons[ValueState.Error] = IconPool.getIconURI("alert");
+	Dialog._mIcons[ValueState.Success] = IconPool.getIconURI("message-success");
+	Dialog._mIcons[ValueState.Warning] = IconPool.getIconURI("message-warning");
+	Dialog._mIcons[ValueState.Error] = IconPool.getIconURI("message-error");
 
 	/* =========================================================== */
 	/*                  begin: Lifecycle functions                 */

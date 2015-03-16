@@ -25,7 +25,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/m/Button', 'sap/m/Label', 
 		 * @extends sap.ui.core.Toolbar
 		 *
 		 * @author SAP SE
-		 * @version 1.28.0
+		 * @version 1.28.1
 		 *
 		 * @constructor
 		 * @public
@@ -412,7 +412,8 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/m/Button', 'sap/m/Label', 
 					icon: "sap-icon://overflow",
 					press: this._overflowButtonPressed.bind(this),
 					ariaLabelledBy: this._getOverflowButtonLabel(),
-					tooltip: this._oResourceBundle.getText("LOAD_MORE_DATA")
+					tooltip: this._oResourceBundle.getText("LOAD_MORE_DATA"),
+					type: sap.m.ButtonType.Transparent
 				});
 
 				this.setAggregation("_overflowButton", oOverflowButton, true);

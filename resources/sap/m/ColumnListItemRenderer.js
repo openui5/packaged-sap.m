@@ -39,17 +39,35 @@ sap.ui.define(['jquery.sap.global', './ListItemBaseRenderer', './ListRenderer', 
 	ColumnListItemRenderer.handleNoFlex = function(rm, oLI) {
 	};
 
-	// wrap type content with a cell always
+	// render type content always within a cell
 	ColumnListItemRenderer.renderType = function(rm, oLI) {
-		rm.write('<td role="gridcell" class="sapMListTblNavCol">');
+		rm.write('<td role="gridcell" class="sapMListTblNavCol"');
+		
+		if (oLI.getSelected()) {
+			rm.writeAttribute("aria-selected", "true");
+		}
+		
+		if (!oLI.needsTypeColumn()) {
+			rm.writeAttribute("aria-hidden", "true");
+		}
+		
+		rm.write('>');
+		
+		// let the list item base render the type
 		ListItemBaseRenderer.renderType.apply(this, arguments);
+		
 		rm.write('</td>');
 	};
 
 	// wrap mode content with a cell
 	ColumnListItemRenderer.renderModeContent = function(rm, oLI) {
-		rm.write('<td role="gridcell" class="sapMListTblSelCol">');
+		rm.write('<td role="gridcell" class="sapMListTblSelCol"');
+		oLI.getSelected() && rm.writeAttribute("aria-selected", "true");
+		rm.write('>');
+		
+		// let the list item base render the mode control
 		ListItemBaseRenderer.renderModeContent.apply(this, arguments);
+		
 		rm.write('</td>');
 	};
 
@@ -64,9 +82,14 @@ sap.ui.define(['jquery.sap.global', './ListItemBaseRenderer', './ListRenderer', 
 	
 	// Returns the inner aria labelledby ids for the accessibility
 	ColumnListItemRenderer.getAriaLabelledBy = function(oLI) {
-		return oLI.getId();
+		var oTable = oLI.getTable(); 
+		if (!oTable || !oTable.hasPopin()) {
+			return;
+		}
+		
+		// when table has pop-in let the screen readers announce it
+		return oLI.getId() + " " + oLI.getId() + "-sub";
 	};
-	
 	
 	/**
 	 * Renders the HTML for the given control, using the provided
@@ -103,7 +126,8 @@ sap.ui.define(['jquery.sap.global', './ListItemBaseRenderer', './ListRenderer', 
 		}
 	
 		var aColumns = oTable.getColumns(true),
-			aCells = oLI.getCells();
+			aCells = oLI.getCells(),
+			bSelected = oLI.getSelected();
 	
 		// remove cloned headers
 		oLI.destroyClonedHeaders();
@@ -122,6 +146,11 @@ sap.ui.define(['jquery.sap.global', './ListItemBaseRenderer', './ListRenderer', 
 			rm.addClass("sapMListTblCell");
 			rm.writeAttribute("id", oLI.getId() + "_cell" + i);
 			rm.writeAttribute("role", "gridcell");
+			
+			if (bSelected) {
+				// write aria-selected explicitly for the cells
+				rm.writeAttribute("aria-selected", "true");
+			}
 	
 			// check column properties
 			if (oColumn) {
@@ -148,7 +177,10 @@ sap.ui.define(['jquery.sap.global', './ListItemBaseRenderer', './ListRenderer', 
 							cellValue = oCell[sFuncName](sFuncParam);
 	
 						if (lastColumnValue === cellValue) {
-							bRenderCell = false;
+							// it is not necessary to render cell content but
+							// screen readers need content to announce it
+							bRenderCell = sap.ui.getCore().getConfiguration().getAccessibility();
+							oCell.addStyleClass("sapMListTblCellDupCnt");
 							rm.addClass("sapMListTblCellDup");
 						} else {
 							oColumn.setLastValue(cellValue);

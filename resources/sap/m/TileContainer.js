@@ -22,7 +22,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.28.0
+	 * @version 1.28.1
 	 *
 	 * @constructor
 	 * @public
@@ -102,22 +102,6 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 			tileAdd : {}
 		}
 	}});
-
-
-	/**
-	 * Scrolls to the page where the given tile or tile index is included.
-	 * Optionally this can be done animated or not. With IE9 the scroll is never animated.
-	 *
-	 * @name sap.m.TileContainer#scrollIntoView
-	 * @function
-	 * @param {int} iTile
-	 *         The tile or tile index to be scrolled into view
-	 * @param {boolean} bAnimated
-	 *         Whether the scroll should be animated
-	 * @type void
-	 * @public
-	 * @ui5-metamodel This method also will be described in the UI5 (legacy) designtime metamodel
-	 */
 
 
 	IconPool.insertFontFaceStyle();
@@ -842,6 +826,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @param {sap.m.Tile|int} vTile The tile or tile index to be scrolled into view.
 	 * @param {boolean} bAnimated Whether the scroll should be animated.
 	 * @public
+	 * @ui5-metamodel This method also will be described in the UI5 (legacy) designtime metamodel
 	 */
 	TileContainer.prototype.scrollIntoView = function(vTile, bAnimated) {
 

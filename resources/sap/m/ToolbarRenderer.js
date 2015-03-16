@@ -4,8 +4,8 @@
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
-sap.ui.define(['jquery.sap.global', 'sap/ui/core/Renderer'],
-	function(jQuery, Renderer) {
+sap.ui.define(['jquery.sap.global', './BarInPageEnabler'],
+	function(jQuery, BarInPageEnabler) {
 	"use strict";
 
 
@@ -21,7 +21,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Renderer'],
 	 * @param {sap.ui.core.RenderManager} oRM the RenderManager that can be used for writing to the render output buffer.
 	 * @param {sap.ui.core.Control} oControl an object representation of the control that should be rendered.
 	 */
-	ToolbarRenderer.render = sap.m.BarInPageEnabler.prototype.render;
+	ToolbarRenderer.render = BarInPageEnabler.prototype.render;
 
 	/**
 	 * Add classes attributes and styles to the root tag

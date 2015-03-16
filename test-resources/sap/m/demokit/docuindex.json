@@ -33,12 +33,6 @@
 				"ref": "test-resources/sap/m/demokit/tdg/index.html?responderOn=true",
 				"icon": "sapmdemo/tdg",
 				"desc": "The reference app \"Application Best Practices\" of the developer guide"
-			},
-			{
-				"text": "Master Detail",
-				"ref": "test-resources/sap/m/demokit/md-template/demokit.html",
-				"icon": "sapmdemo/splitapp",
-				"desc": "A best practice implementation of the Master-Detail design pattern"
 			} 
 		]
 	},
@@ -65,7 +59,7 @@
 				"name" : "Action Sheet",
 				"category" : "Action",
 				"since" : "1.10",
-				"samples" : [ "sap.m.sample.ActionSheet", "sap.m.sample.ToolbarResponsiveCss" ]
+				"samples" : [ "sap.m.sample.ActionSheet" ]
 			},
 			{
 				"id" : "sap.m.ActionListItem",
@@ -182,7 +176,7 @@
 				"name" : "Dialog",
 				"category" : "Popup",
 				"since" : "1.10",
-				"samples" : [ "sap.m.sample.Dialog", "sap.m.sample.DialogSearch", "sap.m.sample.DialogConfirm" ]
+				"samples" : [ "sap.m.sample.Dialog", "sap.m.sample.DialogMessage", "sap.m.sample.DialogConfirm" ]
 			},
 			{
 				"id" : "sap.m.DisplayListItem",
@@ -420,12 +414,22 @@
 				"samples" : [ "sap.m.sample.ObjectListItem",  "sap.m.sample.ObjectListItemMarkLocked"]
 			},
 			{
+				"id" : "sap.m.OverflowToolbar",
+				"name" : "Overflow Toolbar",
+				"category" : "Container",
+				"since" : "1.28",
+				"samples" : [
+					"sap.m.sample.OverflowToolbarSimple",
+					"sap.m.sample.OverflowToolbarFooter"
+				]
+			},
+			{
 				"id" : "sap.m.OverflowToolbarButton",
 				"name" : "Overflow Toolbar Button",
 				"category" : "Action",
 				"since" : "1.28",
 				"samples" : [
-					"sap.m.sample.OverflowToolbarButton"
+					"sap.m.sample.OverflowToolbarFooter"
 				]
 			},
 			{
@@ -688,7 +692,6 @@
 						"sap.m.sample.ToolbarEnabled",
 						"sap.m.sample.ToolbarShrinkable",
 						"sap.m.sample.Page",
-						"sap.m.sample.ToolbarResponsiveCss",
 						"sap.m.sample.ToolbarVsBar",
 						"sap.m.sample.TitleToolBar"
 					]
@@ -750,11 +753,6 @@
 				"id": "sap.m.sample.DateRangeSelection",
 				"name": "Date Range Selection",
 				"description": "The Date Range Selection is an extension of the Date Picker Control and enables the user to select range of dates."
-			},
-			{
-				"id": "sap.m.sample.ToolbarResponsiveCss",
-				"name": "Responsive Toolbar",
-				"description": "Depending on the screen size, Buttons will move in an action sheet or will be displayed in a Toolbar."
 			},
 			{
 				"id": "sap.m.sample.ToolbarVsBar",
@@ -1197,14 +1195,9 @@
 				"description": "Use the Search Field to let the user enter a search string and trigger the search process."
 			},
 			{
-				"id": "sap.m.sample.DialogSearch",
-				"name": "Dialog with Search",
-				"description": "When using a Search Field in a Dialog it is best to put it to the dialog's sub header to have it visible all the time."
-			},
-			{
 			  "id": "sap.m.sample.DialogConfirm",
-			  "name": "Dialog with confirm options",
-			  "description": "Creating a dialog with confirm and reject options that replaces the forwardingDialog functionality."
+			  "name": "Dialog With Confirm Options",
+			  "description": "Creating a dialog with confirm and reject options that replaces the confirmDialog functionality."
 			},
 			{
 				"id": "sap.m.sample.ListSelectionSearch",
@@ -1512,6 +1505,16 @@
 				"description": "Typically a Dialog prompts the user for decisions or additional information required by the application. The content of a dialog is fully customizable. If you want to highlight important information you should use the special type of 'Message Dialog'."
 			},
 			{
+			  "id": "sap.m.sample.DialogMessage",
+			  "name": "Message Dialog",
+			  "description": "Creating a dialog for showing UI messages. The possible messages types are: 'None', 'Success', 'Warning' and 'Error'."
+			},
+			{
+			  "id": "sap.m.sample.DialogConfirm",
+			  "name": "Dialog With Confirm Options",
+			  "description": "Creating a dialog with confirm and reject options that replaces the confirmDialog functionality."
+			},
+			{
 				"id": "sap.m.sample.ViewSettingsDialog",
 				"name": "View Settings Dialog - Standard",
 				"description": "The View Settings Dialog is a standard UI pattern for specifying sorting, grouping and filtering."
@@ -1601,10 +1604,15 @@
 				"name": "Container Content Padding and Margins",
 				"description": "By combining the margin and padding concepts you can flexibly design your application layout without having to write any custom CSS. This example shows a HorizontalLayout that is layouted with the standard margin and padding classes provided by UI5."
 			},
+            {
+				"id": "sap.m.sample.OverflowToolbarSimple",
+				"name": "Overflow Toolbar - layout",
+				"description": "Overflow Toolbar can contain the same controls as Toolbar with the added benefit that buttons that do not fit are moved to an Action Sheet when overflow occurs."
+			},
 			{
-				"id": "sap.m.sample.OverflowToolbarButton",
-				"name": "Overflow Toolbar Button",
-				"description": "Buttons show only an icon in the toolbar and icon and text in the overflow."
+				"id": "sap.m.sample.OverflowToolbarFooter",
+				"name": "Overflow Toolbar - in a table and in the footer of a page",
+				"description": "Overflow Toolbar is useful for showing lists of action buttons that can display an icon in the toolbar, and icon+text when in the overflow."
 			}
 		]
 	}

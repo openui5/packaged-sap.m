@@ -23,7 +23,7 @@ sap.ui.define(['jquery.sap.global', './ListBase', './library'],
 	 * @extends sap.m.ListBase
 	 *
 	 * @author SAP SE
-	 * @version 1.28.0
+	 * @version 1.28.1
 	 *
 	 * @constructor
 	 * @public
@@ -73,6 +73,7 @@ sap.ui.define(['jquery.sap.global', './ListBase', './library'],
 	
 	Table.prototype.init = function() {
 		this._hasPopin = false;
+		this._iItemNeedsColumn = 0;
 		this._selectAllCheckBox = null;
 		ListBase.prototype.init.call(this);
 	};
@@ -80,18 +81,13 @@ sap.ui.define(['jquery.sap.global', './ListBase', './library'],
 	Table.prototype.onBeforeRendering = function() {
 		ListBase.prototype.onBeforeRendering.call(this);
 		this._notifyColumns("ItemsRemoved");
-		this._bItemTypeRendered = false;
 	};
 	
 	Table.prototype.onAfterRendering = function() {
 		ListBase.prototype.onAfterRendering.call(this);
 	
-		var $Table = jQuery(this.getTableDomRef());
-		
-		// if any item has navigation, add required class
-		this._bItemTypeRendered && $Table.addClass("sapMListTblHasNav");
-		
 		// notify columns after rendering
+		var $Table = jQuery(this.getTableDomRef());
 		this._notifyColumns("ColumnRendered", $Table, !this.getFixedLayout());
 
 		this.updateSelectAllCheckbox();
@@ -175,7 +171,6 @@ sap.ui.define(['jquery.sap.global', './ListBase', './library'],
 	 */
 	Table.prototype.onAfterPageLoaded = function() {
 		this.updateSelectAllCheckbox();
-		this._bItemTypeRendered && jQuery(this.getTableDomRef()).addClass("sapMListTblHasNav");
 		ListBase.prototype.onAfterPageLoaded.apply(this, arguments);
 	};
 	
@@ -189,9 +184,16 @@ sap.ui.define(['jquery.sap.global', './ListBase', './library'],
 		});
 	};
 	
-	// this gets called when item type is rendered
-	Table.prototype.onItemTypeRender = function() {
-		this._bItemTypeRendered = true;
+	// this gets called when item type column requirement is changed
+	Table.prototype.onItemTypeColumnChange = function(oItem, bNeedsTypeColumn) {
+		this._iItemNeedsColumn += (bNeedsTypeColumn ? 1 : -1);
+		
+		// update type column visibility
+		if (this._iItemNeedsColumn == 1 && bNeedsTypeColumn) {
+			this._setTypeColumnVisibility(true);
+		} else if (this._iItemNeedsColumn == 0) {
+			this._setTypeColumnVisibility(false);
+		}
 	};
 	
 	// this gets called when selected property of the item is changed
@@ -316,7 +318,7 @@ sap.ui.define(['jquery.sap.global', './ListBase', './library'],
 			});
 		}
 	};
-	
+		
 	/*
 	 * This method is called from Column control when column visibility is changed via CSS media query
 	 *
@@ -353,6 +355,18 @@ sap.ui.define(['jquery.sap.global', './ListBase', './library'],
 			$headRow[0].className = "sapMListTblHeaderNone";
 			this._headerHidden = true;
 		}
+	};
+	
+	// updates the type column visibility and sets the aria flag
+	Table.prototype._setTypeColumnVisibility = function(bVisible) {
+		var $Table = jQuery(this.getTableDomRef()),
+			$TypeColumnHeader = this.$("tblHeadNav"),
+			iTypeColumnIndex = $TypeColumnHeader.index() + 1,
+			$TypeColumnCells = $Table.find("tr > td:nth-child(" + iTypeColumnIndex + ")");
+		
+		$Table.toggleClass("sapMListTblHasNav", bVisible);
+		$TypeColumnHeader.attr("aria-hidden", !bVisible);
+		$TypeColumnCells.attr("aria-hidden", !bVisible);
 	};
 	
 	// notify all columns with given action and param
@@ -436,7 +450,6 @@ sap.ui.define(['jquery.sap.global', './ListBase', './library'],
 	Table.prototype.hasPopin = function() {
 		return !!this._hasPopin;
 	};
-
 	
 	/*
 	 * Returns whether given event is initialized within header row or not
