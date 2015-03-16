@@ -1849,28 +1849,31 @@ html[dir=rtl] .sapMILIDiv {
   font-size: 1rem;
 }
 /* Compact size */
-.sapUiSizeCompact .sapMMsgPopoverCloseBtn .sapMBtnIcon {
+.sapUiSizeCompact.sapMMsgPopover.sapMPopoverArrUp:after,
+.sapUiSizeCompact.sapMMsgPopover.sapMPopoverWithoutBar.sapMPopoverNav.sapMPopoverWithHeaderCont > .sapMPopoverArrUp:after,
+.sapUiSizeCompact.sapMMsgPopover.sapMPopoverWithoutBar.sapMPopoverPage.sapMPopoverWithHeaderCont > .sapMPopoverArrUp:after {
+  bottom: -9px;
+  right: -8px;
+}
+.sapUiSizeCompact.sapMMsgPopover .sapMMsgPopoverCloseBtn .sapMBtnIcon {
   width: 1.626rem;
   height: 1.626rem;
   font-size: 0.75rem;
 }
-.sapUiSizeCompact .sapMMsgPopover .sapMList .sapMLIBContent .sapUiIcon {
+.sapUiSizeCompact.sapMMsgPopover .sapMList .sapMLIBContent .sapUiIcon {
   font-size: 1rem;
 }
-.sapUiSizeCompact .sapMMsgPopoverDescIcon {
-  width: 1.626rem;
+.sapUiSizeCompact.sapMMsgPopover .sapMBtnInner {
+  padding: 0;
+}
+.sapUiSizeCompact.sapMMsgPopover .sapMBtnCustomIcon {
+  margin-right: 0;
+}
+.sapUiSizeCompact.sapMMsgPopover .sapMMsgPopoverDescIcon {
+  width: 3rem;
   height: 1.626rem;
   line-height: 1.626rem;
   font-size: 1rem;
-}
-.sapUiSizeCompact .sapMMsgPopover .sapMBtnInner {
-  padding: 0;
-}
-.sapUiSizeCompact .sapMMsgPopover .sapMBtnCustomIcon {
-  margin-right: 0;
-}
-.sapUiSizeCompact .sapMMsgPopoverDescIcon {
-  width: 3rem;
 }
 /* =========================================== */
 /* CSS for control sap.m/MessageToast.control  */
@@ -2872,6 +2875,9 @@ div[class*='sapMOHRStatesCont'] > div:last-child {
   box-sizing: border-box;
   vertical-align: baseline;
 }
+.sapMObjLItem > .sapMLIBContent {
+  overflow: hidden;
+}
 .sapMLIB.sapMObjLItem {
   padding: 1rem;
 }
@@ -3390,6 +3396,7 @@ html[dir=rtl] .sapUiIconMirrorInRTL:not(.sapUiIconSuppressMirrorInRTL).sapMPanel
   display: inline-block;
   overflow: hidden;
   vertical-align: middle;
+  min-width: 100%;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;

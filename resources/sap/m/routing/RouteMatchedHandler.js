@@ -10,7 +10,7 @@ sap.ui.define(['jquery.sap.global', 'sap/m/InstanceManager', 'sap/m/NavContainer
 
 	/**
 	 * Instantiates a RouteMatchedHandler.
-	 * 
+	 *
 	 * @class
 	 * This class will attach to the Events of a provided router and add the views created by it to a  {@link sap.m.SplitContainer} or a {@link sap.m.NavContainer} Control, if this is the target control of the route.</br>
 	 * If the targetControl is no {@link sap.m.SplitContainer} or a {@link sap.m.NavContainer}, It will only close the dialogs, according to the property value.</br>
@@ -37,7 +37,7 @@ sap.ui.define(['jquery.sap.global', 'sap/m/InstanceManager', 'sap/m/NavContainer
 	 * @see sap.m.NavContainer
 	 *
 	 *
-	 * @deprecated @since 1.28 use {@link sap.m.routing.Router|sap.m.routing.Targets} instead. The functionality of the routematched handler is built in into these two classes, there is no need to create this anymore.
+	 * @deprecated @since 1.28 use {@link sap.m.routing.Router} or {@link sap.m.routing.Targets} instead. The functionality of the routematched handler is built in into these two classes, there is no need to create this anymore.
 	 * @param {sap.ui.core.routing.Router} router - A router that creates views</br>
 	 * @param {boolean} closeDialogs - the default is true - will close all open dialogs before navigating, if set to true. If set to false it will just navigate without closing dialogs.
 	 * @public
@@ -49,7 +49,7 @@ sap.ui.define(['jquery.sap.global', 'sap/m/InstanceManager', 'sap/m/NavContainer
 //			this._aQueue = [];
 
 			this._oTargetHandler = new TargetHandler(bCloseDialogs);
-	
+
 			if (bCloseDialogs === undefined) {
 				this._bCloseDialogs = true;
 			} else {
@@ -70,11 +70,11 @@ sap.ui.define(['jquery.sap.global', 'sap/m/InstanceManager', 'sap/m/NavContainer
 			this._oRouter = oRouter;
 		}
 	});
-	
+
 	/* =================================
 	 * public
 	 * =================================*/
-	
+
 	/**
 	 * Removes the routeMatchedHandler from the Router
 	 *
@@ -84,7 +84,7 @@ sap.ui.define(['jquery.sap.global', 'sap/m/InstanceManager', 'sap/m/NavContainer
 	RouteMatchedHandler.prototype.destroy = function () {
 		this._oRouter.detachRouteMatched(this._onHandleRouteMatched, this);
 		this._oRouter.detachRoutePatternMatched(this._handleRoutePatternMatched, this);
-	
+
 		this._oRouter = null;
 
 		if (this._oTargets) {
@@ -94,7 +94,7 @@ sap.ui.define(['jquery.sap.global', 'sap/m/InstanceManager', 'sap/m/NavContainer
 
 		return this;
 	};
-	
+
 	/**
 	 * Sets if a navigation should close dialogs
 	 *
@@ -106,8 +106,8 @@ sap.ui.define(['jquery.sap.global', 'sap/m/InstanceManager', 'sap/m/NavContainer
 		this._bCloseDialogs = !!bCloseDialogs;
 		return this;
 	};
-	
-	
+
+
 	/**
 	 * Gets if a navigation should close dialogs
 	 *
@@ -117,13 +117,13 @@ sap.ui.define(['jquery.sap.global', 'sap/m/InstanceManager', 'sap/m/NavContainer
 	RouteMatchedHandler.prototype.getCloseDialogs = function () {
 		return this._bCloseDialogs;
 	};
-	
-	
+
+
 	/* =================================
 	 * private
 	 * =================================
 	*/
-	
+
 	/**
 	 * Handling of navigation event:
 	 * Order of navigation events is first all RouteMatched events then the single RoutePatternMatched event.
@@ -142,7 +142,7 @@ sap.ui.define(['jquery.sap.global', 'sap/m/InstanceManager', 'sap/m/NavContainer
 			askHistory: true
 		});
 	};
-	
+
 	/**
 	 * queues up calls
 	 * @param {object} oEvent The routeMatched event
@@ -197,19 +197,19 @@ sap.ui.define(['jquery.sap.global', 'sap/m/InstanceManager', 'sap/m/NavContainer
 		if (!this._bCloseDialogs) {
 			return;
 		}
-	
+
 		// close open popovers
 		if (InstanceManager.hasOpenPopover()) {
 			InstanceManager.closeAllPopovers();
 		}
-	
+
 		// close open dialogs
 		if (InstanceManager.hasOpenDialog()) {
 			InstanceManager.closeAllDialogs();
 		}
 	};
-	
-	
+
+
 
 	return RouteMatchedHandler;
 

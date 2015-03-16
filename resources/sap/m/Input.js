@@ -22,7 +22,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 	 * @extends sap.m.InputBase
 	 *
 	 * @author SAP SE
-	 * @version 1.28.1
+	 * @version 1.28.2
 	 *
 	 * @constructor
 	 * @public
@@ -1163,7 +1163,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 					width : "100%",
 					showNoData : false,
 					mode : sap.m.ListMode.SingleSelectMaster,
-					rememberSelection : false,
+					rememberSelections : false,
 					selectionChange : function(oEvent) {
 						var oListItem = oEvent.getParameter("listItem"),
 							sOriginalValue = oInput.getValue(),
@@ -1466,7 +1466,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 				showSeparators: "All",
 				width: "100%",
 				enableBusyIndicator: false,
-				rememberSelection : false,
+				rememberSelections : false,
 				selectionChange: function (oEvent) {
 					var oInput = that,
 						sOriginalValue = oInput.getValue(),

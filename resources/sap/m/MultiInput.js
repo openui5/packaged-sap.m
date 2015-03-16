@@ -22,7 +22,7 @@ sap.ui.define(['jquery.sap.global', './Input', './Token', './library', 'sap/ui/c
 	 * @extends sap.m.Input
 	 *
 	 * @author SAP SE
-	 * @version 1.28.1
+	 * @version 1.28.2
 	 *
 	 * @constructor
 	 * @public
@@ -181,7 +181,7 @@ sap.ui.define(['jquery.sap.global', './Input', './Token', './library', 'sap/ui/c
 			}
 			
 			//dialog opens
-			if (that._bUseDialog && that._tokenizerInPopup.getParent() instanceof sap.m.Dialog) {
+			if (that._bUseDialog && that._tokenizerInPopup && that._tokenizerInPopup.getParent() instanceof sap.m.Dialog) {
 				//clone newly added token to tokenizerinpopup to display in popup
 				var iNewLength = that._tokenizer.getTokens().length;
 				if ( iOldLength < iNewLength ) {
@@ -430,6 +430,12 @@ sap.ui.define(['jquery.sap.global', './Input', './Token', './library', 'sap/ui/c
 		if (this._$input) {
 			this._$input.parent().addClass("sapMMultiInputMultiModeInputContainer");
 		}
+
+		// necessary to display expanded MultiInput which is inside SimpleForm
+		if (this.$().parent('[class*="sapUiRespGridSpan"]')) {
+			this.$().parent('[class*="sapUiRespGridSpan"]').css("overflow", "visible");
+		}
+		
 	};
 	
 	/**
@@ -442,6 +448,11 @@ sap.ui.define(['jquery.sap.global', './Input', './Token', './library', 'sap/ui/c
 			this.$("border").removeClass("sapMMultiInputMultiModeBorder");
 			if (this._$input) {
 				this._$input.parent().removeClass("sapMMultiInputMultiModeInputContainer");
+			}
+			
+			// set overflow of sapUiRespGridSpan back to hidden
+			if (this.$().parent('[class*="sapUiRespGridSpan"]')) {
+				this.$().parent('[class*="sapUiRespGridSpan"]').css("overflow", "hidden");
 			}
 	};
 

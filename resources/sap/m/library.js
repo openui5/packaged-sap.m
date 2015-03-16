@@ -22,14 +22,14 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/Device',
 	 * @namespace
 	 * @name sap.m
 	 * @author SAP SE
-	 * @version 1.28.1
+	 * @version 1.28.2
 	 * @public
 	 */
 	
 	// delegate further initialization of this library to the Core
 	sap.ui.getCore().initLibrary({
 		name : "sap.m",
-		version: "1.28.1",
+		version: "1.28.2",
 		dependencies : ["sap.ui.core"],
 		types: [
 			"sap.m.BackgroundDesign",
@@ -182,6 +182,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/Device',
 			"sap.m.P13nFilterItem",
 			"sap.m.P13nItem",
 			"sap.m.P13nSortItem",
+			"sap.m.SegmentedButtonItem",
 			"sap.m.ToolbarLayoutData",
 			"sap.m.UploadCollectionItem",
 			"sap.m.UploadCollectionParameter",
@@ -2571,6 +2572,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/Device',
 			oImage.setDensityAware(false); // by default we do not have density aware images in the Table
 			return oImage;
 		},
+		addTableClass: function() { return "sapUiTableM"; },
 		bFinal: true
 	});
 	

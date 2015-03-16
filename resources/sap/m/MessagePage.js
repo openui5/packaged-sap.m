@@ -23,7 +23,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		 *		- The application is loading
 		 *	The layout is unchanged but the text varies depending on the use case.
 		 * @extends sap.ui.core.Control
-		 * @version 1.28.1
+		 * @version 1.28.2
 		 *
 		 * @constructor
 		 * @public
@@ -229,5 +229,27 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 
 			return this._oIconControl;
 		};
+
+		/**
+		 * Returns the internal header
+		 * Adding this functions because they are needed by the SplitContainer logic to show the "hamburger" button.
+		 * @private
+		 * @returns {sap.m.IBar}
+		 */
+		MessagePage.prototype._getAnyHeader = function() {
+			return this._getInternalHeader();
+		};
+
+		/**
+		 * Adding this functions because they are needed by the SplitContainer logic to show the "hamburger" button.
+		 * @returns {sap.m.IBar}
+		 * @private
+		 */
+
+		MessagePage.prototype._getInternalHeader = function() {
+			return this.getAggregation("_page").getAggregation("_internalHeader");
+		};
+
+
 		return MessagePage;
 	}, /* bExport= */ true);

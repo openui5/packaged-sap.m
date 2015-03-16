@@ -18,18 +18,6 @@ function (Opa5, NavigationAction, StartAppArrangement, NavigationAssertion) {
 		});
 	}});
 
-	opaTest("Should see a busy indication while loading the metadata", function (Given, When, Then) {
-		// Arrangements
-		Given.iStartTheAppOnADesktopDeviceWithDelay("", 10000);
-
-		//Actions
-		When.iLookAtTheScreen();
-
-		// Assertions
-		Then.iShouldSeeTheBusyIndicator().
-			and.iTeardownMyAppFrame();
-	});
-
 	opaTest("Should see the objects list", function (Given, When, Then) {
 		// Arrangements
 		Given.iStartTheAppOnADesktopDevice();
@@ -39,17 +27,18 @@ function (Opa5, NavigationAction, StartAppArrangement, NavigationAssertion) {
 
 		// Assertions
 		Then.iShouldSeeTheObjectList().
-			and.theObjectListShouldHave9Entries().
+			and.theObjectListShouldHave10Entries().
+			and.theMasterPageHeaderShouldDisplay20Entries().
 			and.theObjectPageShowsTheFirstObject();
 	});
 
 	opaTest("Should react on hashchange", function (Given, When, Then) {
 		// Actions
-		When.iChangeTheHashToObject3();
+		When.iChangeTheHashToObjectN(10);
 
 		// Assertions
-		Then.iShouldBeOnTheObject3Page().
-			and.theObject3ShouldBeSelectedInTheMasterList();
+		Then.iShouldBeOnTheObjectNPage(10).
+			and.theObjectNShouldBeSelectedInTheMasterList(10);
 	});
 
 
@@ -58,7 +47,7 @@ function (Opa5, NavigationAction, StartAppArrangement, NavigationAssertion) {
 		When.iPressOnTheObject1InMasterList();
 
 		// Assertions
-		Then.iShouldBeOnTheObject1Page();
+		Then.iShouldBeOnTheObjectNPage(1);
 	});
 
 	opaTest("Detail Page Shows Object Details", function (Given, When, Then) {
@@ -66,9 +55,10 @@ function (Opa5, NavigationAction, StartAppArrangement, NavigationAssertion) {
 		When.iPressOnTheObject1InMasterList();
 
 		// Assertions
-		Then.iShouldBeOnTheObject1Page().
+		Then.iShouldBeOnTheObjectNPage(1).
 			and.iShouldSeeTheObjectLineItemsList().
 			and.theLineItemsListShouldHave4Entries().
+			and.theLineItemsHeaderShouldDisplay4Entries().
 			and.theFirstLineItemHasIDLineItemID_1();
 
 	});
@@ -116,7 +106,7 @@ function (Opa5, NavigationAction, StartAppArrangement, NavigationAssertion) {
 		When.iGoBackInBrowserHistory();
 
 		// Assertions
-		Then.iShouldBeOnTheObject1Page();
+		Then.iShouldBeOnTheObjectNPage(1);
 	});
 
 	opaTest("Line Item Page: going forward in browser history should take us back to Line Item 1 a", function (Given, When, Then) {
@@ -128,31 +118,43 @@ function (Opa5, NavigationAction, StartAppArrangement, NavigationAssertion) {
 		Then.iShouldBeOnTheLineItem1Page();
 	});
 
-	
+
 	opaTest("Line Item Page: pressing 'Back' Button on Line Item 1 page navigates back to Detail Page for Object 1", function (Given, When, Then) {
 
 		// Actions
 		When.iPressTheBackButtonOnLineItemPage();
 
 		// Assertions
-		Then.iShouldBeOnTheObject1Page().
+		Then.iShouldBeOnTheObjectNPage(1).
 			and.iTeardownMyAppFrame();
 
 	});
-	
-	opaTest("Navigate directly to Line Item 7 of object 3 with hash: press back should navigate to object 3 and select it in the master list", function (Given, When, Then) {
+
+	opaTest("Navigate directly to Line Item 26 of object 10 with hash: press back should navigate to object 10 and select it in the master list", function (Given, When, Then) {
 		//Arrangement
-		Given.iStartTheAppOnADesktopDevice("#/object/ObjectID_3/lineitem/LineItemID_7");
-		
+		Given.iStartTheAppOnADesktopDevice("#/object/ObjectID_10/lineitem/LineItemID_26");
+
 		//Actions
 		When.iWaitUntilTheMasterListIsLoaded().
 			and.iPressTheBackButtonOnLineItemPage();
 
 		// Assertions
-		Then.iShouldBeOnTheObject3Page().
-			and.theObject3ShouldBeSelectedInTheMasterList().
+		Then.iShouldBeOnTheObjectNPage(10).
+			and.theObjectNShouldBeSelectedInTheMasterList(10).
 			and.iTeardownMyAppFrame();
 	});
-	
-	
+
+	opaTest("Navigate directly to an object not on the client with hash: no item should be selected and the object page should be displayed", function (Given, When, Then) {
+		//Arrangement
+		Given.iStartTheAppOnADesktopDevice("#/object/ObjectID_2");
+
+		//Actions
+		When.iWaitUntilTheMasterListIsLoaded();
+
+		// Assertions
+		Then.iShouldBeOnTheObjectNPage(2).
+			and.theListShouldHaveNoSelection().
+			and.iTeardownMyAppFrame();
+	});
+
 });

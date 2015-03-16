@@ -5,93 +5,22 @@ sap.ui.define([
 		"sap/ui/demo/mdtemplate/model/AppModel",
 		"sap/ui/demo/mdtemplate/controller/ListSelector",
 		"sap/ui/demo/mdtemplate/controller/BusyHandler",
-		"sap/ui/demo/mdtemplate/Router",
+		"sap/ui/demo/mdtemplate/controller/ErrorHandler",
 		"sap/ui/demo/mdtemplate/model/formatter",
 		"sap/ui/demo/mdtemplate/model/grouper"
-	], function (UIComponent, ResourceModel, DeviceModel, AppModel, ListSelector, BusyHandler, Router) {
+	], function (UIComponent, ResourceModel, DeviceModel, AppModel, ListSelector, BusyHandler, ErrorHandler) {
 	"use strict";
 
 	return UIComponent.extend("sap.ui.demo.mdtemplate.Component", {
 
 		metadata : {
 			name : "MD Template",
-			dependencies : {
-				libs : [
-					"sap.m",
-					"sap.ui.layout"
-				]
-			},
-
-			rootView : "sap.ui.demo.mdtemplate.view.App",
+			manifest: "json",
 
 			config : {
-				messageBundle : "sap.ui.demo.mdtemplate.i18n.messageBundle",
 				// always use absolute paths relative to our own component
 				// (relative paths will fail if running in the Fiori Launchpad)
-				rootPath: jQuery.sap.getModulePath("sap.ui.demo.mdtemplate"),
-				serviceUrl: "here/goes/your/serviceUrl/"
-			},
-
-			routing : {
-				config : {
-					routerClass : Router,
-					viewType : "XML",
-					viewPath : "sap.ui.demo.mdtemplate.view",
-					controlId: "idAppControl",
-					controlAggregation: "detailPages",
-					bypassed: {
-						target: ["master", "notFound"]
-					}
-				},
-				routes : [
-					{
-						pattern: "",
-						name: "master",
-						target: ["object", "master"]
-					},
-					{
-						pattern : "object/{objectId}",
-						name : "object",
-						target: ["master", "object"]
-					},
-					{
-						pattern : "object/{objectId}/lineitem/{lineItemId}",
-						name: "lineItem",
-						target: ["master", "lineItem"]
-					}
-				],
-				targets: {
-					master : {
-						viewName: "Master",
-						viewLevel: 1,
-						controlAggregation: "masterPages"
-					},
-					object : {
-						viewName: "Detail",
-						viewLevel: 2
-					},
-					lineItem : {
-						viewName: "LineItem",
-						viewLevel: 3
-					},
-					// not found targets
-					detailObjectNotFound : {
-						viewName: "DetailObjectNotFound",
-						viewLevel: 3
-					},
-					detailNoObjectsAvailable: {
-						viewName: "DetailNoObjectsAvailable",
-						viewLevel: 3
-					},
-					lineItemNotFound : {
-						viewName: "LineItemNotFound",
-						viewLevel: 3
-					},
-					notFound : {
-						viewName: "NotFound",
-						viewLevel: 3
-					}
-				}
+				rootPath: jQuery.sap.getModulePath("sap.ui.demo.mdtemplate")
 			}
 		},
 
@@ -118,6 +47,7 @@ sap.ui.define([
 			this.setModel(new AppModel(mConfig.serviceUrl));
 			this._createMetadataPromise(this.getModel());
 
+			this._oErrorHandler = new ErrorHandler(this);
 			// initialize the busy handler with the component
 			this._oBusyHandler = new BusyHandler(this);
 
@@ -137,7 +67,7 @@ sap.ui.define([
 		destroy : function () {
 			this.oListSelector.destroy();
 			this._oBusyHandler.destroy();
-
+			this._oErrorHandler.destroy();
 			// call the base component's destroy function
 			sap.ui.core.UIComponent.prototype.destroy.apply(this, arguments);
 		},
@@ -151,6 +81,10 @@ sap.ui.define([
 			// call the base component's createContent function
 			this._oRootView = sap.ui.core.UIComponent.prototype.createContent.apply(this, arguments);
 
+			if (!sap.ui.Device.support.touch) { // apply compact mode if touch is not supported; this could me made configurable on "combi" devices with touch AND mouse
+				this._oRootView.addStyleClass("sapUiSizeCompact");
+			}
+			
 			return this._oRootView;
 		},
 

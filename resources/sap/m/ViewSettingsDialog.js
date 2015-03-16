@@ -22,7 +22,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.28.1
+	 * @version 1.28.2
 	 *
 	 * @constructor
 	 * @public
@@ -1273,11 +1273,11 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 													[ that.getId() + '-page2',
 															"slide" ]);
 										}
-										that._getNavContainer().attachEventOnce("afterNavigate", function(){
-											if (sap.ui.Device.system.desktop && that._filterDetailList.getItems()[0]) {
+										if (sap.ui.Device.system.desktop && that._filterDetailList && that._filterDetailList.getItems()[0]) {
+											that._getNavContainer().attachEventOnce("afterNavigate", function(){
 												that._filterDetailList.getItems()[0].focus();
-											}
-										});
+											});
+										}
 									};
 								}(oItem))
 							}).data("item", oItem);

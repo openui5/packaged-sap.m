@@ -690,17 +690,17 @@
 
 	test("TestTitleTap", function() {
 
-		qutils.triggerEvent("tap", ohe._titleText.getId());
+		qutils.triggerEvent("tap", oheId + "-title");
 		ok(domRef, "domRef is set");
-		equal(domRef.id, ohe._titleText.getId(), "Title should be clickable");
+		equal(domRef.id, oheId + "-title", "Title should be clickable");
 		domRef = null;
 		
-		qutils.triggerEvent("tap", ohe._titleText.getDomRef("inner"));
+		qutils.triggerEvent("tap", oheId + "-titleText-inner");
 		ok(domRef, "domRef is set");
-		equal(domRef.id, ohe._titleText.getId(), "When clicking inner text div event should return outer div as source");
+		equal(domRef.id, oheId + "-title", "When clicking inner text div event should return outer div as source");
 		domRef = null;
 
-		qutils.triggerEvent("tap", ohBasic._titleText.getId());
+		qutils.triggerEvent("tap", ohBasicId + "-title");
 		ok(domRef === null, ohBasicId + " Title should not be clickable");
 		domRef = null;
 	});
@@ -790,7 +790,7 @@
 	
 	test("Title arrow has aria-haspopup", function(){ 
 		// Assert
-		ok(jQuery("#" + ohBasicId+"-arrow-aria").attr("aria-haspopup"), "Title arrow has attribute aria-haspopup");
+		ok(jQuery("#" + ohBasicId+"-titleArrow").attr("aria-haspopup"), "Title arrow has attribute aria-haspopup");
 	});
 	
 	test("Active icon has aria attributes", function(){ 

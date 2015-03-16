@@ -1854,28 +1854,31 @@ html[dir=rtl] .sapMILIDiv {
   font-size: 1rem;
 }
 /* Compact size */
-.sapUiSizeCompact .sapMMsgPopoverCloseBtn .sapMBtnIcon {
+.sapUiSizeCompact.sapMMsgPopover.sapMPopoverArrUp:after,
+.sapUiSizeCompact.sapMMsgPopover.sapMPopoverWithoutBar.sapMPopoverNav.sapMPopoverWithHeaderCont > .sapMPopoverArrUp:after,
+.sapUiSizeCompact.sapMMsgPopover.sapMPopoverWithoutBar.sapMPopoverPage.sapMPopoverWithHeaderCont > .sapMPopoverArrUp:after {
+  bottom: -9px;
+  left: -8px;
+}
+.sapUiSizeCompact.sapMMsgPopover .sapMMsgPopoverCloseBtn .sapMBtnIcon {
   width: 1.626rem;
   height: 1.626rem;
   font-size: 0.75rem;
 }
-.sapUiSizeCompact .sapMMsgPopover .sapMList .sapMLIBContent .sapUiIcon {
+.sapUiSizeCompact.sapMMsgPopover .sapMList .sapMLIBContent .sapUiIcon {
   font-size: 1rem;
 }
-.sapUiSizeCompact .sapMMsgPopoverDescIcon {
-  width: 1.626rem;
+.sapUiSizeCompact.sapMMsgPopover .sapMBtnInner {
+  padding: 0;
+}
+.sapUiSizeCompact.sapMMsgPopover .sapMBtnCustomIcon {
+  margin-left: 0;
+}
+.sapUiSizeCompact.sapMMsgPopover .sapMMsgPopoverDescIcon {
+  width: 3rem;
   height: 1.626rem;
   line-height: 1.626rem;
   font-size: 1rem;
-}
-.sapUiSizeCompact .sapMMsgPopover .sapMBtnInner {
-  padding: 0;
-}
-.sapUiSizeCompact .sapMMsgPopover .sapMBtnCustomIcon {
-  margin-left: 0;
-}
-.sapUiSizeCompact .sapMMsgPopoverDescIcon {
-  width: 3rem;
 }
 /* =========================================== */
 /* CSS for control sap.m/MessageToast.control  */
@@ -2877,6 +2880,9 @@ div[class*='sapMOHRStatesCont'] > div:last-child {
   box-sizing: border-box;
   vertical-align: baseline;
 }
+.sapMObjLItem > .sapMLIBContent {
+  overflow: hidden;
+}
 .sapMLIB.sapMObjLItem {
   padding: 1rem;
 }
@@ -3395,6 +3401,7 @@ html[dir=rtl] .sapUiIconMirrorInRTL:not(.sapUiIconSuppressMirrorInRTL).sapMPanel
   display: inline-block;
   overflow: hidden;
   vertical-align: middle;
+  min-width: 100%;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
@@ -8677,25 +8684,16 @@ li.sapMLIB.sapMFeedListItemTitleDiv.sapMLIBNoFlex > .sapMLIBContent > .sapMLIBCo
   position: relative;
   overflow: hidden;
 }
-.sapMITBHead.sapMITBTextOnly {
-  margin-left: 1rem;
-}
 .sap-phone .sapMITBHead {
   display: inline-block;
   margin: 1rem 0 0;
   vertical-align: top;
-}
-.sap-phone .sapMITBHead.sapMITBTextOnly .sapMITBFilter {
-  margin-left: -0.75rem;
 }
 .sap-tablet .sapMITBHead,
 html[data-sap-ui-os=win8] .sapMITBHead {
   display: inline-block;
   margin: 1rem 1rem 0 0;
   vertical-align: top;
-}
-.sap-tablet .sapMITBHead.sapMITBTextOnly {
-  margin-left: -1rem;
 }
 .sapMITBScrollContainer {
   display: block;
@@ -8813,10 +8811,17 @@ html[dir=rtl] .sapMITBTextOnly .sapMITBTab {
 .sapMITBFilter {
   margin: 0 0.25rem;
 }
-.sapMITBTextOnly .sapMITBFilter,
-.sapMITBTextOnly .sapMITBFilter:first-child {
+.sapMITBTextOnly .sapMITBFilter {
   padding: 0;
   margin: 0 1rem;
+}
+.sapMITBTextOnly .sapMITBFilter:first-child {
+  padding: 0 0 0 1px;
+  margin: 0 1rem 0 0.5rem;
+}
+.sapMITBTextOnly .sapMITBFilter:last-child {
+  padding: 0 1px 0 0;
+  margin: 0 0.5rem 0 1rem;
 }
 .sap-phone .sapMITBTextOnly .sapMITBFilter {
   padding: 0 0.75rem;
@@ -10774,6 +10779,9 @@ html[data-sap-ui-browser*='ie9'] .sapMListNoData {
   overflow-y: auto;
   z-index: 1;
 }
+.sapMMultiInput > .sapMInputBasePlaceholder {
+  width: calc(97.625%);
+}
 .sapUiSizeCompact .sapMMultiInputBorder {
   height: 1.625rem;
   padding-left: 0.25rem;
@@ -10841,6 +10849,9 @@ html[data-sap-ui-browser*='ie9'] .sapMListNoData {
 .sapUiSizeCompact .sapMMultiInput .sapMInputBaseInner {
   padding-left: 0.0rem;
   padding-right: 0.1rem;
+}
+.sapUiSizeCompact .sapMMultiInput > .sapMInputBasePlaceholder {
+  width: calc(98.5%);
 }
 /* ============================================= */
 /* CSS for control sap.m/ObjectAttribute.control */
@@ -10980,6 +10991,9 @@ html[data-sap-ui-browser*='ie9'] .sapMListNoData {
 .sapMOH .sapMOHTitle.sapMOHTitleActive > h1 .sapMText {
   text-decoration: underline;
   cursor: pointer;
+}
+.sapMOH a.sapMOHTitle.sapMOHTitleActive:hover > h1 .sapMText {
+  text-decoration: none;
 }
 .sapMOH .sapMOHTitle.sapMOHTitleActive:focus > h1 .sapMText {
   text-decoration: none;

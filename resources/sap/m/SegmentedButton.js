@@ -22,7 +22,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.28.1
+	 * @version 1.28.2
 	 *
 	 * @constructor
 	 * @public
@@ -62,9 +62,10 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 
 			/**
 			 * Aggregation of items to be displayed. The items set in this aggregation are used as an interface for the buttons displayed by the control.
-			 * @since 1.28.0
+			 * The "items" and "buttons" aggregations should NOT be used simultaneously as it causes the control to work incorrectly.
+			 * @since 1.28
 			 */
-			items : { type: "sap.ui.core.ListItem", multiple: true, singularName: "item", bindable: "bindable" }
+			items : { type : "sap.m.SegmentedButtonItem", multiple : true, singularName : "item", bindable : "bindable" }
 		},
 		associations : {
 
@@ -261,7 +262,6 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		//get the size of each button
 		this._getButtonWidths();
 
-
 		//Flag if control is inside a popup
 		this._bInsidePopup = (this.$().closest(".sapMPopup-CTX").length > 0);
 
@@ -327,7 +327,8 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 			iCntOutWidth = $this.outerWidth(true) - $this.width(),
 			iBarContainerPadding = $this.closest('.sapMBarContainer').outerWidth() - $this.closest('.sapMBarContainer').width(),
 			iBarContainerPaddingFix = 2,//Temporary solution to fix the segmentedButton with 100% width in dialog issue.
-			iInnerWidth = $this.children('#' + this.getButtons()[0].getId()).outerWidth(true) - $this.children('#' + this.getButtons()[0].getId()).width();
+			iInnerWidth = $this.children('#' + this.getButtons()[0].getId()).outerWidth(true) - $this.children('#' + this.getButtons()[0].getId()).width(),
+			oButtons = this.getButtons();
 			// If parent width is bigger than actual screen width set parent width to screen width => android 2.3
 			iParentWidth;
 
@@ -368,22 +369,27 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		}
 
 		for (var i = 0; i < iItm; i++) {
+			var $button = $this.children('#' + oButtons[i].getId()),
+				sBtnWidth = oButtons[i].getWidth();
 			if (!isNaN(iMaxWidth) && iMaxWidth > 0) {
 				// Bug: +2px for IE9(10)
 				// When segmentedButton is in popup, its size can't be increased because otherwise it triggers resize of the dialog again.
 				iMaxWidth = this._isMie && !this._bInsidePopup ? iMaxWidth + 2 : iMaxWidth;
 				// Use the given width of the button (when present)
-				if (this.getButtons()[i].getWidth().length > 0) {
-					var sBtnWidth = this.getButtons()[i].getWidth();
-					var iWidth = sBtnWidth.indexOf("%") == -1 ? ( parseInt(sBtnWidth, 10) - iInnerWidth ) : sBtnWidth;
-					$this.children('#' + this.getButtons()[i].getId()).width(iWidth);
+				if (sBtnWidth.length > 0) {
+					if (sBtnWidth.indexOf("%") === -1) {
+						var iWidth = parseInt(sBtnWidth, 10) - iInnerWidth;
+						$button.width(iWidth);
+					} else {
+						// BCP: 1580014462 When width of the button is in percent we need to remove the padding from the button
+						$button.width(sBtnWidth).css("padding", 0);
+					}
 				} else {
-					$this.children('#' + this.getButtons()[i].getId()).width(iMaxWidth);
+					$button.width(iMaxWidth);
 				}
 			} else {
-				var sBtnWidth = this.getButtons()[i].getWidth();
 				var iWidth = sBtnWidth.indexOf("%") !== -1 ? iInnerWidth : sBtnWidth;
-				$this.children('#' + this.getButtons()[i].getId()).width(iWidth);
+				$button.width(iWidth);
 			}
 		}
 		this._removeGhostButton();
@@ -464,6 +470,28 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		return oButton;
 	};
 
+	/**
+	 * Private method to create a button from item
+	 *
+	 * @param {sap.m.SegmentedButtonItem} oItem item from the items aggregation
+	 * @private
+	 * @since 1.28
+	 */
+	SegmentedButton.prototype._createButtonFromItem = function (oItem) {
+		var oButton = new sap.m.Button({
+			text: oItem.getText(),
+			icon: oItem.getIcon(),
+			enabled: oItem.getEnabled(),
+			textDirection: oItem.getTextDirection(),
+			width: oItem.getWidth(),
+			press: function () {
+				oItem.firePress();
+			}
+		});
+
+		this.addButton(oButton);
+	};
+
 	(function (){
 		SegmentedButton.prototype.addButton = function (oButton) {
 			if (oButton) {
@@ -530,7 +558,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 
 		/* Create buttons */
 		for (; i < oItems.length; i++) {
-			this.createButton(oItems[i].getText(), oItems[i].getIcon(), oItems[i].getEnabled(), oItems[i].getTextDirection());
+			this._createButtonFromItem(oItems[i]);
 		}
 
 	};
