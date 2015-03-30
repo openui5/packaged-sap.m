@@ -18,18 +18,16 @@
 				<items>
 					<IconTabFilter
 						icon="sap-icon://hint">
-						<Text width="auto" class="sapUiSmallMargin" text="Info content goes here ..." />
 					</IconTabFilter>
 					<IconTabFilter
 						icon="sap-icon://attachment">
-						<Text width="auto" class="sapUiSmallMargin" text="Attachments go here ..." />
 					</IconTabFilter>
 				</items>
 			</IconTabBar>
 			<Table id="lineItemsList" width="auto" items="{LineItems}" noDataText="{i18n>detailLineItemTableNoDataText}" class="sapUiResponsiveMargin">
 				<headerToolbar>
 					<Toolbar>
-						<Label id="lineItemsHeader" text="{controlStates>/lineItemListTitle}"/>
+						<Label id="lineItemsHeader" text="{view>/lineItemListTitle}"/>
 					</Toolbar>
 				</headerToolbar>
 				<columns>

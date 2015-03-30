@@ -14,14 +14,7 @@ sap.ui.define([
 	return UIComponent.extend("sap.ui.demo.mdtemplate.Component", {
 
 		metadata : {
-			name : "MD Template",
-			manifest: "json",
-
-			config : {
-				// always use absolute paths relative to our own component
-				// (relative paths will fail if running in the Fiori Launchpad)
-				rootPath: jQuery.sap.getModulePath("sap.ui.demo.mdtemplate")
-			}
+			manifest: "json"
 		},
 
 		/**
@@ -34,11 +27,11 @@ sap.ui.define([
 			var mConfig = this.getMetadata().getConfig();
 
 			// call the base component's init function
-			sap.ui.core.UIComponent.prototype.init.apply(this, arguments);
+			UIComponent.prototype.init.apply(this, arguments);
 
 			// set the internationalization model
 			this.setModel(new ResourceModel({
-				bundleName : mConfig.messageBundle
+				bundleName : mConfig.i18nBundle
 			}), "i18n");
 
 			this.oListSelector = new ListSelector();
@@ -69,7 +62,7 @@ sap.ui.define([
 			this._oBusyHandler.destroy();
 			this._oErrorHandler.destroy();
 			// call the base component's destroy function
-			sap.ui.core.UIComponent.prototype.destroy.apply(this, arguments);
+			UIComponent.prototype.destroy.apply(this, arguments);
 		},
 
 		/**
@@ -79,13 +72,22 @@ sap.ui.define([
 		 */
 		createContent : function() {
 			// call the base component's createContent function
-			this._oRootView = sap.ui.core.UIComponent.prototype.createContent.apply(this, arguments);
-
-			if (!sap.ui.Device.support.touch) { // apply compact mode if touch is not supported; this could me made configurable on "combi" devices with touch AND mouse
-				this._oRootView.addStyleClass("sapUiSizeCompact");
-			}
-			
+			this._oRootView = UIComponent.prototype.createContent.apply(this, arguments);
+			this._oRootView.addStyleClass(this.getCompactCozyClass());
 			return this._oRootView;
+		},
+
+		/**
+		 * This method can be called to determine whether the sapUiSizeCompact design mode class should be set, which influences the size appearance of some controls.
+		 * @public
+		 */
+		getCompactCozyClass : function() { // in 1.28 "Cozy" mode class does not exist yet, but keep the method name in sync with 1.30
+			if (!this._sCompactCozyClass) {
+				if (!sap.ui.Device.support.touch) { // apply compact mode if touch is not supported; this could me made configurable for the user on "combi" devices with touch AND mouse
+					this._sCompactCozyClass = "sapUiSizeCompact";
+				}
+			}
+			return this._sCompactCozyClass;
 		},
 
 		/**

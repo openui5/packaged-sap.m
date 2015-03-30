@@ -1,4 +1,6 @@
-sap.ui.define(['sap/ui/base/Object'], function (Object) {
+sap.ui.define([
+		'sap/ui/base/Object'
+	], function (Object) {
 	"use strict";
 
 	return Object.extend("sap.ui.demo.mdtemplate.model.ListSelector", {
@@ -22,7 +24,6 @@ sap.ui.define(['sap/ui/base/Object'], function (Object) {
 					.then(function (oList) {
 						oList.attachEventOnce("updateFinished", function() {
 							var oFirstListItem = oList.getItems()[0];
-
 							if (oFirstListItem) {
 								// Have to make sure that first list Item is selected
 								// and a select event is triggered. Like that, the corresponding
@@ -37,7 +38,6 @@ sap.ui.define(['sap/ui/base/Object'], function (Object) {
 									list : oList
 								});
 							}
-
 						});
 					});
 			}.bind(this));
@@ -54,24 +54,6 @@ sap.ui.define(['sap/ui/base/Object'], function (Object) {
 		setBoundMasterList : function (oList) {
 			this._oList = oList;
 			this._fnResolveListHasBeenSet(oList);
-		},
-
-		/**
-		 * After the list is loaded, the first item will be selected, if there are items and if the ListMode is not None.
-		 * @public
-		 */
-		selectFirstItem : function () {
-			this.oWhenListLoadingIsDone.then(this._selectFirstItem.bind(this));
-		},
-
-		/**
-		 * Searches for the first item of the list then
-		 * @private
-		 */
-		_selectFirstItem : function(sPath) {
-			if (sPath) {
-				this.selectAListItem(sPath);
-			}
 		},
 
 		/**

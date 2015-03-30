@@ -1409,7 +1409,8 @@ html[data-sap-ui-browser="ie9"] .sapMFeedListItemTitleDiv {
 }
 /* remove user agent pseudo-element clear button (IE specifix) */
 .sapMInputBaseInner::-ms-clear {
-  display: none;
+  /* note: don't use display: none; see BCP 1570024996 */
+  height: 0;
 }
 .sapMInputBaseInner {
   -webkit-appearance: none;
@@ -2316,6 +2317,9 @@ html[dir=rtl] .sapMILIDiv {
 }
 .sapMOHTitle h1 .sapMText {
   font-size: 1.375rem;
+}
+.sapMListTbl .sapMOHTitle h1 .sapMText {
+  font-size: 0.875rem;
 }
 .sapMOHTitleFollowArrow {
   margin-left: 3rem;
@@ -5543,13 +5547,11 @@ html[dir=rtl] .sapMTC .sapMTCEdgeRight {
   height: 1.625rem;
   display: inline-block;
 }
-.sap-phone .sapMDialogScrollCont .sapMTokenizer,
-.sap-tablet .sapMDialogScrollCont .sapMTokenizer {
+.sap-phone .sapMTokenizerMultiLine {
   padding-right: 1rem;
   padding-left: 1rem;
 }
-.sap-phone .sapMDialogScrollCont .sapMTokenizer .sapMToken,
-.sap-tablet .sapMDialogScrollCont .sapMTokenizer .sapMToken {
+.sap-phone .sapMTokenizerMultiLine > .sapMTokenizerScrollContainer > .sapMToken {
   display: table;
 }
 .sapMMultiInputMultiModeBorder .sapMTokenizer {
@@ -6218,7 +6220,7 @@ html[data-sap-ui-os^="iOS"].sapUiSizeCompact .sapMUC .sapMListShowSeparatorsNone
 /* CSS for control sap.m/ViewSettingsDialog.control */
 /* =============================================== */
 .sapMVSDUpperList {
-  border-bottom: 2px solid #808080;
+  border-bottom: 2px solid #000000;
 }
 .sapMVSD.sapMDialog .sapMDialogScrollCont {
   padding: 0;

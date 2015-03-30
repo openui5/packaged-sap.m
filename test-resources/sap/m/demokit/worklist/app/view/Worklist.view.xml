@@ -19,13 +19,13 @@
 						}
 					}"
 				noDataText="{i18n>tableNoDataText}"
+				busyIndicatorDelay="{view>/tableBusyDelay}"
 				growing="true"
 				growingScrollToLoad="true"
-				enableBusyIndicator="false"
 				updateFinished="onUpdateFinished">
 				<headerToolbar>
 					<Toolbar>
-						<Label id="tableHeader" text="{controlStates>/worklistTableTitle}"/>
+						<Label id="tableHeader" text="{view>/worklistTableTitle}"/>
 					</Toolbar>
 				</headerToolbar>
 				<columns>

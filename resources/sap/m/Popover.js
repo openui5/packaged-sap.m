@@ -23,7 +23,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Button', './InstanceManager', '.
 	 * @implements sap.ui.core.PopupInterface
 	 *
 	 * @author SAP SE
-	 * @version 1.28.2
+	 * @version 1.28.3
 	 *
 	 * @constructor
 	 * @public
@@ -257,6 +257,10 @@ sap.ui.define(['jquery.sap.global', './Bar', './Button', './InstanceManager', '.
 		this._marginBottom = 10;
 
 		this._$window = jQuery(window);
+		this._initialWindowDimensions = {
+			width: this._$window.width(),
+			height: this._$window.height()
+		};
 
 		this.oPopup = new Popup();
 		this.oPopup.setShadow(true);
@@ -365,10 +369,12 @@ sap.ui.define(['jquery.sap.global', './Bar', './Button', './InstanceManager', '.
 			}
 
 			var oRect = jQuery(oPosition.of).rect();
-			// if openBy Dom element is complete out of viewport after resize event, close the popover.
-			if (bFromResize && (oRect.top + oRect.height <= 0 || oRect.top >= that._$window.height() || oRect.left + oRect.width <= 0 || oRect.left >= that._$window.width())) {
-				that.close();
-				return;
+			// if openBy Dom element is complete out of viewport after resize event, close the popover. But close it only if virtualkeyboard is not opened.
+			if (bFromResize
+				&& that._$window.height() == that._initialWindowDimensions.height
+				&& (oRect.top + oRect.height <= 0 || oRect.top >= that._$window.height() || oRect.left + oRect.width <= 0 || oRect.left >= that._$window.width())) {
+					that.close();
+					return;
 			}
 
 			// some mobile browser changes the scrollLeft of window after firing resize event
@@ -452,7 +458,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Button', './InstanceManager', '.
 					oNavContent.attachEvent("navigate", function(oEvent){
 						var oPage = oEvent.getParameter("to");
 						if (oPage instanceof sap.m.Page) {
-							this.$().toggleClass("sapMPopoverWithHeaderCont", oPage._getAnyHeader());
+							this.$().toggleClass("sapMPopoverWithHeaderCont", !!oPage._getAnyHeader());
 						}
 					}, this);
 				}

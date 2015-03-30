@@ -101,7 +101,7 @@ sap.ui.require([
 					theTitleShouldDisplayTheTotalAmountOfItems : function () {
 						var bRequestCompleted = false,
 							iObjectCount,
-							sUrl = jQuery.sap.getResourcePath("sap/ui/demo/worklist/test/service/Object", ".json");
+							sUrl = jQuery.sap.getResourcePath("sap/ui/demo/worklist/test/service/Objects", ".json");
 
 						jQuery.getJSON(sUrl, function( aObjects ) {
 							bRequestCompleted = true;
@@ -157,14 +157,17 @@ sap.ui.require([
 						});
 					},
 					
-					theWorkListViewsBusyIndicatorDelayIsZero : function () {
+					iShouldSeeTheWorklistTableBusyIndicator : function () {
 						return this.waitFor({
-							id : "page",
+							id : "table",
 							viewName : sViewName,
-							success : function (oPage) {
-								ok(oPage.getParent().getBusyIndicatorDelay() == 0, "The worklist view's busy indicator delay is zero.");
+							matchers : function (oTable) {
+								return new PropertyStrictEquals({name : "busy", value: true}).isMatching(oTable);
 							},
-							errorMessage : "The worklist view's busy indicator delay is not zero."
+							success : function () {
+								ok(true, "The worklist table is busy");
+							},
+							errorMessage : "The worklist table is not busy"
 						});
 					}
 

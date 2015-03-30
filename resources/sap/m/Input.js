@@ -22,7 +22,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 	 * @extends sap.m.InputBase
 	 *
 	 * @author SAP SE
-	 * @version 1.28.2
+	 * @version 1.28.3
 	 *
 	 * @constructor
 	 * @public
@@ -1389,7 +1389,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 						oInput._sCloseTimer = null;
 					}
 
-					if (!oPopup.isOpen() && !oInput._sOpenTimer) {
+					if (!oPopup.isOpen() && !oInput._sOpenTimer && (this.getValue().length >= this.getStartSuggestion())) {
 						oInput._sOpenTimer = setTimeout(function() {
 							oInput._resizePopup();
 							oInput._sOpenTimer = null;
@@ -1595,8 +1595,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 	};
 
 	Input.prototype.removeAggregation = function(sAggregationName, oObject, bSuppressInvalidate) {
-		this._callMethodInManagedObject("removeAggregation", sAggregationName, oObject, bSuppressInvalidate);
-		return this;
+		return this._callMethodInManagedObject("removeAggregation", sAggregationName, oObject, bSuppressInvalidate);
 	};
 
 	Input.prototype.removeAllAggregation = function(sAggregationName, bSuppressInvalidate) {

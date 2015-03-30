@@ -22,7 +22,7 @@ sap.ui.define(['jquery.sap.global', './Input', './Token', './library', 'sap/ui/c
 	 * @extends sap.m.Input
 	 *
 	 * @author SAP SE
-	 * @version 1.28.2
+	 * @version 1.28.3
 	 *
 	 * @constructor
 	 * @public
@@ -918,6 +918,7 @@ sap.ui.define(['jquery.sap.global', './Input', './Token', './library', 'sap/ui/c
 					this._tokenizerInPopup = this.cloneTokenizer(this._tokenizer);
 					this._setAllTokenVisible(this._tokenizerInPopup);
 					this._tokenizerInPopup._oScroller.setHorizontal(false);
+					this._tokenizerInPopup.addStyleClass("sapMTokenizerMultiLine");
 					
 					//add token when no suggestion item
 					if (this._oSuggestionTable.getItems().length === 0) {
