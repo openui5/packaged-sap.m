@@ -23,7 +23,7 @@ sap.ui.define(['jquery.sap.global', './BarInPageEnabler', './library', 'sap/ui/c
 	 * @implements sap.m.IBar
 	 *
 	 * @author SAP SE
-	 * @version 1.26.9
+	 * @version 1.26.10
 	 *
 	 * @constructor
 	 * @public

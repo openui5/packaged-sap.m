@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './MessageToast', './library
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.26.9
+	 * @version 1.26.10
 	 *
 	 * @constructor
 	 * @public
@@ -383,7 +383,7 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './MessageToast', './library
 					}
 				}
 			}
-			if (this.getItems() && this.getItems().length > 0 ) {
+			if (this.getItems()) {
 				this.aItems.length = 0;
 				this.aItems = this.getItems();
 				for (i = 0; i < aUploadingItems.length; i++ ) {

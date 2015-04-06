@@ -22,7 +22,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 	 * @extends sap.m.InputBase
 	 *
 	 * @author SAP SE
-	 * @version 1.26.9
+	 * @version 1.26.10
 	 *
 	 * @constructor
 	 * @public
@@ -1353,7 +1353,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 						oInput._sCloseTimer = null;
 					}
 
-					if (!oPopup.isOpen() && !oInput._sOpenTimer) {
+					if (!oPopup.isOpen() && !oInput._sOpenTimer && (this.getValue().length >= this.getStartSuggestion())) {
 						oInput._sOpenTimer = setTimeout(function() {
 							oInput._resizePopup();
 							oInput._sOpenTimer = null;

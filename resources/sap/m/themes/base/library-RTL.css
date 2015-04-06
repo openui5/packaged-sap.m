@@ -5816,7 +5816,7 @@ html[data-sap-ui-os^="iOS"].sapUiSizeCompact .sapMUC .sapMListShowSeparatorsNone
 /* CSS for control sap.m/ViewSettingsDialog.control */
 /* =============================================== */
 .sapMVSDUpperList {
-  border-bottom: 2px solid #808080;
+  border-bottom: 2px solid #000000;
 }
 .sapMVSD.sapMDialog .sapMDialogScrollCont {
   padding: 0;
