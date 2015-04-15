@@ -22,12 +22,13 @@ sap.ui.define(['jquery.sap.global', './Dialog', './Popover', './library', 'sap/u
 	 * @extends sap.ui.core.ActionSheet
 	 *
 	 * @author SAP SE
-	 * @version 1.28.3
+	 * @version 1.28.4
 	 *
 	 * @constructor
 	 * @private
 	 * @since 1.28
 	 * @alias sap.m.OverflowToolbarHelpers._OverflowToolbarAssociativeActionSheet
+	 * @ui5-metamodel This control/element also will be described in the UI5 (legacy) designtime metamodel
 	 */
 	var OverflowToolbarAssociativeActionSheet = ActionSheet.extend("sap.m._overflowToolbarHelpers.OverflowToolbarAssociativeActionSheet", /** @lends sap.m._overflowToolbarHelpers.OverflowToolbarAssociativeActionSheet.prototype */ {
 		metadata : {
@@ -126,7 +127,7 @@ sap.ui.define(['jquery.sap.global', './Dialog', './Popover', './library', 'sap/u
 			oButton.setProperty("type", sap.m.ButtonType.Transparent, true); // Do not invalidate
 		}
 		oButton.addStyleClass("sapMBtnInverted"); // dark background
-		
+
 		// If the button is of type sap.m.OverflowToolbarButton, tell it to start showing its text since it's in the overflow now
 		if (oButton.getMetadata().getName() === "sap.m.OverflowToolbarButton") {
 			oButton._bInOverflow = true;

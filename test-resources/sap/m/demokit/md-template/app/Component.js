@@ -1,20 +1,85 @@
+/*!
+ * ${copyright}
+ */
+
 sap.ui.define([
 		"sap/ui/core/UIComponent",
 		"sap/ui/model/resource/ResourceModel",
-		"sap/ui/demo/mdtemplate/model/Device",
-		"sap/ui/demo/mdtemplate/model/AppModel",
+		"sap/ui/demo/mdtemplate/model/models",
 		"sap/ui/demo/mdtemplate/controller/ListSelector",
 		"sap/ui/demo/mdtemplate/controller/BusyHandler",
 		"sap/ui/demo/mdtemplate/controller/ErrorHandler",
 		"sap/ui/demo/mdtemplate/model/formatter",
 		"sap/ui/demo/mdtemplate/model/grouper"
-	], function (UIComponent, ResourceModel, DeviceModel, AppModel, ListSelector, BusyHandler, ErrorHandler) {
+	], function (UIComponent, ResourceModel, models, ListSelector, BusyHandler, ErrorHandler) {
 	"use strict";
 
 	return UIComponent.extend("sap.ui.demo.mdtemplate.Component", {
 
 		metadata : {
-			manifest: "json"
+			"rootView": "sap.ui.demo.mdtemplate.view.App",
+			"dependencies": {
+				"minUI5Version": "1.28.0",
+				"libs": [ "sap.ui.core", "sap.m", "sap.ui.layout" ]
+			},
+
+			"config": {
+				"i18nBundle": "sap.ui.demo.mdtemplate.i18n.i18n",
+				"serviceUrl": "here/goes/your/serviceUrl/"
+			},
+
+			"routing": {
+				"config": {
+					"routerClass": "sap.m.routing.Router",
+					"viewType": "XML",
+					"viewPath": "sap.ui.demo.mdtemplate.view",
+					"controlId": "idAppControl",
+					"controlAggregation": "detailPages",
+					"bypassed": {
+						"target": ["master", "notFound"]
+					}
+				},
+				"routes": [
+					{
+						"pattern": "",
+						"name": "master",
+						"target": ["object", "master"]
+					},
+					{
+						"pattern": "object/{objectId}",
+						"name": "object",
+						"target": ["master", "object"]
+					}
+				],
+				"targets": {
+					"master": {
+						"viewName": "Master",
+						"viewLevel": 1,
+						"viewId": "master",
+						"controlAggregation": "masterPages"
+					},
+					"object": {
+						"viewName": "Detail",
+						"viewId": "detail",
+						"viewLevel": 2
+					},
+					"detailObjectNotFound": {
+						"viewName": "DetailObjectNotFound",
+						"viewId": "detailObjectNotFound",
+						"viewLevel": 3
+					},
+					"detailNoObjectsAvailable": {
+						"viewName": "DetailNoObjectsAvailable",
+						"viewId": "detailNoObjectsAvailable",
+						"viewLevel": 3
+					},
+					"notFound": {
+						"viewName": "NotFound",
+						"viewId": "notFound",
+						"viewLevel": 3
+					}
+				}
+			}
 		},
 
 		/**
@@ -24,10 +89,30 @@ sap.ui.define([
 		 * @override
 		 */
 		init : function () {
+			// set the app data model since the app controller needs it, we create this model very early
+			var oAppModel = models.createODataModel({
+				urlParametersForEveryRequest: [
+					"sap-server",
+					"sap-host",
+					"sap-host-http",
+					"sap-client",
+					"sap-language"
+				],
+				url : this.getMetadata().getConfig().serviceUrl,
+				config: {
+					metadataUrlParams: {
+						"sap-documentation": "heading"
+					}
+				}
+			});
+
+			this.setModel(oAppModel);
+			this._createMetadataPromise(oAppModel);
+
 			var mConfig = this.getMetadata().getConfig();
 
-			// call the base component's init function
-			UIComponent.prototype.init.apply(this, arguments);
+			// set the device model
+			this.setModel(models.createDeviceModel(), "device");
 
 			// set the internationalization model
 			this.setModel(new ResourceModel({
@@ -36,16 +121,17 @@ sap.ui.define([
 
 			this.oListSelector = new ListSelector();
 
-			// set the app data model
-			this.setModel(new AppModel(mConfig.serviceUrl));
-			this._createMetadataPromise(this.getModel());
-
 			this._oErrorHandler = new ErrorHandler(this);
+
+			// call the base component's init function and create the App view
+			UIComponent.prototype.init.apply(this, arguments);
+
+			var oRootControl = this.getAggregation("rootControl").addStyleClass(this.getCompactCozyClass());
+			this._oRootView = oRootControl;
+			
 			// initialize the busy handler with the component
 			this._oBusyHandler = new BusyHandler(this);
 
-			// set the device model
-			this.setModel(new DeviceModel(), "device");
 
 			// create the views based on the url/hash
 			this.getRouter().initialize();
@@ -63,18 +149,6 @@ sap.ui.define([
 			this._oErrorHandler.destroy();
 			// call the base component's destroy function
 			UIComponent.prototype.destroy.apply(this, arguments);
-		},
-
-		/**
-		 * In this method, the rootView is initialized and stored.
-		 * @public
-		 * @override
-		 */
-		createContent : function() {
-			// call the base component's createContent function
-			this._oRootView = UIComponent.prototype.createContent.apply(this, arguments);
-			this._oRootView.addStyleClass(this.getCompactCozyClass());
-			return this._oRootView;
 		},
 
 		/**

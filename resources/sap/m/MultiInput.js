@@ -22,7 +22,7 @@ sap.ui.define(['jquery.sap.global', './Input', './Token', './library', 'sap/ui/c
 	 * @extends sap.m.Input
 	 *
 	 * @author SAP SE
-	 * @version 1.28.3
+	 * @version 1.28.4
 	 *
 	 * @constructor
 	 * @public
@@ -913,8 +913,8 @@ sap.ui.define(['jquery.sap.global', './Input', './Token', './library', 'sap/ui/c
 					||  oEvent.target.className.indexOf("sapMToken") > -1 && oEvent.target.className.indexOf("sapMTokenIcon") < 0
 						||  oEvent.target.className.indexOf("sapMTokenText") > -1) {
 					
-					this._oSuggestionPopup.open();				
 					this.setValue("");
+					this._oSuggestionPopup.open();
 					this._tokenizerInPopup = this.cloneTokenizer(this._tokenizer);
 					this._setAllTokenVisible(this._tokenizerInPopup);
 					this._tokenizerInPopup._oScroller.setHorizontal(false);

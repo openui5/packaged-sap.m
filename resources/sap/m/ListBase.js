@@ -24,7 +24,7 @@ sap.ui.define(['jquery.sap.global', './GroupHeaderListItem', './library', 'sap/u
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.28.3
+	 * @version 1.28.4
 	 *
 	 * @constructor
 	 * @public
@@ -391,11 +391,8 @@ sap.ui.define(['jquery.sap.global', './GroupHeaderListItem', './library', 'sap/u
 	
 	ListBase.prototype.onBeforeRendering = function() {
 		this._bRendering = true;
-		this._aNavSections.length = 0;
-		if (this.hasOwnProperty("_$touchBlocker")) {
-			this._removeSwipeContent();	// remove the swipe content from screen immediately
-			delete this._$touchBlocker;	// delete touchBlocker to refresh
-		}
+		this._aNavSections = [];
+		this._removeSwipeContent();
 	};
 	
 	ListBase.prototype.onAfterRendering = function() {
@@ -1198,7 +1195,7 @@ sap.ui.define(['jquery.sap.global', './GroupHeaderListItem', './library', 'sap/u
 	 * @private
 	 */
 	ListBase.prototype._getTouchBlocker = function() {
-		return this._$touchBlocker || (this._$touchBlocker = this.$().children());
+		return this.$().children();
 	};
 	
 	ListBase.prototype._getSwipeContainer = function() {
@@ -1418,12 +1415,14 @@ sap.ui.define(['jquery.sap.global', './GroupHeaderListItem', './library', 'sap/u
 		this.toggleStyleClass("sapMListSwipable", !!oControl);
 	
 		// prevent list from re-rendering on setSwipeContent
-		return this.setAggregation("swipeContent", oControl, true);
+		return this.setAggregation("swipeContent", oControl, !this._isSwipeActive);
 	};
 	
 	ListBase.prototype.invalidate = function(oOrigin) {
 		if (oOrigin && oOrigin === this.getSwipeContent()) {
 			this._bRerenderSwipeContent = true;
+			this._isSwipeActive && this._renderSwipeContent();
+			return this;
 		}
 	
 		Control.prototype.invalidate.apply(this, arguments);

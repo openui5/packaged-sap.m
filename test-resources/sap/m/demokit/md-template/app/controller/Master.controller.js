@@ -1,3 +1,7 @@
+/*!
+ * ${copyright}
+ */
+
 sap.ui.define([
 		"sap/ui/demo/mdtemplate/controller/BaseController",
 		"sap/ui/model/json/JSONModel",
@@ -70,13 +74,20 @@ sap.ui.define([
 			// listLoading is done and the first item in the list is known
 			this.getRouter().getRoute("master").attachPatternMatched( function() {
 				oListSelector.oWhenListLoadingIsDone.then(
-					function () {
-						if (this._oList.getMode() !== "None") {
-								var sObjectId = this._oList.getItems()[0].getBindingContext().getProperty("ObjectID");
-								this.getRouter().navTo("object", {objectId : sObjectId}, true);
+					function (mParams) {
+						if (mParams.list.getMode() === "None") {
+							return;
 						}
+						var sObjectId = mParams.firstListitem.getBindingContext().getProperty("ObjectID");
+						this.getRouter().navTo("object", {objectId : sObjectId}, true);
+					}.bind(this),
+					function (mParams) {
+						if (mParams.error) {
+							return;
+						}
+						this.getRouter().getTargets().display("detailNoObjectsAvailable");
 					}.bind(this)
-				)
+				);
 			}, this);
 
 			this.getRouter().attachBypassed(this.onBypassed, this);
@@ -126,7 +137,7 @@ sap.ui.define([
 			if (sQuery && sQuery.length > 0) {
 				this._oListFilterState.aSearch  = [new Filter("Name", FilterOperator.Contains, sQuery)];
 			} else {
-				this._oListFilterState.aSearch  = [];
+				this._oListFilterState.aSearch = [];
 			}
 			this._applyFilterSearch();
 
@@ -162,11 +173,11 @@ sap.ui.define([
 		 */
 		onGroup : function (oEvent) {
 			var sKey = oEvent.getParameter("selectedItem").getKey(),
-				// TODO: make this better!
-				oGroups = {
-					Group1 : "UnitNumber",
-					Group2 : "Name"
-				};
+			// In order to add additional Grouping functions you can add them here and
+			// additional grouping functions in the grouper.js File
+			oGroups = {
+				Group1 : "UnitNumber"
+			};
 
 			if (sKey !== "None") {
 				this._oListSorterState.aGroup = [new Sorter(oGroups[sKey], false,
@@ -187,9 +198,9 @@ sap.ui.define([
 		 * @param {sap.ui.base.Event} oEvent the press event
 		 * @public
 		 */
-		onOpenViewSettings : function (oEvent) {
+		onOpenViewSettings : function () {
 			if (!this.oViewSettingsDialog) {
-				this.oViewSettingsDialog = sap.ui.xmlfragment("sap.ui.demo.mdtemplate.view.ViewSettingsDialog" , this);
+				this.oViewSettingsDialog = sap.ui.xmlfragment("sap.ui.demo.mdtemplate.view.ViewSettingsDialog", this);
 				this.getView().addDependent(this.oViewSettingsDialog);
 				// forward compact style into Dialog
 				jQuery.sap.syncStyleClass(this.getOwnerComponent().getCompactCozyClass(), this.getView(), this.oViewSettingsDialog);
@@ -216,12 +227,14 @@ sap.ui.define([
 			// combine the filter array and the filter string
 			aFilterItems.forEach(function (oItem) {
 				switch (oItem.getKey()) {
-				case "Filter1":
-					aFilters.push(new Filter("UnitNumber", FilterOperator.LE, 100));
-					break;
-				case "Filter2":
-					aFilters.push(new Filter("UnitNumber", FilterOperator.GT, 100));
-					break;
+					case "Filter1":
+						aFilters.push(new Filter("UnitNumber", FilterOperator.LE, 100));
+						break;
+					case "Filter2":
+						aFilters.push(new Filter("UnitNumber", FilterOperator.GT, 100));
+						break;
+					default:
+						break;
 				}
 				aCaptions.push(oItem.getText());
 			});
@@ -249,7 +262,7 @@ sap.ui.define([
 		 * @param {sap.ui.base.Event} oEvent the bypassed event
 		 * @public
 		 */
-		onBypassed : function (oEvent) {
+		onBypassed : function () {
 			this._oList.removeSelections(true);
 		},
 
@@ -258,8 +271,9 @@ sap.ui.define([
 		 * These headers are inserted into the master list to
 		 * group the master list's items.
 		 *
-		 * @param {Object} oGroup group whose
+		 * @param {Object} oGroup group whose text is to be displayed
 		 * @public
+		 * @returns {sap.m.GroupHeaderListItem} group header with non-capitalized caption.
 		 */
 		createGroupHeader: function (oGroup) {
 			return new GroupHeaderListItem( {
@@ -287,13 +301,13 @@ sap.ui.define([
 
 		/**
 		 * Sets the item count on the master list header
-		 * @param {integer} iTotalItems the total number of items in the list
+		 * @param {integer} iTotalItems total number of items in the list
 		 * @private
 		 */
 		_updateListItemCount : function (iTotalItems) {
 			var sTitle;
 			// only update the counter if the length is final
-			if (this._oList.getBinding('items').isLengthFinal() && iTotalItems) {
+			if (this._oList.getBinding("items").isLengthFinal() && iTotalItems) {
 				sTitle = this.getResourceBundle().getText("masterTitleCount", [iTotalItems]);
 			} else {
 				//Display 'Objects' instead of 'Objects (0)'

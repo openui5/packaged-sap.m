@@ -1112,7 +1112,6 @@ html[dir=rtl].sap-phone .sapMFeedListItemTextName {
 }
 .sapMFeedListItemTitleDiv.sapMLIB {
   display: -webkit-box;
-  display: block;
   -webkit-box-orient: horizontal;
   -webkit-box-align: center;
   /*	-ms-flex-direction: row; */
@@ -1129,9 +1128,10 @@ html[data-sap-ui-browser="ie9"] .sapMFeedListItemTitleDiv {
 .sapMFeedListItemTitleDiv .sapMLIBContent {
   -webkit-box-flex: 1;
   -moz-box-flex: 1;
-  /*	-ms-flex: auto; */
+  -ms-flex: auto;
   flex: auto;
   overflow: hidden;
+  -ms-flex-negative: 1;
 }
 /* phone adoption */
 .sap-phone .sapMFeedListItemHeader {
@@ -2810,7 +2810,7 @@ div[class*='sapMOHRStatesCont'] > div:last-child {
 .sapMOHR .sapMITBHead {
   display: block;
   font-size: 0.75rem;
-  margin: 0 2rem 0;
+  margin: 0 1.25rem 0;
   overflow: hidden;
   position: relative;
   white-space: nowrap;

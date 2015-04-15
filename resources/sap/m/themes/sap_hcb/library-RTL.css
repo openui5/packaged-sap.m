@@ -1117,7 +1117,6 @@ html[dir=rtl].sap-phone .sapMFeedListItemTextName {
 }
 .sapMFeedListItemTitleDiv.sapMLIB {
   display: -webkit-box;
-  display: block;
   -webkit-box-orient: horizontal;
   -webkit-box-align: center;
   /*	-ms-flex-direction: row; */
@@ -1134,9 +1133,10 @@ html[data-sap-ui-browser="ie9"] .sapMFeedListItemTitleDiv {
 .sapMFeedListItemTitleDiv .sapMLIBContent {
   -webkit-box-flex: 1;
   -moz-box-flex: 1;
-  /*	-ms-flex: auto; */
+  -ms-flex: auto;
   flex: auto;
   overflow: hidden;
+  -ms-flex-negative: 1;
 }
 /* phone adoption */
 .sap-phone .sapMFeedListItemHeader {
@@ -2815,7 +2815,7 @@ div[class*='sapMOHRStatesCont'] > div:last-child {
 .sapMOHR .sapMITBHead {
   display: block;
   font-size: 0.75rem;
-  margin: 0 2rem 0;
+  margin: 0 1.25rem 0;
   overflow: hidden;
   position: relative;
   white-space: nowrap;
@@ -8679,7 +8679,7 @@ li.sapMLIB.sapMFeedListItemTitleDiv.sapMLIBNoFlex > .sapMLIBContent > .sapMLIBCo
 /* Head Container */
 .sapMITBHead {
   display: block;
-  margin: 1rem 2rem 0 2rem;
+  margin: 1rem 1.25rem 0 1.25rem;
   padding: 0.125rem 0.125rem 0 0.125rem;
   white-space: nowrap;
   font-size: 0.75rem;
@@ -8701,7 +8701,7 @@ html[data-sap-ui-os=win8] .sapMITBHead {
   display: block;
   /* the same padding as on the sapMITBHead is needed
 	to correct the scrolling calculations*/
-  padding: 1px 1px 0 1px;
+  padding: 0.125rem 0.125rem 0 0.125rem;
   margin-left: 1rem;
   margin-right: 1rem;
 }
@@ -8710,8 +8710,8 @@ html[data-sap-ui-os=win8] .sapMITBHead {
 }
 .sap-tablet .sapMITBScrollContainer,
 html[data-sap-ui-os=win8] .sapMITBScrollContainer {
-  margin-left: 2rem;
-  margin-right: 2rem;
+  margin-left: 1.25rem;
+  margin-right: 1.25rem;
 }
 /* scrollbar from iscroll should not be visible */
 .sapMITBScrollContainer > div:nth-child(2) {
@@ -8818,19 +8818,27 @@ html[dir=rtl] .sapMITBTextOnly .sapMITBTab {
   margin: 0 1rem;
 }
 .sapMITBTextOnly .sapMITBFilter:first-child {
-  padding: 0 1px 0 0;
+  padding: 0;
   margin: 0 0.5rem 0 1rem;
 }
 .sapMITBTextOnly .sapMITBFilter:last-child {
-  padding: 0 0 0 1px;
+  padding: 0;
   margin: 0 1rem 0 0.5rem;
-}
-.sap-phone .sapMITBTextOnly .sapMITBFilter {
-  padding: 0 0.75rem;
-  margin: 0 1rem;
 }
 .sap-phone .sapMITBFilter {
   margin: 0 0.125rem;
+}
+.sap-phone .sapMITBTextOnly .sapMITBFilter {
+  padding: 0 0.75rem;
+  margin: 0 0.125rem;
+}
+.sap-phone .sapMITBTextOnly .sapMITBFilter:first-child {
+  padding: 0 0 0 0.75rem;
+  margin: 0 0 0 0.125rem;
+}
+.sap-phone .sapMITBTextOnly .sapMITBFilter:last-child {
+  padding: 0 0.75rem 0 0;
+  margin: 0 0.125rem 0 0;
 }
 .sapMITBNoText .sapMITBFilter > .sapMITBTab {
   width: 3rem;
@@ -9028,7 +9036,7 @@ html[data-sap-ui-os=win8] .sapMITBNoText .sapMITBFilter:last-child {
   padding-right: 0;
 }
 .sapMITBAll:first-Child {
-  margin-right: 0;
+  margin-right: 0.75rem;
 }
 .sapMITBAll .sapMITBText {
   color: #ffffff;
@@ -9700,7 +9708,6 @@ html[data-sap-ui-browser^="cr"] .sapMInputBaseInner::selection {
 }
 /* Transparent Toolbar Context*/
 .sapMTB-Transparent-CTX .sapMLabel {
-  margin-left: 1rem;
   font-weight: normal;
   font-size: 1rem;
 }
@@ -11900,6 +11907,10 @@ html[dir=rtl][data-sap-ui-browser='ie9'] .sapMPopoverFooterAlignArr.sapMPopoverA
   white-space: nowrap;
   text-overflow: ellipsis;
 }
+.sapMPullDownNontouch:focus {
+  outline: 0.125rem dotted #ffffff;
+  outline-offset: -0.125rem;
+}
 .sapMPullDownTouch {
   min-height: 3rem;
   border-bottom: 0.0625rem solid #ffffff;
@@ -13990,7 +14001,6 @@ html[data-sap-ui-browser^="ie"] .sapMListTbl {
 }
 /* Transparent Toolbar Context*/
 .sapMTB-Transparent-CTX .sapMText {
-  margin-left: 1rem;
   font-size: 1rem;
 }
 /* Compact size */
@@ -14142,9 +14152,6 @@ html[data-sap-ui-browser^="ie"] .sapMListTbl {
 /* =================================================== */
 .sapMTitleStyleAuto {
   font-size: 1rem;
-}
-.sapMTB-Transparent-CTX .sapMTitle {
-  margin-left: 1rem;
 }
 .sapMTB-Transparent-CTX > .sapMTitleTB.sapMTitleStyleAuto {
   font-size: 1.125rem;

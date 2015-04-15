@@ -1,11 +1,10 @@
 sap.ui.define([
-		'sap/ui/test/Opa5',
-		'sap/ui/test/matchers/PropertyStrictEquals'
+		"sap/ui/test/Opa5"
 	],
-	function(Opa5, PropertyStrictEquals) {
+	function(Opa5) {
 	"use strict";
 
-	function getFrameUrl (sHash,  sUrlParameters) {
+	function getFrameUrl (sHash, sUrlParameters) {
 		sHash = sHash || "";
 		var sUrl = jQuery.sap.getResourcePath("sap/ui/demo/app/test", ".html");
 
@@ -31,6 +30,10 @@ sap.ui.define([
 
 		iLookAtTheScreen : function () {
 			return this;
+		},
+
+		iStartMyAppOnADesktopToTestErrorHandler : function (sParam) {
+			this.iStartMyAppInAFrame(getFrameUrl("", sParam));
 		}
 
 	});

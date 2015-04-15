@@ -1,16 +1,79 @@
+/*!
+ * ${copyright}
+ */
+
 sap.ui.define([
 		"sap/ui/core/UIComponent",
 		"sap/ui/model/resource/ResourceModel",
 		"sap/ui/demo/worklist/model/models",
+		"sap/ui/Device",
 		"sap/ui/demo/worklist/controller/ErrorHandler",
+		"jquery.sap.global",
 		"sap/ui/demo/worklist/model/formatter"
-	], function (UIComponent, ResourceModel, models, ErrorHandler) {
+	], function (UIComponent, ResourceModel, models, Device, ErrorHandler, jQuery) {
 	"use strict";
 
 	return UIComponent.extend("sap.ui.demo.worklist.Component", {
 
 		metadata : {
-			manifest: "json"
+			"rootView": "sap.ui.demo.worklist.view.App",
+			"dependencies": {
+				"minUI5Version": "1.28.0",
+				"libs": [ "sap.ui.core", "sap.m", "sap.ui.layout" ]
+			},
+
+			"config": {
+				"i18nBundle": "sap.ui.demo.worklist.i18n.i18n",
+				"serviceUrl": "here/goes/your/serviceUrl/"
+			},
+
+			"routing": {
+				"config": {
+					"routerClass": "sap.m.routing.Router",
+					"viewType": "XML",
+					"viewPath": "sap.ui.demo.worklist.view",
+					"controlId": "app",
+					"controlAggregation": "pages",
+					"bypassed": {
+						"target": "notFound"
+					}
+				},
+
+				"routes": [
+					{
+						"pattern": "",
+						"name": "worklist",
+						"target": "worklist"
+					},
+					{
+						"pattern": "object/{objectId}",
+						"name": "object",
+						"target": "object"
+					}
+				],
+
+				"targets": {
+					"worklist": {
+						"viewName": "Worklist",
+						"viewId": "worklist",
+						"viewLevel": 1
+					},
+					"object": {
+						"viewName": "Object",
+						"viewId": "object",
+						"viewLevel": 2
+					},
+					"objectNotFound": {
+						"viewName": "ObjectNotFound",
+						"viewId": "objectNotFound",
+						"viewLevel": 2
+					},
+					"notFound": {
+						"viewName": "NotFound",
+						"viewId": "notFound"
+					}
+				}
+			}
 		},
 
 		/**
@@ -79,7 +142,7 @@ sap.ui.define([
 		 */
 		getCompactCozyClass : function() { // in 1.28 "Cozy" mode class does not exist yet, but keep the method name in sync with 1.30
 			if (!this._sCompactCozyClass) {
-				if (!sap.ui.Device.support.touch) { // apply compact mode if touch is not supported; this could me made configurable for the user on "combi" devices with touch AND mouse
+				if (!Device.support.touch) { // apply compact mode if touch is not supported; this could me made configurable for the user on "combi" devices with touch AND mouse
 					this._sCompactCozyClass = "sapUiSizeCompact";
 				}
 			}

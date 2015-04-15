@@ -23,12 +23,13 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		 *		- The application is loading
 		 *	The layout is unchanged but the text varies depending on the use case.
 		 * @extends sap.ui.core.Control
-		 * @version 1.28.3
+		 * @version 1.28.4
 		 *
 		 * @constructor
 		 * @public
 		 * @since 1.28
 		 * @alias sap.m.MessagePage
+		 * @ui5-metamodel This control/element also will be described in the UI5 (legacy) designtime metamodel
 		 */
 		var MessagePage = Control.extend("sap.m.MessagePage", /** @lends sap.m.MessagePage.prototype */ { metadata : {
 
@@ -79,7 +80,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 				/**
 				 * A Page control which is managed internally by the MessagePage control
 				 */
-				_page : {type : "sap.m.Page", multiple : false/*, visibility : "hidden"*/}
+				_page : {type : "sap.m.Page", multiple : false, visibility : "hidden"}
 			},
 			associations : {
 

@@ -1,8 +1,13 @@
+/*!
+ * ${copyright}
+ */
+
 sap.ui.define([
 		"sap/ui/demo/mdtemplate/controller/BaseController",
 		"sap/ui/model/json/JSONModel",
-		"sap/ui/Device"
-	], function (BaseController, JSONModel, Device) {
+		"sap/ui/Device",
+		"sap/ui/demo/mdtemplate/model/promise"
+	], function (BaseController, JSONModel, Device, promise) {
 	"use strict";
 
 	return BaseController.extend("sap.ui.demo.mdtemplate.controller.Detail", {
@@ -15,7 +20,7 @@ sap.ui.define([
 			this.getRouter().getRoute("object").attachPatternMatched(this._onObjectMatched, this);
 			this._oLineItemsList = this.byId("lineItemsList");
 
-			// When there is a list displayed, bind to the first item.
+			// Set the view unbusy if master route was hit despite the error or not.
 			if (!Device.system.phone) {
 				this.getRouter().getRoute("master").attachPatternMatched(this._onMasterMatched, this);
 			}
@@ -27,8 +32,7 @@ sap.ui.define([
 
 			// Set the detail page busy after the metadata has been loaded successfully
 			this.getOwnerComponent().oWhenMetadataIsLoaded.then(function () {
-					this.getView().setBusyIndicatorDelay(0);
-					this.getView().setBusy(true);
+					this._setViewBusy(true);
 				}.bind(this)
 			);
 
@@ -43,62 +47,27 @@ sap.ui.define([
 		/* event handlers                                              */
 		/* =========================================================== */
 
-		/**
-		 * Triggered when an item of the line item table in the detail view is selected.
-		 * Collects the needed information ProductID and OrderID for navigation.
-		 * Navigation to the corresponding line item is triggered.
-		 *
-		 * @param oEvent listItem selection event
-		 * @function
-		 */
-		onSelect : function (oEvent) {
-			//We need the 'ObjectID' and 'LineItemID' of the
-			//selected LineItem to navigate to the corresponding
-			//line item view. Here's how this information is extracted:
-			var oContext = oEvent.getSource().getBindingContext();
-
-			jQuery.sap.log.debug(oContext.getProperty("LineItemID") + "' was pressed");
-			this.getRouter().navTo("lineItem", {objectId : oContext.getProperty("ObjectID"),
-				lineItemId: oContext.getProperty("LineItemID")});
-		},
-
 		/* =========================================================== */
 		/* begin: internal methods                                     */
 		/* =========================================================== */
 
 		/**
-		 * This function makes sure that the details of the first item in
-		 * in the master list are displayed when the app is started with
-		 * the 'default' URL, i.e. a URL that does not deep link to a specific
-		 * object or object and line item.
 		 *
-		 * This 'default' URL is then matched to the 'master' route which triggers
-		 * this function to be called. Herein, the ListSelector is used to wait
-		 * for the master list to be loaded. After that, the binding context path to
-		 * the first master list item is returned, which can finally be bound to
-		 * the detail view.
-		 *
-		 * This is only necessary once though, because the master list does not fire
-		 * a 'select' event when it selects its first item initially. Afterwards, the
-		 * master controller's 'select' handler takes care of keeping the objects to be
-		 * displayed in the detail view up to date.
-		 *
-		 * If the list has no entries, the app displays a 'No Items' view instead of
-		 * the detail view.
+		 * In case there is an error we still have to set the Detail View unbusy
 		 *
 		 * @function
-		 * @param oEvent pattern match event in route 'master'
 		 * @private
 		 */
 		_onMasterMatched : function () {
-			this.getOwnerComponent().oListSelector.oWhenListLoadingIsDone.then(function (mParams) {
-				if (mParams.path) {
-					this._bindView(mParams.path);
-				}
-			}.bind(this),
-			function () {
-				this.getRouter().getTargets().display("detailNoObjectsAvailable");
-			}.bind(this));
+
+			this.getOwnerComponent().oListSelector.oWhenListLoadingIsDone.catch(
+				function (mParams) {
+					// only in case there is an error we have to set the view unbusy
+					if (mParams.error) {
+						this._setViewBusy(false);
+					}
+				}.bind(this)
+			);
 		},
 
 
@@ -106,7 +75,7 @@ sap.ui.define([
 		 * Binds the view to the object path and expands the aggregated line items.
 		 *
 		 * @function
-		 * @param oEvent pattern match event in route 'object'
+		 * @param {sap.ui.base.Event} oEvent pattern match event in route 'object'
 		 * @private
 		 */
 		_onObjectMatched : function (oEvent) {
@@ -124,15 +93,13 @@ sap.ui.define([
 		_bindView : function (sObjectPath) {
 			var oView = this.getView().bindElement(sObjectPath, {expand : "LineItems"});
 
-			this.getModel().whenThereIsDataForTheElementBinding(oView.getElementBinding()).then(
+			promise.whenThereIsDataForTheElementBinding(oView.getElementBinding()).then(
 				function (sPath) {
-					this.getView().setBusyIndicatorDelay(null);
-					this.getView().setBusy(false);
+					this._setViewBusy(false);
 					this.getOwnerComponent().oListSelector.selectAListItem(sPath);
 				}.bind(this),
 				function () {
-					this.getView().setBusyIndicatorDelay(null);
-					this.getView().setBusy(false);
+					this._setViewBusy(false);
 					this.getRouter().getTargets().display("detailObjectNotFound");
 					// if object could not be found, the selection in the master list
 					// does not make sense anymore.
@@ -150,7 +117,7 @@ sap.ui.define([
 		_updateListItemCount : function (iTotalItems) {
 			var sTitle;
 			// only update the counter if the length is final
-			if (this._oLineItemsList.getBinding('items').isLengthFinal()) {
+			if (this._oLineItemsList.getBinding("items").isLengthFinal()) {
 				if (iTotalItems) {
 					sTitle = this.getResourceBundle().getText("detailLineItemTableHeadingCount", [iTotalItems]);
 				} else {
@@ -158,6 +125,20 @@ sap.ui.define([
 					sTitle = this.getResourceBundle().getText("detailLineItemTableHeading");
 				}
 				this._oViewModel.setProperty("/lineItemListTitle", sTitle);
+			}
+		},
+
+		/**
+		 * Convenience function to set the view Busy
+		 * @private
+		 */
+		_setViewBusy : function (bBusy) {
+			var oView = this.getView();
+			oView.setBusy(bBusy);
+			if (bBusy){
+				oView.setBusyIndicatorDelay(0);
+			} else {
+				oView.setBusyIndicatorDelay(null);
 			}
 		}
 	});

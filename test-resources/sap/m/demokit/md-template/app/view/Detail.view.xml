@@ -3,30 +3,36 @@
 	xmlns="sap.m"
 	xmlns:mvc="sap.ui.core.mvc">
 	<Page
-		id="detailPage"
+		id="page"
 		navButtonPress="onNavBack"
-		showNavButton="{device>/isPhone}"
+		showNavButton="{device>/system/phone}"
 		title="{i18n>detailTitle}">
 		<content>
 			<ObjectHeader
+				id="objectHeader"
 				title="{Name}"
 				number="{UnitNumber}"
 				numberUnit="{UnitOfMeasure}">
 			</ObjectHeader>
 			<IconTabBar
+				id="iconTabBar"
 				class="sapUiResponsiveContentPadding">
 				<items>
 					<IconTabFilter
-						icon="sap-icon://hint">
+						id="iconTabBarFilter1"
+						icon="sap-icon://hint"
+						tooltip="{i18n>detailIconTabBarInfo}">
 					</IconTabFilter>
 					<IconTabFilter
-						icon="sap-icon://attachment">
+						id="iconTabBarFilter2"
+						icon="sap-icon://attachment"
+						tooltip="{i18n>detailIconTabBarAttachments}">
 					</IconTabFilter>
 				</items>
 			</IconTabBar>
 			<Table id="lineItemsList" width="auto" items="{LineItems}" noDataText="{i18n>detailLineItemTableNoDataText}" class="sapUiResponsiveMargin">
 				<headerToolbar>
-					<Toolbar>
+					<Toolbar id="lineItemsToolbar">
 						<Label id="lineItemsHeader" text="{view>/lineItemListTitle}"/>
 					</Toolbar>
 				</headerToolbar>
@@ -42,7 +48,7 @@
 					</Column>
 				</columns>
 				<items>
-					<ColumnListItem type="Navigation" press="onSelect">
+					<ColumnListItem>
 						<cells>
 							<ObjectIdentifier
 								title="{Name}"
@@ -57,7 +63,7 @@
 			</Table>
 		</content>
 		<footer>
-			<Toolbar>
+			<Toolbar id="footerToolbar">
 			</Toolbar>
 		</footer>
 	</Page>

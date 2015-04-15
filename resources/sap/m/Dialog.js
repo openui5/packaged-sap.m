@@ -24,7 +24,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './InstanceManager', './Toolbar', '
 	 * @implements sap.ui.core.PopupInterface
 	 *
 	 * @author SAP SE
-	 * @version 1.28.3
+	 * @version 1.28.4
 	 *
 	 * @constructor
 	 * @public
@@ -431,6 +431,11 @@ sap.ui.define(['jquery.sap.global', './Bar', './InstanceManager', './Toolbar', '
 	 */
 	Dialog.prototype.open = function(){
 		var oPopup = this.oPopup;
+		// Set the initial focus to the dialog itself.
+		// The initial focus should be set because otherwise the first focusable element will be focused.
+		// This first element can be input or textarea which will trigger the keyboard to open.
+		// The focus will be change after the dialog is opened;
+		oPopup.setInitialFocusId(this.getId());
 
 		if (oPopup.isOpen()) {
 			return this;
@@ -554,7 +559,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './InstanceManager', './Toolbar', '
 			bOpenedCalled = false,
 			fnEnd;
 
-		if (sap.ui.Device.browser.internet_explorer && sap.ui.Device.browser.version < 10) {
+		if ((sap.ui.Device.browser.internet_explorer && sap.ui.Device.browser.version < 10) || sap.ui.Device.os.ios) {
 			$Ref.fadeIn(200, fnOpened);
 		} else {
 			fnEnd = function(){
