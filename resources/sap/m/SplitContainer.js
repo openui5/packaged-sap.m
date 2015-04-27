@@ -22,7 +22,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * 
 	 * This control must be rendered as a full screen control in order to make the show/hide master area work properly.
 	 * @extends sap.ui.core.Control
-	 * @version 1.28.4
+	 * @version 1.28.5
 	 *
 	 * @constructor
 	 * @public
@@ -135,6 +135,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 			 * This event can be aborted by the application with preventDefault(), which means that there will be no navigation.
 			 */
 			masterNavigate : {
+				allowPreventDefault : true,
 				parameters : {
 	
 					/**
@@ -279,6 +280,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 			 * This event can be aborted by the application with preventDefault(), which means that there will be no navigation.
 			 */
 			detailNavigate : {
+				allowPreventDefault : true,
 				parameters : {
 	
 					/**
@@ -1487,6 +1489,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 				this.$().toggleClass("sapMSplitContainerStretchCompress", false);
 				this.$().toggleClass("sapMSplitContainerShowHide", false);
 				this.$().toggleClass("sapMSplitContainerHideMode", true);
+				this.$().toggleClass("sapMSplitContainerMasterHidden", true);
 				this._setMasterButton(this._oDetailNav.getCurrentPage());
 				if (this._isMie9) {
 					this._oMasterNav.$().css({
@@ -1575,10 +1578,14 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	
 	
 	SplitContainer.prototype._handleNavigationEvent = function(oEvent, bAfter, bMaster){
-		var sEventName = (bAfter ? "After" : "") + (bMaster ? "Master" : "Detail") + "Navigate";
+		var sEventName = (bAfter ? "After" : "") + (bMaster ? "Master" : "Detail") + "Navigate",
+			bContinue;
 		sEventName = sEventName.charAt(0).toLowerCase() + sEventName.slice(1);
 		
-		this.fireEvent(sEventName, oEvent.mParameters);
+		bContinue = this.fireEvent(sEventName, oEvent.mParameters, true);
+		if (!bContinue) {
+			oEvent.preventDefault();
+		}
 	};
 	
 	SplitContainer.prototype._handleResize = function() {

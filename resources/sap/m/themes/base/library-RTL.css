@@ -569,31 +569,9 @@ html[dir=rtl][data-sap-ui-browser^="ie"] .sapMCrslInner {
 .sapMDP > .sapMInputBaseInner {
   padding-left: 2.5rem;
 }
-.sapMDP > .sapUiIcon,
-.sapMDP.sapMInputIE9 > .sapUiIcon {
-  /* override .sapMIcon display */
-  height: 2.5rem;
-  width: 2.5rem;
-  line-height: 2.5rem;
-  position: absolute;
-  left: 0;
-  top: 0.25rem;
-  cursor: pointer;
-}
 /* Compact size */
 .sapUiSizeCompact .sapMDP > .sapMInputBaseInner {
   padding-left: 1.625rem;
-}
-.sapUiSizeCompact .sapMDP > .sapUiIcon,
-.sapUiSizeCompact .sapMDP.sapMInputIE9 > .sapUiIcon {
-  height: 1.5rem;
-  width: 2rem;
-  line-height: 1.5rem;
-}
-/* Condensed size */
-.sapUiSizeCondensed .sapMDP > .sapUiIcon,
-.sapUiSizeCondensed .sapMDP.sapMInputIE9 > .sapUiIcon {
-  top: 0;
 }
 /* ============================================= */
 /* CSS for control sap.m/DateRangeSelection.control */
@@ -5547,6 +5525,21 @@ html[dir=rtl] .sapMTC .sapMTCEdgeRight {
   height: 1.625rem;
   display: inline-block;
 }
+.sapMTokenTruncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  position: relative;
+}
+.sapMTokenTruncate > .sapMTokenIcon {
+  position: absolute;
+  left: 0rem;
+}
+.sapMTokenTruncate > .sapMTokenText {
+  line-height: 1.625rem;
+  display: inline-block;
+  width: calc(100% - 2rem);
+}
 .sap-phone .sapMTokenizerMultiLine {
   padding-right: 1rem;
   padding-left: 1rem;
@@ -5568,6 +5561,10 @@ html[dir=rtl] .sapMTC .sapMTCEdgeRight {
 }
 .sapUiSizeCompact .sapMMultiInputMultiModeBorder .sapMTokenizer .sapMToken {
   margin-bottom: -0.125rem;
+}
+.sapUiSizeCompact .sapMTokenTruncate > .sapMTokenText {
+  line-height: 1.25rem;
+  width: calc(100% - 1.25rem);
 }
 .sapMTokenizer:focus {
   outline: none;
@@ -5774,7 +5771,6 @@ html[dir=rtl] .sapMTC .sapMTCEdgeRight {
   margin-right: 0.125rem;
 }
 .sapMUCText {
-  height: 3rem;
   -webkit-box-flex: 10;
   /* OLD - iOS 6-, Safari 3.1-6 */
   -webkit-flex: 10;

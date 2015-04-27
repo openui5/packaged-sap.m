@@ -26,7 +26,7 @@ sap.ui.define(['jquery.sap.global', './ListItemBase', './library'],
 	 * @extends sap.m.ListItemBase
 	 *
 	 * @author SAP SE
-	 * @version 1.28.4
+	 * @version 1.28.5
 	 *
 	 * @constructor
 	 * @public
@@ -77,6 +77,11 @@ sap.ui.define(['jquery.sap.global', './ListItemBase', './library'],
 	GroupHeaderListItem.prototype.getTable = function() {
 		var oParent = this.getParent();
 		if (oParent instanceof sap.m.Table) {
+			return oParent;
+		}
+		
+		// support old list with columns aggregation
+		if (oParent && oParent.getMetadata().getName() == "sap.m.Table") {
 			return oParent;
 		}
 	};

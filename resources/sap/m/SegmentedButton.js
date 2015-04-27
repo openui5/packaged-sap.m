@@ -22,7 +22,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.28.4
+	 * @version 1.28.5
 	 *
 	 * @constructor
 	 * @public
@@ -496,11 +496,9 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		SegmentedButton.prototype.addButton = function (oButton) {
 			if (oButton) {
 				processButton(oButton, this);
-
 				this.addAggregation('buttons', oButton);
 				return this;
 			}
-
 		};
 
 		SegmentedButton.prototype.insertButton = function (oButton, iIndex) {
@@ -509,7 +507,6 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 				this.insertAggregation('buttons', oButton, iIndex);
 				return this;
 			}
-
 		};
 
 		function processButton(oButton, oParent){
@@ -579,6 +576,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		if (aItems.length > 0) {
 			for (; i < aButtons.length; i++) {
 				if (aButtons[i] && aButtons[i].getId() === sSelectedButtonId) {
+					this.setProperty("selectedKey", aItems[i].getKey(), true);
 					return aItems[i].getKey();
 				}
 			}
@@ -603,17 +601,14 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		}
 
 		if (aItems.length > 0 && aButtons.length > 0) {
-
 			for (; i < aItems.length; i++) {
 				if (aItems[i] && aItems[i].getKey() === sKey) {
 					this.setSelectedButton(aButtons[i]);
 					break;
 				}
 			}
-
 		}
-
-		this.setProperty("selectedKey", sKey);
+		this.setProperty("selectedKey", sKey, true);
 	};
 
 
@@ -654,6 +649,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 			oButtonPressed.$().attr("aria-checked", true);
 
 			this.setAssociation('selectedButton', oButtonPressed, true);
+			this.setProperty("selectedKey", this.getSelectedKey(), true);
 			this.fireSelect({
 				button: oButtonPressed,
 				id: oButtonPressed.getId(),

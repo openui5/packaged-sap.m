@@ -574,31 +574,9 @@ html[dir=rtl][data-sap-ui-browser^="ie"] .sapMCrslInner {
 .sapMDP > .sapMInputBaseInner {
   padding-right: 2.5rem;
 }
-.sapMDP > .sapUiIcon,
-.sapMDP.sapMInputIE9 > .sapUiIcon {
-  /* override .sapMIcon display */
-  height: 2.5rem;
-  width: 2.5rem;
-  line-height: 2.5rem;
-  position: absolute;
-  right: 0;
-  top: 0.25rem;
-  cursor: pointer;
-}
 /* Compact size */
 .sapUiSizeCompact .sapMDP > .sapMInputBaseInner {
   padding-right: 1.625rem;
-}
-.sapUiSizeCompact .sapMDP > .sapUiIcon,
-.sapUiSizeCompact .sapMDP.sapMInputIE9 > .sapUiIcon {
-  height: 1.5rem;
-  width: 2rem;
-  line-height: 1.5rem;
-}
-/* Condensed size */
-.sapUiSizeCondensed .sapMDP > .sapUiIcon,
-.sapUiSizeCondensed .sapMDP.sapMInputIE9 > .sapUiIcon {
-  top: 0;
 }
 /* ============================================= */
 /* CSS for control sap.m/DateRangeSelection.control */
@@ -5552,6 +5530,21 @@ html[dir=rtl] .sapMTC .sapMTCEdgeRight {
   height: 1.625rem;
   display: inline-block;
 }
+.sapMTokenTruncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  position: relative;
+}
+.sapMTokenTruncate > .sapMTokenIcon {
+  position: absolute;
+  right: 0rem;
+}
+.sapMTokenTruncate > .sapMTokenText {
+  line-height: 1.625rem;
+  display: inline-block;
+  width: calc(100% - 2rem);
+}
 .sap-phone .sapMTokenizerMultiLine {
   padding-left: 1rem;
   padding-right: 1rem;
@@ -5573,6 +5566,10 @@ html[dir=rtl] .sapMTC .sapMTCEdgeRight {
 }
 .sapUiSizeCompact .sapMMultiInputMultiModeBorder .sapMTokenizer .sapMToken {
   margin-bottom: -0.125rem;
+}
+.sapUiSizeCompact .sapMTokenTruncate > .sapMTokenText {
+  line-height: 1.25rem;
+  width: calc(100% - 1.25rem);
 }
 .sapMTokenizer:focus {
   outline: none;
@@ -5779,7 +5776,6 @@ html[dir=rtl] .sapMTC .sapMTCEdgeRight {
   margin-left: 0.125rem;
 }
 .sapMUCText {
-  height: 3rem;
   -webkit-box-flex: 10;
   /* OLD - iOS 6-, Safari 3.1-6 */
   -webkit-flex: 10;
@@ -7725,55 +7721,6 @@ div.sapMComboBoxBasePicker .sapMDialogScrollCont {
 /* CSS for control sap.m/DatePicker.control */
 /* High Contrast Black theme                */
 /* ======================================== */
-.sapMDP > .sapUiIcon {
-  speak: none;
-  color: #ffffff;
-  position: absolute;
-  top: 0.3125rem;
-  right: 0.0625rem;
-  height: 2.375rem;
-  width: 2.375rem;
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-  border-left: 1px solid transparent;
-  border-left: 0.0625rem solid transparent;
-}
-.sap-desktop .sapMDP > .sapUiIcon:hover {
-  border-left: 1px solid #ffffff;
-  border-left: 0.0625rem solid #ffffff;
-}
-.sap-desktop .sapMDP > .sapUiIcon:focus,
-.sap-desktop .sapMDP > .sapUiIcon:hover {
-  background-color: #7a5100;
-}
-.sap-desktop .sapMDP > .sapUiIcon:focus {
-  outline: 0.125rem dotted #ffffff;
-  outline-offset: -0.125rem;
-}
-.sapMDP > .sapUiIcon:active,
-.sap-desktop .sapMDP > .sapUiIcon:active {
-  border-left: 1px solid #ffffff;
-  background-color: #7a5100;
-  color: #ffffff;
-  outline: none;
-}
-/* Compact size */
-.sapUiSizeCompact .sapMDP > .sapUiIcon {
-  top: 0.25rem;
-}
-/* fix for IE9 icon border missing */
-html[data-sap-ui-browser^="ie9"] .sapMDP > .sapUiIcon {
-  border: 1px solid transparent;
-}
-html[data-sap-ui-browser^="ie9"] .sapMDP > .sapUiIcon:hover {
-  border: 1px solid #ffffff;
-}
-html[data-sap-ui-browser^="ie9"] .sapUiSizeCompact .sapMDP > .sapUiIcon,
-html[data-sap-ui-browser^="ie9"] .sapUiSizeCompact .sapMDP > .sapUiIcon:hover {
-  border-top: 0 none;
-  border-bottom: 0 none;
-}
 /* ============================================= */
 /* CSS for control sap.m/DateRangeSelection.control */
 /* ============================================= */
@@ -9239,20 +9186,18 @@ html[data-sap-ui-browser='ie9'] .sapMInputValHelp {
   speak: none;
   color: #ffffff;
 }
-.sapMInput:not(.sapMInputBaseReadonly) .sapMInputValHelp > .sapMInputValHelpInner:hover,
-.sapMInput:not(.sapMInputBaseReadonly) .sapMInputValHelp > .sapMInputValHelpInner:focus {
+.sapMInputVH:not(.sapMInputBaseReadonly) .sapMInputValHelp > .sapMInputValHelpInner:hover {
   background-color: #7a5100;
   border-left: 0.0625rem solid #ffffff;
   margin-left: -0.0625rem;
 }
-.sapMInput:not(.sapMInputBaseReadonly) .sapMInputValHelp > .sapMInputValHelpInner:focus {
-  outline: 1px solid #ffffff;
-  outline-offset: -1px;
+.sapMInputVH:not(.sapMInputBaseReadonly) .sapMInputValHelp > .sapMInputValHelpInner:focus {
+  outline: 0.125rem dotted #ffffff;
+  outline-offset: -0.125rem;
 }
-.sapMInput:not(.sapMInputBaseReadonly) .sapMInputValHelp > .sapMInputValHelpInner:active {
+.sapMInputVH:not(.sapMInputBaseReadonly) .sapMInputValHelp > .sapMInputValHelpInner:active {
   /* works fine in desktop browsers, iOS6 and mobile Chrome; does not work well in older Android browser */
   background-color: #7a5100;
-  color: #ffffff;
   outline: none;
 }
 /* value help icon in IE9 */
@@ -9272,6 +9217,7 @@ html[data-sap-ui-browser='ie9'] .sapMInputValHelp {
   margin: 0;
   line-height: normal;
   height: 2.5rem;
+  width: 2.4375rem;
   top: 0.25rem;
   right: 0;
 }
@@ -9328,15 +9274,15 @@ div.sapMInputSuggestionPopup {
 .sapUiSizeCompact .sapMInputValHelp {
   top: 0.25rem;
   height: 1.5rem;
-  width: 2rem;
+  width: 1.5rem;
 }
 .sapUiSizeCompact .sapMInputDescription.sapMInputVH > span > .sapMInputValHelp {
   left: -1.5625rem;
 }
 .sapUiSizeCompact .sapMInputValHelp > .sapMInputValHelpInner {
-  font-size: 0.75rem;
+  font-size: 1rem;
   height: 1.5rem;
-  width: 2rem;
+  width: 1.5rem;
   line-height: 1.5rem;
 }
 .sapUiSizeCompact .sapMInputDescription.sapMInputVH > span > .sapMInputValHelp > .sapMInputValHelpInner {
@@ -9347,6 +9293,7 @@ div.sapMInputSuggestionPopup {
 }
 .sapUiSizeCompact .sapMInputIE9 .sapMInputValHelp {
   height: 1.625rem;
+  width: 1.5625rem;
   top: 0.1875rem;
 }
 .sapUiSizeCompact .sapMInputIE9 .sapMInputValHelpInner {
@@ -11907,9 +11854,15 @@ html[dir=rtl][data-sap-ui-browser='ie9'] .sapMPopoverFooterAlignArr.sapMPopoverA
   white-space: nowrap;
   text-overflow: ellipsis;
 }
-.sapMPullDownNontouch:focus {
-  outline: 0.125rem dotted #ffffff;
-  outline-offset: -0.125rem;
+.sapMPullDownNontouch:focus:after {
+  content: '';
+  display: block;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  top: 0;
+  border: 0.125rem dotted #ffffff;
 }
 .sapMPullDownTouch {
   min-height: 3rem;

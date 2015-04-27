@@ -3,7 +3,7 @@
 
 sap.ui.require(
 	[
-		'sap/ui/test/Opa5'
+		"sap/ui/test/Opa5"
 	],
 	function (Opa5) {
 		"use strict";
@@ -26,7 +26,7 @@ sap.ui.require(
 
 		opaTest("Should see the not found page if the hash is something that matches no route", function (Given, When, Then) {
 			Given.iStartMyApp({
-				hash: "#somethingThatDoesNotExist"
+				hash: "somethingThatDoesNotExist"
 			});
 
 			When.onTheNotFoundPage.iLookAtTheScreen();
@@ -37,7 +37,7 @@ sap.ui.require(
 
 		opaTest("Should see the 'Object not found' page if an invalid object id has been called", function (Given, When, Then) {
 			Given.iStartMyApp({
-				hash: "#/object/SomeInvalidObjectId"
+				hash: "/object/SomeInvalidObjectId"
 			});
 
 			//Actions
@@ -50,10 +50,11 @@ sap.ui.require(
 
 		opaTest("Clicking the 'Show my worklist' link on the 'Object not found' page should bring me back to the worklist", function (Given, When, Then) {
 			Given.iStartMyApp({
-				hash: "#/object/SomeInvalidObjectId"
+				hash: "/object/SomeInvalidObjectId"
 			});
 
 			//Actions
+			When.onTheAppPage.iWaitUntilTheAppBusyIndicatorIsGone();
 			When.onTheNotFoundPage.iWaitUntilISeeObjectNotFoundPage().
 				and.iPressTheObjectNotFoundShowWorklistLink();
 
@@ -64,10 +65,11 @@ sap.ui.require(
 
 		opaTest("Clicking the 'Show my worklist' link on the 'Resource not found' page should bring me back to the worklist", function (Given, When, Then) {
 			Given.iStartMyApp({
-				hash: "#somethingThatDoesNotExist"
+				hash: "somethingThatDoesNotExist"
 			});
 
 			//Actions
+			When.onTheAppPage.iWaitUntilTheAppBusyIndicatorIsGone();
 			When.onTheNotFoundPage.iWaitUntilISeeResourceNotFoundPage().
 				and.iPressTheNotFoundShowWorklistLink();
 

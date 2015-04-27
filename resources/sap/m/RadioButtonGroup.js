@@ -26,7 +26,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.28.4
+	 * @version 1.28.5
 	 *
 	 * @constructor
 	 * @public
@@ -458,8 +458,6 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		this.myChange = true;
 		this.destroyAggregation("buttons");
 		this.myChange = undefined;
-
-		this.setSelectedIndex(undefined);
 
 		if (this.aRBs) {
 			while (this.aRBs.length > 0) {

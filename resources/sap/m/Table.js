@@ -23,7 +23,7 @@ sap.ui.define(['jquery.sap.global', './ListBase', './library'],
 	 * @extends sap.m.ListBase
 	 *
 	 * @author SAP SE
-	 * @version 1.28.4
+	 * @version 1.28.5
 	 *
 	 * @constructor
 	 * @public
@@ -139,12 +139,6 @@ sap.ui.define(['jquery.sap.global', './ListBase', './library'],
 	Table.prototype.selectAll = function () {
 		ListBase.prototype.selectAll.apply(this, arguments);
 		this.updateSelectAllCheckbox();
-		return this;
-	};
-	
-	Table.prototype.setFixedLayout = function (bFixed) {
-		this.setProperty("fixedLayout", bFixed, true);
-		this.$("listUl").css("table-layout", this.getFixedLayout() ? "fixed" : "auto");
 		return this;
 	};
 	
