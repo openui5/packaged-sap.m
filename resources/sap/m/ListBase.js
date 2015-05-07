@@ -24,7 +24,7 @@ sap.ui.define(['jquery.sap.global', './GroupHeaderListItem', './library', 'sap/u
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.26.10
+	 * @version 1.26.11
 	 *
 	 * @constructor
 	 * @public
@@ -1385,7 +1385,8 @@ sap.ui.define(['jquery.sap.global', './GroupHeaderListItem', './library', 'sap/u
 	ListBase.prototype.invalidate = function(oOrigin) {
 		if (oOrigin && oOrigin === this.getSwipeContent()) {
 			this._bRerenderSwipeContent = true;
-			return this._renderSwipeContent();
+			this._isSwipeActive && this._renderSwipeContent();
+			return this;
 		}
 	
 		Control.prototype.invalidate.apply(this, arguments);

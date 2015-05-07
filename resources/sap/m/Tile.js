@@ -30,7 +30,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control'],
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.26.10
+	 * @version 1.26.11
 	 *
 	 * @constructor
 	 * @public
@@ -71,9 +71,11 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control'],
 		//keyboard support for desktop environments
 		if (sap.ui.Device.system.desktop) {
 			var fnOnSpaceOrEnter = jQuery.proxy(function(oEvent) {
-				this.ontap();
-				//event should not trigger any further actions
-				oEvent.stopPropagation();
+				if (oEvent.srcControl === this && !oEvent.isMarked()) {
+					this.ontap();
+					//event should not trigger any further actions
+					oEvent.stopPropagation();
+				}
 			}, this);
 
 			this.onsapspace = fnOnSpaceOrEnter;

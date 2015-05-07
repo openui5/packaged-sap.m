@@ -23,7 +23,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @implements sap.ui.core.IShrinkable
 	 *
 	 * @author SAP SE
-	 * @version 1.26.10
+	 * @version 1.26.11
 	 *
 	 * @constructor
 	 * @public
@@ -113,7 +113,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 			// mark the event for components that needs to know if the event was handled by the link
 			oEvent.setMarked();
 			
-			if (!this.firePress()) { // fire event and check return value whether default action should be prevented
+			if (!this.firePress() || !this.getHref()) { // fire event and check return value whether default action should be prevented
 				oEvent.preventDefault();
 			}
 		} else { // disabled
