@@ -24,7 +24,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './InstanceManager', './Toolbar', '
 	 * @implements sap.ui.core.PopupInterface
 	 *
 	 * @author SAP SE
-	 * @version 1.28.5
+	 * @version 1.28.6
 	 *
 	 * @constructor
 	 * @public
@@ -833,6 +833,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './InstanceManager', './Toolbar', '
 				that._fnOrientationChange();
 			}
 			that._sResizeTimer = null;
+			that._reapplyPosition();
 		}, 0);
 	};
 

@@ -185,6 +185,7 @@
 .sapMBusyDialog {
   width: 18.75em;
   text-align: center;
+  outline: none;
 }
 .sapMLabel.sapMBusyDialogLabel {
   display: block;
@@ -285,6 +286,9 @@ html[dir='rtl'] .sapMBsyIndIcon {
   border: none;
   cursor: pointer;
 }
+.sapMBtnBase {
+  position: relative;
+}
 /*Needed for firefox if you set 100px to a div inside a button the width will be 106px */
 .sapMBtn::-moz-focus-inner {
   padding: 0;
@@ -343,7 +347,6 @@ html[data-sap-ui-browser*='ie'] .sapMBtnContentWithIcon {
   display: inline;
 }
 .sapMBtnDisabled {
-  pointer-events: none;
   cursor: default;
 }
 /* ============================================= */
@@ -1415,6 +1418,10 @@ html[data-sap-ui-browser="ie9"] .sapMFeedListItemTitleDiv {
 }
 .sapMInputBaseMessageText {
   width: 100%;
+}
+.sapMInputBaseInner:invalid {
+  /* disable native browser input validation visualization e.g. for type email or number */
+  box-shadow: none;
 }
 /* ============================================= */
 /* CSS for control sap.m/InputListItem.control   */
@@ -3260,6 +3267,15 @@ html[data-sap-ui-os^="iOS7"][data-sap-ui-browser^="msf"]:not(.sap-tablet) .sapUi
   -webkit-transition: -webkit-transform 0.4s ease-out;
   transition: transform 0.4s ease-out;
 }
+.sapMPanelExpandableIcon:focus::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+  top: 0.75rem;
+  right: 0.75rem;
+  bottom: 0.75rem;
+  left: 0.75rem;
+}
 .sapMPanelExpandableIconExpanded {
   display: inline-block;
   -webkit-transform: translateY(-50%) rotate(90deg);
@@ -3449,6 +3465,12 @@ html[dir=rtl] .sapUiIconMirrorInRTL:not(.sapUiIconSuppressMirrorInRTL).sapMPanel
 */
 .sapMPopoverWithoutBar .sapMPage footer.sapMIBar {
   position: absolute;
+}
+.sapMPopoverHiddenFocusable {
+  width: 0;
+  height: 0;
+  font-size: 0;
+  line-height: 0;
 }
 /* mixin call for creating container content padding classes (arguments: rootContainer, contentSelector) */
 .sapMPopover.sapUiContentPadding > .sapMPopoverCont > .sapMPopoverScroll {

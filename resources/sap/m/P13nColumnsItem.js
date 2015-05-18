@@ -19,7 +19,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Item'],
 	 *
 	 * @class The ColumnsItem can be used to fill columnsItem aggregation in P13nColumnsPanel
 	 * @extends sap.ui.core.Item
-	 * @version 1.28.5
+	 * @version 1.28.6
 	 * @constructor
 	 * @author SAP SE 
 	 * @public

@@ -26,6 +26,11 @@ sap.ui.define(['jquery.sap.global'],
 		// convenience variable
 		var rm = oRenderManager;
 
+		// Return immediately if control has no RadioButtons
+		if (!oRBGroup.aRBs) {
+			return;
+		}
+
 		var iColumns = oRBGroup.getColumns();
 		var bEnabled = oRBGroup.getEnabled();
 		var sControlTextDir = oRBGroup.getTextDirection();

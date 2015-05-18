@@ -23,7 +23,7 @@ sap.ui.define(['jquery.sap.global', './ListBase', './library'],
 	 * @extends sap.m.ListBase
 	 *
 	 * @author SAP SE
-	 * @version 1.28.5
+	 * @version 1.28.6
 	 *
 	 * @constructor
 	 * @public
@@ -372,13 +372,15 @@ sap.ui.define(['jquery.sap.global', './ListBase', './library'],
 	
 	// pass pop-in events to ColumnListItem
 	Table.prototype._handlePopinEvent = function(oEvent, bRowOnly) {
+		if (!this.hasPopin()) {
+			return;
+		}
+		
 		if (bRowOnly && !sap.m.ColumnListItem.isPopinFocused()) {
 			return;
 		}
 	
-		if (this.hasPopin()) {
-			return sap.m.ColumnListItem.handleEvents(oEvent, this.getItemsContainerDomRef());
-		}
+		return sap.m.ColumnListItem.handleEvents(oEvent, this.getItemsContainerDomRef());
 	};
 	
 	/**
@@ -537,6 +539,13 @@ sap.ui.define(['jquery.sap.global', './ListBase', './library'],
 		} else {
 			this._handlePopinEvent(oEvent);
 		}
+	};
+	
+	// Handles focus of the popins
+	Table.prototype.onfocusin = function(oEvent) {
+		var oCLI = this._handlePopinEvent(oEvent, true);
+		ListBase.prototype.onfocusin.call(this, oEvent);
+		oCLI && oCLI.focus();
 	};
 
 	return Table;

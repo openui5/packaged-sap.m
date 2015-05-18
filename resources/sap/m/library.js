@@ -22,14 +22,14 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/Device',
 	 * @namespace
 	 * @name sap.m
 	 * @author SAP SE
-	 * @version 1.28.5
+	 * @version 1.28.6
 	 * @public
 	 */
 	
 	// delegate further initialization of this library to the Core
 	sap.ui.getCore().initLibrary({
 		name : "sap.m",
-		version: "1.28.5",
+		version: "1.28.6",
 		dependencies : ["sap.ui.core"],
 		types: [
 			"sap.m.BackgroundDesign",
@@ -2592,4 +2592,4 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/Device',
 
 	return sap.m;
 
-}, /* bExport= */ false);
+});

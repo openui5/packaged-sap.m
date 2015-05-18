@@ -96,7 +96,7 @@ sap.ui.define(['jquery.sap.global'],
 		
 		if (sap.ui.Device.system.desktop) {
 			//Invisible element for cycling keyboard navigation
-			rm.write("<span id='" + oControl.getId() + "-firstfe' tabindex='0'></span>");
+			rm.write("<span class='sapMPopoverHiddenFocusable' id='" + oControl.getId() + "-firstfe' tabindex='0'></span>");
 		}
 	
 		//header
@@ -161,7 +161,7 @@ sap.ui.define(['jquery.sap.global'],
 	
 		if (sap.ui.Device.system.desktop) {
 			//Invisible element for desktop keyboard navigation
-			rm.write("<span id='" + oControl.getId() + "-lastfe' tabindex='0'></span>");
+			rm.write("<span class='sapMPopoverHiddenFocusable' id='" + oControl.getId() + "-lastfe' tabindex='0'></span>");
 		}
 	};
 	

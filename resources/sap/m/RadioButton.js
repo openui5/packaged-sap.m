@@ -25,7 +25,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.28.5
+	 * @version 1.28.6
 	 *
 	 * @constructor
 	 * @public
@@ -144,16 +144,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	RadioButton.prototype._groupNames = {};
 
 	RadioButton.prototype.onBeforeRendering = function () {
-		var sGroupName = this.getGroupName(),
-			aControlsInGroup = this._groupNames[sGroupName];
-
-		if (!aControlsInGroup) {
-			aControlsInGroup = this._groupNames[sGroupName] = [];
-		}
-
-		if (aControlsInGroup.indexOf(this) === -1) {
-			aControlsInGroup.push(this);
-		}
+		this._changeGroupName(this.getGroupName());
 	};
 
 	/**
@@ -290,6 +281,12 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		return this;
 	};
 
+	RadioButton.prototype.setGroupName = function(sGroupName) {
+		this._changeGroupName(sGroupName, this.getGroupName());
+
+		return this.setProperty("groupName", sGroupName, true);
+	};
+
 	RadioButton.prototype.exit = function() {
 		var sGroupName = this.getGroupName(),
 			aControlsInGroup = this._groupNames[sGroupName],
@@ -354,6 +351,22 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		return this;
 	};
 
+	RadioButton.prototype._changeGroupName = function(sNewGroupName, sOldGroupName) {
+		var aNewGroup = this._groupNames[sNewGroupName],
+			aOldGroup = this._groupNames[sOldGroupName];
+
+		if (!aNewGroup) {
+			aNewGroup = this._groupNames[sNewGroupName] = [];
+		}
+
+		if (aNewGroup.indexOf(this) === -1) {
+			aNewGroup.push(this);
+		}
+
+		if (aOldGroup && aOldGroup.indexOf(this) !== -1) {
+			aOldGroup.splice(aOldGroup.indexOf(this), 1);
+		}
+	};
 
 	return RadioButton;
 

@@ -2,6 +2,7 @@
  * ${copyright}
  */
 
+/*global history */
 sap.ui.define([
 		"sap/ui/core/mvc/Controller",
 		"sap/ui/core/routing/History"
@@ -9,16 +10,6 @@ sap.ui.define([
 	"use strict";
 
 	return Controller.extend("sap.ui.demo.masterdetail.controller.BaseController", {
-
-		/**
-		 * Convenience method for accessing the event bus in every controller of the application.
-		 * @public
-		 * @returns {sap.ui.core.EventBus} the event bus for this component
-		 */
-		getEventBus : function () {
-			return this.getOwnerComponent().getEventBus();
-		},
-
 		/**
 		 * Convenience method for accessing the router in every controller of the application.
 		 * @public
@@ -69,11 +60,9 @@ sap.ui.define([
 		onNavBack : function(sRoute, mData) {
 			var sPreviousHash = History.getInstance().getPreviousHash();
 
-			//The history contains a previous entry
 			if (sPreviousHash !== undefined) {
-				/*eslint-disable */
+				//The history contains a previous entry
 				window.history.go(-1);
-				/*eslint-enable */
 			} else {
 				var bReplace = true; // otherwise we go backwards with a forward history
 				this.getRouter().navTo(sRoute, mData, bReplace);

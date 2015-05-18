@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './SliderRenderer', './library', 'sap/ui/cor
 		 * @extends sap.ui.core.Control
 		 *
 		 * @author SAP SE
-		 * @version 1.28.5
+		 * @version 1.28.6
 		 *
 		 * @constructor
 		 * @public

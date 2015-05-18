@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.28.5
+	 * @version 1.28.6
 	 *
 	 * @constructor
 	 * @public
@@ -109,6 +109,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 
 		// Initialize the ItemNavigation
 		this._oItemNavigation = new ItemNavigation().setCycling(false);
+		this._oItemNavigation.attachEvent(ItemNavigation.Events.FocusLeave, this._onItemNavigationFocusLeave, this);
 		this.addDelegate(this._oItemNavigation);
 
 		if (this._bDoScroll) {
@@ -120,6 +121,34 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 			});
 		}
 
+	};
+
+	IconTabHeader.prototype._onItemNavigationFocusLeave = function() {
+
+		// BCP: 1570034646
+		if (!this.oSelectedItem) {
+			return;
+		}
+
+		var aItems = this.getItems();
+		var iIndex = -1;
+		var oItem;
+
+		for (var i = 0; i < aItems.length; i++) {
+			oItem = aItems[i];
+
+			if (oItem instanceof sap.m.IconTabFilter == false) {
+				continue;
+			}
+
+			iIndex++;
+
+			if (this.oSelectedItem == oItem) {
+				break;
+			}
+		}
+
+		this._oItemNavigation.setFocusedIndex(iIndex);
 	};
 
 	/**
@@ -419,6 +448,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		//Initialize the ItemNavigation
 		if (!this._oItemNavigation) {
 			this._oItemNavigation = new ItemNavigation();
+			this._oItemNavigation.attachEvent(ItemNavigation.Events.FocusLeave, this._onItemNavigationFocusLeave, this);
 			this.addDelegate(this._oItemNavigation);
 		}
 
@@ -433,7 +463,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 
 		// Change ITB content height on resize when ITB stretchContentHeight is set to true (IE9 fix)
 		if (!jQuery.support.newFlexBoxLayout &&
-			this.getParent() instanceof sap.m.IconTabBar && 
+			this.getParent() instanceof sap.m.IconTabBar &&
 			this.getParent().getStretchContentHeight()) {
 			this._sResizeListenerNoFlexboxSupportId = sap.ui.core.ResizeHandler.register(this.getParent().getDomRef(), jQuery.proxy(this._fnResizeNoFlexboxSupport, this));
 			this._fnResizeNoFlexboxSupport();
