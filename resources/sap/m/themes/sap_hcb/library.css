@@ -3477,6 +3477,59 @@ html[dir=rtl] .sapUiIconMirrorInRTL:not(.sapUiIconSuppressMirrorInRTL).sapMPanel
   font-size: 0;
   line-height: 0;
 }
+.sapMPopoverArr {
+  pointer-events: none;
+}
+.sapMPopoverArr:before {
+  background: rgba(0, 0, 0, 0.01);
+  content: "";
+  display: block;
+  pointer-events: all;
+  -ms-transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+  transform: rotate(45deg);
+  position: absolute;
+  z-index: -1;
+}
+.sapMPopoverArrLeft:before,
+.sapMPopoverArrRight:before {
+  margin-top: -0.75rem;
+  margin-left: .35rem;
+  width: 1.5rem;
+  height: 1.5rem;
+}
+.sapMPopoverArrRight:before {
+  margin-left: -1.85rem;
+}
+.sapMPopoverArrUp:before,
+.sapMPopoverArrDown:before {
+  margin-top: .25rem;
+  margin-left: -0.75rem;
+  width: 1.5rem;
+  height: 1.5rem;
+}
+.sapMPopoverArrDown:before {
+  margin-top: -1.85rem;
+}
+.sapMPopover.sapUiSizeCompact .sapMPopoverArrLeft:before,
+.sapMPopover.sapUiSizeCompact .sapMPopoverArrRight:before {
+  margin-top: -0.5rem;
+  margin-left: .25rem;
+  width: 1rem;
+  height: 1rem;
+}
+.sapMPopover.sapUiSizeCompact .sapMPopoverArrRight:before {
+  margin-left: -1.25rem;
+}
+.sapMPopover.sapUiSizeCompact .sapMPopoverArrUp:before,
+.sapMPopover.sapUiSizeCompact .sapMPopoverArrDown:before {
+  width: 1rem;
+  height: 1rem;
+  margin-left: -0.5rem;
+}
+.sapMPopover.sapUiSizeCompact .sapMPopoverArrDown:before {
+  margin-top: -1.25rem;
+}
 /* mixin call for creating container content padding classes (arguments: rootContainer, contentSelector) */
 .sapMPopover.sapUiContentPadding > .sapMPopoverCont > .sapMPopoverScroll {
   padding: 1rem;

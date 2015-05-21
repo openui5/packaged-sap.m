@@ -23,7 +23,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Item'],
 		 * @extends sap.ui.core.Item
 		 *
 		 * @author SAP SE
-		 * @version 1.28.6
+		 * @version 1.28.7
 		 *
 		 * @constructor
 		 * @public
@@ -57,6 +57,19 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Item'],
 			}
 
 		}});
+
+		/**
+		 * Overwrite setProperty function to force sap.m.SegmentedButton to update on item property change
+		 * @overwrite
+		 */
+		SegmentedButtonItem.prototype.setProperty = function (sPropertyName, oValue, bSuppressInvalidate) {
+			var oParent = this.getParent();
+			if (oParent && oParent instanceof sap.m.SegmentedButton && oParent.getButtons().length !== 0) {
+				// BCP: 1570296132
+				oParent.updateItems();
+			}
+			sap.ui.core.Control.prototype.setProperty.apply(this, arguments);
+		};
 
 		return SegmentedButtonItem;
 

@@ -25,7 +25,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/m/Button', 'sap/m/Label', 
 		 * @extends sap.ui.core.Toolbar
 		 *
 		 * @author SAP SE
-		 * @version 1.28.6
+		 * @version 1.28.7
 		 *
 		 * @constructor
 		 * @public

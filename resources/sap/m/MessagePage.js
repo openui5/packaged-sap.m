@@ -23,7 +23,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		 *		- The application is loading
 		 *	The layout is unchanged but the text varies depending on the use case.
 		 * @extends sap.ui.core.Control
-		 * @version 1.28.6
+		 * @version 1.28.7
 		 *
 		 * @constructor
 		 * @public
