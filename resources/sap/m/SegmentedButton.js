@@ -22,7 +22,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.28.7
+	 * @version 1.28.8
 	 *
 	 * @constructor
 	 * @public
@@ -484,11 +484,12 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 			enabled: oItem.getEnabled(),
 			textDirection: oItem.getTextDirection(),
 			width: oItem.getWidth(),
+			tooltip: oItem.getTooltip(),
 			press: function () {
 				oItem.firePress();
 			}
 		});
-
+		oItem.oButton = oButton;
 		this.addButton(oButton);
 	};
 

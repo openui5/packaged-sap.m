@@ -519,6 +519,11 @@ html[dir=rtl][data-sap-ui-browser^="ie"] .sapMCrslInner {
   -moz-appearance: none;
   background: transparent;
   font-size: inherit;
+  /* auto vertical centering */
+  top: 0;
+  bottom: 0;
+  margin-top: auto;
+  margin-bottom: auto;
 }
 .sapMComboBoxBaseReadonly .sapMComboBoxBaseArrow {
   display: none;
@@ -663,6 +668,9 @@ html[dir=rtl] .sapMDTICustomDateTime .dwc:last-child {
   -webkit-transition-duration: 0.3s;
   -moz-transition-duration: 0.3s;
   transition-duration: 0.3s;
+  -webkit-transition-property: -webkit-transform;
+  -moz-transition-property: -webkit-transform;
+  transition-property: transform;
 }
 .sapMDialogBlockLayer {
   opacity: 0.6;
@@ -3955,9 +3963,8 @@ html[data-sap-ui-os^="Android"] .sapUiSizeCompact .sapMSegBBtn .sapUiIcon {
 /* ------------------------------ */
 .sapMSlt,
 .sapMSltNative,
-.sapMSlt > .sapMSltLabel {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
+.sapMSlt > .sapMSltLabel,
+.sapMSltPicker-CTX .sapMIBar {
   box-sizing: border-box;
 }
 .sapMSltNative,
@@ -4034,6 +4041,12 @@ html[data-sap-ui-os^="Android"] .sapUiSizeCompact .sapMSegBBtn .sapUiIcon {
   width: auto;
   opacity: 0;
 }
+/* ------------------------------ */
+/* Select list                    */
+/* ------------------------------ */
+.sapMSltPicker-CTX .sapMSelectList {
+  border: none;
+}
 /* ============================================= */
 /* CSS for control sap.m/SelectDialog.control    */
 /* ============================================= */
@@ -4073,7 +4086,6 @@ html[data-sap-ui-os^="Android"] .sapUiSizeCompact .sapMSegBBtn .sapUiIcon {
   padding: 0;
   outline: none;
   list-style-type: none;
-  -webkit-box-sizing: border-box;
   box-sizing: border-box;
 }
 /* ------------------------------ */
@@ -4304,8 +4316,6 @@ html[data-sap-ui-os^="Android"] .sapUiSizeCompact .sapMSegBBtn .sapUiIcon {
 .sapMSlider {
   display: inline-block;
   vertical-align: top;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
   box-sizing: border-box;
   position: relative;
   /* IE Windows 8 */

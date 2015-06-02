@@ -524,6 +524,11 @@ html[dir=rtl][data-sap-ui-browser^="ie"] .sapMCrslInner {
   -moz-appearance: none;
   background: transparent;
   font-size: inherit;
+  /* auto vertical centering */
+  top: 0;
+  bottom: 0;
+  margin-top: auto;
+  margin-bottom: auto;
 }
 .sapMComboBoxBaseReadonly .sapMComboBoxBaseArrow {
   display: none;
@@ -668,6 +673,9 @@ html[dir=rtl] .sapMDTICustomDateTime .dwc:last-child {
   -webkit-transition-duration: 0.3s;
   -moz-transition-duration: 0.3s;
   transition-duration: 0.3s;
+  -webkit-transition-property: -webkit-transform;
+  -moz-transition-property: -webkit-transform;
+  transition-property: transform;
 }
 .sapMDialogBlockLayer {
   opacity: 0.6;
@@ -3960,9 +3968,8 @@ html[data-sap-ui-os^="Android"] .sapUiSizeCompact .sapMSegBBtn .sapUiIcon {
 /* ------------------------------ */
 .sapMSlt,
 .sapMSltNative,
-.sapMSlt > .sapMSltLabel {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
+.sapMSlt > .sapMSltLabel,
+.sapMSltPicker-CTX .sapMIBar {
   box-sizing: border-box;
 }
 .sapMSltNative,
@@ -4039,6 +4046,12 @@ html[data-sap-ui-os^="Android"] .sapUiSizeCompact .sapMSegBBtn .sapUiIcon {
   width: auto;
   opacity: 0;
 }
+/* ------------------------------ */
+/* Select list                    */
+/* ------------------------------ */
+.sapMSltPicker-CTX .sapMSelectList {
+  border: none;
+}
 /* ============================================= */
 /* CSS for control sap.m/SelectDialog.control    */
 /* ============================================= */
@@ -4078,7 +4091,6 @@ html[data-sap-ui-os^="Android"] .sapUiSizeCompact .sapMSegBBtn .sapUiIcon {
   padding: 0;
   outline: none;
   list-style-type: none;
-  -webkit-box-sizing: border-box;
   box-sizing: border-box;
 }
 /* ------------------------------ */
@@ -4309,8 +4321,6 @@ html[data-sap-ui-os^="Android"] .sapUiSizeCompact .sapMSegBBtn .sapUiIcon {
 .sapMSlider {
   display: inline-block;
   vertical-align: top;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
   box-sizing: border-box;
   position: relative;
   /* IE Windows 8 */
@@ -6969,7 +6979,7 @@ svg.sapMBusySvg {
 /* --------------------------------------------------------------------- */
 /* Custom focus outline:                                                 */
 /* --------------------------------------------------------------------- */
-.sapMBtn:focus > .sapMBtnInner.sapMFocusable {
+html.sap-desktop .sapMBtn:focus > .sapMFocusable {
   outline: 0.125rem dotted #ffffff;
   outline-offset: -0.125rem;
   border-color: transparent;
@@ -7633,7 +7643,6 @@ input.sapMComboBoxBaseInputInner:not(.sapMComboBoxBaseInputInnerReadonly) {
   width: 2.5rem;
   height: 2.375rem;
   line-height: 2.375rem;
-  top: 0.3125rem;
   right: 0.0625rem;
 }
 /* hover */
@@ -7715,8 +7724,6 @@ div.sapMComboBoxBasePicker {
 }
 /* This is used to make border of the combobox's list not scrollable */
 .sapMComboBoxBasePicker > div {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
   box-sizing: border-box;
   border: solid #ffffff;
   border-width: 1px 2px 2px;
@@ -7765,10 +7772,8 @@ div.sapMComboBoxBasePicker .sapMDialogScrollCont {
   width: 2rem;
   height: 1.5rem;
   line-height: 1.5rem;
-  top: 0.25rem;
 }
 .sapUiSizeCondensed .sapMComboBoxBaseArrow {
-  top: 0;
   right: 0;
 }
 /* ------------------------------ */
@@ -8168,15 +8173,6 @@ html[data-sap-ui-browser^="ie"] .sapMCustomSlt.dw-bubble .dw {
 /* ============================================================== */
 /* CSS for control sap.m/Dialog.control High Contrast Black theme */
 /* ============================================================== */
-.sapMDialogPhone {
-  opacity: 1;
-  -webkit-transform: translate3d(0px, 0px, 0px);
-  -moz-transform: translate3d(0px, 0px, 0px);
-  transform: translate3d(0px, 0px, 0px);
-  -webkit-transition-property: -webkit-transform;
-  -moz-transition-property: -webkit-transform;
-  transition-property: transform;
-}
 .sapMDialog {
   border-radius: 0.250rem;
   border: 0.125rem solid #ffffff;
@@ -13017,8 +13013,6 @@ div.sapMSltPicker {
   display: none;
 }
 .sapMSltPicker.sapMPopover {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
   box-sizing: border-box;
   box-shadow: 0 0.25rem 1.875rem 0.125rem #ffffff;
   border: 0.0625rem solid #ffffff;
@@ -13583,8 +13577,6 @@ html[data-sap-ui-browser*='ie1'] .sapMSLIDiv {
 /* ------------------------------ */
 .sapMSwtText,
 .sapMSwtAcceptReject .sapMSwtHandle {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
 /* ------------------------------ */
