@@ -22,7 +22,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control'],
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.28.8
+	 * @version 1.28.9
 	 *
 	 * @constructor
 	 * @public
@@ -102,9 +102,8 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control'],
 			detailPress : {}
 		}
 	}});
-		
-	// mode of the list e.g. singleSelection, multi...
-	// internal selected state of the listitem
+	
+	// internal active state of the listitem
 	ListItemBase.prototype.init = function() {
 		this._active = false;
 	};
@@ -130,7 +129,6 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control'],
 			return oContext.getPath();
 		}
 	};
-	
 	
 	/*
 	 * Returns the responsible list control
@@ -562,11 +560,9 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control'],
 		
 		// active handling if not handled already by control
 		// several fingers could be used 
-		// for selections with whole list item interaction and singleselectmaster active handling is disabled
 		if (this._eventHandledByControl || 
 			oEvent.touches.length != 1 || 
-			!this.hasActiveType() || 
-			this.isIncludedIntoSelection()) {
+			!this.hasActiveType()) {
 			return;
 		}
 	
