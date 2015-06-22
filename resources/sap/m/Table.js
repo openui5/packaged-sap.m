@@ -23,7 +23,7 @@ sap.ui.define(['jquery.sap.global', './ListBase', './library'],
 	 * @extends sap.m.ListBase
 	 *
 	 * @author SAP SE
-	 * @version 1.28.9
+	 * @version 1.28.10
 	 *
 	 * @constructor
 	 * @public
@@ -338,8 +338,8 @@ sap.ui.define(['jquery.sap.global', './ListBase', './library'],
 			$firstVisibleCol.width($firstVisibleCol.attr("data-sap-width"));
 		}
 	
-		// update GroupHeader colspan according to visible column count
-		$table.find(".sapMGHLICell").attr("colspan", aVisibleColumns.length);
+		// update GroupHeader colspan according to visible column count and additional selection column
+		$table.find(".sapMGHLICell").attr("colspan", aVisibleColumns.length + !!sap.m.ListBaseRenderer.ModeOrder[this.getMode()]);
 	
 		// remove or show column header row(thead) according to column visibility value
 		if (!bColVisible && bHeaderVisible) {

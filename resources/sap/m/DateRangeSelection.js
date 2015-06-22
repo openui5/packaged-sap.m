@@ -18,7 +18,7 @@ sap.ui.define(['jquery.sap.global', './DatePicker', './library'],
 	 * @class
 	 * This is a date range selection control. It internal uses the sap.ui.unified.Calendar. So the sap.ui.unified library should be loaded from applications using this control.
 	 * @extends sap.m.DatePicker
-	 * @version 1.28.9
+	 * @version 1.28.10
 	 *
 	 * @constructor
 	 * @public
@@ -472,7 +472,7 @@ sap.ui.define(['jquery.sap.global', './DatePicker', './library'],
 		// This should be redesigned at all, because parsing should not update the properties in every case
 		DateRangeSelection.prototype._setLabelVisibility = function() {
 
-			if (!this.bShowLabelAsPlaceholder || !this._$label || !this.isActive()) {
+			if (!this._bShowLabelAsPlaceholder || !this._$label || !this.isActive()) {
 				return;
 			}
 

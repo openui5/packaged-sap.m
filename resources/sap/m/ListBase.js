@@ -24,7 +24,7 @@ sap.ui.define(['jquery.sap.global', './GroupHeaderListItem', './library', 'sap/u
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.28.9
+	 * @version 1.28.10
 	 *
 	 * @constructor
 	 * @public
@@ -1059,12 +1059,14 @@ sap.ui.define(['jquery.sap.global', './GroupHeaderListItem', './library', 'sap/u
 	ListBase.prototype._hideBusyIndicator = function() {
 		if (this._bBusy) {
 			// revert busy state
+			this._bBusy = false;
 			this.setBusy(false, "listUl");
+			jQuery.sap.clearDelayedCall(this._sBusyTimer);
 	
 			// revert no data texts when necessary
-			jQuery.sap.clearDelayedCall(this._sBusyTimer);
-			this.$("nodata-text").text(this.getNoDataText());
-			this._bBusy = false;
+			if (!this.getItems(true).length) {
+				this.$("nodata-text").text(this.getNoDataText());
+			}
 		}
 	};
 	

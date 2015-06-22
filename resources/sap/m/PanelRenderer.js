@@ -78,7 +78,6 @@ sap.ui.define(['jquery.sap.global'],
 		// render header
 		var sHeaderText = oControl.getHeaderText();
 
-
 		if (oHeaderTBar) {
 			oHeaderTBar.setDesign(sap.m.ToolbarDesign.Transparent, true);
 
@@ -89,7 +88,7 @@ sap.ui.define(['jquery.sap.global'],
 
 			oRm.renderControl(oHeaderTBar);
 
-		} else {
+		} else if (sHeaderText || bIsExpandable) {
 			oRm.write("<div");
 			oRm.addClass("sapMPanelHdr");
 			if (bIsExpandable) {

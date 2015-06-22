@@ -22,7 +22,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * 
 	 * This control must be rendered as a full screen control in order to make the show/hide master area work properly.
 	 * @extends sap.ui.core.Control
-	 * @version 1.28.9
+	 * @version 1.28.10
 	 *
 	 * @constructor
 	 * @public
@@ -575,7 +575,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	
 		var bIsMasterNav = true;
 	
-		if (jQuery(oEvent.target).parents(".sapMSplitContainerDetail").length > 0) {
+		if (jQuery(oEvent.target).closest(".sapMSplitContainerDetail").length > 0) {
 			bIsMasterNav = false;
 		}
 	
@@ -586,8 +586,6 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		if (((!this._oldIsLandscape && this.getMode() == "ShowHideMode") || this.getMode() == "HideMode")
 				// press isn't occuring in master area
 				&& !bIsMasterNav
-				// master is open
-				&& this._bMasterisOpen
 				// press isn't triggered by the showMasterButton
 				&& !jQuery.sap.containsOrEquals(this._oShowMasterBtn.getDomRef(), oEvent.target)) {
 			this.hideMaster();
@@ -974,7 +972,9 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 
 			if (!sap.ui.Device.system.phone) {
 				// Setting custom header to the page replaces the internal header completely, therefore the button which shows the master area has to be inserted to the custom header when it's set.
-				oRealPage._setCustomHeaderInSC = oRealPage.setCustomHeader;
+				if (!oRealPage._setCustomHeaderInSC) {
+					oRealPage._setCustomHeaderInSC = oRealPage.setCustomHeader;
+				}
 				oRealPage.setCustomHeader = function(oHeader) {
 					this._setCustomHeaderInSC.apply(this, arguments);
 					if (oHeader && that._needShowMasterButton()) {
@@ -983,7 +983,9 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 					return this;
 				};
 
-				oRealPage._setShowNavButtonInSC = oRealPage.setShowNavButton;
+				if (!oRealPage._setShowNavButtonInSC) {
+					oRealPage._setShowNavButtonInSC = oRealPage.setShowNavButton;
+				}
 				oRealPage.setShowNavButton = function(bShow) {
 					this._setShowNavButtonInSC.apply(this, arguments);
 					if (!bShow && that._needShowMasterButton()) {
@@ -1052,11 +1054,16 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 
 		if (oRealPage) {
 			// Since page is removed from SplitContainer, the patched version setCustomHeader and setShowNavButton needs to be deleted.
-			oRealPage.setCustomHeader = oRealPage._setCustomHeaderInSC;
-			delete oRealPage._setCustomHeaderInSC;
+			// This method may be called several times therefore the existence of stored functions needs to be checked
+			if (oRealPage._setCustomHeaderInSC) {
+				oRealPage.setCustomHeader = oRealPage._setCustomHeaderInSC;
+				delete oRealPage._setCustomHeaderInSC;
+			}
 
-			oRealPage.setShowNavButton = oRealPage._setShowNavButtonInSC;
-			delete oRealPage._setShowNavButtonInSC;
+			if (oRealPage._setShowNavButtonInSC) {
+				oRealPage.setShowNavButton = oRealPage._setShowNavButtonInSC;
+				delete oRealPage._setShowNavButtonInSC;
+			}
 		}
 	};
 
@@ -1149,8 +1156,8 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 				}
 	
 				this.fireBeforeMasterOpen();
-				_this$.toggleClass("sapMSplitContainerMasterVisible", true);
-				_this$.toggleClass("sapMSplitContainerMasterHidden", false);
+				this._oMasterNav.toggleStyleClass("sapMSplitContainerMasterVisible", true);
+				this._oMasterNav.toggleStyleClass("sapMSplitContainerMasterHidden", false);
 				this._bMasterOpening = true;
 				that._removeMasterButton(_curPage);
 	
@@ -1200,8 +1207,8 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 				}
 	
 				this.fireBeforeMasterClose();
-				_this$.toggleClass("sapMSplitContainerMasterVisible" , false);
-				_this$.toggleClass("sapMSplitContainerMasterHidden" , true);
+				this._oMasterNav.toggleStyleClass("sapMSplitContainerMasterVisible", false);
+				this._oMasterNav.toggleStyleClass("sapMSplitContainerMasterHidden", true);
 				this._bMasterClosing = true;
 			}
 		}
@@ -1437,7 +1444,6 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 			return;
 		}
 		this.setProperty("mode", sMode, true);
-		this._bMasterisOpen = false;
 		//the reposition of master and detail area only occurs in tablet and after it's rendered
 		if (!sap.ui.Device.system.phone && this.getDomRef()) {
 			if (sOldMode === "HideMode" && this._oldIsLandscape) {
@@ -1460,37 +1466,39 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 					}
 					this._setMasterButton(this._oDetailNav.getCurrentPage());
 				}
-				this.$().toggleClass("sapMSplitContainerShowHide", false);
-				this.$().toggleClass("sapMSplitContainerStretchCompress", false);
-				this.$().toggleClass("sapMSplitContainerHideMode", false);
-				this.$().toggleClass("sapMSplitContainerPopover", true);
+				this.toggleStyleClass("sapMSplitContainerShowHide", false);
+				this.toggleStyleClass("sapMSplitContainerStretchCompress", false);
+				this.toggleStyleClass("sapMSplitContainerHideMode", false);
+				this.toggleStyleClass("sapMSplitContainerPopover", true);
 			}
 			
 			if (sMode == "StretchCompressMode") {
-				this.$().toggleClass("sapMSplitContainerShowHide", false);
-				this.$().toggleClass("sapMSplitContainerPopover", false);
-				this.$().toggleClass("sapMSplitContainerHideMode", false);
-				this.$().toggleClass("sapMSplitContainerStretchCompress", true);
+				this.toggleStyleClass("sapMSplitContainerShowHide", false);
+				this.toggleStyleClass("sapMSplitContainerPopover", false);
+				this.toggleStyleClass("sapMSplitContainerHideMode", false);
+				this.toggleStyleClass("sapMSplitContainerStretchCompress", true);
 				this._removeMasterButton(this._oDetailNav.getCurrentPage());
 			}
 			
 			if (sMode == "ShowHideMode") {
-				this.$().toggleClass("sapMSplitContainerPopover", false);
-				this.$().toggleClass("sapMSplitContainerStretchCompress", false);
-				this.$().toggleClass("sapMSplitContainerHideMode", false);
-				this.$().toggleClass("sapMSplitContainerShowHide", true);
+				this.toggleStyleClass("sapMSplitContainerPopover", false);
+				this.toggleStyleClass("sapMSplitContainerStretchCompress", false);
+				this.toggleStyleClass("sapMSplitContainerHideMode", false);
+				this.toggleStyleClass("sapMSplitContainerShowHide", true);
+
 				if (!sap.ui.Device.orientation.landscape) {
 					this._setMasterButton(this._oDetailNav.getCurrentPage());
 				}
 			}
 			
 			if (sMode === "HideMode") {
-				this.$().toggleClass("sapMSplitContainerPopover", false);
-				this.$().toggleClass("sapMSplitContainerStretchCompress", false);
-				this.$().toggleClass("sapMSplitContainerShowHide", false);
-				this.$().toggleClass("sapMSplitContainerHideMode", true);
-				this.$().toggleClass("sapMSplitContainerMasterHidden", true);
+				this.toggleStyleClass("sapMSplitContainerPopover", false);
+				this.toggleStyleClass("sapMSplitContainerStretchCompress", false);
+				this.toggleStyleClass("sapMSplitContainerShowHide", false);
+				this.toggleStyleClass("sapMSplitContainerHideMode", true);
+
 				this._setMasterButton(this._oDetailNav.getCurrentPage());
+				
 				if (this._isMie9) {
 					this._oMasterNav.$().css({
 						left: "",
@@ -1573,6 +1581,9 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		var iIndex = jQuery.inArray(oPage, aPageArray);
 		if (iIndex != -1) {
 			aPageArray.splice(iIndex, 1);
+			if (aPageArray === this._aDetailPages) {
+				this._restoreMethodsInPage(oPage);
+			}
 		}
 	};
 	
@@ -1596,13 +1607,13 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		if (this._oldIsLandscape !== isLandscape) {
 			this._oldIsLandscape = isLandscape;
 			if (!sap.ui.Device.system.phone) {
-				this.$().toggleClass("sapMSplitContainerPortrait", !isLandscape);
+				this.toggleStyleClass("sapMSplitContainerPortrait", !isLandscape);
 		
 				//hidemode doesn't react to orientation change
 				if (mode === "HideMode") {
 					return;
 				}
-			
+
 				if (mode === "ShowHideMode") {
 					if (isLandscape) {
 						this.fireBeforeMasterOpen();
@@ -1610,7 +1621,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 						this.fireBeforeMasterClose();
 					}
 				}
-				
+
 				if (this._isMie9) {
 					if (isLandscape) {
 						this._oMasterNav.$().css({
@@ -1628,10 +1639,8 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 				}
 				
 				if (mode === "ShowHideMode" || mode === "PopoverMode") {
-					if (isLandscape) {
-						this._oMasterNav.$().toggleClass("sapMSplitContainerMasterVisible", false);
-						this._oMasterNav.$().toggleClass("sapMSplitContainerMasterHidden", false);
-					}
+					this._oMasterNav.toggleStyleClass("sapMSplitContainerMasterVisible", isLandscape);
+					this._oMasterNav.toggleStyleClass("sapMSplitContainerMasterHidden", !isLandscape);
 				}
 				
 				if (mode === "ShowHideMode") {
@@ -1644,8 +1653,8 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 					}
 				}
 				
-				if (this.getMode() == "PopoverMode") {
-					if (this._oPopOver.oPopup.isOpen()) {
+				if (mode == "PopoverMode") {
+					if (this._oPopOver.isOpen()) {
 					//Wait for the popover to be closed properly
 						this._oPopOver.attachAfterClose(this._handlePopClose, this);
 						this._oPopOver.close();

@@ -23,7 +23,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Button', './InstanceManager', '.
 	 * @implements sap.ui.core.PopupInterface
 	 *
 	 * @author SAP SE
-	 * @version 1.28.9
+	 * @version 1.28.10
 	 *
 	 * @constructor
 	 * @public
@@ -401,7 +401,9 @@ sap.ui.define(['jquery.sap.global', './Bar', './Button', './InstanceManager', '.
 
 			// Only when the given parameter is "true", the beforeClose event isn't fired here.
 			// Because it's already fired in the sap.m.Popover.prototype.close function.
-			if (bBeforeCloseFired !== true) {
+			// The event also should not be fired if the focus is still inside the Popup. This could occur when the
+			// autoclose mechanism is fired by the child Popup and is called throught the EventBus
+			if (bBeforeCloseFired !== true && !this._isFocusInsidePopup()) {
 				that.fireBeforeClose({openBy: that._oOpenBy});
 			}
 
@@ -737,8 +739,6 @@ sap.ui.define(['jquery.sap.global', './Bar', './Button', './InstanceManager', '.
 			$arrow = this.$("arrow"),
 			iWindowWidth = this._$window.width(),
 			iWindowHeight = this._$window.height();
-
-		oStyle.overflow = "";
 
 		if (sContentWidth.indexOf("%") > 0) {
 			sContentWidth = sap.m.PopupHelper.calcPercentageSize(sContentWidth, iWindowWidth);

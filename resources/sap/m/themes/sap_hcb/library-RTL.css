@@ -1418,8 +1418,12 @@ html[data-sap-ui-browser="ie9"] .sapMFeedListItemTitleDiv {
   pointer-events: none;
   /* disable events */
 }
-.sapMInputBaseInner::-webkit-input-placeholder {
+.sapMInputBaseInner[placeholder] {
   text-overflow: ellipsis;
+}
+.sapMInputBaseInner::-webkit-input-placeholder {
+  text-overflow: ellipsis !important;
+  /* important is necessary to overwrite inline style of shadow dom */
 }
 .sapMInputBaseMessage {
   padding: 0.3125rem;
@@ -3537,6 +3541,9 @@ html[dir=rtl] .sapUiIconMirrorInRTL:not(.sapUiIconSuppressMirrorInRTL).sapMPanel
 }
 .sapMPopover.sapUiSizeCompact .sapMPopoverArrDown:before {
   margin-top: -1.25rem;
+}
+.sapMPopover .sapUiRespGrid {
+  width: 100%;
 }
 /* mixin call for creating container content padding classes (arguments: rootContainer, contentSelector) */
 .sapMPopover.sapUiContentPadding > .sapMPopoverCont > .sapMPopoverScroll {
