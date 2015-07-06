@@ -23,7 +23,7 @@ sap.ui.define(['jquery.sap.global', './ListBase', './library'],
 	 * @extends sap.m.ListBase
 	 *
 	 * @author SAP SE
-	 * @version 1.28.10
+	 * @version 1.28.11
 	 *
 	 * @constructor
 	 * @public
@@ -120,14 +120,14 @@ sap.ui.define(['jquery.sap.global', './ListBase', './library'],
 		}
 	};
 	
-	Table.prototype.destroyAggregation = function(sAggregationName) {
-		sAggregationName == "items" && this._notifyColumns("ItemsRemoved");
-		return ListBase.prototype.destroyAggregation.apply(this, arguments);
+	Table.prototype.destroyItems = function() {
+		this._notifyColumns("ItemsRemoved");
+		return ListBase.prototype.destroyItems.call(this);
 	};
 	
-	Table.prototype.removeAllAggregation = function(sAggregationName) {
-		sAggregationName == "items" && this._notifyColumns("ItemsRemoved");
-		return ListBase.prototype.removeAllAggregation.apply(this, arguments);
+	Table.prototype.removeAllItems = function() {
+		this._notifyColumns("ItemsRemoved");
+		return ListBase.prototype.removeAllItems.call(this);
 	};
 	
 	Table.prototype.removeSelections = function() {
