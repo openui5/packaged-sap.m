@@ -23,7 +23,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control'],
 	 * @implements sap.ui.core.IShrinkable
 	 *
 	 * @author SAP SE
-	 * @version 1.28.11
+	 * @version 1.28.12
 	 *
 	 * @constructor
 	 * @public
@@ -120,7 +120,6 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control'],
 		return (typeof document.documentElement.style.webkitLineClamp != "undefined");
 	})();
 
-
 	// suppress invalidation of text property setter
 	Text.prototype.setText = function(sText) {
 		this.setProperty("text", sText , true);
@@ -150,7 +149,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control'],
 
 		// handle line ending characters for renderer
 		if (bNormalize) {
-			return sText.replace(/\r\n/g, "\n");
+			return sText.replace(/\\r\\n|\\n/g, "\n");
 		}
 
 		return sText;

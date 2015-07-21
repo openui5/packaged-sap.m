@@ -22,7 +22,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 	 * @extends sap.m.InputBase
 	 *
 	 * @author SAP SE
-	 * @version 1.28.11
+	 * @version 1.28.12
 	 *
 	 * @constructor
 	 * @public
@@ -284,6 +284,9 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 
 		// Show suggestions in a full screen dialog on phones:
 		this._bFullScreen = sap.ui.Device.system.phone;
+
+		// Counter for concurrent issues with setValue:
+		this._iSetCount = 0;
 	};
 
 	/**
@@ -1166,7 +1169,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 					rememberSelections : false,
 					selectionChange : function(oEvent) {
 						var oListItem = oEvent.getParameter("listItem"),
-							sOriginalValue = oInput.getValue(),
+							iCount = oInput._iSetCount,
 							sNewValue;
 
 						// fire suggestion item select event
@@ -1175,7 +1178,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 						});
 
 						// choose which field should be used for the value
-						if (sOriginalValue !== oInput.getValue()) {
+						if (iCount !== oInput._iSetCount) {
 							// if the event handler modified the input value we take this one as new value
 							sNewValue = oInput.getValue();
 						} else if (oListItem instanceof sap.m.DisplayListItem) {
@@ -1469,7 +1472,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 				rememberSelections : false,
 				selectionChange: function (oEvent) {
 					var oInput = that,
-						sOriginalValue = oInput.getValue(),
+						iCount = oInput._iSetCount,
 						oSelectedListItem = oEvent.getParameter("listItem"),
 						sNewValue;
 
@@ -1479,7 +1482,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 					});
 
 					// choose which field should be used for the value
-					if (sOriginalValue !== oInput.getValue()) {
+					if (iCount !== oInput._iSetCount) {
 						// if the event handler modified the input value we take this one as new value
 						sNewValue = oInput.getValue();
 					} else {
@@ -1623,6 +1626,20 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 	/*           end: forward aggregation methods to table         */
 	/* =========================================================== */
 
+	/**
+	 * Setter for property <code>value</code>.
+	 *
+	 * Default value is empty/<code>undefined</code>.
+	 *
+	 * @param {string} sValue New value for property <code>value</code>.
+	 * @return {sap.m.Input} <code>this</code> to allow method chaining.
+	 * @public
+	 */
+	Input.prototype.setValue = function(sValue) {
+		this._iSetCount++;
+		InputBase.prototype.setValue.call(this, sValue);
+		return this;
+	};
 
 	/**
 	 * Getter for property <code>valueStateText</code>.

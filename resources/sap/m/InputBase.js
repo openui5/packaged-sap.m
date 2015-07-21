@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.28.11
+	 * @version 1.28.12
 	 *
 	 * @constructor
 	 * @public
@@ -129,30 +129,17 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	/* Private properties                                          */
 	/* ----------------------------------------------------------- */
 
-	// use labels as placeholder configuration
-	InputBase.prototype._bShowLabelAsPlaceholder = (function(oDevice) {
-
-		// check native placeholder support first
-		if (!oDevice.support.input.placeholder) {
-			return true;
-		}
-
-		// according to HTML 5 placeholder specification,
-		// http://www.w3.org/html/wg/drafts/html/master/single-page.html#the-placeholder-attribute
-		// the placeholder attribute is only shown before the user enters a value
-		// but IE removes placeholder when the user puts focus on the field
-		// http://msdn.microsoft.com/en-us/library/ie/hh772942(v=vs.85).aspx
-		if (oDevice.browser.msie) {
-			return true;
-		}
-
-		// we exclude not right alignable placeholders
-		// check test page : http://jsfiddle.net/89FhB/
-		if (oDevice.os.android && oDevice.os.version < 4.4) {
-			return true;
-		}
-
-	}(sap.ui.Device));
+	/**
+	 * Use labels as placeholder configuration.
+	 * It can be necessary for the subclasses to overwrite this when
+	 * native placeholder usage causes undesired input events or when
+	 * placeholder attribute is not supported for the specified type.
+	 * https://html.spec.whatwg.org/multipage/forms.html#input-type-attr-summary
+	 * 
+	 * @see sap.m.InputBase#oninput
+	 * @protected
+	 */
+	InputBase.prototype._bShowLabelAsPlaceholder = !sap.ui.Device.support.input.placeholder;
 
 	/* ----------------------------------------------------------- */
 	/* Private methods                                             */
@@ -244,6 +231,9 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 			// remember dom value in case of invalidation during keystrokes
 			// so the following should only be used onAfterRendering
 			this._sDomValue = this._getInputValue();
+		} else {
+			// no active dom so we should not try to retain the value
+			this._bCheckDomValue = false;
 		}
 	};
 
@@ -693,9 +683,6 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 */
 	InputBase.prototype.updateDomValue = function(sValue) {
 
-		// dom value updated other than value property
-		this._bCheckDomValue = true;
-
 		// respect to max length
 		sValue = this._getInputValue(sValue);
 
@@ -703,6 +690,9 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		// otherwise cursor can goto end of text unnecessarily
 		if (this.isActive() && (this._getInputValue() !== sValue)) {
 			this._$input.val(sValue);
+			
+			// dom value updated other than value property
+			this._bCheckDomValue = true;
 		}
 
 		// update synthetic placeholder visibility
@@ -927,7 +917,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @param {string} sName The Property Name
 	 * @param {array} aMessages Array of Messages
 	 */
-	InputBase.prototype.updateMessages = function(sName, aMessages) {
+	InputBase.prototype.propagateMessages = function(sName, aMessages) {
 		if (aMessages && aMessages.length > 0) {
 			this.setValueState(aMessages[0].type);
 			this.setValueStateText(aMessages[0].message);

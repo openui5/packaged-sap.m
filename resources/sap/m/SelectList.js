@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './SelectListRenderer', './library', 'sap/ui
 		 * @extends sap.ui.core.Control
 		 *
 		 * @author SAP SE
-		 * @version 1.28.11
+		 * @version 1.28.12
 		 *
 		 * @constructor
 		 * @public

@@ -18,7 +18,7 @@ sap.ui.define(['jquery.sap.global', './DatePicker', './library'],
 	 * @class
 	 * This is a date range selection control. It internal uses the sap.ui.unified.Calendar. So the sap.ui.unified library should be loaded from applications using this control.
 	 * @extends sap.m.DatePicker
-	 * @version 1.28.11
+	 * @version 1.28.12
 	 *
 	 * @constructor
 	 * @public
@@ -95,18 +95,21 @@ sap.ui.define(['jquery.sap.global', './DatePicker', './library'],
 
 		DateRangeSelection.prototype.onkeypress = function(oEvent){
 
-			if (oEvent.charCode) {
-				var that = this;
-				var oFormatter = _getFormatter(that);
-				var sDelimiter = _getDelimiter(that);
-				var sAllowedCharacters = oFormatter.sAllowedCharacters + sDelimiter + " ";
-				var sChar = String.fromCharCode(oEvent.charCode);
-
-				if (sChar && oFormatter.sAllowedCharacters && sAllowedCharacters.indexOf(sChar) < 0) {
-					oEvent.preventDefault();
-				}
+			// the keypress event should be fired only when a character key is pressed,
+			// unfortunately some browsers fire the keypress event for control keys as well.
+			if (!oEvent.charCode || oEvent.metaKey || oEvent.ctrlKey) {
+				return;
 			}
 
+			var that = this;
+			var oFormatter = _getFormatter(that);
+			var sDelimiter = _getDelimiter(that);
+			var sAllowedCharacters = oFormatter.sAllowedCharacters + sDelimiter + " ";
+			var sChar = String.fromCharCode(oEvent.charCode);
+
+			if (sChar && oFormatter.sAllowedCharacters && sAllowedCharacters.indexOf(sChar) < 0) {
+				oEvent.preventDefault();
+			}
 		};
 
 		DateRangeSelection.prototype._getPlaceholder = function() {

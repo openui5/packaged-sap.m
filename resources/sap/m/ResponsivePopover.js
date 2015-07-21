@@ -22,7 +22,7 @@ sap.ui.define(['jquery.sap.global', './Dialog', './Popover', './library', 'sap/u
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.28.11
+	 * @version 1.28.12
 	 *
 	 * @constructor
 	 * @public
@@ -132,7 +132,12 @@ sap.ui.define(['jquery.sap.global', './Dialog', './Popover', './library', 'sap/u
 			/**
 			 * InitialFocus is supported by both variants. Please see the documentation on sap.m.Popover#initialFocus and sap.m.Dialog#initialFocus
 			 */
-			initialFocus : {type : "sap.ui.core.Control", multiple : false}
+			initialFocus : {type : "sap.ui.core.Control", multiple : false},
+
+			/**
+			 * Association to controls / ids which describe this control (see WAI-ARIA attribute aria-describedby).
+			 */
+			ariaDescribedBy : {type : "sap.ui.core.Control", multiple : true, singularName : "ariaDescribedBy"}
 		},
 		events : {
 

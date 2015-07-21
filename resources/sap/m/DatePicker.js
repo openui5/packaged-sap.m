@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './InputBase', 'sap/ui/model/type/Date', 'sa
 	 * This is an date input control with a calendar DatePicker.
 	 * It internal uses the sap.ui.unified.Calendar. So the sap.ui.unified library should be loaded from applications using this control. (Otherwise it will be loaded by opening the DatePicker.)
 	 * @extends sap.m.InputBase
-	 * @version 1.28.11
+	 * @version 1.28.12
 	 *
 	 * @constructor
 	 * @public
@@ -241,16 +241,19 @@ sap.ui.define(['jquery.sap.global', './InputBase', 'sap/ui/model/type/Date', 'sa
 
 		DatePicker.prototype.onkeypress = function(oEvent){
 
-			if (oEvent.charCode) {
-				var that = this;
-				var oFormatter = _getFormatter(that, true);
-				var sChar = String.fromCharCode(oEvent.charCode);
-
-				if (sChar && oFormatter.sAllowedCharacters && oFormatter.sAllowedCharacters.indexOf(sChar) < 0) {
-					oEvent.preventDefault();
-				}
+			// the keypress event should be fired only when a character key is pressed,
+			// unfortunately some browsers fire the keypress event for control keys as well.
+			if (!oEvent.charCode || oEvent.metaKey || oEvent.ctrlKey) {
+				return;
 			}
 
+			var that = this;
+			var oFormatter = _getFormatter(that, true);
+			var sChar = String.fromCharCode(oEvent.charCode);
+
+			if (sChar && oFormatter.sAllowedCharacters && oFormatter.sAllowedCharacters.indexOf(sChar) < 0) {
+				oEvent.preventDefault();
+			}
 		};
 
 		DatePicker.prototype.onclick = function(oEvent) {

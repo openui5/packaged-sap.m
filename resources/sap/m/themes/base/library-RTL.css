@@ -2754,14 +2754,40 @@ div[class*='sapMOHRStatesCont'] > div:last-child {
 }
 .sapMOHR .sapMITH {
   position: relative;
-  margin-right: -1.8rem;
-  margin-left: -1.8rem;
+  margin-right: -2rem;
+  margin-left: -2rem;
 }
 .sap-phone .sapMOHRTabs .sapMITH,
 .sap-desktop.sapUiMedia-Std-Phone .sapMOHRTabs .sapMITH {
   position: relative;
   margin-right: -1rem;
   margin-left: -1rem;
+}
+.sap-desktop.sapUiMedia-Std-Phone .sapMOHRTabs .sapMITBHead {
+  margin: 1rem 1rem 0 1rem;
+}
+html[data-sap-ui-os=win8].sap-desktop.sapUiMedia-Std-Phone .sapMOHRTabs .sapMITBHead {
+  margin: 1rem 0 0;
+}
+.sap-phone .sapMOHRTabs .sapMITBScrollContainer,
+.sap-desktop.sapUiMedia-Std-Phone .sapMOHRTabs .sapMITBScrollContainer {
+  margin: 0 1rem;
+}
+.sap-desktop.sapUiMedia-Std-Phone .sapMOHRTabs .sapMITBArrowScrollLeft {
+  right: 0.25rem;
+  padding: 1rem 0;
+}
+.sap-desktop.sapUiMedia-Std-Phone .sapMOHRTabs .sapMITBArrowScrollRight {
+  padding: 1rem 0;
+  left: 0.25rem;
+}
+.sap-desktop.sapUiMedia-Std-Phone .sapMOHRTabs .sapMITBArrowScrollLeftTextOnly {
+  right: 0.25rem;
+  padding: 1.25rem 0 0.75rem;
+}
+.sap-desktop.sapUiMedia-Std-Phone .sapMOHRTabs .sapMITBArrowScrollRightTextOnly {
+  padding: 1.25rem 0 0.75rem;
+  left: 0.25rem;
 }
 .sapMOHRTabs {
   margin: 0 0 0 0;
@@ -2784,7 +2810,6 @@ div[class*='sapMOHRStatesCont'] > div:last-child {
 .sapMOHR .sapMITBHead {
   display: block;
   font-size: 0.75rem;
-  margin: 0 1.25rem 0;
   overflow: hidden;
   position: relative;
   white-space: nowrap;
