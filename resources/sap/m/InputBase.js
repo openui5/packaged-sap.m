@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.30.2
+	 * @version 1.30.3
 	 *
 	 * @constructor
 	 * @public
@@ -231,6 +231,9 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 			// remember dom value in case of invalidation during keystrokes
 			// so the following should only be used onAfterRendering
 			this._sDomValue = this._getInputValue();
+		} else {
+			// no active dom so we should not try to retain the value
+			this._bCheckDomValue = false;
 		}
 	};
 
@@ -732,9 +735,6 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 */
 	InputBase.prototype.updateDomValue = function(sValue) {
 
-		// dom value updated other than value property
-		this._bCheckDomValue = true;
-
 		// respect to max length
 		sValue = this._getInputValue(sValue);
 
@@ -742,6 +742,9 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		// otherwise cursor can goto end of text unnecessarily
 		if (this.isActive() && (this._getInputValue() !== sValue)) {
 			this._$input.val(sValue);
+			
+			// dom value updated other than value property
+			this._bCheckDomValue = true;
 		}
 
 		// update synthetic placeholder visibility
@@ -991,7 +994,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @param {string} sName The Property Name
 	 * @param {array} aMessages Array of Messages
 	 */
-	InputBase.prototype.updateMessages = function(sName, aMessages) {
+	InputBase.prototype.propagateMessages = function(sName, aMessages) {
 		if (aMessages && aMessages.length > 0) {
 			this.setValueState(aMessages[0].type);
 			this.setValueStateText(aMessages[0].message);

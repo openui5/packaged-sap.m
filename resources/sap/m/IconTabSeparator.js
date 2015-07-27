@@ -23,7 +23,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Element'],
 	 * @implements sap.m.IconTab
 	 *
 	 * @author SAP SE
-	 * @version 1.30.2
+	 * @version 1.30.3
 	 *
 	 * @constructor
 	 * @public
@@ -62,7 +62,8 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Element'],
 	IconTabSeparator.prototype._getImageControl = function(aCssClasses, oParent) {
 		var mProperties = {
 			src : this.getIcon(),
-			densityAware : this.getIconDensityAware()
+			densityAware : this.getIconDensityAware(),
+			useIconTooltip : false
 		};
 		
 		this._oImageControl = sap.m.ImageHelper.getImageControl(this.getId() + "-icon", this._oImageControl, oParent, mProperties, aCssClasses);

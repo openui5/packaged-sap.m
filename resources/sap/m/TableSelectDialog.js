@@ -23,7 +23,7 @@ sap.ui.define(['jquery.sap.global', './Button', './Dialog', './SearchField', './
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.30.2
+	 * @version 1.30.3
 	 *
 	 * @constructor
 	 * @public
@@ -260,6 +260,7 @@ sap.ui.define(['jquery.sap.global', './Button', './Dialog', './SearchField', './
 			initialFocus: ((sap.ui.Device.system.desktop && this._oSearchField) ? this._oSearchField : null)
 		});
 		this._dialog = this._oDialog; // for downward compatibility
+		this.setAggregation("_dialog", this._oDialog);
 
 		//CSN# 3863876/2013: ESC key should also cancel dialog, not only close it
 		var fnDialogEscape = this._oDialog.onsapescape;

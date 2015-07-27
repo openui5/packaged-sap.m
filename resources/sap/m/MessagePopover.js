@@ -24,7 +24,7 @@ sap.ui.define(["jquery.sap.global", "./ResponsivePopover", "sap/m/Button", "sap/
 		 * @extends sap.ui.core.Control
 		 *
 		 * @author SAP SE
-		 * @version 1.30.2
+		 * @version 1.30.3
 		 *
 		 * @constructor
 		 * @public
@@ -744,6 +744,14 @@ sap.ui.define(["jquery.sap.global", "./ResponsivePopover", "sap/m/Button", "sap/
 							done = true;
 							break;
 						}
+					}
+
+					// check for existing id
+					var indexOfId = attrs.indexOf("id");
+					if (indexOfId > -1) {
+						// we start backwards
+						attrs.splice(indexOfId + 1, 1);
+						attrs.splice(indexOfId, 1);
 					}
 
 					// if no class attribute was found, add one

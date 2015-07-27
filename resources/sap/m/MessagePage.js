@@ -23,7 +23,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		 *		- The application is loading
 		 *	The layout is unchanged but the text varies depending on the use case.
 		 * @extends sap.ui.core.Control
-		 * @version 1.30.2
+		 * @version 1.30.3
 		 *
 		 * @constructor
 		 * @public
@@ -225,7 +225,8 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 			this._oIconControl = IconPool.createControlByURI({
 				id: this.getId() + "-pageIcon",
 				src: this.getIcon(),
-				height: "8rem"
+				height: "8rem",
+				useIconTooltip: false
 			}, sap.m.Image).addStyleClass("sapMMessagePageIcon");
 
 			return this._oIconControl;

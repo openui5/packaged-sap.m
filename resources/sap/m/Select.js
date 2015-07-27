@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './Popov
 		 * @extends sap.ui.core.Control
 		 *
 		 * @author SAP SE
-		 * @version 1.30.2
+		 * @version 1.30.3
 		 *
 		 * @constructor
 		 * @public
@@ -550,8 +550,6 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './Popov
 					if (bAutoAdjustWidth) {
 						oPickerDomRef.style.width = "auto";
 						oPickerDomRef.style.minWidth = sWidth;
-					} else {
-						oPickerDomRef.style.width = sWidth;
 					}
 				}
 

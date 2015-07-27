@@ -20,7 +20,7 @@ sap.ui.define([
 	 *        tables.
 	 * @extends sap.m.Dialog
 	 * @author SAP SE
-	 * @version 1.30.2
+	 * @version 1.30.3
 	 * @constructor
 	 * @public
 	 * @since 1.26.0
@@ -578,7 +578,8 @@ sap.ui.define([
 
 	/**
 	 * Calls the controller validation. Notifies the validation result to all registered panel listeners.
-     * @private
+	 * 
+	 * @private
 	 */
 	P13nDialog.prototype._callValidationExecutor = function() {
 		var fValidate = this.getValidationExecutor();
@@ -641,7 +642,7 @@ sap.ui.define([
 					fFireOK();
 				};
 				var aFailedPanelTypes = [];
-				var aValidationResult = null;
+				var aValidationResult = [];
 				// Execute validation of controller
 				var fValidate = that.getValidationExecutor();
 				if (fValidate) {

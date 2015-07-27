@@ -20,7 +20,7 @@ sap.ui.define([
 	 * 
 	 * @class The P13nSortPanel control is used to define settings for sorting in table personalization.
 	 * @extends sap.m.P13nPanel
-	 * @version 1.30.2
+	 * @version 1.30.3
 	 * 
 	 * @constructor
 	 * @public

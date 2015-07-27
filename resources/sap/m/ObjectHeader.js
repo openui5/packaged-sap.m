@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @class
 	 * ObjectHeader is a display control that enables the user to easily identify a specific object. The object header title is the key identifier of the object and additional text and icons can be used to further distinguish it from other objects.
 	 * @extends sap.ui.core.Control
-	 * @version 1.30.2
+	 * @version 1.30.3
 	 *
 	 * @constructor
 	 * @public
@@ -296,23 +296,27 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	}});
 
 	ObjectHeader.prototype.init = function() {
-		var that = this;
+		var that = this,
+		oLibraryResourceBundle = sap.ui.getCore().getLibraryResourceBundle("sap.m"); // get resource translation bundle
 
 		//TODO Remove placeholder when Safari iconFont issue is addressed.
 		this._oPlaceholderIcon = IconPool.createControlByURI({
 			id : this.getId() + "-placeholder",
+			useIconTooltip : false,
 			src : IconPool.getIconURI("fridge")
 		});
 		this._oPlaceholderIcon.addStyleClass("sapMObjStatusMarkerInvisible");
 
 		this._oFlagIcon = IconPool.createControlByURI({
 			id : this.getId() + "-flag",
+			tooltip: oLibraryResourceBundle.getText("TOOLTIP_OH_FLAG_MARK_VALUE"),
 			src : IconPool.getIconURI("flag"),
 			visible : false
 		});
 
 		this._oFavIcon = IconPool.createControlByURI({
 			id : this.getId() + "-favorite",
+			tooltip: oLibraryResourceBundle.getText("TOOLTIP_OH_FAVORITE_MARK_VALUE"),
 			src : IconPool.getIconURI("favorite"),
 			visible : false
 		});
@@ -322,6 +326,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 			src: IconPool.getIconURI("arrow-down"),
 			decorative: false,
 			visible : false,
+			useIconTooltip : false,
 			size: "1.375rem",
 			press : function(oEvent) {
 				that.fireTitleSelectorPress({
@@ -678,6 +683,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 			width : sWidth,
 			size : sSize,
 			alt: this.getIconAlt(),
+			useIconTooltip : false,
 			densityAware : this.getIconDensityAware()
 		};
 

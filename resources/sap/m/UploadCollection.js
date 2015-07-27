@@ -19,7 +19,7 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.30.2
+	 * @version 1.30.3
 	 *
 	 * @constructor
 	 * @public
@@ -84,8 +84,9 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 			mimeType : {type : "string[]", group : "Data", defaultValue : null},
 
 			/**
-			 * Allows multiple files to be chosen and uploaded from the same folder.
-			 * This property is not supported by Internet Explorer 8 and 9.
+			 * Lets the user select multiple files from the same folder and then upload them.
+			 * Internet Explorer 8 and 9 do not support this property.
+			 * Please note that the various operating systems for mobile devices can react differently to the property so that fewer upload functions may be available in some cases.
 			 */
 			multiple : {type : "boolean", group : "Behavior", defaultValue : false},
 
@@ -354,7 +355,7 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 		this._oList.addStyleClass("sapMUCList");
 		this._cAddItems = 0;
 		this.aItems = [];
-		this._RenderManager = sap.ui.getCore().createRenderManager();
+		this._RenderManager;
 		this._aFileUploadersForPendingUpload = [];
 	};
 
@@ -501,6 +502,7 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 	 * @private
 	 */
 	UploadCollection.prototype.onBeforeRendering = function() {
+		this._RenderManager = this._RenderManager || sap.ui.getCore().createRenderManager();
 		var i, bItemToBeDeleted, cAitems;
 
 		if (!this.getInstantUpload()) {//
@@ -738,7 +740,6 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 		sStatus = oItem._status;
 
 		oRm = that._RenderManager;
-		that._RenderManager = oRm;
 		oRm.write('<div class="sapMUCTextContainer '); // text container for fileName, attributes and statuses
 		if (sStatus === "Edit") {
 			oRm.write('sapMUCEditMode ');
@@ -863,7 +864,7 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 			if (!oFileNameEditBox) {
 				oFileNameEditBox = new sap.m.Input(sItemId + "-ta_editFileName", {
 					type : sap.m.InputType.Text,
-					fieldWidth: "60%",
+					fieldWidth: "75%",
 					valueState : sValueState,
 					valueStateText : sValueStateText,
 					showValueStateMessage: bShowValueStateMessage,
@@ -872,7 +873,7 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 				}).addStyleClass("sapMUCEditBox");
 			} else {
 				oFileNameEditBox.setValueState(sValueState);
-				oFileNameEditBox.setFieldWidth("60%");
+				oFileNameEditBox.setFieldWidth("75%");
 				oFileNameEditBox.setValueStateText(sValueStateText);
 				oFileNameEditBox.setValue(sFileName);
 				oFileNameEditBox.setDescription(oFile.extension);
@@ -1759,9 +1760,10 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 	 */
 	UploadCollection.prototype._onUploadComplete = function(oEvent) {
 		if (oEvent) {
-			var i, sRequestId, sUploadedFile, cItems;
+			var i, sRequestId, sUploadedFile, cItems, bUploadSuccessful = checkRequestStatus();
 			sRequestId = this._getRequestId(oEvent);
 			sUploadedFile = oEvent.getParameter("fileName");
+
 			// at the moment parameter fileName is not set in IE9
 			if (!sUploadedFile) {
 				var aUploadedFile = (oEvent.getSource().getProperty("value")).split(/\" "/);
@@ -1771,17 +1773,27 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 			for (i = 0; i < cItems; i++) {
 			// sRequestId should be null only in case of IE9 because FileUploader does not support header parameters for it
 				if (!sRequestId) {
-					if (this.aItems[i].getProperty("fileName") === sUploadedFile && 
-							this.aItems[i]._status === UploadCollection._uploadingStatus) {
+					if (this.aItems[i].getProperty("fileName") === sUploadedFile &&
+							this.aItems[i]._status === UploadCollection._uploadingStatus &&
+							bUploadSuccessful) {
 						this.aItems[i]._percentUploaded = 100;
 						this.aItems[i]._status = UploadCollection._displayStatus;
 						break;
+					} else if (this.aItems[i].getProperty("fileName") === sUploadedFile &&
+										 this.aItems[i]._status === UploadCollection._uploadingStatus) {
+						this.aItems.splice(i, 1);
 					}
-				} else if (this.aItems[i].getProperty("fileName") === sUploadedFile && 
-									 this.aItems[i]._requestIdName === sRequestId && 
-									 this.aItems[i]._status === UploadCollection._uploadingStatus) {
+				} else if (this.aItems[i].getProperty("fileName") === sUploadedFile &&
+						this.aItems[i]._requestIdName === sRequestId &&
+						this.aItems[i]._status === UploadCollection._uploadingStatus &&
+						bUploadSuccessful) {
 					this.aItems[i]._percentUploaded = 100;
 					this.aItems[i]._status = UploadCollection._displayStatus;
+					break;
+				} else if (this.aItems[i].getProperty("fileName") === sUploadedFile &&
+									 this.aItems[i]._requestIdName === sRequestId &&
+									 this.aItems[i]._status === UploadCollection._uploadingStatus) {
+					this.aItems.splice(i, 1);
 					break;
 				}
 			}
@@ -1799,6 +1811,15 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 					headers : oEvent.getParameter("headers")
 				}]
 			});
+		}
+
+		function checkRequestStatus () {
+			var sRequestStatus = oEvent.getParameter("status") || "200"; // In case of IE < 10 this will not work.
+			if (sRequestStatus[0] === "2" || sRequestStatus[0] === "3") {
+				return true;
+			} else {
+				return false;
+			}
 		}
 	};
 
