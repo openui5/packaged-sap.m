@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta charset="UTF-8">
+	<title>Test Page for sap.m.semantic.SemanticButton</title>
+	<script id="sap-ui-bootstrap"
+			data-sap-ui-noConflict="true"
+			src="../../../../../resources/sap-ui-core.js"
+			data-sap-ui-libs="sap.m"
+			data-sap-ui-theme="sap_bluecrystal">
+	</script>
+	<link rel="stylesheet" href="../../../../../resources/sap/ui/thirdparty/qunit.css" type="text/css" media="screen"/>
+	<script src="../../../../../resources/sap/ui/thirdparty/qunit.js"></script>
+	<script type="text/javascript" src="../../../../../resources/sap/ui/qunit/qunit-junit.js"></script>
+	<script src="../../../../../resources/sap/ui/thirdparty/sinon.js"></script>
+	<script src="../../../../../resources/sap/ui/thirdparty/sinon-qunit.js"></script>
+	<script src="../../../../../resources/sap/ui/qunit/QUnitUtils.js"></script>
+
+	<!-- use the sinon faketimers for this test -->
+	<script type="text/javascript">
+		sinon.config.useFakeTimers = true;
+	</script>
+
+	<script>
+
+		jQuery.sap.require("sap.m.semantic.SemanticPage");
+		jQuery.sap.require("sap.m.semantic.SemanticButton");
+		jQuery.sap.require("sap.m.semantic.SemanticButton");
+		jQuery.sap.require("sap.m.semantic.AddAction");
+		jQuery.sap.require("sap.m.semantic.EditAction");
+		jQuery.sap.require("sap.m.semantic.NegativeAction");
+		jQuery.sap.require("sap.m.semantic.CancelAction");
+		jQuery.sap.require("sap.m.semantic.FlagAction");
+		//jQuery.sap.require("sap.ui.qunit.qunit-coverage");
+
+		var oBundle = sap.ui.getCore().getLibraryResourceBundle("sap.m");
+
+		function capitalize(sName) {
+			return sName.substring(0, 1).toUpperCase() + sName.substring(1);
+		}
+
+		function testPropertyInitValue(fnClass, sPropertyName, oExpectedInitValue, oMetadata) {
+
+			oMetadata || (oMetadata = {});
+			var oButton = new fnClass(oMetadata);
+
+			test("semantic action has correct init " + sPropertyName, function() {
+
+				strictEqual(oButton.getProperty(sPropertyName), oExpectedInitValue, "action has correct init " + sPropertyName);
+				strictEqual(oButton["get" + capitalize(sPropertyName)](), oExpectedInitValue, "action has correct init " + sPropertyName);
+				oButton.destroy();
+			});
+		}
+
+		function testSetProperty(fnClass, sPropertyName, oModifiedValue, oMetadata) {
+
+			// Arrange
+			oMetadata || (oMetadata = {});
+			var oButton = new fnClass(oMetadata);
+
+			test("setProperty" + sPropertyName, function () {
+
+				// Act
+				oButton.setProperty(sPropertyName, oModifiedValue);
+
+				// Assert
+				strictEqual(oButton.getProperty(sPropertyName), oModifiedValue, "property " + sPropertyName + " is modified correctly");
+				strictEqual(oButton["get" + capitalize(sPropertyName)](), oModifiedValue, "property " + sPropertyName + " is modified correctly");
+
+				// Clean up
+				oButton.destroy();
+			});
+		}
+
+		function testPropertyModifier(fnClass, sPropertyName, oModifiedValue, oMetadata) {
+
+			// Arrange
+			oMetadata || (oMetadata = {});
+			var oButton = new fnClass(oMetadata);
+			var sModifier = "set" + capitalize(sPropertyName);
+
+			test("test " + sModifier, function () {
+
+				// Act
+				oButton[sModifier](oModifiedValue);
+
+				// Assert
+				strictEqual(oButton.getProperty(sPropertyName), oModifiedValue, "property " + sPropertyName + " is modified correctly");
+				strictEqual(oButton["get" + capitalize(sPropertyName)](), oModifiedValue, "property " + sPropertyName + " is modified correctly");
+
+				// Clean up
+				oButton.destroy();
+			});
+
+		}
+
+		function testDataBinding(fnClass, sField, oModifiedValue, oMetadata) {
+
+			var oModel = new sap.ui.model.json.JSONModel({modifiedValue: oModifiedValue});
+			var oBindingInfo = {};
+			oBindingInfo[sField] = "{/modifiedValue}";
+			oMetadata || (oMetadata = {});
+
+			test(sField + " correct binding when bindingInfo and model in metadata", function () {
+				// Arrange
+				var oExtendedMetadata = jQuery.extend({}, oMetadata, oBindingInfo, {models: oModel});
+				var oButton = new fnClass(oExtendedMetadata);
+
+				// Assert
+				strictEqual(oButton["get" + capitalize(sField)](), oModifiedValue, "property " + sField + " is modified correctly");
+			});
+
+			test(sField + " correct binding when bindingInfo in metadata", function () {
+				// Arrange
+				var oExtendedMetadata = jQuery.extend({}, oMetadata, oBindingInfo);
+				var oButton = new fnClass(oExtendedMetadata);
+
+				//Act
+				oButton.setModel(oModel);
+
+				// Assert
+				strictEqual(oButton["get" + capitalize(sField)](), oModifiedValue, "property " + sField + " is modified correctly");
+			});
+
+			test(sField + " correct binding when model in metadata", function () {
+				// Arrange
+				var oExtendedMetadata = jQuery.extend({}, oMetadata, {models: oModel});
+				var oButton = new fnClass(oExtendedMetadata);
+
+				// Act
+				oButton.bindProperty(sField, "/modifiedValue");
+
+				// Assert
+				strictEqual(oButton["get" + capitalize(sField)](), oModifiedValue, "property " + sField + " is modified correctly");
+			});
+
+			test(sField + " correct binding via bindProperty and setModel", function () {
+				// Arrange
+				var oButton = new fnClass(oMetadata);
+
+				// Act
+				oButton.bindProperty(sField, "/modifiedValue");
+				oButton.setModel(oModel);
+
+				// Assert
+				strictEqual(oButton["get" + capitalize(sField)](), oModifiedValue, "property " + sField + " is modified correctly");
+			});
+
+		}
+
+
+		function testDataBindingAfterUnbind(fnClass, sField, oInitValue, oModifiedValue, oMetadata) {
+
+			var oModel = new sap.ui.model.json.JSONModel({modifiedValue: oModifiedValue});
+			var oBindingInfo = {};
+			oBindingInfo[sField] = "{/modifiedValue}";
+			oMetadata || (oMetadata = {});
+
+			test(sField + " correct binding after unbind", function () {
+
+			 var oModel = new sap.ui.model.json.JSONModel({initValue: oInitValue,
+			 												modifiedValue: oModifiedValue});
+			 var oBindingInfo = {};
+			 oBindingInfo[sField] = "{/initValue}";
+
+
+			 // Arrange
+			 var oExtendedMetadata = jQuery.extend({}, oMetadata, oBindingInfo, {models: oModel});
+			 var oButton = new fnClass(oExtendedMetadata);
+
+			 // Assert
+			 strictEqual(oButton["get" + capitalize(sField)](), oInitValue, "property " + sField + " is modified correctly");
+
+			 // Act
+			 oButton.bindProperty(sField, "/modifiedValue");
+			 oButton.setModel(oModel);
+
+			 // Assert
+			 strictEqual(oButton["get" + capitalize(sField)](), oModifiedValue, "property " + sField + " is modified correctly");
+			 });
+
+		}
+
+		function testAggregationInitValue(fnClass, sAggregationName, oExpectedInitValue, oMetadata) {
+
+			// Arrange
+			oMetadata || (oMetadata = {});
+			var oButton = new fnClass(oMetadata);
+
+			test("semantic button with no type has correct init " + sAggregationName, function() {
+
+				strictEqual(oButton.getAggregation(sAggregationName), oExpectedInitValue, "button with no type has correct init " + sAggregationName);
+				strictEqual(oButton["get" + capitalize(sAggregationName)](), oExpectedInitValue, "button with no type has correct init " + sAggregationName);
+				oButton.destroy();
+			});
+		}
+
+		function testSetAggregation(fnClass, sAggregationName, oModifiedValue, oMetadata) {
+
+			// Arrange
+			oMetadata || (oMetadata = {});
+			var oButton = new fnClass(oMetadata);
+
+			test("setAggregation" + sAggregationName, function () {
+
+				// Act
+				oButton.setAggregation(sAggregationName, oModifiedValue);
+
+				// Assert
+				strictEqual(oButton.getAggregation(sAggregationName), oModifiedValue, "aggregation " + sAggregationName + " is modified correctly");
+				strictEqual(oButton["get" + capitalize(sAggregationName)](), oModifiedValue, "aggregation " + sAggregationName + " is modified correctly");
+
+				// Clean up
+				oButton.destroy();
+			});
+
+		}
+
+		function testAggregationModifier(fnClass, sAggregatioName, oModifiedValue, oMetadata) {
+
+			// Arrange
+			oMetadata || (oMetadata = {});
+			var oButton = new fnClass(oMetadata);
+			var sModifier = "set" + capitalize(sAggregatioName);
+
+			test("test " + sModifier, function () {
+
+				// Act
+				oButton[sModifier](oModifiedValue);
+
+				// Assert
+				strictEqual(oButton.getAggregation(sAggregatioName), oModifiedValue, "property " + sAggregatioName + " is modified correctly");
+				strictEqual(oButton["get" + capitalize(sAggregatioName)](), oModifiedValue, "property " + sAggregatioName + " is modified correctly");
+
+				// Clean up
+				oButton.destroy();
+			});
+
+		}
+
+		module("id");
+
+		test("semantic control can be retrieved by Id", function () {
+			// Arrange
+			var oEditButton = new sap.m.semantic.EditAction("editBtn");
+
+			strictEqual(oEditButton.getId(), "editBtn", "control has the expected id");
+
+			// Act
+			var oRetrievedBtn = sap.ui.getCore().byId("editBtn");
+
+			// Assert
+			notEqual(oRetrievedBtn, undefined, "the button is retrieved by id");
+			strictEqual(oRetrievedBtn.getId(), "editBtn", "control has the expected id");
+
+			oEditButton.destroy();
+		});
+
+		module("init values");
+
+		testPropertyInitValue(sap.m.semantic.AddAction, "enabled", true);
+		testPropertyInitValue(sap.m.semantic.AddAction, "visible", true);
+		testPropertyInitValue(sap.m.semantic.FlagAction, "pressed", false);
+		testAggregationInitValue(sap.m.semantic.EditAction, "tooltip", null);
+
+
+		module("modifiers");
+
+		testSetProperty(sap.m.semantic.AddAction, "enabled", false);
+		testSetProperty(sap.m.semantic.AddAction, "visible", false);
+		testSetProperty(sap.m.semantic.FlagAction, "pressed", true);
+		testSetAggregation(sap.m.semantic.EditAction, "tooltip", "newTooltip");
+		testPropertyModifier(sap.m.semantic.AddAction, "enabled", false);
+		testPropertyModifier(sap.m.semantic.AddAction, "visible", false);
+		testAggregationModifier(sap.m.semantic.EditAction, "tooltip", "newTooltip");
+
+
+		module("data binding");
+
+		testDataBinding(sap.m.semantic.AddAction, "enabled", false);
+		testDataBindingAfterUnbind(sap.m.semantic.AddAction, "enabled", false, true);
+
+		testDataBinding(sap.m.semantic.AddAction, "tooltip", "newTooltipValue");
+		testDataBindingAfterUnbind(sap.m.semantic.AddAction, "tooltip", "newTooltipValue", "nextTooltipValue");
+
+		testDataBinding(sap.m.semantic.FlagAction, "pressed", true);
+		testDataBindingAfterUnbind(sap.m.semantic.FlagAction, "pressed", true, false);
+
+		module("inaccessible properties");
+
+		test("Semantic buttons should not allow setting icon value to them", function () {
+			// Arrange
+			var oEditButton = new sap.m.semantic.EditAction(""),
+					oRejectButton = new sap.m.semantic.NegativeAction(""),
+					testIcon = 'sap-icon://settings';
+
+			var fnErrorStub = this.stub(jQuery.sap.log, "error");
+
+			// Act
+			oRejectButton.setProperty("icon", testIcon);
+
+			// Assert
+			equal(oRejectButton.getProperty("icon"), "", "the reject button icon value is correctly not modified");
+
+			// Act
+			oEditButton.setProperty("icon", testIcon);
+
+			// Assert
+			equal(oEditButton.getProperty("icon"), "", "the edit button icon value is correctly not modified");
+
+			ok(fnErrorStub.calledTwice, "Two errors are generated, because the property icon does not exist");
+
+			// Clean up
+			oRejectButton.destroy();
+			oEditButton.destroy();
+			fnErrorStub.restore();
+		});
+
+		test("Semantic buttons should not allow setting text value to them", function () {
+			// Arrange
+			var oEditButton = new sap.m.semantic.EditAction(""),
+					oCancelAction = new sap.m.semantic.CancelAction(),
+					testText = 'Test';
+
+			var fnErrorStub = this.stub(jQuery.sap.log, "error");
+
+			// Act
+			oCancelAction.setProperty("text", testText);
+
+			// Assert
+			equal(oCancelAction.getProperty("text"), oBundle.getText("SEMANTIC_CONTROL_CANCEL"), "the reject button text value is not overwritten");
+
+			// Act
+			oEditButton.setProperty("text", testText);
+
+			// Assert
+			equal(oEditButton.getProperty("text"), oBundle.getText("SEMANTIC_CONTROL_EDIT"), "the edit button text value is not overwritten");
+
+			ok(fnErrorStub.calledTwice, "Two errors are generated, because the property text does not exist");
+
+			// Clean up
+			oCancelAction.destroy();
+			oEditButton.destroy();
+			fnErrorStub.restore();
+		});
+
+		test("FlagAction pressed is metadata", function() {
+			//setup
+			var oFlagAction = new sap.m.semantic.FlagAction({
+				pressed: true
+			});
+
+			//act
+			strictEqual(oFlagAction.getPressed(), true, "pressed is set to by metadata");
+
+			//cleanup
+			oFlagAction.destroy();
+		});
+
+ 		test("Popover can be opened by a semantic button", function() {
+
+			var oSpy = this.spy();
+
+			var oPopover = new sap.m.Popover({
+					content: new sap.m.Label({text: "Popover"}),
+					afterOpen: oSpy
+					});
+
+			var oEditButton = new sap.m.semantic.EditAction({
+				press: function() {
+					oPopover.openBy(oEditButton);
+				}
+			});
+
+			var oSemanticPage = new sap.m.semantic.DetailPage({
+				editAction: oEditButton
+			});
+
+			oSemanticPage.placeAt("qunit-fixture-visible");
+			sap.ui.getCore().applyChanges();
+
+			// Act
+			oEditButton.firePress();
+			this.clock.tick(500);
+
+			// Assert
+			strictEqual(oSpy.callCount, 1, "Popover was opened");
+
+			oPopover.close();
+
+			// Clean up
+			oPopover.destroy();
+			oSemanticPage.destroy();
+
+		});
+
+		test("Semantic button provides domRef", function() {
+
+			var oEditButton = new sap.m.semantic.EditAction();
+
+			var oSemanticPage = new sap.m.semantic.DetailPage({
+				editAction: oEditButton
+			});
+
+			oSemanticPage.placeAt("qunit-fixture-visible");
+			sap.ui.getCore().applyChanges();
+
+			// Act
+			var $ref = oEditButton.getDomRef();
+			// Assert
+			notEqual($ref, null, "reference to dom returned");
+			strictEqual($ref, oEditButton._getControl().getDomRef(), "correct reference to dom returned");
+
+			// Clean up
+			oSemanticPage.destroy();
+
+		});
+
+	</script>
+</head>
+<body id="body" class="sapUiBody">
+<h1 id="qunit-header">QUnit tests: sap.m.semantic.SemanticButton</h1>
+
+<h2 id="qunit-banner"></h2>
+
+<h2 id="qunit-userAgent"></h2>
+<!--<div id="qunit-testrunner-toolbar"></div>-->
+<ol id="qunit-tests"></ol>
+<div id="qunit-fixture"></div>
+<div id="qunit-fixture-visible"></div>
+</body>
+</html>
