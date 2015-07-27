@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', 'sap/m/semantic/SemanticPageSegment', 'sap/u
 	 * Constructor for a sap.m.semantic.SemanticPageSegmentedContainer.
 	 *
 	 * @class text
-	 * @version 1.30.1
+	 * @version 1.30.2
 	 * @private
 	 * @since 1.30.0
 	 * @alias sap.m.semantic.SemanticPageSegmentedContainer

@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control'],
 	 * @class
 	 * ObjectAttribute displays a text field that can be normal or active. Object attribute fires a press event when the user selects active text.
 	 * @extends sap.ui.core.Control
-	 * @version 1.30.1
+	 * @version 1.30.2
 	 *
 	 * @constructor
 	 * @public
@@ -59,7 +59,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control'],
 			/**
 			 * When the aggregation is set it replaces the text, active and textDirection property. This also ignores the press event. The provided control is displayed as an active link.
 			 */
-			attribute : {type : "sap.ui.core.Control", multiple : false},
+			customContent : {type : "sap.ui.core.Control", multiple : false},
 
 			/**
 			 * Text control to display title and text property
@@ -103,9 +103,9 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control'],
 	 * @private
 	 */
 	ObjectAttribute.prototype._getUpdatedTextControl = function() {
-		var oAttrAggregation = this.getAggregation('attribute') || this.getAggregation('_textControl'),
+		var oAttrAggregation = this.getAggregation('customContent') || this.getAggregation('_textControl'),
 			sTitle = this.getTitle(),
-			sText = this.getAggregation('attribute') ? this.getAggregation('attribute').getText() : this.getText(),
+			sText = this.getAggregation('customContent') ? this.getAggregation('customContent').getText() : this.getText(),
 			sTextDir = this.getTextDirection(),
 			oParent = this.getParent(),
 			bPageRTL = sap.ui.getCore().getConfiguration().getRTL(),
@@ -137,7 +137,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control'],
 	};
 
 	/**
-	 * Sets the appropriate property to the attribute aggregation
+	 * Sets the appropriate property to the customContent aggregation
 	 *
 	 * @private
 	 */
@@ -187,8 +187,8 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control'],
 	 * @returns {boolean} true if attribute's text is empty or only consists of whitespaces.
 	 */
 	ObjectAttribute.prototype._isEmpty = function() {
-		if (this.getAggregation('attribute') && !(this.getAggregation('attribute') instanceof sap.m.Link || this.getAggregation('attribute') instanceof sap.m.Text)) {
-			jQuery.sap.log.warning("Only sap.m.Link or sap.m.Text are allowed in \"sap.m.ObjectAttribute.attribute\" aggregation");
+		if (this.getAggregation('customContent') && !(this.getAggregation('customContent') instanceof sap.m.Link || this.getAggregation('customContent') instanceof sap.m.Text)) {
+			jQuery.sap.log.warning("Only sap.m.Link or sap.m.Text are allowed in \"sap.m.ObjectAttribute.customContent\" aggregation");
 			return true;
 		} 
 		
@@ -218,7 +218,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control'],
 	};
 
 	ObjectAttribute.prototype._isSimulatedLink = function () {
-		return this.getActive() && !this.getAggregation('attribute');
+		return this.getActive() && !this.getAggregation('customContent');
 	};
 
 	return ObjectAttribute;

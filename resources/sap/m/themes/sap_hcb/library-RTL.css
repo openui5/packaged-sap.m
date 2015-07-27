@@ -9136,7 +9136,7 @@ html[dir='rtl'] .sapMITBContentArrow {
 }
 .sapMITBContainerContent {
   border: 0.125rem solid #ffffff;
-  border-top: none;
+  border-top: 0.125rem solid #ffffff;
   margin-top: 0;
   padding: 0;
   position: relative;
@@ -13175,7 +13175,6 @@ html[data-sap-ui-os^="Android4.4"] .sapMSegB {
 html[data-sap-ui-os^="Android4.4"] header .sapMSegB,
 html[data-sap-ui-os^="Android4.4"] footer .sapMSegB,
 html[data-sap-ui-os^="Android4.4"] .sapMBar .sapMSegB {
-  height: 1.5rem;
   line-height: 1.5rem;
   display: inline-block;
 }
