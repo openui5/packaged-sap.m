@@ -21,7 +21,7 @@ sap.ui.define(['jquery.sap.global', './NavContainer', './library', 'sap/ui/core/
 	 * FacetFilter is used to provide filtering functionality with multiple parameters.
 	 * @extends sap.ui.core.Control
 	 * @implements sap.ui.core.IShrinkable
-	 * @version 1.30.3
+	 * @version 1.30.4
 	 *
 	 * @constructor
 	 * @public
@@ -782,7 +782,7 @@ sap.ui.define(['jquery.sap.global', './NavContainer', './library', 'sap/ui/core/
 					} else {
 					//that._handlePopoverAfterClose(oList);
 //fix remove icon press issue. click remove icon and can't remove facet, so delay the popover close
-						jQuery.sap.delayedCall(100, that, that._handlePopoverAfterClose, [oList]);
+						jQuery.sap.delayedCall(200, that, that._handlePopoverAfterClose, [oList]);
 						oPopover.destroySubHeader();
 					}
 				},

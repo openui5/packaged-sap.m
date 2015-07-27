@@ -22,7 +22,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.30.3
+	 * @version 1.30.4
 	 *
 	 * @constructor
 	 * @public
@@ -432,8 +432,9 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		}, this._iInitialResizeTimeout);
 
 		if (sap.ui.Device.system.desktop || sap.ui.Device.system.combi) {
-			if (this.getTiles().length > 0 && this._mFocusables) {
-				this._mFocusables[this.getTiles()[0].getId()].eq(0).attr('tabindex', '0');
+			var aTiles = this.getAggregation("tiles");
+			if (aTiles.length > 0 && this._mFocusables) {
+				this._mFocusables[aTiles[0].getId()].eq(0).attr('tabindex', '0');
 			}
 		}
 
@@ -700,6 +701,12 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 
 			//this._applyPageStartIndex(iIndex);
 			this._update(false);
+
+			// When the control is initialized/updated with data binding and optimization for rendering
+			// tile by tile is used we need to be sure we have a focusable tile.
+			if (sap.ui.Device.system.desktop || sap.ui.Device.system.combi) {
+				this._updateTilesTabIndex();
+			}
 		} else {
 			this.insertAggregation("tiles",oTile,iIndex);
 		}
@@ -708,6 +715,22 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		handleAriaSize.call(this);
 
 		return this;
+	};
+
+	/**
+	 * If there is no tile focusable e.g.tabindex = 0 update the first tile.
+	 * @private
+	 */
+	TileContainer.prototype._updateTilesTabIndex = function () {
+		var aTiles = this.getAggregation("tiles");
+		if (aTiles.length && aTiles.length > 0) {
+			for (var i = 0; i < aTiles.length; i++) {
+				if (aTiles[i].$().attr("tabindex") === "0") {
+					return;
+				}
+			}
+		}
+		aTiles[0].$().attr("tabindex", "0");
 	};
 
 	/**
@@ -874,6 +897,12 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 */
 	TileContainer.prototype._updateTilePositions = function(){
 
+		var oContentDimension = this._getContainerDimension();
+
+		if (oContentDimension.height === 0) {	// nothing to do because the height of the content is not (yet) available
+			return;
+		}
+		
 		if (this.getTiles().length === 0) {	// no tiles
 			return;
 		}
@@ -1115,6 +1144,13 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @private
 	 */
 	TileContainer.prototype._applyPageStartIndex = function(iIndex) {
+		
+		var oContentDimension = this._getContainerDimension();
+
+		if (oContentDimension.height === 0) {	// nothing to do because the height of the content is not (yet) available
+			return;
+		}
+		
 		this._calculatePositions();
 		var iLength = this.getTiles().length;
 

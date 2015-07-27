@@ -28,7 +28,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control'],
 	 * @implements sap.m.ObjectHeaderContainer
 	 *
 	 * @author SAP SE
-	 * @version 1.30.3
+	 * @version 1.30.4
 	 *
 	 * @constructor
 	 * @public
@@ -170,6 +170,17 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control'],
 			}
 		}
 	}});
+
+
+	IconTabBar.prototype.clone = function () {
+		var oClone = Control.prototype.clone.apply(this, arguments);
+
+		// "_header" aggregation is hidden and it is not cloned by default
+		var oIconTabHeader = this._getIconTabHeader();
+		oClone.setAggregation("_header", oIconTabHeader.clone(), true);
+
+		return oClone;
+	};
 
 	/**
 	 * Sets the expanded flag and toggles the expand/collapse animation if the control is already rendered

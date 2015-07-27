@@ -22,7 +22,7 @@ sap.ui.define(['jquery.sap.global', './SplitContainer', './library'],
 	 * @extends sap.m.SplitContainer
 	 *
 	 * @author SAP SE
-	 * @version 1.30.3
+	 * @version 1.30.4
 	 *
 	 * @constructor
 	 * @public

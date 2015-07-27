@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './InputBase', 'sap/ui/model/type/Date', 'sa
 	 * This is an date input control with a calendar DatePicker.
 	 * It internal uses the sap.ui.unified.Calendar. So the sap.ui.unified library should be loaded from applications using this control. (Otherwise it will be loaded by opening the DatePicker.)
 	 * @extends sap.m.InputBase
-	 * @version 1.30.3
+	 * @version 1.30.4
 	 *
 	 * @constructor
 	 * @public

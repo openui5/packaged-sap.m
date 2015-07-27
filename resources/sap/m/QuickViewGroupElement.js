@@ -162,6 +162,21 @@ sap.ui.define([
 			}
 		};
 
+		GroupElement.prototype.setProperty = function () {
+			Element.prototype.setProperty.apply(this, arguments);
+
+			var oGroup = this.getParent();
+			if (!oGroup) {
+				return;
+			}
+
+			var oPage = oGroup.getParent();
+			if (oPage) {
+				oPage._updatePage();
+			}
+		};
+
+
 		return GroupElement;
 
 	}, /* bExport= */true);

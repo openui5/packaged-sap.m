@@ -19,7 +19,7 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.30.3
+	 * @version 1.30.4
 	 *
 	 * @constructor
 	 * @public
@@ -517,12 +517,12 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 			// collect items with the status "uploading"
 			var aUploadingItems = [];
 			for (i = 0; i < cAitems; i++) {
-				if (this.aItems[i]._status === UploadCollection._uploadingStatus && this.aItems[i]._percentUploaded !== 100) {
+				if (this.aItems[i] && this.aItems[i]._status === UploadCollection._uploadingStatus && this.aItems[i]._percentUploaded !== 100) {
 					aUploadingItems.push(this.aItems[i]);
-				} else if (this.aItems[i]._status !== UploadCollection._uploadingStatus && this.aItems[i]._percentUploaded === 100 && this.getItems().length === 0) {
+				} else if (this.aItems[i] && this.aItems[i]._status !== UploadCollection._uploadingStatus && this.aItems[i]._percentUploaded === 100 && this.getItems().length === 0) {
 					// Skip this rendering because of model refresh only
 					aUploadingItems.push(this.aItems[i]);
-				} else if (this.aItems[i]._status === UploadCollection._toBeDeletedStatus && this.getItems().length === 0) {
+				} else if (this.aItems[i] && this.aItems[i]._status === UploadCollection._toBeDeletedStatus && this.getItems().length === 0) {
 					// Skip this rendering because of model refresh only
 					bItemToBeDeleted = true;
 					this.aItems.splice(i, 1);
@@ -693,9 +693,9 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 			oBusyIndicator = new sap.m.BusyIndicator(sItemId + "-ia_indicator", {
 				visible: true
 			}).addStyleClass("sapMUCloadingIcon");
+		} else {
+			oItemIcon = this._createIcon(oItem, sItemId, sFileNameLong, that);
 		}
-
-		oItemIcon = this._createIcon(oItem, sItemId, sFileNameLong, that);
 
 		sContainerId = sItemId + "-container";
 		// we have to destroy the container ourselves as sap.ui.core.HTML is preserved by default which leads to problems at rerendering
@@ -830,13 +830,15 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 			oFileName = sap.ui.getCore().byId(sItemId + "-ta_filenameHL");
 			if (!oFileName) {
 				oFileName = new sap.m.Link(sItemId + "-ta_filenameHL", {
-					text : sFileNameLong,
 					enabled : bEnabled,
 					press : function(oEvent) {
 						sap.m.UploadCollection.prototype._triggerLink(oEvent, that);
 					}
 				}).addStyleClass("sapMUCFileName");
+				oFileName.setModel(oItem.getModel());
+				oFileName.setText(sFileNameLong);
 			} else {
+					oFileName.setModel(oItem.getModel());
 					oFileName.setText(sFileNameLong);
 					oFileName.setEnabled(bEnabled);
 			}
@@ -868,10 +870,12 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 					valueState : sValueState,
 					valueStateText : sValueStateText,
 					showValueStateMessage: bShowValueStateMessage,
-					value : sFileName,
 					description: oFile.extension
 				}).addStyleClass("sapMUCEditBox");
+				oFileNameEditBox.setModel(oItem.getModel());
+				oFileNameEditBox.setValue(sFileName);
 			} else {
+				oFileNameEditBox.setModel(oItem.getModel());
 				oFileNameEditBox.setValueState(sValueState);
 				oFileNameEditBox.setFieldWidth("75%");
 				oFileNameEditBox.setValueStateText(sValueStateText);
@@ -1579,6 +1583,7 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 				oItem = new sap.m.UploadCollectionItem({
 					fileName: sFileName
 				});
+				oItem._status = sStatus;
 				if (!this.getInstantUpload()) {
 					oItem.setAssociation("fileUploader",this._oFileUploader, true);
 					this.insertItem(oItem);
@@ -1890,6 +1895,7 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 				fileType : this.getFileType(),
 				icon : "sap-icon://add",
 				iconFirst : false,
+				style : "Transparent",
 				maximumFilenameLength : this.getMaximumFilenameLength(),
 				maximumFileSize : this.getMaximumFileSize(),
 				mimeType : this.getMimeType(),

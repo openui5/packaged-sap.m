@@ -20,7 +20,7 @@ sap.ui.define(["jquery.sap.global", "./library", "sap/ui/core/Item"],
 		 * @extends sap.ui.core.Element
 		 *
 		 * @author SAP SE
-		 * @version 1.30.3
+		 * @version 1.30.4
 		 *
 		 * @constructor
 		 * @public
@@ -61,6 +61,11 @@ sap.ui.define(["jquery.sap.global", "./library", "sap/ui/core/Item"],
 			});
 
 		MessagePopoverItem.prototype.setDescription = function(sDescription) {
+			// Avoid showing result of '' + undefined
+			if (typeof sDescription === 'undefined') {
+				sDescription = '';
+			}
+
 			if (this.getMarkupDescription()) {
 				this.setProperty("description", jQuery.sap._sanitizeHTML(sDescription), true);
 			} else {

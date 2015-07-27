@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './Popov
 		 * @extends sap.ui.core.Control
 		 *
 		 * @author SAP SE
-		 * @version 1.30.3
+		 * @version 1.30.4
 		 *
 		 * @constructor
 		 * @public
@@ -162,11 +162,15 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './Popov
 
 		Select.prototype._handleFocusout = function() {
 
-			if (this._bRenderingPhase) {
-				this._bFocusoutDueRendering = true;
-			} else {
-				this._bFocusoutDueRendering = false;
-				this._checkSelectionChange();
+			this._bFocusoutDueRendering = this._bRenderingPhase;
+
+			if (!this._bFocusoutDueRendering) {
+
+				if (this._bProcessChange) {
+					this._checkSelectionChange();
+				}
+
+				this._bProcessChange = true;
 			}
 		};
 
@@ -497,8 +501,9 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './Popov
 		 */
 		Select.prototype._createPopover = function() {
 
-			// initialize Popover
-			var oPicker = new Popover({
+			var that = this,
+				oPicker = new Popover({
+				showArrow: false,
 				showHeader: false,
 				placement: sap.m.PlacementType.Vertical,
 				offsetX: 0,
@@ -506,6 +511,17 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './Popov
 				initialFocus: this,
 				bounce: false
 			});
+
+			// detect when the scrollbar is pressed
+			oPicker.addEventDelegate({
+				ontouchstart: function(oEvent) {
+					var oPickerDomRef = this.getDomRef("cont");
+
+					if (oEvent.target === oPickerDomRef) {
+						that._bProcessChange = false;
+					}
+				}
+			}, oPicker);
 
 			this._decoratePopover(oPicker);
 			return oPicker;
@@ -625,10 +641,10 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './Popov
 		 * @private
 		 */
 		Select.prototype._onBeforeOpenDialog = function() {
-			var oHeader = this.getPicker().getCustomHeader();
-			oHeader.getContentLeft()[0].setValue(this.getSelectedItem().getText());
-			oHeader.getContentLeft()[0].setTextDirection(this.getTextDirection());
-			oHeader.getContentLeft()[0].setTextAlign(this.getTextAlign());
+			var oInput = this.getPicker().getCustomHeader().getContentLeft()[0];
+			oInput.setValue(this.getSelectedItem().getText());
+			oInput.setTextDirection(this.getTextDirection());
+			oInput.setTextAlign(this.getTextAlign());
 		};
 
 		/* =========================================================== */
@@ -656,6 +672,10 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './Popov
 
 			// to detect if the focusout event is triggered due a rendering
 			this._bFocusoutDueRendering = false;
+
+			// used to prevent the change event from firing when the user scrolls
+			// the picker popup (dropdown) list using the mouse
+			this._bProcessChange = false;
 		};
 
 		/**
@@ -1047,9 +1067,11 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './Popov
 		 */
 		Select.prototype.onfocusin = function(oEvent) {
 
-			if (!this._bFocusoutDueRendering) {
+			if (!this._bFocusoutDueRendering && !this._bProcessChange) {
 				this._oSelectionOnFocus = this.getSelectedItem();
 			}
+
+			this._bProcessChange = true;
 
 			// note: in some circumstances IE browsers focus non-focusable elements
 			if (oEvent.target !== this.getFocusDomRef()) {	// whether an inner element is receiving the focus

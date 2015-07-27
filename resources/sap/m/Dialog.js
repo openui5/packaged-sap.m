@@ -24,7 +24,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './InstanceManager', './Toolbar', '
 	 * @implements sap.ui.core.PopupInterface
 	 *
 	 * @author SAP SE
-	 * @version 1.30.3
+	 * @version 1.30.4
 	 *
 	 * @constructor
 	 * @public
@@ -1517,8 +1517,13 @@ sap.ui.define(['jquery.sap.global', './Bar', './InstanceManager', './Toolbar', '
 				});
 			} else if (bResize) {
 				that._$dialog.addClass('sapMDialogResizing');
-				$w.on("mousemove.sapMDialog", function(e) {
-					fnMouseMoveHandler(function() {
+				var isInRTLMode = sap.ui.getCore().getConfiguration().getRTL();
+				var styles = {};
+				var minWidth = parseInt(that._$dialog.css('min-width'), 10);
+				var maxLeftOffset = initial.x + initial.width - minWidth;
+
+				$w.on("mousemove.sapMDialog", function (e) {
+					fnMouseMoveHandler(function () {
 						that._bDisableRepositioning = true;
 
 						that._oManuallySetSize = {
@@ -1526,10 +1531,15 @@ sap.ui.define(['jquery.sap.global', './Bar', './InstanceManager', './Toolbar', '
 							height: initial.height + e.pageY - initial.y
 						};
 
-						that._$dialog.css({
-							width: that._oManuallySetSize.width,
-							height: that._oManuallySetSize.height
-						});
+						if (isInRTLMode) {
+							styles.left = Math.min(Math.max(e.pageX, 0), maxLeftOffset);
+							that._oManuallySetSize.width = initial.width + initial.x - Math.max(e.pageX, 0);
+						}
+
+						styles.width = that._oManuallySetSize.width;
+						styles.height = that._oManuallySetSize.height;
+
+						that._$dialog.css(styles);
 					});
 				});
 			} else {

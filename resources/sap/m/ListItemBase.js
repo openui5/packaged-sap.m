@@ -22,7 +22,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.30.3
+	 * @version 1.30.4
 	 *
 	 * @constructor
 	 * @public
@@ -215,6 +215,25 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 */
 	ListItemBase.prototype.getMode = function() {
 		return this.getListProperty("mode", "");
+	};
+	
+	/*
+	 * Updates the accessibility state of the control.
+	 * 
+	 * @param {Object} [mAccessibility] a map of accessibility properties
+	 * @protected
+	 */
+	ListItemBase.prototype.updateAccessibilityState = function(mAccessibility) {
+		var $This = this.$();
+		if (!$This.length) {
+			return;
+		}
+		
+		var $Items = $This.parent().find(".sapMLIB");
+		$This.attr(jQuery.extend({
+			"aria-setsize": $Items.length,
+			"aria-posinset": $Items.index($This) + 1
+		}, mAccessibility));
 	};
 	
 	/**

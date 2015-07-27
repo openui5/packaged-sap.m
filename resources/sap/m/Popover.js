@@ -23,7 +23,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Button', './InstanceManager', '.
 	 * @implements sap.ui.core.PopupInterface
 	 *
 	 * @author SAP SE
-	 * @version 1.30.3
+	 * @version 1.30.4
 	 *
 	 * @constructor
 	 * @public
@@ -1415,7 +1415,10 @@ sap.ui.define(['jquery.sap.global', './Bar', './Button', './InstanceManager', '.
 
 		if (oNavContent || oPageContent) {
 			oPageContent = oPageContent || oNavContent.getCurrentPage();
-			iPageHeaderHeight = oPageContent._getAnyHeader().$().outerHeight();
+
+			if (oPageContent) {
+				iPageHeaderHeight = oPageContent._getAnyHeader().$().outerHeight();
+			}
 		}
 
 		if (sPlacement === sap.m.PlacementType.Left || sPlacement === sap.m.PlacementType.Right) {

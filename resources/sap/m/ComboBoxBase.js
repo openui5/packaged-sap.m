@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './ComboBoxBaseRenderer', './Dialog
 		 * @extends sap.m.InputBase
 		 *
 		 * @author SAP SE
-		 * @version 1.30.3
+		 * @version 1.30.4
 		 *
 		 * @constructor
 		 * @public
@@ -849,7 +849,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './ComboBoxBaseRenderer', './Dialog
 		ComboBoxBase.prototype.removeItem = function(vItem) {
 
 			// remove the item from the aggregation items
-			vItem = this.removeAggregation("items", vItem);
+			vItem = this.removeAggregation("items", vItem, true);
 
 			if (vItem) {
 				vItem.detachEvent("_change", this.onItemChange, this);
@@ -872,7 +872,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './ComboBoxBaseRenderer', './Dialog
 		 * @public
 		 */
 		ComboBoxBase.prototype.removeAllItems = function() {
-			var aItems = this.removeAllAggregation("items");
+			var aItems = this.removeAllAggregation("items", true);
 
 			// clear the selection
 			this.clearSelection();
@@ -895,7 +895,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './ComboBoxBaseRenderer', './Dialog
 		 * @public
 		 */
 		ComboBoxBase.prototype.destroyItems = function() {
-			this.destroyAggregation("items");
+			this.destroyAggregation("items", true);
 
 			if (this.getList()) {
 				this.getList().destroyItems();

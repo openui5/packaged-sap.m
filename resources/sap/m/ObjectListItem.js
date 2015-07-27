@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './ListItemBase', './library', 'sap/ui/core/
 	 * @class
 	 * ObjectListItem is a display control that provides summary information about an object as an item in a list. The object list item title is the key identifier of the object. Additional text and icons can be used to further distinguish it from other objects. Attributes and statuses can be used to provide additional meaning about the object to the user.
 	 * @extends sap.m.ListItemBase
-	 * @version 1.30.3
+	 * @version 1.30.4
 	 *
 	 * @constructor
 	 * @public
@@ -145,6 +145,8 @@ sap.ui.define(['jquery.sap.global', './ListItemBase', './library', 'sap/ui/core/
 	// * This file defines behavior for the control,
 	// */
 	
+	// get resource translation bundle;
+	var oLibraryResourceBundle = sap.ui.getCore().getLibraryResourceBundle("sap.m");
 	
 	/**
 	 * @private
@@ -249,6 +251,7 @@ sap.ui.define(['jquery.sap.global', './ListItemBase', './library', 'sap/ui/core/
 			height : sSize,
 			width : sSize,
 			size: sSize,
+			useIconTooltip : false,
 			densityAware : this.getIconDensityAware()
 		};
 		var aCssClasses = ['sapMObjLIcon'];
@@ -295,6 +298,7 @@ sap.ui.define(['jquery.sap.global', './ListItemBase', './library', 'sap/ui/core/
 			var oPlaceholderIconUri = IconPool.getIconURI("fridge");
 			this._oPlaceholderIcon = IconPool.createControlByURI({
 				id: this.getId() + "-placeholder",
+				useIconTooltip : false,
 				src: oPlaceholderIconUri
 			});
 			
@@ -314,6 +318,7 @@ sap.ui.define(['jquery.sap.global', './ListItemBase', './library', 'sap/ui/core/
 			var oFlagIconUri = IconPool.getIconURI("flag");
 			this._oFlagIcon = IconPool.createControlByURI({
 				id: this.getId() + "-flag",
+				tooltip: oLibraryResourceBundle.getText("TOOLTIP_OLI_FLAG_MARK_VALUE"),
 				src: oFlagIconUri
 			});
 		}
@@ -330,6 +335,7 @@ sap.ui.define(['jquery.sap.global', './ListItemBase', './library', 'sap/ui/core/
 			var oLockIconUri = IconPool.getIconURI("locked");
 			this._oLockIcon = IconPool.createControlByURI({
 				id: this.getId() + "-lock",
+				tooltip: oLibraryResourceBundle.getText("TOOLTIP_OLI_LOCK_MARK_VALUE"),
 				src: oLockIconUri
 			}).addStyleClass("sapMObjStatusMarkerLocked");
 		}
@@ -344,11 +350,12 @@ sap.ui.define(['jquery.sap.global', './ListItemBase', './library', 'sap/ui/core/
 
 		if (!this._oFavIcon) {
 
-		    var oFavIconUri = IconPool.getIconURI("favorite");
-		    this._oFavIcon = IconPool.createControlByURI({
-		           id: this.getId() + "-favorite",
-		           src: oFavIconUri
-		    });
+			var oFavIconUri = IconPool.getIconURI("favorite");
+			this._oFavIcon = IconPool.createControlByURI({
+				id: this.getId() + "-favorite",
+				tooltip: oLibraryResourceBundle.getText("TOOLTIP_OLI_FAVORITE_MARK_VALUE"),
+				src: oFavIconUri
+			});
 		}
 		return this._oFavIcon;
 	};

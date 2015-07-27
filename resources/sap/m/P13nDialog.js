@@ -20,7 +20,7 @@ sap.ui.define([
 	 *        tables.
 	 * @extends sap.m.Dialog
 	 * @author SAP SE
-	 * @version 1.30.3
+	 * @version 1.30.4
 	 * @constructor
 	 * @public
 	 * @since 1.26.0
@@ -512,7 +512,7 @@ sap.ui.define([
 		if (sId && oContent) {
 			// move panel div into dialog content div.
 			var oPanel = jQuery.find("#" + sId);
-			jQuery(oPanel).insertAfter(jQuery(oContent));
+			jQuery(oPanel).appendTo(jQuery(oContent));
 		}
 	};
 

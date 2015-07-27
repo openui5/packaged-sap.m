@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @class
 	 * Status information that may be either text with a value state, or an icon.
 	 * @extends sap.ui.core.Control
-	 * @version 1.30.3
+	 * @version 1.30.4
 	 *
 	 * @constructor
 	 * @public
@@ -100,7 +100,8 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		var sImgId = this.getId() + '-icon';
 		var mProperties = {
 			src : this.getIcon(),
-			densityAware : this.getIconDensityAware()
+			densityAware : this.getIconDensityAware(),
+			useIconTooltip : false
 		};
 
 		this._oImageControl = sap.m.ImageHelper.getImageControl(sImgId, this._oImageControl, this, mProperties);

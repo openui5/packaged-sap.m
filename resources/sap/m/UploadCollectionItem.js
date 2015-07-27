@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Element', 'sap/m/O
 	 * @extends sap.ui.core.Element
 	 *
 	 * @author SAP SE
-	 * @version 1.30.3
+	 * @version 1.30.4
 	 *
 	 * @constructor
 	 * @public
@@ -254,38 +254,38 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Element', 'sap/m/O
 	/**
 	 * @description Update deprecated properties aggregation
 	 * @private
-	 * @experimental since version 1.30. The behavior might change in the next version.
+	 * @since 1.30.
 	 */
 	UploadCollectionItem.prototype._updateDeprecatedProperties = function() {
 		var aProperties = ["uploadedDate", "contributor", "fileSize"];
-		this.removeAllAggregation("_propertyAttributes");
+		this.removeAllAggregation("_propertyAttributes", true);
 		jQuery.each(aProperties, function(i, sName) {
 			var sValue = this.getProperty(sName),
-				oAttribute = this._mDeprecatedProperties[sName];
-			if (sValue) {
-				if (oAttribute) {
-					oAttribute.setText(sValue);
-				} else {
+					oAttribute = this._mDeprecatedProperties[sName];
+			if (jQuery.type(sValue) === "number" && !!sValue  || !!sValue) {
+				if (!oAttribute) {
 					oAttribute = new ObjectAttribute({
-						active : false,
-						text : sValue
+						active : false
 					});
 					this._mDeprecatedProperties[sName] = oAttribute;
+					this.addAggregation("_propertyAttributes", oAttribute, true);
+					oAttribute.setText(sValue);
+				} else {
+					oAttribute.setText(sValue);
+					this.addAggregation("_propertyAttributes", oAttribute, true);
 				}
-				this.addAggregation("_propertyAttributes", oAttribute);
-			} else {
-				if (oAttribute) {
-					oAttribute.destroy();
-					delete this._mDeprecatedProperties[sName];
-				}
+			} else if (oAttribute) {
+				oAttribute.destroy();
+				delete this._mDeprecatedProperties[sName];
 			}
 		}.bind(this));
+		this.invalidate();
 	};
 
 	/**
 	 * @description Return all attributes, the deprecated property attributes and the aggregated attributes in one array
 	 * @private
-	 * @experimental since version 1.30. The behavior might change in the next version.
+	 * @since 1.30.
 	 */
 	UploadCollectionItem.prototype.getAllAttributes = function() {
 		return this.getAggregation("_propertyAttributes", []).concat(this.getAttributes());
