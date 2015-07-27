@@ -4,7 +4,7 @@
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
-sap.ui.define(["sap/m/semantic/SemanticConfiguration"], function (SemanticConfiguration) {
+sap.ui.define(["sap/m/semantic/SemanticConfiguration", "sap/ui/base/ManagedObject", "sap/ui/core/Element"], function (SemanticConfiguration, ManagedObject, Element) {
 	"use strict";
 
 	/**
@@ -20,7 +20,7 @@ sap.ui.define(["sap/m/semantic/SemanticConfiguration"], function (SemanticConfig
 	 * @abstract
 	 *
 	 * @author SAP SE
-	 * @version 1.30.0
+	 * @version 1.30.1
 	 *
 	 * @constructor
 	 * @public
@@ -28,7 +28,7 @@ sap.ui.define(["sap/m/semantic/SemanticConfiguration"], function (SemanticConfig
 	 * @alias sap.m.semantic.SemanticControl
 	 * @ui5-metamodel This control/element also will be described in the UI5 (legacy) designtime metamodel
 	 */
-	var SemanticControl = sap.ui.core.Element.extend("sap.m.semantic.SemanticControl", /** @lends sap.m.semantic.SemanticControl.prototype */ {
+	var SemanticControl = Element.extend("sap.m.semantic.SemanticControl", /** @lends sap.m.semantic.SemanticControl.prototype */ {
 		metadata: {
 
 			"abstract": true,
@@ -60,13 +60,10 @@ sap.ui.define(["sap/m/semantic/SemanticConfiguration"], function (SemanticConfig
 	});
 
 	SemanticControl.prototype.setProperty = function (key, value, bSuppressInvalidate) {
+		ManagedObject.prototype.setProperty.call(this, key, value, true);
 		this._getControl().setProperty(key, value, bSuppressInvalidate);
 
 		return this;
-	};
-
-	SemanticControl.prototype.getProperty = function (key) {
-		return this._getControl().getProperty(key);
 	};
 
 	SemanticControl.prototype.updateAggregation = function (sName) {
@@ -79,14 +76,14 @@ sap.ui.define(["sap/m/semantic/SemanticConfiguration"], function (SemanticConfig
 
 	SemanticControl.prototype.setAggregation = function (sAggregationName, oObject, bSuppressInvalidate) {
 		if (sAggregationName === '_control') {
-			return sap.ui.base.ManagedObject.prototype.setAggregation.call(this, sAggregationName, oObject, bSuppressInvalidate);
+			return ManagedObject.prototype.setAggregation.call(this, sAggregationName, oObject, bSuppressInvalidate);
 		}
 		return this._getControl().setAggregation(sAggregationName, oObject, bSuppressInvalidate);
 	};
 
 	SemanticControl.prototype.getAggregation = function (sAggregationName, oDefaultForCreation) {
 		if (sAggregationName === '_control') {
-			return sap.ui.base.ManagedObject.prototype.getAggregation.call(this, sAggregationName, oDefaultForCreation);
+			return ManagedObject.prototype.getAggregation.call(this, sAggregationName, oDefaultForCreation);
 		}
 		return this._getControl().getAggregation(sAggregationName, oDefaultForCreation);
 	};
@@ -125,7 +122,7 @@ sap.ui.define(["sap/m/semantic/SemanticConfiguration"], function (SemanticConfig
 
 	SemanticControl.prototype.clone = function (sIdSuffix, aLocalIds) {
 
-		var oClone = sap.ui.core.Element.prototype.clone.apply(this, arguments);
+		var oClone = Element.prototype.clone.apply(this, arguments);
 
 		// need to clone the private oControl as well
 		var oPrivateControlClone = this._getControl().clone(sIdSuffix, aLocalIds);

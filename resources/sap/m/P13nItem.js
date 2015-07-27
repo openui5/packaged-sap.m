@@ -18,7 +18,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Element'], functio
 	 * 
 	 * @class Base type for <code>items</code> aggregation in P13nPanel control.
 	 * @extends sap.ui.core.Item
-	 * @version 1.30.0
+	 * @version 1.30.1
 	 * 
 	 * @constructor
 	 * @public

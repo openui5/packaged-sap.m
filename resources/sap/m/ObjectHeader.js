@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @class
 	 * ObjectHeader is a display control that enables the user to easily identify a specific object. The object header title is the key identifier of the object and additional text and icons can be used to further distinguish it from other objects.
 	 * @extends sap.ui.core.Control
-	 * @version 1.30.0
+	 * @version 1.30.1
 	 *
 	 * @constructor
 	 * @public
@@ -188,9 +188,9 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		aggregations : {
 
 			/**
-			 * The list of Object sap.ui.core.Control. It will only allow sap.m.ObjectAttribute and sap.ui.comp.navpopover.SmartLink controls.
+			 * The list of Object Attributes
 			 */
-			attributes : {type : "sap.ui.core.Control", multiple : true, singularName : "attribute"},
+			attributes : {type : "sap.m.ObjectAttribute", multiple : true, singularName : "attribute"},
 
 			/**
 			 * First status shown on the right side of the attributes above the second status.

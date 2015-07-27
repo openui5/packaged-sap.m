@@ -207,7 +207,7 @@ QUnit.test("Rendering after initial load", function(assert) {
 	assert.ok(this.oUploadCollection, "UploadCollection instantiated");
 	assert.ok(jQuery.sap.domById("uploadCollection1-list"), "Item list is rendered");
 	assert.ok(jQuery.sap.domById("uploadCollection1-toolbar"), "Toolbar of the item list is rendered");
-	assert.ok(jQuery.sap.domById("uploadCollection1-numberOfAttachmentsLabel"), "Label Number of attachments label is rendered");
+	assert.ok(jQuery.sap.domById("uploadCollection1-numberOfAttachmentsTitle"), "Title Number of attachments is rendered");
 });
 
 QUnit.test("Rendering of an item after change event", function(assert) {
@@ -356,6 +356,8 @@ QUnit.module("Delete PendingUpload Item", {
 });
 
 QUnit.test("Check file list", function(assert) {
+	assert.expect(4);
+
 	var oFile0 = {
 			name : "Screenshot.ico",
 	};
@@ -369,7 +371,7 @@ QUnit.test("Check file list", function(assert) {
 			name : "Picture of a woman.png",
 	};
 	var aFiles = [oFile0];
-	var oFileUploader = this.oUploadCollection._getFileUploader();
+	var oFileUploader = this.oUploadCollection._oFileUploader;
 	oFileUploader.fireChange({files: aFiles});
 	sap.ui.getCore().applyChanges();
 	aFiles = [oFile1];
@@ -411,4 +413,34 @@ QUnit.test("Check file list", function(assert) {
 	//check the deleted item by comparison of the number of list items before and after the deletion
 	var iLengthAfterDeletion = this.oUploadCollection.getItems().length;
 	assert.notEqual(iLengthBeforeDeletion, iLengthAfterDeletion, "Item was deleted, checked by different number of items!");
+});
+
+QUnit.module("PendingUpload uploadProgress Event", {
+	setup : function() {
+		this.oUploadCollection = new sap.m.UploadCollection("pendingUploads", {
+			instantUpload : false
+		});
+		this.oUploadCollection2 = new sap.m.UploadCollection("pendingUploads2", {
+			instantUpload: true
+		});
+		this.oUploadCollection.placeAt("uiArea");
+		this.oUploadCollection2.placeAt("uiArea");
+		sap.ui.getCore().applyChanges();
+	},
+	teardown : function() {
+		this.oUploadCollection.destroy();
+		this.oUploadCollection = null;
+		this.oUploadCollection2.destroy();
+		this.oUploadCollection2 = null;
+	}
+});
+
+QUnit.test("Check onUploadProgress", function(assert) {
+	var spy = sinon.spy(this.oUploadCollection, "_onUploadProgress");
+	this.oUploadCollection._oFileUploader.fireUploadProgress();
+	assert.strictEqual(spy.callCount, 0);
+
+	var spy2 = sinon.spy(this.oUploadCollection2, "_onUploadProgress");
+	this.oUploadCollection2._oFileUploader.fireUploadProgress();
+	assert.strictEqual(spy2.callCount, 1);
 });

@@ -24,7 +24,7 @@ sap.ui.define(['jquery.sap.global', './GroupHeaderListItem', './library', 'sap/u
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.30.0
+	 * @version 1.30.1
 	 *
 	 * @constructor
 	 * @public
@@ -116,13 +116,13 @@ sap.ui.define(['jquery.sap.global', './GroupHeaderListItem', './library', 'sap/u
 	
 			/**
 			 * Sets the growing(paging) feature of control.
-			 * Note: This feature only works with item binding and should not be used with two way binding!
+			 * Note: This feature only works when "items" aggregation is bound. Growing must not be used together with two-way binding!
 			 * @since 1.16
 			 */
 			growing : {type : "boolean", group : "Behavior", defaultValue : false},
 	
 			/**
-			 * Number of items requested from the server. To activate this you should set "growing" property to "true".
+			 * Number of items requested from the server. To activate this you should set the "growing" property to "true".
 			 * @since 1.16
 			 */
 			growingThreshold : {type : "int", group : "Misc", defaultValue : 20},
@@ -666,16 +666,23 @@ sap.ui.define(['jquery.sap.global', './GroupHeaderListItem', './library', 'sap/u
 	 * @public
 	 * @ui5-metamodel This method also will be described in the UI5 (legacy) designtime metamodel
 	 */
-	ListBase.prototype.removeSelections = function(bAll, bFireEvent) {
+	ListBase.prototype.removeSelections = function(bAll, bFireEvent, bDetectBinding) {
 		var aChangedListItems = [];
 		this._oSelectedItem = null;
 		bAll && (this._aSelectedPaths = []);
 		this.getItems(true).forEach(function(oItem) {
-			if (oItem.getSelected()) {
-				oItem.setSelected(false, true);
-				aChangedListItems.push(oItem);
-				!bAll && this._updateSelectedPaths(oItem);
+			if (!oItem.getSelected()) {
+				return;
 			}
+			
+			// if the selected property is two-way bound then we do not need to update the selection
+			if (bDetectBinding && oItem.isSelectedBoundTwoWay()) {
+				return;
+			}
+			
+			oItem.setSelected(false, true);
+			aChangedListItems.push(oItem);
+			!bAll && this._updateSelectedPaths(oItem);
 		}, this);
 	
 		if (bFireEvent && aChangedListItems.length) {
@@ -747,7 +754,6 @@ sap.ui.define(['jquery.sap.global', './GroupHeaderListItem', './library', 'sap/u
 		var aSelecteds = this.getSelectedItems();
 		if (aSelecteds.length > 1) {
 			// remove selection if there are more than one item is selected
-			// we cannot determine 
 			this.removeSelections(true);
 		} else if (sOldMode === sap.m.ListMode.MultiSelect) {
 			// if old mode is multi select then we need to remember selected item 
@@ -915,9 +921,9 @@ sap.ui.define(['jquery.sap.global', './GroupHeaderListItem', './library', 'sap/u
 		if (this.isBound("items")) {
 			this._bUpdating = false;
 			this._bReceivingData = false;
-			this.removeSelections(true);
-			this._hideBusyIndicator();
+			this.removeSelections(true, false, true);
 			this._oGrowingDelegate && this._oGrowingDelegate.reset();
+			this._hideBusyIndicator();
 			
 			/* reset focused position */
 			if (this._oItemNavigation) {
@@ -986,12 +992,14 @@ sap.ui.define(['jquery.sap.global', './GroupHeaderListItem', './library', 'sap/u
 	ListBase.prototype._hideBusyIndicator = function() {
 		if (this._bBusy) {
 			// revert busy state
+			this._bBusy = false;
 			this.setBusy(false, "listUl");
+			jQuery.sap.clearDelayedCall(this._sBusyTimer);
 	
 			// revert no data texts when necessary
-			jQuery.sap.clearDelayedCall(this._sBusyTimer);
-			this.$("nodata-text").text(this.getNoDataText());
-			this._bBusy = false;
+			if (!this.getItems(true).length) {
+				this.$("nodata-text").text(this.getNoDataText());
+			}
 		}
 	};
 	
@@ -1001,9 +1009,8 @@ sap.ui.define(['jquery.sap.global', './GroupHeaderListItem', './library', 'sap/u
 			return;
 		}
 		
-		// if selected property two-way bounded then we do not need to update the selection
-		var oSelectedBinding = oItem.getBinding("selected");
-		if (oSelectedBinding && oSelectedBinding.getBindingMode() == sap.ui.model.BindingMode.TwoWay) {
+		// if selected property two-way bound then we do not need to update the selection
+		if (oItem.isSelectedBoundTwoWay()) {
 			return;
 		}
 

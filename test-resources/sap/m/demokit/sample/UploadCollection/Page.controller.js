@@ -34,6 +34,19 @@ sap.ui.define([
 			oSelect.setModel(oModelCB);
 		},
 
+		formatAttribute : function (sValue) {
+			jQuery.sap.require("sap.ui.core.format.FileSizeFormat");
+			if (jQuery.isNumeric(sValue)) {
+				return sap.ui.core.format.FileSizeFormat.getInstance({
+					binaryFilesize : false,
+					maxFractionDigits : 1,
+					maxIntegerDigits : 3
+				}).format(sValue);
+			} else {
+				return sValue
+			}
+		},
+
 		onChange: function(oEvent) {
 			var oUploadCollection = oEvent.getSource();
 			// Header Token
@@ -49,6 +62,7 @@ sap.ui.define([
 
 			oUploadCollection.addHeaderParameter(oCustomerHeaderToken);
 			oUploadCollection.addHeaderParameter(oCustomerHeaderSlug);
+
 			MessageToast.show("Change event triggered.");
 		},
 
@@ -64,6 +78,8 @@ sap.ui.define([
 			this.getView().byId("UploadCollection").getModel().setData({
 				"items" : aItems
 			});
+			var oUploadCollection = oEvent.getSource();
+			oUploadCollection.setNumberOfAttachmentsText("Uploaded (" +  oUploadCollection.getItems().length + ")");
 			MessageToast.show("FileDeleted event triggered.");
 		},
 
@@ -105,19 +121,32 @@ sap.ui.define([
 				sUploadedFile = aUploadedFile[0];
 			}
 			oItem = {
-				"contributor" : "You",
-				"documentId" : jQuery.now().toString(), // generate Id
-				"fileName" : sUploadedFile,
-				"fileSize" : 10, // TODO get file size
-				"mimeType" : "",
-				"thumbnailUrl" : "",
-				"uploadedDate" : new Date(jQuery.now()).toLocaleDateString(),
-				"url" : ""
+					"documentId" : jQuery.now().toString(), // generate Id,
+					"fileName" : sUploadedFile,
+					"mimeType" : "",
+					"thumbnailUrl" : "",
+					"url" : "",
+					"attributes":[
+						{
+							"title" : "Uploaded By",
+							"text" : "You"
+						},
+						{
+							"title" : "Uploaded On",
+							"text" : new Date(jQuery.now()).toLocaleDateString()
+						},
+						{
+							"title" : "File Size",
+							"text" : "505000"
+						}
+					]
 			};
 			aItems.unshift(oItem);
 			this.getView().byId("UploadCollection").getModel().setData({
 				"items" : aItems
 			});
+			var oUploadCollection = oEvent.getSource();
+			oUploadCollection.setNumberOfAttachmentsText("Uploaded (" +  oUploadCollection.getItems().length + ")");
 			// delay the success message for to notice onChange message
 			setTimeout(function() {
 				MessageToast.show("UploadComplete event triggered.");

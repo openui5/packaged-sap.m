@@ -105,7 +105,7 @@ sap.ui.define([
 									{
 										label: "Phone",
 										value: "+359 888 888 888",
-										elementType: sap.m.QuickViewGroupElementType.phone
+										elementType: sap.m.QuickViewGroupElementType.mobile
 									}
 								]
 							}
@@ -124,9 +124,23 @@ sap.ui.define([
 			oButton.setEnabled(false);
 		},
 
+		onAfterRendering: function() {
+			this.getView().byId("quickViewCardContainer").$().css("maxWidth", "320px");
+		},
+
 		onButtonBackClick : function() {
 			var oQuickViewCard = this.getView().byId('quickViewCard');
 			oQuickViewCard.navigateBack();
+		},
+
+		onHideScrollClick : function() {
+			var oQuickViewCard = this.getView().byId('quickViewCard');
+			oQuickViewCard.setShowVerticalScrollBar(false);
+		},
+
+		onShowScrollClick : function() {
+			var oQuickViewCard = this.getView().byId('quickViewCard');
+			oQuickViewCard.setShowVerticalScrollBar(true);
 		},
 
 		onNavigate : function(oEvent) {

@@ -7,6 +7,10 @@
 	white-space: nowrap;
 }
 
+.sapMQuickViewCard.sapMQuickViewCardNoScroll {
+	height: 100%;
+}
+
 .sapMQuickViewPage.sapMNavItem {
 	vertical-align: top;
 	display: inline-block;
@@ -31,7 +35,12 @@
 .sap-tablet .sapMQuickViewPage.sapMNavItem.sapMPage {
 	position: relative;
 	height: 100%;
-	box-sizing: content-box;
+	box-sizing: border-box;
+	padding-top: 3rem;
+}
+
+.sap-phone .sapMQuickViewPage.sapMNavItem.sapMPage {
+	position: relative;
 }
 
 .sap-desktop .sapMQuickViewPage.sapMPage > header,
@@ -59,7 +68,7 @@
 .sap-tablet .sapMQuickViewPage > section {
 	position: static;
 	height: 100%;
-	padding: 4rem 1rem 1rem 1rem;
+	padding: 1rem;
 }
 
 .sapUiSizeCompact .sapMQuickViewPage > section {
@@ -71,6 +80,7 @@
 }
 
 .sapMQuickViewPage .sapUiHLayout .sapUiIcon {
+	line-height: 3rem;
 	margin-right: .75rem;
 	font-size: 2.25rem;
 	font-weight: normal;
@@ -88,27 +98,22 @@
 	background-color : transparent;
 }
 
-.sapMQuickViewPage .sapUiSimpleForm {
-	margin-top: 1rem;
-}
-
 .sapMQuickViewPage .sapUiSimpleForm .sapMTitle {
 	margin-top: 1rem;
 }
 
 .sapMQuickViewPage .sapMFlexItem:first-child {
-	flex: 7 0 auto;
-	-webkit-flex: 7 0 auto;
-	-ms-flex: 7 0 auto;
+	width: 70%;
+	display: inline-block;
 }
 
 .sapMQuickViewPage .sapMFlexItem:last-child {
-	flex: 3 0 auto;
-	-webkit-flex: 3 0 auto;
-	-ms-flex: 3 0 auto;
+	width: 30%;
+	display: inline-block;
 	font-family: SAP-icons;
 	min-width: 3rem;
 	text-align: right;
+	left: -1px;
 }
 
 .sapMQuickViewPage .sapMQuickViewThumbnail {
@@ -120,7 +125,7 @@
 }
 
 .sapMQuickViewPage .sapUiHLayout {
-	margin-bottom: 1rem;
+	margin-bottom: 2rem;
 }
 
 .sap-phone .sapMQuickViewPage .sapUiHLayout {

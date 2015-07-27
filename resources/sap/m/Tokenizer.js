@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @class
 	 * Tokenizer displays multiple tokens
 	 * @extends sap.ui.core.Control
-	 * @version 1.30.0
+	 * @version 1.30.1
 	 *
 	 * @constructor
 	 * @public
@@ -198,7 +198,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	
 		
 		var widthOfLastToken = $LastToken.width();
-		if (!lastToken.getSelected() && nWidth < widthOfLastToken) {
+		if (!lastToken.getSelected() && nWidth >= 0 && widthOfLastToken >= 0 && nWidth < widthOfLastToken) {
 			// truncate last token if not selected and not completely visible
 			$LastToken.outerWidth(nWidth, true);
 			lastToken.addStyleClass("sapMTokenTruncate");

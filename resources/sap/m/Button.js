@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.30.0
+	 * @version 1.30.1
 	 *
 	 * @constructor
 	 * @public
@@ -396,10 +396,17 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		var oIcon = this._iconBtn;
 
 		// update or create image control
-		if (!!oIcon) {
+		if (oIcon) {
 			oIcon.setSrc(sSrc);
 		} else {
-			oIcon = IconPool.createControlByURI(sSrc, sap.m.Image);
+			oIcon = IconPool.createControlByURI({
+				id: sImgId,
+				src : sSrc,
+
+				// do not use default tootip in icon as the button renders it's own tooltip
+				useIconTooltip: false
+
+			}, sap.m.Image).setParent(this, null, true);
 		}
 
 		// add style classes to the object

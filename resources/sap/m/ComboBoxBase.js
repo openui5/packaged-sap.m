@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './ComboBoxBaseRenderer', './Dialog
 		 * @extends sap.m.InputBase
 		 *
 		 * @author SAP SE
-		 * @version 1.30.0
+		 * @version 1.30.1
 		 *
 		 * @constructor
 		 * @public
@@ -72,7 +72,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './ComboBoxBaseRenderer', './Dialog
 		 * @returns {sap.m.StandardListItem | null}
 		 */
 		ComboBoxBase.prototype.getListItem = function(oItem) {
-			return (oItem && oItem.data(sap.m.ComboBoxBaseRenderer.CSS_CLASS + "ListItem")) || null;
+			return (oItem && oItem._oListItem) || null;
 		};
 
 		/**
@@ -100,8 +100,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './ComboBoxBaseRenderer', './Dialog
 			oListItem.setTitle(oItem.getText());
 			oListItem.setType(oItem.getEnabled() ? sap.m.ListType.Active : sap.m.ListType.Inactive);
 			oListItem.setTooltip(oItem.getTooltip());
-			oItem.data(CSS_CLASS + "ListItem", oListItem);
-
+			oItem._oListItem = oListItem;
 			return oListItem;
 		};
 
