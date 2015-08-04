@@ -1,5 +1,5 @@
 /*
- * ! SAP UI development toolkit for HTML5 (SAPUI5/OpenUI5)
+ * ! UI development toolkit for HTML5 (OpenUI5)
  * (c) Copyright 2009-2015 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
@@ -18,7 +18,7 @@ sap.ui.define([
 	 * @class The ColumnsPanel can be used for personalization of the table to define column specific settings
 	 * @extends sap.m.P13nPanel
 	 * @author SAP SE
-	 * @version 1.28.12
+	 * @version 1.28.13
 	 * @constructor
 	 * @public
 	 * @since 1.26.0

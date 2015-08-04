@@ -1,5 +1,5 @@
 /*!
- * SAP UI development toolkit for HTML5 (SAPUI5/OpenUI5)
+ * UI development toolkit for HTML5 (OpenUI5)
  * (c) Copyright 2009-2015 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
@@ -27,7 +27,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control'],
 	 * @implements sap.m.ObjectHeaderContainer
 	 *
 	 * @author SAP SE
-	 * @version 1.28.12
+	 * @version 1.28.13
 	 *
 	 * @constructor
 	 * @public
@@ -169,6 +169,17 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control'],
 			}
 		}
 	}});
+
+
+	IconTabBar.prototype.clone = function () {
+		var oClone = Control.prototype.clone.apply(this, arguments);
+
+		// "_header" aggregation is hidden and it is not cloned by default
+		var oIconTabHeader = this._getIconTabHeader();
+		oClone.setAggregation("_header", oIconTabHeader.clone(), true);
+
+		return oClone;
+	};
 
 	/**
 	 * Sets the expanded flag and toggles the expand/collapse animation if the control is already rendered

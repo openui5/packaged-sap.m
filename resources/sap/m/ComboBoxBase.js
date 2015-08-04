@@ -1,5 +1,5 @@
 /*!
- * SAP UI development toolkit for HTML5 (SAPUI5/OpenUI5)
+ * UI development toolkit for HTML5 (OpenUI5)
  * (c) Copyright 2009-2015 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './ComboBoxBaseRenderer', './Dialog
 		 * @extends sap.m.InputBase
 		 *
 		 * @author SAP SE
-		 * @version 1.28.12
+		 * @version 1.28.13
 		 *
 		 * @constructor
 		 * @public
@@ -374,6 +374,15 @@ sap.ui.define(['jquery.sap.global', './Bar', './ComboBoxBaseRenderer', './Dialog
 		/* ----------------------------------------------------------- */
 
 		/*
+		 * Overwrites use labels as placeholder configuration of the InputBase.
+		 * IE9 does not have a native placeholder support.
+		 * IE10+ fires the input event when an input field with a native placeholder is focused.
+		 *
+		 * @protected
+		 */
+		ComboBoxBase.prototype._bShowLabelAsPlaceholder = sap.ui.Device.browser.msie;
+
+		/*
 		 * Hook method, can be used to add additional content to the control's picker pop-up.
 		 *
 		 * @param {sap.m.Dialog | sap.m.Popover} [oPicker]
@@ -651,6 +660,22 @@ sap.ui.define(['jquery.sap.global', './Bar', './ComboBoxBaseRenderer', './Dialog
 		 */
 		ComboBoxBase.prototype.clearSelection = function() {};
 
+		ComboBoxBase.prototype.updateValueStateClasses = function(sValueState, sOldValueState) {
+			InputBase.prototype.updateValueStateClasses.apply(this, arguments);
+
+			var mValueState = sap.ui.core.ValueState,
+				CSS_CLASS = ComboBoxBaseRenderer.CSS_CLASS,
+				$DomRef = this.$();
+
+			if (sOldValueState !== mValueState.None) {
+				$DomRef.removeClass(CSS_CLASS + "State " + CSS_CLASS + sOldValueState);
+			}
+
+			if (sValueState !== mValueState.None) {
+				$DomRef.addClass(CSS_CLASS + "State " + CSS_CLASS + sValueState);
+			}
+		};
+
 		/* ----------------------------------------------------------- */
 		/* public methods                                              */
 		/* ----------------------------------------------------------- */
@@ -686,7 +711,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './ComboBoxBaseRenderer', './Dialog
 		 * @public
 		 */
 		ComboBoxBase.prototype.addItem = function(oItem) {
-			this.addAggregation("items", oItem);
+			this.addAggregation("items", oItem, true);
 
 			if (this.getList()) {
 				this.getList().addItem(this._mapItemToListItem(oItem));
@@ -707,7 +732,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './ComboBoxBaseRenderer', './Dialog
 		 * @public
 		 */
 		ComboBoxBase.prototype.insertItem = function(oItem, iIndex) {
-			this.insertAggregation("items", oItem, iIndex);
+			this.insertAggregation("items", oItem, iIndex, true);
 
 			if (this.getList()) {
 				this.getList().insertItem(this._mapItemToListItem(oItem), iIndex);

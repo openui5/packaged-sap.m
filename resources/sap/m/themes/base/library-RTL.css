@@ -1,5 +1,5 @@
 /*!
- * SAP UI development toolkit for HTML5 (SAPUI5/OpenUI5)
+ * UI development toolkit for HTML5 (OpenUI5)
  * (c) Copyright 2009-2015 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
@@ -572,15 +572,9 @@ html[dir=rtl][data-sap-ui-browser^="ie"] .sapMCrslInner {
   margin: 0em;
 }
 /* ============================================= */
-/* CSS for control sap.m/DatePicker.control */
+/* CSS for control sap.m/DatePicker.control      */
 /* ============================================= */
-.sapMDP > .sapMInputBaseInner {
-  padding-left: 2.5rem;
-}
-/* Compact size */
-.sapUiSizeCompact .sapMDP > .sapMInputBaseInner {
-  padding-left: 1.625rem;
-}
+/* all styling is used from Input with value help */
 /* ============================================= */
 /* CSS for control sap.m/DateRangeSelection.control */
 /* ============================================= */
@@ -5685,12 +5679,20 @@ html[dir=rtl] .sapMTC .sapMTCEdgeRight {
   text-align: left;
   text-align: start;
 }
+html[dir=rtl][data-sap-ui-browser^="ie"] .sapMTitleAlignBegin,
+html[dir=rtl][data-sap-ui-browser^="ed"] .sapMTitleAlignBegin {
+  text-align: right;
+}
 .sapMTitleAlignLeft {
   text-align: left;
 }
 .sapMTitleAlignEnd {
   text-align: right;
   text-align: end;
+}
+html[dir=rtl][data-sap-ui-browser^="ie"] .sapMTitleAlignEnd,
+html[dir=rtl][data-sap-ui-browser^="ed"] .sapMTitleAlignEnd {
+  text-align: left;
 }
 .sapMTitleAlignRight {
   text-align: right;

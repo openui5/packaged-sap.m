@@ -1,5 +1,5 @@
 /*
- * ! SAP UI development toolkit for HTML5 (SAPUI5/OpenUI5)
+ * ! UI development toolkit for HTML5 (OpenUI5)
  * (c) Copyright 2009-2015 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
@@ -259,12 +259,16 @@ sap.ui.define([
 			for (var i = 0; i < aPages.length; i++) {
 				var oQuickViewPage = aPages[i];
 
+				// clear the previously stored page
+				oQuickViewPage._oPage = null;
+
 				// create and set navigation information to the page
 				var mNavContext = {
 					hasBackButton : i > 0,
 					popover : this._oPopover,
 					navContainer : oNavContainer,
-					quickViewId : sId
+					quickViewId : sId,
+					quickView : this
 				};
 
 				oQuickViewPage.setNavContext(mNavContext);

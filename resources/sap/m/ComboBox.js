@@ -1,5 +1,5 @@
 /*!
- * SAP UI development toolkit for HTML5 (SAPUI5/OpenUI5)
+ * UI development toolkit for HTML5 (OpenUI5)
  * (c) Copyright 2009-2015 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './ComboBoxBase', './ComboBoxRenderer', './l
 		 * @extends sap.m.ComboBoxBase
 		 *
 		 * @author SAP SE
-		 * @version 1.28.12
+		 * @version 1.28.13
 		 *
 		 * @constructor
 		 * @public
@@ -737,6 +737,26 @@ sap.ui.define(['jquery.sap.global', './ComboBoxBase', './ComboBoxRenderer', './l
 			this.setProperty("selectedKey", vItem ? vItem.getKey() : "", mOptions.suppressInvalidate);
 
 			oListItem = this.getListItem(vItem);
+
+			// update the selection in the List
+			if (!mOptions.listItemUpdated) {
+
+				if (oListItem) {
+
+					// set the item selected and update accessibility state
+					oListItem.setSelected(true).updateAccessibilityState();
+				} else if (this.getList()) {
+
+					if (this.getDefaultSelectedItem()) {
+						this.getListItem(this.getDefaultSelectedItem()).setSelected(true).updateAccessibilityState();
+					} else if (this.getList().getSelectedItem()) {
+
+						this.getList().getSelectedItem().setSelected(false);
+					}
+				}
+			}
+
+			// update aria active descendant
 			oDomRef = this.getFocusDomRef();
 
 			if (oDomRef) {
@@ -746,24 +766,6 @@ sap.ui.define(['jquery.sap.global', './ComboBoxBase', './ComboBoxRenderer', './l
 					oDomRef.setAttribute(sActivedescendant, oListItem.getId());
 				} else {
 					oDomRef.removeAttribute(sActivedescendant);
-				}
-			}
-
-			// update the selection in the List
-			if (!mOptions.listItemUpdated) {
-
-				if (oListItem) {
-
-					// set the selected item of the List
-					this.getList().setSelectedItem(oListItem, true);
-				} else if (this.getList()) {
-
-					if (this.getDefaultSelectedItem()) {
-						this.getList().setSelectedItem(this.getListItem(this.getDefaultSelectedItem()), true);
-					} else if (this.getList().getSelectedItem()) {
-
-						this.getList().setSelectedItem(this.getList().getSelectedItem(), false);
-					}
 				}
 			}
 		};
@@ -1022,6 +1024,37 @@ sap.ui.define(['jquery.sap.global', './ComboBoxBase', './ComboBoxRenderer', './l
 		 */
 		ComboBox.prototype.clearSelection = function() {
 			this.setSelection(null);
+		};
+
+		/**
+		 * Handle properties changes of items in the aggregation named <code>items</code>.
+		 *
+		 * @private
+		 * @param {sap.ui.base.Event} oControlEvent
+		 * @since 1.28
+		 */
+		ComboBox.prototype.onItemChange = function(oControlEvent) {
+			var sSelectedItemId = this.getAssociation("selectedItem"),
+				sNewValue = oControlEvent.getParameter("newValue"),
+				sProperty = oControlEvent.getParameter("name");
+
+			// if the selected item has not changed, no synchronization is needed
+			if (sSelectedItemId !== oControlEvent.getParameter("id")) {
+				return;
+			}
+
+			// synchronize properties
+			switch (sProperty) {
+				case "text":
+					this.setValue(sNewValue);
+					break;
+
+				case "key":
+					this.setSelectedKey(sNewValue);
+					break;
+
+				// no default
+			}
 		};
 
 		/**
