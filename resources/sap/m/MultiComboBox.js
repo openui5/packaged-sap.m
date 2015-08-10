@@ -22,7 +22,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './ComboBoxBase', './Dialog', './Li
 	 * @extends sap.m.ComboBoxBase
 	 *
 	 * @author SAP SE 
-	 * @version 1.30.5
+	 * @version 1.30.6
 	 *
 	 * @constructor
 	 * @public
