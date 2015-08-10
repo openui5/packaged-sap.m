@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './ComboBoxBase', './ComboBoxRenderer', './l
 		 * @extends sap.m.ComboBoxBase
 		 *
 		 * @author SAP SE
-		 * @version 1.28.13
+		 * @version 1.28.14
 		 *
 		 * @constructor
 		 * @public
@@ -159,7 +159,7 @@ sap.ui.define(['jquery.sap.global', './ComboBoxBase', './ComboBoxRenderer', './l
 			oPopover._setArrowPosition = function() {};
 
 			oPopover.open = function() {
-				return this.openBy(that.getFocusDomRef());
+				return this.openBy(that);
 			};
 		};
 
@@ -1023,7 +1023,9 @@ sap.ui.define(['jquery.sap.global', './ComboBoxBase', './ComboBoxRenderer', './l
 		 * @protected
 		 */
 		ComboBox.prototype.clearSelection = function() {
-			this.setSelection(null);
+			this.setSelection(null, {
+				suppressInvalidate: true
+			});
 		};
 
 		/**

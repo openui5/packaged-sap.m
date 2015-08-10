@@ -22,14 +22,14 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/Device',
 	 * @namespace
 	 * @name sap.m
 	 * @author SAP SE
-	 * @version 1.28.13
+	 * @version 1.28.14
 	 * @public
 	 */
 
 	// delegate further initialization of this library to the Core
 	sap.ui.getCore().initLibrary({
 		name : "sap.m",
-		version: "1.28.13",
+		version: "1.28.14",
 		dependencies : ["sap.ui.core"],
 		types: [
 			"sap.m.BackgroundDesign",
@@ -2605,6 +2605,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/Device',
 			var oButton = new sap.m.Button();
 			return oButton;
 		},
+		addFormClass: function(){ return "sapUiFUM"; },
 		bFinal: true
 	});
 
@@ -2634,7 +2635,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/Device',
 	if (sap.ui.Device.os.blackberry || sap.ui.Device.os.android && sap.ui.Device.os.version >= 4) {
 		jQuery(window).on("resize", function(){
 			var oActive = document.activeElement;
-			var sTagName = oActive.tagName;
+			var sTagName = oActive ? oActive.tagName : "";
 			if (sTagName == "INPUT" || sTagName == "TEXTAREA") {
 				window.setTimeout(function(){
 					oActive.scrollIntoViewIfNeeded();

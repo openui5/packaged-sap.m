@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './SwitchRenderer', './library', 'sap/ui/cor
 		 * @extends sap.ui.core.Control
 		 *
 		 * @author SAP SE
-		 * @version 1.28.13
+		 * @version 1.28.14
 		 *
 		 * @constructor
 		 * @public
