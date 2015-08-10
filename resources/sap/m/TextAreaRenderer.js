@@ -1,5 +1,5 @@
 /*!
- * SAP UI development toolkit for HTML5 (SAPUI5/OpenUI5)
+ * UI development toolkit for HTML5 (OpenUI5)
  * (c) Copyright 2009-2015 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
@@ -54,7 +54,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Renderer', './InputBaseRenderer
 		sValue = jQuery.sap.encodeHTML(sValue);
 		
 		// convert the new line HTML entity rather than displaying it as a text
-		sValue = sValue.replace(/&#xa;/g, "&#13;");
+		sValue = sValue.replace(/&#xd;&#xa;|&#xd;|&#xa;/g, "&#13;");
 		oRm.write(sValue);
 	};
 	

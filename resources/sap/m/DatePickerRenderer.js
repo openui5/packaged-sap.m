@@ -1,5 +1,5 @@
 /*!
- * SAP UI development toolkit for HTML5 (SAPUI5/OpenUI5)
+ * UI development toolkit for HTML5 (OpenUI5)
  * (c) Copyright 2009-2015 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
@@ -23,7 +23,9 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Renderer', './InputBaseRenderer
 	DatePickerRenderer.addOuterClasses = function(oRm, oDP) {
 
 		oRm.addClass("sapMDP");
-		oRm.addClass("sapMInputVH"); // just reuse styling of value help icon
+		if (oDP.getEnabled() && oDP.getEditable()) {
+			oRm.addClass("sapMInputVH"); // just reuse styling of value help icon
+		}
 
 		if (sap.ui.Device.browser.internet_explorer && sap.ui.Device.browser.version < 11) {
 			oRm.addClass("sapMInputIE9");

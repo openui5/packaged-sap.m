@@ -1,5 +1,5 @@
 /*!
- * SAP UI development toolkit for HTML5 (SAPUI5/OpenUI5)
+ * UI development toolkit for HTML5 (OpenUI5)
  * (c) Copyright 2009-2015 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
@@ -22,7 +22,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.30.4
+	 * @version 1.30.5
 	 *
 	 * @constructor
 	 * @public
@@ -115,6 +115,16 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	
 	ListItemBase.prototype.onAfterRendering = function() {
 		this.informList("DOMUpdate", true);
+		if (this.hasActiveType()) {
+			this.$()
+				.on("touchstart", this._ontouchstart.bind(this))
+				.on("touchmove", this._ontouchmove.bind(this))
+				.on("touchend", this._ontouchend.bind(this));
+		}
+	};
+
+	ListItemBase.prototype.onBeforeRendering = function() {
+		this.$().off();
 	};
 	
 	/*
@@ -619,7 +629,9 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	
 	ListItemBase.prototype.ontouchstart = function(oEvent) {
 		this._eventHandledByControl = oEvent.isMarked();
-		
+	};
+
+	ListItemBase.prototype._ontouchstart = function(oEvent) {
 		var oTargetTouch = oEvent.targetTouches[0];
 		this._touchedY = oTargetTouch.clientY;
 		this._touchedX = oTargetTouch.clientX;
@@ -631,16 +643,20 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 			!this.hasActiveType()) {
 			return;
 		}
+		var scrollTop = this.$().offset().top;
 	
 		// timeout regarding active state when scrolling
-		this._timeoutIdStart = jQuery.sap.delayedCall(100, this, function() {
-			this.setActive(true);
-			oEvent.setMarked();
+		this._timeoutIdStart = jQuery.sap.delayedCall(200, this, function() {
+			var scrollTop2 = this.$().offset().top;
+			if (Math.abs(scrollTop2 - scrollTop) < 3) {
+				this.setActive(true);
+				this._timeoutIdStart = null;
+			}
 		});
 	};
 	
 	// touch move to prevent active state when scrolling
-	ListItemBase.prototype.ontouchmove = function(oEvent) {
+	ListItemBase.prototype._ontouchmove = function(oEvent) {
 		var bTouchMovement = Math.abs(this._touchedY - oEvent.targetTouches[0].clientY) > 10 || Math.abs(this._touchedX - oEvent.targetTouches[0].clientX) > 10;
 	
 		if ((this._active || this._timeoutIdStart) && bTouchMovement) {
@@ -653,7 +669,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		}
 	};
 	
-	ListItemBase.prototype.ontouchend = function(oEvent) {
+	ListItemBase.prototype._ontouchend = function(oEvent) {
 	
 		// several fingers could be used
 		if (oEvent.targetTouches.length == 0 && this.hasActiveType()) {

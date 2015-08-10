@@ -1,5 +1,5 @@
 /*!
- * SAP UI development toolkit for HTML5 (SAPUI5/OpenUI5)
+ * UI development toolkit for HTML5 (OpenUI5)
  * (c) Copyright 2009-2015 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
@@ -506,6 +506,13 @@ html[dir=rtl][data-sap-ui-browser^="ie"] .sapMCrslInner {
 /* ============================================= */
 /* CSS for control sap.m/ComboBox.control        */
 /* ============================================= */
+.sapMComboBoxArrow {
+  /* auto vertical centering */
+  margin-top: auto;
+  margin-bottom: auto;
+  top: 0;
+  bottom: 0;
+}
 /* ============================================= */
 /* CSS for control sap.m/ComboBoxBase.control    */
 /* ============================================= */
@@ -519,11 +526,6 @@ html[dir=rtl][data-sap-ui-browser^="ie"] .sapMCrslInner {
   -moz-appearance: none;
   background: transparent;
   font-size: inherit;
-  /* auto vertical centering */
-  top: 0;
-  bottom: 0;
-  margin-top: auto;
-  margin-bottom: auto;
 }
 .sapMComboBoxBaseReadonly .sapMComboBoxBaseArrow {
   display: none;
@@ -555,15 +557,9 @@ html[dir=rtl][data-sap-ui-browser^="ie"] .sapMCrslInner {
   margin: 0em;
 }
 /* ============================================= */
-/* CSS for control sap.m/DatePicker.control */
+/* CSS for control sap.m/DatePicker.control      */
 /* ============================================= */
-.sapMDP > .sapMInputBaseInner {
-  padding-right: 2.5rem;
-}
-/* Compact size */
-.sapUiSizeCompact .sapMDP > .sapMInputBaseInner {
-  padding-right: 1.625rem;
-}
+/* all styling is used from Input with value help */
 /* ============================================= */
 /* CSS for control sap.m/DateRangeSelection.control */
 /* ============================================= */
@@ -890,34 +886,43 @@ html[dir=rtl] .sapMDTICustomDateTime .dwc:last-child {
 /* Compact size */
 .sapUiSizeCompact.sapMDialog,
 .sapUiSizeCompact .sapMDialog {
-  padding-top: 2rem;
-  padding-bottom: 2rem;
-  min-height: 2rem;
+  padding-top: 2.5rem;
+  padding-bottom: 2.5rem;
+  min-height: 2.5rem;
+}
+.sapUiSizeCompact.sapMDialog .sapMBarLeft,
+.sapUiSizeCompact .sapMDialog .sapMBarLeft,
+.sapUiSizeCompact.sapMDialog .sapMBarRight,
+.sapUiSizeCompact .sapMDialog .sapMBarRight,
+.sapUiSizeCompact.sapMDialog .sapMBarPH,
+.sapUiSizeCompact .sapMDialog .sapMBarPH {
+  height: 2.5rem;
+  line-height: 2.5rem;
 }
 .sapUiSizeCompact.sapMDialog.sapMDialogWithSubHeader,
 .sapUiSizeCompact .sapMDialog.sapMDialogWithSubHeader {
-  padding-top: 4rem;
+  padding-top: 5rem;
 }
 .sapUiSizeCompact.sapMDialog.sapMMessageDialog,
 .sapUiSizeCompact .sapMDialog.sapMMessageDialog {
-  min-height: 3rem;
+  min-height: 3.5rem;
 }
 .sapUiSizeCompact.sapMDialog > .sapMDialogTitle,
 .sapUiSizeCompact .sapMDialog > .sapMDialogTitle {
-  height: 2rem;
+  height: 2.5rem;
 }
 .sapUiSizeCompact.sapMDialog > .sapMDialogSection,
 .sapUiSizeCompact .sapMDialog > .sapMDialogSection {
-  min-height: 2rem;
+  min-height: 2.5rem;
 }
 .sapUiSizeCompact.sapMDialog > footer,
 .sapUiSizeCompact .sapMDialog > footer {
-  height: 2rem;
+  height: 2.5rem;
 }
 .sapUiSizeCompact.sapMDialog header.sapMDialogSubHeader,
 .sapUiSizeCompact .sapMDialog header.sapMDialogSubHeader {
-  height: 2rem;
-  top: 2rem;
+  height: 2.5rem;
+  top: 2.5rem;
 }
 .sapUiSizeCompact.sapMDialog > header.sapMDialogTitle > .sapMBarMiddle > .sapMBarPH > .sapMImg.sapMDialog > header.sapMDialogTitle > .sapMBarMiddle > .sapMBarPH > .sapMImg,
 .sapUiSizeCompact.sapMDialog > header.sapMDialogTitle > .sapMBarMiddle > .sapMBarPH > .sapMImg .sapMDialog > header.sapMDialogTitle > .sapMBarMiddle > .sapMBarPH > .sapMImg {
@@ -949,7 +954,6 @@ html[dir=rtl] .sapMDTICustomDateTime .dwc:last-child {
 .sapUiSizeCompact.sapMDialog > header.sapMDialogTitle > .sapMBarMiddle > .sapMBarPH > .sapMImg.sapMDialog > footer:last-of-type.sapMFooter-CTX .sapMBarPH,
 .sapUiSizeCompact.sapMDialog > header.sapMDialogTitle > .sapMBarMiddle > .sapMBarPH > .sapMImg .sapMDialog > header:first-of-type.sapMHeader-CTX .sapMBarPH,
 .sapUiSizeCompact.sapMDialog > header.sapMDialogTitle > .sapMBarMiddle > .sapMBarPH > .sapMImg .sapMDialog > footer:last-of-type.sapMFooter-CTX .sapMBarPH {
-  height: 2.5rem;
   padding-top: 0.25rem;
   padding-bottom: 0.25rem;
 }
@@ -1910,7 +1914,7 @@ html[dir=rtl] .sapMILIDiv {
   -webkit-box-flex: 1;
   -moz-box-flex: 1;
   -ms-flex: auto;
-  flex: auto;
+  flex: 1;
   -ms-flex-negative: 1;
   /* IE10 does not shrink by auto */
 }
@@ -6008,12 +6012,20 @@ html[dir=rtl] .sapMTC .sapMTCEdgeRight {
   text-align: left;
   text-align: start;
 }
+html[dir=rtl][data-sap-ui-browser^="ie"] .sapMTitleAlignBegin,
+html[dir=rtl][data-sap-ui-browser^="ed"] .sapMTitleAlignBegin {
+  text-align: right;
+}
 .sapMTitleAlignLeft {
   text-align: left;
 }
 .sapMTitleAlignEnd {
   text-align: right;
   text-align: end;
+}
+html[dir=rtl][data-sap-ui-browser^="ie"] .sapMTitleAlignEnd,
+html[dir=rtl][data-sap-ui-browser^="ed"] .sapMTitleAlignEnd {
+  text-align: left;
 }
 .sapMTitleAlignRight {
   text-align: right;

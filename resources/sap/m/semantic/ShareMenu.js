@@ -1,5 +1,5 @@
 /*!
- * SAP UI development toolkit for HTML5 (SAPUI5/OpenUI5)
+ * UI development toolkit for HTML5 (OpenUI5)
  * (c) Copyright 2009-2015 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
@@ -24,7 +24,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/base/Metadata', 'sap/m/Button', 'sap
 	 * ShareMenu is a special menu that is represented by (1) an actionSheet with the menu items and (2) a button that opens the actionSheet.
 	 * If the menu has only one item, then that item appears in place of the button that opens the actionSheet.
 	 *
-	 * @version 1.30.4
+	 * @version 1.30.5
 	 * @private
 	 * @since 1.30.0
 	 * @alias sap.m.semantic.ShareMenu
@@ -74,13 +74,13 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/base/Metadata', 'sap/m/Button', 'sap
 	ShareMenu.prototype.getBaseButton = function () {
 		return this._oBaseButton;
 	};
-	
+
 	ShareMenu.prototype.getAggregation = function (sName) {
 		if (sName === "content") {
 			return this.getContent();
 		}
 	};
-	
+
 	ShareMenu.prototype.addAggregation = function (sName, oButton, bSuppressInvalidate) {
 		if (sName === "content") {
 			return this.addContent(oButton, bSuppressInvalidate);
@@ -92,19 +92,19 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/base/Metadata', 'sap/m/Button', 'sap
 			return this.insertContent(oButton, iIndex, bSuppressInvalidate);
 		}
 	};
-	
+
 	ShareMenu.prototype.indexOfAggregation = function (sName, oButton) {
 		if (sName === "content") {
 			return this.indexOfContent(oButton);
 		}
 	};
-	
+
 	ShareMenu.prototype.removeAggregation = function (sName, oButton, bSuppressInvalidate) {
 		if (sName === "content") {
 			return this.removeContent(oButton, bSuppressInvalidate);
 		}
 	};
-	
+
 	ShareMenu.prototype.removeAllAggregation = function (sName, bSuppressInvalidate) {
 		if (sName === "content") {
 			return this.removeAllContent(bSuppressInvalidate);
@@ -357,6 +357,12 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/base/Metadata', 'sap/m/Button', 'sap
 				}),
 				press: function () {
 					that._oActionSheet.openBy(that._oShareMenuBtn);
+				}
+			});
+
+			this._oShareMenuBtn.addEventDelegate({
+				onAfterRendering: function() {
+					that._oShareMenuBtn.$().attr("aria-haspopup", true);
 				}
 			});
 		}

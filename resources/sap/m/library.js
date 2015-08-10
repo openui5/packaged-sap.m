@@ -1,5 +1,5 @@
 /*!
- * SAP UI development toolkit for HTML5 (SAPUI5/OpenUI5)
+ * UI development toolkit for HTML5 (OpenUI5)
  * (c) Copyright 2009-2015 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
@@ -22,14 +22,14 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/Device',
 	 * @namespace
 	 * @name sap.m
 	 * @author SAP SE
-	 * @version 1.30.4
+	 * @version 1.30.5
 	 * @public
 	 */
 
 	// delegate further initialization of this library to the Core
 	sap.ui.getCore().initLibrary({
 		name : "sap.m",
-		version: "1.30.4",
+		version: "1.30.5",
 		dependencies : ["sap.ui.core"],
 		types: [
 			"sap.m.BackgroundDesign",
@@ -2305,7 +2305,9 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/Device',
 					rm.addStyle("opacity", fOpacity);
 				}
 
-				rm.writeClasses();
+				// no custom class from the control's custom class
+				// If a class is added using addStyleClass, this class will be output to this background image div without the 'false' param.
+				rm.writeClasses(false);
 				rm.writeStyles();
 				rm.write("></div>");
 			}
@@ -2713,6 +2715,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/Device',
 			var oButton = new sap.m.Button();
 			return oButton;
 		},
+		addFormClass: function(){ return "sapUiFUM"; },
 		bFinal: true
 	});
 
@@ -2742,7 +2745,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/Device',
 	if (sap.ui.Device.os.blackberry || sap.ui.Device.os.android && sap.ui.Device.os.version >= 4) {
 		jQuery(window).on("resize", function(){
 			var oActive = document.activeElement;
-			var sTagName = oActive.tagName;
+			var sTagName = oActive ? oActive.tagName : "";
 			if (sTagName == "INPUT" || sTagName == "TEXTAREA") {
 				window.setTimeout(function(){
 					oActive.scrollIntoViewIfNeeded();

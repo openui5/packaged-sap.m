@@ -1,5 +1,5 @@
 /*!
- * SAP UI development toolkit for HTML5 (SAPUI5/OpenUI5)
+ * UI development toolkit for HTML5 (OpenUI5)
  * (c) Copyright 2009-2015 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
@@ -22,7 +22,7 @@ sap.ui.define(['jquery.sap.global', './Input', './Token', './library', 'sap/ui/c
 	 * @extends sap.m.Input
 	 *
 	 * @author SAP SE
-	 * @version 1.30.4
+	 * @version 1.30.5
 	 *
 	 * @constructor
 	 * @public
@@ -435,6 +435,9 @@ sap.ui.define(['jquery.sap.global', './Input', './Token', './library', 'sap/ui/c
 			this._$input.parent().addClass("sapMMultiInputMultiModeInputContainer");
 		}
 
+		//need this attribute to enable value help icon focusable
+		this.$().find(".sapMInputValHelp").attr("tabindex","-1");
+
 		// necessary to display expanded MultiInput which is inside layout
 		var oParent = this.getParent();
 		this._originalOverflow = null;
@@ -447,10 +450,13 @@ sap.ui.define(['jquery.sap.global', './Input', './Token', './library', 'sap/ui/c
 		var $Parent;			
 		if (this.$().parents(".sapUiRFLContainer")) {
 			$Parent = this.$().parents(".sapUiRFLContainer");
-			if ($Parent.css("overflow") === "hidden") {
-				$Parent.css("overflow", "visible");
-			}
-		}	
+		} else if (this.$().parent('[class*="sapUiRespGridSpan"]')) {
+			$Parent = this.$().parent('[class*="sapUiRespGridSpan"]');
+		}
+		
+		if ($Parent && $Parent.length > 0 && $Parent.css("overflow") === "hidden") {
+			$Parent.css("overflow", "visible");
+		}
 
 	};
 	
@@ -465,7 +471,10 @@ sap.ui.define(['jquery.sap.global', './Input', './Token', './library', 'sap/ui/c
 			if (this._$input) {
 				this._$input.parent().removeClass("sapMMultiInputMultiModeInputContainer");
 			}
-			
+
+			//remove this attribute to set value help icon back not focusable
+			this.$().find(".sapMInputValHelp").removeAttr("tabindex");
+
 			// set overflow back
 			if (this._originalOverflow) {
 				var oParent = this.getParent();
@@ -868,6 +877,16 @@ sap.ui.define(['jquery.sap.global', './Input', './Token', './library', 'sap/ui/c
 		
 		this.focus();
 	};
+
+	
+	/**
+	 * Checks whether the MultiInput or one of its internal DOM elements has the focus.
+	 * 
+	 * @private
+	 */
+	MultiInput.prototype._checkFocus = function() {
+		return this.getDomRef() && jQuery.sap.containsOrEquals(this.getDomRef(), document.activeElement);
+	};
 	
 	/**
 	 * Event handler called when control is losing the focus, checks if token validation is necessary 
@@ -880,6 +899,7 @@ sap.ui.define(['jquery.sap.global', './Input', './Token', './library', 'sap/ui/c
 		var oPopup = this._oSuggestionPopup;
 		var bNewFocusIsInSuggestionPopup = false;
 		var bNewFocusIsInTokenizer = false;
+		var bNewFocusIsInMultiInput = this._checkFocus();
 		if (oPopup instanceof sap.m.Popover) {
 			if (oEvent.relatedControlId) {
 				bNewFocusIsInSuggestionPopup = jQuery.sap.containsOrEquals(oPopup.getFocusDomRef(), sap.ui.getCore().byId(
@@ -914,14 +934,10 @@ sap.ui.define(['jquery.sap.global', './Input', './Token', './library', 'sap/ui/c
 		}
 
 		if (!this._bUseDialog && this._isMultiLineMode && !this._bShowIndicator) {
-			var oRelatedControl = sap.ui.getCore().byId(oEvent.relatedControlId);
-			if (oRelatedControl) {
-				var bFocusInsideMI = jQuery.sap.containsOrEquals(this.getDomRef(), oRelatedControl.getDomRef());
-				
-				if (bFocusInsideMI || bNewFocusIsInSuggestionPopup ) {
-					return;
-				}
-			} 
+			
+			if (bNewFocusIsInMultiInput || bNewFocusIsInSuggestionPopup) {
+				return;				
+			}
 
 			this.closeMultiLine();
 			this._showIndicator();
@@ -934,6 +950,10 @@ sap.ui.define(['jquery.sap.global', './Input', './Token', './library', 'sap/ui/c
 		
 		sap.m.Tokenizer.prototype.onsapfocusleave.apply(this._tokenizer, arguments);
 
+		if (!this._bUseDialog && this._isMultiLineMode && this._bShowIndicator) {
+			var $multiInputScroll = this.$().find(".sapMMultiInputBorder");
+			$multiInputScroll.scrollTop(0);
+		}
 	};
 	
 	

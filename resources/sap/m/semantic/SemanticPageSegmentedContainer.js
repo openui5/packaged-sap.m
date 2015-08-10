@@ -1,5 +1,5 @@
 /*!
- * SAP UI development toolkit for HTML5 (SAPUI5/OpenUI5)
+ * UI development toolkit for HTML5 (OpenUI5)
  * (c) Copyright 2009-2015 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', 'sap/m/semantic/SemanticPageSegment', 'sap/u
 	 * Constructor for a sap.m.semantic.SemanticPageSegmentedContainer.
 	 *
 	 * @class text
-	 * @version 1.30.4
+	 * @version 1.30.5
 	 * @private
 	 * @since 1.30.0
 	 * @alias sap.m.semantic.SemanticPageSegmentedContainer

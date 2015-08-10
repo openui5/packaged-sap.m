@@ -1,5 +1,5 @@
 /*!
- * SAP UI development toolkit for HTML5 (SAPUI5/OpenUI5)
+ * UI development toolkit for HTML5 (OpenUI5)
  * (c) Copyright 2009-2015 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './ComboBoxBaseRenderer', './Dialog
 		 * @extends sap.m.InputBase
 		 *
 		 * @author SAP SE
-		 * @version 1.30.4
+		 * @version 1.30.5
 		 *
 		 * @constructor
 		 * @public
@@ -671,6 +671,22 @@ sap.ui.define(['jquery.sap.global', './Bar', './ComboBoxBaseRenderer', './Dialog
 		 */
 		ComboBoxBase.prototype.clearSelection = function() {};
 
+		ComboBoxBase.prototype.updateValueStateClasses = function(sValueState, sOldValueState) {
+			InputBase.prototype.updateValueStateClasses.apply(this, arguments);
+
+			var mValueState = sap.ui.core.ValueState,
+				CSS_CLASS = ComboBoxBaseRenderer.CSS_CLASS,
+				$DomRef = this.$();
+
+			if (sOldValueState !== mValueState.None) {
+				$DomRef.removeClass(CSS_CLASS + "State " + CSS_CLASS + sOldValueState);
+			}
+
+			if (sValueState !== mValueState.None) {
+				$DomRef.addClass(CSS_CLASS + "State " + CSS_CLASS + sValueState);
+			}
+		};
+
 		/* ----------------------------------------------------------- */
 		/* public methods                                              */
 		/* ----------------------------------------------------------- */
@@ -706,7 +722,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './ComboBoxBaseRenderer', './Dialog
 		 * @public
 		 */
 		ComboBoxBase.prototype.addItem = function(oItem) {
-			this.addAggregation("items", oItem);
+			this.addAggregation("items", oItem, true);
 
 			if (oItem) {
 				oItem.attachEvent("_change", this.onItemChange, this);
@@ -731,7 +747,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './ComboBoxBaseRenderer', './Dialog
 		 * @public
 		 */
 		ComboBoxBase.prototype.insertItem = function(oItem, iIndex) {
-			this.insertAggregation("items", oItem, iIndex);
+			this.insertAggregation("items", oItem, iIndex, true);
 
 			if (oItem) {
 				oItem.attachEvent("_change", this.onItemChange, this);

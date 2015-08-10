@@ -272,7 +272,7 @@
     "sapUiMarginLarge": "3rem",
     "sapUiEscapedEmptyString": "",
     "SapBarHeight": "3rem",
-    "SapBarCompactHeight": "2rem",
+    "SapBarCompactHeight": "2.5rem",
     "sapMInputBaseMsgBG": "#ffffff",
     "sapMShellAppWidthLimit": "1280px",
     "sapMShellAppWidthLimitBy2": "640px",

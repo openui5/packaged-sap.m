@@ -1,5 +1,5 @@
 /*!
- * SAP UI development toolkit for HTML5 (SAPUI5/OpenUI5)
+ * UI development toolkit for HTML5 (OpenUI5)
  * (c) Copyright 2009-2015 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.30.4
+	 * @version 1.30.5
 	 *
 	 * @constructor
 	 * @public
@@ -870,6 +870,22 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		}
 	};
 
+	InputBase.prototype.updateValueStateClasses = function(sValueState, sOldValueState) {
+		var mValueState = sap.ui.core.ValueState,
+			$This = this.$(),
+			$Input = jQuery(this.getFocusDomRef());
+
+		if (sOldValueState !== mValueState.None) {
+			$This.removeClass("sapMInputBaseState sapMInputBase" + sOldValueState);
+			$Input.removeClass("sapMInputBaseStateInner sapMInputBase" + sOldValueState + "Inner");
+		}
+
+		if (sValueState !== mValueState.None) {
+			$This.addClass("sapMInputBaseState sapMInputBase" + sValueState);
+			$Input.addClass("sapMInputBaseStateInner sapMInputBase" + sValueState + "Inner");
+		}
+	};
+
 	/* ----------------------------------------------------------- */
 	/* public methods                                              */
 	/* ----------------------------------------------------------- */
@@ -889,17 +905,18 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		
 		// get the value back in case of invalid value 
 		sValueState = this.getValueState();
+
 		if (sValueState === sOldValueState) {
 			return this;
 		}
 
 		var oDomRef = this.getDomRef();
+
 		if (!oDomRef) {
 			return this;
 		}
 
-		var $This = jQuery(oDomRef),
-			$Input = jQuery(this.getFocusDomRef()),
+		var $Input = jQuery(this.getFocusDomRef()),
 			mValueState = sap.ui.core.ValueState;
 
 		if (sValueState === mValueState.Error) {
@@ -908,15 +925,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 			$Input.removeAttr("aria-invalid");
 		}
 
-		if (sOldValueState !== mValueState.None) {
-			$This.removeClass("sapMInputBaseState sapMInputBase" + sOldValueState);
-			$Input.removeClass("sapMInputBaseStateInner sapMInputBase" + sOldValueState + "Inner");
-		}
-
-		if (sValueState !== mValueState.None) {
-			$This.addClass("sapMInputBaseState sapMInputBase" + sValueState);
-			$Input.addClass("sapMInputBaseStateInner sapMInputBase" + sValueState + "Inner");
-		}
+		this.updateValueStateClasses(sValueState, sOldValueState);
 
 		if ($Input[0] === document.activeElement) {
 			switch (sValueState) {
@@ -1002,6 +1011,47 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 			this.setValueState(sap.ui.core.ValueState.None);
 			this.setValueStateText('');
 		}
+	};
+
+	InputBase.prototype.setTooltip = function(vTooltip) {
+		var oDomRef = this.getDomRef(),
+			oDescribedByDomRef = null,
+			sAnnouncement;
+
+		this._refreshTooltipBaseDelegate(vTooltip);
+		this.setAggregation("tooltip", vTooltip, true);
+
+		if (!oDomRef) {
+			return this;
+		}
+
+		sAnnouncement = this.getRenderer().getDescribedByAnnouncement(this);
+
+		if (sAnnouncement) {
+			oDomRef.setAttribute("title", this.getTooltip_AsString());
+		} else {
+			oDomRef.removeAttribute("title");
+		}
+
+		oDescribedByDomRef = this.getDomRef("describedby");
+
+		if (!oDescribedByDomRef && sAnnouncement) {
+			oDescribedByDomRef = document.createElement("span");
+			oDescribedByDomRef.setAttribute("id", this.getId() + "-describedby");
+			oDescribedByDomRef.setAttribute("aria-hidden", "true");
+			oDescribedByDomRef.setAttribute("class", "sapUiInvisibleText");
+			oDomRef.appendChild(oDescribedByDomRef);
+		}
+
+		if (oDescribedByDomRef && !sAnnouncement) {
+			oDomRef.removeChild(oDescribedByDomRef);
+		}
+
+		if (oDescribedByDomRef) {
+			oDescribedByDomRef.textContent = sAnnouncement;
+		}
+
+		return this;
 	};
 
 	return InputBase;

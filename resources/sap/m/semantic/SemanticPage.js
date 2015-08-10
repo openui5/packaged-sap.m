@@ -1,5 +1,5 @@
 /*!
- * SAP UI development toolkit for HTML5 (SAPUI5/OpenUI5)
+ * UI development toolkit for HTML5 (OpenUI5)
  * (c) Copyright 2009-2015 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
@@ -25,7 +25,7 @@ function (jQuery, SegmentedContainer, SemanticConfiguration, Button, Title, Acti
 	 * @abstract
 	 *
 	 * @author SAP SE
-	 * @version 1.30.4
+	 * @version 1.30.5
 	 *
 	 * @constructor
 	 * @public
@@ -433,6 +433,7 @@ function (jQuery, SegmentedContainer, SemanticConfiguration, Button, Title, Acti
 		if (!this._oNavButton) {
 			this._oNavButton = new Button(this.getId() + "-navButton", {
 				type: sap.m.ButtonType.Up,
+				tooltip: sap.ui.getCore().getLibraryResourceBundle("sap.m").getText("PAGE_NAVBUTTON_TEXT"),
 				press: jQuery.proxy(this.fireNavButtonPress, this)
 			});
 		}

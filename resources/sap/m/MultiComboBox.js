@@ -1,5 +1,5 @@
 /*!
- * SAP UI development toolkit for HTML5 (SAPUI5/OpenUI5)
+ * UI development toolkit for HTML5 (OpenUI5)
  * (c) Copyright 2009-2015 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
@@ -22,7 +22,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './ComboBoxBase', './Dialog', './Li
 	 * @extends sap.m.ComboBoxBase
 	 *
 	 * @author SAP SE 
-	 * @version 1.30.4
+	 * @version 1.30.5
 	 *
 	 * @constructor
 	 * @public
@@ -2087,7 +2087,13 @@ sap.ui.define(['jquery.sap.global', './Bar', './ComboBoxBase', './Dialog', './Li
 	MultiComboBox.prototype.clearSelection = function() {
 		this.removeAllSelectedItems();
 	};
-	
+
+	MultiComboBox.prototype.addItem = function(oItem) {
+		ComboBoxBase.prototype.addItem.apply(this, arguments);
+		this.invalidate();
+		return this;
+	};
+
 	/**
 	 * Removes an item from the aggregation named <code>items</code>.
 	 * 
