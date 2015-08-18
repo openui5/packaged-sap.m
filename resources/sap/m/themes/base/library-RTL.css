@@ -70,12 +70,6 @@
   text-align: center;
 }
 .sapMALI > .sapMLIBContent {
-  -webkit-box-flex: 1;
-  -moz-box-flex: 1;
-  -ms-flex: auto;
-  flex: auto;
-  -ms-flex-negative: 1;
-  /* IE10 does not shrink by auto */
   display: -webkit-box;
   display: -moz-box;
   display: -ms-flexbox;
@@ -153,7 +147,7 @@
 .sapMBarLeft {
   right: 0px;
 }
-/* IE does not support "text-align: end" */
+/* IE / Edge does not support "text-align: end" */
 /* use "right" and "left" instead        */
 .sapMBarRight {
   text-align: right;
@@ -394,11 +388,13 @@ html[data-sap-ui-browser*='ie'] .sapMBtnContentWithIcon {
   -ms-transition-duration: 0.5s;
   transition-duration: 0.5s;
 }
-/* special handling for IE, as it does not support text-align: end */
-html[data-sap-ui-browser^="ie"] .sapMCrslInner {
+/* special handling for IE / Edge, as it does not support text-align: end */
+html[data-sap-ui-browser^="ie"] .sapMCrslInner,
+html[data-sap-ui-browser^="ed"] .sapMCrslInner {
   text-align: left;
 }
-html[dir=rtl][data-sap-ui-browser^="ie"] .sapMCrslInner {
+html[dir=rtl][data-sap-ui-browser^="ie"] .sapMCrslInner,
+html[dir=rtl][data-sap-ui-browser^="ed"] .sapMCrslInner {
   text-align: right;
 }
 .sapMCrslItemTable {
@@ -527,23 +523,6 @@ html[dir=rtl][data-sap-ui-browser^="ie"] .sapMCrslInner {
 }
 .sapMComboBoxBaseReadonly .sapMComboBoxBaseArrow {
   display: none;
-}
-/* ============================================= */
-/* CSS for controlsap.m/CustomListItem.control */
-/* ============================================= */
-.sapMCLI {
-  display: -webkit-box;
-  display: -moz-box;
-  display: -ms-flexbox;
-  display: flex;
-}
-.sapMCLI > .sapMLIBContent {
-  -webkit-box-flex: 1;
-  -moz-box-flex: 1;
-  -ms-flex: auto;
-  flex: auto;
-  -ms-flex-negative: 1;
-  /* IE10 does not shrink by auto */
 }
 /* ============================================= */
 /* CSS for control sap.m/CustomTile.control */
@@ -881,12 +860,6 @@ html[data-sap-ui-browser^="ie9"] .sapMDialog-CTX .sapMDialogActions > .sapMDialo
   display: -moz-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-flex: 1;
-  -moz-box-flex: 1;
-  -ms-flex: auto;
-  flex: auto;
-  -ms-flex-negative: 1;
-  /* IE10 does not shrink by auto */
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -946,10 +919,6 @@ html[data-sap-ui-browser^="ie9"] .sapMDialog-CTX .sapMDialogActions > .sapMDialo
 .sapMFFLI > .sapMLIBContent {
   overflow: hidden;
   text-overflow: ellipsis;
-  -webkit-box-flex: 1;
-  -moz-box-flex: 1;
-  -ms-flex: auto;
-  flex: auto;
   -webkit-box-align: center;
   -moz-box-align: center;
   -ms-flex-align: center;
@@ -1109,12 +1078,7 @@ html[data-sap-ui-browser="ie9"] .sapMFeedListItemTitleDiv {
   display: block;
 }
 .sapMFeedListItemTitleDiv .sapMLIBContent {
-  -webkit-box-flex: 1;
-  -moz-box-flex: 1;
-  -ms-flex: auto;
-  flex: auto;
   overflow: hidden;
-  -ms-flex-negative: 1;
 }
 /* phone adoption */
 .sap-phone .sapMFeedListItemHeader {
@@ -1200,7 +1164,6 @@ html[data-sap-ui-browser="ie9"] .sapMFeedListItemTitleDiv {
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
-  width: 100% /* for iOS  */;
 }
 /* ============================================= */
 /* CSS for control sap.m/GrowingList.control */
@@ -1463,12 +1426,6 @@ html[data-sap-ui-browser="ie9"] .sapMFeedListItemTitleDiv {
   -moz-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  -webkit-box-flex: 1;
-  -moz-box-flex: 1;
-  -ms-flex: auto;
-  flex: auto;
-  -ms-flex-negative: 1;
-  /* IE10 does not shrink by auto */
 }
 .sapMILIDiv {
   -webkit-box-flex: 9;
@@ -1744,6 +1701,14 @@ html[dir=rtl] .sapMILIDiv {
   -moz-box-align: center;
   -ms-flex-align: center;
   align-items: center;
+}
+.sapMLIBContent {
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  -ms-flex: auto;
+  flex: 1;
+  -ms-flex-negative: 1;
+  /* IE10 does not shrink by auto */
 }
 .sapMLIBTypeNavigation {
   -webkit-user-select: none;
@@ -2376,10 +2341,12 @@ html[dir=rtl] .sapMILIDiv {
   line-height: 1.8rem;
   font-size: 1.125rem;
 }
-html[data-sap-ui-browser^=ie] .sapMOHNumberDiv {
+html[data-sap-ui-browser^=ie] .sapMOHNumberDiv,
+html[data-sap-ui-browser^=ed] .sapMOHNumberDiv {
   text-align: right;
 }
-html[dir=rtl][data-sap-ui-browser^=ie] .sapMOHNumberDiv {
+html[dir=rtl][data-sap-ui-browser^=ie] .sapMOHNumberDiv,
+html[dir=rtl][data-sap-ui-browser^=ed] .sapMOHNumberDiv {
   text-align: left;
 }
 .sapMOHNumberWrap {
@@ -2423,10 +2390,12 @@ html[dir=rtl][data-sap-ui-browser^=ie] .sapMOHNumberDiv {
   overflow: hidden;
   float: right;
 }
-html[data-sap-ui-browser^=ie] .sapMOHAttr {
+html[data-sap-ui-browser^=ie] .sapMOHAttr,
+html[data-sap-ui-browser^=ed] .sapMOHAttr {
   text-align: left;
 }
-html[dir=rtl][data-sap-ui-browser^=ie] .sapMOHAttr {
+html[dir=rtl][data-sap-ui-browser^=ie] .sapMOHAttr,
+html[dir=rtl][data-sap-ui-browser^=ed] .sapMOHAttr {
   text-align: right;
 }
 .sapMOH .sapMObjectAttributeDiv {
@@ -2465,11 +2434,15 @@ div[class*='sapUiRespGrid'] > .sapMOH > .sapMOHLastDivider {
   clear: none;
 }
 html[data-sap-ui-browser^=ie] .sapMOHStatus,
-html[data-sap-ui-browser^=ie] .sapMOHStatusFixedWidth {
+html[data-sap-ui-browser^=ie] .sapMOHStatusFixedWidth,
+html[data-sap-ui-browser^=ed] .sapMOHStatus,
+html[data-sap-ui-browser^=ed] .sapMOHStatusFixedWidth {
   text-align: right;
 }
 html[dir=rtl][data-sap-ui-browser^=ie] .sapMOHStatus,
-html[dir=rtl][data-sap-ui-browser^=ie] .sapMOHStatusFixedWidth {
+html[dir=rtl][data-sap-ui-browser^=ie] .sapMOHStatusFixedWidth,
+html[dir=rtl][data-sap-ui-browser^=ed] .sapMOHStatus,
+html[dir=rtl][data-sap-ui-browser^=ed] .sapMOHStatusFixedWidth {
   text-align: left;
 }
 /* Styles for Responsive Object Header */
@@ -2622,10 +2595,12 @@ html[dir=rtl] .sapMObjStatusMarker > .sapUiIcon.sapUiIconMirrorInRTL {
   padding: 0.85rem 1rem 0 0;
   text-align: end;
 }
-html[data-sap-ui-browser^=ie].sap-desktop .sapMOHRStatesOneOrThree > .sapMOHRStates {
+html[data-sap-ui-browser^=ie].sap-desktop .sapMOHRStatesOneOrThree > .sapMOHRStates,
+html[data-sap-ui-browser^=ed].sap-desktop .sapMOHRStatesOneOrThree > .sapMOHRStates {
   text-align: right;
 }
-html[dir=rtl][data-sap-ui-browser^=ie].sap-desktop .sapMOHRStatesOneOrThree > .sapMOHRStates {
+html[dir=rtl][data-sap-ui-browser^=ie].sap-desktop .sapMOHRStatesOneOrThree > .sapMOHRStates,
+html[dir=rtl][data-sap-ui-browser^=ed].sap-desktop .sapMOHRStatesOneOrThree > .sapMOHRStates {
   text-align: left;
 }
 .sap-desktop .sapMOHRStatesOneOrThree > .sapMOHRStates .sapMObjectAttributeDiv > span[class*='sapMObjectAttribute'] {
@@ -2702,10 +2677,12 @@ html[dir=rtl][data-sap-ui-browser^=ie].sap-desktop .sapMOHRStatesOneOrThree > .s
   text-align: end;
   padding-right: 0.5rem;
 }
-html[data-sap-ui-browser^=ie] .sapMOHRTwoCols.sapMOHRStatesCont2 {
+html[data-sap-ui-browser^=ie] .sapMOHRTwoCols.sapMOHRStatesCont2,
+html[data-sap-ui-browser^=ed] .sapMOHRTwoCols.sapMOHRStatesCont2 {
   text-align: right;
 }
-html[dir=rtl][data-sap-ui-browser^=ie] .sapMOHRTwoCols.sapMOHRStatesCont2 {
+html[dir=rtl][data-sap-ui-browser^=ie] .sapMOHRTwoCols.sapMOHRStatesCont2,
+html[dir=rtl][data-sap-ui-browser^=ed] .sapMOHRTwoCols.sapMOHRStatesCont2 {
   text-align: left;
 }
 .sapMOHRTwoCols.sapMOHRStatesCont2 .sapMOHRAttr .sapMObjectAttributeDiv > span[class*='sapMObjectAttribute'] {

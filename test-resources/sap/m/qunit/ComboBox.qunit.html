@@ -10,12 +10,14 @@
 				data-sap-ui-libs="sap.m"
 				src="../../../../resources/sap-ui-core.js">
 		</script>
+		<script>
+			jQuery.sap.require("sap.ui.core.util.MockServer");
+		</script>
 		<link rel="stylesheet" href="../../../../resources/sap/ui/thirdparty/qunit.css" type="text/css" media="screen" />
 		<script src="../../../../resources/sap/ui/thirdparty/qunit.js"></script>
 		<script src="../../../../resources/sap/ui/qunit/qunit-junit.js"></script>
 		<script src="../../../../resources/sap/ui/qunit/qunit-coverage.js"></script>
 		<script src="../../../../resources/sap/ui/qunit/QUnitUtils.js"></script>
-		<script src="../../../../resources/sap/ui/thirdparty/sinon.js"></script>
 		<script src="../../../../resources/sap/ui/thirdparty/sinon-qunit.js"></script>
 		<script>
 			window._setTimeout = this.setTimeout;
@@ -46,6 +48,27 @@
 				test("get" + sProperty + "()", function() {
 					strictEqual(mOptions.control["get" + sProperty](), mOptions.output, mOptions.description);
 				});
+			};
+
+			var fnStartMockServer = function(sUri, iAutoRespondAfter) {
+				var sMetadataUrl = "data/metadata.xml";
+				sUri = sUri || "/service/";
+
+				// configure respond to requests delay
+				sap.ui.core.util.MockServer.config({
+					autoRespond: true,
+					autoRespondAfter: iAutoRespondAfter || 10
+				});
+
+				// create mock server
+				var oMockServer = new sap.ui.core.util.MockServer({
+					rootUri: sUri
+				});
+
+				// start and return
+				oMockServer.simulate(sMetadataUrl, "data");
+				oMockServer.start();
+				return oMockServer;
 			};
 
 			/* =========================================================== */
@@ -3297,6 +3320,59 @@
 				oComboBox.destroy();
 			});
 
+			test("it should correctly set the selection if the items aggregation is bounded to an OData model", function() {
+
+				// system under test
+				var oComboBox = new sap.m.ComboBox({
+					items: {
+						path: "/Products",
+						template: new sap.ui.core.Item({
+							key: "{ProductId}",
+							text: "{Name}"
+						})
+					}
+				});
+
+				// arrange
+				var sUri = "/service/";
+				var iAutoRespondAfter = 10;
+				var oMockServer = fnStartMockServer(sUri, iAutoRespondAfter);
+				var oModel = new sap.ui.model.odata.ODataModel(sUri, true);
+				oComboBox.setModel(oModel);
+
+				// IDs and names of the products in the model:
+				//
+				// id_1  Gladiator MX
+				// id_2  Psimax
+				// id_3  Hurricane GX
+				// id_4  Webcam
+				// id_5  Monitor Locking Cable
+				// id_6  Laptop Case
+				// id_7  Removable CD/DVD
+				// id_8  USB Stick 16 GByte
+				// id_9  Deskjet Super Highspeed
+				// id_10 Laser Allround Pro
+				// id_11 Flat S
+				// id_12 Flat Medium
+				// id_13 Flat X-large II
+				// id_14 High End Laptop 2b
+				// id_15 Very Natural Keyboard
+				// id_16 Hardcore Hacker
+
+				oComboBox.setSelectedKey("id_5");
+				oComboBox.placeAt("content");
+				this.clock.tick(iAutoRespondAfter + 1);	// tick the clock ahead some ms millisecond (it should be at least more than the auto respond setting to make sure that the data from the OData model is available)
+				sap.ui.getCore().applyChanges();	// enforces an immediate update of the visible UI (aka "rendering")
+
+				// assert
+				strictEqual(oComboBox.getSelectedKey(), "id_5");
+				strictEqual(oComboBox.getSelectedItem().getText(), "Monitor Locking Cable");
+
+				// cleanup
+				oMockServer.stop();
+				oComboBox.destroy();
+			});
+
 // 			test("value state and value state message", function() {
 // 				var oErrorComboBox = new sap.m.ComboBox("errorcombobox", {
 // 					valueState: "Error",
@@ -3347,6 +3423,84 @@
 // 				oErrorComboBox.destroy();
 
 // 			});
+
+			// BCP 1570460580
+			test("it should not override the selection when binding context is changed", function() {
+
+				// system under test
+				var oComboBox = new sap.m.ComboBox({
+					selectedKey: "{selected}",
+					items: {
+						path: "entries",
+						template: new sap.ui.core.Item({
+							key: "{key}",
+							text: "{country}"
+						})
+					}
+				});
+
+				// arrange
+				var oModel = new sap.ui.model.json.JSONModel([
+					{
+						selected: "DZ",
+						entries: [
+							{
+								"key": "DZ",
+								"country": "Algeria"
+							},
+							{
+								"key": "AR",
+								"country": "Argentina"
+							},
+							{
+								"key": "AU",
+								"country": "Australia"
+							}
+						]
+					},
+					{
+						selected: "BA",
+						entries: [
+							{
+								"key": "AT",
+								"country": "Austria"
+							},
+
+							{
+								"key": "BH",
+								"country": "Bahrain"
+							},
+
+							{
+								"key": "BE",
+								"country": "Belgium"
+							},
+
+							{
+								"key": "BA",
+								"country": "Bosnia and Herzegovina"
+							}
+						]
+					}
+				]);
+
+				oModel.setDefaultBindingMode("OneWay");
+				sap.ui.getCore().setModel(oModel);
+				oComboBox.setBindingContext(oModel.getContext("/1"));
+				oComboBox.placeAt("content");
+				sap.ui.getCore().applyChanges();
+
+				// act
+				oComboBox.setBindingContext(oModel.getContext("/0"));
+				sap.ui.getCore().applyChanges();
+
+				// assert
+				strictEqual(oComboBox.getSelectedKey(), "DZ");
+
+				// cleanup
+				oComboBox.destroy();
+				oModel.destroy();
+			});
 
 			/* ------------------------------------ */
 			/* setEditable()                        */

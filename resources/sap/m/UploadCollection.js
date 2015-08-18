@@ -19,7 +19,7 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.28.15
+	 * @version 1.28.16
 	 *
 	 * @constructor
 	 * @public
@@ -414,12 +414,12 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 			// collect items with the status "uploading"
 			var aUploadingItems = [];
 			for (i = 0; i < cAitems; i++) {
-				if (this.aItems[i]._status === UploadCollection._uploadingStatus && this.aItems[i]._percentUploaded !== 100) {
+				if (this.aItems[i] && this.aItems[i]._status === UploadCollection._uploadingStatus && this.aItems[i]._percentUploaded !== 100) {
 					aUploadingItems.push(this.aItems[i]);
-				} else if (this.aItems[i]._status !== UploadCollection._uploadingStatus && this.aItems[i]._percentUploaded === 100 && this.getItems().length === 0) {
+				} else if (this.aItems[i] && this.aItems[i]._status !== UploadCollection._uploadingStatus && this.aItems[i]._percentUploaded === 100 && this.getItems().length === 0) {
 					// Skip this rendering because of model refresh only
 					aUploadingItems.push(this.aItems[i]);
-				} else if (this.aItems[i]._status === UploadCollection._toBeDeletedStatus && this.getItems().length === 0) {
+				} else if (this.aItems[i] && this.aItems[i]._status === UploadCollection._toBeDeletedStatus && this.getItems().length === 0) {
 					bItemToBeDeleted = true;
 					this.aItems.splice(i, 1);
 				}
@@ -969,6 +969,8 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 								break;
 							} else if (aUploadedFiles[i] === oContext.aItems[j].getFileName() && oContext.aItems[j]._status === UploadCollection._uploadingStatus) {
 								oContext.aItems[j]._status = UploadCollection._toBeDeletedStatus;
+								oContext.aItems.splice(j, 1);
+								oContext.removeItem(oContext.aItems[j]);
 								break;
 							}
 						}
@@ -1427,7 +1429,7 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 	 */
 	UploadCollection.prototype._onUploadComplete = function(oEvent) {
 		if (oEvent) {
-			var i, sRequestId, sUploadedFile, cItems;
+			var i, sRequestId, sUploadedFile, cItems, bUploadSuccessful = checkRequestStatus();
 			sRequestId = this._getRequestId(oEvent);
 			sUploadedFile = oEvent.getParameter("fileName");
 			// at the moment parameter fileName is not set in IE9
@@ -1440,16 +1442,27 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 			// sRequestId should be null only in case of IE9 because FileUploader does not support header parameters for it
 				if (!sRequestId) {
 					if (this.aItems[i].getProperty("fileName") === sUploadedFile &&
-							this.aItems[i]._status === UploadCollection._uploadingStatus) {
+							this.aItems[i]._status === UploadCollection._uploadingStatus &&
+							bUploadSuccessful) {
 						this.aItems[i]._percentUploaded = 100;
 						this.aItems[i]._status = UploadCollection._displayStatus;
+						break;
+					} else if (this.aItems[i].getProperty("fileName") === sUploadedFile &&
+							this.aItems[i]._status === UploadCollection._uploadingStatus) {
+						this.aItems.splice(i, 1);
 						break;
 					}
 				} else if (this.aItems[i].getProperty("fileName") === sUploadedFile &&
 									this.aItems[i]._requestIdName === sRequestId &&
-									this.aItems[i]._status === UploadCollection._uploadingStatus) {
+									this.aItems[i]._status === UploadCollection._uploadingStatus &&
+									bUploadSuccessful) {
 					this.aItems[i]._percentUploaded = 100;
 					this.aItems[i]._status = UploadCollection._displayStatus;
+					break;
+				} else if (this.aItems[i].getProperty("fileName") === sUploadedFile &&
+									this.aItems[i]._requestIdName === sRequestId &&
+									this.aItems[i]._status === UploadCollection._uploadingStatus) {
+					this.aItems.splice(i, 1);
 					break;
 				}
 			}
@@ -1467,6 +1480,15 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 					headers : oEvent.getParameter("headers")
 				}]
 			});
+		}
+		
+		function checkRequestStatus () {
+			var sRequestStatus = oEvent.getParameter("status").toString() || "200"; // In case of IE < 10 this will not work.
+			if (sRequestStatus[0] === "2" || sRequestStatus[0] === "3") {
+				return true;
+			} else {
+				return false;
+			}
 		}
 	};
 
