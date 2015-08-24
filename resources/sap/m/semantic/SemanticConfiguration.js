@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/base/Metadata', "sap/m/OverflowToolb
 	 * Constructor for a sap.m.semantic.SemanticPageSegment.
 	 *
 	 * @class Abstraction for a segment in a SegmentedContainer
-	 * @version 1.30.6
+	 * @version 1.30.7
 	 * @private
 	 * @since 1.30.0
 	 * @alias sap.m.semantic.SemanticPageSegment
@@ -471,7 +471,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/base/Metadata', "sap/m/OverflowToolb
 			position: SemanticConfiguration.prototype._PositionInPage.footerLeft,
 			getSettings: function() {
 				return {
-					icon: "sap-icon://alert",
+					icon: "sap-icon://message-popup",
 					text: {
 						path: "message>/",
 						formatter: function (aMessages) {

@@ -152,7 +152,7 @@
 .sapMBarLeft {
   right: 0px;
 }
-/* IE does not support "text-align: end" */
+/* IE / Edge does not support "text-align: end" */
 /* use "right" and "left" instead        */
 .sapMBarRight {
   text-align: right;
@@ -211,8 +211,8 @@
 }
 html[dir='rtl'] .sapMBsyIndIcon {
   -moz-animation: sapMBsyIndRotateRTL 2s linear 0s infinite normal none;
-  -webkit-animation: sapMBsyIndRotateRTL 2s linear 0 infinite normal none;
-  animation: sapMBsyIndRotateRTL 2s linear 0 infinite normal none;
+  -webkit-animation: sapMBsyIndRotateRTL 2s linear 0s infinite normal none;
+  animation: sapMBsyIndRotateRTL 2s linear 0s infinite normal none;
 }
 .sapMBsyIndIcon {
   vertical-align: middle;
@@ -223,8 +223,8 @@ html[dir='rtl'] .sapMBsyIndIcon {
   transform: rotate(0deg) translateZ(0);
   transition-duration: 0ms;
   -moz-animation: sapMBsyIndRotate 2s linear 0s infinite normal none;
-  -webkit-animation: sapMBsyIndRotate 2s linear 0 infinite normal none;
-  animation: sapMBsyIndRotate 2s linear 0 infinite normal none;
+  -webkit-animation: sapMBsyIndRotate 2s linear 0s infinite normal none;
+  animation: sapMBsyIndRotate 2s linear 0s infinite normal none;
 }
 @-moz-keyframes sapMBsyIndRotate {
   from {
@@ -391,11 +391,13 @@ html[data-sap-ui-browser*='ie'] .sapMBtnContentWithIcon {
   -ms-transition-duration: 0.5s;
   transition-duration: 0.5s;
 }
-/* special handling for IE, as it does not support text-align: end */
-html[data-sap-ui-browser^="ie"] .sapMCrslInner {
+/* special handling for IE / Edge, as it does not support text-align: end */
+html[data-sap-ui-browser^="ie"] .sapMCrslInner,
+html[data-sap-ui-browser^="ed"] .sapMCrslInner {
   text-align: left;
 }
-html[dir=rtl][data-sap-ui-browser^="ie"] .sapMCrslInner {
+html[dir=rtl][data-sap-ui-browser^="ie"] .sapMCrslInner,
+html[dir=rtl][data-sap-ui-browser^="ed"] .sapMCrslInner {
   text-align: right;
 }
 .sapMCrslItemTable {
@@ -662,9 +664,9 @@ html[dir=rtl] .sapMDTICustomDateTime .dwc:last-child {
 }
 .sapMDialogScroll {
   display: inline-block;
-  /*this is for horizontal scrolling enablement*/
+  /* this is for horizontal scrolling enablement */
   min-height: 100%;
-  min-width: 100%;
+  width: 100%;
   vertical-align: middle;
 }
 /* disable scrolling automatically for sap.m.Page sap.m.NavContainer sap.m.ScrollingContainer inside Dialog */
@@ -1738,6 +1740,7 @@ html[dir=rtl] .sapMILIDiv {
   position: relative;
   /* This should not break the list but help swipe list content position calculation */
   box-sizing: border-box;
+  overflow: hidden;
 }
 .sapMListUl {
   list-style-type: none;
@@ -1751,9 +1754,6 @@ html[dir=rtl] .sapMILIDiv {
 .sapMList:focus,
 .sapMListUl:focus {
   outline: none;
-}
-.sapMListInset {
-  overflow: hidden;
 }
 .sapMListSwp {
   overflow: hidden;
@@ -2514,9 +2514,6 @@ html[dir=rtl] .sapMILIDiv {
   margin: 0;
   padding: 1.125rem 0 1rem 0;
 }
-.sapUiIcon:focus {
-  outline: none;
-}
 .sapMOHIntro {
   white-space: nowrap;
   overflow: hidden;
@@ -2637,10 +2634,12 @@ html[dir=rtl] .sapMILIDiv {
   line-height: 1.8rem;
   font-size: 1.125rem;
 }
-html[data-sap-ui-browser^=ie] .sapMOHNumberDiv {
+html[data-sap-ui-browser^=ie] .sapMOHNumberDiv,
+html[data-sap-ui-browser^=ed] .sapMOHNumberDiv {
   text-align: right;
 }
-html[dir=rtl][data-sap-ui-browser^=ie] .sapMOHNumberDiv {
+html[dir=rtl][data-sap-ui-browser^=ie] .sapMOHNumberDiv,
+html[dir=rtl][data-sap-ui-browser^=ed] .sapMOHNumberDiv {
   text-align: left;
 }
 .sapMOHNumberWrap {
@@ -2682,10 +2681,12 @@ html[dir=rtl][data-sap-ui-browser^=ie] .sapMOHNumberDiv {
   overflow: hidden;
   float: right;
 }
-html[data-sap-ui-browser^=ie] .sapMOHAttr {
+html[data-sap-ui-browser^=ie] .sapMOHAttr,
+html[data-sap-ui-browser^=ed] .sapMOHAttr {
   text-align: left;
 }
-html[dir=rtl][data-sap-ui-browser^=ie] .sapMOHAttr {
+html[dir=rtl][data-sap-ui-browser^=ie] .sapMOHAttr,
+html[dir=rtl][data-sap-ui-browser^=ed] .sapMOHAttr {
   text-align: right;
 }
 .sapMOH .sapMObjectAttributeDiv {
@@ -2722,11 +2723,15 @@ div[class*='sapUiRespGrid'] > .sapMOH > .sapMOHLastDivider {
   clear: none;
 }
 html[data-sap-ui-browser^=ie] .sapMOHStatus,
-html[data-sap-ui-browser^=ie] .sapMOHStatusFixedWidth {
+html[data-sap-ui-browser^=ie] .sapMOHStatusFixedWidth,
+html[data-sap-ui-browser^=ed] .sapMOHStatus,
+html[data-sap-ui-browser^=ed] .sapMOHStatusFixedWidth {
   text-align: right;
 }
 html[dir=rtl][data-sap-ui-browser^=ie] .sapMOHStatus,
-html[dir=rtl][data-sap-ui-browser^=ie] .sapMOHStatusFixedWidth {
+html[dir=rtl][data-sap-ui-browser^=ie] .sapMOHStatusFixedWidth,
+html[dir=rtl][data-sap-ui-browser^=ed] .sapMOHStatus,
+html[dir=rtl][data-sap-ui-browser^=ed] .sapMOHStatusFixedWidth {
   text-align: left;
 }
 /* Styles for Responsive Object Header */
@@ -2879,10 +2884,12 @@ html[dir=rtl] .sapMObjStatusMarker > .sapUiIcon.sapUiIconMirrorInRTL {
   padding: 0.85rem 1rem 0 0;
   text-align: end;
 }
-html[data-sap-ui-browser^=ie].sap-desktop .sapMOHRStatesOneOrThree > .sapMOHRStates {
+html[data-sap-ui-browser^=ie].sap-desktop .sapMOHRStatesOneOrThree > .sapMOHRStates,
+html[data-sap-ui-browser^=ed].sap-desktop .sapMOHRStatesOneOrThree > .sapMOHRStates {
   text-align: right;
 }
-html[dir=rtl][data-sap-ui-browser^=ie].sap-desktop .sapMOHRStatesOneOrThree > .sapMOHRStates {
+html[dir=rtl][data-sap-ui-browser^=ie].sap-desktop .sapMOHRStatesOneOrThree > .sapMOHRStates,
+html[dir=rtl][data-sap-ui-browser^=ed].sap-desktop .sapMOHRStatesOneOrThree > .sapMOHRStates {
   text-align: left;
 }
 .sap-desktop .sapMOHRStatesOneOrThree > .sapMOHRStates .sapMObjectAttributeDiv > span[class*='sapMObjectAttribute'] {
@@ -2982,10 +2989,12 @@ html[dir=rtl][data-sap-ui-browser^=ie].sap-desktop .sapMOHRStatesOneOrThree > .s
   text-align: end;
   padding-right: 0.5rem;
 }
-html[data-sap-ui-browser^=ie] .sapMOHRTwoCols.sapMOHRStatesCont2 {
+html[data-sap-ui-browser^=ie] .sapMOHRTwoCols.sapMOHRStatesCont2,
+html[data-sap-ui-browser^=ed] .sapMOHRTwoCols.sapMOHRStatesCont2 {
   text-align: right;
 }
-html[dir=rtl][data-sap-ui-browser^=ie] .sapMOHRTwoCols.sapMOHRStatesCont2 {
+html[dir=rtl][data-sap-ui-browser^=ie] .sapMOHRTwoCols.sapMOHRStatesCont2,
+html[dir=rtl][data-sap-ui-browser^=ed] .sapMOHRTwoCols.sapMOHRStatesCont2 {
   text-align: left;
 }
 .sapMOHRTwoCols.sapMOHRStatesCont2 .sapMOHRAttr .sapMObjectAttributeDiv > span[class*='sapMObjectAttribute'] {
@@ -5433,7 +5442,6 @@ html[dir=rtl] .sapMStdTileInfo {
   border-collapse: separate;
   border-spacing: 0;
   table-layout: fixed;
-  overflow: hidden;
 }
 .sapMListTbl .sapMLIB {
   display: table-row;
@@ -6514,7 +6522,6 @@ html[data-sap-ui-browser="ie9"] .sapMUCItem .sapMLIBContentNF {
   font-weight: normal;
   line-height: normal;
   white-space: pre-line;
-  text-align: start;
   margin-right: 0.1rem;
 }
 @media (min-width: 30rem) {
@@ -7020,10 +7027,12 @@ html[data-sap-ui-browser="ie9"] .sapMUCButtonContainer {
 .sapMActionSheet button.sapMActionSheetButton > .sapMBtnInner {
   text-align: start;
 }
-html[data-sap-ui-browser^=ie] .sapMActionSheet button.sapMActionSheetButton > .sapMBtnInner {
+html[data-sap-ui-browser^=ie] .sapMActionSheet button.sapMActionSheetButton > .sapMBtnInner,
+html[data-sap-ui-browser^=ed] .sapMActionSheet button.sapMActionSheetButton > .sapMBtnInner {
   text-align: left;
 }
-html[dir=rtl][data-sap-ui-browser^=ie] .sapMActionSheet button.sapMActionSheetButton > .sapMBtnInner {
+html[dir=rtl][data-sap-ui-browser^=ie] .sapMActionSheet button.sapMActionSheetButton > .sapMBtnInner,
+html[dir=rtl][data-sap-ui-browser^=ed] .sapMActionSheet button.sapMActionSheetButton > .sapMBtnInner {
   text-align: right;
 }
 .sapMActionSheet button.sapMActionSheetButton > .sapMBtnInner.sapMBtnTransparent .sapUiIcon {
@@ -7082,10 +7091,12 @@ html[dir=rtl][data-sap-ui-browser^=ie] .sapMActionSheet button.sapMActionSheetBu
 .sapMActionSheetDialog.sapMDialogPhone > .sapMBar.sapMHeader-CTX > .sapMBarMiddle {
   text-align: start;
 }
-html[data-sap-ui-browser^=ie] .sapMActionSheetDialog.sapMDialogPhone > .sapMBar.sapMHeader-CTX > .sapMBarMiddle {
+html[data-sap-ui-browser^=ie] .sapMActionSheetDialog.sapMDialogPhone > .sapMBar.sapMHeader-CTX > .sapMBarMiddle,
+html[data-sap-ui-browser^=ed] .sapMActionSheetDialog.sapMDialogPhone > .sapMBar.sapMHeader-CTX > .sapMBarMiddle {
   text-align: left;
 }
-html[dir=rtl][data-sap-ui-browser^=ie] .sapMActionSheetDialog.sapMDialogPhone > .sapMBar.sapMHeader-CTX > .sapMBarMiddle {
+html[dir=rtl][data-sap-ui-browser^=ie] .sapMActionSheetDialog.sapMDialogPhone > .sapMBar.sapMHeader-CTX > .sapMBarMiddle,
+html[dir=rtl][data-sap-ui-browser^=ed] .sapMActionSheetDialog.sapMDialogPhone > .sapMBar.sapMHeader-CTX > .sapMBarMiddle {
   text-align: right;
 }
 .sapMActionSheetDialog.sapMDialogPhone > .sapMBar.sapMHeader-CTX > .sapMBarMiddle > .sapMBarPH > .sapMLabel {
@@ -8011,7 +8022,10 @@ html[data-sap-ui-browser^=ie] .sapMCrslBulleted > span {
 }
 .sap-desktop .sapMListTblRow:focus {
   outline: 0.125rem dotted #ffffff;
-  outline-offset: -0.125rem;
+  outline-offset: -0.1875rem;
+}
+html[data-sap-ui-browser^="ie"].sap-desktop .sapMListTblRow:focus {
+  outline-width: 3px;
 }
 .sapMListTblSubRow {
   background: #000000;
@@ -8104,6 +8118,15 @@ html[data-sap-ui-browser^=ie] .sapMCrslBulleted > span {
 .sapUiSizeCompact .sapMListTblRowTop > .sapMListTblCell > * {
   margin-top: .5rem;
   margin-bottom: .5rem;
+}
+/* ======================================================== */
+/* CSS for control sap.m/ComboBox.control HCB theme         */
+/* ======================================================== */
+label.sapMComboBoxPlaceholder {
+  padding-left: 3rem;
+}
+.sapUiSizeCompact label.sapMComboBoxPlaceholder {
+  padding-left: 2.5rem;
 }
 /* ==================================================== */
 /* CSS for control sap.m/ComboBoxBase.control HCB theme */
@@ -10186,11 +10209,13 @@ html[data-sap-ui-browser^="cr"] .sapMInputBaseInner::selection {
   position: absolute;
   left: 0;
 }
-html[data-sap-ui-browser^=ie] .sapUiFormResLayout .sapUiRFLRow:first-child > .sapUiRFLContainer:first-child > .sapUiRFLContainerContent > .sapMLabel {
+html[data-sap-ui-browser^=ie] .sapUiFormResLayout .sapUiRFLRow:first-child > .sapUiRFLContainer:first-child > .sapUiRFLContainerContent > .sapMLabel,
+html[data-sap-ui-browser^=ed] .sapUiFormResLayout .sapUiRFLRow:first-child > .sapUiRFLContainer:first-child > .sapUiRFLContainerContent > .sapMLabel {
   text-align: right !important;
   /* to overwrite setting on label */
 }
-html[dir=rtl][data-sap-ui-browser^=ie] .sapUiFormResLayout .sapUiRFLRow:first-child > .sapUiRFLContainer:first-child > .sapUiRFLContainerContent > .sapMLabel {
+html[dir=rtl][data-sap-ui-browser^=ie] .sapUiFormResLayout .sapUiRFLRow:first-child > .sapUiRFLContainer:first-child > .sapUiRFLContainerContent > .sapMLabel,
+html[dir=rtl][data-sap-ui-browser^=ed] .sapUiFormResLayout .sapUiRFLRow:first-child > .sapUiRFLContainer:first-child > .sapUiRFLContainerContent > .sapMLabel {
   text-align: left !important;
   /* to overwrite setting on label */
 }
@@ -10199,11 +10224,13 @@ html[dir=rtl][data-sap-ui-browser^=ie] .sapUiFormResLayout .sapUiRFLRow:first-ch
   /* to overwrite setting on label */
   padding-bottom: 2px;
 }
-html[data-sap-ui-browser^=ie] .sapUiFormResLayout .sapUiRFLRow:first-child > .sapUiRFLContainer.sapUiRFLFullLength > .sapUiRFLContainerContent > .sapMLabel {
+html[data-sap-ui-browser^=ie] .sapUiFormResLayout .sapUiRFLRow:first-child > .sapUiRFLContainer.sapUiRFLFullLength > .sapUiRFLContainerContent > .sapMLabel,
+html[data-sap-ui-browser^=ed] .sapUiFormResLayout .sapUiRFLRow:first-child > .sapUiRFLContainer.sapUiRFLFullLength > .sapUiRFLContainerContent > .sapMLabel {
   text-align: left !important;
   /* to overwrite setting on label */
 }
-html[dir=rtl][data-sap-ui-browser^=ie] .sapUiFormResLayout .sapUiRFLRow:first-child > .sapUiRFLContainer.sapUiRFLFullLength > .sapUiRFLContainerContent > .sapMLabel {
+html[dir=rtl][data-sap-ui-browser^=ie] .sapUiFormResLayout .sapUiRFLRow:first-child > .sapUiRFLContainer.sapUiRFLFullLength > .sapUiRFLContainerContent > .sapMLabel,
+html[dir=rtl][data-sap-ui-browser^=ed] .sapUiFormResLayout .sapUiRFLRow:first-child > .sapUiRFLContainer.sapUiRFLFullLength > .sapUiRFLContainerContent > .sapMLabel {
   text-align: right !important;
   /* to overwrite setting on label */
 }
@@ -10224,13 +10251,19 @@ html[dir=rtl][data-sap-ui-browser^=ie] .sapUiFormResLayout .sapUiRFLRow:first-ch
 }
 html[data-sap-ui-browser^=ie] .sapUiRespGridMedia-Std-Phone.sapUiFormResGridCont > .sapUiFormResGridLbl:not(.sapUiRespGridSpanS12) > .sapMLabel,
 html[data-sap-ui-browser^=ie] .sapUiRespGridMedia-Std-Tablet.sapUiFormResGridCont > .sapUiFormResGridLbl:not(.sapUiRespGridSpanM12) > .sapMLabel,
-html[data-sap-ui-browser^=ie] .sapUiRespGridMedia-Std-Desktop.sapUiFormResGridCont > .sapUiFormResGridLbl:not(.sapUiRespGridSpanL12) > .sapMLabel {
+html[data-sap-ui-browser^=ie] .sapUiRespGridMedia-Std-Desktop.sapUiFormResGridCont > .sapUiFormResGridLbl:not(.sapUiRespGridSpanL12) > .sapMLabel,
+html[data-sap-ui-browser^=ed] .sapUiRespGridMedia-Std-Phone.sapUiFormResGridCont > .sapUiFormResGridLbl:not(.sapUiRespGridSpanS12) > .sapMLabel,
+html[data-sap-ui-browser^=ed] .sapUiRespGridMedia-Std-Tablet.sapUiFormResGridCont > .sapUiFormResGridLbl:not(.sapUiRespGridSpanM12) > .sapMLabel,
+html[data-sap-ui-browser^=ed] .sapUiRespGridMedia-Std-Desktop.sapUiFormResGridCont > .sapUiFormResGridLbl:not(.sapUiRespGridSpanL12) > .sapMLabel {
   text-align: right !important;
   /* to overwrite style set on element */
 }
 html[dir=rtl][data-sap-ui-browser^=ie] .sapUiRespGridMedia-Std-Phone.sapUiFormResGridCont > .sapUiFormResGridLbl:not(.sapUiRespGridSpanS12) > .sapMLabel,
 html[dir=rtl][data-sap-ui-browser^=ie] .sapUiRespGridMedia-Std-Tablet.sapUiFormResGridCont > .sapUiFormResGridLbl:not(.sapUiRespGridSpanM12) > .sapMLabel,
-html[dir=rtl][data-sap-ui-browser^=ie] .sapUiRespGridMedia-Std-Desktop.sapUiFormResGridCont > .sapUiFormResGridLbl:not(.sapUiRespGridSpanL12) > .sapMLabel {
+html[dir=rtl][data-sap-ui-browser^=ie] .sapUiRespGridMedia-Std-Desktop.sapUiFormResGridCont > .sapUiFormResGridLbl:not(.sapUiRespGridSpanL12) > .sapMLabel,
+html[dir=rtl][data-sap-ui-browser^=ed] .sapUiRespGridMedia-Std-Phone.sapUiFormResGridCont > .sapUiFormResGridLbl:not(.sapUiRespGridSpanS12) > .sapMLabel,
+html[dir=rtl][data-sap-ui-browser^=ed] .sapUiRespGridMedia-Std-Tablet.sapUiFormResGridCont > .sapUiFormResGridLbl:not(.sapUiRespGridSpanM12) > .sapMLabel,
+html[dir=rtl][data-sap-ui-browser^=ed] .sapUiRespGridMedia-Std-Desktop.sapUiFormResGridCont > .sapUiFormResGridLbl:not(.sapUiRespGridSpanL12) > .sapMLabel {
   text-align: left !important;
   /* to overwrite style set on element */
 }
@@ -14382,10 +14415,6 @@ html[dir=rtl] .sapMSwtTrans > .sapMSwtInner {
   font-size: 0.875rem;
   /* HCB Additional Style */
   border: 1px solid #ffffff;
-}
-html[data-sap-ui-browser^="ie"] .sapMListTbl {
-  /* ie does not show focus outline when border spacing is less than outline size */
-  border-spacing: 0.4px;
 }
 .sapMListTbl .sapMText,
 .sapMListTbl .sapMLabel {

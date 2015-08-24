@@ -22,7 +22,7 @@ sap.ui.define(['jquery.sap.global', './Input', './Token', './library', 'sap/ui/c
 	 * @extends sap.m.Input
 	 *
 	 * @author SAP SE
-	 * @version 1.30.6
+	 * @version 1.30.7
 	 *
 	 * @constructor
 	 * @public
@@ -278,7 +278,7 @@ sap.ui.define(['jquery.sap.global', './Input', './Token', './library', 'sap/ui/c
 			
 		}
 		
-		if ( aRemoveTokens ) {
+		if (aRemoveTokens.length > 0) {
 			for ( i = 0; i < aRemoveTokens.length; i++ ){
 				this._tokenizer.removeToken(aRemoveTokens[i]);
 			}

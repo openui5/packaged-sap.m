@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @class
 	 * Tokenizer displays multiple tokens
 	 * @extends sap.ui.core.Control
-	 * @version 1.30.6
+	 * @version 1.30.7
 	 *
 	 * @constructor
 	 * @public
@@ -901,6 +901,12 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 				removedTokens : [token],
 				type : Tokenizer.TokenChangeType.TokensChanged
 			});
+			
+			if (this.getParent() &&  this.getParent() instanceof sap.m.MultiInput) {
+				var $oParent = this.getParent().$();
+				$oParent.find("input").focus();
+			}
+
 		}
 	
 	};

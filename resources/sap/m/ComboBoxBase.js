@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './ComboBoxBaseRenderer', './Dialog
 		 * @extends sap.m.InputBase
 		 *
 		 * @author SAP SE
-		 * @version 1.30.6
+		 * @version 1.30.7
 		 *
 		 * @constructor
 		 * @public
@@ -64,6 +64,34 @@ sap.ui.define(['jquery.sap.global', './Bar', './ComboBoxBaseRenderer', './Dialog
 		/* ----------------------------------------------------------- */
 		/* Private methods                                             */
 		/* ----------------------------------------------------------- */
+
+		/**
+		 * Called, whenever the binding of the aggregation items is changed.
+		 *
+		 * @private
+		 */
+		ComboBoxBase.prototype.updateItems = function(sReason) {
+			this.bDataUpdated = false;
+			this.destroyItems();
+			this.updateAggregation("items");
+			this.bDataUpdated = true;
+		};
+
+		/**
+		 * Called, when the items' aggregation needs to be refreshed.
+		 * This method does not make any changes to the items' aggregation, but just calls the
+		 * <code>getContexts()</code> method to trigger fetching of new data.
+		 *
+		 * <b>Note:</b> This method has been overwritten to prevent <code>updateItems()</code>
+		 * from being called when the bindings are refreshed.
+		 * @see sap.ui.base.ManagedObject#bindAggregation
+		 *
+		 * @private
+		 */
+		ComboBoxBase.prototype.refreshItems = function() {
+			this.bDataUpdated = false;
+			this.refreshAggregation("items");
+		};
 
 		/**
 		 * Given an item, retrieve the corresponding list item.
@@ -187,6 +215,13 @@ sap.ui.define(['jquery.sap.global', './Bar', './ComboBoxBaseRenderer', './Dialog
 
 			// initialize list
 			this.createList();
+
+			/**
+			 * To detect whether the data is updated.
+			 *
+			 * @protected
+			 */
+			this.bDataUpdated = false;
 		};
 
 		/**
@@ -722,7 +757,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './ComboBoxBaseRenderer', './Dialog
 		 * @public
 		 */
 		ComboBoxBase.prototype.addItem = function(oItem) {
-			this.addAggregation("items", oItem, true);
+			this.addAggregation("items", oItem);
 
 			if (oItem) {
 				oItem.attachEvent("_change", this.onItemChange, this);

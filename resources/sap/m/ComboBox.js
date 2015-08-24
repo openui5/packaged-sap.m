@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './ComboBoxBase', './ComboBoxRenderer', './l
 		 * @extends sap.m.ComboBoxBase
 		 *
 		 * @author SAP SE
-		 * @version 1.30.6
+		 * @version 1.30.7
 		 *
 		 * @constructor
 		 * @public
@@ -1215,6 +1215,10 @@ sap.ui.define(['jquery.sap.global', './ComboBoxBase', './ComboBoxRenderer', './l
 		 */
 		ComboBox.prototype.removeItem = function(vItem) {
 			vItem = ComboBoxBase.prototype.removeItem.call(this, vItem);
+
+			if (this.isBound("items") && !this.bDataUpdated) {
+				return vItem;
+			}
 
 			var sValue = this.getValue(),
 				oItem;

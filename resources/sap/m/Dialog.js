@@ -24,7 +24,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './InstanceManager', './Toolbar', '
 	 * @implements sap.ui.core.PopupInterface
 	 *
 	 * @author SAP SE
-	 * @version 1.30.6
+	 * @version 1.30.7
 	 *
 	 * @constructor
 	 * @public
@@ -324,8 +324,8 @@ sap.ui.define(['jquery.sap.global', './Bar', './InstanceManager', './Toolbar', '
 
 			//TODO: if sap_mvi has to be restored, here has to be changed.
 			oPosition.at = {
-				left: ($Window.width() - $that.outerWidth()) / 2,
-				top: ($Window.height() - $that.outerHeight()) / 2
+				left: parseInt(($Window.width() - $that.outerWidth()) / 2, 10),
+				top: parseInt(($Window.height() - $that.outerHeight()) / 2, 10)
 			};
 
 			Popup.prototype._applyPosition.call(this, oPosition);
@@ -848,6 +848,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './InstanceManager', './Toolbar', '
 		// Left or Right button can be visible false and therefore not rendered.
 		// In such a case, focus should be set somewhere else.
 		return this.getInitialFocus()
+				|| this._getFirstFocusableContentSubHeader()
 				|| this._getFirstFocusableContentElementId()
 				|| this._getFirstVisibleButtonId()
 				|| this.getId();
@@ -874,6 +875,23 @@ sap.ui.define(['jquery.sap.global', './Bar', './InstanceManager', './Toolbar', '
 		}
 
 		return sButtonId;
+	};
+
+	/**
+	 *
+	 * @returns {string}
+	 * @private
+	 */
+	Dialog.prototype._getFirstFocusableContentSubHeader = function () {
+		var $subHeader = this.$().find('.sapMDialogSubHeader');
+		var sResult;
+
+		var oFirstFocusableDomRef = $subHeader.firstFocusableDomRef();
+
+		if (oFirstFocusableDomRef) {
+			sResult = oFirstFocusableDomRef.id;
+		}
+		return sResult;
 	};
 
 	Dialog.prototype._getFirstFocusableContentElementId = function() {
