@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.28.16
+	 * @version 1.28.17
 	 *
 	 * @constructor
 	 * @public
@@ -135,11 +135,11 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * native placeholder usage causes undesired input events or when
 	 * placeholder attribute is not supported for the specified type.
 	 * https://html.spec.whatwg.org/multipage/forms.html#input-type-attr-summary
-	 * 
+	 *
 	 * @see sap.m.InputBase#oninput
 	 * @protected
 	 */
-	InputBase.prototype._bShowLabelAsPlaceholder = !sap.ui.Device.support.input.placeholder;
+	InputBase.prototype.bShowLabelAsPlaceholder = !sap.ui.Device.support.input.placeholder;
 
 	/* ----------------------------------------------------------- */
 	/* Private methods                                             */
@@ -159,7 +159,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * Update the synthetic placeholder visibility.
 	 */
 	InputBase.prototype._setLabelVisibility = function() {
-		if (!this._bShowLabelAsPlaceholder || !this._$label || !this.isActive()) {
+		if (!this.bShowLabelAsPlaceholder || !this._$label || !this.isActive()) {
 			return;
 		}
 
@@ -213,6 +213,18 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	InputBase.prototype.init = function() {
 		this._lastValue = "";	// last changed value
 		this._changeProxy = jQuery.proxy(this.onChange, this);
+
+		/**
+		 * Indicates whether the input field is in the rendering phase.
+		 *
+		 * @protected
+		 */
+		this.bRenderingPhase = false;
+
+		/**
+		 * Indicates whether the <code>focusout</code> event is triggered due a rendering.
+		 */
+		this.bFocusoutDueRendering = false;
 	};
 
 	/**
@@ -223,7 +235,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	InputBase.prototype.onBeforeRendering = function() {
 
 		// mark the rendering phase
-		this._bRendering = true;
+		this.bRenderingPhase = true;
 
 		if (this._bCheckDomValue) {
 
@@ -257,13 +269,13 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		this._bCheckDomValue = false;
 
 		// handle synthetic placeholder visibility
-		if (this._bShowLabelAsPlaceholder) {
+		if (this.bShowLabelAsPlaceholder) {
 			this._$label = this.$("placeholder");
 			this._setLabelVisibility();
 		}
 
 		// rendering phase is finished
-		this._bRendering = false;
+		this.bRenderingPhase = false;
 	};
 
 	/**
@@ -301,7 +313,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 *
 	 * @private
 	 */
-	InputBase.prototype.onfocusin = function() {
+	InputBase.prototype.onfocusin = function(oEvent) {
 		this.$().toggleClass("sapMFocus", true);
 		if (sap.ui.Device.support.touch) {
 			// listen to all touch events
@@ -366,27 +378,41 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	};
 
 	/**
-	 * Handles the focusout event of the Input.
+	 * Handles the <code>focusout</code> event of the Input.
 	 *
 	 * @param {jQuery.Event} oEvent The event object.
 	 * @private
 	 */
 	InputBase.prototype.onfocusout = function(oEvent) {
+		this.bFocusoutDueRendering = this.bRenderingPhase;
 		this.$().toggleClass("sapMFocus", false);
+
 		// remove touch handler from document for mobile devices
-		jQuery(document).off('.sapMIBtouchstart');
+		jQuery(document).off(".sapMIBtouchstart");
 
 		// because dom is replaced during the rendering
 		// onfocusout event is triggered probably focus goes to the document
 		// so we ignore this event that comes during the rendering
-		if (this._bRendering) {
+		if (this.bRenderingPhase) {
 			return;
 		}
 
-		//close value state message popup when focus is out of the input
+		// close value state message popup when focus is out of the input
 		this.closeValueStateMessage();
+	};
 
-		// handle change event on focusout
+	/**
+	 * Handles the <code>sapfocusleave</code> event of the input.
+	 *
+	 * @param {jQuery.Event} oEvent The event object.
+	 * @private
+	 */
+	InputBase.prototype.onsapfocusleave = function(oEvent) {
+
+		if (this.bFocusoutDueRendering) {
+			return;
+		}
+
 		this.onChange(oEvent);
 	};
 
@@ -574,7 +600,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 
 	/**
 	 * Selects the text within the input field between the specified start and end positions.
-	 * Only supported for input control’s type of Text, Url, Tel and Password.
+	 * Only supported for input control's type of Text, Url, Tel and Password.
 	 *
 	 * @param {integer} iSelectionStart The index into the text at which the first selected character is located.
 	 * @param {integer} iSelectionEnd The index into the text at which the last selected character is located.
@@ -625,7 +651,9 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 			try {
 				oFocusInfo.selectionStart = oFocusDomRef.selectionStart;
 				oFocusInfo.selectionEnd = oFocusDomRef.selectionEnd;
-			} catch (e) {}	// note: chrome fail to read the "selectionStart" property from HTMLInputElement: The input element's type "number" does not support selection.
+			} catch (e) {
+				// note: chrome fail to read the "selectionStart" property from HTMLInputElement: The input element's type "number" does not support selection.
+			}
 		}
 
 		return oFocusInfo;
@@ -649,7 +677,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * Registers an event listener to the browser input event.
 	 *
 	 * @param {function} fnCallback Function to be called when the value of the input element is changed.
-	 * @deprecated Since 1.22. Instead use event delegation(oninput) to listen input event.
+	 * @deprecated Since 1.22. Instead, use event delegation(oninput) to listen input event.
 	 * @return {sap.m.InputBase} <code>this</code> to allow method chaining.
 	 * @protected
 	 */
@@ -686,7 +714,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		// otherwise cursor can goto end of text unnecessarily
 		if (this.isActive() && (this._getInputValue() !== sValue)) {
 			this._$input.val(sValue);
-			
+
 			// dom value updated other than value property
 			this._bCheckDomValue = true;
 		}
@@ -927,6 +955,47 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 			this.setValueState(sap.ui.core.ValueState.None);
 			this.setValueStateText('');
 		}
+	};
+
+	InputBase.prototype.setTooltip = function(vTooltip) {
+		var oDomRef = this.getDomRef(),
+			oDescribedByDomRef = null,
+			sAnnouncement;
+
+		this._refreshTooltipBaseDelegate(vTooltip);
+		this.setAggregation("tooltip", vTooltip, true);
+
+		if (!oDomRef) {
+			return this;
+		}
+
+		sAnnouncement = this.getRenderer().getDescribedByAnnouncement(this);
+
+		if (sAnnouncement) {
+			oDomRef.setAttribute("title", this.getTooltip_AsString());
+		} else {
+			oDomRef.removeAttribute("title");
+		}
+
+		oDescribedByDomRef = this.getDomRef("describedby");
+
+		if (!oDescribedByDomRef && sAnnouncement) {
+			oDescribedByDomRef = document.createElement("span");
+			oDescribedByDomRef.setAttribute("id", this.getId() + "-describedby");
+			oDescribedByDomRef.setAttribute("aria-hidden", "true");
+			oDescribedByDomRef.setAttribute("class", "sapUiInvisibleText");
+			oDomRef.appendChild(oDescribedByDomRef);
+		}
+
+		if (oDescribedByDomRef && !sAnnouncement) {
+			oDomRef.removeChild(oDescribedByDomRef);
+		}
+
+		if (oDescribedByDomRef) {
+			oDescribedByDomRef.textContent = sAnnouncement;
+		}
+
+		return this;
 	};
 
 	return InputBase;

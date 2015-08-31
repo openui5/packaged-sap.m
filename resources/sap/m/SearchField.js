@@ -22,7 +22,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.28.16
+	 * @version 1.28.17
 	 *
 	 * @constructor
 	 * @public
@@ -398,6 +398,11 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @private
 	 */
 	SearchField.prototype.onFocus = function(event) {
+
+		// IE does not really focuses inputs and does not blur them if the document itself is not focused
+		if (sap.ui.Device.browser.internet_explorer && !document.hasFocus()) {
+			return;
+		}
 
 		this.$().toggleClass("sapMFocus", true);
 

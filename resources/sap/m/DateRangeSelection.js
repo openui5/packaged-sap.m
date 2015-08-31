@@ -44,7 +44,7 @@ sap.ui.define(['jquery.sap.global', './DatePicker', './library'],
 	 * the <code>sap.ui.unified</code> library.
 	 *
 	 * @extends sap.m.DatePicker
-	 * @version 1.28.16
+	 * @version 1.28.17
 	 *
 	 * @constructor
 	 * @public
@@ -583,7 +583,7 @@ sap.ui.define(['jquery.sap.global', './DatePicker', './library'],
 		// This should be redesigned at all, because parsing should not update the properties in every case
 		DateRangeSelection.prototype._setLabelVisibility = function() {
 
-			if (!this._bShowLabelAsPlaceholder || !this._$label || !this.isActive()) {
+			if (!this.bShowLabelAsPlaceholder || !this._$label || !this.isActive()) {
 				return;
 			}
 

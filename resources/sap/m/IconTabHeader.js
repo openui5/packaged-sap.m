@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.28.16
+	 * @version 1.28.17
 	 *
 	 * @constructor
 	 * @public
@@ -562,6 +562,45 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 
 		// Return the original value from removeAggregation
 		return oItem;
+	};
+
+	IconTabHeader.prototype.removeAggregation = function (sAggregationName, oObject, bSuppressInvalidate) {
+		var aItems = this.getItems();
+
+		var oItem = Control.prototype.removeAggregation.apply(this, arguments);
+
+		if (oItem && oItem == this.oSelectedItem && sAggregationName == 'items') {
+
+			var iIndexOf = jQuery.inArray(oItem, aItems);
+			aItems = this.getItems();
+
+			iIndexOf = Math.max(0, Math.min(iIndexOf, aItems.length - 1));
+
+			var oSelectedItem = aItems[iIndexOf];
+
+			if (oSelectedItem) {
+				this.setSelectedItem(oSelectedItem);
+			} else {
+				var oIconTabBar = this.getParent();
+				if (oIconTabBar instanceof sap.m.IconTabBar && oIconTabBar.getExpanded()) {
+					oIconTabBar.$("content").children().remove();
+				}
+			}
+		}
+
+		return oItem;
+	};
+
+	IconTabHeader.prototype.removeAllAggregation = function (sAggregationName, bSuppressInvalidate) {
+
+		if (sAggregationName == 'items') {
+			var oIconTabBar = this.getParent();
+			if (oIconTabBar instanceof sap.m.IconTabBar && oIconTabBar.getExpanded()) {
+				oIconTabBar.$("content").children().remove();
+			}
+		}
+
+		return Control.prototype.removeAllAggregation.apply(this, arguments);
 	};
 
 

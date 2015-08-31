@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @class
 	 * Tokenizer displays multiple tokens
 	 * @extends sap.ui.core.Control
-	 * @version 1.28.16
+	 * @version 1.28.17
 	 *
 	 * @constructor
 	 * @public
@@ -731,7 +731,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 			type : Tokenizer.TokenChangeType.Added
 		});
 	};
-	
+
 	Tokenizer.prototype.removeToken = function(oToken) {
 		oToken = this.removeAggregation("tokens", oToken);
 		if (oToken) {
@@ -748,7 +748,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	
 		return oToken;
 	};
-	
+
 	Tokenizer.prototype.setTokens = function(aTokens) {
 		var oldTokens = this.getTokens();
 		this.removeAllTokens(false);
@@ -881,12 +881,18 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	Tokenizer.prototype._onDeleteToken = function(oEvent) {
 		var token = oEvent.getParameter("token");
 		if (token) {
-			this.removeToken(token);
+			token.destroy();
 			this.fireTokenChange({
 				addedTokens : [],
 				removedTokens : [token],
 				type : Tokenizer.TokenChangeType.TokensChanged
 			});
+			
+			if (this.getParent() &&  this.getParent() instanceof sap.m.MultiInput) {
+				var $oParent = this.getParent().$();
+				$oParent.find("input").focus();
+			}
+
 		}
 	
 	};
