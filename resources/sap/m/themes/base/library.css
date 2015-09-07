@@ -303,6 +303,11 @@ html[dir='rtl'] .sapMBsyIndIcon {
   text-align: center;
   position: relative;
 }
+/* IE issue: buttons without inline content require more vertical space than needed */
+html[data-sap-ui-browser*='ie'] .sapMBtnInner {
+  display: inline-block;
+  max-width: 100%;
+}
 .sapMBtnIconLeft {
   position: absolute;
   top: 0;
@@ -531,6 +536,10 @@ html[dir=rtl][data-sap-ui-browser^="ed"] .sapMCrslInner {
 }
 .sapMComboBoxBaseReadonly .sapMComboBoxBaseArrow {
   display: none;
+}
+div.sapMComboBoxBasePicker {
+  min-width: 0;
+  /* override the default min-width of the popover */
 }
 /* ============================================= */
 /* CSS for control sap.m/CustomTile.control */
@@ -2134,6 +2143,11 @@ html[dir=rtl] .sapMILIDiv {
 /* ============================================= */
 /* CSS for control sap.m/MultiComboBox.control   */
 /* ============================================= */
+li.sapMMultiComboBoxItem .sapMCbBg {
+  top: 0;
+  bottom: 0;
+  margin: auto;
+}
 /* ============================================= */
 /* CSS for control sap.m/MultiInput.control */
 /* ============================================= */
@@ -3640,6 +3654,9 @@ html[data-sap-ui-os^="iOS7"][data-sap-ui-browser^="msf"]:not(.sap-tablet) .sapUi
   -webkit-transition: -webkit-transform 0.4s ease-out;
   transition: transform 0.4s ease-out;
 }
+.sapMPanelExpandableIcon:focus {
+  outline: none;
+}
 .sapMPanelExpandableIcon:focus::after {
   content: "";
   position: absolute;
@@ -4575,6 +4592,10 @@ html[data-sap-ui-os^="Android"] .sapUiSizeCompact .sapMSegBBtn .sapUiIcon {
 /* ------------------------------ */
 /* SelectList commons styles      */
 /* ------------------------------ */
+.sapMSelectList,
+.sapMSelectListItem {
+  box-sizing: border-box;
+}
 /* disabled */
 .sapMSelectListDisabled,
 .sapMSelectListItemDisabled {
@@ -4588,7 +4609,6 @@ html[data-sap-ui-os^="Android"] .sapUiSizeCompact .sapMSegBBtn .sapUiIcon {
   padding: 0;
   outline: none;
   list-style-type: none;
-  box-sizing: border-box;
 }
 /* ------------------------------ */
 /* SelectList Item                */
@@ -4602,6 +4622,9 @@ html[data-sap-ui-os^="Android"] .sapUiSizeCompact .sapMSegBBtn .sapUiIcon {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+}
+li.sapMSelectListItemInvisible {
+  display: none;
 }
 /* ============================================== */
 /* CSS for control sap.m.semantic/SemanticPage.control */
@@ -6109,7 +6132,7 @@ html[dir=rtl][data-sap-ui-browser^="ed"] .sapMTitleAlignEnd {
   margin-top: 0.375rem;
   margin-bottom: 0.375rem;
   margin-right: 0.375rem;
-  line-height: initial;
+  line-height: normal;
   padding-top: 0;
   padding-bottom: 0;
   height: 1.625rem;
@@ -6152,7 +6175,7 @@ html[dir=rtl][data-sap-ui-browser^="ed"] .sapMTitleAlignEnd {
 .sapUiSizeCompact .sapMMultiInputMultiModeBorder .sapMTokenizer .sapMToken {
   margin-bottom: -0.125rem;
 }
-sapUiSizeCompact .sapMTokenTruncate > .sapMTokenText {
+.sapUiSizeCompact .sapMTokenTruncate > .sapMTokenText {
   line-height: 1.25rem;
   width: calc(100% - 1.25rem);
 }
@@ -6600,7 +6623,7 @@ html[data-sap-ui-browser="ie9"] .sapMUCButtonContainer {
   /* the padding of the sap.m.Button should be removed */
 }
 .sapMUCSeparator {
-  display: inline;
+  display: inline-block;
 }
 /* =============================================== */
 /* CSS for control sap.m/ViewSettingsDialog.control */

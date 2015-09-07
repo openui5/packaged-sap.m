@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.30.7
+	 * @version 1.30.8
 	 *
 	 * @constructor
 	 * @public
@@ -135,7 +135,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * native placeholder usage causes undesired input events or when
 	 * placeholder attribute is not supported for the specified type.
 	 * https://html.spec.whatwg.org/multipage/forms.html#input-type-attr-summary
-	 * 
+	 *
 	 * @see sap.m.InputBase#oninput
 	 * @protected
 	 */
@@ -213,6 +213,18 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	InputBase.prototype.init = function() {
 		this._lastValue = "";	// last changed value
 		this._changeProxy = jQuery.proxy(this.onChange, this);
+
+		/**
+		 * Indicates whether the input field is in the rendering phase.
+		 *
+		 * @protected
+		 */
+		this.bRenderingPhase = false;
+
+		/**
+		 * Indicates whether the <code>focusout</code> event is triggered due a rendering.
+		 */
+		this.bFocusoutDueRendering = false;
 	};
 
 	/**
@@ -223,7 +235,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	InputBase.prototype.onBeforeRendering = function() {
 
 		// mark the rendering phase
-		this._bRendering = true;
+		this.bRenderingPhase = true;
 
 		if (this._bCheckDomValue) {
 
@@ -263,7 +275,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		}
 
 		// rendering phase is finished
-		this._bRendering = false;
+		this.bRenderingPhase = false;
 	};
 
 	/**
@@ -307,7 +319,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		this._bIgnoreNextInput = !this.bShowLabelAsPlaceholder &&
 									sap.ui.Device.browser.msie &&
 									sap.ui.Device.browser.version > 9 &&
-									!!this.getPlaceholder() && 
+									!!this.getPlaceholder() &&
 									!this._getInputValue();
 
 		this.$().toggleClass("sapMFocus", true);
@@ -374,27 +386,41 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	};
 
 	/**
-	 * Handles the focusout event of the Input.
+	 * Handles the <code>focusout</code> event of the Input.
 	 *
 	 * @param {jQuery.Event} oEvent The event object.
 	 * @private
 	 */
 	InputBase.prototype.onfocusout = function(oEvent) {
+		this.bFocusoutDueRendering = this.bRenderingPhase;
 		this.$().toggleClass("sapMFocus", false);
+
 		// remove touch handler from document for mobile devices
-		jQuery(document).off('.sapMIBtouchstart');
+		jQuery(document).off(".sapMIBtouchstart");
 
 		// because dom is replaced during the rendering
 		// onfocusout event is triggered probably focus goes to the document
 		// so we ignore this event that comes during the rendering
-		if (this._bRendering) {
+		if (this.bRenderingPhase) {
 			return;
 		}
 
-		//close value state message popup when focus is out of the input
+		// close value state message popup when focus is out of the input
 		this.closeValueStateMessage();
+	};
 
-		// handle change event on focusout
+	/**
+	 * Handles the <code>sapfocusleave</code> event of the input.
+	 *
+	 * @param {jQuery.Event} oEvent The event object.
+	 * @private
+	 */
+	InputBase.prototype.onsapfocusleave = function(oEvent) {
+
+		if (this.bFocusoutDueRendering) {
+			return;
+		}
+
 		this.onChange(oEvent);
 	};
 
@@ -539,12 +565,12 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * This event is fired synchronously when the value of an <input> or <textarea> element is changed.
 	 * IE9 does not fire an input event when the user removes characters via BACKSPACE / DEL / CUT
 	 * InputBase normalize this behaviour for IE9 and calls oninput for the subclasses
-	 * 
+	 *
 	 * When the input event is buggy the input event is marked as "invalid".
 	 * - IE10+ fires the input event when an input field with a native placeholder is focused.
 	 * - IE11 fires input event from read-only fields.
 	 * - IE11 fires input event after rendering when value contains an accented character
-	 * - IE11 fires input event whenever placeholder attribute is changed 
+	 * - IE11 fires input event whenever placeholder attribute is changed
 	 *
 	 * @param {jQuery.Event} oEvent The event object.
 	 * @private
@@ -562,9 +588,9 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 			oEvent.setMarked("invalid");
 			return;
 		}
-		
+
 		// ie11 fires input event after rendering when value contains an accented character
-		// ie11 fires input event whenever placeholder attribute is changed 
+		// ie11 fires input event whenever placeholder attribute is changed
 		if (document.activeElement !== oEvent.target) {
 			oEvent.setMarked("invalid");
 			return;
@@ -624,7 +650,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 
 	/**
 	 * Selects the text within the input field between the specified start and end positions.
-	 * Only supported for input control’s type of Text, Url, Tel and Password.
+	 * Only supported for input control's type of Text, Url, Tel and Password.
 	 *
 	 * @param {integer} iSelectionStart The index into the text at which the first selected character is located.
 	 * @param {integer} iSelectionEnd The index into the text at which the last selected character is located.
@@ -677,7 +703,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 				oFocusInfo.selectionEnd = oFocusDomRef.selectionEnd;
 			} catch (e) {
 				// note: chrome fail to read the "selectionStart" property from HTMLInputElement: The input element's type "number" does not support selection.
-			}	
+			}
 		}
 
 		return oFocusInfo;
@@ -738,7 +764,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		// otherwise cursor can goto end of text unnecessarily
 		if (this.isActive() && (this._getInputValue() !== sValue)) {
 			this._$input.val(sValue);
-			
+
 			// dom value updated other than value property
 			this._bCheckDomValue = true;
 		}
@@ -898,8 +924,8 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	InputBase.prototype.setValueState = function(sValueState) {
 		var sOldValueState = this.getValueState();
 		this.setProperty("valueState", sValueState, true);
-		
-		// get the value back in case of invalid value 
+
+		// get the value back in case of invalid value
 		sValueState = this.getValueState();
 
 		if (sValueState === sOldValueState) {

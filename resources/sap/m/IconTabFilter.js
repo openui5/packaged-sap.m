@@ -23,7 +23,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Item'],
 	 * @implements sap.m.IconTab
 	 *
 	 * @author SAP SE
-	 * @version 1.30.7
+	 * @version 1.30.8
 	 *
 	 * @constructor
 	 * @public
@@ -165,6 +165,9 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Item'],
 			case 'iconColor':
 			case 'iconDensityAware':
 			case 'design':
+				if (this.getProperty(sPropertyName) === oValue) {
+					return this;
+				}
 				sap.ui.core.Control.prototype.setProperty.call(this, sPropertyName, oValue, true);
 				if (!bSuppressInvalidate) {
 					var oIconTabHeader = this.getParent();
