@@ -22,14 +22,14 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/Device',
 	 * @namespace
 	 * @name sap.m
 	 * @author SAP SE
-	 * @version 1.32.0
+	 * @version 1.32.1
 	 * @public
 	 */
 
 	// delegate further initialization of this library to the Core
 	sap.ui.getCore().initLibrary({
 		name : "sap.m",
-		version: "1.32.0",
+		version: "1.32.1",
 		dependencies : ["sap.ui.core"],
 		types: [
 			"sap.m.BackgroundDesign",
@@ -37,6 +37,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/Device',
 			"sap.m.ButtonType",
 			"sap.m.DateTimeInputType",
 			"sap.m.DialogType",
+			"sap.m.DraftIndicatorState",
 			"sap.m.FacetFilterListDataType",
 			"sap.m.FacetFilterType",
 			"sap.m.FlexAlignItems",
@@ -99,6 +100,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/Device',
 			"sap.m.DateTimeInput",
 			"sap.m.Dialog",
 			"sap.m.DisplayListItem",
+			"sap.m.DraftIndicator",
 			"sap.m.FacetFilter",
 			"sap.m.FacetFilterItem",
 			"sap.m.FacetFilterList",
@@ -398,8 +400,37 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/Device',
 		Message : "Message"
 
 	};
+	
+	/**
+	 * Enum for the state of sap.m.DraftIndicator control.
+	 *
+	 * @enum {string}
+	 * @public
+	 * @ui5-metamodel This enumeration also will be described in the UI5 (legacy) designtime metamodel
+	 */
+	sap.m.DraftIndicatorState = {
 
+		/**
+		 * This is the default value for DraftIndicatorState type. This state has no visual information displayed.
+		 * @public
+		 */
+		Clear: "Clear",
+		
+		/**
+		 * Indicates that the draft currently is being saved
+		 * @public
+		 */
+		Saving: "Saving",
 
+		/**
+		 * Indicates that the draft is already saved
+		 * @public
+		 */
+		Saved: "Saved"
+
+	};
+
+	
 	/**
 	 * FacetFilterList data types.
 	 *
@@ -1154,47 +1185,47 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/Device',
 
 	};
 
+	/**
+	 * Defines the priorities of the controls within sap.m.OverflowToolbar
+	 *
+	 * @enum {string}
+	 * @public
+	 * @since 1.32
+	 * @ui5-metamodel This enumeration also will be described in the UI5 (legacy) designtime metamodel
+	 */
+	sap.m.OverflowToolbarPriority = {
+
 		/**
-		 * Defines the priorities of the controls within sap.m.OverflowToolbar
-		 *
-		 * @enum {string}
+		 * NeverOverflow priority forces OverflowToolbar items to remain always in the toolbar
 		 * @public
-		 * @since 1.32
-		 * @ui5-metamodel This enumeration also will be described in the UI5 (legacy) designtime metamodel
 		 */
-		sap.m.OverflowToolbarPriority = {
+		NeverOverflow : "Never",
 
-			/**
-			 * NeverOverflow priority forces OverflowToolbar items to remain always in the toolbar
-			 * @public
-			 */
-			NeverOverflow : "Never",
+		/**
+		 * High priority OverflowToolbar items overflow after the items with lower priority
+		 * @public
+		 */
+		High : "High",
 
-			/**
-			 * High priority OverflowToolbar items overflow after the items with lower priority
-			 * @public
-			 */
-			High : "High",
+		/**
+		 * Low priority  OverflowToolbar items overflow before the items with higher priority such as High priority items
+		 * @public
+		 */
+		Low : "Low",
 
-			/**
-			 * Low priority  OverflowToolbar items overflow before the items with higher priority sich as High priority items
-			 * @public
-			 */
-			Low : "Low",
+		/**
+		 * Disappear priority  OverflowToolbar items overflow before the items with higher priority such as Low and High priority items and remain hidden in the overflow area
+		 * @public
+		 */
+		Disappear : "Disappear",
 
-			/**
-			 * Disappear priority  OverflowToolbar items overflow before the items with higher priority sich as Low and High priority items and remain hidden in the overflow area
-			 * @public
-			 */
-			Disappear : "Disappear",
+		/**
+		 * AlwaysOverflow priority forces OverflowToolbar items to remain always in the overflow area
+		 * @public
+		 */
+		AlwaysOverflow : "Always"
 
-			/**
-			 * AlwaysOverflow priority forces OverflowToolbar items to remain always in the overflow area
-			 * @public
-			 */
-			AlwaysOverflow : "Always"
-
-		};
+	};
 
 	/**
 	 * Marker interface for controls which are suitable as items for the ObjectHeader.

@@ -20,7 +20,7 @@ function(jQuery, library, Control, IconPool) {
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.32.0
+	 * @version 1.32.1
 	 *
 	 * @constructor
 	 * @public
@@ -2015,7 +2015,7 @@ function(jQuery, library, Control, IconPool) {
 	function resetFilterPage() {
 		this._vContentPage = 2;
 		this._oContentItem = null;
-		jQuery.sap.delayedCall(0, this._navContainer, "to", [this._getPage1().getId(), "show"]);
+		this._navContainer.to(this._getPage1().getId(), "show");
 	}
 
 	/* =========================================================== */

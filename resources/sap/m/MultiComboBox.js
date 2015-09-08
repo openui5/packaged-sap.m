@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './InputBase', './ComboBoxBase', '.
 	 * @extends sap.m.ComboBoxBase
 	 *
 	 * @author SAP SE
-	 * @version 1.32.0
+	 * @version 1.32.1
 	 *
 	 * @constructor
 	 * @public
@@ -2283,9 +2283,6 @@ sap.ui.define(['jquery.sap.global', './Bar', './InputBase', './ComboBoxBase', '.
 
 		// initialize list
 		this.createList();
-
-		// to prevent the change event from firing when the arrow button is pressed
-		this._bProcessChange = true;
 
 		/**
 		 * To detect whether the data is updated.

@@ -21,7 +21,7 @@ sap.ui.define(["jquery.sap.global", "./library", "sap/ui/core/Control", "./Messa
 	 * Each message can have a close button, so that it can be removed from the UI if needed.
 	 *
 	 * @author SAP SE
-	 * @version 1.32.0
+	 * @version 1.32.1
 	 *
 	 * @constructor
 	 * @public
@@ -85,7 +85,7 @@ sap.ui.define(["jquery.sap.global", "./library", "sap/ui/core/Control", "./Messa
 		}
 	});
 
-	MessageStrip.prototype.init = function() {
+	MessageStrip.prototype.init = function () {
 		this.data("sap-ui-fastnavgroup", "true", true);
 		this.setAggregation("_text", new Text());
 	};
@@ -151,6 +151,16 @@ sap.ui.define(["jquery.sap.global", "./library", "sap/ui/core/Control", "./Messa
 	 * @private
 	 */
 	MessageStrip.prototype.onsapspace = MSUtils.handleMSCloseButtonInteraction;
+
+	/**
+	 * Handles mobile touch events
+	 * @type void
+	 * @private
+	 */
+	MessageStrip.prototype.ontouchmove = function (oEvent) {
+		// mark the event for components that needs to know if the event was handled
+		oEvent.setMarked();
+	};
 
 	/**
 	 * Closes the MessageStrip.

@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './ComboBoxBase', './ComboBoxBaseRenderer','
 		 * @extends sap.m.ComboBoxBase
 		 *
 		 * @author SAP SE
-		 * @version 1.32.0
+		 * @version 1.32.1
 		 *
 		 * @constructor
 		 * @public
@@ -673,6 +673,8 @@ sap.ui.define(['jquery.sap.global', './ComboBoxBase', './ComboBoxBaseRenderer','
 
 				this.bCanNotOpenMessage = false;
 			}
+
+			this.$().addClass("sapMFocus");
 		};
 
 		/**

@@ -22,7 +22,7 @@ sap.ui.define(['jquery.sap.global', './Input', './Token', './library', 'sap/ui/c
 	 * @extends sap.m.Input
 	 *
 	 * @author SAP SE
-	 * @version 1.32.0
+	 * @version 1.32.1
 	 *
 	 * @constructor
 	 * @public
@@ -348,12 +348,12 @@ sap.ui.define(['jquery.sap.global', './Input', './Token', './library', 'sap/ui/c
 		
 		this._tokenizer.setVisible(true);
 		
+		// no value is allowed to show in the input when multiline is closed
+		if (this.getValue() !== "") {
+			this.setValue() === "";
+		}
+		
 		if (iToken > 1) {
-			// no value is allowed to show in the input when multiline is closed
-			if (this.getValue() !== "") {
-				this.setValue() === "";
-			}
-			
 			var i = 0;
 			for ( i = 0; i < iToken - 1; i++ ) {
 				aTokens[i].setVisible(false);
@@ -363,9 +363,8 @@ sap.ui.define(['jquery.sap.global', './Input', './Token', './library', 'sap/ui/c
 			var sSpanText = "<span class=\"sapMMultiInputIndicator\">" + oMessageBundle.getText("MULTIINPUT_SHOW_MORE_TOKENS", iToken - 1) + "</span>";
 			
 			this.$().find(".sapMTokenizer").after(sSpanText);
-
 		}
-		
+
 		this._bShowIndicator = true;
 	};
 	
@@ -459,11 +458,11 @@ sap.ui.define(['jquery.sap.global', './Input', './Token', './library', 'sap/ui/c
 		}
 		
 		// necessary to display expanded MultiInput which is inside SimpleForm
-		var $Parent;			
-		if (this.$().parents(".sapUiRFLContainer")) {
-			$Parent = this.$().parents(".sapUiRFLContainer");
-		} else if (this.$().parent('[class*="sapUiRespGridSpan"]')) {
+		var $Parent;
+		if (this.$().parent('[class*="sapUiRespGridSpan"]')) {
 			$Parent = this.$().parent('[class*="sapUiRespGridSpan"]');
+		} else if (this.$().parents(".sapUiRFLContainer")) {
+			$Parent = this.$().parents(".sapUiRFLContainer");
 		}
 		
 		if ($Parent && $Parent.length > 0 && $Parent.css("overflow") === "hidden") {
@@ -556,9 +555,12 @@ sap.ui.define(['jquery.sap.global', './Input', './Token', './library', 'sap/ui/c
 		
 		// calculate minimal needed width for input field
 		var shadowDiv = $this.children(".sapMMultiInputShadowDiv")[0];
-		jQuery(shadowDiv).text(this.getValue());
+		var $indicator = $this.find(".sapMMultiInputBorder").find(".sapMMultiInputIndicator");
 		
+		jQuery(shadowDiv).text(this.getValue());
+		 
 		var inputWidthMinimalNeeded = jQuery(shadowDiv).width();
+		var iIndicatorWidth = jQuery($indicator).width();
 		
 		var tokenizerWidth = this._tokenizer.getScrollWidth();
 		
@@ -566,14 +568,29 @@ sap.ui.define(['jquery.sap.global', './Input', './Token', './library', 'sap/ui/c
 		// the icon
 		var iconWidth = $this.find(".sapMInputValHelp").outerWidth(true);
 		
+		if (iIndicatorWidth !== null && this._isMultiLineMode && this._bShowIndicator) {
+			inputWidthMinimalNeeded = iIndicatorWidth;
+		}
+		
 		var totalNeededWidth = tokenizerWidth + inputWidthMinimalNeeded + iconWidth;
 		var inputWidth;
 		var additionalWidth = 1;
 			
-		if (!this._bUseDialog && this._isMultiLineMode && !this._bShowIndicator) {
+		if (!this._bUseDialog && this._isMultiLineMode && !this._bShowIndicator && this.$().find(".sapMMultiInputBorder").length > 0) {
+			
+			var $border = this.$().find(".sapMMultiInputBorder"),
+				iMaxHeight = parseInt(($border.css("max-height") || 0), 10),
+				iScrollHeight = $border[0].scrollHeight,
+				iTokenizerWidth = availableWidth - iconWidth;
+					
+			if (iMaxHeight < iScrollHeight) {
+				//if scroll height exceeds maxHeight, scroll bar also takes width
+				iTokenizerWidth = iTokenizerWidth - 17; // 17px is scroll bar width
+			}
 				
-			this._tokenizer.setPixelWidth( availableWidth - iconWidth - 17); // 17px is scroll bar width
-			jQuery($this.find(".sapMInputBaseInner")[0]).css("width", availableWidth - iconWidth - 17 + "px");
+			this._tokenizer.setPixelWidth(iTokenizerWidth); // 17px is scroll bar width
+			this.$("inner").css("width", iTokenizerWidth + "px");
+
 		} else {
 			if (totalNeededWidth < availableWidth) {
 				inputWidth = inputWidthMinimalNeeded + availableWidth - totalNeededWidth;
@@ -757,16 +774,20 @@ sap.ui.define(['jquery.sap.global', './Input', './Token', './library', 'sap/ui/c
 		if (oEvent.ctrlKey || oEvent.metaKey) {
 
 			if (oEvent.which === jQuery.sap.KeyCodes.A) {
+				var sValue = this.getValue();
+				
 				if (document.activeElement === this._$input[0]) {
 					
-					// if focus is on text
-					if (this._$input.getSelectedText() !== this.getValue()){
+					if (this._$input.getSelectedText() !== sValue){
 						
 						// if text are not selected, then selected all text
-						this.selectText(0, this.getValue().length);
+						this.selectText(0, sValue.length);
 					} else if (this._tokenizer){
 						
 						// if text are selected, then selected all tokens
+						if (!sValue && this._tokenizer.getTokens().length) {
+							this._tokenizer.focus();
+						}
 						this._tokenizer.selectAllTokens(true);
 					}
 				} else if (document.activeElement === this._tokenizer.$()[0]) {
@@ -775,7 +796,7 @@ sap.ui.define(['jquery.sap.global', './Input', './Token', './library', 'sap/ui/c
 					if (this._tokenizer._iSelectedToken === this._tokenizer.getTokens().length) {
 
 						// if tokens are all selected, then select all tokens
-						this.selectText(0, this.getValue().length);
+						this.selectText(0, sValue.length);
 					}
 				}
 				 

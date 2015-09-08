@@ -217,15 +217,26 @@
 /* ============================================= */
 /* CSS for controlsap.m/BusyIndicator.control    */
 /* ============================================= */
-.sapMBusyIndicator,
-.sapMBusyIndicatorLight,
-.sapMBusyIndicatorDark {
+.sapMBusyIndicator {
   display: inline-block;
-  vertical-align: middle;
+  text-align: center;
 }
-.sapMBsyIndLabel {
-  vertical-align: middle;
-  padding-left: .5em;
+.sapMBusyIndicator .sapMBusyIndicatorBusyArea {
+  min-width: 3em;
+  min-height: 1em;
+  margin: 0 auto;
+}
+.sapMBusyIndicator .sapMLabel {
+  display: block;
+}
+.sapMBusyIndicator .sapUiLocalBusyIndicator {
+  background: none;
+  font-size: inherit;
+}
+.sapMBar-CTX .sapMBusyIndicator {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
 }
 html[dir='rtl'] .sapMBsyIndIcon {
   -moz-animation: sapMBsyIndRotateRTL 2s linear 0s infinite normal none;
@@ -235,10 +246,10 @@ html[dir='rtl'] .sapMBsyIndIcon {
 .sapMBsyIndIcon {
   vertical-align: middle;
   -webkit-transform: rotate(0deg) translateZ(0);
-  -webkit-transition-duration: 0ms;
   -ms-transform: rotate(0deg) translateZ(0);
-  -ms-transition-duration: 0ms;
   transform: rotate(0deg) translateZ(0);
+  -webkit-transition-duration: 0ms;
+  -ms-transition-duration: 0ms;
   transition-duration: 0ms;
   -moz-animation: sapMBsyIndRotate 2s linear 0s infinite normal none;
   -webkit-animation: sapMBsyIndRotate 2s linear 0s infinite normal none;
@@ -325,6 +336,11 @@ html[dir='rtl'] .sapMBsyIndIcon {
   padding: 0;
   text-align: center;
   position: relative;
+}
+/* IE issue: buttons without inline content require more vertical space than needed */
+html[data-sap-ui-browser*='ie'] .sapMBtnInner {
+  display: inline-block;
+  max-width: 100%;
 }
 .sapMBtnIconLeft {
   position: absolute;
@@ -554,6 +570,10 @@ html[dir=rtl][data-sap-ui-browser^="ed"] .sapMCrslInner {
 }
 .sapMComboBoxBaseReadonly .sapMComboBoxBaseArrow {
   display: none;
+}
+div.sapMComboBoxBasePicker {
+  min-width: 0;
+  /* override the default min-width of the popover */
 }
 /* ============================================= */
 /* CSS for control sap.m/CustomTile.control */
@@ -1116,6 +1136,14 @@ html[dir=rtl] .sapMDTICustomDateTime .dwc:last-child {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+/* ============================================= */
+/* CSS for control sap.m.DraftIndicator          */
+/* ============================================= */
+.sapMDraftIndicator .sapMLabel {
+  font-style: italic;
+  padding-left: 1rem;
+  padding-right: 1rem;
 }
 /* MessagePage general styles */
 .sapMMessagePage {
@@ -4694,9 +4722,6 @@ li.sapMSelectListItemInvisible {
   height: 100%;
   width: 100%;
 }
-.sapMSemanticPage .sapMBarChild.sapMLabel {
-  font-style: italic;
-}
 /* ============================================= */
 /* CSS for control sap.m/Shell.control */
 /* ============================================= */
@@ -6524,7 +6549,7 @@ html[dir=rtl][data-sap-ui-browser^="ed"] .sapMTitleAlignEnd {
   margin-top: 0.375rem;
   margin-bottom: 0.375rem;
   margin-right: 0.375rem;
-  line-height: initial;
+  line-height: normal;
   padding-top: 0;
   padding-bottom: 0;
   height: 1.625rem;
@@ -6586,7 +6611,7 @@ html[dir=rtl][data-sap-ui-browser^="ed"] .sapMTitleAlignEnd {
 .sapUiSizeCompact .sapMMultiInputMultiModeBorder .sapMTokenizer .sapMToken {
   margin-bottom: -0.125rem;
 }
-sapUiSizeCompact .sapMTokenTruncate > .sapMTokenText {
+.sapUiSizeCompact .sapMTokenTruncate > .sapMTokenText {
   line-height: 1.25rem;
   width: calc(100% - 1.25rem);
 }
@@ -7034,7 +7059,7 @@ html[data-sap-ui-browser="ie9"] .sapMUCButtonContainer {
   /* the padding of the sap.m.Button should be removed */
 }
 .sapMUCSeparator {
-  display: inline;
+  display: inline-block;
 }
 /* =============================================== */
 /* CSS for control sap.m/ViewSettingsDialog.control */

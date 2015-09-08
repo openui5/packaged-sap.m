@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './ComboBoxBaseRenderer', './Dialog
 		 * @extends sap.m.InputBase
 		 *
 		 * @author SAP SE
-		 * @version 1.32.0
+		 * @version 1.32.1
 		 *
 		 * @constructor
 		 * @public
@@ -198,6 +198,8 @@ sap.ui.define(['jquery.sap.global', './Bar', './ComboBoxBaseRenderer', './Dialog
 		 * @private
 		 */
 		ComboBoxBase.prototype.ontap = function(oEvent) {
+			InputBase.prototype.ontap.apply(this, arguments);
+
 			var CSS_CLASS = ComboBoxBaseRenderer.CSS_CLASS;
 
 			// in case of a non-editable or disabled combo box, the picker popup cannot be opened

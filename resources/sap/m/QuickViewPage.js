@@ -37,7 +37,7 @@ sap.ui.define([
 			* @extends sap.ui.core.Control
 			*
 			* @author SAP SE
-			* @version 1.32.0
+			* @version 1.32.1
 			*
 			* @constructor
 			* @public
@@ -428,6 +428,7 @@ sap.ui.define([
 						oCurrentGroupElementValue.addAriaLabelledBy(oCurrentGroupElementValue);
 					}
 
+					oLabel.setLabelFor(oCurrentGroupElementValue.getId());
 					oForm.addContent(oLabel);
 
 					if (oCurrentGroupElement.getType() == QuickViewGroupElementType.pageLink) {
@@ -445,6 +446,7 @@ sap.ui.define([
 							})],
 							press: this._mobilePress
 						});
+
 						var oBox = new HBox({
 							items: [oCurrentGroupElementValue, oSmsLink]
 						});

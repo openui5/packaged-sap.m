@@ -21,7 +21,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.32.0
+	 * @version 1.32.1
 	 *
 	 * @constructor
 	 * @public
@@ -944,7 +944,8 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 
 		var oDomRef = this.getDomRef("head");
 		var iScrollLeft = oDomRef.scrollLeft;
-		if (!!!sap.ui.Device.browser.internet_explorer && this._bRtl) {
+		var bIsIE = sap.ui.Device.browser.internet_explorer || sap.ui.Device.browser.edge;
+		if (!bIsIE && this._bRtl) {
 			iDelta = -iDelta;
 		} // RTL lives in the negative space
 		var iScrollTarget = iScrollLeft + iDelta;
