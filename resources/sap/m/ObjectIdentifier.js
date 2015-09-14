@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @class
 	 * ObjectIdentifier is a display control that enables the user to easily identify a specific object. The object identifier title is the key identifier of the object and additional text and icons can be used to further distinguish it from other objects.
 	 * @extends sap.ui.core.Control
-	 * @version 1.28.17
+	 * @version 1.28.18
 	 *
 	 * @constructor
 	 * @public
@@ -246,6 +246,8 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 			}
 		}
 
+		oTitleControl.setVisible(!!this.getTitle());
+
 		return oTitleControl;
 	};
 	
@@ -298,6 +300,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		//if text is empty or not
 		var oTitleControl = this._getTitleControl();
 		oTitleControl.setProperty("text", sTitle, false);
+		oTitleControl.setVisible(!!sTitle);
 		this.setProperty("title", sTitle, true);
 		this.$("text").toggleClass("sapMObjectIdentifierTextBellow", 
 				!!this.getProperty("text") && !!this.getProperty("title"));

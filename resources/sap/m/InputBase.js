@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.28.17
+	 * @version 1.28.18
 	 *
 	 * @constructor
 	 * @public
@@ -542,7 +542,6 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * InputBase normalize this behaviour for IE9 and calls oninput for the subclasses
 	 *
 	 * @param {jQuery.Event} oEvent The event object.
-	 * @private
 	 */
 	InputBase.prototype.oninput = function(oEvent) {
 

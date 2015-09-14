@@ -28,7 +28,7 @@ sap.ui.define(['jquery.sap.global', './TablePersoDialog', 'sap/ui/base/ManagedOb
 	 * @class Table Personalization Controller
 	 * @extends sap.ui.base.ManagedObject
 	 * @author SAP
-	 * @version 1.28.17
+	 * @version 1.28.18
 	 * @alias sap.m.TablePersoController
 	 */
 	var TablePersoController = ManagedObject.extend("sap.m.TablePersoController", /** @lends sap.m.TablePersoController */
