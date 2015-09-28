@@ -18,7 +18,7 @@ sap.ui.define([
 	 * @class The ColumnsPanel can be used for personalization of the table to define column specific settings
 	 * @extends sap.m.P13nPanel
 	 * @author SAP SE
-	 * @version 1.26.13
+	 * @version 1.26.14
 	 * @constructor
 	 * @public
 	 * @since 1.26.0
