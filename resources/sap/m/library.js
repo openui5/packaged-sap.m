@@ -22,14 +22,14 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/Device',
 	 * @namespace
 	 * @name sap.m
 	 * @author SAP SE
-	 * @version 1.28.18
+	 * @version 1.28.19
 	 * @public
 	 */
 
 	// delegate further initialization of this library to the Core
 	sap.ui.getCore().initLibrary({
 		name : "sap.m",
-		version: "1.28.18",
+		version: "1.28.19",
 		dependencies : ["sap.ui.core"],
 		types: [
 			"sap.m.BackgroundDesign",
@@ -2131,7 +2131,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/Device',
 					rm.addStyle("filter", "none");
 				}
 				if (sBgColor) {
-					rm.addStyle("background-color", jQuery.sap.escapeHTML(sBgColor));
+					rm.addStyle("background-color", jQuery.sap.encodeHTML(sBgColor));
 				}
 			},
 

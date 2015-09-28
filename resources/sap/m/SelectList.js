@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		 * @extends sap.ui.core.Control
 		 *
 		 * @author SAP SE
-		 * @version 1.28.18
+		 * @version 1.28.19
 		 *
 		 * @constructor
 		 * @public
@@ -137,6 +137,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 			this.destroyItems();
 			this.updateAggregation("items");
 			this._bDataAvailable = true;
+			this.synchronizeSelection();
 		};
 
 		/**
@@ -159,7 +160,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		 */
 		SelectList.prototype._activateItem = function(oItem) {
 
-			if (oItem instanceof sap.ui.core.Item && (this.getSelectedItem() !== oItem)) {
+			if (oItem instanceof sap.ui.core.Item && (this.getSelectedItem() !== oItem) && oItem && oItem.getEnabled()) {
 
 				this.setSelection(oItem);
 				this.fireSelectionChange({
