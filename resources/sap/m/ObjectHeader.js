@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @class
 	 * ObjectHeader is a display control that enables the user to easily identify a specific object. The object header title is the key identifier of the object and additional text and icons can be used to further distinguish it from other objects.
 	 * @extends sap.ui.core.Control
-	 * @version 1.32.1
+	 * @version 1.32.2
 	 *
 	 * @constructor
 	 * @public
@@ -711,7 +711,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	ObjectHeader.prototype.onAfterRendering = function() {
 		var oObjectNumber = this.getAggregation("_objectNumber");
 		var bPageRTL = sap.ui.getCore().getConfiguration().getRTL();
-		var $titleArrow = jQuery.sap.byId(this.getId() + "-titleArrow");
+		var $titleArrow = this.$("titleArrow");
 
 		$titleArrow.attr("aria-haspopup", "true");
 		$titleArrow.attr("role", "link");

@@ -22,7 +22,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control'],
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.32.1
+	 * @version 1.32.2
 	 *
 	 * @constructor
 	 * @public
@@ -119,6 +119,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control'],
 
 		this._deleteIcon.addStyleClass("sapMTokenIcon");
 		this.setAggregation("deleteIcon", this._deleteIcon);
+		this._deleteIcon.setUseIconTooltip(false);
 	};
 
 	Token.prototype.setEditable = function(bEditable){

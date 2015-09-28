@@ -21,7 +21,7 @@ sap.ui.define(["jquery.sap.global", "./library", "sap/ui/core/Control", "./Messa
 	 * Each message can have a close button, so that it can be removed from the UI if needed.
 	 *
 	 * @author SAP SE
-	 * @version 1.32.1
+	 * @version 1.32.2
 	 *
 	 * @constructor
 	 * @public
@@ -125,10 +125,6 @@ sap.ui.define(["jquery.sap.global", "./library", "sap/ui/core/Control", "./Messa
 
 		Control.prototype.setAggregation.call(this, sName, oControl, bSupressInvalidate);
 		return this;
-	};
-
-	MessageStrip.prototype.onBeforeRendering = function () {
-		MSUtils.setIconIfVisible.call(this);
 	};
 
 	/**

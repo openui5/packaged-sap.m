@@ -24,7 +24,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './InstanceManager', './OverflowToo
 		 * @implements sap.ui.core.PopupInterface
 		 *
 		 * @author SAP SE
-		 * @version 1.32.1
+		 * @version 1.32.2
 		 *
 		 * @constructor
 		 * @public

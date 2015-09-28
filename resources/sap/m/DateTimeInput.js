@@ -24,7 +24,7 @@ sap.ui.define(['jquery.sap.global', './InputBase', './InstanceManager', './libra
 	 * @extends sap.m.InputBase
 	 *
 	 * @author SAP SE
-	 * @version 1.32.1
+	 * @version 1.32.2
 	 *
 	 * @constructor
 	 * @public
@@ -408,6 +408,14 @@ sap.ui.define(['jquery.sap.global', './InputBase', './InstanceManager', './libra
 		this._$input.scroller("show");
 		oEvent.preventDefault();
 		oEvent.setMarked();
+	};
+	
+	/**
+	 * Handle backspace
+	 */
+	DateTimeInput.prototype.onsapbackspace = function(oEvent) {
+		// since input is readonly does not allow browsers back navigation
+		oEvent.preventDefault();
 	};
 	
 	/**

@@ -6,8 +6,8 @@
 
 // Provides control sap.m.P13nColumnsPanel.
 sap.ui.define([
-	'jquery.sap.global', './ColumnListItem', './P13nPanel', './P13nColumnsItem', './SearchField', './Table', './library', 'sap/ui/core/Control'
-], function(jQuery, ColumnListItem, P13nPanel, P13nColumnsItem, SearchField, Table, library, Control) {
+	'jquery.sap.global', './ColumnListItem', './P13nPanel', './P13nColumnsItem', './SearchField', './Table', './library', 'sap/ui/core/Control','jquery.sap.dom'
+], function(jQuery, ColumnListItem, P13nPanel, P13nColumnsItem, SearchField, Table, library, Control/* jQueryPlugin2 */) {
 	"use strict";
 
 	/**
@@ -18,7 +18,7 @@ sap.ui.define([
 	 * @class The P13nColumnsPanel control is used to define column-specific settings for table personalization.
 	 * @extends sap.m.P13nPanel
 	 * @author SAP SE
-	 * @version 1.32.1
+	 * @version 1.32.2
 	 * @constructor
 	 * @public
 	 * @since 1.26.0
@@ -1361,7 +1361,7 @@ sap.ui.define([
 				var oParent = null, $dialogCont = null, iContentHeight, iHeaderHeight;
 				oParent = that.getParent();
 				if (oParent) {
-					$dialogCont = jQuery("#" + oParent.getId() + "-cont");
+					$dialogCont = jQuery.sap.byId(oParent.getId() + "-cont");
 					if ($dialogCont.children().length > 0 && that._oToolbar.$().length > 0) {
 						iScrollContainerHeightOld = that._oScrollContainer.$()[0].clientHeight;
 

@@ -23,7 +23,7 @@ sap.ui.define(['jquery.sap.global', './ListBase', './library'],
 	 * @extends sap.m.ListBase
 	 *
 	 * @author SAP SE
-	 * @version 1.32.1
+	 * @version 1.32.2
 	 *
 	 * @constructor
 	 * @public
@@ -303,7 +303,7 @@ sap.ui.define(['jquery.sap.global', './ListBase', './library'],
 			// do not re-render if resize event comes so frequently
 			jQuery.sap.delayedCall(200, this, function() {
 				// but check if any event come during the wait-time
-				if (Math.abs(this._dirty - clean) > 10) {
+				if (this._dirty != clean) {
 					this._dirty = 0;
 					this.rerender();
 				}

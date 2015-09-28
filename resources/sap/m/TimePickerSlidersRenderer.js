@@ -22,7 +22,9 @@ sap.ui.define(['jquery.sap.global'], function(jQuery) {
 	TimePickerSlidersRenderer.render = function(oRenderManager, oControl) {
 		var aSliders = oControl.getAggregation("_columns"),
 			sLabelText = oControl.getLabelText() || "",
-			oRb = sap.ui.getCore().getLibraryResourceBundle("sap.m");
+			oRb = sap.ui.getCore().getLibraryResourceBundle("sap.m"),
+			iSliderIndex,
+			bRtl = sap.ui.getCore().getConfiguration().getRTL();
 
 		oRenderManager.write("<div onselectstart=\"return false;\"");
 		oRenderManager.writeControlData(oControl);
@@ -42,14 +44,20 @@ sap.ui.define(['jquery.sap.global'], function(jQuery) {
 			oRenderManager.writeClasses();
 			oRenderManager.write(">");
 			oRenderManager.addStyle("display", "block");
-			oRenderManager.write(sLabelText + "</div>");
+			oRenderManager.writeEscaped(sLabelText);
+			oRenderManager.write("</div>");
 		}
 
-		for (var iSlider = 0; iSlider < aSliders.length; iSlider++) {
-
-			oRenderManager.renderControl(aSliders[iSlider]);
-
+		if (bRtl) {
+			for (iSliderIndex = aSliders.length - 1; iSliderIndex >= 0; iSliderIndex--) {
+				oRenderManager.renderControl(aSliders[iSliderIndex]);
+			}
+		} else {
+			for (iSliderIndex = 0; iSliderIndex < aSliders.length; iSliderIndex++) {
+				oRenderManager.renderControl(aSliders[iSliderIndex]);
+			}
 		}
+
 		oRenderManager.write("</div>");
 	};
 

@@ -19,7 +19,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Control', './TimePickerSliderRe
 		 * @extends sap.ui.core.Control
 		 *
 		 * @author SAP SE
-		 * @version 1.32.1
+		 * @version 1.32.2
 		 *
 		 * @constructor
 		 * @public
@@ -626,7 +626,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Control', './TimePickerSliderRe
 
 			if (!this.getIsCyclic()) {
 				var $Slider = this._getSliderContainerDomRef();
-				var $List = jQuery("#" + this.getId() + "-content");
+				var $List = this.$("content");
 
 				//if we do not cycle the items, we fill the remaining space with margins
 				if (this.getIsExpanded()) {

@@ -25,7 +25,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 			 * @extends sap.ui.core.Control
 			 *
 			 * @author SAP SE
-			 * @version 1.32.1
+			 * @version 1.32.2
 			 *
 			 * @constructor
 			 * @public
@@ -65,7 +65,8 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 					valueState : {type : "sap.ui.core.ValueState", group : "Data", defaultValue : sap.ui.core.ValueState.None},
 
 					/**
-					 * Determines the index of the selected/checked RadioButton
+					 * Determines the index of the selected/checked RadioButton. Default is 0.
+					 * If no radio button is selected, the selectedIndex property will return -1.
 					 */
 					selectedIndex : {type : "int", group : "Data", defaultValue : 0},
 
@@ -198,8 +199,13 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 			RadioButtonGroup.prototype.setSelectedIndex = function(iSelectedIndex) {
 
 				var iIndexOld = this.getSelectedIndex();
+				// if a radio button in the group is focused is true, otherwise - false
+				var hasFocusedRadioButton = document.activeElement && document.activeElement.parentNode &&
+					document.activeElement.parentNode.parentNode === this.getDomRef();
+				// if radio button group has buttons and one of them is selected is true, otherwise - false
+				var isRadioGroupSelected = !!(this.aRBs && this.aRBs[iSelectedIndex]);
 
-				if (iSelectedIndex < 0) {
+				if (iSelectedIndex < -1) {
 					// invalid negative index -> don't change index.
 					jQuery.sap.log.warning("Invalid index, will not be changed");
 					return this;
@@ -222,6 +228,11 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 					this._oItemNavigation.setFocusedIndex(iSelectedIndex);
 				}
 
+				// if focus is in the group - focus the selected element
+				if (isRadioGroupSelected && hasFocusedRadioButton) {
+					this.aRBs[iSelectedIndex].getDomRef().focus();
+				}
+
 				return this;
 			};
 
@@ -235,15 +246,18 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 
 				var aButtons = this.getButtons();
 
-				if (aButtons) {
-					for (var i = 0; i < aButtons.length; i++) {
-						if (oSelectedButton.getId() == aButtons[i].getId()) {
-							this.setSelectedIndex(i);
-							break;
+				if (oSelectedButton) {
+					if (aButtons) {
+						for (var i = 0; i < aButtons.length; i++) {
+							if (oSelectedButton.getId() == aButtons[i].getId()) {
+								this.setSelectedIndex(i);
+								break;
+							}
 						}
 					}
+				} else {
+					this.setSelectedIndex(-1);
 				}
-
 
 				return this;
 			};
@@ -396,7 +410,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 
 				if (!this._bUpdateButtons) {
 					if (this.aRBs.length == 0) {
-						this.setSelectedIndex(undefined);
+						this.setSelectedIndex(-1);
 					} else if (this.getSelectedIndex() == iIndex) {
 						// selected one is removed -> select first one
 						this.setSelectedIndex(0);
@@ -423,7 +437,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 				}
 
 				if (!this._bUpdateButtons) {
-					this.setSelectedIndex(undefined);
+					this.setSelectedIndex(-1);
 				}
 
 				if (this.aRBs) {
@@ -450,7 +464,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 				this.destroyAggregation("buttons");
 
 				if (!this._bUpdateButtons) {
-					this.setSelectedIndex(undefined);
+					this.setSelectedIndex(-1);
 				}
 
 				if (this.aRBs) {
@@ -473,11 +487,11 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 
 				// if selectedIndex is still valid -> restore
 				var aButtons = this.getButtons();
-				if (iSelectedIndex === undefined && aButtons.length > 0) {
+				if (aButtons.length > 0) {
 					// if not defined -> select first one
 					this.setSelectedIndex(0);
 				}else if (iSelectedIndex >= 0 && aButtons.length == 0) {
-					this.setSelectedIndex(undefined);
+					this.setSelectedIndex(-1);
 				}else if (iSelectedIndex >= aButtons.length) {
 					// if less items than before -> select last one
 					this.setSelectedIndex(aButtons.length - 1);
@@ -520,8 +534,6 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 				for (var i = 0; i < this.aRBs.length; i++) {
 					if (this.aRBs[i].getId() == oControlEvent.getParameter("id") && oControlEvent.getParameter("selected")) {
 						this.setSelectedIndex(i);
-						this._oItemNavigation.setSelectedIndex(i);
-						this._oItemNavigation.setFocusedIndex(i);
 						this.fireSelect({
 							selectedIndex : i
 						});
@@ -605,11 +617,15 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 				var iIndex = oControlEvent.getParameter("index");
 				var oEvent = oControlEvent.getParameter("event");
 
+				// handle only keyboard navigation here
+				if (oEvent.keyCode === undefined) {
+					return;
+				}
+
 				if (iIndex != this.getSelectedIndex() && !(oEvent.ctrlKey || oEvent.metaKey) && this.aRBs[iIndex].getEditable()
 						&& this.aRBs[iIndex].getEnabled()) {
 					// if CTRL key is used do not switch selection
 					this.setSelectedIndex(iIndex);
-					this._oItemNavigation.setSelectedIndex(iIndex);
 					this.fireSelect({
 						selectedIndex : iIndex
 					});

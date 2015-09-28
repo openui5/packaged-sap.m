@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @class
 	 * Tokenizer displays multiple tokens
 	 * @extends sap.ui.core.Control
-	 * @version 1.32.1
+	 * @version 1.32.2
 	 *
 	 * @constructor
 	 * @public
@@ -606,8 +606,15 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @returns {sap.m.Token} - a valid token or null
 	 */
 	Tokenizer.prototype._validateToken = function(oParameters, aValidators) {
-		var sText = oParameters.text;
 		var oToken = oParameters.token;
+		var sText;
+		
+		if (oToken && oToken.getText()) {
+			sText = oToken.getText();
+		} else {
+			sText = oParameters.text;
+		}
+
 		var fValidateCallback = oParameters.validationCallback;
 		var oSuggestionObject = oParameters.suggestionObject;
 	
@@ -627,7 +634,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	
 		for (i = 0; i < length; i++) {
 			validator = aValidators[i];
-	
+
 			oToken = validator({
 				text : sText,
 				suggestedToken : oToken,
