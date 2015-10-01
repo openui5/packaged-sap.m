@@ -1135,7 +1135,7 @@ html[dir=rtl] .sapMDTICustomDateTime .dwc:last-child {
   min-width: 3rem;
   display: block;
 }
-.sap-desktop .sapMLIBCursor .sapMDLILabel {
+.sapMLIBActionable .sapMDLILabel {
   cursor: pointer;
 }
 .sapMDLIValue {
@@ -1711,7 +1711,7 @@ span.sapMImg {
   text-overflow: ellipsis;
   display: block;
 }
-.sap-desktop .sapMLIBCursor .sapMILILabel {
+.sapMLIBActionable .sapMILILabel {
   cursor: pointer;
 }
 .sapMILI > .sapMLIBContent {
@@ -1754,8 +1754,7 @@ html[dir=rtl] .sapMILIDiv {
 .sapMLabelMaxWidth {
   max-width: 100%;
 }
-.sapMLIBCursor .sapMLabel,
-.sapMLIBCursor + .sapMListTblSubRow .sapMLabel {
+.sapMLIBActionable .sapMLabel {
   cursor: pointer;
 }
 /* ============================ */
@@ -2018,8 +2017,7 @@ html[dir=rtl] .sapMILIDiv {
 .sapMLIBSelectD {
   width: 2.75em;
 }
-.sap-desktop .sapMLIBCursor,
-.sap-desktop .sapMLIBCursor + .sapMListTblSubRow {
+.sapMLIBActionable {
   cursor: pointer;
 }
 .sapMLIBImgNav,
@@ -2030,8 +2028,7 @@ html[dir=rtl] .sapMILIDiv {
 .sapMLIBSelectSL,
 .sapMLIBSelectM,
 .sapMLIBSelectD,
-.sapMLIBCounter,
-.sapMLIBContent ~ .sapMLIBCursor {
+.sapMLIBCounter {
   -webkit-box-flex: 0;
   -moz-box-flex: 0;
   -ms-flex: none;
@@ -2248,6 +2245,11 @@ li.sapMMultiComboBoxItem .sapMCbBg {
 .sapUiSizeCompact .sapMMultiInput .sapMInputValHelp {
   display: inline-block;
   position: static;
+}
+.sapMMultiInput .sapMMultiInputMultiModeInputContainer .sapMInputValHelp {
+  position: absolute;
+  top: 0;
+  right: 0;
 }
 .sapMMultiInputTextInput :not(.sapMMultiInputNotEditable) {
   border-radius: 0;
@@ -4701,19 +4703,19 @@ html[data-sap-ui-os^="Android"] .sapUiSizeCompact .sapMSegBBtn .sapUiIcon {
 /* CSS for control sap.m/SelectList.control      */
 /* ============================================= */
 /* ------------------------------ */
-/* SelectList commons styles      */
+/* commons styles                 */
 /* ------------------------------ */
 .sapMSelectList,
-.sapMSelectListItem {
+.sapMSelectListItemBase {
   box-sizing: border-box;
 }
 /* disabled */
 .sapMSelectListDisabled,
-.sapMSelectListItemDisabled {
+.sapMSelectListItemBaseDisabled {
   pointer-events: none;
 }
 /* ------------------------------ */
-/* SelectList                     */
+/* list                           */
 /* ------------------------------ */
 .sapMSelectList {
   margin: 0;
@@ -4721,21 +4723,43 @@ html[data-sap-ui-os^="Android"] .sapUiSizeCompact .sapMSegBBtn .sapUiIcon {
   outline: none;
   list-style-type: none;
 }
+.sapMSelectListTableLayout {
+  display: table;
+  border-collapse: collapse;
+}
 /* ------------------------------ */
-/* SelectList Item                */
+/* item                           */
 /* ------------------------------ */
-.sapMSelectListItem {
+.sapMSelectListItemBase {
   outline: none;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
 }
-li.sapMSelectListItemInvisible {
+.sapMSelectListItem {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+li.sapMSelectListItemBaseInvisible {
   display: none;
+}
+/* ------------------------------ */
+/* row                            */
+/* ------------------------------ */
+.sapMSelectListRow {
+  display: table-row;
+}
+/* ------------------------------ */
+/* cell                           */
+/* ------------------------------ */
+.sapMSelectListCell {
+  display: table-cell;
+  vertical-align: middle;
+}
+.sapMSelectListLastCell {
+  text-align: right;
 }
 /* ============================================== */
 /* CSS for control sap.m.semantic/SemanticPage.control */
@@ -5776,8 +5800,7 @@ html[data-sap-ui-browser="ie9"] .sapMPersoDialog .sapMPersoDialogFixedBar .sapMP
 .sapMTextMaxWidth {
   max-width: 100%;
 }
-.sapMLIBCursor .sapMText,
-.sapMLIBCursor + .sapMListTblSubRow .sapMText {
+.sapMLIBActionable .sapMText {
   cursor: pointer;
 }
 /* ====================================== */
@@ -6647,6 +6670,10 @@ html[dir=rtl][data-sap-ui-browser^="ed"] .sapMTitleAlignEnd {
   -moz-user-select: none;
   -webkit-user-select: none;
   -ms-user-select: none;
+}
+.sapMMultiInputMultiModeBorder .sapMTokenizerEmpty {
+  height: 0;
+  display: block;
 }
 .sapMTB {
   white-space: nowrap;

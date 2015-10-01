@@ -31,6 +31,12 @@
 				"ref": "test-resources/sap/m/demokit/worklist/webapp/test/testOpenUI5Service.html",
 				"icon": "task",
 				"desc": "Best-practice starting point for a worklist-style app"
+			},
+			{
+				"text": "Manage Products",
+				"ref": "test-resources/sap/m/demokit/tutorial/worklist/06/webapp/test/testService.html",
+				"icon": "task",
+				"desc": "An example for a simple worklist-style app"
 			}
 		]
 	},
@@ -979,6 +985,22 @@
 			"Writing a Short Date Formatter TDD style",
 			"Adding the date formatter"
 		  ]
+		},
+		{
+			"id": "sap.m.tutorial.worklist",
+			"name": "Worklist App",
+			"category": "Tutorial",
+			"since": "1.32",
+			"formFactors": "-",
+			"description": "In this tutorial we implement typical features of a full-screen worklist app, a typical SAP Fiori design pattern",
+			"samplesAsSteps": [
+				"Getting started with the worklist template",
+				"Extending the worklist table",
+				"Adding quick filters",
+				"Reorder or unlist products",
+				"Adjusting the object view",
+				"Adding a comments section"
+			]
 		}
 	  ],
 	  "samples": [

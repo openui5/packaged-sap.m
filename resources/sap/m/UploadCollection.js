@@ -19,7 +19,7 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.32.2
+	 * @version 1.32.3
 	 *
 	 * @constructor
 	 * @public
@@ -673,6 +673,10 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 		if (this._oList) {
 			this._oList.destroy();
 			this._oList = null;
+		}
+		if (this._oFileUploader) {
+			this._oFileUploader.destroy();
+			this._oFileUploader = null;
 		}
 		if (this.oFileName) {
 			this.oFileName.destroy();

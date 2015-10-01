@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @class
 	 * ObjectHeader is a display control that enables the user to easily identify a specific object. The object header title is the key identifier of the object and additional text and icons can be used to further distinguish it from other objects.
 	 * @extends sap.ui.core.Control
-	 * @version 1.32.2
+	 * @version 1.32.3
 	 *
 	 * @constructor
 	 * @public
@@ -64,7 +64,10 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 			titleActive : {type : "boolean", group : "Misc", defaultValue : null},
 
 			/**
-			 * Object header icon
+			 * Object header icon.
+			 * 
+			 * <b>Note:</b> Recursive resolution of binding expressions is not supported by the framework.
+			 * It works only in ObjectHeader, since it is a composite control and creates an Image control internally.
 			 */
 			icon : {type : "sap.ui.core.URI", group : "Misc", defaultValue : null},
 

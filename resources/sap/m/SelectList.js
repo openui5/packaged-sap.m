@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		 * @extends sap.ui.core.Control
 		 *
 		 * @author SAP SE
-		 * @version 1.32.2
+		 * @version 1.32.3
 		 *
 		 * @constructor
 		 * @public
@@ -58,7 +58,13 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 				/**
 				 * ID of the selected item.
 				 */
-				selectedItemId: { type: "string", group: "Misc", defaultValue: "" }
+				selectedItemId: { type: "string", group: "Misc", defaultValue: "" },
+
+				/**
+				 * Indicates whether the text values of the <code>additionalText</code> property of a {@link sap.ui.core.ListItem} is shown.
+				 * @since 1.32.3
+				 */
+				showSecondaryValues: { type: "boolean", group: "Misc", defaultValue: false }
 			},
 			defaultAggregation: "items",
 			aggregations: {
@@ -177,9 +183,8 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		 * @private
 		 */
 		SelectList.prototype._queryEnabledItemsDomRefs = function(oDomRef) {
-			var CSS_CLASS = "." + this.getRenderer().CSS_CLASS + "Item";
+			var CSS_CLASS = "." + this.getRenderer().CSS_CLASS + "ItemBase";
 			oDomRef = oDomRef || this.getDomRef();
-
 			return oDomRef ? Array.prototype.slice.call(oDomRef.querySelectorAll(CSS_CLASS + ":not(" + CSS_CLASS + "Disabled)")) : [];
 		};
 
@@ -282,7 +287,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 				if (oItemDomRef) {
 
 					// add the active state to the pressed item
-					oItemDomRef.addClass(this.getRenderer().CSS_CLASS + "ItemPressed");
+					oItemDomRef.addClass(this.getRenderer().CSS_CLASS + "ItemBasePressed");
 					this._$ItemPressed = oItemDomRef;
 				}
 			}.bind(this), 100);
@@ -311,7 +316,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 
 				// remove the active state
 				if (this._$ItemPressed) {
-					this._$ItemPressed.removeClass(this.getRenderer().CSS_CLASS + "ItemPressed");
+					this._$ItemPressed.removeClass(this.getRenderer().CSS_CLASS + "ItemBasePressed");
 					this._$ItemPressed = null;
 				}
 			}
@@ -342,7 +347,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 
 					// remove the active state
 					if (this._$ItemPressed) {
-						this._$ItemPressed.removeClass(this.getRenderer().CSS_CLASS + "ItemPressed");
+						this._$ItemPressed.removeClass(this.getRenderer().CSS_CLASS + "ItemBasePressed");
 						this._$ItemPressed = null;
 					}
 
@@ -447,14 +452,14 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 			this.setProperty("selectedKey", vItem ? vItem.getKey() : "", true);
 
 			if (oSelectedItem) {
-				oSelectedItem.$().removeClass(CSS_CLASS + "ItemSelected")
+				oSelectedItem.$().removeClass(CSS_CLASS + "ItemBaseSelected")
 								.attr("aria-selected", "false");
 			}
 
 			oSelectedItem = this.getSelectedItem();
 
 			if (oSelectedItem) {
-				oSelectedItem.$().addClass(CSS_CLASS + "ItemSelected")
+				oSelectedItem.$().addClass(CSS_CLASS + "ItemBaseSelected")
 								.attr("aria-selected", "true");
 			}
 		};

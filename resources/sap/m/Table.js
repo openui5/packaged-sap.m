@@ -23,7 +23,7 @@ sap.ui.define(['jquery.sap.global', './ListBase', './library'],
 	 * @extends sap.m.ListBase
 	 *
 	 * @author SAP SE
-	 * @version 1.32.2
+	 * @version 1.32.3
 	 *
 	 * @constructor
 	 * @public
@@ -247,7 +247,7 @@ sap.ui.define(['jquery.sap.global', './ListBase', './library'],
 		var $Rows = this.$("tblBody").find(".sapMLIB");
 		
 		var aItemDomRefs = $Header.add($Rows).add($Footer).get();
-		this._oItemNavigation.setItemDomRefs(aItemDomRefs);
+		oItemNavigation.setItemDomRefs(aItemDomRefs);
 		
 		// header and footer are in the item navigation but 
 		// initial focus should be at the first item row
