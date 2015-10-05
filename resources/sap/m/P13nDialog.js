@@ -20,7 +20,7 @@ sap.ui.define([
 	 *        tables.
 	 * @extends sap.m.Dialog
 	 * @author SAP SE
-	 * @version 1.30.8
+	 * @version 1.30.9
 	 * @constructor
 	 * @public
 	 * @since 1.26.0
@@ -483,6 +483,9 @@ sap.ui.define([
 			bVisible = this.getPanels().length === 1;
 			if (bVisible) {
 				oPanel.beforeNavigationTo();
+				if (!this.getModel()) {
+					this.setModel(oPanel.getModel());
+				}
 			}
 			oPanel.setVisible(bVisible);
 			this._setVisibilityOfOtherPanels(oPanel, false);
@@ -491,6 +494,9 @@ sap.ui.define([
 			bVisible = this.getInitialVisiblePanelType() === oPanel.getType() || this.getPanels().length === 1;
 			if (bVisible) {
 				oPanel.beforeNavigationTo();
+				if (!this.getModel()) {
+					this.setModel(oPanel.getModel());
+				}
 			}
 			oPanel.setVisible(bVisible);
 			if (bVisible) {

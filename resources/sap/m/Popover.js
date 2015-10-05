@@ -23,7 +23,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Button', './InstanceManager', '.
 	 * @implements sap.ui.core.PopupInterface
 	 *
 	 * @author SAP SE
-	 * @version 1.30.8
+	 * @version 1.30.9
 	 *
 	 * @constructor
 	 * @public
@@ -1000,9 +1000,10 @@ sap.ui.define(['jquery.sap.global', './Bar', './Button', './InstanceManager', '.
 
 	Popover.prototype._calcVertical = function() {
 		var $parent = jQuery(this._getOpenByDomRef());
+		var iParentTop = $parent[0] !== undefined ? $parent[0].getBoundingClientRect().top : 0;
 		var iOffsetY = this._getOffsetY();
-		var iTopSpace = $parent[0].getBoundingClientRect().top - this._marginTop + iOffsetY;
-		var iParentBottom = $parent[0].getBoundingClientRect().top + $parent.outerHeight();
+		var iTopSpace = iParentTop - this._marginTop + iOffsetY;
+		var iParentBottom = iParentTop + $parent.outerHeight();
 		var iBottomSpace = this._$window.height() - iParentBottom - this._marginBottom - iOffsetY;
 		var iPopoverHeight = this.$().outerHeight();
 
@@ -1019,9 +1020,10 @@ sap.ui.define(['jquery.sap.global', './Bar', './Button', './InstanceManager', '.
 
 	Popover.prototype._calcHorizontal = function() {
 		var $parent = jQuery(this._getOpenByDomRef());
+		var iParentLeft = $parent[0] !== undefined ? $parent[0].getBoundingClientRect().left : 0;
 		var iOffsetX = this._getOffsetX();
-		var iLeftSpace = $parent[0].getBoundingClientRect().left - this._marginLeft + iOffsetX;
-		var iParentRight = $parent[0].getBoundingClientRect().left + $parent.outerWidth();
+		var iLeftSpace = iParentLeft - this._marginLeft + iOffsetX;
+		var iParentRight = iParentLeft + $parent.outerWidth();
 		var iRightSpace = this._$window.width() - iParentRight - this._marginRight - iOffsetX;
 		var iPopoverWidth = this.$().outerWidth();
 
@@ -1064,9 +1066,10 @@ sap.ui.define(['jquery.sap.global', './Bar', './Button', './InstanceManager', '.
 	Popover.prototype._checkHorizontal = function() {
 		//check if there is enough space
 		var $parent = jQuery(this._getOpenByDomRef());
+		var iParentLeft = $parent[0] !== undefined ? $parent[0].getBoundingClientRect().left : 0;
 		var iOffsetX = this._getOffsetX();
-		var iLeftSpace = $parent[0].getBoundingClientRect().left - this._marginLeft + iOffsetX;
-		var iParentRight = $parent[0].getBoundingClientRect().left + $parent.outerWidth();
+		var iLeftSpace = iParentLeft - this._marginLeft + iOffsetX;
+		var iParentRight = iParentLeft + $parent.outerWidth();
 		var iRightSpace = this._$window.width() - iParentRight - this._marginRight - iOffsetX;
 
 		var $this = this.$();
@@ -1080,9 +1083,10 @@ sap.ui.define(['jquery.sap.global', './Bar', './Button', './InstanceManager', '.
 	Popover.prototype._checkVertical = function() {
 		//check if there is enough space
 		var $parent = jQuery(this._getOpenByDomRef());
+		var iParentTop = $parent[0] !== undefined ? $parent[0].getBoundingClientRect().top : 0;
 		var iOffsetY = this._getOffsetY();
-		var iTopSpace = $parent[0].getBoundingClientRect().top - this._marginTop + iOffsetY;
-		var iParentBottom = $parent[0].getBoundingClientRect().top + $parent.outerHeight();
+		var iTopSpace = iParentTop - this._marginTop + iOffsetY;
+		var iParentBottom = iParentTop + $parent.outerHeight();
 		var iBottomSpace = this._$window.height() - iParentBottom - this._marginBottom - iOffsetY;
 
 		var $this = this.$();
@@ -1098,15 +1102,18 @@ sap.ui.define(['jquery.sap.global', './Bar', './Button', './InstanceManager', '.
 		var $this = this.$();
 		var iHeight = $this.outerHeight();
 		var iWidth = $this.outerWidth();
+		var bRtl = sap.ui.getCore().getConfiguration().getRTL();
 
 		var $parent = jQuery(this._getOpenByDomRef());
+		var iParentLeft = $parent[0] !== undefined ? $parent[0].getBoundingClientRect().left : 0;
+		var iParentTop = $parent[0] !== undefined ? $parent[0].getBoundingClientRect().top : 0;
 		var iOffsetX = this._getOffsetX();
 		var iOffsetY = this._getOffsetY();
-		var iTopSpace = $parent[0].getBoundingClientRect().top - this._marginTop + iOffsetY;
-		var iParentBottom = $parent[0].getBoundingClientRect().top + $parent.outerHeight();
+		var iTopSpace = iParentTop - this._marginTop + iOffsetY;
+		var iParentBottom = iParentTop + $parent.outerHeight();
 		var iBottomSpace = this._$window.height() - iParentBottom - this._marginBottom - iOffsetY;
-		var iLeftSpace = $parent[0].getBoundingClientRect().left - this._marginLeft + iOffsetX;
-		var iParentRight = $parent[0].getBoundingClientRect().left + $parent.outerWidth();
+		var iLeftSpace = iParentLeft - this._marginLeft + iOffsetX;
+		var iParentRight = iParentLeft + $parent.outerWidth();
 		var iRightSpace = this._$window.width() - iParentRight - this._marginRight - iOffsetX;
 
 		//calculation for every possible position how many percent of the popover can be covered
@@ -1137,9 +1144,9 @@ sap.ui.define(['jquery.sap.global', './Bar', './Button', './InstanceManager', '.
 
 		if (fMaxCoverageHorizontal > fMaxCoverageVertical) {
 			if (fMaxCoverageHorizontal === fLeftCoverage) {
-				this._oCalcedPos = sap.m.PlacementType.Left;
+				this._oCalcedPos = bRtl ? sap.m.PlacementType.Right : sap.m.PlacementType.Left;
 			} else if (fMaxCoverageHorizontal === fRightCoverage) {
-				this._oCalcedPos = sap.m.PlacementType.Right;
+				this._oCalcedPos = bRtl ? sap.m.PlacementType.Left : sap.m.PlacementType.Right;
 			}
 		} else if (fMaxCoverageVertical > fMaxCoverageHorizontal) {
 			if (fMaxCoverageVertical === fTopCoverage) {
@@ -1158,9 +1165,9 @@ sap.ui.define(['jquery.sap.global', './Bar', './Button', './InstanceManager', '.
 			} else {
 				// in landscape horizontal is preferred
 				if (fMaxCoverageHorizontal === fLeftCoverage) {
-					this._oCalcedPos = sap.m.PlacementType.Left;
+					this._oCalcedPos = bRtl ? sap.m.PlacementType.Right : sap.m.PlacementType.Left;
 				} else if (fMaxCoverageHorizontal === fRightCoverage) {
-					this._oCalcedPos = sap.m.PlacementType.Right;
+					this._oCalcedPos = bRtl ? sap.m.PlacementType.Left : sap.m.PlacementType.Right;
 				}
 			}
 		}
@@ -1369,6 +1376,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Button', './InstanceManager', '.
 			$scrollArea.css("display", "block");
 		}
 
+		$arrow.removeAttr("style");
 		//set arrow offset
 		if (sPlacement === sap.m.PlacementType.Left || sPlacement === sap.m.PlacementType.Right) {
 			iPosArrow = $parent.offset().top - $this.offset().top - fPopoverBorderTop + iOffsetY + 0.5 * ($parent.outerHeight(false) - $arrow.outerHeight(false));

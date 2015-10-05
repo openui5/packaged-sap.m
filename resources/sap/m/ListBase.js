@@ -24,7 +24,7 @@ sap.ui.define(['jquery.sap.global', './GroupHeaderListItem', './library', 'sap/u
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.30.8
+	 * @version 1.30.9
 	 *
 	 * @constructor
 	 * @public
@@ -398,7 +398,11 @@ sap.ui.define(['jquery.sap.global', './GroupHeaderListItem', './library', 'sap/u
 	ListBase.prototype.onAfterRendering = function() {
 		this._bRendering = false;
 		this._sLastMode = this.getMode();
-		this._bItemNavigationInvalidated = true;
+		
+		// invalidate item navigation for desktop
+		if (sap.ui.Device.system.desktop) {
+			this._bItemNavigationInvalidated = true;
+		}
 	};
 	
 	ListBase.prototype.exit = function () {
@@ -834,7 +838,7 @@ sap.ui.define(['jquery.sap.global', './GroupHeaderListItem', './library', 'sap/u
 	
 	// this gets called when items DOM is changed
 	ListBase.prototype.onItemDOMUpdate = function(oListItem) {
-		if (!this._bRendering) {
+		if (!this._bRendering && this.bOutput) {
 			this._startItemNavigation(true);
 		}
 	};
@@ -964,7 +968,6 @@ sap.ui.define(['jquery.sap.global', './GroupHeaderListItem', './library', 'sap/u
 	ListBase.prototype._fireUpdateFinished = function(oInfo) {
 		this._hideBusyIndicator();
 		jQuery.sap.delayedCall(0, this, function() {
-			this._startItemNavigation(true);
 			this.fireUpdateFinished({
 				reason : this._sUpdateReason,
 				actual : oInfo ? oInfo.actual : this.getItems(true).length,
@@ -1427,23 +1430,19 @@ sap.ui.define(['jquery.sap.global', './GroupHeaderListItem', './library', 'sap/u
 	};
 
 	ListBase.prototype._startItemNavigation = function(bIfNeeded) {
-		// if focus is not on the list then only invalidate the item navigation
-		if (bIfNeeded) {
-			var oNavigationRoot = this.getNavigationRoot();
-			if (!oNavigationRoot || !oNavigationRoot.contains(document.activeElement)) {
-				this._bItemNavigationInvalidated = true;
-				return;
-			}
-		}
 		
-		// clear invalidation
-		this._bItemNavigationInvalidated = false;
-	
-		// no item navigation for old android that breaks focus handling
-		if (sap.ui.Device.os.android && sap.ui.Device.os.version < 4.1) {
+		// item navigation only for desktop
+		if (!sap.ui.Device.system.desktop) {
 			return;
 		}
-	
+		
+		// if focus is not on the navigation items then only invalidate the item navigation
+		if (bIfNeeded && !this.getNavigationRoot().contains(document.activeElement)) {
+			this._bItemNavigationInvalidated = true;
+			return;
+		}
+		
+		// init item navigation
 		if (!this._oItemNavigation) {
 			this._oItemNavigation = new ItemNavigation();
 			this._oItemNavigation.setCycling(false);
@@ -1476,6 +1475,9 @@ sap.ui.define(['jquery.sap.global', './GroupHeaderListItem', './library', 'sap/u
 		
 		// configure navigatable items
 		this.setNavigationItems(this._oItemNavigation, oNavigationRoot);
+		
+		// clear invalidations
+		this._bItemNavigationInvalidated = false;
 	};
 	
 	/*
@@ -1573,7 +1575,7 @@ sap.ui.define(['jquery.sap.global', './GroupHeaderListItem', './library', 'sap/u
 		// if current section is items container then save the current focus position
 		var oItemsContainerDomRef = this.getItemsContainerDomRef();
 		var $CurrentSection = jQuery.sap.byId(this._aNavSections[iIndex]);
-		if ($CurrentSection[0] === oItemsContainerDomRef) {
+		if ($CurrentSection[0] === oItemsContainerDomRef && this._oItemNavigation) {
 			$CurrentSection.data("redirect", this._oItemNavigation.getFocusedIndex());
 		}
 	
@@ -1583,7 +1585,7 @@ sap.ui.define(['jquery.sap.global', './GroupHeaderListItem', './library', 'sap/u
 			$TargetSection = jQuery.sap.byId(this._aNavSections[iIndex]);
 			
 			// if target is items container
-			if ($TargetSection[0] === oItemsContainerDomRef) {
+			if ($TargetSection[0] === oItemsContainerDomRef && this._oItemNavigation) {
 				var iRedirect = $TargetSection.data("redirect");
 				var oItemDomRefs = this._oItemNavigation.getItemDomRefs();
 				var oTargetSection = oItemDomRefs[iRedirect] || oItemsContainerDomRef.children[0];
@@ -1594,7 +1596,6 @@ sap.ui.define(['jquery.sap.global', './GroupHeaderListItem', './library', 'sap/u
 				$TargetSection.focus();
 				return true;
 			}
-			
 			
 		}, this);
 	
@@ -1667,6 +1668,10 @@ sap.ui.define(['jquery.sap.global', './GroupHeaderListItem', './library', 'sap/u
 	
 	// focus to previously focused element known in item navigation
 	ListBase.prototype.focusPrevious = function() {
+		if (!this._oItemNavigation) {
+			return;
+		}
+		
 		// get the last focused element from the ItemNavigation
 		var aNavigationDomRefs = this._oItemNavigation.getItemDomRefs();
 		var iLastFocusedIndex = this._oItemNavigation.getFocusedIndex();

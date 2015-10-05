@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.30.8
+	 * @version 1.30.9
 	 *
 	 * @constructor
 	 * @public
@@ -289,13 +289,17 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @return {sap.m.IconTabHeader} this pointer for chaining
 	 */
 	IconTabHeader.prototype.setSelectedKey = function (sKey) {
-		var aItems = this.getItems(),
+		var aItems = this.getTabFilters(),
 			i = 0;
+
+		if (aItems.length > 0) {
+			sKey = sKey || aItems[0]._getNonEmptyKey();
+		}
 
 		// adjust UI and internal variables if already rendered (otherwise taken care by onBeforeRendering)
 		if (this.$().length) {
 			for (; i < aItems.length; i++) {
-				if (!(aItems[i] instanceof sap.m.IconTabSeparator) && aItems[i]._getNonEmptyKey() === sKey) {
+				if (aItems[i]._getNonEmptyKey() === sKey) {
 					this.setSelectedItem(aItems[i], true);
 					break;
 				}
@@ -1105,12 +1109,16 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @private
 	 */
 	IconTabHeader.prototype.ontouchend = function(oEvent) {
+		var MOBILE_TAP = 0;
+		var LEFT_MOUSE_CLICK = 1;
+		
 		// suppress selection if there ware a drag (moved more than 5px on desktop or 20px on others)
 		if (this._scrollable && this._iTouchDragX > (sap.ui.Device.system.desktop ? 5 : 15)) {
 			return;
 		}
-
-		this._handleActivation(oEvent);
+		if (oEvent.which === MOBILE_TAP || oEvent.which === LEFT_MOUSE_CLICK) {
+			this._handleActivation(oEvent);
+		}	
 	};
 
 

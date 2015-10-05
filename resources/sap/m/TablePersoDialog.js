@@ -30,7 +30,7 @@ sap.ui.define(['jquery.sap.global', './Button', './Dialog', './InputListItem', '
 	 * @class Table Personalization Dialog
 	 * @extends sap.ui.base.ManagedObject
 	 * @author SAP
-	 * @version 1.30.8
+	 * @version 1.30.9
 	 * @alias sap.m.TablePersoDialog
 	 */
 	var TablePersoDialog = ManagedObject.extend("sap.m.TablePersoDialog", /** @lends sap.m.TablePersoDialog */
@@ -145,7 +145,7 @@ sap.ui.define(['jquery.sap.global', './Button', './Dialog', './InputListItem', '
 		this._fnHandleResize = function() {
 			// Check if dialog is rendered
 			if (that._oDialog) {
-				var $dialogCont = jQuery("#" + that._oDialog.getId() + "-cont");
+				var $dialogCont = that._oDialog.$("cont");
 				if ($dialogCont.children().length > 0) {
 					var iContentHeight = $dialogCont.children()[0].clientHeight;
 

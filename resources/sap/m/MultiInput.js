@@ -22,7 +22,7 @@ sap.ui.define(['jquery.sap.global', './Input', './Token', './library', 'sap/ui/c
 	 * @extends sap.m.Input
 	 *
 	 * @author SAP SE
-	 * @version 1.30.8
+	 * @version 1.30.9
 	 *
 	 * @constructor
 	 * @public
@@ -202,7 +202,13 @@ sap.ui.define(['jquery.sap.global', './Input', './Token', './library', 'sap/ui/c
 				} else {
 					that._oList.destroyItems();
 				}
+
+				var oScroll = that._oSuggestionPopup.getScrollDelegate();
+				if (oScroll) {
+					oScroll.scrollTo(0, 0, 0);
+				}
 				
+
 				that._oPopupInput.focus();
 				
 			}

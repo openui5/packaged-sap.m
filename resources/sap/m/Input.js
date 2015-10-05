@@ -22,7 +22,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 	 * @extends sap.m.InputBase
 	 *
 	 * @author SAP SE
-	 * @version 1.30.8
+	 * @version 1.30.9
 	 *
 	 * @constructor
 	 * @public
@@ -1163,6 +1163,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 
 						oInput._updateTokenizerInMultiInput();
 						oInput._tokenizerInPopup.destroy();
+						oInput._showIndicator();
 						setTimeout(function() {
 							oInput._setContainerSizes();
 						}, 0);
@@ -1177,7 +1178,6 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 							oInput._oList.removeSelections(true);
 						}
 					}
-
 
 				}).attachAfterOpen(function() {
 					var sValue = oInput.getValue();
