@@ -22,7 +22,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Element', 'sap/ui/
 	 * @extends sap.ui.core.Element
 	 *
 	 * @author SAP SE
-	 * @version 1.28.19
+	 * @version 1.28.20
 	 *
 	 * @constructor
 	 * @public
@@ -189,6 +189,9 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Element', 'sap/ui/
 	};
 	
 	Column.prototype._validateMinWidth = function(sWidth) {
+		if (!sWidth) {
+			return;
+		}
 		if (Object.prototype.toString.call(sWidth) != "[object String]") {
 			throw new Error('expected string for property "minScreenWidth" of ' + this);
 		}

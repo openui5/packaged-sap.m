@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './ComboBoxBase', './ComboBoxBaseRenderer','
 		 * @extends sap.m.ComboBoxBase
 		 *
 		 * @author SAP SE
-		 * @version 1.28.19
+		 * @version 1.28.20
 		 *
 		 * @constructor
 		 * @public
@@ -1022,11 +1022,19 @@ sap.ui.define(['jquery.sap.global', './ComboBoxBase', './ComboBoxBaseRenderer','
 
 				switch (sProperty) {
 					case "text":
-						this.setValue(sNewValue);
+
+						if (!this.isBound("value")) {
+							this.setValue(sNewValue);
+						}
+
 						break;
 
 					case "key":
-						this.setSelectedKey(sNewValue);
+
+						if (!this.isBound("selectedKey")) {
+							this.setSelectedKey(sNewValue);
+						}
+
 						break;
 
 					// no default

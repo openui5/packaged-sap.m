@@ -19,7 +19,7 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.28.19
+	 * @version 1.28.20
 	 *
 	 * @constructor
 	 * @public
@@ -460,6 +460,9 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 		this._clearList();
 		this._fillList(this.aItems);
 		this._oList.setAggregation("headerToolbar", this.oHeaderToolbar, true); // note: suppress re-rendering;
+		if (this.sDeletedItemId){
+			jQuery(document.activeElement).blur();
+		}
 	};
 
 	/**
@@ -500,7 +503,6 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 				} else if (this.sDeletedItemId) {
 					//set focus on line item after an item was deleted
 					sap.m.UploadCollection.prototype._setFocusAfterDeletion(this.sDeletedItemId, that);
-					this.sDeletedItemId = null;
 				}
 			}
 		}
@@ -514,6 +516,18 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 		if (this._oList) {
 			this._oList.destroy();
 			this._oList = null;
+		}
+		if (this._oFileUploader) {
+			this._oFileUploader.destroy();
+			this._oFileUploader = null;
+		}
+		if (this.oHeaderToolbar) {
+			this.oHeaderToolbar.destroy();
+			this.oHeaderToolbar = null;
+		}
+		if (this.oNumberOfAttachmentsLabel) {
+			this.oNumberOfAttachmentsLabel.destroy();
+			this.oNumberOfAttachmentsLabel = null;
 		}
 	};
 
@@ -1409,7 +1423,7 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 			var sRequestId = this._getRequestId(oEvent);
 			var sFileName = oEvent.getParameter("fileName");
 			var cItems = this.aItems.length;
-			for (i = 0; i < cItems ; i++) {
+			for (i = 0; i < cItems; i++) {
 				if (this.aItems[i] === sFileName && this.aItems[i]._requestIdName === sRequestId && this.aItems[i]._status === UploadCollection._uploadingStatus) {
 					this.aItems.splice(i, 1);
 					this.removeItem(i);
@@ -1728,6 +1742,7 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 				sLineId = oContext.aItems.pop().sId + "-cli";
 			}
 			sap.m.UploadCollection.prototype._setFocus2LineItem(sLineId);
+			this.sDeletedItemId = null;
 		}
 	};
 

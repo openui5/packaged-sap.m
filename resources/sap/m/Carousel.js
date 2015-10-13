@@ -24,7 +24,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.28.19
+	 * @version 1.28.20
 	 *
 	 * @constructor
 	 * @public
@@ -324,7 +324,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 				this._changePage(iIndex + 1);
 
 				// BCP: 1580078315
-				if (sap.ui.commons && this.getParent() instanceof sap.ui.commons.layout.PositionContainer) {
+				if (sap.zen && sap.zen.commons && this.getParent() instanceof sap.zen.commons.layout.PositionContainer) {
 					if (this._isCarouselUsedWithCommonsLayout === undefined){
 						jQuery.sap.delayedCall(0, this, "invalidate");
 						this._isCarouselUsedWithCommonsLayout = true;
