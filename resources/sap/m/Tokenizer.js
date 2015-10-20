@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @class
 	 * Tokenizer displays multiple tokens
 	 * @extends sap.ui.core.Control
-	 * @version 1.32.3
+	 * @version 1.32.4
 	 *
 	 * @constructor
 	 * @public
@@ -330,7 +330,6 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 			});
 		}
 		
-		this._bCopyToClipboardSupport = !!this.getDomRef("clip");
 		if (this._bCopyToClipboardSupport) {
 			this.$().on("copy", function(oEvent){
 				that.oncopy(oEvent);

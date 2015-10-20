@@ -28,7 +28,7 @@ sap.ui.define([
 	 * @extends sap.m.QuickViewBase
 	 *
 	 * @author SAP SE
-	 * @version 1.32.3
+	 * @version 1.32.4
 	 *
 	 * @constructor
 	 * @public
@@ -306,6 +306,24 @@ sap.ui.define([
 		if ($container[0] && !$container[0].style.height) {
 			$container[0].style.height = $container.height() + 'px';
 		}
+	};
+
+	QuickView.prototype.setProperty = function (sPropertyName, oValue, bSuppressInvalidate) {
+		switch (sPropertyName) {
+			case "busy":
+			case "busyIndicatorDelay":
+			case "visible":
+			case "fieldGroupIds":
+				if (this._oPopover) {
+					this._oPopover.setProperty(sPropertyName, oValue, bSuppressInvalidate);
+					return sap.ui.core.Control.prototype.setProperty.call(this, sPropertyName, oValue, true);
+				}
+				break;
+			default:
+				break;
+		}
+
+		return sap.ui.core.Control.prototype.setProperty.apply(this, arguments);
 	};
 
 	/**

@@ -6,8 +6,8 @@
 
 // Provides control sap.m.P13nColumnsPanel.
 sap.ui.define([
-	'jquery.sap.global', './ColumnListItem', './P13nPanel', './P13nColumnsItem', './SearchField', './Table', './library', 'sap/ui/core/Control','jquery.sap.dom'
-], function(jQuery, ColumnListItem, P13nPanel, P13nColumnsItem, SearchField, Table, library, Control/* jQueryPlugin2 */) {
+	'jquery.sap.global', './ColumnListItem', './P13nPanel', './P13nColumnsItem', './SearchField', './Table', './library', 'sap/ui/core/Control'
+], function(jQuery, ColumnListItem, P13nPanel, P13nColumnsItem, SearchField, Table, library, Control) {
 	"use strict";
 
 	/**
@@ -18,7 +18,7 @@ sap.ui.define([
 	 * @class The P13nColumnsPanel control is used to define column-specific settings for table personalization.
 	 * @extends sap.m.P13nPanel
 	 * @author SAP SE
-	 * @version 1.32.3
+	 * @version 1.32.4
 	 * @constructor
 	 * @public
 	 * @since 1.26.0
@@ -1048,13 +1048,7 @@ sap.ui.define([
 				sLanguage = sap.ui.getCore().getConfiguration().getLocale().toString();
 			} catch (exception) {
 				// this exception can happen if the configured language is not convertible to BCP47 -> getLocale will deliver an exception
-				if (window.console && window.console.log) {
-					if (!!exception.stack) {
-						window.console.log(exception.stack);
-					} else {
-						window.console.log(exception.toString());
-					}
-				}
+				jQuery.sap.log.error("sap.m.P13nColumnsPanel : no available Language/Locale to sort table items");
 				sLanguage = null;
 			}
 
@@ -1361,7 +1355,7 @@ sap.ui.define([
 				var oParent = null, $dialogCont = null, iContentHeight, iHeaderHeight;
 				oParent = that.getParent();
 				if (oParent) {
-					$dialogCont = jQuery.sap.byId(oParent.getId() + "-cont");
+					$dialogCont = jQuery("#" + oParent.getId() + "-cont");
 					if ($dialogCont.children().length > 0 && that._oToolbar.$().length > 0) {
 						iScrollContainerHeightOld = that._oScrollContainer.$()[0].clientHeight;
 

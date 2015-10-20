@@ -1381,6 +1381,7 @@ html[data-sap-ui-browser="ie9"] .sapMFeedListItemTitleDiv {
   display: block;
 }
 .sapMFeedListItemTitleDiv .sapMLIBContent {
+  flex-basis: auto;
   overflow: hidden;
 }
 /* phone adoption */
@@ -2246,7 +2247,8 @@ li.sapMMultiComboBoxItem .sapMCbBg {
   display: inline-block;
   position: static;
 }
-.sapMMultiInput .sapMMultiInputMultiModeInputContainer .sapMInputValHelp {
+.sapMMultiInput .sapMMultiInputMultiModeInputContainer .sapMInputValHelp,
+.sapUiSizeCompact .sapMMultiInput .sapMMultiInputMultiModeInputContainer .sapMInputValHelp {
   position: absolute;
   top: 0;
   left: 0;

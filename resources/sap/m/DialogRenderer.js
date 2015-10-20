@@ -96,7 +96,7 @@ sap.ui.define(['jquery.sap.global', './BarRenderer'],
 				oRm.addClass("sapMDialogWithScrollCont");
 			}
 
-			if (oSubHeader) {
+			if (oSubHeader && oSubHeader.getVisible()) {
 				oRm.addClass("sapMDialogWithSubHeader");
 			}
 

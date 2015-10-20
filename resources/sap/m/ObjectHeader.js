@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @class
 	 * ObjectHeader is a display control that enables the user to easily identify a specific object. The object header title is the key identifier of the object and additional text and icons can be used to further distinguish it from other objects.
 	 * @extends sap.ui.core.Control
-	 * @version 1.32.3
+	 * @version 1.32.4
 	 *
 	 * @constructor
 	 * @public
@@ -185,7 +185,13 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 			 * This property specifies the number and unit directionality with enumerated options. By default, the control inherits text direction from the DOM.
 			 * @since 1.28.0
 			 */
-			numberTextDirection : {type : "sap.ui.core.TextDirection", group : "Appearance", defaultValue : sap.ui.core.TextDirection.Inherit}
+			numberTextDirection : {type : "sap.ui.core.TextDirection", group : "Appearance", defaultValue : sap.ui.core.TextDirection.Inherit},
+
+			/**
+			 * Sets custom text for the tooltip of the select title arrow. If not set, a default text of the tooltip will be displayed.
+			 * @since 1.30.0
+			 */
+			titleSelectorTooltip : {type : "string", group : "Misc", defaultValue : "Options"}
 
 		},
 		defaultAggregation : "attributes",
@@ -330,7 +336,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 			src: IconPool.getIconURI("arrow-down"),
 			decorative: false,
 			visible : false,
-			useIconTooltip : false,
+			tooltip: oLibraryResourceBundle.getText("OH_SELECT_ARROW_TOOLTIP"),
 			size: "1.375rem",
 			press : function(oEvent) {
 				that.fireTitleSelectorPress({
@@ -399,6 +405,19 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	ObjectHeader.prototype.setNumberState = function (sState) {
 		this.setProperty("numberState", sState, true);
 		this._getObjectNumber().setState(sState);
+		return this;
+	};
+
+	/**
+	 * Sets the new text for the tooltip of the select title arrow to the internal aggregation
+	 * @override
+	 * @public
+	 * @param sTooltip the new value
+	 * @returns {sap.m.ObjectHeader} this pointer for chaining
+	 */
+	ObjectHeader.prototype.setTitleSelectorTooltip = function (sTooltip) {
+		this.setProperty("titleSelectorTooltip", sTooltip, false);
+		this._oTitleArrowIcon.setTooltip(sTooltip);
 		return this;
 	};
 
@@ -716,10 +735,8 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		var bPageRTL = sap.ui.getCore().getConfiguration().getRTL();
 		var $titleArrow = this.$("titleArrow");
 
-		$titleArrow.attr("aria-haspopup", "true");
-		$titleArrow.attr("role", "link");
-		$titleArrow.attr("aria-label", sap.ui.getCore().getLibraryResourceBundle("sap.m").getText("OH_ARIA_SELECT_ARROW_VALUE")); // set label from resource translation bundle
-		
+		$titleArrow.attr("role", "button");
+
 		if (this.getResponsive()) {
 			this._adjustIntroDiv();
 

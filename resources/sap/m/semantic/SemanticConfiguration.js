@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/base/Metadata', "sap/m/OverflowToolb
 	 * Constructor for a sap.m.semantic.SemanticConfiguration.
 	 *
 	 * @class Defines the visual properties and positioning for each supported semantic type
-	 * @version 1.32.3
+	 * @version 1.32.4
 	 * @private
 	 * @since 1.30.0
 	 * @alias sap.m.semantic.SemanticConfiguration
@@ -92,7 +92,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/base/Metadata', "sap/m/OverflowToolb
 		var _mInvisibleTexts = {};
 
 		/**
-		 * Creates (if not already created) and returns an invisible text element for screan reader support
+		 * Creates (if not already created) and returns an invisible text element for screen reader support
 		 * @param sType - the type of the control we want to get a label for
 		 * @param sText - the text to be used
 		 * @private
