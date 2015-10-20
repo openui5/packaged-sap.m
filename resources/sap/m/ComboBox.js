@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './ComboBoxBase', './ComboBoxBaseRenderer','
 		 * @extends sap.m.ComboBoxBase
 		 *
 		 * @author SAP SE
-		 * @version 1.30.9
+		 * @version 1.30.10
 		 *
 		 * @constructor
 		 * @public
@@ -709,11 +709,8 @@ sap.ui.define(['jquery.sap.global', './ComboBoxBase', './ComboBoxBaseRenderer','
 
 			if (jQuery.sap.containsOrEquals(oPicker.getFocusDomRef(), oFocusDomRef)) {
 
-				if (sap.ui.Device.system.desktop) {
-
-					// force the focus to stay in the input field
-					this.focus();
-				}
+				// force the focus to stay in the input field
+				this.focus();
 			}
 		};
 
@@ -1024,11 +1021,19 @@ sap.ui.define(['jquery.sap.global', './ComboBoxBase', './ComboBoxBaseRenderer','
 
 				switch (sProperty) {
 					case "text":
-						this.setValue(sNewValue);
+
+						if (!this.isBound("value")) {
+							this.setValue(sNewValue);
+						}
+
 						break;
 
 					case "key":
-						this.setSelectedKey(sNewValue);
+
+						if (!this.isBound("selectedKey")) {
+							this.setSelectedKey(sNewValue);
+						}
+
 						break;
 
 					// no default
