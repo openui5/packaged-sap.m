@@ -19,7 +19,7 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.28.20
+	 * @version 1.28.21
 	 *
 	 * @constructor
 	 * @public
@@ -133,7 +133,7 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 			},
 
 			/**
-			 * The event is triggered when the Delete pushbutton is pressed.
+			 * The event is triggered when an uploaded attachment is selected and the Delete button is pressed.
 			 */
 			fileDeleted : {
 				parameters : {

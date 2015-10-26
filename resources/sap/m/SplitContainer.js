@@ -22,7 +22,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * 
 	 * This control must be rendered as a full screen control in order to make the show/hide master area work properly.
 	 * @extends sap.ui.core.Control
-	 * @version 1.28.20
+	 * @version 1.28.21
 	 *
 	 * @constructor
 	 * @public
@@ -467,7 +467,15 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 			this.setAggregation("_navPopover", this._oPopOver, true);
 		} else {
 			//master nav and detail nav are the same in phone
-			this._oMasterNav = this._oDetailNav =  new sap.m.NavContainer();
+			this._oMasterNav = this._oDetailNav =  new sap.m.NavContainer({
+				width: "",
+				navigate: function(oEvent){
+					that._handleNavigationEvent(oEvent, false, true);
+				},
+				afterNavigate: function(oEvent){
+					that._handleNavigationEvent(oEvent, true, true);
+				}
+			});
 			this.setAggregation("_navMaster", this._oMasterNav, true);
 		}
 		
