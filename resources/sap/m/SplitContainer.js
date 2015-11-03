@@ -18,12 +18,12 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @param {object} [mSettings] Initial settings for the new control
 	 *
 	 * @class
-	 * SplitContainer maintains two NavContainers if running on tablet and one NavContainer - on phone.
+	 * SplitContainer maintains two NavContainers if running on tablet or desktop and one NavContainer - on phone.
 	 * The display of the master NavContainer depends on the portrait/landscape mode of the device and the mode of SplitContainer.
 	 *
 	 * NOTE: This control must be rendered as a full screen control in order to make the show/hide master area work properly.
 	 * @extends sap.ui.core.Control
-	 * @version 1.32.4
+	 * @version 1.32.5
 	 *
 	 * @constructor
 	 * @public

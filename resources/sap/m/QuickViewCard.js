@@ -26,7 +26,7 @@ sap.ui.define([
 	 * @extends sap.m.QuickViewBase
 	 *
 	 * @author SAP SE
-	 * @version 1.32.4
+	 * @version 1.32.5
 	 *
 	 * @constructor
 	 * @public
@@ -69,6 +69,11 @@ sap.ui.define([
 
 		QuickViewCard.prototype.onBeforeRendering = function() {
 			this._initPages();
+		};
+
+		QuickViewCard.prototype.onAfterRendering = function() {
+			//Sets the correct length of the links inside the QuickView. This is done to overwrite the styles set by the ResponsiveGridLayout
+			this.$().find(".sapMLnk").css("width", "auto");
 		};
 
 		QuickViewCard.prototype.exit = function() {

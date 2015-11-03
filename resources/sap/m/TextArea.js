@@ -22,7 +22,7 @@ sap.ui.define(['jquery.sap.global', './InputBase', './library'],
 	 * @extends sap.m.InputBase
 	 *
 	 * @author SAP SE
-	 * @version 1.32.4
+	 * @version 1.32.5
 	 *
 	 * @constructor
 	 * @public
@@ -176,6 +176,11 @@ sap.ui.define(['jquery.sap.global', './InputBase', './library'],
 			// backwards compatibility
 			newValue: sValue
 		});
+	};
+	
+	TextArea.prototype._getInputValue = function(sValue) {
+		sValue = InputBase.prototype._getInputValue.call(this, sValue);
+		return sValue.replace(/\r\n/g, "\n");
 	};
 	
 	/**

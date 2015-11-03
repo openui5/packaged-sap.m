@@ -28,7 +28,7 @@ sap.ui.define([
 	 * @extends sap.m.QuickViewBase
 	 *
 	 * @author SAP SE
-	 * @version 1.32.4
+	 * @version 1.32.5
 	 *
 	 * @constructor
 	 * @public
@@ -194,6 +194,7 @@ sap.ui.define([
 		var oPopupControl = this._oPopover.getAggregation("_popup");
 		oPopupControl.addEventDelegate({
 			onBeforeRendering: this.onBeforeRenderingPopover,
+			onAfterRendering: this._setLinkWidth,
 			onkeydown: this._onPopupKeyDown
 		}, this);
 
@@ -306,6 +307,14 @@ sap.ui.define([
 		if ($container[0] && !$container[0].style.height) {
 			$container[0].style.height = $container.height() + 'px';
 		}
+	};
+
+	/**
+	 * Sets the correct length of the links inside the QuickView. This is done to overwrite the styles set by the ResponsiveGridLayout
+	 * @private
+	 */
+	QuickView.prototype._setLinkWidth = function() {
+		this._oPopover.$().find(".sapMLnk").css("width", "auto");
 	};
 
 	QuickView.prototype.setProperty = function (sPropertyName, oValue, bSuppressInvalidate) {

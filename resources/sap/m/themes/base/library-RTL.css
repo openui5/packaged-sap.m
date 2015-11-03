@@ -1918,25 +1918,14 @@ html[dir=rtl] .sapMILIDiv {
   /*class will be added for others, just a reminder*/
 }
 /* Growing feature */
-.sapMGrowingListTrigger,
-.sapMGrowingListLoading {
+.sapMGrowingListTrigger {
   display: block;
   text-align: center;
   overflow: hidden;
 }
-.sapMGrowingListBusyIndicator {
-  float: right;
-  overflow: hidden;
+.sapMGrowingListBusyIndicatorVisible .sapMGrowingListTriggerText,
+.sapMGrowingListBusyIndicatorVisible .sapMGrowingListDescription {
   visibility: hidden;
-  width: 2.0em;
-  height: 2.0em;
-}
-.sapMGrowingListBusyIndicatorVisible {
-  visibility: visible;
-}
-.sapMGrowingListLoading > .sapMGrowingListBusyIndicator {
-  float: none;
-  visibility: visible;
 }
 /* mixin call for creating container content padding classes (arguments: rootContainer, contentSelector) */
 .sapMList.sapUiContentPadding  {
@@ -2827,13 +2816,6 @@ html[dir=rtl][data-sap-ui-browser^=ed] .sapMOHStatusFixedWidth {
   text-align: left;
 }
 /* Styles for Responsive Object Header */
-div[class*='sapMOHRBg'] {
-  padding-bottom: 1.5rem;
-}
-.sap-desktop.sapUiMedia-Std-Phone div[class*='sapMOHRBg'],
-.sap-phone div[class*='sapMOHRBg'] {
-  padding-bottom: 1rem;
-}
 .sapMOHR {
   width: 100%;
   height: 100%;
@@ -2843,6 +2825,13 @@ div[class*='sapMOHRBg'] {
 .sap-desktop.sapUiMedia-Std-Phone .sapMOHR,
 .sap-phone .sapMOHR {
   padding: 0.625rem 1rem 0 1rem;
+}
+div[class*='sapMOHRBg']:only-child {
+  padding-bottom: 1.5rem;
+}
+.sap-desktop.sapUiMedia-Std-Phone div[class*='sapMOHRBg']:only-child,
+.sap-phone div[class*='sapMOHRBg']:only-child {
+  padding-bottom: 1rem;
 }
 /* Group1 (title, flags and number) */
 .sapMOHRTitleNumberDiv {
@@ -3551,6 +3540,9 @@ html[dir=rtl][data-sap-ui-browser^="ed"] .sapMOTAPopover.sapMPopover .sapMPopove
   height: 0rem;
   border-bottom: 0px;
 }
+.sapMFilterPanel .sapMPanelContent:not(.sapMPanelBGTransparent) {
+  border-bottom-width: 0px;
+}
 /* ============================================= */
 /* CSS for control sap.m/P13nPanel.control */
 /* ============================================= */
@@ -3591,13 +3583,6 @@ html[dir=rtl][data-sap-ui-browser^="ed"] .sapMOTAPopover.sapMPopover .sapMPopove
   right: 0;
   left: 0;
   bottom: 0;
-  /*
-	* Performance tweak - force the section content on to the GPU effectively separating it in a different
-	* composite layer. This is better done with will-change: transform, but at the moment is not supported on
-	* many platforms. When will-change becomes widely adopted than it's better to use it rather than translate3d
-	*/
-  -webkit-transform: translateZ(0);
-  transform: translateZ(0);
 }
 .sapMPageScroll:not(.sapMPageScrollEnabled) {
   height: 100%;

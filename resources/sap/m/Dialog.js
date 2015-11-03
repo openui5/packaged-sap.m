@@ -24,7 +24,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './InstanceManager', './OverflowToo
 		 * @implements sap.ui.core.PopupInterface
 		 *
 		 * @author SAP SE
-		 * @version 1.32.4
+		 * @version 1.32.5
 		 *
 		 * @constructor
 		 * @public
@@ -1654,12 +1654,12 @@ sap.ui.define(['jquery.sap.global', './Bar', './InstanceManager', './OverflowToo
 		 */
 		function isHeaderClicked(eventTarget) {
 			var $target = jQuery(eventTarget);
-			var isHeader = $target.hasClass('sapMDialogTitle');
-			var isChildOfHeader = $target.parents('header').length;
-			var isHeaderTag = $target.parents('h1').length;
-			var isIcon = $target.hasClass('.sapUiIcon');
-			var isChildOfSubHeader = $target.parents('.sapMDialogSubHeader').length;
-			return ((isHeader || isChildOfHeader) && !isHeaderTag && !isIcon && !isChildOfSubHeader);
+			var oControl = $target.control(0);
+			if (!oControl || oControl.getMetadata().getInterfaces().indexOf("sap.m.IBar") > -1) {
+				return true;
+			}
+
+			return $target.hasClass('sapMDialogTitle');
 		}
 
 		if (sap.ui.Device.system.desktop) {
@@ -1679,6 +1679,9 @@ sap.ui.define(['jquery.sap.global', './Bar', './InstanceManager', './OverflowToo
 			 * @param {Object} e
 			 */
 			Dialog.prototype.onmousedown = function (e) {
+				if (e.which === 3) {
+					return; // on right click don't reposition the dialog
+				}
 				if (this.getStretch() || (!this.getDraggable() && !this.getResizable())) {
 					return;
 				}
