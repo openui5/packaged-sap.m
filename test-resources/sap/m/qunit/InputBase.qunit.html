@@ -1076,12 +1076,11 @@
 				sap.ui.getCore().applyChanges();
 
 				oErrorInput.focus();
-				this.clock.tick(oErrorInput.iOpenMessagePopupDuration);
+				this.clock.tick(500);
 				ok(jQuery.sap.domById("errorinput-message"), "error message popup is open when focusin");
 				equal(oErrorInput.getValueStateText(), "Error Message", "error message is correct");
 
 				oErrorInput.getFocusDomRef().blur();
- 				this.clock.tick(500);
 				ok(!jQuery.sap.domById("errorinput-message"), "no error message popup is closed when focus is out");
 
  				oWarningInput.focus();
@@ -1090,7 +1089,6 @@
 				equal(oWarningInput.getValueStateText(), "Warning Message", "warning message is correct");
 
 				oWarningInput.getFocusDomRef().blur()
- 				this.clock.tick(500);
 				ok(!jQuery.sap.domById("warninginput-message"), "warning message popup is closed when focus is out");
  
  				oErrorInput.setShowValueStateMessage(false);
@@ -1158,7 +1156,6 @@
 				//none state
 				oValueStateInput.updateDomValue("1234");
 				sap.ui.test.qunit.triggerEvent("input", oValueStateInput.getFocusDomRef());
-				this.clock.tick(1000);
 				strictEqual(oValueStateInput.getValueState(), "None");
 				ok(!jQuery.sap.domById("vsinput-message"), "no message popup");
 				
@@ -1646,7 +1643,103 @@
 				
 				// cleanup
 				oInput.destroy();
-			});			
+			});
+
+			module("Accessibility");
+
+			test("it should render the tooltip and the invisible element with the same value", function() {
+
+				// system under test
+				var oInput = new sap.m.InputBase();
+
+				// arrange
+				oInput.placeAt("content");
+				sap.ui.getCore().applyChanges();
+
+				// act
+				oInput.setTooltip("tooltip");
+
+				// assert
+				strictEqual(oInput.$().attr("title"), "tooltip");
+				strictEqual(oInput.$("describedby").text(), "tooltip");
+
+				// cleanup
+				oInput.destroy();
+			});
+
+			test("it should not render the tooltip and the invisible element", function() {
+
+				// system under test
+				var oInput = new sap.m.InputBase();
+
+				// arrange
+				oInput.placeAt("content");
+				sap.ui.getCore().applyChanges();
+
+				// act
+				oInput.setTooltip("");
+
+				// assert
+				strictEqual(oInput.$().attr("title"), undefined);
+				strictEqual(oInput.$("describedby").length, 0);
+
+				// cleanup
+				oInput.destroy();
+			});
+
+			test("it should not render the tooltip and the invisible element", function() {
+
+				// system under test
+				var oInput = new sap.m.InputBase({
+					tooltip: "tooltip"
+				});
+
+				// arrange
+				oInput.placeAt("content");
+				sap.ui.getCore().applyChanges();
+
+				// act
+				oInput.setTooltip("");
+
+				// assert
+				ok(oInput.$().attr("title") === undefined);
+				strictEqual(oInput.$("describedby").length, 0);
+
+				// cleanup
+				oInput.destroy();
+			});
+
+			// BCP 1580094855
+			test("it should not render the tooltip (test case 3)", function() {
+
+				// arrange
+				sap.m.InputBase.extend("CustomInput", {
+					renderer: {
+						getDescribedByAnnouncement: function() {
+							return "lorem ipsum";
+						}
+					}
+				});
+
+				// system under test
+				var oInput = new CustomInput({
+					tooltip: "tooltip"
+				});
+
+				// arrange
+				oInput.placeAt("content");
+				sap.ui.getCore().applyChanges();
+
+				// act
+				oInput.setTooltip("");
+
+				// assert
+				ok(oInput.$().attr("title") === undefined);
+
+				// cleanup
+				oInput.destroy();
+				delete CustomInput;
+			});
 		</script>
 	</head>
 	<body id="body" class="sapUiBody">

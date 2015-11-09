@@ -21,7 +21,7 @@ sap.ui.define([
 	 * @class The ConditionPanel Control will be used to realize the Sorting, Filtering and Grouping
 	 *        panel of the new Personalization dialog.
 	 * @extends sap.m.P13nPanel
-	 * @version 1.28.21
+	 * @version 1.28.22
 	 *
 	 * @constructor
 	 * @public
@@ -1266,7 +1266,7 @@ sap.ui.define([
 	 *            aOperations array of operations
 	 */
 	P13nConditionPanel.prototype._fillOperationItems = function(oSelect, aOperations, sType) {
-		oSelect.removeAllItems();
+		oSelect.destroyItems();
 		if (sType === "_STRING_") {
 			// ignore the "String" Type when accessing the resource text 
 			sType = "";
@@ -1292,7 +1292,7 @@ sap.ui.define([
 	 *            aItems array of keyfields
 	 */
 	P13nConditionPanel.prototype._fillKeyFieldListItems = function(oSelect, aItems) {
-		oSelect.removeAllItems();
+		oSelect.destroyItems();
 		for ( var iItem in aItems) {
 			var oItem = aItems[iItem];
 			oSelect.addItem(new sap.ui.core.ListItem({
@@ -1338,7 +1338,7 @@ sap.ui.define([
 		this._changeField(oConditionGrid);
 
 		if (this.getAutoReduceKeyFieldItems()) {
-			this._updateKeyFieldItems(oTargetGrid, false);
+			this._updateKeyFieldItems(oTargetGrid, false, false, oConditionGrid.keyField);
 		}
 	};
 
@@ -1449,8 +1449,10 @@ sap.ui.define([
 	 *            bFillAll fills all KeyFields or only the none used
 	 * @param {boolean}
 	 *            bAppendLast adds only the last Keyfield to the Items of the selected controls
+	 * @param {Select}
+	 *            oIgnoreKeyField instance of Keyfield control for which the items should not be updated
 	 */
-	P13nConditionPanel.prototype._updateKeyFieldItems = function(oTargetGrid, bFillAll, bAppendLast) {
+	P13nConditionPanel.prototype._updateKeyFieldItems = function(oTargetGrid, bFillAll, bAppendLast, oIgnoreKeyField) {
 		var n = oTargetGrid.getContent().length;
 		var i;
 
@@ -1480,25 +1482,27 @@ sap.ui.define([
 			var j = 0;
 			var aItems = this._aKeyFields;
 
-			if (bAppendLast) {
-				j = aItems.length - 1;
-			} else {
-				// clean the items
-				oKeyField.removeAllItems();
-			}
-
-			// fill all or only the not used items
-			for (j; j < aItems.length; j++) {
-				var oItem = aItems[j];
-				if (oItem.key == null || oItem.key === "" || !oUsedItems[oItem.key] || oItem.key === sOldKey) {
-					oKeyField.addItem(new sap.ui.core.ListItem({
-						key: oItem.key,
-						text: oItem.text,
-						tooltip: oItem.tooltip ? oItem.tooltip : oItem.text
-					}));
+			if (oKeyField !== oIgnoreKeyField) {
+				if (bAppendLast) {
+					j = aItems.length - 1;
+				} else {
+					// clean the items
+					oKeyField.destroyItems();
+				}
+	
+				// fill all or only the not used items
+				for (j; j < aItems.length; j++) {
+					var oItem = aItems[j];
+					if (oItem.key == null || oItem.key === "" || !oUsedItems[oItem.key] || oItem.key === sOldKey) {
+						oKeyField.addItem(new sap.ui.core.ListItem({
+							key: oItem.key,
+							text: oItem.text,
+							tooltip: oItem.tooltip ? oItem.tooltip : oItem.text
+						}));
+					}
 				}
 			}
-
+			
 			if (sOldKey) {
 				oKeyField.setSelectedKey(sOldKey);
 			} else if (oKeyField.getItems().length > 0) {
@@ -1671,14 +1675,15 @@ sap.ui.define([
 				delete this._oConditionsMap[sKey];
 	
 				this._enableCondition(oConditionGrid, false);
-	
+				var iIndex = this._getIndexOfCondition(oConditionGrid);
+				
 				oSelectCheckbox.setSelected(false);
 				oSelectCheckbox.setEnabled(false);
 	
 				this._bIgnoreSetConditions = true;
 				this.fireDataChange({
 					key: sKey,
-					index: oConditionGrid.getParent().getContent().indexOf(oConditionGrid),
+					index: iIndex,
 					operation: "remove",
 					newData: null
 				});
@@ -1715,21 +1720,22 @@ sap.ui.define([
 
 			this.fireDataChange({
 				key: sKey,
-				index: oConditionGrid.getParent().getContent().indexOf(oConditionGrid),
+				index: this._getIndexOfCondition(oConditionGrid),
 				operation: sOperation,
 				newData: oConditionData
 			});
 		} else if (this._oConditionsMap[sKey] !== undefined) {
 			delete this._oConditionsMap[sKey];
 			oConditionGrid.data("_key", null);
-
+			var iIndex = this._getIndexOfCondition(oConditionGrid);
+			
 			oSelectCheckbox.setSelected(false);
 			oSelectCheckbox.setEnabled(false);
 
 			this._bIgnoreSetConditions = true;
 			this.fireDataChange({
 				key: sKey,
-				index: oConditionGrid.getParent().getContent().indexOf(oConditionGrid),
+				index: iIndex,
 				operation: "remove",
 				newData: null
 			});
@@ -1766,7 +1772,11 @@ sap.ui.define([
 	 */
 	P13nConditionPanel.prototype._removeCondition = function(oTargetGrid, oConditionGrid) {
 		var sKey = this._getKeyFromConditionGrid(oConditionGrid);
-		var iIndex = oConditionGrid.getParent().getContent().indexOf(oConditionGrid);
+		var iIndex = -1;
+		if (oConditionGrid.select.getSelected()) {
+			iIndex = this._getIndexOfCondition(oConditionGrid);
+		}
+		
 		delete this._oConditionsMap[sKey];
 		oConditionGrid.destroy();
 
@@ -1784,6 +1794,19 @@ sap.ui.define([
 		});
 	};
 
+	P13nConditionPanel.prototype._getIndexOfCondition = function(oConditionGrid) {
+		var iIndex = -1; 
+		
+		oConditionGrid.getParent().getContent().some(function(oGrid){
+			if (oGrid.select.getSelected()) {
+				iIndex++;
+			}
+			return (oGrid === oConditionGrid);
+		}, this);
+		
+		return iIndex;
+	};
+	
 	/**
 	 * update the condition add/remove buttons visibility
 	 *

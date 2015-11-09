@@ -19,7 +19,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.28.21
+	 * @version 1.28.22
 	 *
 	 * @constructor
 	 * @public
@@ -731,7 +731,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 */
 	InputBase.prototype.closeValueStateMessage = function (){
 		if (this._popup) {
-			this._popup.close();
+			this._popup.close(0);
 		}
 	};
 
@@ -814,10 +814,10 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 			);
 
 			// Check whether popup is below or above the input
-			if ($Input.offset().top < this._popup._$().offset().top) {
-				this._popup._$().addClass("sapMInputBaseMessageBottom");
+			if ($Input.offset().top < $Content.offset().top) {
+				$Content.addClass("sapMInputBaseMessageBottom");
 			} else {
-				this._popup._$().addClass("sapMInputBaseMessageTop");
+				$Content.addClass("sapMInputBaseMessageTop");
 			}
 		}
 	};
@@ -956,9 +956,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	};
 
 	InputBase.prototype.setTooltip = function(vTooltip) {
-		var oDomRef = this.getDomRef(),
-			oDescribedByDomRef = null,
-			sAnnouncement;
+		var oDomRef = this.getDomRef();
 
 		this._refreshTooltipBaseDelegate(vTooltip);
 		this.setAggregation("tooltip", vTooltip, true);
@@ -967,15 +965,16 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 			return this;
 		}
 
-		sAnnouncement = this.getRenderer().getDescribedByAnnouncement(this);
+		var sTooltip = this.getTooltip_AsString();
 
-		if (sAnnouncement) {
-			oDomRef.setAttribute("title", this.getTooltip_AsString());
+		if (sTooltip) {
+			oDomRef.setAttribute("title", sTooltip);
 		} else {
 			oDomRef.removeAttribute("title");
 		}
 
-		oDescribedByDomRef = this.getDomRef("describedby");
+		var oDescribedByDomRef = this.getDomRef("describedby"),
+			sAnnouncement = this.getRenderer().getDescribedByAnnouncement(this);
 
 		if (!oDescribedByDomRef && sAnnouncement) {
 			oDescribedByDomRef = document.createElement("span");

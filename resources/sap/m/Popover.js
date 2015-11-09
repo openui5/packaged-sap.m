@@ -23,7 +23,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Button', './InstanceManager', '.
 	 * @implements sap.ui.core.PopupInterface
 	 *
 	 * @author SAP SE
-	 * @version 1.28.21
+	 * @version 1.28.22
 	 *
 	 * @constructor
 	 * @public
@@ -410,6 +410,10 @@ sap.ui.define(['jquery.sap.global', './Bar', './Button', './InstanceManager', '.
 			that._deregisterContentResizeHandler();
 			Popup.prototype.close.apply(this, bBooleanParam ? [] : arguments);
 			that.removeDelegate(that._oRestoreFocusDelegate);
+
+			if (!this.restoreFocus && !this._bModal) {
+				document.activeElement && document.activeElement.blur();
+			}
 		};
 	};
 
@@ -1329,7 +1333,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Button', './InstanceManager', '.
 
 		$this.css({
 			top: iTop,
-			bottom: iBottom - iWindowTop,
+			bottom: Math.max(iBottom - iWindowTop, iBottom),
 			left: iLeft,
 			right: typeof iRight === "number" ? iRight - iWindowLeft : iRight
 		});

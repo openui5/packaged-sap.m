@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './Popov
 		 * @extends sap.ui.core.Control
 		 *
 		 * @author SAP SE
-		 * @version 1.28.21
+		 * @version 1.28.22
 		 *
 		 * @constructor
 		 * @public
@@ -115,7 +115,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './Popov
 				/**
 				 * Internal aggregation to hold the inner picker popup.
 				 */
-				picker: { type : "sap.ui.core.Control", multiple: false, visibility: "hidden" }
+				picker: { type : "sap.ui.core.PopupInterface", multiple: false, visibility: "hidden" }
 			},
 			associations: {
 
@@ -175,6 +175,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './Popov
 		}
 
 		Select.prototype._handleFocusout = function() {
+			this._bFocusoutDueRendering = this._bRenderingPhase;
 
 			if (this._bFocusoutDueRendering) {
 				this._bProcessChange = false;
@@ -637,7 +638,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './Popov
 
 			// initialize Dialog
 			var oDialog = new Dialog({
-				stretchOnPhone: true,
+				stretch: true,
 				customHeader: new Bar({
 					contentLeft: new InputBase({
 						width: "100%",
@@ -659,10 +660,14 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './Popov
 		 * @private
 		 */
 		Select.prototype._onBeforeOpenDialog = function() {
-			var oInput = this.getPicker().getCustomHeader().getContentLeft()[0];
-			oInput.setValue(this.getSelectedItem().getText());
-			oInput.setTextDirection(this.getTextDirection());
-			oInput.setTextAlign(this.getTextAlign());
+			var oInput = this.getPicker().getCustomHeader().getContentLeft()[0],
+				oSelectedItem = this.getSelectedItem();
+
+			if (oSelectedItem) {
+				oInput.setValue(oSelectedItem.getText());
+				oInput.setTextDirection(this.getTextDirection());
+				oInput.setTextAlign(this.getTextAlign());
+			}
 		};
 
 		/* =========================================================== */
@@ -1532,16 +1537,28 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './Popov
 			return Control.prototype.removeAllAssociation.apply(this, arguments);
 		};
 
-		Select.prototype.clone = function(sIdSuffix) {
+		Select.prototype.clone = function() {
 			var oSelectClone = Control.prototype.clone.apply(this, arguments),
-				oList = this.getList();
+				oList = this.getList(),
+				oSelectedItem = this.getSelectedItem(),
+				sSelectedKey = this.getSelectedKey();
 
+			// note: clone the items because the select forward its aggregation items
+			// to an inner list control. In this case, the standard clone functionality
+			// doesn't detect and clone the items that are forwarded to an inner control.
 			if (!this.isBound("items") && oList) {
 				for (var i = 0, aItems = oList.getItems(); i < aItems.length; i++) {
 					oSelectClone.addItem(aItems[i].clone());
 				}
+			}
 
-				oSelectClone.setSelectedIndex(this.indexOfItem(this.getSelectedItem()));
+			if (!this.isBound("selectedKey") && !oSelectClone.isSelectionSynchronized()) {
+
+				if (oSelectedItem && (sSelectedKey === "")) {
+					oSelectClone.setSelectedIndex(this.indexOfItem(oSelectedItem));
+				} else {
+					oSelectClone.setSelectedKey(sSelectedKey);
+				}
 			}
 
 			return oSelectClone;
@@ -1628,11 +1645,11 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './Popov
 		Select.prototype.setSelectedItem = function(vItem) {
 
 			if (typeof vItem === "string") {
+				this.setAssociation("selectedItem", vItem, true);
 				vItem = sap.ui.getCore().byId(vItem);
 			}
 
 			if (!(vItem instanceof sap.ui.core.Item) && vItem !== null) {
-				jQuery.sap.log.warning('Warning: setSelectedItem() "vItem" has to be an instance of sap.ui.core.Item, a valid sap.ui.core.Item id, or null on', this);
 				return this;
 			}
 
@@ -1702,32 +1719,6 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './Popov
 
 			return this.setProperty("selectedKey", sKey);
 		};
-
-		/**
-		 * Sets property <code>textAlign</code>.
-		 *
-		 * Default value is a sap.ui.core.TextAlign.Initial <code>"Initial"</code>.
-		 *
-		 * @param {sap.ui.core.TextAlign} sValue New value for property <code>textAlign</code>.
-		 * If the provided <code>sValue</code> has a default value, the browser default is used.
-		 *
-		 * @returns {sap.m.Select} <code>this</code> to allow method chaining.
-		 * @public
-		 * @since 1.28
-		 */
-
-		/**
-		 * Sets property <code>textDirection</code>.
-		 *
-		 * Default value is a sap.ui.core.TextDirection.Inherit <code>"Inherit"</code>.
-		 *
-		 * @param {sap.ui.core.TextDirection} sValue New value for property <code>textDirection</code>.
-		 * If the provided <code>sValue</code> has a default value, the inherited direction from the DOM is used.
-		 *
-		 * @returns {sap.m.Select} <code>this</code> to allow method chaining.
-		 * @public
-		 * @since 1.28
-		 */
 
 		/**
 		 * Gets the item from the aggregation named <code>items</code> at the given 0-based index.
@@ -1848,7 +1839,10 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './Popov
 
 			this.clearSelection();
 			this.setValue("");
-			this.$("select").children().remove();
+
+			if (this._isRequiredSelectElement()) {
+				this.$("select").children().remove();
+			}
 
 			for (var i = 0; i < aItems.length; i++) {
 				aItems[i].detachEvent("_change", this.onItemChange, this);
@@ -1870,8 +1864,10 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './Popov
 				oList.destroyItems();
 			}
 
-			if (!this.isInvalidateSuppressed()) {
-				this.invalidate();
+			this.setValue("");
+
+			if (this._isRequiredSelectElement()) {
+				this.$("select").children().remove();
 			}
 
 			return this;

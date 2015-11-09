@@ -1475,14 +1475,14 @@ html[dir=rtl] .sapMILIDiv {
 /* Overwrites for Label in Form */
 /* ============================ */
 /* GridLayout */
-.sapUiGridLabel > .sapMLabel {
+td.sapUiFormElementLbl > .sapMLabel {
   float: right;
 }
 /* ResponsiveGridLayout */
 /* make labels right aligned if left from fields*/
-.sapUiRespGridMedia-Std-Phone.sapUiFormResGridCont > .sapUiFormResGridLbl:not(.sapUiRespGridSpanS12) > .sapMLabel,
-.sapUiRespGridMedia-Std-Tablet.sapUiFormResGridCont > .sapUiFormResGridLbl:not(.sapUiRespGridSpanM12) > .sapMLabel,
-.sapUiRespGridMedia-Std-Desktop.sapUiFormResGridCont > .sapUiFormResGridLbl:not(.sapUiRespGridSpanL12) > .sapMLabel {
+.sapUiRespGridMedia-Std-Phone.sapUiFormResGridCont > .sapUiFormElementLbl:not(.sapUiRespGridSpanS12) > .sapMLabel,
+.sapUiRespGridMedia-Std-Tablet.sapUiFormResGridCont > .sapUiFormElementLbl:not(.sapUiRespGridSpanM12) > .sapMLabel,
+.sapUiRespGridMedia-Std-Desktop.sapUiFormResGridCont > .sapUiFormElementLbl:not(.sapUiRespGridSpanL12) > .sapMLabel {
   float: right;
 }
 /* ============================================= */
@@ -2461,13 +2461,6 @@ html[dir=rtl][data-sap-ui-browser^=ed] .sapMOHStatusFixedWidth {
   text-align: left;
 }
 /* Styles for Responsive Object Header */
-div[class*='sapMOHRBg'] {
-  padding-bottom: 1.5rem;
-}
-.sap-desktop.sapUiMedia-Std-Phone div[class*='sapMOHRBg'],
-.sap-phone div[class*='sapMOHRBg'] {
-  padding-bottom: 1rem;
-}
 .sapMOHR {
   width: 100%;
   height: 100%;
@@ -2477,6 +2470,13 @@ div[class*='sapMOHRBg'] {
 .sap-desktop.sapUiMedia-Std-Phone .sapMOHR,
 .sap-phone .sapMOHR {
   padding: 0.625rem 1rem 0 1rem;
+}
+div[class*='sapMOHRBg']:only-child {
+  padding-bottom: 1.5rem;
+}
+.sap-desktop.sapUiMedia-Std-Phone div[class*='sapMOHRBg']:only-child,
+.sap-phone div[class*='sapMOHRBg']:only-child {
+  padding-bottom: 1rem;
 }
 /* Group1 (title, flags and number) */
 .sapMOHRTitleNumberDiv {
@@ -3941,10 +3941,6 @@ html[data-sap-ui-browser*='ie'] .sapMRISelector {
   overflow: hidden;
   position: relative;
   /* to make the iScroll scrollbars appear at the correct position, if enabled */
-}
-.sapMScrollContScroll {
-  display: inline-block;
-  /* to make this content wrapper as large as its content */
 }
 .sapMScrollContV .sapMScrollContScroll {
   display: block;

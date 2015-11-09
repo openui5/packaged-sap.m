@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		 * @extends sap.ui.core.Control
 		 *
 		 * @author SAP SE
-		 * @version 1.28.21
+		 * @version 1.28.22
 		 *
 		 * @constructor
 		 * @public
@@ -137,7 +137,9 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 			this.destroyItems();
 			this.updateAggregation("items");
 			this._bDataAvailable = true;
-			this.synchronizeSelection();
+
+			// note: synchronize the selection after the properties (models and bindingContext) are propagated
+			setTimeout(this.synchronizeSelection.bind(this), 0);
 		};
 
 		/**
@@ -478,17 +480,13 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 			// it does not have the default value
 			if (vItem && (sKey !== "")) {
 
-				// update and synchronize "selectedItem" association and
-				// "selectedKey" property
+				// update and synchronize "selectedItem" association and "selectedKey" property
 				this.setAssociation("selectedItem", vItem, true);
 				this.setProperty("selectedItemId", vItem.getId(), true);
 
 			// the aggregation items is not bound or
 			// it is bound and the data is already available
 			} else if (this.getDefaultSelectedItem() && (!this.isBound("items") || this._bDataAvailable)) {
-
-				// update and synchronize "selectedItem" association,
-				// "selectedKey" and "selectedItemId" properties
 				this.setSelection(this.getDefaultSelectedItem());
 			}
 		};
@@ -659,11 +657,11 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		SelectList.prototype.setSelectedItem = function(vItem) {
 
 			if (typeof vItem === "string") {
+				this.setAssociation("selectedItem", vItem, true);
 				vItem = sap.ui.getCore().byId(vItem);
 			}
 
 			if (!(vItem instanceof sap.ui.core.Item) && vItem !== null) {
-				jQuery.sap.log.warning('Warning: setSelectedItem() "vItem" has to be an instance of sap.ui.core.Item, a valid sap.ui.core.Item id, or null on', this);
 				return this;
 			}
 
