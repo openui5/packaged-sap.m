@@ -19,7 +19,7 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.32.5
+	 * @version 1.32.6
 	 *
 	 * @constructor
 	 * @public
@@ -1362,14 +1362,13 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 				oDialog.destroy();
 			}
 		}).open();
-		
+
 		function onPressOk () {
 			var bAbort = false;
 			// if the file is already loaded send a delete request to the application
 			for (var i = 0; i < this.aItems.length; i++) {
 				if (this.aItems[i]._status === UploadCollection._uploadingStatus &&
 						this.aItems[i]._requestIdName === oItem._requestIdName) {
-					this.aItems[i]._status = UploadCollection._toBeDeletedStatus;
 					bAbort = true;
 					break;
 				} else if (oItem.getFileName() === this.aItems[i].getFileName() &&

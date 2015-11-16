@@ -959,15 +959,6 @@ html[dir=rtl] .sapMDTICustomDateTime .dwc:last-child {
   padding-bottom: 2.5rem;
   padding-top: 2.5rem;
 }
-.sapUiSizeCompact.sapMDialog .sapMBarLeft,
-.sapUiSizeCompact .sapMDialog .sapMBarLeft,
-.sapUiSizeCompact.sapMDialog .sapMBarRight,
-.sapUiSizeCompact .sapMDialog .sapMBarRight,
-.sapUiSizeCompact.sapMDialog .sapMBarPH,
-.sapUiSizeCompact .sapMDialog .sapMBarPH {
-  height: 2.5rem;
-  line-height: 2.5rem;
-}
 .sapUiSizeCompact.sapMDialog.sapMDialogWithSubHeader,
 .sapUiSizeCompact .sapMDialog.sapMDialogWithSubHeader {
   padding-top: 5rem;
@@ -987,6 +978,10 @@ html[dir=rtl] .sapMDTICustomDateTime .dwc:last-child {
 .sapUiSizeCompact.sapMDialog > .sapMDialogTitle,
 .sapUiSizeCompact .sapMDialog > .sapMDialogTitle {
   height: 2.5rem;
+}
+.sapUiSizeCompact.sapMDialog > .sapMDialogTitle .sapMBarPH,
+.sapUiSizeCompact .sapMDialog > .sapMDialogTitle .sapMBarPH {
+  line-height: 2.5rem;
 }
 .sapUiSizeCompact.sapMDialog > .sapMDialogSection,
 .sapUiSizeCompact .sapMDialog > .sapMDialogSection {
@@ -1626,6 +1621,9 @@ span.sapMImg {
   display: inline-Block;
   height: 100%;
 }
+.sapMInputValHelpInner.sapUiIcon {
+  vertical-align: top;
+}
 /* ============================================= */
 /* CSS for control sap.m/InputBase.control       */
 /* ============================================= */
@@ -1762,15 +1760,15 @@ html[dir=rtl] .sapMILIDiv {
 /* Overwrites for Label in Form */
 /* ============================ */
 /* GridLayout */
-.sapUiGridLabel > .sapMLabel {
+td.sapUiFormElementLbl > .sapMLabel {
   float: left;
 }
 /* ResponsiveGridLayout */
 /* make labels right aligned if left from fields*/
-.sapUiRespGridMedia-Std-Phone.sapUiFormResGridCont > .sapUiFormResGridLbl:not(.sapUiRespGridSpanS12) > .sapMLabel,
-.sapUiRespGridMedia-Std-Tablet.sapUiFormResGridCont > .sapUiFormResGridLbl:not(.sapUiRespGridSpanM12) > .sapMLabel,
-.sapUiRespGridMedia-Std-Desktop.sapUiFormResGridCont > .sapUiFormResGridLbl:not(.sapUiRespGridSpanL12) > .sapMLabel,
-.sapUiRespGridMedia-Std-LargeDesktop.sapUiFormResGridCont > .sapUiFormResGridLbl:not(.sapUiRespGridSpanXL12) > .sapMLabel {
+.sapUiRespGridMedia-Std-Phone.sapUiFormResGridCont > .sapUiFormElementLbl:not(.sapUiRespGridSpanS12) > .sapMLabel,
+.sapUiRespGridMedia-Std-Tablet.sapUiFormResGridCont > .sapUiFormElementLbl:not(.sapUiRespGridSpanM12) > .sapMLabel,
+.sapUiRespGridMedia-Std-Desktop.sapUiFormResGridCont > .sapUiFormElementLbl:not(.sapUiRespGridSpanL12) > .sapMLabel,
+.sapUiRespGridMedia-Std-LargeDesktop.sapUiFormResGridCont > .sapUiFormElementLbl:not(.sapUiRespGridSpanXL12) > .sapMLabel {
   float: left;
 }
 /* ============================================= */
@@ -1990,6 +1988,7 @@ html[dir=rtl] .sapMILIDiv {
   flex: 1;
   -ms-flex-negative: 1;
   /* IE10 does not shrink by auto */
+  max-width: 100%;
 }
 .sapMLIBTypeNavigation {
   -webkit-user-select: none;
@@ -4414,10 +4413,6 @@ html[data-sap-ui-browser*='ie'] .sapMRISelector {
 	*/
   -webkit-transform: translateZ(0);
   transform: translateZ(0);
-}
-.sapMScrollContScroll {
-  display: inline-block;
-  /* to make this content wrapper as large as its content */
 }
 .sapMScrollContV .sapMScrollContScroll {
   display: block;

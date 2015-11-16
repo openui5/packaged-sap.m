@@ -740,6 +740,7 @@
 		  "since": "1.12",
 		  "samples": [
 			"sap.m.sample.Table",
+			"sap.m.sample.TableColumnWidth",
 			"sap.m.sample.TableBreadcrumb",
 			"sap.m.sample.TableLayout",
 			"sap.m.sample.TableMergeCells",
@@ -1527,7 +1528,7 @@
 		{
 		  "id": "sap.m.sample.InputTypes",
 		  "name": "Input - Types",
-		  "description": "On touch devices the 'type' of the input controls the keyboard layout. On keyboard devices this setting has no effect."
+		  "description": "Input type corresponds to the type attribute of the HTML input tag. On touch devices, it controls the keyboard layout. On desktop, the effect of this setting is browser dependent."
 		},
 		{
 		  "id": "sap.m.sample.InputPassword",
@@ -1660,6 +1661,11 @@
 		  "description": "You can use fixedLayout property to define the layout algorithm to be used for the table cells, rows, and columns.\nWhen fixedLayout property is set to false, the width of the table and its cells depends on the content thereof. The column width is set by the widest unbreakable content in the cells.\nBy default, table is rendered with fixed layout algorithm. This means the horizontal layout only depends on the table's width and the width of the columns, not the contents of the cells. Cells in subsequent rows do not affect column widths."
 		},
 		{
+		  "id": "sap.m.sample.TableColumnWidth",
+		  "name": "Table - Defining Column Width",
+		  "description": "While defining the column width you can use percent values but you should be careful with them. Click to see some traps and tipps."
+		},
+		{
 		  "id": "sap.m.sample.TablePerso",
 		  "name": "Table - Personalization",
 		  "description": "The Table Perso Dialog is a simple dialog to be used for allowing the user to set table personalizations, specifically column visibility and order. Use the Table Perso Controller in conjunction with a persistence service based on the abstract Table Perso Provider to have changes made and persisted."
@@ -1667,7 +1673,7 @@
 		{
 		  "id": "sap.m.sample.TableMergeCells",
 		  "name": "Table - Merge Cells",
-		  "description": "With column duplicate merging, you can improve the display of repeated data. See the effect of mergeDuplicates on the Supplier column, space permitting."
+		  "description": "With column duplicate merging, you can improve the display of repeated data. See the effect of mergeDuplicates on the Supplier column, space permitting.\nNote: This feature is ignored if a column is shown in the pop-in."
 		},
 		{
 		  "id": "sap.m.sample.TableVerticalAlignment",

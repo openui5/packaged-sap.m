@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './ComboBoxBase', './ComboBoxBaseRenderer','
 		 * @extends sap.m.ComboBoxBase
 		 *
 		 * @author SAP SE
-		 * @version 1.32.5
+		 * @version 1.32.6
 		 *
 		 * @constructor
 		 * @public
@@ -1182,11 +1182,11 @@ sap.ui.define(['jquery.sap.global', './ComboBoxBase', './ComboBoxBaseRenderer','
 		ComboBox.prototype.setSelectedItem = function(vItem) {
 
 			if (typeof vItem === "string") {
+				this.setAssociation("selectedItem", vItem, true);
 				vItem = sap.ui.getCore().byId(vItem);
 			}
 
 			if (!(vItem instanceof sap.ui.core.Item) && vItem !== null) {
-				jQuery.sap.log.warning('Warning: setSelectedItem() "vItem" has to be an instance of sap.ui.core.Item, a valid sap.ui.core.Item id, or null on', this);
 				return this;
 			}
 
@@ -1260,13 +1260,17 @@ sap.ui.define(['jquery.sap.global', './ComboBoxBase', './ComboBoxBaseRenderer','
 		 */
 		ComboBox.prototype.setSelectedKey = function(sKey) {
 			sKey = this.validateProperty("selectedKey", sKey);
+			var bDefaultKey = (sKey === "");
+
+			if (bDefaultKey) {
+				this.setSelection(null);
+				this.setValue("");
+				return this;
+			}
+
 			var oItem = this.getItemByKey(sKey);
 
-			if (oItem || (sKey === "")) {
-
-				if (!oItem && sKey === "") {
-					oItem = this.getDefaultSelectedItem();
-				}
+			if (oItem) {
 
 				this.setSelection(oItem);
 

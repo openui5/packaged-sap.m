@@ -17,7 +17,7 @@ sap.ui.define([
 	 * @param {object} [mSettings] initial settings for the new control
 	 * @class The ConditionPanel Control will be used to implement the Sorting, Filtering and Grouping panel of the new Personalization dialog.
 	 * @extends sap.m.P13nPanel
-	 * @version 1.32.5
+	 * @version 1.32.6
 	 * @constructor
 	 * @public
 	 * @experimental since version 1.26 !!! THIS CONTROL IS ONLY FOR INTERNAL USE !!!
@@ -617,7 +617,7 @@ sap.ui.define([
 				"ID": "operation",
 				"Label": "",
 				"SpanFilter": "L2 M5 S10",
-				"SpanSort": "L5 M5 S9",
+				"SpanSort": sap.ui.Device.system.phone ? "L5 M5 S8" : "L5 M5 S9",
 				"SpanGroup": "L2 M5 S10",
 				"Control": "ComboBox",
 				"SelectedKey": "0"
@@ -649,7 +649,7 @@ sap.ui.define([
 		];
 		this._oButtonGroupSpan = {
 			"SpanFilter": "L1 M2 S2",
-			"SpanSort": "L2 M2 S3",
+			"SpanSort": sap.ui.Device.system.phone ? "L2 M2 S4" : "L2 M2 S3",
 			"SpanGroup": "L2 M2 S3"
 		};
 		this._updateConditionFieldSpans(this.getLayoutMode());
@@ -2089,40 +2089,38 @@ sap.ui.define([
 			}
 		}
 
-		if (!isLast) {
-			var fnFormatFieldValue = function(oCtrl) {
-				var oConditionGrid = oCtrl.getParent();
-				var sValue = oCtrl.getValue && oCtrl.getValue();
+		var fnFormatFieldValue = function(oCtrl) {
+			var oConditionGrid = oCtrl.getParent();
+			var sValue = oCtrl.getValue && oCtrl.getValue();
 
-				if (!oConditionGrid) {
-					return;
-				}
-
-				if (this.getDisplayFormat() === "UpperCase" && sValue) {
-					sValue = sValue.toUpperCase();
-					oCtrl.setValue(sValue);
-				}
-
-				if (oConditionGrid.oFormatter && sValue) {
-					var oValue = oConditionGrid.oFormatter.parse(sValue);
-					if (!isNaN(oValue) && oValue !== null) {
-						sValue = oConditionGrid.oFormatter.format(oValue);
-						oCtrl.setValue(sValue);
-						oCtrl.setValueState(sap.ui.core.ValueState.None);
-						oCtrl.setValueStateText("");
-					} else {
-						oCtrl.setValueState(sap.ui.core.ValueState.Warning);
-						oCtrl.setValueStateText(this._sValidationDialogFieldMessage);
-					}
-				}
-			};
-
-			jQuery.proxy(fnFormatFieldValue, this)(value1);
-			jQuery.proxy(fnFormatFieldValue, this)(value2);
-
-			if ((value1.getVisible() && value1.getValueState() !== sap.ui.core.ValueState.None) || (value2.getVisible() && value2.getValueState() !== sap.ui.core.ValueState.None)) {
-				bValid = false;
+			if (!oConditionGrid) {
+				return;
 			}
+
+			if (this.getDisplayFormat() === "UpperCase" && sValue) {
+				sValue = sValue.toUpperCase();
+				oCtrl.setValue(sValue);
+			}
+
+			if (oConditionGrid.oFormatter && sValue) {
+				var oValue = oConditionGrid.oFormatter.parse(sValue);
+				if (!isNaN(oValue) && oValue !== null) {
+					sValue = oConditionGrid.oFormatter.format(oValue);
+					oCtrl.setValue(sValue);
+					oCtrl.setValueState(sap.ui.core.ValueState.None);
+					oCtrl.setValueStateText("");
+				} else {
+					oCtrl.setValueState(sap.ui.core.ValueState.Warning);
+					oCtrl.setValueStateText(this._sValidationDialogFieldMessage);
+				}
+			}
+		};
+
+		jQuery.proxy(fnFormatFieldValue, this)(value1);
+		jQuery.proxy(fnFormatFieldValue, this)(value2);
+
+		if ((value1.getVisible() && value1.getValueState() !== sap.ui.core.ValueState.None) || (value2.getVisible() && value2.getValueState() !== sap.ui.core.ValueState.None)) {
+			bValid = false;
 		}
 
 		return bValid;

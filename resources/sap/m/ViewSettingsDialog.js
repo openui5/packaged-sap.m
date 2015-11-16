@@ -1,8 +1,8 @@
 /*!
-* UI development toolkit for HTML5 (OpenUI5)
+ * UI development toolkit for HTML5 (OpenUI5)
  * (c) Copyright 2009-2015 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
-*/
+ */
 
 // Provides control sap.m.ViewSettingsDialog.
 sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/core/IconPool'],
@@ -20,7 +20,7 @@ function(jQuery, library, Control, IconPool) {
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.32.5
+	 * @version 1.32.6
 	 *
 	 * @constructor
 	 * @public
@@ -982,9 +982,9 @@ function(jQuery, library, Control, IconPool) {
 	 */
 	ViewSettingsDialog.prototype._getSegmentedButton = function() {
 		var that                = this,
-			aCustomTabs         = this.getCustomTabs(),
-			iCustomTabsLength   = aCustomTabs.length,
-			i                   = 0;
+		    aCustomTabs         = this.getCustomTabs(),
+		    iCustomTabsLength   = aCustomTabs.length,
+		    i                   = 0;
 
 		if (this._segmentedButton === undefined) {
 			this._segmentedButton = new sap.m.SegmentedButton({
@@ -1064,10 +1064,11 @@ function(jQuery, library, Control, IconPool) {
 
 	/**
 	 * Lazy initialization of the internal page1 (sort/group/filter).
+	 * @param {boolean} bSuppressCreation If true, no page will be create in case it doesn't exist.
 	 * @private
 	 */
-	ViewSettingsDialog.prototype._getPage1 = function() {
-		if (this._page1 === undefined) {
+	ViewSettingsDialog.prototype._getPage1 = function(bSuppressCreation) {
+		if (this._page1 === undefined && !bSuppressCreation) {
 			this._page1 = new sap.m.Page(this.getId() + '-page1', {
 				title           : this._rb.getText("VIEWSETTINGS_TITLE"),
 				customHeader    : this._getHeader()
@@ -1456,6 +1457,12 @@ function(jQuery, library, Control, IconPool) {
 
 			this._getSegmentedButton().setSelectedButton(sSelectedButtonId);
 			this._switchToPage(sPageId);
+
+			/* 1580045867 2015: make sure navContainer's current page is always page1,
+			because at this point we are always switching to sort,group,filter or custom tab.*/
+			if (this._getNavContainer().getCurrentPage() !== this._getPage1()) {
+				this._getNavContainer().to(this._getPage1().getId());
+			}
 		}
 	};
 
@@ -1594,34 +1601,6 @@ function(jQuery, library, Control, IconPool) {
 		}
 	};
 
-	/**
-	 * Checks if the main page instance has content from a custom tab and if so, sets the content back to the custom tab instance
-	 * in order to preserve it for further usage.
-	 * @private
-	 */
-	ViewSettingsDialog.prototype._preserveCustomTabContentAggregation = function () {
-		var oCurrentPage1Content = this._getPage1().getContent();
-		// if there is existing page content and the last opened page was a custom tab
-		if (
-			oCurrentPage1Content.length &&
-			this._vContentPage      !== -1 &&
-			this._vContentPage      !== 0 &&
-			this._vContentPage      !== 1 &&
-			this._vContentPage      !== 2 &&
-			this._vContentPage      !== 3
-		) {
-			/* the iContentPage property corresponds to a custom tab id - set the
-			 custom tab content aggregation back to the corresponding custom tab instance, so it can be reused later */
-			this.getCustomTabs().forEach(function (oCustomTab) {
-				if (oCustomTab.getId() === this._vContentPage) {
-					oCurrentPage1Content.forEach(function (oContent) {
-						oCustomTab.addContent(oContent);
-					});
-				}
-			}, this);
-		}
-	};
-
 
 	/**
 	 * Overwrites the model setter to reset the remembered page in case it was a filter detail page, to make sure
@@ -1703,7 +1682,10 @@ function(jQuery, library, Control, IconPool) {
 		}
 
 		// needed because the content aggregation is changing it's owner control from custom tab to page and vice-versa
-		this._preserveCustomTabContentAggregation();
+		// if there is existing page content and the last opened page was a custom tab
+		if (isLastPageContentCustomTab.call(this)) {
+			restoreCustomTabContentAggregation.call(this);
+		}
 
 		// reset controls
 		oHeader.removeAllContentRight();
@@ -2042,11 +2024,11 @@ function(jQuery, library, Control, IconPool) {
 				    filterString        : that.getSelectedFilterString()
 			    };
 
-				// detach this function
-				that._dialog.detachAfterClose(fnAfterClose);
-				// fire confirm event
-				that.fireConfirm(oSettingsState);
-			};
+			    // detach this function
+			    that._dialog.detachAfterClose(fnAfterClose);
+			    // fire confirm event
+			    that.fireConfirm(oSettingsState);
+		    };
 
 		// attach the reset function to afterClose to hide the dialog changes from
 		// the end user
@@ -2126,8 +2108,8 @@ function(jQuery, library, Control, IconPool) {
 	 */
 	ViewSettingsDialog.prototype._addResetButtonToPage1 = function() {
 		var oHeader         = this._getHeader(),
-			oSubHeader      = this._getSubHeader(),
-			oResetButton    = this._getResetButton();
+		    oSubHeader      = this._getSubHeader(),
+		    oResetButton    = this._getResetButton();
 
 		// set subheader when there are multiple tabs active
 		if (this._showSubHeader) {
@@ -2148,6 +2130,106 @@ function(jQuery, library, Control, IconPool) {
 	/* end: event handlers */
 	/* =========================================================== */
 
+	/**
+	 * Overwrite the method to make sure the proper internal managing of the aggregations takes place.
+	 * @param {string} sAggregationName The string identifying the aggregation that the given object should be removed from
+	 * @param {int | string | sap.ui.base.ManagedObject} vObject The position or ID of the ManagedObject that should be removed or that ManagedObject itself
+	 * @param {boolean} bSuppressInvalidate If true, this ManagedObject is not marked as changed
+	 * @returns {sap.m.ViewSettingsDialog} This pointer for chaining
+	 */
+	ViewSettingsDialog.prototype.removeAggregation = function (sAggregationName, vObject, bSuppressInvalidate) {
+		// custom tabs aggregation needs special handling - make sure it happens
+		restoreCustomTabContentAggregation.call(this, sAggregationName, vObject);
+
+		return sap.ui.core.Control.prototype.removeAggregation.call(this, sAggregationName, vObject,
+			bSuppressInvalidate);
+	};
+
+	/**
+	 * Overwrite the method to make sure the proper internal managing of the aggregations takes place.
+	 * @param {string} sAggregationName The string identifying the aggregation that the given object should be removed from
+	 * @param {int | string | sap.ui.base.ManagedObject} vObject tThe position or ID of the ManagedObject that should be removed or that ManagedObject itself
+	 * @param {boolean} bSuppressInvalidate If true, this ManagedObject is not marked as changed
+	 * @returns {sap.m.ViewSettingsDialog} This pointer for chaining
+	 */
+	ViewSettingsDialog.prototype.removeAllAggregation = function (sAggregationName, bSuppressInvalidate) {
+		// custom tabs aggregation needs special handling - make sure it happens
+		restoreCustomTabContentAggregation.call(this);
+
+		return sap.ui.core.Control.prototype.removeAllAggregation.call(this, sAggregationName, bSuppressInvalidate);
+	};
+
+	/**
+	 * Overwrite the method to make sure the proper internal managing of the aggregations takes place.
+	 * @param {string} sAggregationName The string identifying the aggregation that the given object should be removed from
+	 * @param {int | string | sap.ui.base.ManagedObject} vObject tThe position or ID of the ManagedObject that should be removed or that ManagedObject itself
+	 * @param {boolean} bSuppressInvalidate If true, this ManagedObject is not marked as changed
+	 * @returns {sap.m.ViewSettingsDialog} This pointer for chaining
+	 */
+	ViewSettingsDialog.prototype.destroyAggregation = function (sAggregationName, bSuppressInvalidate) {
+		// custom tabs aggregation needs special handling - make sure it happens
+		restoreCustomTabContentAggregation.call(this);
+
+		return sap.ui.core.Control.prototype.destroyAggregation.call(this, sAggregationName, bSuppressInvalidate);
+	};
+
+	/**
+	 * Handle the "content" aggregation of a custom tab, as the items in it might be transferred to the dialog page
+	 * instance.
+	 * @param {string} sAggregationName The string identifying the aggregation that the given object should be removed from
+	 * @param {object} oCustomTab Custom tab instance
+	 * @private
+	 */
+	function restoreCustomTabContentAggregation(sAggregationName, oCustomTab) {
+		// Make sure page1 exists, as this method may be called on destroy(), after the page was destroyed
+		// Suppress creation of new page as the following logic is needed only when a page already exists
+		if (!this._getPage1(true)) {
+			return;
+		}
+
+		// only the 'customTabs' aggregation is manipulated with shenanigans
+		if (sAggregationName === 'customTabs' && oCustomTab) {
+			/* oCustomTab must be an instance of the "customTab" aggregation type and must be the last opened page */
+			if (oCustomTab.getMetadata().getName() === this.getMetadata().getManagedAggregation(sAggregationName).type &&
+				this._vContentPage === oCustomTab.getId()) {
+				/* the iContentPage property corresponds to the custom tab id - set the custom tab content aggregation
+				 back to the custom tab instance */
+				var oPage1Content = this._getPage1().getContent();
+				oPage1Content.forEach(function (oContent) {
+					oCustomTab.addAggregation('content', oContent, true);
+				});
+			}
+		} else if (!sAggregationName && !oCustomTab) {
+			/* when these parameters are missing, cycle through all custom tabs and detect if any needs manipulation */
+			var oPage1Content = this._getPage1().getContent();
+			/* the vContentPage property corresponds to a custom tab id - set the  custom tab content aggregation back
+			 to the corresponding custom tab instance, so it can be reused later */
+			this.getCustomTabs().forEach(function (oCustomTab) {
+				if (this._vContentPage === oCustomTab.getId()) {
+					oPage1Content.forEach(function (oContent) {
+						oCustomTab.addAggregation('content', oContent, true);
+					});
+				}
+			}, this);
+		}
+	}
+
+	/**
+	 * Determine if the last opened page has custom tab contents
+	 * @private
+	 * @returns {boolean}
+	 */
+	function isLastPageContentCustomTab() {
+		// ToDo: make this into enumeration
+		var aPageIds = [
+			-1, // not set
+			0,  // sort
+			1,  // group
+			2,  // filter
+			3   // filter detail
+		];
+		return (this._getPage1().getContent().length && aPageIds.indexOf(this._vContentPage) === -1);
+	}
 
 	return ViewSettingsDialog;
 
