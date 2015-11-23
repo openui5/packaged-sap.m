@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		 * @extends sap.ui.core.Control
 		 *
 		 * @author SAP SE
-		 * @version 1.28.22
+		 * @version 1.28.23
 		 *
 		 * @constructor
 		 * @public
@@ -134,11 +134,19 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		 *
 		 */
 		SelectList.prototype.updateItems = function(sReason) {
+			this._bDataAvailable = false;
 			this.destroyItems();
 			this.updateAggregation("items");
 			this._bDataAvailable = true;
 
-			// note: synchronize the selection after the properties (models and bindingContext) are propagated
+			// Try to synchronize the selection (synchronous), but if any item's key match with the value of the "selectedKey" property,
+			// don't force the first enabled item to be selected when the forceSelection property is set to true.
+			// It could be possible that the items' properties (models and bindingContext) are not propagated at this point.
+			this.synchronizeSelection({
+				forceSelection: false
+			});
+
+			// the properties (models and bindingContext) should be propagated
 			setTimeout(this.synchronizeSelection.bind(this), 0);
 		};
 
@@ -466,11 +474,17 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		 *
 		 * @protected
 		 */
-		SelectList.prototype.synchronizeSelection = function() {
+		SelectList.prototype.synchronizeSelection = function(mOptions) {
 
 			// the "selectedKey" property is set and it is synchronized with the "selectedItem" association
 			if (this.isSelectionSynchronized()) {
 				return;
+			}
+
+			var bForceSelection = true;
+
+			if (mOptions) {
+				bForceSelection = !!mOptions.forceSelection;
 			}
 
 			var sKey = this.getSelectedKey(),
@@ -486,7 +500,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 
 			// the aggregation items is not bound or
 			// it is bound and the data is already available
-			} else if (this.getDefaultSelectedItem() && (!this.isBound("items") || this._bDataAvailable)) {
+			} else if (bForceSelection && this.getDefaultSelectedItem() && (!this.isBound("items") || this._bDataAvailable)) {
 				this.setSelection(this.getDefaultSelectedItem());
 			}
 		};

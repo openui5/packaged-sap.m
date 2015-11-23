@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './Popov
 		 * @extends sap.ui.core.Control
 		 *
 		 * @author SAP SE
-		 * @version 1.28.22
+		 * @version 1.28.23
 		 *
 		 * @constructor
 		 * @public
@@ -1170,7 +1170,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './Popov
 		 * @param {array} [aItems]
 		 */
 		Select.prototype.synchronizeSelection = function() {
-			SelectList.prototype.synchronizeSelection.call(this);
+			SelectList.prototype.synchronizeSelection.apply(this, arguments);
 		};
 
 		/**

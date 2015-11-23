@@ -19,7 +19,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.28.22
+	 * @version 1.28.23
 	 *
 	 * @constructor
 	 * @public
@@ -800,7 +800,6 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 			this._popup.setContent($Content[0]);
 
 			this._popup.close(0);
-			var that = this;
 			this._popup.open(
 				this.iOpenMessagePopupDuration,
 				bIsRightAligned ? mDock.EndTop : mDock.BeginTop,
@@ -808,9 +807,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 				this.getDomRefForValueStateMessage(),
 				null,
 				null,
-				function() {
-					that._popup.close();
-				}
+				sap.ui.Device.system.phone ? true : Popup.CLOSE_ON_SCROLL
 			);
 
 			// Check whether popup is below or above the input
