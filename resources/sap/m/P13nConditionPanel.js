@@ -17,7 +17,7 @@ sap.ui.define([
 	 * @param {object} [mSettings] initial settings for the new control
 	 * @class The ConditionPanel Control will be used to implement the Sorting, Filtering and Grouping panel of the new Personalization dialog.
 	 * @extends sap.m.P13nPanel
-	 * @version 1.32.6
+	 * @version 1.32.7
 	 * @constructor
 	 * @public
 	 * @experimental since version 1.26 !!! THIS CONTROL IS ONLY FOR INTERNAL USE !!!
@@ -1045,11 +1045,16 @@ sap.ui.define([
 								oControl.setSelectedItem(oControl.getItemByKey(sValue.toString()));
 							}
 						} else {
+							
 							if (!isNaN(oValue) && oValue !== null && oConditionGrid.oFormatter) {
 								sValue = oConditionGrid.oFormatter.format(oValue);
 								oControl.setValue(sValue);
 								// oCtrl.setValueState(sap.ui.core.ValueState.None);
 							} else {
+								if (typeof sValue === "string" && oConditionGrid.oFormatter instanceof sap.ui.core.format.NumberFormat) {
+									oValue = parseFloat(sValue);
+									sValue = oConditionGrid.oFormatter.format(oValue);
+								} 
 
 								if (!oValue && sValue && oConditionGrid.oFormatter instanceof sap.ui.core.format.DateFormat) {
 									oValue = new Date(sValue);

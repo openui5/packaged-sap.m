@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './ComboBoxBase', './ComboBoxBaseRenderer','
 		 * @extends sap.m.ComboBoxBase
 		 *
 		 * @author SAP SE
-		 * @version 1.32.6
+		 * @version 1.32.7
 		 *
 		 * @constructor
 		 * @public
@@ -433,9 +433,6 @@ sap.ui.define(['jquery.sap.global', './ComboBoxBase', './ComboBoxBaseRenderer','
 			if (!this.getEnabled() || !this.getEditable()) {
 				return;
 			}
-
-			// mark the event for components that needs to know if the event was handled
-			oEvent.setMarked();
 
 			var mKeyCode = jQuery.sap.KeyCodes;
 			this._bDoTypeAhead = (oEvent.which !== mKeyCode.BACKSPACE) && (oEvent.which !== mKeyCode.DELETE);
