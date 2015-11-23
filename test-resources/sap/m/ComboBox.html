@@ -1,0 +1,613 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta charset="UTF-8">
+		<title>sap.m.ComboBox</title>
+		<script id="sap-ui-bootstrap"
+				src="../../../resources/sap-ui-core.js"
+				data-sap-ui-libs="sap.m"
+				data-sap-ui-theme="sap_bluecrystal"
+				data-sap-ui-xx-bindingSyntax="complex">
+		</script>
+		<style type="text/css">
+			.customLabel {
+				margin: 0 0.5rem;
+				vertical-align: middle;
+				vertical-align: -webkit-baseline-middle;
+			}
+		</style>
+		<script>
+		var oModel = new sap.ui.model.json.JSONModel();
+		var mData = {
+			"items": [
+				{
+					"key": "DZ",
+					"text": "Algeria",
+					"additionalText": "DZ"
+				},
+
+				{
+					"key": "AR",
+					"text": "Argentina",
+					"additionalText": "AR"
+				},
+
+				{
+					"key": "AU",
+					"text": "Australia",
+					"additionalText": "AU"
+				},
+
+				{
+					"key": "AT",
+					"text": "Austria",
+					"additionalText": "AT"
+				},
+
+				{
+					"key": "BH",
+					"text": "Bahrain",
+					"additionalText": "BH"
+				},
+
+				{
+					"key": "BE",
+					"text": "Belgium",
+					"additionalText": "BE"
+				},
+
+				{
+					"key": "BA",
+					"text": "Bosnia and Herzegovina",
+					"additionalText": "BA"
+				},
+
+				{
+					"key": "BR",
+					"text": "Brazil",
+					"additionalText": "BR"
+				},
+
+				{
+					"key": "BG",
+					"text": "Bulgaria",
+					"additionalText": "BG"
+				},
+
+				{
+					"key": "CA",
+					"text": "Canada",
+					"additionalText": "CA"
+				},
+
+				{
+					"key": "CL",
+					"text": "Chile",
+					"additionalText": "CL"
+				},
+
+				{
+					"key": "CO",
+					"text": "Colombia",
+					"additionalText": "CO"
+				},
+
+				{
+					"key": "HR",
+					"text": "Croatia",
+					"additionalText": "HR"
+				},
+
+				{
+					"key": "CU",
+					"text": "Cuba",
+					"additionalText": "CU"
+				},
+
+				{
+					"key": "CZ",
+					"text": "Czech Republic",
+					"additionalText": "CZ"
+				},
+
+				{
+					"key": "DK",
+					"text": "Denmark",
+					"additionalText": "DK"
+				},
+
+				{
+					"key": "EG",
+					"text": "Egypt",
+					"additionalText": "EG"
+				},
+
+				{
+					"key": "EE",
+					"text": "Estonia",
+					"additionalText": "EE"
+				},
+
+				{
+					"key": "FI",
+					"text": "Finland",
+					"additionalText": "FI"
+				},
+
+				{
+					"key": "FR",
+					"text": "France",
+					"additionalText": "FR"
+				},
+
+				{
+					"key": "GER",
+					"text": "Germany",
+					"additionalText": "GER"
+				},
+
+				{
+					"key": "GH",
+					"text": "Ghana",
+					"additionalText": "GH"
+				},
+
+				{
+					"key": "GR",
+					"text": "Greece",
+					"additionalText": "GR"
+				},
+
+				{
+					"key": "HK",
+					"text": "Hong Kong",
+					"additionalText": "HK"
+				},
+
+				{
+					"key": "HU",
+					"text": "Hungary",
+					"additionalText": "HU"
+				},
+
+				{
+					"key": "IN",
+					"text": "India",
+					"additionalText": "IN"
+				},
+
+				{
+					"key": "ID",
+					"text": "Indonesia",
+					"additionalText": "ID"
+				},
+
+				{
+					"key": "IE",
+					"text": "Ireland",
+					"additionalText": "IE"
+				},
+
+				{
+					"key": "IL",
+					"text": "Israel",
+					"additionalText": "IL"
+				},
+
+				{
+					"key": "IT",
+					"text": "Italy",
+					"additionalText": "IT"
+				},
+
+				{
+					"key": "JP",
+					"text": "Japan",
+					"additionalText": "JP"
+				},
+
+				{
+					"key": "JO",
+					"text": "Jordan",
+					"additionalText": "JO"
+				},
+
+				{
+					"key": "KE",
+					"text": "Kenya",
+					"additionalText": "KE"
+				},
+
+				{
+					"key": "KW",
+					"text": "Kuwait",
+					"additionalText": "KW"
+				},
+
+				{
+					"key": "LV",
+					"text": "Latvia",
+					"additionalText": "LV"
+				},
+
+				{
+					"key": "LT",
+					"text": "Lithuania",
+					"additionalText": "LT"
+				},
+
+				{
+					"key": "MK",
+					"text": "Macedonia",
+					"additionalText": "MK"
+				},
+
+				{
+					"key": "MY",
+					"text": "Malaysia",
+					"additionalText": "MY"
+				},
+
+				{
+					"key": "MX",
+					"text": "Mexico",
+					"additionalText": "MX"
+				},
+
+				{
+					"key": "ME",
+					"text": "Montenegro",
+					"additionalText": "ME"
+				},
+
+				{
+					"key": "MA",
+					"text": "Morocco",
+					"additionalText": "MA"
+				},
+
+				{
+					"key": "NL",
+					"text": "Netherlands",
+					"additionalText": "NL"
+				},
+
+				{
+					"key": "NZ",
+					"text": "New Zealand",
+					"additionalText": "NZ"
+				},
+
+				{
+					"key": "NG",
+					"text": "Nigeria",
+					"additionalText": "NG"
+				},
+
+				{
+					"key": "NO",
+					"text": "Norway",
+					"additionalText": "NO"
+				},
+
+				{
+					"key": "OM",
+					"text": "Oman",
+					"additionalText": "OM"
+				},
+
+				{
+					"key": "PE",
+					"text": "Peru",
+					"additionalText": "PE"
+				},
+
+				{
+					"key": "PH",
+					"text": "Philippines",
+					"additionalText": "PH"
+				},
+
+				{
+					"key": "PL",
+					"text": "Poland",
+					"additionalText": "PL"
+				},
+
+				{
+					"key": "PT",
+					"text": "Portugal",
+					"additionalText": "PT"
+				},
+
+				{
+					"key": "QA",
+					"text": "Qatar",
+					"additionalText": "QA"
+				},
+
+				{
+					"key": "RO",
+					"text": "Romania",
+					"additionalText": "RO"
+				},
+
+				{
+					"key": "RU",
+					"text": "Russia",
+					"additionalText": "RU"
+				},
+
+				{
+					"key": "SA",
+					"text": "Saudi Arabia",
+					"additionalText": "SA"
+				},
+
+				{
+					"key": "SN",
+					"text": "Senegal",
+					"additionalText": "SN"
+				},
+
+				{
+					"key": "RS",
+					"text": "Serbia",
+					"additionalText": "RS"
+				},
+
+				{
+					"key": "SG",
+					"text": "Singapore",
+					"additionalText": "SG"
+				},
+
+				{
+					"key": "SK",
+					"text": "Slovakia",
+					"additionalText": "SK"
+				},
+
+				{
+					"key": "SI",
+					"text": "Slovenia",
+					"additionalText": "SI"
+				},
+
+				{
+					"key": "ZA",
+					"text": "South Africa",
+					"additionalText": "ZA"
+				},
+
+				{
+					"key": "KR",
+					"text": "South Korea",
+					"additionalText": "KR"
+				},
+
+				{
+					"key": "ES",
+					"text": "Spain",
+					"additionalText": "ES"
+				},
+
+				{
+					"key": "SE",
+					"text": "Sweden",
+					"additionalText": "SE"
+				},
+
+				{
+					"key": "CH",
+					"text": "Switzerland",
+					"additionalText": "CH"
+				},
+
+				{
+					"key": "TW",
+					"text": "Taiwan",
+					"additionalText": "TW"
+				},
+
+				{
+					"key": "TN",
+					"text": "Tunisia",
+					"additionalText": "TN"
+				},
+
+				{
+					"key": "TR",
+					"text": "Turkey",
+					"additionalText": "TR"
+				},
+
+				{
+					"key": "UG",
+					"text": "Uganda",
+					"additionalText": "UG"
+				},
+
+				{
+					"key": "UA",
+					"text": "Ukraine",
+					"additionalText": "UA"
+				},
+
+				{
+					"key": "AE",
+					"text": "United Arab Emirates",
+					"additionalText": "AE"
+				},
+
+				{
+					"key": "GB",
+					"text": "United Kingdom",
+					"additionalText": "GB"
+				},
+
+				{
+					"key": "YE",
+					"text": "Yemen",
+					"additionalText": "YE"
+				}
+		]};
+
+		oModel.setData(mData);
+		sap.ui.getCore().setModel(oModel);
+
+		var oItemTemplate = new sap.ui.core.ListItem({
+			key: "{key}",
+			text: "{text}",
+			additionalText: "{additionalText}"
+		});
+
+		var oComboBox = new sap.m.ComboBox({
+
+			items: {
+				path: "/items",
+				template: oItemTemplate
+			},
+
+			change: function(oControlEvent) {
+				jQuery.sap.log.info('Event fired: "change" the value of the input change to ' + oControlEvent.getParameter("value") + " on", this);
+				sap.m.MessageToast.show("change " + oControlEvent.getParameter("value"));
+			},
+
+			selectionChange: function(oControlEvent) {
+				var oSelectedItem = oControlEvent.getParameter("selectedItem");
+
+				if (oSelectedItem) {
+					jQuery.sap.log.info('Event fired: "selectionChange" selected item change to ' + oSelectedItem.getText() + " on", this);
+				}
+			}
+		});
+
+		var oComboBoxTwoColumn = new sap.m.ComboBox({
+			showSecondaryValues: true,
+			items: {
+				path: "/items",
+				template: oItemTemplate
+			}
+		});
+
+		var oComboBoxDefault = new sap.m.ComboBox({
+			placeholder: "List of countries",
+			items: {
+				path: "/items",
+				template: oItemTemplate
+			}
+		});
+
+		var oLabel = new sap.m.Label({
+			text: "Choose your country",
+			labelFor: oComboBoxDefault
+		}).addStyleClass("customLabel");
+
+		var oComboBoxWithPlaceholder  = new sap.m.ComboBox({
+			placeholder: "Choose your country",
+
+			items: {
+				path: "/items",
+				template: oItemTemplate
+			}
+		});
+
+		var oComboBoxDisabled  = new sap.m.ComboBox({
+			enabled: false,
+			placeholder: "Choose your country",
+			items: {
+				path: "/items",
+				template: oItemTemplate
+			}
+		});
+
+		var oComboBoxReadOnly  = new sap.m.ComboBox({
+			editable: false,
+			items: {
+				path: "/items",
+				template: oItemTemplate
+			},
+			selectedKey: "GER"
+		});
+
+		var oComboBoxSuccess = new sap.m.ComboBox({
+			valueState: sap.ui.core.ValueState.Success,
+			items: {
+				path: "/items",
+				template: oItemTemplate
+			}
+		});
+
+		var oComboBoxWarning = new sap.m.ComboBox({
+			placeholder: "List of countries",
+			valueState: sap.ui.core.ValueState.Warning,
+			valueStateText: "value state text",
+			items: {
+				path: "/items",
+				template: oItemTemplate
+			}
+		});
+
+		var oLabelWarning = new sap.m.Label({
+			text: "Choose your country",
+			labelFor: oComboBoxWarning
+		}).addStyleClass("customLabel");
+
+		var oComboBoxError = new sap.m.ComboBox({
+			valueState: sap.ui.core.ValueState.Error,
+			valueStateText: "value state text",
+			items: {
+				path: "/items",
+				template: oItemTemplate
+			}
+		});
+
+		new sap.m.App().addPage(new sap.m.Page({
+			title: "sap.m.ComboBox",
+			content: [
+				new sap.ui.core.HTML({ content: "<h3>Default</h3>" }),
+				oComboBox,
+				new sap.ui.core.HTML({ content: "<hr>" }),
+
+				new sap.ui.core.HTML({ content: "<h3>Two column layout</h3>" }),
+				oComboBoxTwoColumn,
+				new sap.ui.core.HTML({ content: "<hr>" }),
+
+				new sap.ui.core.HTML({ content: "<h3>Placeholder</h3>" }),
+				oComboBoxWithPlaceholder,
+				new sap.ui.core.HTML({ content: "<hr>" }),
+
+				new sap.ui.core.HTML({ content: "<h3>Label and placeholder</h3>" }),
+				oLabel,
+				oComboBoxDefault,
+				new sap.ui.core.HTML({ content: "<hr>" }),
+
+				new sap.ui.core.HTML({ content: "<h3>Disabled</h3>" }),
+				oComboBoxDisabled,
+				new sap.ui.core.HTML({ content: "<hr>" }),
+
+				new sap.ui.core.HTML({ content: "<h3>Read only</h3>" }),
+				oComboBoxReadOnly,
+				new sap.ui.core.HTML({ content: "<hr>" }),
+
+				new sap.ui.core.HTML({ content: "<h3>Warring state (with label and placeholder)</h3>" }),
+				oLabelWarning,
+				oComboBoxWarning,
+				new sap.ui.core.HTML({ content: "<hr>" }),
+
+				new sap.ui.core.HTML({ content: "<h3>Success state</h3>" }),
+				oComboBoxSuccess,
+				new sap.ui.core.HTML({ content: "<hr>" }),
+
+				new sap.ui.core.HTML({ content: "<h3>Error state</h3>" }),
+				oComboBoxError,
+				new sap.ui.core.HTML({ content: "<hr>" })
+			]
+		}).addStyleClass("sapUiContentPadding")).placeAt("body");
+		</script>
+	</head>
+	<body id="body" class="sapUiBody">
+	</body>
+</html>
