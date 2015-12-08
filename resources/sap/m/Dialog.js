@@ -25,7 +25,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './InstanceManager', './Associative
 		 * @implements sap.ui.core.PopupInterface
 		 *
 		 * @author SAP SE
-		 * @version 1.34.0
+		 * @version 1.34.1
 		 *
 		 * @constructor
 		 * @public
@@ -435,19 +435,6 @@ sap.ui.define(['jquery.sap.global', './Bar', './InstanceManager', './Associative
 
 			oPopup.open();
 
-			//resize handler ===========================================================================================
-			var __delayTimer;
-			jQuery(window).on('resize.sapMDialogWindowResize', function () {
-				if (__delayTimer) {
-					__delayTimer = clearTimeout(__delayTimer);
-				}
-
-				__delayTimer = setTimeout(this._onResize.bind(this), 50);
-			}.bind(this));
-
-			//set the content size so the scroller can work properly
-			this._onResize();
-
 			InstanceManager.addDialogInstance(this);
 			return this;
 		};
@@ -667,21 +654,10 @@ sap.ui.define(['jquery.sap.global', './Bar', './InstanceManager', './Associative
 
 		/**
 		 *
+		 *
 		 * @private
 		 */
 		Dialog.prototype._onResize = function () {
-			if (this.getContentHeight()) {
-				return;
-			}
-
-			var $dialog = this.$();
-			var $dialogContent = this.$('cont');
-
-			//reset the height so the dialog can grow
-			$dialogContent.height('auto');
-			//set the newly calculated size by getting it from the browser rendered layout - by the max-height
-			var dialogContentHeight = parseInt($dialog.height(), 10) + parseInt($dialog.css("border-top-width"), 10) + parseInt($dialog.css("border-bottom-width"), 10);
-			$dialogContent.height(dialogContentHeight);
 		};
 
 		/**
@@ -1340,6 +1316,8 @@ sap.ui.define(['jquery.sap.global', './Bar', './InstanceManager', './Associative
 				};
 
 				if ((isHeaderClicked(e.target) && this.getDraggable()) || bResize) {
+					that._bDisableRepositioning = true;
+
 					that._$dialog.addClass('sapDialogDisableTransition');
 					//remove the transform translate
 					that._$dialog.addClass('sapMDialogTouched');

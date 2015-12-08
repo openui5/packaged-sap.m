@@ -20,7 +20,7 @@ function(jQuery, library, Control, IconPool) {
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.34.0
+	 * @version 1.34.1
 	 *
 	 * @constructor
 	 * @public
@@ -52,25 +52,30 @@ function(jQuery, library, Control, IconPool) {
 
 			/**
 			 * The list of items with key and value that can be sorted over (for example, a list of columns for a table).
+			 * @since 1.16
 			 */
 			sortItems : {type : "sap.m.ViewSettingsItem", multiple : true, singularName : "sortItem", bindable : "bindable"},
 
 			/**
 			 * The list of items with key and value that can be grouped on (for example, a list of columns for a table).
+			 * @since 1.16
 			 */
 			groupItems : {type : "sap.m.ViewSettingsItem", multiple : true, singularName : "groupItem", bindable : "bindable"},
 
 			/**
 			 * The list of items with key and value that can be filtered on (for example, a list of columns for a table). A filterItem is associated with one or more detail filters.
+			 * @since 1.16
 			 */
 			filterItems : {type : "sap.m.ViewSettingsItem", multiple : true, singularName : "filterItem", bindable : "bindable"},
 
 			/**
 			 * The list of preset filter items that allows the selection of more complex or custom filters. These entries are displayed at the top of the filter tab.
+			 * @since 1.16
 			 */
 			presetFilterItems : {type : "sap.m.ViewSettingsItem", multiple : true, singularName : "presetFilterItem", bindable : "bindable"},
 			/**
 			 * The list of all the custom tabs.
+			 * @since 1.30
 			 */
 			customTabs: {type: "sap.m.ViewSettingsCustomTab", multiple: true, singularName: "customTab", bindable : "bindable"}
 		},
@@ -95,6 +100,7 @@ function(jQuery, library, Control, IconPool) {
 
 			/**
 			 * Indicates that the user has pressed the OK button and the selected sort, group, and filter settings should be applied to the data on this page.
+			 * </br></br><b>Note:</b> Custom tabs are not converted to event parameters automatically. For custom tabs, you have to read the state of your controls inside the callback of this event.
 			 */
 			confirm : {
 				parameters : {

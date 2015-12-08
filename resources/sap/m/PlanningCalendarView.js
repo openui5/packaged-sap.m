@@ -21,7 +21,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Element', './StandardListItem',
 	 * The <code>PlanningCalendarView</code> defines the granularity of the output. It defines what type of intervals (hours, days or months)
 	 * and how many intervals are shown.
 	 * @extends sap.ui.core.Element
-	 * @version 1.34.0
+	 * @version 1.34.1
 	 *
 	 * @constructor
 	 * @public
@@ -83,10 +83,6 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Element', './StandardListItem',
 
 		}
 	}});
-
-	(function() {
-
-	}());
 
 	return PlanningCalendarView;
 

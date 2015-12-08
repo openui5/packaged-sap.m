@@ -9,23 +9,23 @@ sap.ui.define([ 'jquery.sap.global', './library', 'sap/ui/core/Control','sap/m/T
 	"use strict";
 
 	/**
-	 * Constructor for a new sap.m.JamContent control.
+	 * Constructor for a new sap.m.FeedContent control.
 	 *
 	 * @param {string} [sId] id for the new control, generated automatically if no id is given
 	 * @param {object} [mSettings] initial settings for the new control
 	 *
-	 * @class This control displays the jam content text, subheader, and numeric value in a tile.
+	 * @class This control displays the feed content text, subheader, and numeric value in a tile.
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.34.0
+	 * @version 1.34.1
 	 * @since 1.34
 	 *
 	 * @public
-	 * @alias sap.m.JamContent
+	 * @alias sap.m.FeedContent
 	 * @ui5-metamodel This control/element also will be described in the UI5 (legacy) designtime metamodel
 	 */
-	var JamContent = Control.extend("sap.m.JamContent", /** @lends sap.m.JamContent.prototype */ {
+	var FeedContent = Control.extend("sap.m.FeedContent", /** @lends sap.m.FeedContent.prototype */ {
 		metadata : {
 
 			library : "sap.m",
@@ -70,7 +70,7 @@ sap.ui.define([ 'jquery.sap.global', './library', 'sap/ui/core/Control','sap/m/T
 			},
 			events : {
 				/**
-				 * The event is fired when the user chooses the jam content.
+				 * The event is fired when the user chooses the feed content.
 				 */
 				"press" : {}
 			}
@@ -82,7 +82,7 @@ sap.ui.define([ 'jquery.sap.global', './library', 'sap/ui/core/Control','sap/m/T
 	/**
 	 * Init function for the control
 	 */
-	JamContent.prototype.init = function() {
+	FeedContent.prototype.init = function() {
 		this._oContentText = new sap.m.Text(this.getId() + "-content-text", {
 			maxLines : 3
 		});
@@ -98,7 +98,7 @@ sap.ui.define([ 'jquery.sap.global', './library', 'sap/ui/core/Control','sap/m/T
 	 *
 	 * @returns {String} The AltText text
 	 */
-	JamContent.prototype.getAltText = function() {
+	FeedContent.prototype.getAltText = function() {
 		var sAltText = "";
 		var bIsFirst = true;
 		if (this.getAggregation("contentTextAgr").getText()) {
@@ -128,7 +128,7 @@ sap.ui.define([ 'jquery.sap.global', './library', 'sap/ui/core/Control','sap/m/T
 	 *
 	 * @returns {String} The Tooltip text
 	 */
-	JamContent.prototype.getTooltip_AsString = function() {
+	FeedContent.prototype.getTooltip_AsString = function() {
 		var oTooltip = this.getTooltip();
 		var sTooltip = this.getAltText();
 		if (typeof oTooltip === "string" || oTooltip instanceof String) {
@@ -147,9 +147,9 @@ sap.ui.define([ 'jquery.sap.global', './library', 'sap/ui/core/Control','sap/m/T
 	 * Sets the ContentText
 	 *
 	 * @param {String} text The ContentType text
-	 * @returns {sap.m.JamContent} Reference to this in order to allow method chaining
+	 * @returns {sap.m.FeedContent} Reference to this in order to allow method chaining
 	 */
-	JamContent.prototype.setContentText = function(text) {
+	FeedContent.prototype.setContentText = function(text) {
 		this._oContentText.setText(text);
 		return this;
 	};
@@ -161,7 +161,7 @@ sap.ui.define([ 'jquery.sap.global', './library', 'sap/ui/core/Control','sap/m/T
 	 *
 	 * @param {sap.ui.base.Event} oEvent which was fired
 	 */
-	JamContent.prototype.ontap = function(oEvent) {
+	FeedContent.prototype.ontap = function(oEvent) {
 		if (sap.ui.Device.browser.internet_explorer) {
 			this.$().focus();
 		}
@@ -173,7 +173,7 @@ sap.ui.define([ 'jquery.sap.global', './library', 'sap/ui/core/Control','sap/m/T
 	 *
 	 * @param {sap.ui.base.Event} oEvent which was fired
 	 */
-	JamContent.prototype.onkeydown = function(oEvent) {
+	FeedContent.prototype.onkeydown = function(oEvent) {
 		if (oEvent.which === jQuery.sap.KeyCodes.ENTER || oEvent.which === jQuery.sap.KeyCodes.SPACE) {
 			this.firePress();
 			oEvent.preventDefault();
@@ -191,9 +191,9 @@ sap.ui.define([ 'jquery.sap.global', './library', 'sap/ui/core/Control','sap/m/T
 	 * Handlers must not change the content of the event. The second argument is the specified oData instance (if present).
 	 * @param {object} [listener] The object that wants to be notified when the event occurs (this context within the handler function).
 	 * If it is not specified, the handler function is called in the context of the event provider.
-	 * @returns {sap.m.JamContent} Reference to this in order to allow method chaining
+	 * @returns {sap.m.FeedContent} Reference to this in order to allow method chaining
 	 */
-	JamContent.prototype.attachEvent = function(eventId, data, functionToCall, listener) {
+	FeedContent.prototype.attachEvent = function(eventId, data, functionToCall, listener) {
 		sap.ui.core.Control.prototype.attachEvent.call(this, eventId, data, functionToCall, listener);
 		if (this.hasListeners("press")) {
 			this.$().attr("tabindex", 0).addClass("sapMPointer");
@@ -208,9 +208,9 @@ sap.ui.define([ 'jquery.sap.global', './library', 'sap/ui/core/Control','sap/m/T
 	 * @param {string} eventId The identifier of the event to detach from
 	 * @param {function} functionToCall The handler function to detach from the event
 	 * @param {object} [listener] The object that wanted to be notified when the event occurred
-	 * @returns {sap.m.JamContent} Reference to this in order to allow method chaining
+	 * @returns {sap.m.FeedContent} Reference to this in order to allow method chaining
 	 */
-	JamContent.prototype.detachEvent = function(eventId, functionToCall, listener) {
+	FeedContent.prototype.detachEvent = function(eventId, functionToCall, listener) {
 		sap.ui.core.Control.prototype.detachEvent.call(this, eventId, functionToCall, listener);
 		if (!this.hasListeners("press")) {
 			this.$().removeAttr("tabindex").removeClass("sapMPointer");
@@ -218,5 +218,5 @@ sap.ui.define([ 'jquery.sap.global', './library', 'sap/ui/core/Control','sap/m/T
 		return this;
 	};
 
-	return JamContent;
+	return FeedContent;
 }, /* bExport= */ true);

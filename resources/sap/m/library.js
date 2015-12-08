@@ -22,14 +22,14 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/Device',
 	 * @namespace
 	 * @name sap.m
 	 * @author SAP SE
-	 * @version 1.34.0
+	 * @version 1.34.1
 	 * @public
 	 */
 
 	// delegate further initialization of this library to the Core
 	sap.ui.getCore().initLibrary({
 		name : "sap.m",
-		version: "1.34.0",
+		version: "1.34.1",
 		dependencies : ["sap.ui.core"],
 		types: [
 			"sap.m.BackgroundDesign",
@@ -108,10 +108,10 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/Device',
 			"sap.m.Dialog",
 			"sap.m.DisplayListItem",
 			"sap.m.DraftIndicator",
-			"sap.m.DynamicContainer",
 			"sap.m.FacetFilter",
 			"sap.m.FacetFilterItem",
 			"sap.m.FacetFilterList",
+			"sap.m.FeedContent",
 			"sap.m.FeedInput",
 			"sap.m.FeedListItem",
 			"sap.m.FlexBox",
@@ -125,7 +125,6 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/Device',
 			"sap.m.Input",
 			"sap.m.InputBase",
 			"sap.m.InputListItem",
-			"sap.m.JamContent",
 			"sap.m.Label",
 			"sap.m.Link",
 			"sap.m.List",
@@ -182,6 +181,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/Device',
 			"sap.m.SelectList",
 			"sap.m.Shell",
 			"sap.m.Slider",
+			"sap.m.SlideTile",
 			"sap.m.SplitApp",
 			"sap.m.SplitContainer",
 			"sap.m.StandardListItem",
@@ -379,6 +379,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/Device',
 	 *
 	 * @enum {string}
 	 * @public
+	 * @deprecated Since version 1.32.8. Instead, use dedicated <code>sap.m.DatePicker</code> and/or <code>sap.m.TimePicker</code> controls. 
 	 * @ui5-metamodel This enumeration also will be described in the UI5 (legacy) designtime metamodel
 	 */
 	sap.m.DateTimeInputType = {
@@ -386,20 +387,21 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/Device',
 		/**
 		 * An input control for specifying a date value. The user can select a month, day of the month, and year.
 		 * @public
-		 * @deprecated Since version 1.22.
-		 * Instead, use dedicated sap.m.DatePicker control.
+		 * @deprecated Since version 1.22.0. Instead, use dedicated <code>sap.m.DatePicker</code> control.
 		 */
 		Date : "Date",
 
 		/**
 		 * An input control for specifying a date and time value. The user can select a month, day of the month, year, and time of day.
 		 * @public
+		 * @deprecated Since version 1.32.8. Instead, use dedicated <code>sap.m.DatePicker</code> and <code>sap.m.TimePicker</code> controls.
 		 */
 		DateTime : "DateTime",
 
 		/**
 		 * An input control for specifying a time value. The user can select the hour, minute, and optionally AM or PM.
 		 * @public
+		 * @deprecated Since version 1.32.8. Instead, use dedicated <code>sap.m.TimePicker</code> control.
 		 */
 		Time : "Time"
 

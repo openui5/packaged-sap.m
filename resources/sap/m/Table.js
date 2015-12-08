@@ -23,7 +23,7 @@ sap.ui.define(['jquery.sap.global', './ListBase', './library'],
 	 * @extends sap.m.ListBase
 	 *
 	 * @author SAP SE
-	 * @version 1.34.0
+	 * @version 1.34.1
 	 *
 	 * @constructor
 	 * @public
@@ -84,11 +84,6 @@ sap.ui.define(['jquery.sap.global', './ListBase', './library'],
 	
 	Table.prototype.onAfterRendering = function() {
 		ListBase.prototype.onAfterRendering.call(this);
-	
-		// notify columns after rendering
-		var $Table = jQuery(this.getTableDomRef());
-		this._notifyColumns("ColumnRendered", $Table, !this.getFixedLayout());
-
 		this.updateSelectAllCheckbox();
 		this._renderOverlay();
 	};

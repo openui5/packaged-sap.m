@@ -20,7 +20,7 @@ function(jQuery, library, Control, SelectList, TabStripItem, ManagedObject) {
 	 * @extends sap.ui.core.SelectList
 	 *
 	 * @author SAP SE
-	 * @version 1.34.0
+	 * @version 1.34.1
 	 *
 	 * @constructor
 	 * @public

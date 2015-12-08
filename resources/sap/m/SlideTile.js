@@ -9,7 +9,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/G
 	"use strict";
 
 	/**
-	 * Constructor for a new sap.m.DynamicContainer control.
+	 * Constructor for a new sap.m.SlideTile control.
 	 *
 	 * @param {string} [sId] id for the new control, generated automatically if no id is given
 	 * @param {object} [mSettings] initial settings for the new control
@@ -18,14 +18,14 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/G
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.34.0
+	 * @version 1.34.1
 	 * @since 1.34
 	 *
 	 * @public
-	 * @alias sap.m.DynamicContainer
+	 * @alias sap.m.SlideTile
 	 * @ui5-metamodel This control/element also will be described in the UI5 (legacy) designtime metamodel
 	 */
-	var DynamicContainer = Control.extend("sap.m.DynamicContainer", /** @lends sap.m.DynamicContainer.prototype */ { metadata : {
+	var SlideTile = Control.extend("sap.m.SlideTile", /** @lends sap.m.SlideTile.prototype */ { metadata : {
 		library : "sap.m",
 		properties : {
 			/**
@@ -50,7 +50,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/G
 	/**
 	 * Handler for beforerendering
 	 */
-	DynamicContainer.prototype.onBeforeRendering = function() {
+	SlideTile.prototype.onBeforeRendering = function() {
 		this._stopAnimation();
 		this._sWidth = this._sHeight = undefined;
 		this._iCurrentTile = this._iPreviousTile = undefined;
@@ -59,7 +59,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/G
 	/**
 	 * Handler for afterrendering
 	 */
-	DynamicContainer.prototype.onAfterRendering = function() {
+	SlideTile.prototype.onAfterRendering = function() {
 		var cTiles = this.getTiles().length;
 		this._bAnimationPause = false;
 		this._iCurrAnimationTime = 0;
@@ -73,7 +73,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/G
 	/**
 	 * Exit function for the control
 	 */
-	DynamicContainer.prototype.exit = function() {
+	SlideTile.prototype.exit = function() {
 		this._stopAnimation();
 	};
 
@@ -84,8 +84,8 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/G
 	 *
 	 * @param {sap.ui.base.Event} oEvent which was fired
 	 */
-	DynamicContainer.prototype.ontouchstart = function(oEvent) {
-		this.addStyleClass("sapMDCHvr");
+	SlideTile.prototype.ontouchstart = function(oEvent) {
+		this.addStyleClass("sapMSTHvr");
 	};
 
 	/**
@@ -93,8 +93,8 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/G
 	 *
 	 * @param {sap.ui.base.Event} oEvent which was fired
 	 */
-	DynamicContainer.prototype.ontouchend = function(oEvent) {
-		this.removeStyleClass("sapMDCHvr");
+	SlideTile.prototype.ontouchend = function(oEvent) {
+		this.removeStyleClass("sapMSTHvr");
 	};
 
 	/**
@@ -103,7 +103,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/G
 	 * @param {sap.ui.base.Event} oEvent which was fired
 	 */
 	GenericTile.prototype.ontouchcancel = function(oEvent) {
-		this.removeStyleClass("sapMDCHvr");
+		this.removeStyleClass("sapMSTHvr");
 	};
 
 	/**
@@ -111,7 +111,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/G
 	 *
 	 * @param {sap.ui.base.Event} oEvent which was fired
 	 */
-	DynamicContainer.prototype.onkeydown = function(oEvent) {
+	SlideTile.prototype.onkeydown = function(oEvent) {
 		if (oEvent.which === jQuery.sap.KeyCodes.ENTER) {
 			this.getTiles()[this._iCurrentTile].firePress();
 		}
@@ -122,8 +122,8 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/G
 	 *
 	 * @param {sap.ui.base.Event} oEvent which was fired
 	 */
-	DynamicContainer.prototype.onmouseup = function(oEvent) {
-		this.removeStyleClass("sapMDCHvr");
+	SlideTile.prototype.onmouseup = function(oEvent) {
+		this.removeStyleClass("sapMSTHvr");
 		if (sap.ui.Device.system.desktop) {
 			if (this._bPreventEndEvent) {
 				this._bPreventEndEvent = false;
@@ -139,8 +139,8 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/G
 	 *
 	 * @param {sap.ui.base.Event} oEvent which was fired
 	 */
-	DynamicContainer.prototype.onmousedown = function(oEvent) {
-		this.addStyleClass("sapMDCHvr");
+	SlideTile.prototype.onmousedown = function(oEvent) {
+		this.addStyleClass("sapMSTHvr");
 	};
 
 	/* --- Helpers --- */
@@ -150,7 +150,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/G
 	 *
 	 * @private
 	 */
-	DynamicContainer.prototype._toggleAnimation = function() {
+	SlideTile.prototype._toggleAnimation = function() {
 		if (this.getTiles().length > 1) {
 			if (this._bAnimationPause) {
 				this._startAnimation();
@@ -167,7 +167,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/G
 	 *
 	 * @private
 	 */
-	DynamicContainer.prototype._stopAnimation = function() {
+	SlideTile.prototype._stopAnimation = function() {
 		this._iCurrAnimationTime += Date.now() - this._iStartTime;
 		clearTimeout(this._sTimerId);
 		if (this._iCurrentTile != undefined) {
@@ -185,7 +185,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/G
 	 *
 	 * @private
 	 */
-	DynamicContainer.prototype._startAnimation = function() {
+	SlideTile.prototype._startAnimation = function() {
 		var iDisplayTime = this.getDisplayTime() - this._iCurrAnimationTime;
 		var that = this;
 		clearTimeout(this._sTimerId);
@@ -201,7 +201,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/G
 	 * @private
 	 * @param {Boolean} pause triggers if the animations gets paused or not
 	 */
-	DynamicContainer.prototype._scrollToNextTile = function(pause) {
+	SlideTile.prototype._scrollToNextTile = function(pause) {
 		var iTransitionTime = this._iCurrAnimationTime - this.getDisplayTime();
 		iTransitionTime = this.getTransitionTime() - (iTransitionTime > 0 ? iTransitionTime : 0);
 		var bFirstAnimation = iTransitionTime === this.getTransitionTime();
@@ -267,7 +267,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/G
 	 *
 	 * @private
 	 */
-	DynamicContainer.prototype._setAriaDescriptor = function() {
+	SlideTile.prototype._setAriaDescriptor = function() {
 		this.$().attr("aria-label", this.getTiles()[this._iCurrentTile].getAltText().replace(/\s/g, " "));
 	};
 
@@ -277,7 +277,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/G
 	 * @private
 	 * @param {Integer} tileIndex of the element in the tiles aggregation
 	 */
-	DynamicContainer.prototype._changeSizeTo = function(tileIndex) {
+	SlideTile.prototype._changeSizeTo = function(tileIndex) {
 		var oTile = this.getTiles()[tileIndex];
 		if (this._sFrameType) {
 			this.$().removeClass(this._sFrameType);
@@ -297,7 +297,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/G
 	 * @private
 	 * @param {Integer} tileIndex of the element in the tiles aggregation
 	 */
-	DynamicContainer.prototype._getNextTileIndex = function(tileIndex) {
+	SlideTile.prototype._getNextTileIndex = function(tileIndex) {
 		if (tileIndex + 1 < this.getTiles().length) {
 			return tileIndex + 1;
 		} else {
@@ -311,7 +311,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/G
 	 * @private
 	 * @param {Integer} tileIndex of the element in the tiles aggregation
 	 */
-	DynamicContainer.prototype._getPrevTileIndex = function(tileIndex) {
+	SlideTile.prototype._getPrevTileIndex = function(tileIndex) {
 		if (tileIndex - 1 >= 0) {
 			return tileIndex - 1;
 		} else {
@@ -319,5 +319,5 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/G
 		}
 	};
 
-	return DynamicContainer;
+	return SlideTile;
 }, /* bExport= */ true);

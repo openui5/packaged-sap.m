@@ -21,7 +21,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', './ListI
 	 * @extends sap.m.ListItemBase
 	 *
 	 * @author SAP SE
-	 * @version 1.34.0
+	 * @version 1.34.1
 	 *
 	 * @constructor
 	 * @public
@@ -104,6 +104,12 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', './ListI
 				_dateTime: {type: 'sap.m.Text', multiple: false, visibility: 'hidden'},
 
 				/**
+				 * The sap.m.Text that holds the author name.
+				 * @private
+				 */
+				_authorName: {type: 'sap.m.Text', multiple: false, visibility: "hidden"},
+
+				/**
 				 * The sap.m.Image or sap.ui.core.Control control that holds the author image or icon.
 				 * @private
 				 */
@@ -173,6 +179,14 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', './ListI
 		this._toggleCollapsed();
 		//Setter overwritten to suppress invalidation
 		return this.setProperty('collapsed', collapsed, true);
+	};
+
+	NotificationListGroup.prototype.setAuthorName = function(authorName) {
+		var result = this.setProperty('authorName', authorName, true);
+
+		this._getAuthorName().setText(authorName);
+
+		return result;
 	};
 
 	NotificationListGroup.prototype.getPriority = function () {
@@ -279,6 +293,26 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', './ListI
 		}
 
 		return dateTime;
+	};
+
+	/**
+	 * Returns the sap.m.Text control used in the NotificationListGroup's author name.
+	 * @returns {sap.m.Text} The notification author name text
+	 * @private
+	 */
+	NotificationListGroup.prototype._getAuthorName = function() {
+		/** @type {sap.m.Text} */
+		var authorName = this.getAggregation('_authorName');
+
+		if (!authorName) {
+			authorName = new Text({
+				text: this.getAuthorName()
+			}).addStyleClass('sapMNLI-Text');
+
+			this.setAggregation('_authorName', authorName, true);
+		}
+
+		return authorName;
 	};
 
 	/**

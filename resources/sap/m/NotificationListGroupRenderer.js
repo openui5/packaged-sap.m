@@ -15,7 +15,6 @@ sap.ui.define([], function () {
 
 	var classNameItem = 'sapMNLG';
 	var classNameListBaseItem = 'sapMLIB';
-	var classNameIcons = 'sapMNLG-Icons';
 	var classNameAuthor = 'sapMNLG-AuthorPicture';
 	var classNameHeader = 'sapMNLG-Header';
 	var classNameBody = 'sapMNLG-Body';
@@ -46,27 +45,10 @@ sap.ui.define([], function () {
 		oRm.writeControlData(oControl);
 		oRm.writeAttribute('tabindex', '0');
 		oRm.write('>');
-			this.renderIcons(oRm, oControl);
 			this.renderHeader(oRm, oControl);
 			this.renderBody(oRm, oControl);
 			this.renderFooter(oRm, oControl);
 		oRm.write('</li>');
-	};
-
-
-	//================================================================================
-	// Icon rendering methods
-	//================================================================================
-
-	/**
-	 * Renders the priority icons.
-	 *
-	 * @param {sap.ui.core.RenderManager} oRm The RenderManager that can be used for writing to the render output buffer
-	 * @param {sap.ui.core.Control} oControl An object representation of the control that should be rendered
-	 */
-	NotificationListGroupRenderer.renderIcons = function (oRm, oControl) {
-		oRm.write('<div class=' + classNameIcons + '>');
-		oRm.write('</div>');
 	};
 
 	//================================================================================
@@ -155,12 +137,8 @@ sap.ui.define([], function () {
 	 * @param {sap.ui.core.RenderManager} oRm The RenderManager that can be used for writing to the render output buffer
 	 * @param {sap.ui.core.Control} oControl An object representation of the control that should be rendered
 	 */
-	NotificationListGroupRenderer.renderAuthorName = function(oRm, oControl) {
-		var name = oControl.getAuthorName();
-		if (name) {
-			var nameTextControl = new sap.m.Text({ text: name}).addStyleClass('sapMNLI-Text');
-			oRm.renderControl(nameTextControl);
-		}
+	NotificationListGroupRenderer.renderAuthorName = function (oRm, oControl) {
+		oRm.renderControl(oControl._getAuthorName());
 	};
 
 	//================================================================================
@@ -266,18 +244,6 @@ sap.ui.define([], function () {
 		oRm.writeClasses();
 		oRm.write('>');
 		oRm.write('</div>');
-	};
-
-	/**
-	 * Renders the footer buttons of the NotificationListGroup.
-	 *
-	 * @param {sap.ui.core.RenderManager} oRm The RenderManager that can be used for writing to the render output buffer
-	 * @param {sap.ui.core.Control} oControl An object representation of the control that should be rendered
-	 */
-	NotificationListGroupRenderer.renderButtons = function (oRm, oControl, aButtons) {
-		aButtons.forEach(function (button) {
-			oRm.renderControl(button);
-		});
 	};
 
 	/**

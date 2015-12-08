@@ -37,7 +37,7 @@ sap.ui.define([
 	 * @extends sap.ui.core.Toolbar
 	 *
 	 * @author SAP SE
-	 * @version 1.34.0
+	 * @version 1.34.1
 	 *
 	 * @constructor
 	 * @public
@@ -568,8 +568,6 @@ sap.ui.define([
 				oPopover.attachBeforeOpen(this._shiftPopupShadow, this);
 			}
 
-			oPopover.attachBeforeOpen(this._adjustPopoverOffset, this);
-
 			// This will set the toggle button to "off"
 			oPopover.attachAfterClose(this._popOverClosedHandler, this);
 
@@ -919,21 +917,6 @@ sap.ui.define([
 
 		return oPriorityOrder;
 	})();
-
-	/**
-	 * This is a workaround and it shouldn't actually work, the offset of the popover should be always positive and
-	 * nagative values shouldn't work. This solution should be revised
-	 * @private
-	 */
-	OverflowToolbar.prototype._adjustPopoverOffset = function () {
-		var oPopover = this._getPopover(),
-			iOffset = oPopover.getOffsetY(),
-			sPlacement = oPopover.getCurrentPosition();
-
-		if (sPlacement === sap.m.PlacementType.Top && iOffset > 0 || sPlacement === sap.m.PlacementType.Bottom && iOffset < 0) {
-			oPopover.setOffsetY(iOffset * -1);
-		}
-	};
 
 	OverflowToolbar.prototype._detireminePopoverVerticalOffset = function () {
 		return this.$().parents().hasClass('sapUiSizeCompact') ? 2 : 3;
