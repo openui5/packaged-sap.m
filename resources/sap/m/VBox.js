@@ -25,7 +25,7 @@ sap.ui.define(['jquery.sap.global', './FlexBox', './library'],
 	 * @extends sap.m.FlexBox
 	 *
 	 * @author SAP SE
-	 * @version 1.30.10
+	 * @version 1.30.11
 	 *
 	 * @constructor
 	 * @public

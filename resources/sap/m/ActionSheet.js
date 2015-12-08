@@ -22,7 +22,7 @@ sap.ui.define(['jquery.sap.global', './Dialog', './Popover', './library', 'sap/u
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.30.10
+	 * @version 1.30.11
 	 *
 	 * @constructor
 	 * @public
@@ -506,6 +506,9 @@ sap.ui.define(['jquery.sap.global', './Dialog', './Popover', './library', 'sap/u
 			oButton.setType(sap.m.ButtonType.Transparent);
 		}
 		oButton.addStyleClass("sapMBtnInverted"); // dark background
+
+		this._parent && this._parent.invalidate();
+
 		return this;
 	};
 

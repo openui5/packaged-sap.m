@@ -90,7 +90,7 @@ sap.ui.define(['jquery.sap.global'],
 
 			oRm.write("<span");
 			oRm.writeAttribute("id", oSlider.getId() + "-handle");
-			oRm.writeAttribute("title", oSlider.getValue());
+			oRm.writeAttribute("title", oSlider.toFixed(oSlider.getValue()));
 			oRm.addClass(SliderRenderer.CSS_CLASS + "Handle");
 			oRm.addStyle(sap.ui.getCore().getConfiguration().getRTL() ? "right" : "left", oSlider._sProgressValue);
 			this.writeAccessibilityState(oRm, oSlider);
@@ -115,7 +115,7 @@ sap.ui.define(['jquery.sap.global'],
 
 			oRm.writeClasses();
 			oRm.writeAttributeEscaped("name", oSlider.getName());
-			oRm.writeAttribute("value", oSlider.getValue());
+			oRm.writeAttribute("value", oSlider.toFixed(oSlider.getValue()));
 			oRm.write("/>");
 		};
 
@@ -127,14 +127,12 @@ sap.ui.define(['jquery.sap.global'],
 		 * @param {sap.ui.core.Control} oSlider An object representation of the control that should be rendered.
 		 */
 		SliderRenderer.writeAccessibilityState = function(oRm, oSlider) {
-			var fValue = oSlider.getValue();
-
 			oRm.writeAccessibilityState(oSlider, {
 				role: "slider",
 				orientation: "horizontal",
-				valuemin: oSlider.getMin(),
-				valuemax: oSlider.getMax(),
-				valuenow: fValue
+				valuemin: oSlider.toFixed(oSlider.getMin()),
+				valuemax: oSlider.toFixed(oSlider.getMax()),
+				valuenow: oSlider.toFixed(oSlider.getValue())
 			});
 		};
 

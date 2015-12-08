@@ -1099,13 +1099,12 @@
 				sap.ui.getCore().applyChanges();
 
 				oErrorInput.focus();
-				this.clock.tick(oErrorInput.iOpenMessagePopupDuration);
+				this.clock.tick(500);
 				ok(jQuery.sap.domById("errorinput-message"), "error message popup is open when focusin");
 				equal(oErrorInput.getValueStateText(), "Error Message", "error message is correct");
 
 				oErrorInput.getFocusDomRef().blur();
- 				this.clock.tick(500);
-				ok(!jQuery.sap.domById("errorinput-message"), "no error message popup is closed when focus is out");
+				ok(!jQuery.sap.domById("errorinput-message"), "error message popup is closed when focus is out");
 
  				oWarningInput.focus();
 				this.clock.tick(500);
@@ -1113,7 +1112,6 @@
 				equal(oWarningInput.getValueStateText(), "Warning Message", "warning message is correct");
 
 				oWarningInput.getFocusDomRef().blur()
- 				this.clock.tick(500);
 				ok(!jQuery.sap.domById("warninginput-message"), "warning message popup is closed when focus is out");
  
  				oErrorInput.setShowValueStateMessage(false);
@@ -1184,7 +1182,6 @@
 				//none state
 				oValueStateInput.updateDomValue("1234");
 				sap.ui.test.qunit.triggerEvent("input", oValueStateInput.getFocusDomRef());
-				this.clock.tick(1000);
 				strictEqual(oValueStateInput.getValueState(), "None");
 				ok(!jQuery.sap.domById("vsinput-message"), "no message popup");
 				
@@ -1801,6 +1798,7 @@
 				// assert
 				strictEqual(oInput.$().attr("title"), "tooltip");
 				strictEqual(oInput.$("describedby").text(), "tooltip");
+				strictEqual(oInput.getFocusDomRef().getAttribute("aria-describedby"), oInput.getId() + "-describedby");
 
 				// cleanup
 				oInput.destroy();
@@ -1841,11 +1839,83 @@
 				oInput.setTooltip("");
 
 				// assert
-				strictEqual(oInput.$().attr("title"), undefined);
+				ok(oInput.$().attr("title") === undefined);
 				strictEqual(oInput.$("describedby").length, 0);
 
 				// cleanup
 				oInput.destroy();
+			});
+
+			// BCP 1580094855
+			test("it should not render the tooltip (test case 3)", function() {
+
+				// arrange
+				sap.m.InputBase.extend("CustomInput", {
+					renderer: {
+						getDescribedByAnnouncement: function() {
+							return "lorem ipsum";
+						}
+					}
+				});
+
+				// system under test
+				var oInput = new CustomInput({
+					tooltip: "tooltip"
+				});
+
+				// arrange
+				oInput.placeAt("content");
+				sap.ui.getCore().applyChanges();
+
+				// act
+				oInput.setTooltip("");
+
+				// assert
+				ok(oInput.$().attr("title") === undefined);
+
+				// cleanup
+				oInput.destroy();
+				CustomInput = null;
+				delete CustomInput;
+			});
+
+			test("it should keep other describedby associations when the tooltip is set to empty string", function() {
+				sap.m.InputBase.extend("CustomInput", {
+					metadata: {
+						associations: {
+							ariaDescribedBy: {
+								type: "sap.ui.core.Control",
+								multiple: true,
+								singularName: "ariaDescribedBy"
+							}
+						}
+					},
+					renderer: {}
+				});
+
+				// system under test
+				var oText = new sap.m.Text("text");
+				var oInput = new CustomInput({
+					tooltip: "tooltip",
+					ariaDescribedBy: oText
+				});
+
+				// arrange
+				oInput.placeAt("content");
+				oText.placeAt("content");
+				sap.ui.getCore().applyChanges();
+
+				// act
+				oInput.setTooltip("");
+
+				// assert
+				strictEqual(oInput.getFocusDomRef().getAttribute("aria-describedby"), "text");
+
+				// cleanup
+				oText.destroy();
+				oInput.destroy();
+				CustomInput = null;
+				delete CustomInput;
 			});
 
 			test("Renderer Hooks", function() {

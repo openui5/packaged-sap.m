@@ -6,7 +6,7 @@
   <copyright>UI development toolkit for HTML5 (OpenUI5)
  * (c) Copyright 2009-2015 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.</copyright>
-  <version>1.30.10</version>
+  <version>1.30.11</version>
 
   <documentation>SAPUI5 library with controls specialized for mobile devices.</documentation>
 
@@ -36,7 +36,7 @@
     <ownership xmlns="http://www.sap.com/ui5/buildext/ownership">
         <component>CA-UI5-CTR</component><!-- default component for library, embedded text as a shortcut for <name>text</name> -->
         <component>
-            <name>CA-UI5-BS-FCP</name>
+            <name>CA-UI5-CTR-SOF-BAL</name>
             <modules>
                 <module>sap/m/FacetFilter</module>
             </modules>

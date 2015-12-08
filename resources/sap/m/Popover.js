@@ -23,7 +23,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Button', './InstanceManager', '.
 	 * @implements sap.ui.core.PopupInterface
 	 *
 	 * @author SAP SE
-	 * @version 1.30.10
+	 * @version 1.30.11
 	 *
 	 * @constructor
 	 * @public
@@ -410,6 +410,10 @@ sap.ui.define(['jquery.sap.global', './Bar', './Button', './InstanceManager', '.
 			that._deregisterContentResizeHandler();
 			Popup.prototype.close.apply(this, bBooleanParam ? [] : arguments);
 			that.removeDelegate(that._oRestoreFocusDelegate);
+
+			if (!this.restoreFocus && !this._bModal) {
+				document.activeElement && document.activeElement.blur();
+			}
 		};
 	};
 
@@ -1277,7 +1281,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Button', './InstanceManager', '.
 				if (bRtl) {
 					iMarginLeft = $parent.offset().left + oPopoverClass.outerWidth($parent[0], false) + this._arrowOffset + iOffsetX;
 				} else {
-					iMarginRight = iDocumentWidth - $parent.offset().left + this._arrowOffset - iOffsetX;
+					iMarginRight = iDocumentWidth - $parent.offset().left + this._arrowOffset + iOffsetX;
 				}
 				break;
 			case sap.m.PlacementType.Right:
@@ -1288,7 +1292,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Button', './InstanceManager', '.
 				}
 				break;
 			case sap.m.PlacementType.Top:
-				iMarginBottom = iDocumentHeight - $parent.offset().top + this._arrowOffset - iOffsetY;
+				iMarginBottom = iDocumentHeight - $parent.offset().top + this._arrowOffset + iOffsetY;
 				break;
 			case sap.m.PlacementType.Bottom:
 				iMarginTop = $parent.offset().top + $parent.outerHeight() + this._arrowOffset + iOffsetY;
@@ -1343,7 +1347,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Button', './InstanceManager', '.
 
 		$this.css({
 			top: iTop,
-			bottom: iBottom - iWindowTop,
+			bottom: Math.max(iBottom - iWindowTop, iBottom),
 			left: iLeft,
 			right: typeof iRight === "number" ? iRight - iWindowLeft : iRight
 		});
@@ -1740,7 +1744,6 @@ sap.ui.define(['jquery.sap.global', './Bar', './Button', './InstanceManager', '.
 		this._beginButton = oButton;
 
 		if (oButton) {
-			oButton.setType(sap.m.ButtonType.Transparent);
 			if (oOldBeginButton) {
 				this._internalHeader.removeAggregation("contentLeft", oOldBeginButton, true);
 			}
@@ -1765,7 +1768,6 @@ sap.ui.define(['jquery.sap.global', './Bar', './Button', './InstanceManager', '.
 		this._endButton = oButton;
 
 		if (oButton) {
-			oButton.setType(sap.m.ButtonType.Transparent);
 			if (oOldEndButton) {
 				this._internalHeader.removeAggregation("contentRight", oOldEndButton, true);
 			}
