@@ -359,6 +359,9 @@ html[data-sap-ui-browser*='ie'] .sapMBtnContentWithIcon {
   touch-action: pan-y;
   -ms-touch-action: pan-y;
 }
+.sapMCrsl:focus .sapMCrslHud a {
+  opacity: 0.3;
+}
 .sapMCrsl.sapMCrslLeft {
   text-align: left;
 }
@@ -369,7 +372,7 @@ html[data-sap-ui-browser*='ie'] .sapMBtnContentWithIcon {
   width: 100%;
 }
 .sapMCrsl.sapMCrslFluid.sapMCrslCenter > .sapMCrslInner > *:first-child {
-  margin-left: 0%;
+  margin-left: 0;
 }
 .sapMCrslInner {
   height: 100%;
@@ -1786,7 +1789,7 @@ td.sapUiFormElementLbl > .sapMLabel {
 }
 .sapMMsgPopover .sapMMsgPopoverTitleText,
 .sapMMsgPopover .sapMMsgPopoverDescriptionText {
-  float: left;
+  display: block;
   padding: 0 1rem 0 3rem;
   margin-top: 1rem;
 }
@@ -3010,6 +3013,19 @@ html[dir=rtl] .sapMObjStatusMarker > .sapUiIcon.sapUiIconMirrorInRTL {
   /* Chrome, Safari, Opera */
   transform: none;
 }
+html[data-sap-ui-browser="ie9"] li.sapMLIB.sapMLIBNoFlex.sapMObjLItem > .sapMLIBContent > .sapMLIBContentNF > div {
+  display: block;
+}
+html[data-sap-ui-browser="ie9"] li.sapMLIB.sapMLIBNoFlex.sapMObjLItem > .sapMLIBContent > .sapMLIBContentNF > .sapMObjLTopRow:first-child {
+  padding-top: 1rem;
+}
+html[data-sap-ui-browser="ie9"] li.sapMLIB.sapMLIBNoFlex.sapMObjLItem > .sapMLIBContent > .sapMLIBContentNF > .sapMObjLTopRow:last-child {
+  padding-bottom: 1rem;
+}
+html[data-sap-ui-browser="ie9"] li.sapMLIB.sapMLIBNoFlex.sapMObjLItem > .sapMLIBContent > .sapMLIBContentNF > .sapMObjLTopRow {
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
 /* ============================================= */
 /* CSS for control sap.m/ObjectNumber.control */
 /* ============================================= */
@@ -3049,10 +3065,43 @@ html[dir=rtl] .sapMObjStatusMarker > .sapUiIcon.sapUiIconMirrorInRTL {
   font-size: 1rem;
 }
 .sapMObjStatusIcon {
-  padding-right: .25rem;
+  padding-right: .5rem;
 }
 .sapMObjStatus > .sapMObjStatusTitle {
   padding-right: .25rem;
+}
+.sapUiTableCell .sapMObjStatusText,
+.sapUiTableCell .sapMObjStatusTitle,
+.sapUiTableCell .sapMObjStatusIcon .sapUiIcon,
+.sapMListTbl .sapMObjStatusText,
+.sapMListTbl .sapMObjStatusTitle,
+.sapMListTbl .sapMObjStatusIcon .sapUiIcon,
+.sapUiForm .sapMObjStatusIcon .sapUiIcon {
+  vertical-align: middle;
+}
+.sapUiForm .sapMObjStatusIcon,
+.sapUiForm .sapMObjStatusTitle,
+.sapUiForm .sapMObjStatusText {
+  overflow: hidden;
+  display: inline-block;
+  -webkit-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+}
+/*
+	FIX for 1580155978.
+	Fiori design guidelines say that statuses should be specially styled for forms
+	and share looks with other text only controls.
+*/
+.sapUiForm .sapMObjStatus > .sapMObjStatusIcon,
+.sapUiForm .sapMObjStatus > .sapMObjStatusTitle,
+.sapUiForm .sapMObjStatus > .sapMObjStatusText {
+  line-height: 3rem;
+}
+.sapUiSizeCompact .sapUiForm .sapMObjStatus > .sapMObjStatusIcon,
+.sapUiSizeCompact .sapUiForm .sapMObjStatus > .sapMObjStatusTitle,
+.sapUiSizeCompact .sapUiForm .sapMObjStatus > .sapMObjStatusText {
+  line-height: 2rem;
 }
 .sapMConditionPanel .displayNone {
   display: none;
@@ -4175,6 +4224,8 @@ html[data-sap-ui-os^="Android"] .sapUiSizeCompact .sapMSegBBtn .sapUiIcon {
 .sapMSltIcon {
   position: absolute;
   display: block;
+  /* prevent IE to focus the icon (non-focusable element) */
+  pointer-events: none;
 }
 .sapMSltAutoAdjustedWidth .sapMSltIcon {
   position: relative;

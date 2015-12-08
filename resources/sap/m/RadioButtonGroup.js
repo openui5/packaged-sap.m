@@ -26,7 +26,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 			 * @extends sap.ui.core.Control
 			 *
 			 * @author SAP SE
-			 * @version 1.28.23
+			 * @version 1.28.24
 			 *
 			 * @constructor
 			 * @public
@@ -135,10 +135,15 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 			RadioButtonGroup.prototype.onAfterRendering = function() {
 
 				this._initItemNavigation();
+				// update ARIA information of RadioButtons with visible buttons only
+				var aVisibleRBs = this.aRBs.filter(function(oButton) {
+					return oButton.getVisible();
+				});
 
-				// update ARIA information of RadioButtons
-				for (var i = 0; i < this.aRBs.length; i++) {
-					this.aRBs[i].$().attr("aria-posinset", i + 1).attr("aria-setsize", this.aRBs.length);
+				for (var i = 0; i < aVisibleRBs.length; i++) {
+					var oRBDomRef = aVisibleRBs[i].getDomRef();
+					oRBDomRef.setAttribute("aria-posinset", i + 1);
+					oRBDomRef.setAttribute("aria-setsize", aVisibleRBs.length);
 				}
 			};
 

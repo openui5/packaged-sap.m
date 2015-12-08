@@ -22,7 +22,7 @@ sap.ui.define(['jquery.sap.global', './InputBase', './library'],
 	 * @extends sap.m.InputBase
 	 *
 	 * @author SAP SE
-	 * @version 1.28.23
+	 * @version 1.28.24
 	 *
 	 * @constructor
 	 * @public
@@ -76,19 +76,11 @@ sap.ui.define(['jquery.sap.global', './InputBase', './library'],
 			}
 		}
 	}});
-	
-	TextArea.prototype.init = function() {
-		InputBase.prototype.init.call(this);
-		this._inputProxy = jQuery.proxy(this._onInput, this);
-	};
-	
+
 	// Attach listeners on after rendering and find iscroll
 	TextArea.prototype.onAfterRendering = function() {
 		InputBase.prototype.onAfterRendering.call(this);
-	
-		// bind events
-		this.bindToInputEvent(this._inputProxy);
-	
+
 		// touch browser behaviour differs
 		if (sap.ui.Device.support.touch) {
 	
@@ -117,29 +109,46 @@ sap.ui.define(['jquery.sap.global', './InputBase', './library'],
 	// Overwrite input base revert handling for escape 
 	// to fire own liveChange event and property set
 	TextArea.prototype.onValueRevertedByEscape = function(sValue) {
-		this._onInput();
+		// update value property if needed
+		this.setProperty("value", sValue, true);
+
+		// get the value back maybe there is a formatter
+		sValue = this.getValue();
+
+		this.fireLiveChange({
+			value: sValue,
+
+			// backwards compatibility
+			newValue: sValue
+		});
 	};
 	
-	TextArea.prototype._onInput = function(oEvent) {
-		var value = this._$input.val();
+	TextArea.prototype.oninput = function(oEvent) {
+		InputBase.prototype.oninput.call(this, oEvent);
+		if (oEvent.isMarked("invalid")) {
+			return;
+		}
+
+		var sValue = this._$input.val(),
+			iMaxLength = this.getMaxLength();
 	
-		// some browsers does not respect to maxlength property of textarea
-		if (this.getMaxLength() > 0 && value.length > this.getMaxLength()) {
-			value = value.substring(0, this.getMaxLength());
-			this._$input.val(value);
+		// some browsers do not respect to maxlength property of textarea
+		if (iMaxLength > 0 && sValue.length > iMaxLength) {
+			sValue = sValue.substring(0, iMaxLength);
+			this._$input.val(sValue);
 		}
 	
-		if (value != this.getValue()) {
-			this.setProperty("value", value, true);
+		if (sValue != this.getValue()) {
+			this.setProperty("value", sValue, true);
 
 			// get the value back maybe there is a formatter
-			value = this.getValue();
+			sValue = this.getValue();
 			
 			this.fireLiveChange({
-				value: value,
+				value: sValue,
 	
 				// backwards compatibility
-				newValue: value
+				newValue: sValue
 			});
 		}
 	};
@@ -204,6 +213,41 @@ sap.ui.define(['jquery.sap.global', './InputBase', './library'],
 			// to prevent the rubber-band effect we are calling prevent default on touchmove
 			// from jquery.sap.mobile but this breaks the scrolling nature of the textarea
 			oEvent.setMarked();
+		}
+	};
+
+	// Flag for the Fiori Client on Windows Phone
+	var _bMSWebView = sap.ui.Device.os.windows_phone && (/MSAppHost\/2.0/i).test(navigator.appVersion);
+
+	/**
+	 * Special handling for the focusing issue in SAP Fiori Client on Windows Phone.
+	 *
+	 * @private
+	 */
+	TextArea.prototype.onfocusin = function(oEvent) {
+		var scrollContainer,
+			$this = this.$();
+
+		InputBase.prototype.onfocusin.apply(this, arguments);
+
+		// Workaround for the scroll-into-view bug in the WebView Windows Phone 8.1
+		// As the browser does not scroll the window as it should, scroll the parent scroll container to make the hidden text visible
+
+		function scrollIntoView() {
+			jQuery(window).scrollTop(0);
+			scrollContainer.scrollTop($this.offset().top - scrollContainer.offset().top + scrollContainer.scrollTop());
+		}
+
+		if (_bMSWebView && $this.height() + $this.offset().top > 260) {
+			for (scrollContainer = $this.parent(); scrollContainer[0]; scrollContainer = scrollContainer.parent()) {
+				if (scrollContainer.css("overflow-y") == "auto") {
+					// make sure to have enough padding to be able to scroll even the bottom control to the top of the screen
+					scrollContainer.children().css("padding-bottom", jQuery(window).height() + "px");
+					// do scroll
+					window.setTimeout(scrollIntoView, 100);
+					return;
+				}
+			}
 		}
 	};
 

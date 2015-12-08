@@ -24,7 +24,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.28.23
+	 * @version 1.28.24
 	 *
 	 * @constructor
 	 * @public
@@ -784,13 +784,14 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @private
 	 */
 	Carousel.prototype._fnSkipToIndex = function(oEvent, nIndex) {
-		oEvent.preventDefault();
 		var nNewIndex = nIndex;
 
 		// Exit the function if the event is not from the Carousel
-		if (oEvent.target !== this.$()[0]) {
+		if (oEvent.target !== this.getDomRef()) {
 			return;
 		}
+
+		oEvent.preventDefault();
 
 		// Calculate the index of the next page that will be shown
 		if (nIndex !== 0) {
@@ -880,6 +881,12 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @param oEvent - The event object
 	 */
 	Carousel.prototype.onkeydown = function(oEvent) {
+
+		// Exit the function if the event is not from the Carousel
+		if (oEvent.target != this.getDomRef()) {
+			return;
+		}
+
 		var $activePage;
 
 		// Filter F7 key down
