@@ -585,6 +585,21 @@ div.sapMComboBoxBasePicker {
   /* override the default min-width of the popover */
 }
 /* ============================================= */
+/* CSS for controlsap.m/CustomListItem.control */
+/* ============================================= */
+.sapMCLI.sapMLIB {
+  padding: 0 1px;
+}
+.sapMCLI .sapMLIBSelectSL,
+.sapMCLI .sapMLIBSelectM {
+  margin-left: 0;
+}
+.sapMCLI .sapMLIBImgNav,
+.sapMCLI .sapMLIBSelectS,
+.sapMCLI .sapMLIBSelectD {
+  margin-right: 0;
+}
+/* ============================================= */
 /* CSS for control sap.m/CustomTile.control */
 /* ============================================= */
 /* Style for Tablet/Desktop */
@@ -2029,6 +2044,21 @@ td.sapUiFormElementLbl > .sapMLabel {
 .sapMListTblSubRow:focus {
   outline: none;
 }
+/* IE ignores outline-offset. Use an overlay: */
+.sapMLIBLegacyOutline:focus {
+  outline: none;
+  position: relative;
+}
+.sapMLIBLegacyOutline:focus::before {
+  content: "";
+  border: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+}
 .sapMLIBSelectS,
 .sapMLIBSelectSL,
 .sapMLIBSelectM,
@@ -2568,9 +2598,16 @@ li.sapMMultiComboBoxItem .sapMCbBg {
 .sapMObjectAttributeDiv .sapMObjectAttributeText {
   font-size: .875rem;
 }
+.sapMObjectAttributeActive {
+  pointer-events: none;
+}
 .sapMObjectAttributeActive .sapMText {
   color: #0000ff;
   cursor: pointer;
+  pointer-events: auto;
+}
+.sapMObjectAttributeActive .sapMObjectAttributeText {
+  pointer-events: auto;
 }
 .sapMObjectAttributeActive .sapMText:active,
 .sapMObjectAttributeActive .sapMText:focus,

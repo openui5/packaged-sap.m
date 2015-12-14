@@ -590,6 +590,21 @@ div.sapMComboBoxBasePicker {
   /* override the default min-width of the popover */
 }
 /* ============================================= */
+/* CSS for controlsap.m/CustomListItem.control */
+/* ============================================= */
+.sapMCLI.sapMLIB {
+  padding: 0 1px;
+}
+.sapMCLI .sapMLIBSelectSL,
+.sapMCLI .sapMLIBSelectM {
+  margin-left: 0;
+}
+.sapMCLI .sapMLIBImgNav,
+.sapMCLI .sapMLIBSelectS,
+.sapMCLI .sapMLIBSelectD {
+  margin-right: 0;
+}
+/* ============================================= */
 /* CSS for control sap.m/CustomTile.control */
 /* ============================================= */
 /* Style for Tablet/Desktop */
@@ -2034,6 +2049,21 @@ td.sapUiFormElementLbl > .sapMLabel {
 .sapMListTblSubRow:focus {
   outline: none;
 }
+/* IE ignores outline-offset. Use an overlay: */
+.sapMLIBLegacyOutline:focus {
+  outline: none;
+  position: relative;
+}
+.sapMLIBLegacyOutline:focus::before {
+  content: "";
+  border: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+}
 .sapMLIBSelectS,
 .sapMLIBSelectSL,
 .sapMLIBSelectM,
@@ -2573,9 +2603,16 @@ li.sapMMultiComboBoxItem .sapMCbBg {
 .sapMObjectAttributeDiv .sapMObjectAttributeText {
   font-size: .875rem;
 }
+.sapMObjectAttributeActive {
+  pointer-events: none;
+}
 .sapMObjectAttributeActive .sapMText {
   color: #ffffff;
   cursor: pointer;
+  pointer-events: auto;
+}
+.sapMObjectAttributeActive .sapMObjectAttributeText {
+  pointer-events: auto;
 }
 .sapMObjectAttributeActive .sapMText:active,
 .sapMObjectAttributeActive .sapMText:focus,
@@ -8701,21 +8738,6 @@ div.sapMComboBoxBasePicker .sapMDialogScrollCont {
 .sapUiSizeCondensed .sapUiTableCell .sapMComboBoxBaseArrow {
   right: 0;
 }
-/* ============================================= */
-/* CSS for controlsap.m/CustomListItem.control */
-/* ============================================= */
-.sapMCLI.sapMLIB {
-  padding: 0;
-}
-.sapMCLI .sapMLIBSelectSL,
-.sapMCLI .sapMLIBSelectM {
-  margin-left: 0;
-}
-.sapMCLI .sapMLIBImgNav,
-.sapMCLI .sapMLIBSelectS,
-.sapMCLI .sapMLIBSelectD {
-  margin-right: 0;
-}
 /* ======================================== */
 /* CSS for control sap.m/DatePicker.control */
 /* High Contrast Black theme                */
@@ -9351,6 +9373,10 @@ html[dir=rtl] .sapMDLIValue {
   position: absolute;
   right: -0.25rem;
   bottom: 0.25rem;
+}
+html[data-sap-ui-browser*='ie'] .sapMFeedIn .sapMBtnInner {
+  width: 3.5rem;
+  display: block;
 }
 .sapMFeedIn .sapMBtnInner {
   width: 3.5rem;
@@ -11184,24 +11210,16 @@ html[data-sap-ui-browser*='ie9'] .sapMListNoData {
   background-color: #000000;
   padding: 0 1rem 0 1rem;
 }
-.sap-desktop .sapMLIB:focus {
+.sapMLIBFocusable:focus {
   outline: 0.125rem dotted #ffffff;
   outline-offset: -0.125rem;
 }
-/* IE ignores outline-offset. Use an overlay: */
-.sap-desktop[data-sap-ui-browser^="ie"] .sapMLIB:not(.sapMListTblRow):focus {
+.sapMLIBLegacyOutline:focus {
   outline: none;
-  position: relative;
 }
-.sap-desktop[data-sap-ui-browser^="ie"] .sapMLIB:not(.sapMListTblRow):focus::before {
-  content: "";
+/* IE ignores outline-offset. Use an overlay: */
+.sapMLIBLegacyOutline:focus::before {
   border: 0.125rem dotted #ffffff;
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  pointer-events: none;
 }
 .sapMListModeDelete .sapMLIB,
 .sapMListModeSingleSelect .sapMLIB,
@@ -12977,7 +12995,12 @@ html[dir=rtl][data-sap-ui-browser='ie9'] .sapMPopoverFooterAlignArr.sapMPopoverA
   font-size: 0.875rem;
   color: #ffffff;
 }
-.sapMQuickViewPage .sapUiIcon:focus {
+.sapMQuickViewPage .sapUiIcon:focus,
+.sap-phone .sapMQuickViewPage .sapMLnk:focus,
+.sap-tablet .sapMQuickViewPage .sapMLnk:focus {
+  outline: none;
+}
+.sap-desktop .sapMQuickViewPage .sapUiIcon:focus {
   outline: 0.125rem dotted #ffffff;
   outline-offset: -0.125rem;
 }
@@ -14981,10 +15004,6 @@ html[dir=rtl] .sapMSwtTrans > .sapMSwtInner {
 /* Info Toolbar Context */
 .sapMTB-Info-CTX .sapMText {
   font-style: italic;
-}
-/* Transparent Toolbar Context*/
-.sapMTB-Transparent-CTX .sapMText {
-  font-size: 1rem;
 }
 /* Compact size */
 .sapUiSizeCompact .sapUiFormEdit .sapMText {
