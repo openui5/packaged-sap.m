@@ -2188,9 +2188,16 @@ li.sapMMultiComboBoxItem .sapMCbBg {
 .sapMObjectAttributeDiv .sapMObjectAttributeText {
   font-size: .875rem;
 }
+.sapMObjectAttributeActive {
+  pointer-events: none;
+}
 .sapMObjectAttributeActive .sapMText {
   color: #0000ff;
   cursor: pointer;
+  pointer-events: auto;
+}
+.sapMObjectAttributeActive .sapMObjectAttributeText {
+  pointer-events: auto;
 }
 .sapMObjectAttributeActive .sapMText:active,
 .sapMObjectAttributeActive .sapMText:focus,

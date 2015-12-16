@@ -2193,9 +2193,16 @@ li.sapMMultiComboBoxItem .sapMCbBg {
 .sapMObjectAttributeDiv .sapMObjectAttributeText {
   font-size: .875rem;
 }
+.sapMObjectAttributeActive {
+  pointer-events: none;
+}
 .sapMObjectAttributeActive .sapMText {
   color: #ffffff;
   cursor: pointer;
+  pointer-events: auto;
+}
+.sapMObjectAttributeActive .sapMObjectAttributeText {
+  pointer-events: auto;
 }
 .sapMObjectAttributeActive .sapMText:active,
 .sapMObjectAttributeActive .sapMText:focus,
@@ -8676,6 +8683,10 @@ html[dir=rtl] .sapMDLIValue {
   right: -0.25rem;
   bottom: 0.25rem;
 }
+html[data-sap-ui-browser*='ie'] .sapMFeedIn .sapMBtnInner {
+  width: 3.5rem;
+  display: block;
+}
 .sapMFeedIn .sapMBtnInner {
   width: 3.5rem;
   height: 3.5rem;
@@ -8692,6 +8703,11 @@ html[dir=rtl] .sapMDLIValue {
   padding: 0.5rem;
   font-size: 1.5rem;
   line-height: 2.375rem;
+}
+html[data-sap-ui-browser^="ie"] .sapMFeedIn .sapMFeedInContainer :not(.sapMInputBaseReadonly):not(.sapMInputBaseDisabled).sapMInputBase.sapMFocus::before {
+  top: 0.0625rem;
+  bottom: 0.0625rem;
+  right: 4rem;
 }
 /* ======================================================== */
 /* CSS for control sap.m/FeedListItem.control (HCB)         */
@@ -12276,7 +12292,12 @@ html[dir=rtl][data-sap-ui-browser='ie9'] .sapMPopoverFooterAlignArr.sapMPopoverA
   font-size: 0.875rem;
   color: #ffffff;
 }
-.sapMQuickViewPage .sapUiIcon:focus {
+.sapMQuickViewPage .sapUiIcon:focus,
+.sap-phone .sapMQuickViewPage .sapMLnk:focus,
+.sap-tablet .sapMQuickViewPage .sapMLnk:focus {
+  outline: none;
+}
+.sap-desktop .sapMQuickViewPage .sapUiIcon:focus {
   outline: 0.125rem dotted #ffffff;
   outline-offset: -0.125rem;
 }
