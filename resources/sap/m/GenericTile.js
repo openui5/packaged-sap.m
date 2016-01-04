@@ -1,6 +1,6 @@
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2015 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2016 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
@@ -14,11 +14,11 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/T
 	 * @param {string} [sId] ID for the new control, generated automatically if no ID is given
 	 * @param {object} [mSettings] initial settings for the new control
 	 *
-	 * @class The tile control that displays the title, description, and customizable main area.
+	 * @class Displays the title, description, and a customizable main area.
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.34.1
+	 * @version 1.34.2
 	 * @since 1.34
 	 *
 	 * @public
@@ -102,9 +102,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/T
 	GenericTile.prototype.init = function() {
 		this._rb = sap.ui.getCore().getLibraryResourceBundle("sap.m");
 
-		this._oTitle = new Text(this.getId() + "-title", {
-			maxLines : 2
-		});
+		this._oTitle = new Text(this.getId() + "-title");
 		this._oTitle.addStyleClass("sapMGTTitle");
 		this._oTitle.cacheLineHeight = false;
 		this.setAggregation("_titleText", this._oTitle, true);
@@ -302,8 +300,14 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/T
 	 * @returns {sap.m.GenericTile} this to allow method chaining
 	 */
 	GenericTile.prototype.setHeader = function(title) {
-		this._oTitle.setProperty("text", title, true);
-		this.invalidate();
+		// If present, Devanagari characters require additional vertical space to be displayed.
+		// Therefore, only one line containing such characters can be displayed in header of GenericTile.
+		if (/.*[\u0900-\u097F]+.*/.test(title)) {
+			this._oTitle.setMaxLines(1);
+		} else {
+			this._oTitle.setMaxLines(2);
+		}
+		this._oTitle.setText(title);
 		return this;
 	};
 

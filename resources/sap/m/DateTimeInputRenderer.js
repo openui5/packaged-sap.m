@@ -1,6 +1,6 @@
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2015 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2016 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 sap.ui.define(['jquery.sap.global', 'sap/ui/core/Renderer', './InputBaseRenderer'],
@@ -8,7 +8,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Renderer', './InputBaseRenderer
 	"use strict";
 
 
-	
+
 	/**
 	 * DateTimeInput renderer.
 	 * @namespace
@@ -17,7 +17,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Renderer', './InputBaseRenderer
 	 * DateTimeInputRenderer extends the InputRenderer
 	 */
 	var DateTimeInputRenderer = Renderer.extend(InputBaseRenderer);
-	
+
 	/**
 	 * Adds control specific class
 	 *
@@ -27,7 +27,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Renderer', './InputBaseRenderer
 	DateTimeInputRenderer.addOuterClasses = function(oRm, oControl) {
 		oRm.addClass("sapMDTI");
 	};
-	
+
 	/**
 	 * Add pointer cursor to date-time input
 	 *
@@ -39,7 +39,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Renderer', './InputBaseRenderer
 			oRm.addClass("sapMPointer");
 		}
 	};
-	
+
 	/**
 	 * Add extra styles for input container
 	 *

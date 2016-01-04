@@ -1,6 +1,6 @@
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2015 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2016 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
@@ -41,7 +41,7 @@ sap.ui.define(["sap/m/semantic/ShareMenuPage", "sap/m/semantic/SemanticConfigura
 	 * @extends sap.m.semantic.ShareMenuPage
 	 *
 	 * @author SAP SE
-	 * @version 1.34.1
+	 * @version 1.34.2
 	 *
 	 * @constructor
 	 * @public
@@ -196,7 +196,7 @@ sap.ui.define(["sap/m/semantic/ShareMenuPage", "sap/m/semantic/SemanticConfigura
 		},
 		renderer: SemanticPageRenderer.render
 	});
-	
+
 	DetailPage.prototype.init = function () {
 
 		ShareMenuPage.prototype.init.call(this);

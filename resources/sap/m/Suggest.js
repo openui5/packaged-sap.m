@@ -1,6 +1,6 @@
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2015 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2016 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
@@ -197,10 +197,10 @@ sap.ui.define(['jquery.sap.global', './Bar', './Button', './SuggestionsList', '.
 
 		/**
 		 * Hide suggestions on desktop and tablets.
-		 * 
+		 *
 		 * Note: This function does nothing on phone devices where a full screen dialog is opened.
 		 * Only the user may close the full screen dialog. There is no possibility to do it from the application code.
-		 * 
+		 *
 		 * @private
 		 */
 		this.close = function() {

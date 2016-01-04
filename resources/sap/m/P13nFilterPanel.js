@@ -1,6 +1,6 @@
 /*
  * ! UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2015 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2016 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
@@ -12,12 +12,12 @@ sap.ui.define([
 
 	/**
 	 * Constructor for a new P13nFilterPanel.
-	 * 
+	 *
 	 * @param {string} [sId] ID for the new control, generated automatically if no ID is given
 	 * @param {object} [mSettings] initial settings for the new control
 	 * @class The P13nFilterPanel control is used to define filter-specific settings for table personalization.
 	 * @extends sap.m.P13nPanel
-	 * @version 1.34.1
+	 * @version 1.34.2
 	 * @constructor
 	 * @public
 	 * @alias sap.m.P13nFilterPanel
@@ -32,7 +32,7 @@ sap.ui.define([
 
 				/**
 				 * Defines the maximum number of include filters.
-				 * 
+				 *
 				 * @since 1.26
 				 */
 				maxIncludes: {
@@ -43,7 +43,7 @@ sap.ui.define([
 
 				/**
 				 * Defines the maximum number of exclude filters.
-				 * 
+				 *
 				 * @since 1.26
 				 */
 				maxExcludes: {
@@ -55,7 +55,7 @@ sap.ui.define([
 				/**
 				 * Defines if the <code>mediaQuery</code> or a <code>ContainerResize</code> is used for layout update. If the
 				 * <code>ConditionPanel</code> is used in a dialog, the property must be set to <code>true</code>.
-				 * 
+				 *
 				 * @since 1.26
 				 */
 				containerQuery: {
@@ -67,7 +67,7 @@ sap.ui.define([
 				/**
 				 * Can be used to control the layout behavior. Default is "" which will automatically change the layout. With "Desktop", "Table"
 				 * or"Phone" you can set a fixed layout.
-				 * 
+				 *
 				 * @since 1.26
 				 */
 				layoutMode: {
@@ -90,7 +90,7 @@ sap.ui.define([
 
 				/**
 				 * Defines filter items.
-				 * 
+				 *
 				 * @since 1.26
 				 */
 				filterItems: {
@@ -104,21 +104,21 @@ sap.ui.define([
 
 				/**
 				 * Event raised if a filter item has been added.
-				 * 
+				 *
 				 * @since 1.26
 				 */
 				addFilterItem: {},
 
 				/**
 				 * Removes a filter item.
-				 * 
+				 *
 				 * @since 1.26
 				 */
 				removeFilterItem: {},
 
 				/**
 				 * Updates a filter item.
-				 * 
+				 *
 				 * @since 1.26
 				 */
 				updateFilterItem: {}
@@ -157,7 +157,7 @@ sap.ui.define([
 
 	/**
 	 * Sets the array of conditions.
-	 * 
+	 *
 	 * @public
 	 * @since 1.26
 	 * @param {object[]} aConditions the complete list of conditions
@@ -186,7 +186,7 @@ sap.ui.define([
 
 	/**
 	 * Returns the array of conditions.
-	 * 
+	 *
 	 * @public
 	 * @since 1.26
 	 */
@@ -213,7 +213,7 @@ sap.ui.define([
 
 	/**
 	 * Checks if the entered and modified conditions are correct, marks invalid fields in yellow (warning).
-	 * 
+	 *
 	 * @public
 	 * @since 1.26
 	 * @returns {boolean} <code>false</code>, if there is an invalid condition
@@ -224,7 +224,7 @@ sap.ui.define([
 
 	/**
 	 * Removes all invalid conditions.
-	 * 
+	 *
 	 * @public
 	 * @since 1.28
 	 */
@@ -235,7 +235,7 @@ sap.ui.define([
 
 	/**
 	 * Removes all errors and warnings states from of all filter conditions.
-	 * 
+	 *
 	 * @public
 	 * @since 1.28
 	 */
@@ -254,7 +254,7 @@ sap.ui.define([
 
 	/**
 	 * Setter for the supported Include operations array.
-	 * 
+	 *
 	 * @public
 	 * @since 1.26
 	 * @param {sap.m.P13nConditionOperation[]} array of operations [<code>sap.m.P13nConditionOperation.BT</code>,
@@ -272,7 +272,7 @@ sap.ui.define([
 
 	/**
 	 * Getter for the include operations.
-	 * 
+	 *
 	 * @public
 	 * @since 1.26
 	 * @param {string} the type for which the operations are defined
@@ -287,7 +287,7 @@ sap.ui.define([
 
 	/**
 	 * Setter for the supported exclude operations array.
-	 * 
+	 *
 	 * @public
 	 * @since 1.26
 	 * @param {sap.m.P13nConditionOperation[]} array of operations [<code>sap.m.P13nConditionOperation.BT</code>,
@@ -305,7 +305,7 @@ sap.ui.define([
 
 	/**
 	 * Getter for the exclude operations.
-	 * 
+	 *
 	 * @public
 	 * @since 1.26
 	 * @param {string} the type for which the operations are defined
@@ -320,7 +320,7 @@ sap.ui.define([
 
 	/**
 	 * Setter for a KeyFields array.
-	 * 
+	 *
 	 * @private
 	 * @since 1.26
 	 * @deprecated Since 1.34. This method does not work anymore - you should use the Items aggregation
@@ -384,12 +384,12 @@ sap.ui.define([
 
 	/**
 	 * Initialize the control
-	 * 
+	 *
 	 * @private
 	 */
-	P13nFilterPanel.prototype.init = function() {		
+	P13nFilterPanel.prototype.init = function() {
 		this.setType(sap.m.P13nPanelType.filter);
-		
+
 		sap.ui.getCore().loadLibrary("sap.ui.layout");
 		jQuery.sap.require("sap.ui.layout.Grid");
 
@@ -434,7 +434,7 @@ sap.ui.define([
 			    sap.m.P13nConditionOperation.EQ
 			], "boolean");
 		}
-		
+
 
 		this._aExcludeOperations = {};
 
@@ -540,9 +540,9 @@ sap.ui.define([
 					precision: fGetValueOfProperty("precision", oContext, oItem_),
 					scale: fGetValueOfProperty("scale", oContext, oItem_),
 					isDefault: fGetValueOfProperty("isDefault", oContext, oItem_),
-					values: fGetValueOfProperty("values", oContext, oItem_)  
+					values: fGetValueOfProperty("values", oContext, oItem_)
 				});
-				
+
 
 				// check if maxLength is 1 and remove contains, start and ends with operations
 				var n = aKeyFields.length;
@@ -681,7 +681,7 @@ sap.ui.define([
 // that.getFilterItems().forEach(function(oItem, i) {
 // window.console.log(i+ " Items: " + oItem.getValue1());
 // }, this);
-//			
+//
 // var oData = that.getModel().getData();
 // oData.persistentData.filter.filterItems.forEach(function(oItem, i) {
 // window.console.log(i+ " model: " + oItem.value1);
@@ -735,7 +735,7 @@ sap.ui.define([
 // that.getFilterItems().forEach(function(oItem, i) {
 // window.console.log(i+ " Items: " + oItem.getValue1());
 // }, this);
-//			
+//
 // var oData = that.getModel().getData();
 // oData.persistentData.filter.filterItems.forEach(function(oItem, i) {
 // window.console.log(i+ " model: " + oItem.value1);

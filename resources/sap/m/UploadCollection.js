@@ -1,6 +1,6 @@
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2015 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2016 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 // Provides control sap.m.UploadCollection.
@@ -19,7 +19,7 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.34.1
+	 * @version 1.34.2
 	 *
 	 * @constructor
 	 * @public
@@ -142,7 +142,7 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 			 * Since the UploadCollection reacts like a list for attachments, the API is close to the ListBase Interface.
 			 * sap.m.ListMode.Delete mode is not supported and will be automatically set to sap.m.ListMode.None.
 			 * In addition, if instant upload is set to false the mode sap.m.ListMode.MultiSelect is not supported and will be automatically set to sap.m.ListMode.None.
-			 * 
+			 *
 			 * @since 1.34
 			 */
 			mode: {type : "sap.m.ListMode", group : "Behavior", defaultValue : "None"}
@@ -349,7 +349,7 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 					 */
 					status : {type : "string"},
 					/**
-					 * A list of uploaded files. Each entry contains the following members. 
+					 * A list of uploaded files. Each entry contains the following members.
 					 * fileName	: The name of a file to be uploaded.
 					 * response	: Response message which comes from the server. On the server side, this response has to be put within the 'body' tags of the response document of the iFrame. It can consist of a return code and an optional message. This does not work in cross-domain scenarios.
 					 * responseRaw : HTTP-Response which comes from the server. This property is not supported by Internet Explorer Versions lower than 9.
@@ -2711,7 +2711,7 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 
 	/**
 	 * Handles the selected event of UploadCollectionItem.
-	 * Used to synchronize the internal list with the given item. The ListItem has to be set to selected value too. 
+	 * Used to synchronize the internal list with the given item. The ListItem has to be set to selected value too.
 	 * Otherwise the internal sap.m.List and the UploadCollectionItem aggregation are not in sync.
 	 * @param {object} oEvent Event for a selected item
 	 * @private

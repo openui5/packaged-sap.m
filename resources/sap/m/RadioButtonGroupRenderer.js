@@ -1,6 +1,6 @@
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2015 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2016 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
@@ -25,7 +25,6 @@ sap.ui.define([],
 	RadioButtonGroupRenderer.render = function(oRenderManager, oRBGroup) {
 		// convenience variable
 		var rm = oRenderManager;
-		oRBGroup.aRBs = oRBGroup.getButtons();
 
 		// Return immediately if control has no RadioButtons
 		if (!oRBGroup.aRBs) {

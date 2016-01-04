@@ -1,6 +1,6 @@
 /*
  * ! UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2015 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2016 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
@@ -12,13 +12,13 @@ sap.ui.define([
 
 	/**
 	 * Constructor for a new P13nDimMeasurePanel.
-	 * 
+	 *
 	 * @param {string} [sId] id for the new control, generated automatically if no id is given
 	 * @param {object} [mSettings] initial settings for the new control
 	 * @class The P13nDimMeasurePanel control is used to define chart-specific settings like dimensions and measures for table personalization.
 	 * @extends sap.m.P13nPanel
 	 * @author SAP SE
-	 * @version 1.34.1
+	 * @version 1.34.2
 	 * @constructor
 	 * @public
 	 * @since 1.34.0
@@ -29,11 +29,11 @@ sap.ui.define([
 	{
 		metadata: {
 			library: "sap.m",
-			properties: {				
+			properties: {
 
 				/**
 				 * Specifies a threshold of visible items.
-				 * 
+				 *
 				 * @since 1.34.0
 				 */
 				visibleItemsThreshold: {
@@ -44,7 +44,7 @@ sap.ui.define([
 
 				/**
 				 * Specifies a chart type key.
-				 * 
+				 *
 				 * @since 1.34.0
 				 */
 				chartTypeKey: {
@@ -55,7 +55,7 @@ sap.ui.define([
 			aggregations: {
 				/**
 				 * List of columns that has been changed.
-				 * 
+				 *
 				 * @since 1.34.0
 				 */
 				columnsItems: {
@@ -77,7 +77,7 @@ sap.ui.define([
 
 				/**
 				 * Specifies available chart types.
-				 * 
+				 *
 				 * @since 1.34.0
 				 */
 				availableChartTypes: {
@@ -107,11 +107,11 @@ sap.ui.define([
 
 	/**
 	 * Initialization hook.
-	 * 
+	 *
 	 * @private
 	 */
 	P13nDimMeasurePanel.prototype.init = function() {
-		var that = this;		
+		var that = this;
 		this._oRb = sap.ui.getCore().getLibraryResourceBundle("sap.m");
 		this._bOnAfterRenderingFirstTimeExecuted = false;
 
@@ -130,7 +130,7 @@ sap.ui.define([
 		this._oTableModel.setDefaultBindingMode(sap.ui.model.BindingMode.TwoWay);
 
 		this.setType(sap.m.P13nPanelType.dimeasure);
-		
+
 		this._createTable();
 		this._createToolbar();
 
@@ -215,7 +215,7 @@ sap.ui.define([
 
 	/**
 	 * Switches 'Show Selected' button to 'Show All' and back.
-	 * 
+	 *
 	 * @private
 	 */
 	P13nDimMeasurePanel.prototype._switchSelectedItems = function() {
@@ -242,7 +242,7 @@ sap.ui.define([
 
 	/**
 	 * Filters items by its selection status
-	 * 
+	 *
 	 * @private
 	 */
 	P13nDimMeasurePanel.prototype._filterItems = function() {
@@ -331,7 +331,7 @@ sap.ui.define([
 
 	/**
 	 * Execute search by filtering columns list based on the given sValue
-	 * 
+	 *
 	 * @private
 	 */
 	P13nDimMeasurePanel.prototype._changeEnableProperty4SelectAll = function() {
@@ -343,7 +343,7 @@ sap.ui.define([
 
 	/**
 	 * Execute search by filtering columns list based on the given sValue
-	 * 
+	 *
 	 * @private
 	 */
 	P13nDimMeasurePanel.prototype._executeSearch = function() {
@@ -403,7 +403,7 @@ sap.ui.define([
 	/* =========================================================== */
 	/**
 	 * Required adaptations before rendering
-	 * 
+	 *
 	 * @private
 	 */
 	P13nDimMeasurePanel.prototype.onBeforeRendering = function() {
@@ -415,7 +415,7 @@ sap.ui.define([
 
 	/**
 	 * Required adaptations after rendering
-	 * 
+	 *
 	 * @private
 	 */
 	P13nDimMeasurePanel.prototype.onAfterRendering = function() {
@@ -436,7 +436,7 @@ sap.ui.define([
 
 	/**
 	 * This method is executed before navigation, to provide validation result(s) for columnsPanel
-	 * 
+	 *
 	 * @returns {boolean} true if it is allowed to navigate away from this panel, false if it is not allowed
 	 * @public
 	 * @since 1.34.0
@@ -455,7 +455,7 @@ sap.ui.define([
 
 	/**
 	 * Delivers a payload for columnsPanel that can be used at consumer side
-	 * 
+	 *
 	 * @public
 	 * @since 1.34.0
 	 * @returns {object} oPayload, which contains useful information
@@ -536,7 +536,7 @@ sap.ui.define([
 
 	/**
 	 * Cleans up before destruction.
-	 * 
+	 *
 	 * @public
 	 */
 	P13nDimMeasurePanel.prototype.exit = function() {
@@ -921,7 +921,7 @@ sap.ui.define([
 
 	/**
 	 * Moves model item from <code>iIndexFrom</code> to <code>iIndexTo</code>.
-	 * 
+	 *
 	 * @param {int} iIndexFrom Model item at this index will be removed. Range: {0, length-1}
 	 * @param {int} iIndexTo Model item at this index will be inserted. Range: {0, length-1}
 	 * @return {boolean} <code>true</code> if table item has been moved, else <code>false</code>

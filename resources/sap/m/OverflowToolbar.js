@@ -1,6 +1,6 @@
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2015 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2016 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
@@ -37,7 +37,7 @@ sap.ui.define([
 	 * @extends sap.ui.core.Toolbar
 	 *
 	 * @author SAP SE
-	 * @version 1.34.1
+	 * @version 1.34.2
 	 *
 	 * @constructor
 	 * @public
@@ -235,6 +235,12 @@ sap.ui.define([
 				}
 			}
 		}, this);
+
+		// If the system is a phone sometimes due to specificity in the flex the content can be rendered 1px larger that it should be.
+		// This causes a overflow of the last element/button
+		if (sap.ui.Device.system.phone) {
+			this._iContentSize -= 1;
+		}
 
 		this._bControlsInfoCached = true;
 	};

@@ -1,6 +1,6 @@
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2015 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2016 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './Popover', './TabStripSelectList', './libr
 		 * @extends sap.m.Select
 		 *
 		 * @author SAP SE
-		 * @version 1.34.1
+		 * @version 1.34.2
 		 * @since 1.34
 		 *
 		 * @constructor
@@ -144,7 +144,7 @@ sap.ui.define(['jquery.sap.global', './Popover', './TabStripSelectList', './libr
 				    showHeader: false,
 				    placement: sap.m.PlacementType.Vertical,
 				    offsetX: 0,
-				    offsetY: TabStripSelect.SPACE_BETWEEN_SELECT_BUTTON_AND_POPOVER,
+				    offsetY: sap.ui.Device.system.phone ? 0 : TabStripSelect.SPACE_BETWEEN_SELECT_BUTTON_AND_POPOVER,
 				    initialFocus: this,
 				    bounce: false
 			    });

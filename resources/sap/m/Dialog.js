@@ -1,6 +1,6 @@
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2015 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2016 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
@@ -25,7 +25,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './InstanceManager', './Associative
 		 * @implements sap.ui.core.PopupInterface
 		 *
 		 * @author SAP SE
-		 * @version 1.34.1
+		 * @version 1.34.2
 		 *
 		 * @constructor
 		 * @public
@@ -970,14 +970,44 @@ sap.ui.define(['jquery.sap.global', './Bar', './InstanceManager', './Associative
 		Dialog.prototype._registerResizeHandler = function () {
 		};
 
+		Dialog.prototype._attachHandler = function(oButton) {
+			var that = this;
+
+			if (!this._oButtonDelegate) {
+				this._oButtonDelegate = {
+					ontap: function(){
+						that._oCloseTrigger = this;
+					}
+				};
+			}
+
+			if (oButton) {
+				oButton.addDelegate(this._oButtonDelegate, true, oButton);
+			}
+		};
+
 		Dialog.prototype._createToolbarButtons = function () {
 			var toolbar = this._getToolbar();
 			var buttons = this.getButtons();
 			var beginButton = this.getBeginButton();
-			var endButton = this.getEndButton();
+			var endButton = this.getEndButton(),
+				that = this,
+				aButtons = [beginButton, endButton];
+
+
+			// remove handler if such exists
+			aButtons.forEach(function(oBtn) {
+				if (oBtn && that._oButtonDelegate) {
+					oBtn.removeDelegate(that._oButtonDelegate);
+				}
+			});
 
 			toolbar.removeAllContent();
 			toolbar.addContent(new ToolbarSpacer());
+			// attach handler which sets origin parameter only for begin and End buttons
+			aButtons.forEach(function(oBtn) {
+				that._attachHandler(oBtn);
+			});
 
 			//if there are buttons they should be in the toolbar and the begin and end buttons should not be used
 			if (buttons && buttons.length) {

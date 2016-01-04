@@ -1,6 +1,6 @@
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2015 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2016 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
@@ -48,7 +48,7 @@ sap.ui.define(['jquery.sap.global', './InputBase', 'sap/ui/model/type/Date', 'sa
 	 * This could lead to a waiting time before a <code>DatePicker</code> is opened the first time. To prevent this, applications using the <code>DatePicker</code> should also load
 	 * the <code>sap.ui.unified</code> library.
 	 * @extends sap.m.InputBase
-	 * @version 1.34.1
+	 * @version 1.34.2
 	 *
 	 * @constructor
 	 * @public
@@ -757,7 +757,7 @@ sap.ui.define(['jquery.sap.global', './InputBase', 'sap/ui/model/type/Date', 'sa
 			// do not use this.onChange() because output pattern will change date (e.g. only last 2 number of year -> 1966 -> 2066 )
 			if (!jQuery.sap.equal(oDate, oDateOld)) {
 				this.setDateValue(oDate);
-				// compare Dates because value can be the same if only 2 digits for year 
+				// compare Dates because value can be the same if only 2 digits for year
 				sValue = this.getValue();
 				this.fireChangeEvent(sValue, {valid: true});
 				if (this.getDomRef()) { // as control could be destroyed during update binding

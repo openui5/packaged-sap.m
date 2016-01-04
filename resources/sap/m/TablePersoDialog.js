@@ -1,6 +1,6 @@
 /*
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2015 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2016 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
@@ -30,7 +30,7 @@ sap.ui.define(['jquery.sap.global', './Button', './Dialog', './InputListItem', '
 	 * @class Table Personalization Dialog
 	 * @extends sap.ui.base.ManagedObject
 	 * @author SAP
-	 * @version 1.34.1
+	 * @version 1.34.2
 	 * @alias sap.m.TablePersoDialog
 	 */
 	var TablePersoDialog = ManagedObject.extend("sap.m.TablePersoDialog", /** @lends sap.m.TablePersoDialog */
@@ -246,13 +246,13 @@ sap.ui.define(['jquery.sap.global', './Button', './Dialog', './InputListItem', '
 				that._oList.getItems().some(fnItemMatches);
 				// Clear last selected item so it does not get used again
 				that._sLastSelectedItemId = null;
-				
-				// Make sure that arrow buttons are updated 
+
+				// Make sure that arrow buttons are updated
 				if (that._fnUpdateArrowButtons) {
 					that._fnUpdateArrowButtons.call(this);
 				}
 			}
-			
+
 		};
 
 		this._fnAfterDialogOpen = function () {

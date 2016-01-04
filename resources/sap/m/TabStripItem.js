@@ -1,6 +1,6 @@
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2015 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2016 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 // Provides control sap.m.TabStripItem.
@@ -19,7 +19,7 @@ sap.ui.define(["jquery.sap.global", "./library", "sap/ui/core/Item", "sap/ui/bas
 		 * @extends sap.ui.core.Item
 		 *
 		 * @author SAP SE
-		 * @version 1.34.1
+		 * @version 1.34.2
 		 *
 		 * @constructor
 		 * @private
@@ -47,25 +47,29 @@ sap.ui.define(["jquery.sap.global", "./library", "sap/ui/core/Item", "sap/ui/bas
 					 */
 					itemClosePressed: {
 						allowPreventDefault: true,
-						parameters          : {
+						parameters: {
 							/**
 							 * Tab id of the tab to be closed
 							 */
 							item: {type: "sap.m.TabStripItem"}
 						}
 					},
-					itemPropertyChanged : {
-						parameters          : {
-							itemChanged     : {type: 'sap.m.TabStripItem'},
-							propertyKey     : {type: "string"},
-							propertyValue   : {type: "mixed"}
+					/**
+					 * Let the outside world know that some of its properties has changed.
+					 * @private
+					 */
+					itemPropertyChanged: {
+						parameters: {
+							itemChanged: {type: 'sap.m.TabStripItem'},
+							propertyKey: {type: "string"},
+							propertyValue:  {type: "mixed"}
 						}
 					},
 					/**
 					 * Fired when the tab item is selected
 					 * ToDo: Is this needed? (Vesko)
 					 */
-					tabSelected     : {
+					tabSelected: {
 						parameters: {
 							tab: {type: "sap.m.TabStripItem"}
 						}
@@ -77,13 +81,13 @@ sap.ui.define(["jquery.sap.global", "./library", "sap/ui/core/Item", "sap/ui/bas
 
 		// ToDo: change the constants names
 		// ToDo: (2) move all css constants to an array constant
-		TabStripItem.DISPLAY_TEXT_MAX_LENGHT    = 25;
-		TabStripItem._CSS_CLASS                 = "sapMTabContainerItem";
-		TabStripItem._CSS_CLASS_LABEL           = "sapMTabContainerItemLabel";
-		TabStripItem._CSS_CLASS_BUTTON          = "sapMTabContainerItemButton";
-		TabStripItem.CSS_CLASS_STATE            = "sapMTabSelectListItemModified";
-		TabStripItem.CSS_CLASS_STATEINVISIBLE   = "sapMTabSelectListItemModifiedInvisible";
-		TabStripItem.CSS_CLASS_CLOSEBUTTON      = 'sapMTabSelectListItemCloseBtn';
+		TabStripItem.DISPLAY_TEXT_MAX_LENGHT = 25;
+		TabStripItem._CSS_CLASS = "sapMTabContainerItem";
+		TabStripItem._CSS_CLASS_LABEL = "sapMTabContainerItemLabel";
+		TabStripItem._CSS_CLASS_BUTTON = "sapMTabContainerItemButton";
+		TabStripItem.CSS_CLASS_STATE = "sapMTabSelectListItemModified";
+		TabStripItem.CSS_CLASS_STATEINVISIBLE = "sapMTabSelectListItemModifiedInvisible";
+		TabStripItem.CSS_CLASS_CLOSEBUTTON = 'sapMTabSelectListItemCloseBtn';
 
 
 		/**

@@ -1,6 +1,6 @@
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2015 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2016 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
@@ -20,7 +20,7 @@ function(jQuery, library, Control, SelectList, TabStripItem, ManagedObject) {
 	 * @extends sap.ui.core.SelectList
 	 *
 	 * @author SAP SE
-	 * @version 1.34.1
+	 * @version 1.34.2
 	 *
 	 * @constructor
 	 * @public
@@ -76,10 +76,11 @@ function(jQuery, library, Control, SelectList, TabStripItem, ManagedObject) {
 	 */
 	TabStripSelectList.prototype.mouseenter = function (oEvent) {
 		var oControl = jQuery(oEvent.target).control(0);
-		if (oControl.getMetadata().getName() === 'sap.m.TabStripItem') {
-			if (this.getSelectedItem() !== oControl) {
+		if (sap.ui.Device.system.desktop && // close button always visible on phone and tablet
+			oControl instanceof sap.m.TabStripItem && // only this type has _closeButton aggregation
+			this.getSelectedItem() !== oControl
+		) {
 				oControl.getAggregation('_closeButton').$().removeClass(TabStripSelectList.CSS_CLASS_CLOSEBUTTONINVISIBLE);
-			}
 		}
 	};
 
@@ -90,10 +91,13 @@ function(jQuery, library, Control, SelectList, TabStripItem, ManagedObject) {
 	*/
     TabStripSelectList.prototype.mouseleave = function (oEvent) {
 		var oControl = jQuery(oEvent.target).control(0);
-		if (oControl.getMetadata().getName() === 'sap.m.TabStripItem' && jQuery(oEvent.target).hasClass('sapMSelectListItem')) {
-			if (this.getSelectedItem() !== oControl) {
+		if (
+			sap.ui.Device.system.desktop && // close button always visible on phone and tablet
+			oControl instanceof sap.m.TabStripItem && // only this type has _closeButton aggregation
+			jQuery(oEvent.target).hasClass('sapMSelectListItem') &&
+			this.getSelectedItem() !== oControl
+		) {
 				oControl.getAggregation('_closeButton').$().addClass(TabStripSelectList.CSS_CLASS_CLOSEBUTTONINVISIBLE);
-			}
 		}
 	};
 
@@ -111,7 +115,10 @@ function(jQuery, library, Control, SelectList, TabStripItem, ManagedObject) {
 
 			var oPrevSelectedItem = this.getSelectedItem();
 			if (oPrevSelectedItem !== oItem) {
-				oPrevSelectedItem.getAggregation('_closeButton').addStyleClass(TabStripSelectList.CSS_CLASS_CLOSEBUTTONINVISIBLE);
+				if (sap.ui.Device.system.desktop) {
+					// close button is always visible on phone and tablet
+					oPrevSelectedItem.getAggregation('_closeButton').addStyleClass(TabStripSelectList.CSS_CLASS_CLOSEBUTTONINVISIBLE);
+				}
 				this.setSelection(oItem);
 				this.fireSelectionChange({
 					selectedItem: oItem

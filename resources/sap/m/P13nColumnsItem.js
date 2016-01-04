@@ -1,6 +1,6 @@
 /*
  * ! UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2015 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2016 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
@@ -12,12 +12,12 @@ sap.ui.define([
 
 	/**
 	 * Constructor for a new P13nColumnsItem.
-	 * 
+	 *
 	 * @param {string} [sId] id for the new control, generated automatically if no id is given
 	 * @param {object} [mSettings] initial settings for the new control
 	 * @class Type for <code>columnsItems</code> aggregation in P13nColumnsPanel control.
 	 * @extends sap.ui.core.Item
-	 * @version 1.34.1
+	 * @version 1.34.2
 	 * @constructor
 	 * @author SAP SE
 	 * @public
@@ -34,7 +34,7 @@ sap.ui.define([
 
 				/**
 				 * This property contains the unique table column key
-				 * 
+				 *
 				 * @since 1.26.0
 				 */
 				columnKey: {
@@ -44,7 +44,7 @@ sap.ui.define([
 
 				/**
 				 * This property contains the index of a table column
-				 * 
+				 *
 				 * @since 1.26.0
 				 */
 				index: {
@@ -54,7 +54,7 @@ sap.ui.define([
 
 				/**
 				 * This property decides whether a P13nColumnsItem is visible
-				 * 
+				 *
 				 * @since 1.26.0
 				 */
 				visible: {
@@ -64,7 +64,7 @@ sap.ui.define([
 
 				/**
 				 * This property contains the with of a table column.
-				 * 
+				 *
 				 * @since 1.26.0
 				 */
 				width: {
@@ -74,7 +74,7 @@ sap.ui.define([
 
 				/**
 				 * Defines role. The role is reflected in the manner how the dimension will influence the chart layout.
-				 * 
+				 *
 				 * @since 1.34.0
 				 */
 				role: {

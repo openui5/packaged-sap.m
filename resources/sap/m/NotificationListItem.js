@@ -1,6 +1,6 @@
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2015 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2016 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
@@ -21,7 +21,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', './ListI
 		 * @extends sap.m.ListItemBase
 		 *
 		 * @author SAP SE
-		 * @version 1.34.1
+		 * @version 1.34.2
 		 *
 		 * @constructor
 		 * @public
@@ -348,8 +348,20 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', './ListI
 			}
 		};
 
+		NotificationListItem.prototype.clone = function () {
+			var clonedObject = Control.prototype.clone.apply(this, arguments);
+
+			// "_overflowToolbar" aggregation is hidden and it is not cloned by default
+			var overflowToolbar = this.getAggregation('_overflowToolbar');
+			clonedObject.setAggregation("_overflowToolbar", overflowToolbar.clone(), true);
+
+			return clonedObject;
+		};
+
 		NotificationListItem.prototype.close = function () {
+			var parent = this.getParent();
 			this.fireClose();
+			parent && parent.focus();
 			this.destroy();
 		};
 

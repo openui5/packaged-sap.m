@@ -1,6 +1,6 @@
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2015 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2016 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
@@ -14,11 +14,11 @@ sap.ui.define([ 'jquery.sap.global', './library', 'sap/ui/core/Control','sap/m/T
 	 * @param {string} [sId] id for the new control, generated automatically if no id is given
 	 * @param {object} [mSettings] initial settings for the new control
 	 *
-	 * @class This control displays the feed content text, subheader, and numeric value in a tile.
+	 * @class Displays a tile containing the text of the feed, a subheader, and a numeric value.
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.34.1
+	 * @version 1.34.2
 	 * @since 1.34
 	 *
 	 * @public

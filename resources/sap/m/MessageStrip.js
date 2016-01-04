@@ -1,6 +1,6 @@
 /*!
 * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2015 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2016 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
 */
 
@@ -21,7 +21,7 @@ sap.ui.define(["jquery.sap.global", "./library", "sap/ui/core/Control", "./Messa
 	 * Each message can have a close button, so that it can be removed from the UI if needed.
 	 *
 	 * @author SAP SE
-	 * @version 1.34.1
+	 * @version 1.34.2
 	 *
 	 * @constructor
 	 * @public
@@ -170,6 +170,11 @@ sap.ui.define(["jquery.sap.global", "./library", "sap/ui/core/Control", "./Messa
 			this.fireClose();
 			this.setVisible(false);
 		}.bind(this);
+
+		if (!sap.ui.getCore().getConfiguration().getAnimation()) {
+			fnClosed();
+			return;
+		}
 
 		if (sap.ui.Device.browser.internet_explorer && sap.ui.Device.browser.version < 10) {
 			MSUtils.closeTransitionWithJavascript.call(this, fnClosed);

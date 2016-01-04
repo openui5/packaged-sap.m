@@ -1,6 +1,6 @@
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2015 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2016 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
@@ -22,7 +22,7 @@ sap.ui.define(['sap/ui/core/Element', './library'],
 	 * @extends sap.ui.core.Element
 	 *
 	 * @author SAP SE
-	 * @version 1.34.1
+	 * @version 1.34.2
 	 *
 	 * @constructor
 	 * @public
@@ -60,7 +60,8 @@ sap.ui.define(['sap/ui/core/Element', './library'],
 		},
 		events : {
 			/**
-			 * Fires item property change event
+			 * Let the outside world know that some of its properties has changed.
+			 * @private
 			 */
 			itemPropertyChanged : {
 				parameters: {

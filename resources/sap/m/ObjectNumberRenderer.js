@@ -1,6 +1,6 @@
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2015 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2016 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
@@ -23,7 +23,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Renderer'],
 	 * @param {sap.ui.core.Control} oON An object representation of the control that should be rendered
 	 */
 	ObjectNumberRenderer.render = function(oRm, oON) {
-		var sTooltip = oON.getTooltip_AsString(),
+		var sTooltip = oON._getEnrichedTooltip(),
 			sTextDir = oON.getTextDirection(),
 			sTextAlign = oON.getTextAlign();
 

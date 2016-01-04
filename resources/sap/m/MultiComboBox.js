@@ -1,6 +1,6 @@
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2015 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2016 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './InputBase', './ComboBoxBase', '.
 	 * @extends sap.m.ComboBoxBase
 	 *
 	 * @author SAP SE
-	 * @version 1.34.1
+	 * @version 1.34.2
 	 *
 	 * @constructor
 	 * @public
@@ -192,7 +192,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './InputBase', './ComboBoxBase', '.
 
 		this._setContainerSizes();
 	};
-	
+
 	/**
 	 * Handles the item selection when user triggers an item selection via key press (TAB, ENTER etc.).
 	 *
@@ -294,7 +294,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './InputBase', './ComboBoxBase', '.
 		var oPicker = this.getAggregation("picker");
 		var oControl = sap.ui.getCore().byId(oEvent.relatedControlId);
 		var oFocusDomRef = oControl && oControl.getFocusDomRef();
-		
+
 		// If focus target is outside of picker
 		if (!oPicker || !oPicker.getFocusDomRef() || !oFocusDomRef || !jQuery.contains(oPicker.getFocusDomRef(), oFocusDomRef)) {
 			this.setValue(null);
