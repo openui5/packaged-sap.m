@@ -1,6 +1,6 @@
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2015 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2016 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
@@ -10,16 +10,16 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Element'], functio
 
 	/**
 	 * Constructor for a new P13nItem.
-	 * 
+	 *
 	 * @param {string}
 	 *          [sId] id for the new control, generated automatically if no id is given
 	 * @param {object}
 	 *          [mSettings] initial settings for the new control
-	 * 
+	 *
 	 * @class tbd (should enable panels of personalization to have a constistent view of the 'columns' of the table)
 	 * @extends sap.ui.core.Item
-	 * @version 1.28.25
-	 * 
+	 * @version 1.28.26
+	 *
 	 * @constructor
 	 * @public
 	 * @since 1.26.0
@@ -93,14 +93,14 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Element'], functio
 
 				/**
 				 * specifies the number of characters which can be entered in the value fields of the condition panel
-				 * @since 1.26.0  
+				 * @since 1.26.0
 				 */
 				maxLength : {
 					type : "string",
 					group : "Misc",
 					defaultValue : null
 				},
-				
+
 				/**
 				 * tbd
 				 * @since 1.26.0
@@ -110,15 +110,15 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Element'], functio
 					group : "Misc",
 					defaultValue : null
 				},
-				
+
 				/**
 				 * the column with isDefault==true will be used as the selected column item on the conditionPanel
-				 * @since 1.26.0 
+				 * @since 1.26.0
 				 */
 				isDefault : {
 					type : "boolean",
 					group : "Misc",
-					defaultValue : false					
+					defaultValue : false
 				}
 			}
 		}

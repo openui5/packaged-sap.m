@@ -1,6 +1,6 @@
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2015 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2016 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
@@ -10,17 +10,17 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	"use strict";
 
 
-	
+
 	/**
 	 * Constructor for a new ObjectIdentifier.
 	 *
-	 * @param {string} [sId] id for the new control, generated automatically if no id is given 
+	 * @param {string} [sId] id for the new control, generated automatically if no id is given
 	 * @param {object} [mSettings] initial settings for the new control
 	 *
 	 * @class
 	 * ObjectIdentifier is a display control that enables the user to easily identify a specific object. The object identifier title is the key identifier of the object and additional text and icons can be used to further distinguish it from other objects.
 	 * @extends sap.ui.core.Control
-	 * @version 1.28.25
+	 * @version 1.28.26
 	 *
 	 * @constructor
 	 * @public
@@ -29,46 +29,46 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @ui5-metamodel This control/element also will be described in the UI5 (legacy) designtime metamodel
 	 */
 	var ObjectIdentifier = Control.extend("sap.m.ObjectIdentifier", /** @lends sap.m.ObjectIdentifier.prototype */ { metadata : {
-	
+
 		library : "sap.m",
 		properties : {
-	
+
 			/**
 			 * The object title.
 			 */
 			title : {type : "string", group : "Misc", defaultValue : null},
-	
+
 			/**
 			 * The object text.
 			 */
 			text : {type : "string", group : "Misc", defaultValue : null},
-	
+
 			/**
 			 * Indicates whether or not the notes icon is displayed.
-			 * @deprecated Since version 1.24.0. 
+			 * @deprecated Since version 1.24.0.
 			 * Will be replaced in the future by a more generic mechansism.
 			 */
 			badgeNotes : {type : "boolean", group : "Misc", defaultValue : null, deprecated: true},
-	
+
 			/**
 			 * Indicates whether or not the address book icon is displayed.
-			 * @deprecated Since version 1.24.0. 
+			 * @deprecated Since version 1.24.0.
 			 * Will be replaced in the future by a more generic mechansism.
 			 */
 			badgePeople : {type : "boolean", group : "Misc", defaultValue : null, deprecated: true},
-	
+
 			/**
 			 * Indicates whether or not the attachments icon is displayed.
-			 * @deprecated Since version 1.24.0. 
+			 * @deprecated Since version 1.24.0.
 			 * Will be replaced in the future by a more generic mechansism.
 			 */
 			badgeAttachments : {type : "boolean", group : "Misc", defaultValue : null, deprecated: true},
-	
+
 			/**
 			 * Indicates if the object identifier is visible. An invisible object identifier is not being rendered.
 			 */
 			visible : {type : "boolean", group : "Appearance", defaultValue : true},
-	
+
 			/**
 			 * Indicates if the object identifier's title is clickable.
 			 * @since 1.26
@@ -82,30 +82,30 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 			textDirection : {type : "sap.ui.core.TextDirection", group : "Appearance", defaultValue : sap.ui.core.TextDirection.Inherit}
 		},
 		aggregations : {
-	
+
 			/**
 			 * Control to display the object title (can be either Text or Link)
-			 * 
+			 *
 			 * @private
 			 */
 			_titleControl : {type : "sap.ui.core.Control", multiple : false, visibility : "hidden"},
-			
+
 			/**
 			 * Text control to display the object text
-			 * 
+			 *
 			 * @private
 			 */
 			_textControl : {type : "sap.ui.core.Control", multiple : false, visibility : "hidden"}
 		},
 		events : {
-	
+
 			/**
 			 * Event is fired when the title is active and the user taps/clicks on it.
 			 * @since 1.26
 			 */
 			titlePress : {
 				parameters : {
-	
+
 					/**
 					 * Dom reference of the object identifier's title
 					 */
@@ -114,100 +114,100 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 			}
 		}
 	}});
-	
+
 	///**
 	// * This file defines behavior for the control
 	// */
-	
+
 	/**
 	 * Called when the control is destroyed.
-	 * 
+	 *
 	 * @private
 	 */
 	ObjectIdentifier.prototype.exit = function() {
-	
+
 	    if (this._attachmentsIcon) {
 	        this._attachmentsIcon.destroy();
 	        this._attachmentsIcon = null;
 	    }
-	
+
 	    if (this._peopleIcon) {
 	        this._peopleIcon.destroy();
 	        this._peopleIcon = null;
 	    }
-	
+
 	    if (this._notesIcon) {
 	        this._notesIcon.destroy();
 	        this._notesIcon = null;
 	    }
 	};
-	
+
 	/**
 	 * Lazy load attachments icon.
-	 * 
+	 *
 	 * @private
 	 */
 	ObjectIdentifier.prototype._getAttachmentsIcon = function() {
-	
+
 		if (!this._attachmentsIcon) {
 			this._attachmentsIcon = this._getIcon(IconPool.getIconURI("attachment"), this.getId() + "-attachments");
 		}
-	
+
 	    return this._attachmentsIcon;
 	};
-	
+
 	/**
 	 * Lazy load people icon.
-	 * 
+	 *
 	 * @private
 	 */
 	ObjectIdentifier.prototype._getPeopleIcon = function() {
-	
+
 		if (!this._peopleIcon) {
 			this._peopleIcon = this._getIcon(IconPool.getIconURI("group"), this.getId() + "-people");
 		}
-	
+
 	    return this._peopleIcon;
 	};
-	
+
 	/**
 	 * Lazy load notes icon.
-	 * 
+	 *
 	 * @private
 	 */
 	ObjectIdentifier.prototype._getNotesIcon = function() {
-	
+
 		if (!this._notesIcon ) {
 			this._notesIcon  = this._getIcon(IconPool.getIconURI("notes"), this.getId() + "-notes");
 		}
-	
+
 	    return this._notesIcon;
 	};
-	
+
 	/**
 	 * Create icon image.
-	 * 
+	 *
 	 * @private
 	 */
 	ObjectIdentifier.prototype._getIcon = function(sURI, sImageId) {
-	
+
 	    var sSize = sap.ui.Device.system.phone ? "1em" : "1em";
 	    var oImage;
-	
+
 	    oImage = this._icon || IconPool.createControlByURI({
 	        src : sURI,
 	        id : sImageId + "-icon",
 	        size : sSize
 	    }, sap.m.Image);
-	
+
 	    oImage.setSrc(sURI);
-	
+
 	    return oImage;
-	};	
+	};
 
 	/**
 	 * Get the proper control for the title.
-	 * 
+	 *
 	 * @private
 	 */
 	ObjectIdentifier.prototype._getTitleControl = function() {
@@ -250,10 +250,10 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 
 		return oTitleControl;
 	};
-	
+
 	/**
 	 * Lazy initialization of _textControl aggregation
-	 * 
+	 *
 	 * @private
 	 */
 	ObjectIdentifier.prototype._getTextControl = function() {
@@ -269,15 +269,15 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 
 		oTextControl.setTextDirection(this.getTextDirection());
 		oTextControl.setVisible(!!this.getText());
-		
+
 		return oTextControl;
 	};
-	
+
 	/**
 	 * Updates the text of the title control and rerenders it
 	 * If titleActive = true, a Link control is rendered,
 	 * otherwise a Text control will be rendered
-	 * 
+	 *
 	 * @private
 	 */
 	ObjectIdentifier.prototype._rerenderTitle = function() {
@@ -288,7 +288,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		oRm.flush(this.$("title")[0]);
 		oRm.destroy();
 	};
-	
+
 	/**
 	 * Setter for property title.
 	 * Default value is empty/undefined
@@ -303,12 +303,12 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		oTitleControl.setProperty("text", sTitle, false);
 		oTitleControl.setVisible(!!sTitle);
 		this.setProperty("title", sTitle, true);
-		this.$("text").toggleClass("sapMObjectIdentifierTextBellow", 
+		this.$("text").toggleClass("sapMObjectIdentifierTextBellow",
 				!!this.getProperty("text") && !!this.getProperty("title"));
-	
+
 		return this;
 	};
-	
+
 	/**
 	 * Setter for property text.
 	 * Default value is empty/undefined
@@ -320,15 +320,15 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		//always suppress rerendering because text div is rendered
 		//if text is empty or not
 		this.setProperty("text", sText, true);
-		
+
 		var oTextControl = this._getTextControl();
 		oTextControl.setProperty("text", sText, false);
-		this.$("text").toggleClass("sapMObjectIdentifierTextBellow", 
+		this.$("text").toggleClass("sapMObjectIdentifierTextBellow",
 				!!this.getProperty("text") && !!this.getProperty("title"));
-	
+
 		return this;
 	};
-	
+
 	/**
 	 * Setter for property titleActive.
 	 * Default value is false
@@ -349,7 +349,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		}
 		return this;
 	};
-	
+
 	/**
 	 * Function is called when ObjectIdentifier's title is triggered.
 	 *
@@ -364,7 +364,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 			});
 		}
 	};
-	
+
 	/**
 	 * Event handler called when the enter key is pressed.
 	 *
@@ -374,7 +374,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	ObjectIdentifier.prototype.onsapenter = function(oEvent) {
 		ObjectIdentifier.prototype._handlePress.apply(this, arguments);
 	};
-	
+
 	/**
 	 * Event handler called when the space key is pressed.
 	 *
@@ -384,9 +384,9 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	ObjectIdentifier.prototype.onsapspace = function(oEvent) {
 		ObjectIdentifier.prototype._handlePress.apply(this, arguments);
 	};
-	
+
 	/**
-	 * Event handler called when the title is clicked/taped. 
+	 * Event handler called when the title is clicked/taped.
 	 *
 	 * @param {jQuery.Event} oEvent
 	 * @private
@@ -394,7 +394,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	ObjectIdentifier.prototype.ontap = function(oEvent) {
 		ObjectIdentifier.prototype._handlePress.apply(this, arguments);
 	};
-	
+
 
 	return ObjectIdentifier;
 

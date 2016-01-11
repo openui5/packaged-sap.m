@@ -1,6 +1,6 @@
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2015 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2016 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
@@ -12,7 +12,7 @@ sap.ui.define(['jquery.sap.global', './Select', './library'],
 		/**
 		 * Constructor for a new ActionSelect.
 		 *
-		 * @param {string} [sId] id for the new control, generated automatically if no id is given 
+		 * @param {string} [sId] id for the new control, generated automatically if no id is given
 		 * @param {object} [mSettings] initial settings for the new control
 		 *
 		 * @class
@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './Select', './library'],
 		 * @extends sap.m.Select
 		 *
 		 * @author SAP SE
-		 * @version 1.28.25
+		 * @version 1.28.26
 		 *
 		 * @constructor
 		 * @public
@@ -32,7 +32,7 @@ sap.ui.define(['jquery.sap.global', './Select', './library'],
 
 			library : "sap.m",
 			associations : {
-		
+
 				/**
 				 * Buttons to be added to the ActionSelect content.
 				 */
@@ -43,7 +43,7 @@ sap.ui.define(['jquery.sap.global', './Select', './library'],
 		ActionSelect.prototype.init = function() {
 			Select.prototype.init.call(this);
 			this.getList().addEventDelegate({
-				onfocusin: this.onfocusinList 	
+				onfocusin: this.onfocusinList
 			}, this);
 		};
 		/* =========================================================== */
@@ -79,8 +79,8 @@ sap.ui.define(['jquery.sap.global', './Select', './library'],
 				oPicker.addContent(oCore.byId(sButtonId));
 			});
 		};
-		
-		
+
+
 		/* =========================================================== */
 		/* Lifecycle methods                                           */
 		/* =========================================================== */
@@ -144,15 +144,15 @@ sap.ui.define(['jquery.sap.global', './Select', './library'],
 			return this.removeAllAssociation("buttons");
 		};
 
-		
+
 		//Keyboard Navigation for Action buttons
-		
+
 		/**
 		 * Handler for SHIFT-TAB key  - 'tab previous' sap ui5 key event.
-		 * 
+		 *
 		 * @param oEvent - key event
 		 * @private
-		 * 
+		 *
 		 */
 		ActionSelect.prototype.onsaptabprevious = function(oEvent) {
 			// check whether event is marked or not
@@ -165,18 +165,18 @@ sap.ui.define(['jquery.sap.global', './Select', './library'],
 			var oPicker = this.getPicker();
 
 			if (oPicker && oPicker.isOpen() && aButtons.length > 0) {
-				sap.ui.getCore().byId(aButtons[aButtons.length - 1]).focus(); 
+				sap.ui.getCore().byId(aButtons[aButtons.length - 1]).focus();
 				oEvent.preventDefault();
-			} 
-		};		
-		
-		
+			}
+		};
+
+
 		/**
 		 * Handler for TAB key - sap 'tab next' key event.
-		 * 
+		 *
 		 * @param oEvent - key event
 		 * @private
-		 * 
+		 *
 		 */
 		ActionSelect.prototype.onsaptabnext = function(oEvent) {
 			// check whether event is marked or not
@@ -185,18 +185,18 @@ sap.ui.define(['jquery.sap.global', './Select', './library'],
 			}
 			// mark the event for components that needs to know if the event was handled
 			oEvent.setMarked();
-			
-			
+
+
 			var aButtons = this.getButtons();
 			var oPicker = this.getPicker();
 
 			if (oPicker && oPicker.isOpen() && aButtons.length > 0) {
-				sap.ui.getCore().byId(aButtons[0]).focus(); 
+				sap.ui.getCore().byId(aButtons[0]).focus();
 				oEvent.preventDefault();
-			} 
-		};		
-		
-		
+			}
+		};
+
+
 		/**
 		 * Handle the focus leave event.
 		 *
@@ -204,28 +204,28 @@ sap.ui.define(['jquery.sap.global', './Select', './library'],
 		 * @private
 		 */
 		ActionSelect.prototype.onsapfocusleave = function(oEvent) {
-			// Keep focus on Action Select's input field if does not go to 
+			// Keep focus on Action Select's input field if does not go to
 			// the buttons in Action sheet part of the ActionSelect
 			var aButtons = this.getButtons();
-			var bKeepFocus = (aButtons.indexOf(oEvent.relatedControlId) == -1); 
+			var bKeepFocus = (aButtons.indexOf(oEvent.relatedControlId) == -1);
 			if (bKeepFocus) {
 				Select.prototype.onsapfocusleave.apply(this, arguments);
 			}
 		};
-		
-		
+
+
 		/**
 		 * Handler for focus in event on The Selection List.
-		 * 
+		 *
 		 * @param oEvent - key event
-		 * @private 
+		 * @private
 		 */
 		ActionSelect.prototype.onfocusinList = function(oEvent) {
 			if (document.activeElement !== this.getList().getDomRef()) {
 				this.focus();
 			}
 		};
-		
+
 		return ActionSelect;
 
 	}, /* bExport= */ true);

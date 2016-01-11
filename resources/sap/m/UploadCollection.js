@@ -1,6 +1,6 @@
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2015 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2016 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 // Provides control sap.m.UploadCollection.
@@ -19,7 +19,7 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.28.25
+	 * @version 1.28.26
 	 *
 	 * @constructor
 	 * @public
@@ -276,7 +276,7 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 					 */
 					status : {type : "string"},
 					/**
-					 * A list of uploaded files. Each entry contains the following members. 
+					 * A list of uploaded files. Each entry contains the following members.
 					 * fileName	: The name of a file to be uploaded.
 					 * response	: Response message which comes from the server. On the server side this response has to be put within the "body" tags of the response document of the iFrame. It can consist of a return code and an optional message. This does not work in cross-domain scenarios.
 					 * responseRaw : HTTP-Response which comes from the server. This property is not supported by Internet Explorer Versions lower than 9.
@@ -742,7 +742,7 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 			} else {
 				oButtonsHL.removeStyleClass("sapMUCEditMode");
 			}
-		
+
 		oListItem = new sap.m.CustomListItem(sItemId + "-cli", {
 			content : [oBusyIndicator, oItemIcon, oTextVL, oButtonsHL]
 		});
@@ -1031,9 +1031,9 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 			sap.m.UploadCollection.prototype._handleOk(oEvent, oContext, sSourceId, false);
 		} else if (oEvent.target.id.lastIndexOf("cancelButton") > 0) {
 			sap.m.UploadCollection.prototype._handleCancel(oEvent, oContext, sSourceId);
-						} else if (oEvent.target.id.lastIndexOf("ia_imageHL") < 0 && 
-								oEvent.target.id.lastIndexOf("ia_iconHL") < 0 && 
-								oEvent.target.id.lastIndexOf("deleteButton") < 0 && 
+						} else if (oEvent.target.id.lastIndexOf("ia_imageHL") < 0 &&
+								oEvent.target.id.lastIndexOf("ia_iconHL") < 0 &&
+								oEvent.target.id.lastIndexOf("deleteButton") < 0 &&
 								oEvent.target.id.lastIndexOf("ta_editFileName") < 0) {
 			if (oEvent.target.id.lastIndexOf("cli") > 0) {
 				oContext.sFocusId = oEvent.target.id;
@@ -1493,7 +1493,7 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 				}]
 			});
 		}
-		
+
 		function checkRequestStatus () {
 			var sRequestStatus = oEvent.getParameter("status").toString() || "200"; // In case of IE < 10 this will not work.
 			if (sRequestStatus[0] === "2" || sRequestStatus[0] === "3") {

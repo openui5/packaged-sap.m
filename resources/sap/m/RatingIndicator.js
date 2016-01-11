@@ -1,6 +1,6 @@
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2015 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2016 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
@@ -23,7 +23,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.28.25
+	 * @version 1.28.26
 	 *
 	 * @constructor
 	 * @public
@@ -157,7 +157,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		this.allowTextSelection(false);
 		this._iIconCounter = 0;
 		this._fHoverValue = 0;
-		
+
 		this._oResourceBundle = sap.ui.getCore().getLibraryResourceBundle('sap.m');
 
 		if (RatingIndicator._pxCalculations === undefined) {
@@ -174,7 +174,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @public
 	 */
 	RatingIndicator.prototype.setValue = function (fValue) {
-		// validates the property and sets null/undefined values to the default 
+		// validates the property and sets null/undefined values to the default
 		fValue = this.validateProperty("value", fValue);
 
 		// do not set negative values (will be returned by calculation function if there is an error)
@@ -335,7 +335,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		this._iPxIconSize = this._toPx(this.getIconSize()) || 16;
 		this._iPxPaddingSize = this._toPx(Parameters.get("sapUiRIIconPadding")) || 4;
 	};
-	
+
 	/**
 	 * Called by the framework when rendering is completed.
 	 *
@@ -419,7 +419,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		if (iSelectedWidth < 0) {	// width should not be negative
 			iSelectedWidth = 0;
 		}
-		
+
 		this._updateAriaValues(fValue);
 
 		// adjust unselected container with the remaining width
@@ -446,14 +446,14 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 */
 	RatingIndicator.prototype._updateAriaValues = function (newValue) {
 		var $this = this.$();
-		
+
 		var fValue;
 		if (newValue === undefined) {
 			fValue = this.getValue();
 		} else {
 			fValue = newValue;
 		}
-		
+
 		var fMaxValue = this.getMaxValue();
 
 		$this.attr("aria-valuenow", fValue);

@@ -1,6 +1,6 @@
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2015 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2016 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
@@ -30,7 +30,7 @@ sap.ui.define(['sap/ui/core/Renderer', './ToolbarRenderer'],
 		OverflowToolbarRenderer.renderOverflowButton = function(rm,oToolbar) {
 			var oOverflowButtonLabel = oToolbar._getOverflowButtonLabel();
 			rm.renderControl(oOverflowButtonLabel);
-			
+
 			var oOverflowButton = oToolbar._getOverflowButton();
 			sap.m.BarInPageEnabler.addChildClassTo(oOverflowButton,oToolbar);
 			rm.renderControl(oOverflowButton);

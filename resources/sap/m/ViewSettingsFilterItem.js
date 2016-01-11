@@ -1,6 +1,6 @@
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2015 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2016 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
@@ -10,11 +10,11 @@ sap.ui.define(['jquery.sap.global', './ViewSettingsItem', './library'],
 	"use strict";
 
 
-	
+
 	/**
 	 * Constructor for a new ViewSettingsFilterItem.
 	 *
-	 * @param {string} [sId] id for the new control, generated automatically if no id is given 
+	 * @param {string} [sId] id for the new control, generated automatically if no id is given
 	 * @param {object} [mSettings] initial settings for the new control
 	 *
 	 * @class
@@ -23,7 +23,7 @@ sap.ui.define(['jquery.sap.global', './ViewSettingsItem', './library'],
 	 * @extends sap.m.ViewSettingsItem
 	 *
 	 * @author SAP SE
-	 * @version 1.28.25
+	 * @version 1.28.26
 	 *
 	 * @constructor
 	 * @public
@@ -32,25 +32,25 @@ sap.ui.define(['jquery.sap.global', './ViewSettingsItem', './library'],
 	 * @ui5-metamodel This control/element also will be described in the UI5 (legacy) designtime metamodel
 	 */
 	var ViewSettingsFilterItem = ViewSettingsItem.extend("sap.m.ViewSettingsFilterItem", /** @lends sap.m.ViewSettingsFilterItem.prototype */ { metadata : {
-	
+
 		library : "sap.m",
 		properties : {
-	
+
 			/**
 			 * If set to (true), multi selection will be allowed for the items aggregation.
 			 */
 			multiSelect : {type : "boolean", group : "Behavior", defaultValue : true}
 		},
 		aggregations : {
-	
+
 			/**
 			 * Items that are logically grouped under this filter item. They are used to display filter details in the ViewSettingsDialog.
 			 */
 			items : {type : "sap.m.ViewSettingsItem", multiple : true, singularName : "item"}
 		}
 	}});
-	
-	
+
+
 
 	return ViewSettingsFilterItem;
 

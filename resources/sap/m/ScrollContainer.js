@@ -1,6 +1,6 @@
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2015 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2016 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
@@ -10,21 +10,21 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control'],
 	"use strict";
 
 
-	
+
 	/**
 	 * Constructor for a new ScrollContainer.
 	 *
-	 * @param {string} [sId] id for the new control, generated automatically if no id is given 
+	 * @param {string} [sId] id for the new control, generated automatically if no id is given
 	 * @param {object} [mSettings] initial settings for the new control
 	 *
 	 * @class
 	 * The ScrollContainer is a control that can display arbitrary content within a limited screen area and provides touch scrolling to make all content accessible.
-	 * 
+	 *
 	 * Note that it is not recommended to have nested scrolling areas that scroll into the same direction (e.g. a ScrollContainer that scrolls vertically inside a Page control with scrolling enabled). This is currently not considered a valid use-case of a good UI and the behavior will feel wrong.
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.28.25
+	 * @version 1.28.26
 	 *
 	 * @constructor
 	 * @public
@@ -32,7 +32,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control'],
 	 * @ui5-metamodel This control/element also will be described in the UI5 (legacy) designtime metamodel
 	 */
 	var ScrollContainer = Control.extend("sap.m.ScrollContainer", /** @lends sap.m.ScrollContainer.prototype */ { metadata : {
-	
+
 		library : "sap.m",
 		properties : {
 			/**
@@ -40,28 +40,28 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control'],
 			 * If not set, it consumes the complete available width, behaving like normal HTML block elements. If only vertical scrolling is enabled, make sure the content always fits or wraps.
 			 */
 			width : {type : "sap.ui.core.CSSSize", group : "Dimension", defaultValue : 'auto'},
-	
+
 			/**
 			 * The height of the ScrollContainer.
 			 * By default the height equals the content height. If only horizontal scrolling is used, do not set the height or make sure the height is always larger than the height of the content.
-			 * 
+			 *
 			 * Note that when a percentage is given, for the height to work as expected, the height of the surrounding container must be defined.
 			 */
 			height : {type : "sap.ui.core.CSSSize", group : "Dimension", defaultValue : 'auto'},
-	
+
 			/**
 			 * Whether horizontal scrolling should be possible.
 			 */
 			horizontal : {type : "boolean", group : "Behavior", defaultValue : true},
-	
+
 			/**
 			 * Whether vertical scrolling should be possible.
-			 * 
+			 *
 			 * Note that this is off by default because typically a Page is used as fullscreen element which can handle vertical scrolling. If this is not the case and vertical scrolling is required, this flag needs to be set to "true".
 			 * Important: it is not supported to have nested controls that both enable scrolling into the same dimension.
 			 */
 			vertical : {type : "boolean", group : "Behavior", defaultValue : false},
-			
+
 			/**
 			 * Whether the scroll container can be focused.
 			 *
@@ -71,21 +71,21 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control'],
 		},
 		defaultAggregation : "content",
 		aggregations : {
-	
+
 			/**
 			 * The content of the ScrollContainer.
 			 */
 			content : {type : "sap.ui.core.Control", multiple : true, singularName : "content"}
 		}
 	}});
-	
-	
+
+
 	/*
 	 * TODO:
 	 * - events when scrolling is ongoing
 	 */
-	
-	
+
+
 	ScrollContainer.prototype.init = function() {
 		jQuery.sap.require("sap.ui.core.delegate.ScrollEnablement");
 		this._oScroller = new sap.ui.core.delegate.ScrollEnablement(this, this.getId() + "-scroll", {
@@ -94,13 +94,13 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control'],
 		});
 		// TODO: do the resize listening only when ScrollContainer becomes visible and unbind when getting visible
 	};
-	
+
 	ScrollContainer.prototype.onBeforeRendering = function() {
 		// properties are not known during init
 		this._oScroller.setHorizontal(this.getHorizontal());
 		this._oScroller.setVertical(this.getVertical());
 	};
-	
+
 	/**
 	 * Called when the control is destroyed.
 	 *
@@ -112,7 +112,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control'],
 			this._oScroller = null;
 		}
 	};
-	
+
 	/**
 	 * Returns the sap.ui.core.ScrollEnablement delegate which is used with this control.
 	 *
@@ -121,9 +121,9 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control'],
 	ScrollContainer.prototype.getScrollDelegate = function() {
 		return this._oScroller;
 	};
-	
+
 	//*** API Methods ***
-	
+
 
 	/**
 	 * Scrolls to the given position.
@@ -146,7 +146,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control'],
 	 */
 	ScrollContainer.prototype.scrollTo = function(x, y, time) {
 		if (this._oScroller) {
-			
+
 			var oDomRef = this.getDomRef();
 			if (oDomRef) { // only if rendered
 				if (sap.ui.getCore().getConfiguration().getRTL()) {
@@ -160,17 +160,17 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control'],
 		}
 		return this;
 	};
-	
+
 	ScrollContainer.prototype.setHorizontal = function(horizontal) {
 		this._oScroller.setHorizontal(horizontal);
 		this.setProperty("horizontal", horizontal, true); // no rerendering
 	};
-	
+
 	ScrollContainer.prototype.setVertical = function(vertical) {
 		this._oScroller.setVertical(vertical);
 		this.setProperty("vertical", vertical, true); // no rerendering
 	};
-	
+
 	return ScrollContainer;
-	
+
 }, /* bExport= */ true);

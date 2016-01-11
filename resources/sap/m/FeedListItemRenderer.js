@@ -1,6 +1,6 @@
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2015 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2016 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
@@ -15,7 +15,7 @@ sap.ui.define(['jquery.sap.global', './ListItemBaseRenderer', 'sap/ui/core/Rende
 	 * @namespace
 	 */
 	var FeedListItemRenderer = Renderer.extend(ListItemBaseRenderer);
-	
+
 	/**
 	 * Make sure that parent li is displayed as a horizontal webkit-box.
 	 *
@@ -31,9 +31,9 @@ sap.ui.define(['jquery.sap.global', './ListItemBaseRenderer', 'sap/ui/core/Rende
 		} else {
 			rm.addClass("sapMFeedListShowSeparatorsAll");
 		}
-	
+
 	};
-	
+
 	/**
 	 * Renders the HTML for the given control, using the provided {@link sap.ui.core.RenderManager}.
 	 *
@@ -45,20 +45,20 @@ sap.ui.define(['jquery.sap.global', './ListItemBaseRenderer', 'sap/ui/core/Rende
 	FeedListItemRenderer.renderLIContent = function(rm, oFeedListItem) {
 		// convenience variable
 		var sMyId = oFeedListItem.getId(), bIsPhone = sap.ui.Device.system.phone;
-	
+
 		rm.write('<article');
 		rm.addClass('sapMFeedListItem');
-	
+
 		rm.writeClasses();
 		rm.write('>');
-	
+
 		// icon
 		if (!!oFeedListItem.getShowIcon()) {
 			this._writeImageControl(rm, oFeedListItem, sMyId);
 		}
-	
+
 		// text (starting with sender)
-	
+
 		if (bIsPhone) {
 			rm.write('<div class= "sapMFeedListItemHeader ');
 			if (!!oFeedListItem.getShowIcon()) {
@@ -79,7 +79,7 @@ sap.ui.define(['jquery.sap.global', './ListItemBaseRenderer', 'sap/ui/core/Rende
 				rm.writeEscaped(oFeedListItem.getTimestamp());
 				rm.write('</p>');
 			}
-	
+
 			rm.write('</div>');
 			rm.write('<p class="sapMFeedListItemText">');
 			rm.write('<span id="' + sMyId + '-realtext" class="sapMFeedListItemText">');
@@ -144,16 +144,16 @@ sap.ui.define(['jquery.sap.global', './ListItemBaseRenderer', 'sap/ui/core/Rende
 						}
 						this._writeInfo(rm, oFeedListItem, sMyId);
 					}
-	
+
 				}
-	
+
 			}
 			rm.write('</p>');
 			rm.write('</div>');
 		}
 		rm.write('</article>');
 	};
-	
+
 	FeedListItemRenderer._writeImageControl = function(rm, oFeedListItem, sMyId) {
 		rm.write('<figure id="' + sMyId + '-figure"');
 		rm.addClass('sapMFeedListItemFigure');
@@ -162,7 +162,7 @@ sap.ui.define(['jquery.sap.global', './ListItemBaseRenderer', 'sap/ui/core/Rende
 		}
 		rm.writeClasses();
 		rm.write('>');
-	
+
 		if (!!oFeedListItem.getIconActive()) {
 			rm.write('<a id="' + sMyId + '-iconRef" ');
 			rm.write('tabindex="-1"'); // according to design there should be never a tab stop on the icon
@@ -177,7 +177,7 @@ sap.ui.define(['jquery.sap.global', './ListItemBaseRenderer', 'sap/ui/core/Rende
 		}
 		rm.write('</figure>');
 	};
-	
+
 	FeedListItemRenderer._writeCollapsedText = function(rm, oFeedListItem, sMyId) {
 		// 'oFeedListItem._bTextExpanded' is true if the text had been expanded and rendering needs to be done again.
 		if (oFeedListItem._bTextExpanded) {
@@ -197,19 +197,19 @@ sap.ui.define(['jquery.sap.global', './ListItemBaseRenderer', 'sap/ui/core/Rende
 		oLinkExpandCollapse.addStyleClass("sapMFeedListItemLinkExpandCollapse");
 		rm.renderControl(oLinkExpandCollapse);
 	};
-	
+
 	FeedListItemRenderer._writeTimestamp = function(rm, oFeedListItem, sMyId) {
 		rm.write('<span id="' + sMyId + '-timestamp">');
 		rm.writeEscaped(oFeedListItem.getTimestamp());
 		rm.write('</span>');
 	};
-	
+
 	FeedListItemRenderer._writeInfo = function(rm, oFeedListItem, sMyId) {
 		rm.write('<span id="' + sMyId + '-info">');
 		rm.writeEscaped(oFeedListItem.getInfo());
 		rm.write('</span>');
 	};
-	
+
 
 	return FeedListItemRenderer;
 

@@ -1,6 +1,6 @@
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2015 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2016 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
@@ -12,16 +12,16 @@ sap.ui.define([
 
 	/**
 	 * Constructor for a new P13nSortPanel.
-	 * 
+	 *
 	 * @param {string}
 	 *            [sId] id for the new control, generated automatically if no id is given
 	 * @param {object}
 	 *            [mSettings] initial settings for the new control
-	 * 
+	 *
 	 * @class The SortPanel Control can be used to...
 	 * @extends sap.m.P13nPanel
-	 * @version 1.28.25
-	 * 
+	 * @version 1.28.26
+	 *
 	 * @constructor
 	 * @public
 	 * @alias sap.m.P13nSortPanel
@@ -93,7 +93,7 @@ sap.ui.define([
 				 */
 				removeSortItem: {},
 
-				/**								 
+				/**
 				 * update a sort item
 				 * @since 1.26
 				 */
@@ -104,7 +104,7 @@ sap.ui.define([
 
 	/**
 	 * returns the array of conditions.
-	 * 
+	 *
 	 * @private
 	 */
 	P13nSortPanel.prototype._getConditions = function() {
@@ -126,7 +126,7 @@ sap.ui.define([
 	/**
 	 * check if the entered/modified conditions are correct, marks invalid fields yellow (Warning state) and
 	 * opens a popup message dialog to give the user the feedback that some values are wrong or missing.
-	 * 
+	 *
 	 * @public
 	 * @since 1.26
 	 */
@@ -135,8 +135,8 @@ sap.ui.define([
 	};
 
 	/**
-	 * removes all invalid sort conditions.					 
-	 *  
+	 * removes all invalid sort conditions.
+	 *
 	 * @public
 	 * @since 1.28
 	 */
@@ -146,7 +146,7 @@ sap.ui.define([
 
 	/**
 	 * removes all errors/warning states from of all sort conditions.
-	 * 
+	 *
 	 * @public
 	 * @since 1.28
 	 */
@@ -164,7 +164,7 @@ sap.ui.define([
 
 	/**
 	 * setter for the supported operations array
-	 * 
+	 *
 	 * @public
 	 * @since 1.26
 	 * @param {array}
@@ -180,7 +180,7 @@ sap.ui.define([
 
 	/**
 	 * Initialize the control
-	 * 
+	 *
 	 * @private
 	 */
 	P13nSortPanel.prototype.init = function() {

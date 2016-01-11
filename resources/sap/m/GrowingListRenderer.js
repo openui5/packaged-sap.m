@@ -1,6 +1,6 @@
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2015 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2016 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
@@ -9,13 +9,13 @@ sap.ui.define(['jquery.sap.global', './ListRenderer', 'sap/ui/core/Renderer'],
 	"use strict";
 
 
-	
+
 	/**
 	 * GrowingList renderer.
 	 * @namespace
 	 */
 	var GrowingListRenderer = Renderer.extend(ListRenderer);
-	
+
 	GrowingListRenderer.render = function(rm, oControl) {
 		/**
 		 * For backwards compatibility we can't remove GrowingList control
@@ -28,7 +28,7 @@ sap.ui.define(['jquery.sap.global', './ListRenderer', 'sap/ui/core/Renderer'],
 			ListRenderer.render.call(this, rm, oControl);
 		}
 	};
-	
+
 
 	return GrowingListRenderer;
 

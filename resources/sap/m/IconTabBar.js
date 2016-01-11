@@ -1,6 +1,6 @@
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2015 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2016 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
@@ -19,7 +19,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control'],
 	 *
 	 * @class
 	 * IconTabBar control is similar to the standard tab bar control. It represents a collection of tabs with associated content. The tabs can have text, count and an icon.
-	 * 
+	 *
 	 * IconTabBar can have two behaviors:
 	 * - Like a filter – There is only one main content for all tabs. The main content can be filtered, based on the selected tab.
 	 * - Like a normal tab bar - The contents of each tab are independent from each other.
@@ -27,7 +27,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control'],
 	 * @implements sap.m.ObjectHeaderContainer
 	 *
 	 * @author SAP SE
-	 * @version 1.28.25
+	 * @version 1.28.26
 	 *
 	 * @constructor
 	 * @public

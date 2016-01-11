@@ -1,6 +1,6 @@
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2015 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2016 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
@@ -10,17 +10,17 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/LayoutData'],
 	"use strict";
 
 
-	
+
 	/**
 	 * Constructor for a new ToolbarLayoutData.
 	 *
-	 * @param {string} [sId] id for the new control, generated automatically if no id is given 
+	 * @param {string} [sId] id for the new control, generated automatically if no id is given
 	 * @param {object} [mSettings] initial settings for the new control
 	 *
 	 * @class
 	 * Holds layout data for the toolbar items.
 	 * @extends sap.ui.core.LayoutData
-	 * @version 1.28.25
+	 * @version 1.28.26
 	 *
 	 * @constructor
 	 * @public
@@ -29,29 +29,29 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/LayoutData'],
 	 * @ui5-metamodel This control/element also will be described in the UI5 (legacy) designtime metamodel
 	 */
 	var ToolbarLayoutData = LayoutData.extend("sap.m.ToolbarLayoutData", /** @lends sap.m.ToolbarLayoutData.prototype */ { metadata : {
-	
+
 		library : "sap.m",
 		properties : {
-	
+
 			/**
 			 * Determines whether the control in the toolbar is shrinkable or not. If the related control has fixed width(e.g. 100px, 5rem) then this property is ignored.
-			 * 
+			 *
 			 * Note: Nested layout controls should not be shrinkable.
 			 */
 			shrinkable : {type : "boolean", group : "Behavior", defaultValue : false},
-	
+
 			/**
 			 * Sets the minimum width of the toolbar item.
 			 */
 			minWidth : {type : "sap.ui.core.CSSSize", group : "Dimension", defaultValue : null},
-	
+
 			/**
 			 * Sets the maximum width of the toolbar item.
 			 */
 			maxWidth : {type : "sap.ui.core.CSSSize", group : "Dimension", defaultValue : null}
 		}
 	}});
-	
+
 	/*
 	 * Returns the parent's live style object from DOM
 	 * Here parent is the control who is setting the layout data
@@ -64,11 +64,11 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/LayoutData'],
 		if (!oParent || !oParent.getDomRef) {
 			return {};
 		}
-	
+
 		var oDomRef = oParent.getDomRef();
 		return oDomRef ? oDomRef.style : {};
 	};
-	
+
 	/*
 	 * If the control that is using ToolbarLayoutData has been already rendered,
 	 * then this function can be used to apply layout data properties to related control
