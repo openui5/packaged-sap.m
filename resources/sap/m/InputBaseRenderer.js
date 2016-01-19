@@ -1,6 +1,6 @@
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2015 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2016 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
@@ -163,7 +163,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Renderer', 'sap/ui/core/ValueSt
 		// finish inner
 		this.writeInnerContent(oRm, oControl);
 		this.closeInputTag(oRm, oControl);
-		
+
 		// render hidden aria nodes
 		if (bAccessibility) {
 			this.renderAriaLabelledBy(oRm, oControl);
@@ -173,7 +173,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Renderer', 'sap/ui/core/ValueSt
 		// finish outer
 		oRm.write("</div>");
 	};
-	
+
 	/**
 	 * Returns aria accessibility role for the control.
 	 * Hook for the subclasses.
@@ -184,7 +184,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Renderer', 'sap/ui/core/ValueSt
 	InputBaseRenderer.getAriaRole = function(oControl) {
 		return "textbox";
 	};
-	
+
 	/**
 	 * Returns the inner aria labelledby ids for the accessibility.
 	 * Hook for the subclasses.
@@ -197,7 +197,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Renderer', 'sap/ui/core/ValueSt
 			return oControl.getId() + "-labelledby";
 		}
 	};
-	
+
 	/**
 	 * Returns the inner aria labelledby announcement texts for the accessibility.
 	 * Hook for the subclasses.
@@ -208,7 +208,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Renderer', 'sap/ui/core/ValueSt
 	InputBaseRenderer.getLabelledByAnnouncement = function(oControl) {
 		return oControl._getPlaceholder() || "";
 	};
-	
+
 	/**
 	 * Renders the hidden aria labelledby node for the accessibility.
 	 * Hook for the subclasses.
@@ -229,20 +229,20 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Renderer', 'sap/ui/core/ValueSt
 			oRm.write("</label>");
 		}
 	};
-	
+
 	/**
 	 * Returns the inner aria describedby ids for the accessibility.
 	 * Hook for the subclasses.
 	 *
 	 * @param {sap.ui.core.Control} oControl an object representation of the control.
-	 * @returns {String|undefined} 
+	 * @returns {String|undefined}
 	 */
 	InputBaseRenderer.getAriaDescribedBy = function(oControl) {
 		if (this.getDescribedByAnnouncement(oControl)) {
 			return oControl.getId() + "-describedby";
 		}
 	};
-	
+
 	/**
 	 * Returns the inner aria describedby announcement texts for the accessibility.
 	 * Hook for the subclasses.
@@ -253,7 +253,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Renderer', 'sap/ui/core/ValueSt
 	InputBaseRenderer.getDescribedByAnnouncement = function(oControl) {
 		return oControl.getTooltip_AsString() || "";
 	};
-	
+
 	/**
 	 * Renders the hidden aria labelledby node for the accessibility.
 	 * Hook for the subclasses.
@@ -274,7 +274,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Renderer', 'sap/ui/core/ValueSt
 			oRm.write("</span>");
 		}
 	};
-	
+
 	/**
 	 * Returns the accessibility state of the control.
 	 * Hook for the subclasses.
@@ -288,25 +288,25 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Renderer', 'sap/ui/core/ValueSt
 			mAccessibilityState = {
 				role: this.getAriaRole(oControl)
 			};
-		
+
 		if (oControl.getValueState() === sap.ui.core.ValueState.Error) {
 			mAccessibilityState.invalid = true;
 		}
-		
+
 		if (sAriaLabelledBy) {
 			mAccessibilityState.labelledby = {
 				value: sAriaLabelledBy.trim(),
 				append: true
 			};
 		}
-		
+
 		if (sAriaDescribedBy) {
 			mAccessibilityState.describedby = {
 				value: sAriaDescribedBy.trim(),
 				append: true
 			};
 		}
-		
+
 		return mAccessibilityState;
 	};
 

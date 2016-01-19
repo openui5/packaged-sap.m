@@ -1,11 +1,11 @@
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2015 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2016 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2015 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2016 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 /* Global CSS for 'base' theme */
@@ -13,11 +13,11 @@
 /* TMP during LESS convertion ---- to be deleted */
 /* may be required by SubstitutionRulesManager.css in inbox lib */
 /* ---------------------------------------------------------------------------------------- */
-/** 
+/**
   * This parameter is used in the Shell control to calculate the size when it grows.
-  * !!! ONLY PX-VALUES ARE ALLOWED HERE. 
+  * !!! ONLY PX-VALUES ARE ALLOWED HERE.
   */
-/** 
+/**
   * This parameter is used in the Shell control to calculate the size of the margin when showing
   * an overflow button in the right pane. As of 1.18.0 this value contains the _maximum_ height
   * of the overflow button, if the text inside the button is smaller, the button shrinks with it.
@@ -34,20 +34,20 @@
 /*make small margin themable*/
 /*make medium margin themable*/
 /*make large margin themable*/
-/* 
+/*
  * This is a mixin for creating the predefined container content padding
  * classes:
  * sapUiNoContainerContentPadding
  * sapUiContainerContentPadding
  * sapUiResponsiveContainerContentPadding
- * These classes can be set on many UI5 containers and will 
- * add padding inside the container's content padding based 
+ * These classes can be set on many UI5 containers and will
+ * add padding inside the container's content padding based
  * on the selectors that are arguments for this mixin.
  *
  * Arguments to this function-like mixin are the rootClass selector and
  * the content selector where the padding should be applied.
  */
-/* 
+/*
   * the sapLess-parser has problems with an escaped string as default value for the parameterized mixin
   * therefore we need to temporarily use a parameter assigning the default value
   */
@@ -172,7 +172,8 @@
   top: 0px;
   left: 0px;
 }
-.sapMBar .sapMLabel {
+.sapMBar .sapMLabel,
+.sapMBar .sapMLnk {
   display: inline;
 }
 .sapMBarFlexBoxWidth100 {
@@ -438,6 +439,9 @@ html[data-sap-ui-browser*='ie'] .sapMBtnContentWithIcon {
   -moz-transition-duration: 0.5s;
   -ms-transition-duration: 0.5s;
   transition-duration: 0.5s;
+}
+html[data-sap-ui-animation='off'] .sapMCrslInner {
+  transition-duration: 0.01s;
 }
 /* special handling for IE / Edge, as it does not support text-align: end */
 html[data-sap-ui-browser^="ie"] .sapMCrslInner,
@@ -1136,6 +1140,10 @@ html[dir=rtl] .sapMDTICustomDateTime .dwc:last-child {
   top: 3rem;
   z-index: 2;
 }
+html[data-sap-ui-animation='off'] .sapMDialogSliding,
+html[data-sap-ui-animation='off'] .sapMDialogBlockLayerAnimation {
+  transition: none;
+}
 /* ============================================= */
 /* CSS for controlsap.m/DisplayListItem.control  */
 /* ============================================= */
@@ -1315,7 +1323,7 @@ html[dir=rtl] .sapMDTICustomDateTime .dwc:last-child {
   line-height: 1.4;
 }
 /*
- The following is necessary to make sure that image links 
+ The following is necessary to make sure that image links
  do not show a border when run in IE.
  */
 .sapMFeedListItemFigure img {
@@ -1369,14 +1377,14 @@ html[dir=rtl] .sapMDTICustomDateTime .dwc:last-child {
   font-weight: bold;
 }
 html[dir=rtl] .sapMFeedListItemTextName {
-  /* 	In rtl mode, this will be converted to 'float: right;' which 
+  /* 	In rtl mode, this will be converted to 'float: right;' which
 		is the correct value
 	*/
   float: left;
   margin-right: 0.3rem;
 }
 html[dir=rtl].sap-phone .sapMFeedListItemTextName {
-  /* 	Overwrite rtl values for phones 
+  /* 	Overwrite rtl values for phones
 	*/
   float: none;
   margin-right: 0;
@@ -2107,11 +2115,17 @@ td.sapUiFormElementLbl > .sapMLabel {
   font-weight: normal;
   padding: 0.4375rem 1rem;
   position: relative;
-  -webkit-transition: opacity 0.2s;
-  transition: opacity 0.2s;
 }
 .sapMMsgStrip[data-sap-ui-ms-closable='true'] > .sapMMsgStripMessage {
   margin-right: 1rem;
+}
+html[data-sap-ui-animation='on'] .sapMMsgStrip {
+  -webkit-transition: opacity 0.2s;
+  transition: opacity 0.2s;
+}
+html[data-sap-ui-animation='on'] .sapMMsgStripCloseButton {
+  -webkit-transition: opacity 0.1s;
+  transition: opacity 0.1s;
 }
 .sapMMsgStripClosing {
   opacity: 0;
@@ -2153,8 +2167,6 @@ td.sapUiFormElementLbl > .sapMLabel {
   font-size: 0.75rem;
   cursor: pointer;
   opacity: 0.6;
-  -webkit-transition: opacity 0.1s;
-  transition: opacity 0.1s;
 }
 .sapMMsgStripCloseButton:hover {
   opacity: 1;
@@ -2345,8 +2357,6 @@ li.sapMMultiComboBoxItem .sapMCbBg {
   left: 0;
   display: block;
   height: 100%;
-  -webkit-transition-property: -webkit-transform;
-  transition-property: transform;
 }
 .sapMNavItem.sapMNavItemRendering {
   visibility: hidden;
@@ -2355,66 +2365,74 @@ li.sapMMultiComboBoxItem .sapMCbBg {
 .sapMNavItem.sapMNavItemHidden {
   display: none;
 }
-/* for slide animation */
-.sapMNavItem.sapMNavItemCenter {
+/* animations */
+html[data-sap-ui-animation='on'] {
+  /* for slide animation */
+  /* for fade animation */
+  /* for flip animation */
+  /* for door animation */
+}
+html[data-sap-ui-animation='on'] .sapMNavItem,
+html[data-sap-ui-animation='on'] .sapMNavItem.sapMPage {
+  -webkit-transition-property: -webkit-transform;
+  transition-property: transform;
+}
+html[data-sap-ui-animation='on'] .sapMNavItem.sapMNavItemCenter {
   -webkit-transform: translate3d(0px, 0px, 0px);
   transform: translate3d(0px, 0px, 0px);
 }
-.sapMNavItem.sapMNavItemRight {
+html[data-sap-ui-animation='on'] .sapMNavItem.sapMNavItemRight {
   -webkit-transition-property: -webkit-transform;
   -webkit-transform: translate3d(100%, 0px, 0px);
   transform: translate3d(100%, 0px, 0px);
   transition-property: transform;
 }
-.sapMNavItem.sapMNavItemLeft {
+html[data-sap-ui-animation='on'] .sapMNavItem.sapMNavItemLeft {
   -webkit-transition-property: -webkit-transform;
   -webkit-transform: translate3d(-100%, 0px, 0px);
   transition-property: transform;
   transform: translate3d(-100%, 0px, 0px);
 }
-.sapMNavItem.sapMNavItemSliding {
+html[data-sap-ui-animation='on'] .sapMNavItem.sapMNavItemSliding {
   -webkit-transition-duration: 0.3s;
   transition-duration: 0.3s;
 }
-/* for fade animation */
-.sapMNavItem.sapMNavItemTransparent {
+html[data-sap-ui-animation='on'] .sapMNavItem.sapMNavItemTransparent {
   -webkit-transition-property: opacity;
   transition-property: opacity;
   opacity: 0;
 }
-.sapMNavItem.sapMNavItemOpaque {
+html[data-sap-ui-animation='on'] .sapMNavItem.sapMNavItemOpaque {
   -webkit-transition-property: opacity;
   transition-property: opacity;
   opacity: 1;
 }
-.sapMNavItem.sapMNavItemFading {
+html[data-sap-ui-animation='on'] .sapMNavItem.sapMNavItemFading {
   -webkit-transition-duration: 0.5s;
   transition-duration: 0.5s;
 }
-/* for flip animation */
-.sapMNavItem.sapMNavItemFlipNext {
+html[data-sap-ui-animation='on'] .sapMNavItem.sapMNavItemFlipNext {
   -webkit-transform: rotate3d(0, 1, 0, 180deg);
   transform: rotate3d(0, 1, 0, 180deg);
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
 }
-.sap-winphone .sapMNavItem.sapMNavItemFlipNext {
+html[data-sap-ui-animation='on'] .sap-winphone .sapMNavItem.sapMNavItemFlipNext {
   transform: rotateY(180deg);
 }
-.sapMNavItem.sapMNavItemFlipPrevious {
+html[data-sap-ui-animation='on'] .sapMNavItem.sapMNavItemFlipPrevious {
   -webkit-transform: rotate3d(0, 1, 0, -180deg);
   transform: rotate3d(0, 1, 0, -180deg);
 }
-.sap-winphone .sapMNavItem.sapMNavItemFlipPrevious {
+html[data-sap-ui-animation='on'] .sap-winphone .sapMNavItem.sapMNavItemFlipPrevious {
   transform: rotateY(-180deg);
 }
-.sapMNavItem.sapMNavItemFlipping {
+html[data-sap-ui-animation='on'] .sapMNavItem.sapMNavItemFlipping {
   -webkit-transition-duration: .5s;
   transition-duration: .5s;
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
 }
-/* for door animation */
 @-webkit-keyframes sapMNavItemDoorInPrevious {
   from {
     -webkit-transform: rotate3d(0, 1, 0, 0deg);
@@ -2561,35 +2579,35 @@ li.sapMMultiComboBoxItem .sapMCbBg {
     opacity: 1;
   }
 }
-.sapMNavDoor {
+html[data-sap-ui-animation='on'] .sapMNavDoor {
   -webkit-perspective: 1000;
   perspective: 1000px;
   -webkit-perspective-origin: 0% 50%;
   perspective-origin: 0% 50%;
 }
-.sapMNavItem.sapMNavItemDoorInPrevious {
+html[data-sap-ui-animation='on'] .sapMNavItem.sapMNavItemDoorInPrevious {
   -webkit-animation: sapMNavItemDoorInPrevious .8s;
   animation: sapMNavItemDoorInPrevious .8s;
   visibility: hidden;
   opacity: 0;
 }
-.sapMNavItem.sapMNavItemDoorInNext {
+html[data-sap-ui-animation='on'] .sapMNavItem.sapMNavItemDoorInNext {
   -webkit-animation: sapMNavItemDoorInNext .8s;
   animation: sapMNavItemDoorInNext .8s;
   visibility: visible;
 }
-.sapMNavItem.sapMNavItemDoorOutPrevious {
+html[data-sap-ui-animation='on'] .sapMNavItem.sapMNavItemDoorOutPrevious {
   -webkit-animation: sapMNavItemDoorOutPrevious .8s;
   animation: sapMNavItemDoorOutPrevious .8s;
   visibility: hidden;
   opacity: 0;
 }
-.sapMNavItem.sapMNavItemDoorOutNext {
+html[data-sap-ui-animation='on'] .sapMNavItem.sapMNavItemDoorOutNext {
   -webkit-animation: sapMNavItemDoorOutNext .8s;
   animation: sapMNavItemDoorOutNext .8s;
   visibility: visible;
 }
-.sapMNavItem.sapMNavItemDooring {
+html[data-sap-ui-animation='on'] .sapMNavItem.sapMNavItemDooring {
   -webkit-animation-timing-function: ease-out;
   animation-timing-function: ease-out;
   -webkit-transform-origin: 0% 50%;
@@ -2884,6 +2902,10 @@ html[dir=rtl][data-sap-ui-browser^=ie] .sapMOHStatusFixedWidth,
 html[dir=rtl][data-sap-ui-browser^=ed] .sapMOHStatus,
 html[dir=rtl][data-sap-ui-browser^=ed] .sapMOHStatusFixedWidth {
   text-align: left;
+}
+html[data-sap-ui-browser^=ed] .sapMOH .sapMObjectAttributeActive,
+html[data-sap-ui-browser^=ie] .sapMOH .sapMObjectAttributeActive {
+  pointer-events: auto;
 }
 /* Styles for Responsive Object Header */
 .sapMOHR {
@@ -3500,6 +3522,7 @@ html[data-sap-ui-browser="ie9"] li.sapMLIB.sapMLIBNoFlex.sapMObjLItem > .sapMLIB
 .sapUiForm .sapMObjStatusText {
   overflow: hidden;
   display: inline-block;
+  line-height: normal;
   -webkit-user-select: text;
   -ms-user-select: text;
   user-select: text;
@@ -3509,14 +3532,14 @@ html[data-sap-ui-browser="ie9"] li.sapMLIB.sapMLIBNoFlex.sapMObjLItem > .sapMLIB
 	Fiori design guidelines say that statuses should be specially styled for forms
 	and share looks with other text only controls.
 */
-.sapUiForm .sapMObjStatus > .sapMObjStatusIcon,
-.sapUiForm .sapMObjStatus > .sapMObjStatusTitle,
-.sapUiForm .sapMObjStatus > .sapMObjStatusText {
+.sapUiForm.sapUiFormEdit .sapMObjStatus > .sapMObjStatusIcon,
+.sapUiForm.sapUiFormEdit .sapMObjStatus > .sapMObjStatusTitle,
+.sapUiForm.sapUiFormEdit .sapMObjStatus > .sapMObjStatusText {
   line-height: 3rem;
 }
-.sapUiSizeCompact .sapUiForm .sapMObjStatus > .sapMObjStatusIcon,
-.sapUiSizeCompact .sapUiForm .sapMObjStatus > .sapMObjStatusTitle,
-.sapUiSizeCompact .sapUiForm .sapMObjStatus > .sapMObjStatusText {
+.sapUiSizeCompact .sapUiForm.sapUiFormEdit .sapMObjStatus > .sapMObjStatusIcon,
+.sapUiSizeCompact .sapUiForm.sapUiFormEdit .sapMObjStatus > .sapMObjStatusTitle,
+.sapUiSizeCompact .sapUiForm.sapUiFormEdit .sapMObjStatus > .sapMObjStatusText {
   line-height: 2rem;
 }
 /* =============================================================== */
@@ -3841,9 +3864,6 @@ html[data-sap-ui-os^="iOS7"][data-sap-ui-browser^="msf"]:not(.sap-tablet) .sapUi
   -webkit-transform: translateY(-50%);
   -ms-transform: translateY(-50%);
   transform: translateY(-50%);
-  /* 400ms is standard jQuery duration */
-  -webkit-transition: -webkit-transform 0.4s ease-out;
-  transition: transform 0.4s ease-out;
 }
 .sapMPanelExpandableIcon:focus {
   outline: none;
@@ -3862,6 +3882,13 @@ html[data-sap-ui-os^="iOS7"][data-sap-ui-browser^="msf"]:not(.sap-tablet) .sapUi
   -webkit-transform: translateY(-50%) rotate(90deg);
   -ms-transform: translateY(-50%) rotate(90deg);
   transform: translateY(-50%) rotate(90deg);
+}
+html[data-sap-ui-animation='on'] .sapMPanelExpandableIcon {
+  /* 400ms is standard jQuery duration */
+  -webkit-transition: -webkit-transform 0.4s ease-out;
+  transition: transform 0.4s ease-out;
+}
+html[data-sap-ui-animation='on'] .sapMPanelExpandableIconExpanded {
   /* 400ms is standard jQuery duration */
   -webkit-transition: all 0.4s ease-out;
   transition: all 0.4s ease-out;
@@ -3954,6 +3981,8 @@ html[dir=rtl] .sapUiIconMirrorInRTL:not(.sapUiIconSuppressMirrorInRTL).sapMPanel
   max-width: 100%;
   max-height: 100%;
   overflow: hidden;
+}
+html[data-sap-ui-animation='on'] .sapMPopover {
   -webkit-transition: opacity 0.2s linear;
   -moz-transition: opacity 0.2s linear;
   transition: opacity 0.2s linear;
@@ -4377,7 +4406,6 @@ html[dir=rtl] .sapUiIconMirrorInRTL:not(.sapUiIconSuppressMirrorInRTL).sapMPanel
   bottom: .625rem;
   left: .75rem;
   right: .625rem;
-  z-index: -1;
 }
 .sapMRbHasLabel.sapMRb:focus:before {
   right: -0.0625rem;
@@ -4523,13 +4551,6 @@ html[data-sap-ui-browser*='ie'] .sapMRISelector {
   overflow: hidden;
   position: relative;
   /* to make the iScroll scrollbars appear at the correct position, if enabled */
-  /*
-	* Performance tweak - force the section content on to the GPU effectively separating it in a different
-	* composite layer. This is better done with will-change: transform, but at the moment is not supported on
-	* many platforms. When will-change becomes widely adopted than it's better to use it rather than translate3d
-	*/
-  -webkit-transform: translateZ(0);
-  transform: translateZ(0);
 }
 .sapMScrollContV .sapMScrollContScroll {
   display: block;
@@ -4634,6 +4655,7 @@ input.sapMSFI[type="search"]:focus {
   display: inline-block;
   text-align: center;
   cursor: pointer;
+  vertical-align: text-bottom;
 }
 .sapMSegBBtn:focus {
   outline: none;
@@ -4650,6 +4672,9 @@ input.sapMSFI[type="search"]:focus {
 }
 .sapMSegB .sapMSegBBtn.sapMSegBBtnMixed {
   padding-right: 0.5rem;
+}
+.sapMSegB .sapMSegBBtn:not(.sapMSegBBtnMixed) .sapMBtnIcon {
+  margin-right: 0;
 }
 .sapMSegB img {
   margin: 0;
@@ -5323,6 +5348,28 @@ html[data-sap-ui-browser^="ie9"] .sapMSplitContainerHideMode > .sapMSplitContain
 }
 .sapMSplitContainer > .sapMSplitContainerDetail .sapMSplitContainerHiddenChild {
   display: none;
+}
+html[data-sap-ui-animation='off'] .sapMSplitContainerPortrait.sapMSplitContainerShowHide > .sapMSplitContainerMaster,
+html[data-sap-ui-animation='off'] .sapMSplitContainerHideMode > .sapMSplitContainerMaster {
+  transition: all 1ms;
+}
+html[data-sap-ui-animation='off'] .sapMSplitContainerPortrait.sapMSplitContainerShowHide > .sapMSplitContainerMasterVisible,
+html[data-sap-ui-animation='off'] .sapMSplitContainerHideMode > .sapMSplitContainerMasterVisible {
+  transition: all 1ms;
+}
+html[data-sap-ui-animation='off'] .sapMSplitContainerPortrait.sapMSplitContainerShowHide > .sapMSplitContainerMasterHidden,
+html[data-sap-ui-animation='off'] .sapMSplitContainerHideMode > .sapMSplitContainerMasterHidden {
+  transition: all 1ms;
+}
+html[data-sap-ui-animation='off'] .sapMSplitContainerPortrait .sapMSplitContainerMasterBtnShow {
+  animation: fadeIn 5ms;
+  -webkit-animation: fadeIn 5ms;
+  -moz-animation: fadeIn 5ms;
+}
+html[data-sap-ui-animation='off'] .sapMSplitContainerPortrait .sapMSplitContainerMasterBtnHide {
+  animation: fadeOut 5ms;
+  -webkit-animation: fadeOut 5ms;
+  -moz-animation: fadeOut 5ms;
 }
 /* ============================================= */
 /* CSS for controlsap.m/StandardListItem.control */
@@ -6792,6 +6839,10 @@ html[dir=rtl][data-sap-ui-browser^="ed"] .sapMTitleAlignEnd {
 .sapMTB:focus {
   outline: 0;
 }
+.sapMIBar.sapMTB.sapMTB-Info-CTX > .sapUiIcon {
+  height: 1rem;
+  padding: 0.5rem 0;
+}
 .sapMTBActive,
 .sapMTBActive > * {
   cursor: pointer;
@@ -7257,11 +7308,13 @@ html[data-sap-ui-browser="ie9"] .sapMUCButtonContainer {
 .sapMWizard .sapMWizardNextButton {
   bottom: -3rem;
   opacity: 0;
-  transition: 0.4s linear;
 }
 .sapMWizard .sapMWizardNextButtonVisible {
   bottom: 0rem;
   opacity: 1;
+}
+html[data-sap-ui-animation='on'] .sapMWizardNextButton {
+  transition: 0.4s linear;
 }
 .sap-desktop .sapMWizard .sapMWizardNextButton {
   display: block;
@@ -8437,11 +8490,13 @@ html[data-sap-ui-browser^=ie] .sapMCrslBulleted > span {
   color: #ffffff;
 }
 .sapMCbBg > input {
-  position: absolute;
-  /* in FF the input needs to be positioned exactly behind the visible checkbox for the focus outline */
   left: 0;
   -webkit-appearance: none;
   visibility: hidden;
+}
+html[data-sap-ui-browser^=ff] .sapMCbBg > input {
+  /* in FF the input needs to be positioned exactly behind the visible checkbox for the focus outline */
+  position: absolute;
 }
 .sapMCb:not(.sapMCbBgDis):focus > .sapMCbBg,
 .sapMCb:not(.sapMCbBgDis) > .sapMCbBg:focus {
@@ -9394,6 +9449,11 @@ html[data-sap-ui-browser*='ie'] .sapMFeedIn .sapMBtnInner {
   padding: 0.5rem;
   font-size: 1.5rem;
   line-height: 2.375rem;
+}
+html[data-sap-ui-browser^="ie"] .sapMFeedIn .sapMFeedInContainer :not(.sapMInputBaseReadonly):not(.sapMInputBaseDisabled).sapMInputBase.sapMFocus::before {
+  top: 0.0625rem;
+  bottom: 0.0625rem;
+  right: 4rem;
 }
 /* ======================================================== */
 /* CSS for control sap.m/FeedListItem.control (HCB)         */

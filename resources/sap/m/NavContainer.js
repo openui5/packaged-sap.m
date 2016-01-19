@@ -1,6 +1,6 @@
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2015 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2016 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
@@ -24,7 +24,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.32.9
+	 * @version 1.32.10
 	 *
 	 * @constructor
 	 * @public
@@ -210,6 +210,10 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		}
 	}});
 
+	var bUseAnimations = sap.ui.getCore().getConfiguration().getAnimation(),
+		fnGetDelay = function (iDelay) {
+			return bUseAnimations ? iDelay : 0;
+		};
 
 	NavContainer.prototype.init = function() {
 		this._pageStack = [];
@@ -669,7 +673,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 					if (that && (that._iTransitionsCompleted < iCompleted + 1)) {
 						jQuery.sap.log.warning("Transition '" + transitionName + "' 'to' was triggered five seconds ago, but has not yet invoked the end-of-transition callback.");
 					}
-				}, 5000);
+				}, fnGetDelay(5000));
 
 				this._bNavigating = true;
 				oTransition.to.call(this, oFromPage, oToPage, jQuery.proxy(function(){this._afterTransitionCallback(oNavInfo, data);}, this), oTransitionParameters); // trigger the transition
@@ -906,7 +910,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 					if (that && (that._iTransitionsCompleted < iCompleted + 1)) {
 						jQuery.sap.log.warning("Transition '" + mode + "' 'back' was triggered five seconds ago, but has not yet invoked the end-of-transition callback.");
 					}
-				}, 5000);
+				}, fnGetDelay(5000));
 
 				this._bNavigating = true;
 
@@ -1016,11 +1020,11 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 								bOneTransitionFinished = true;
 								fAfterTransition.apply(oFromPage.$().add(oToPage.$()));
 							}
-						}, 400);
+						}, fnGetDelay(400));
 
-					}, 60); // this value has been found by testing on actual devices; with "10" there are frequent "no-animation" issues, with "100" there are none, with "50" there are very few
+					}, fnGetDelay(60)); // this value has been found by testing on actual devices; with "10" there are frequent "no-animation" issues, with "100" there are none, with "50" there are very few
 
-				},0); // iPhone seems to need a zero timeout here, otherwise the to page is black (and may suddenly become visible when the DOM is touched)
+				}, 0); // iPhone seems to need a zero timeout here, otherwise the to page is black (and may suddenly become visible when the DOM is touched)
 			},
 
 			back: function(oFromPage, oToPage, fCallback /*, oTransitionParameters is unused */) {
@@ -1061,7 +1065,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 							oToPage.$().css("box-shadow", "0em 1px 0em rgba(128, 128, 1280, 0.1)"); // add box-shadow
 							window.setTimeout(function(){
 								oToPage.$().css("box-shadow", ""); // remove it again
-							},50);
+							}, fnGetDelay(50));
 						},0);
 					}
 
@@ -1074,9 +1078,9 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 							bOneTransitionFinished = true;
 							fAfterTransition.apply(oFromPage.$().add(oToPage.$()));
 						}
-					}, 400);
+					}, fnGetDelay(400));
 
-				}, 100); // this value has been found by testing on actual devices; with "10" there are frequent "no-animation" issues, with "100" there are none, with "50" there are very few
+				}, fnGetDelay(100)); // this value has been found by testing on actual devices; with "10" there are frequent "no-animation" issues, with "100" there are none, with "50" there are very few
 			}
 		};
 
@@ -1087,9 +1091,9 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 				$ToPage.css("left", "100%");
 				oToPage.removeStyleClass("sapMNavItemHidden"); // remove the "hidden" class which has been added by the NavContainer before the transition was called
 
-				$ToPage.animate({left: "0%"}, 300);
+				$ToPage.animate({left: "0%"}, fnGetDelay(300));
 				var $FromPage = oFromPage.$();
-				$FromPage.animate({left: "-100%"}, 300, function(){
+				$FromPage.animate({left: "-100%"}, fnGetDelay(300), function(){
 					oFromPage.addStyleClass("sapMNavItemHidden");
 					$FromPage.css("left", "0");
 					fCallback();
@@ -1101,9 +1105,9 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 				$ToPage.css("left", "-100%");
 				oToPage.removeStyleClass("sapMNavItemHidden");
 
-				$ToPage.animate({left: "0%"}, 300);
+				$ToPage.animate({left: "0%"}, fnGetDelay(300));
 				var $FromPage = oFromPage.$();
-				$FromPage.animate({left: "100%"}, 300, function(){
+				$FromPage.animate({left: "100%"}, fnGetDelay(300), function(){
 					oFromPage.addStyleClass("sapMNavItemHidden");
 					$FromPage.css("left", "0");
 					fCallback();
@@ -1149,9 +1153,9 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 							if (bTransitionEndPending) {
 								fAfterTransition.apply(oToPage.$());
 							}
-						}, 600);
+						}, fnGetDelay(600));
 
-					}, 10);
+					}, fnGetDelay(10));
 				},
 
 				back: function(oFromPage, oToPage, fCallback /*, oTransitionParameters is unused */) {
@@ -1186,9 +1190,9 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 							if (bTransitionEndPending) {
 								fAfterTransition.apply(oToPage.$());
 							}
-						}, 600);
+						}, fnGetDelay(600));
 
-					}, 10);
+					}, fnGetDelay(10));
 				}
 		};
 
@@ -1199,7 +1203,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 				$ToPage.css("opacity", "0");
 				oToPage.removeStyleClass("sapMNavItemHidden"); // remove the "hidden" class which has been added by the NavContainer before the transition was called
 
-				$ToPage.animate({opacity: "1"}, 500, function(){
+				$ToPage.animate({opacity: "1"}, fnGetDelay(500), function(){
 					oFromPage.addStyleClass("sapMNavItemHidden");
 					fCallback();
 				});
@@ -1209,7 +1213,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 				var $FromPage = oFromPage.$();
 				oToPage.removeStyleClass("sapMNavItemHidden"); // remove the "hidden" class which has been added by the NavContainer before the transition was called
 
-				$FromPage.animate({opacity: "0"}, 500, function(){
+				$FromPage.animate({opacity: "0"}, fnGetDelay(500), function(){
 					oFromPage.addStyleClass("sapMNavItemHidden");
 					$FromPage.css("opacity", "1");
 					fCallback();
@@ -1269,9 +1273,9 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 								bOneTransitionFinished = true;
 								fAfterTransition.apply(oFromPage.$().add(oToPage.$()));
 							}
-						}, 600);
+						}, fnGetDelay(600));
 
-					}, 60); // this value has been found by testing on actual devices; with "10" there are frequent "no-animation" issues, with "100" there are none, with "50" there are very few#
+					}, fnGetDelay(60)); // this value has been found by testing on actual devices; with "10" there are frequent "no-animation" issues, with "100" there are none, with "50" there are very few#
 				}, 0);
 			},
 
@@ -1319,9 +1323,9 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 							bOneTransitionFinished = true;
 							fAfterTransition.apply(oFromPage.$().add(oToPage.$()));
 						}
-					}, 600);
+					}, fnGetDelay(600));
 
-				}, 60); // this value has been found by testing on actual devices; with "10" there are frequent "no-animation" issues, with "100" there are none, with "50" there are very few
+				}, fnGetDelay(60)); // this value has been found by testing on actual devices; with "10" there are frequent "no-animation" issues, with "100" there are none, with "50" there are very few
 			}
 		};
 
@@ -1380,9 +1384,9 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 								bOneTransitionFinished = true;
 								fAfterTransition.apply(oFromPage.$().add(oToPage.$()));
 							}
-						}, 1000);
+						}, fnGetDelay(1000));
 
-					}, 60); // this value has been found by testing on actual devices; with "10" there are frequent "no-animation" issues, with "100" there are none, with "50" there are very few#
+					}, fnGetDelay(60)); // this value has been found by testing on actual devices; with "10" there are frequent "no-animation" issues, with "100" there are none, with "50" there are very few#
 				}, 0);
 			},
 
@@ -1430,9 +1434,9 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 							bOneTransitionFinished = true;
 							fAfterTransition.apply(oFromPage.$().add(oToPage.$()));
 						}
-					}, 1000);
+					}, fnGetDelay(1000));
 
-				}, 60); // this value has been found by testing on actual devices; with "10" there are frequent "no-animation" issues, with "100" there are none, with "50" there are very few
+				}, fnGetDelay(60)); // this value has been found by testing on actual devices; with "10" there are frequent "no-animation" issues, with "100" there are none, with "50" there are very few
 			}
 		};
 
@@ -1539,7 +1543,8 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	};
 
 	NavContainer.prototype.removePage = function(oPage) {
-		oPage = this.removeAggregation("pages", oPage);
+		// when removing a page that's not the currently displayed page, there's no need to invalidate the NavContainer
+		oPage = this.removeAggregation("pages", oPage, oPage !== this.getCurrentPage());
 
 		this._onPageRemoved(oPage);
 

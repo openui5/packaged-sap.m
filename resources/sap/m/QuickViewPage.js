@@ -1,6 +1,6 @@
 /*
  * ! UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2015 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2016 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
@@ -37,7 +37,7 @@ sap.ui.define([
 			* @extends sap.ui.core.Control
 			*
 			* @author SAP SE
-			* @version 1.32.9
+			* @version 1.32.10
 			*
 			* @constructor
 			* @public
@@ -424,12 +424,19 @@ sap.ui.define([
 
 					oCurrentGroupElementValue = oCurrentGroupElement._getGroupElementValue(sQuickViewId);
 
+					oForm.addContent(oLabel);
+
+					if (!oCurrentGroupElementValue) {
+						// Add dummy text element so that the form renders the oLabel
+						oForm.addContent(new sap.m.Text({text : ""}));
+						continue;
+					}
+
 					if (oCurrentGroupElementValue instanceof Link) {
 						oCurrentGroupElementValue.addAriaLabelledBy(oCurrentGroupElementValue);
 					}
 
 					oLabel.setLabelFor(oCurrentGroupElementValue.getId());
-					oForm.addContent(oLabel);
 
 					if (oCurrentGroupElement.getType() == QuickViewGroupElementType.pageLink) {
 						oCurrentGroupElementValue.attachPress(this._attachPressLink(this));

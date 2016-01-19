@@ -15,7 +15,7 @@
 	.sapMFeedInFigure {
 		display: none;
 	}
-	
+
 	.sapMFeedIn {
 		padding-left: 0.5rem;
 	}
@@ -117,4 +117,12 @@ html[data-sap-ui-browser*='ie'] .sapMFeedIn .sapMBtnInner {
 	padding: 0.5rem;
 	font-size: 1.5rem;
 	line-height: 2.375rem;
+}
+
+html[data-sap-ui-browser^="ie"] {
+	.sapMFeedIn .sapMFeedInContainer :not(.sapMInputBaseReadonly):not(.sapMInputBaseDisabled).sapMInputBase.sapMFocus::before {
+		top: 0.0625rem;
+		bottom: 0.0625rem;
+		right: 4rem;
+	}
 }

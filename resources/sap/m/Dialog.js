@@ -1,6 +1,6 @@
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2015 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2016 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
@@ -24,7 +24,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './InstanceManager', './OverflowToo
 		 * @implements sap.ui.core.PopupInterface
 		 *
 		 * @author SAP SE
-		 * @version 1.32.9
+		 * @version 1.32.10
 		 *
 		 * @constructor
 		 * @public
@@ -595,6 +595,12 @@ sap.ui.define(['jquery.sap.global', './Bar', './InstanceManager', './OverflowToo
 				$Ref.css("display", "block");
 			}
 
+			//when the animations are disabled run the fnOpened() right away
+			if (!sap.ui.getCore().getConfiguration().getAnimation()) {
+				fnOpened();
+				return;
+			}
+
 			var that = this,
 				bOpenedCalled = false,
 				fnEnd;
@@ -631,6 +637,12 @@ sap.ui.define(['jquery.sap.global', './Bar', './InstanceManager', './OverflowToo
 		Dialog.prototype._closeAnimation = function ($Ref, iRealDuration, fnClose) {
 			var bClosedCalled = false,
 				fnEnd;
+
+			//when the animations are disabled run the fnClose() right away
+			if (!sap.ui.getCore().getConfiguration().getAnimation()) {
+				fnClose();
+				return;
+			}
 
 			if (sap.ui.Device.browser.internet_explorer && sap.ui.Device.browser.version < 10) {
 				$Ref.fadeOut(200, fnClose);

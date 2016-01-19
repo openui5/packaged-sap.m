@@ -1,6 +1,6 @@
 /*
  * ! UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2015 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2016 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
@@ -12,12 +12,12 @@ sap.ui.define([
 
 	/**
 	 * Constructor for a new P13nGroupPanel.
-	 * 
+	 *
 	 * @param {string} [sId] ID for the new control, generated automatically if no ID is given
 	 * @param {object} [mSettings] initial settings for the new control
 	 * @class The P13nGroupPanel control is used to define group-specific settings for table personalization.
 	 * @extends sap.m.P13nPanel
-	 * @version 1.32.9
+	 * @version 1.32.10
 	 * @constructor
 	 * @public
 	 * @alias sap.m.P13nGroupPanel
@@ -32,7 +32,7 @@ sap.ui.define([
 
 				/**
 				 * Defines the maximum number of groups.
-				 * 
+				 *
 				 * @since 1.26
 				 */
 				maxGroups: {
@@ -44,7 +44,7 @@ sap.ui.define([
 				/**
 				 * Defines if <code>mediaQuery</code> or <code>ContainerResize</code> is used for a layout update. If <code>ConditionPanel</code>
 				 * is used in a dialog, the property must be set to true.
-				 * 
+				 *
 				 * @since 1.26
 				 */
 				containerQuery: {
@@ -56,7 +56,7 @@ sap.ui.define([
 				/**
 				 * Can be used to control the layout behavior. Default is "" which will automatically change the layout. With "Desktop", "Table"
 				 * or"Phone" you can set a fixed layout.
-				 * 
+				 *
 				 * @since 1.26
 				 */
 				layoutMode: {
@@ -79,7 +79,7 @@ sap.ui.define([
 
 				/**
 				 * Defined group items.
-				 * 
+				 *
 				 * @since 1.26
 				 */
 				groupItems: {
@@ -93,7 +93,7 @@ sap.ui.define([
 
 				/**
 				 * Event raised if a <code>GroupItem</code> has been added.
-				 * 
+				 *
 				 * @since 1.26
 				 */
 				addGroupItem: {
@@ -102,14 +102,14 @@ sap.ui.define([
 
 				/**
 				 * Removes a group item.
-				 * 
+				 *
 				 * @since 1.26
 				 */
 				removeGroupItem: {},
 
 				/**
 				 * Updates a group item.
-				 * 
+				 *
 				 * @since 1.26
 				 */
 				updateGroupItem: {}
@@ -127,7 +127,7 @@ sap.ui.define([
 
 	/**
 	 * Returns the array of conditions.
-	 * 
+	 *
 	 * @private
 	 */
 	P13nGroupPanel.prototype._getConditions = function() {
@@ -149,7 +149,7 @@ sap.ui.define([
 	/**
 	 * Checks if the entered or modified conditions are correct, marks invalid fields yellow (Warning) and opens a popup message dialog to let the
 	 * user know that some values are not correct or missing.
-	 * 
+	 *
 	 * @public
 	 * @since 1.26
 	 */
@@ -159,7 +159,7 @@ sap.ui.define([
 
 	/**
 	 * Removes all invalid group conditions.
-	 * 
+	 *
 	 * @public
 	 * @since 1.28
 	 */
@@ -169,7 +169,7 @@ sap.ui.define([
 
 	/**
 	 * Removes all errors/warning states from of all group conditions.
-	 * 
+	 *
 	 * @public
 	 * @since 1.28
 	 */
@@ -187,7 +187,7 @@ sap.ui.define([
 
 	/**
 	 * Setter for the supported operations array.
-	 * 
+	 *
 	 * @public
 	 * @since 1.26
 	 * @param {array} array of operations [sap.m.P13nConditionOperation.BT, sap.m.P13nConditionOperation.EQ]
@@ -202,7 +202,7 @@ sap.ui.define([
 
 	/**
 	 * Initialize the control
-	 * 
+	 *
 	 * @private
 	 */
 	P13nGroupPanel.prototype.init = function() {

@@ -1,6 +1,6 @@
 /*
  * ! UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2015 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2016 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
@@ -12,12 +12,12 @@ sap.ui.define([
 
 	/**
 	 * Constructor for a new P13nConditionPanel.
-	 * 
+	 *
 	 * @param {string} [sId] ID for the new control, generated automatically if no ID is given
 	 * @param {object} [mSettings] initial settings for the new control
 	 * @class The ConditionPanel Control will be used to implement the Sorting, Filtering and Grouping panel of the new Personalization dialog.
 	 * @extends sap.m.P13nPanel
-	 * @version 1.32.9
+	 * @version 1.32.10
 	 * @constructor
 	 * @public
 	 * @experimental since version 1.26 !!! THIS CONTROL IS ONLY FOR INTERNAL USE !!!
@@ -169,7 +169,7 @@ sap.ui.define([
 	// EXC_ALL_CLOSURE_003
 	/**
 	 * This method must be used to assign a list of conditions.
-	 * 
+	 *
 	 * @param {object[]} aConditions array of Conditions.
 	 * @public
 	 * @since 1.26.0
@@ -195,7 +195,7 @@ sap.ui.define([
 
 	/**
 	 * remove all conditions.
-	 * 
+	 *
 	 * @public
 	 * @since 1.26.0
 	 */
@@ -209,7 +209,7 @@ sap.ui.define([
 
 	/**
 	 * add a single condition.
-	 * 
+	 *
 	 * @param {object} oCondition the new condition of type { "key": "007", "operation": sap.m.P13nConditionOperation.Ascending, "keyField":
 	 *        "keyFieldKey", "value1": "", "value2": ""};
 	 * @public
@@ -227,7 +227,7 @@ sap.ui.define([
 
 	/**
 	 * insert a single condition.
-	 * 
+	 *
 	 * @param {object} oCondition the new condition of type { "key": "007", "operation": sap.m.P13nConditionOperation.Ascending, "keyField":
 	 *        "keyFieldKey", "value1": "", "value2": ""};
 	 * @param {integer} index of the new condition
@@ -247,7 +247,7 @@ sap.ui.define([
 
 	/**
 	 * remove a single condition.
-	 * 
+	 *
 	 * @param {object} vCondition is the condition which should be removed. can be either a string with the key of the condition of the condition
 	 *        object itself.
 	 * @public
@@ -269,7 +269,7 @@ sap.ui.define([
 
 	/**
 	 * add a single condition into the _oConditionMap.
-	 * 
+	 *
 	 * @private
 	 * @param {object} oCondition the new condition of type { "key": "007", "operation": sap.m.P13nConditionOperation.Ascending, "keyField":
 	 *        "keyFieldKey", "value1": "", "value2": ""};
@@ -287,7 +287,7 @@ sap.ui.define([
 
 	/**
 	 * returns array of all defined conditions.
-	 * 
+	 *
 	 * @public
 	 * @returns {object[]} array of Conditions
 	 * @since 1.26.0
@@ -326,7 +326,7 @@ sap.ui.define([
 	/**
 	 * setter for the supported operations which we show per condition row. This array of "default" operations will only be used when we do not have
 	 * on the keyfield itself some specific operations and a keyfield is of not of type date or numeric.
-	 * 
+	 *
 	 * @public
 	 * @since 1.26.0
 	 * @param {sap.m.P13nConditionOperation[]} aOperations array of operations [sap.m.P13nConditionOperation.BT, sap.m.P13nConditionOperation.EQ]
@@ -349,7 +349,7 @@ sap.ui.define([
 
 	/**
 	 * add a single operation
-	 * 
+	 *
 	 * @public
 	 * @since 1.26.0
 	 * @param {sap.m.P13nConditionOperation} oOperation
@@ -364,7 +364,7 @@ sap.ui.define([
 
 	/**
 	 * remove all operations
-	 * 
+	 *
 	 * @public
 	 * @since 1.26.0
 	 * @param {string} sType defines the type for which all operations should be removed
@@ -378,7 +378,7 @@ sap.ui.define([
 
 	/**
 	 * returns the default array of operations
-	 * 
+	 *
 	 * @public
 	 * @since 1.26.0
 	 * @param {string} sType defines the type for which the operations should be returned.
@@ -392,7 +392,7 @@ sap.ui.define([
 	/**
 	 * This method allows you to specify the KeyFields for the conditions. You can set an array of object with Key and Text properties to define the
 	 * keyfields.
-	 * 
+	 *
 	 * @public
 	 * @since 1.26.0
 	 * @param {array} aKeyFields array of KeyFields [{key: "CompanyCode", text: "ID"}, {key:"CompanyName", text : "Name"}]
@@ -408,7 +408,7 @@ sap.ui.define([
 
 	/**
 	 * add a single KeyField
-	 * 
+	 *
 	 * @public
 	 * @since 1.26.0
 	 * @param {object} oKeyField {key: "CompanyCode", text: "ID"}
@@ -424,7 +424,7 @@ sap.ui.define([
 
 	/**
 	 * removes all KeyFields
-	 * 
+	 *
 	 * @public
 	 * @since 1.26.0
 	 */
@@ -436,7 +436,7 @@ sap.ui.define([
 
 	/**
 	 * getter for KeyFields array
-	 * 
+	 *
 	 * @public
 	 * @since 1.26.0
 	 * @returns {object[]} array of KeyFields [{key: "CompanyCode", text: "ID"}, {key:"CompanyName", text : "Name"}]
@@ -447,7 +447,7 @@ sap.ui.define([
 
 	/**
 	 * sets the AlwaysShowAddIcon.
-	 * 
+	 *
 	 * @private
 	 * @since 1.26.0
 	 * @param {boolean} bEnabled makes the Add icon visible for each condition row.
@@ -464,7 +464,7 @@ sap.ui.define([
 
 	/**
 	 * sets the LayoutMode. If not set the layout depends on the size of the browser or the container. see ContainerQuery
-	 * 
+	 *
 	 * @private
 	 * @since 1.26.0
 	 * @param {string} sLayoutMode define the layout mode for the condition row. The value can be Desktop, Tablet or Phone.
@@ -488,7 +488,7 @@ sap.ui.define([
 	/**
 	 * sets the ContainerQuery. defines if the mediaQuery or a ContainerResize will be used for layout update. When the P13nConditionPanel is used on
 	 * a dialog the property should be set to true!
-	 * 
+	 *
 	 * @private
 	 * @since 1.30.0
 	 */
@@ -504,7 +504,7 @@ sap.ui.define([
 
 	/**
 	 * sets the LayoutMode.
-	 * 
+	 *
 	 * @private
 	 * @param {string} sLayoutMode define the layout mode for the condition row. The value can be Desktop, Tablet or Phone.
 	 */
@@ -604,8 +604,7 @@ sap.ui.define([
 				"SpanFilter": "L3 M5 S10",
 				"SpanSort": "L5 M5 S12",
 				"SpanGroup": "L4 M4 S12",
-				"Control": "ComboBox",
-				"SelectedKey": "0"
+				"Control": "ComboBox"
 			}, {
 				"ID": "operationLabel",
 				"Text": "Sort Order",
@@ -619,8 +618,7 @@ sap.ui.define([
 				"SpanFilter": "L2 M5 S10",
 				"SpanSort": sap.ui.Device.system.phone ? "L5 M5 S8" : "L5 M5 S9",
 				"SpanGroup": "L2 M5 S10",
-				"Control": "ComboBox",
-				"SelectedKey": "0"
+				"Control": "ComboBox"
 			}, {
 				"ID": "value1",
 				"Label": this._sFromLabelText,
@@ -781,7 +779,7 @@ sap.ui.define([
 
 	/**
 	 * returns the key of the condition grid or creates a new key
-	 * 
+	 *
 	 * @private
 	 * @param {object} oConditionGrid
 	 * @returns {string} the new or existing key
@@ -796,7 +794,7 @@ sap.ui.define([
 
 	/**
 	 * creates a new key for the condition grids
-	 * 
+	 *
 	 * @private
 	 * @returns {string} the new key
 	 */
@@ -816,7 +814,7 @@ sap.ui.define([
 
 	/**
 	 * appends a new condition grid with all containing controls in the main grid
-	 * 
+	 *
 	 * @private
 	 * @param {grid} oTargetGrid the main grid in which the new condition grid will be added
 	 * @param {object} oConditionGridData the condition data for the new added condition grid controls
@@ -887,7 +885,6 @@ sap.ui.define([
 				case "ComboBox":
 					if (field["ID"] === "keyField") {
 						oControl = new sap.m.ComboBox({ // before we used the new sap.m.Select control
-							selectedKey: field["SelectedKey"],
 							width: "100%"
 						});
 
@@ -972,7 +969,6 @@ sap.ui.define([
 
 					if (field["ID"] === "operation") {
 						oControl = new sap.m.Select({
-							selectedKey: field["SelectedKey"],
 							width: "100%",
 							layoutData: new sap.ui.layout.GridData({
 								span: field["Span" + this._sConditionType]
@@ -998,11 +994,15 @@ sap.ui.define([
 								if (oKeyField.type && this._oTypeOperations[oKeyField.type]) {
 									aOperations = this._oTypeOperations[oKeyField.type];
 								}
+								if (oKeyField.operations) {
+									aOperations = oKeyField.operations;
+								}
 							}
 
-							aOperations.forEach(function(oOperation, index) {
+							aOperations.some(function(oOperation, index) {
 								if (oConditionGridData.operation === oOperation) {
 									oControl.setSelectedItem(oControl.getItems()[index]);
+									return true;
 								}
 							}, this);
 						} else {
@@ -1045,7 +1045,7 @@ sap.ui.define([
 								oControl.setSelectedItem(oControl.getItemByKey(sValue.toString()));
 							}
 						} else {
-							
+
 							if (!isNaN(oValue) && oValue !== null && oConditionGrid.oFormatter) {
 								sValue = oConditionGrid.oFormatter.format(oValue);
 								oControl.setValue(sValue);
@@ -1054,7 +1054,7 @@ sap.ui.define([
 								if (typeof sValue === "string" && oConditionGrid.oFormatter instanceof sap.ui.core.format.NumberFormat) {
 									oValue = parseFloat(sValue);
 									sValue = oConditionGrid.oFormatter.format(oValue);
-								} 
+								}
 
 								if (!oValue && sValue && oConditionGrid.oFormatter instanceof sap.ui.core.format.DateFormat) {
 									oValue = new Date(sValue);
@@ -1170,7 +1170,7 @@ sap.ui.define([
 
 	/**
 	 * press handler for the remove Condition buttons
-	 * 
+	 *
 	 * @private
 	 * @param {grid} oTargetGrid the main grid
 	 * @param {grid} oConditionGrid from where the Remove is triggered
@@ -1197,7 +1197,7 @@ sap.ui.define([
 
 	/**
 	 * press handler for the add condition buttons
-	 * 
+	 *
 	 * @private
 	 * @param {grid} oTargetGrid the main grid
 	 * @param {grid} oSourceConditionGrid from where the Add is triggered
@@ -1215,7 +1215,7 @@ sap.ui.define([
 
 	/**
 	 * returns the selectedKeyFields item from the KeyField control.
-	 * 
+	 *
 	 * @private
 	 * @param {control} oKeyFieldCtrl the Select/ComboBox
 	 * @returns {object} the selected Keyfields object
@@ -1236,7 +1236,7 @@ sap.ui.define([
 
 	/**
 	 * creates a new control for the condition value1 and value2 field. Control can be an Input or DatePicker
-	 * 
+	 *
 	 * @private
 	 * @param {object} oCurrentKeyField object of the current selected KeyField which contains type of the column ("string", "date" or "numeric") and
 	 *        a maxLength information
@@ -1330,7 +1330,7 @@ sap.ui.define([
 
 	/**
 	 * fill all operations from the aOperation array into the select control items list
-	 * 
+	 *
 	 * @private
 	 * @param {control} oCtrl the select control which should be filled
 	 * @param {array} aOperations array of operations
@@ -1359,7 +1359,7 @@ sap.ui.define([
 
 	/**
 	 * fill all KeyFieldItems from the aItems array into the select control items list
-	 * 
+	 *
 	 * @private
 	 * @param {control} oCtrl the select control which should be filled
 	 * @param {array} aItems array of keyfields
@@ -1381,7 +1381,7 @@ sap.ui.define([
 
 	/**
 	 * change handler for the Operation field
-	 * 
+	 *
 	 * @private
 	 * @param {grid} oTargetGrid the main grid
 	 * @param {grid} oConditionGrid Grid which contains the Operation control which has been changed
@@ -1393,7 +1393,7 @@ sap.ui.define([
 
 	/**
 	 * SelectionChange handler for the KeyField field
-	 * 
+	 *
 	 * @private
 	 * @param {grid} oTargetGrid the main grid
 	 * @param {grid} oConditionGrid Grid which contains the KeyField control which has been changed
@@ -1414,7 +1414,7 @@ sap.ui.define([
 
 	/**
 	 * change handler for the KeyField field
-	 * 
+	 *
 	 * @private
 	 * @param {grid} oTargetGrid the main grid
 	 * @param {grid} oConditionGrid Grid which contains the KeyField control which has been changed
@@ -1436,7 +1436,7 @@ sap.ui.define([
 
 	/**
 	 * creates the Value1/2 fields based on the KeyField Type
-	 * 
+	 *
 	 * @private
 	 * @param {grid} oTargetGrid the main grid
 	 * @param {grid} oConditionGrid Grid which contains the KeyField control which has been changed
@@ -1476,7 +1476,7 @@ sap.ui.define([
 		// update Value2 field control
 		jQuery.proxy(fnCreateAndUpdateField, this)(oConditionGrid, oConditionGrid.value2, 6);
 	};
-	
+
 	P13nConditionPanel.prototype._updateAllOperations = function() {
 		var aConditionGrids = this._oConditionsGrid.getContent();
 		aConditionGrids.forEach(function(oConditionGrid) {
@@ -1487,7 +1487,7 @@ sap.ui.define([
 
 	/**
 	 * update the Operations for a condition row based on the type of the selected keyField
-	 * 
+	 *
 	 * @private
 	 * @param {grid} oTargetGrid the main grid
 	 * @param {grid} oConditionGrid Grid which contains the KeyField control and the Operations field which will be updated
@@ -1530,12 +1530,12 @@ sap.ui.define([
 
 	/**
 	 * update the Items from all KeyFields
-	 * 
+	 *
 	 * @private
 	 * @param {grid} oTargetGrid the main grid
 	 * @param {boolean} bFillAll fills all KeyFields or only the none used
 	 * @param {boolean} bAppendLast adds only the last Keyfield to the Items of the selected controls
-	 * @param {ComboBox} oIgnoreKeyField instance of Keyfield control for which the items should not be updated 
+	 * @param {ComboBox} oIgnoreKeyField instance of Keyfield control for which the items should not be updated
 	 */
 	P13nConditionPanel.prototype._updateKeyFieldItems = function(oTargetGrid, bFillAll, bAppendLast, oIgnoreKeyField) {
 		var n = oTargetGrid.getContent().length;
@@ -1558,6 +1558,11 @@ sap.ui.define([
 			if (oKeyFieldItem.isDefault) {
 				oKeyField.setSelectedItem(oKeyField.getItems()[index]);
 			}
+			if (!oKeyField.getSelectedItem()) {
+				if (oKeyFieldItem.type !== "boolean") {
+					oKeyField.setSelectedItem(oKeyField.getItems()[index]);
+				}
+			}
 		};
 
 		for (i = 0; i < n; i++) {
@@ -1574,7 +1579,7 @@ sap.ui.define([
 					// clean the items
 					oKeyField.destroyItems();
 				}
-	
+
 				// fill all or only the not used items
 				for (j; j < aItems.length; j++) {
 					var oItem = aItems[j];
@@ -1587,7 +1592,7 @@ sap.ui.define([
 					}
 				}
 			}
-			
+
 			if (sOldKey) {
 				oKeyField.setSelectedKey(sOldKey);
 			} else if (oKeyField.getItems().length > 0) {
@@ -1609,7 +1614,7 @@ sap.ui.define([
 
 	/**
 	 * called when the user makes a change on the condition operation. The function will update all other fields in the condition grid.
-	 * 
+	 *
 	 * @private
 	 * @param {grid} oTargetGrid the main grid
 	 * @param {grid} oConditionGrid Grid which contains the Operation control which has been changed
@@ -1698,23 +1703,23 @@ sap.ui.define([
 		}
 	};
 
-	
+
 	P13nConditionPanel.prototype._getIndexOfCondition = function(oConditionGrid) {
-		var iIndex = -1; 
-		
+		var iIndex = -1;
+
 		oConditionGrid.getParent().getContent().some(function(oGrid){
 			if (oGrid.select.getSelected()) {
 				iIndex++;
 			}
 			return (oGrid === oConditionGrid);
 		}, this);
-		
+
 		return iIndex;
 	};
-	
+
 	/**
 	 * called when the user makes a change in one of the condition fields. The function will update, remove or add the conditions for this condition.
-	 * 
+	 *
 	 * @private
 	 * @param {grid} oConditionGrid Grid which contains the Operation control which has been changed
 	 */
@@ -1802,7 +1807,7 @@ sap.ui.define([
 		var oSelectCheckbox = oConditionGrid.select;
 		var sValue = "";
 		var sKey;
-		
+
 		if (sKeyField === "" || sKeyField == null) {
 			// handling of "(none)" or wrong entered keyField value
 			sKeyField = null;
@@ -1815,7 +1820,7 @@ sap.ui.define([
 			if (oSelectCheckbox.getSelected()) {
 				oSelectCheckbox.setSelected(false);
 				oSelectCheckbox.setEnabled(false);
-	
+
 				this._bIgnoreSetConditions = true;
 				this.fireDataChange({
 					key: sKey,
@@ -1864,11 +1869,11 @@ sap.ui.define([
 			delete this._oConditionsMap[sKey];
 			oConditionGrid.data("_key", null);
 			var iIndex = this._getIndexOfCondition(oConditionGrid);
-			
+
 			if (oSelectCheckbox.getSelected()) {
 				oSelectCheckbox.setSelected(false);
 				oSelectCheckbox.setEnabled(false);
-	
+
 				this._bIgnoreSetConditions = true;
 				this.fireDataChange({
 					key: sKey,
@@ -1892,7 +1897,7 @@ sap.ui.define([
 
 	/**
 	 * update the enabled state for all conditions
-	 * 
+	 *
 	 * @private
 	 */
 	P13nConditionPanel.prototype._updateAllConditionsEnableStates = function() {
@@ -1908,7 +1913,7 @@ sap.ui.define([
 
 	/**
 	 * makes all controls in a condition Grid enabled or disabled
-	 * 
+	 *
 	 * @private
 	 * @param {grid} oConditionGrid instance
 	 * @param {boolean} bEnable state
@@ -1922,18 +1927,18 @@ sap.ui.define([
 
 	/**
 	 * press handler for the remove condition buttons
-	 * 
+	 *
 	 * @private
 	 * @param {grid} oTargetGrid the main grid
 	 * @param {grid} oConditionGrid from where the remove is triggered
 	 */
 	P13nConditionPanel.prototype._removeCondition = function(oTargetGrid, oConditionGrid) {
 		var sKey = this._getKeyFromConditionGrid(oConditionGrid);
-		var iIndex = -1; 
+		var iIndex = -1;
 		if (oConditionGrid.select.getSelected()) {
 			iIndex = this._getIndexOfCondition(oConditionGrid);
 		}
-		
+
 		delete this._oConditionsMap[sKey];
 		oConditionGrid.destroy();
 
@@ -1955,7 +1960,7 @@ sap.ui.define([
 
 	/**
 	 * update the condition add/remove buttons visibility
-	 * 
+	 *
 	 * @private
 	 * @param {grid} oTargetGrid the main grid
 	 */
@@ -1990,7 +1995,7 @@ sap.ui.define([
 	/**
 	 * check if the entered/modified conditions are correct, marks invalid fields yellow (Warning state) and opens a popup message dialog to give the
 	 * user the feedback that some values are wrong or missing.
-	 * 
+	 *
 	 * @private
 	 * @param {function} fnCallback which we call when all conditions are valid or the user ignores the wrong/missing fields by pressing Yes on a
 	 *        message dialog.
@@ -2014,7 +2019,7 @@ sap.ui.define([
 
 	/**
 	 * removes all errors/warning states from the value1/2 fields of all conditions.
-	 * 
+	 *
 	 * @public
 	 * @since 1.28.0
 	 */
@@ -2033,7 +2038,7 @@ sap.ui.define([
 
 	/**
 	 * removes all invalid conditions.
-	 * 
+	 *
 	 * @public
 	 * @since 1.28.0
 	 */
@@ -2057,7 +2062,7 @@ sap.ui.define([
 	/**
 	 * checks on a single condition if the values are filled correct and set the Status of invalid fields to Warning. the condition is invalide, when
 	 * e.g. in the BT condition one or both of the values is/are empty of for other condition operations the vlaue1 field is not filled.
-	 * 
+	 *
 	 * @private
 	 * @param {Grid} oConditionGrid which contains the fields of a single condition
 	 * @param {boolean} isLast indicated if this is the last condition in the group
@@ -2133,7 +2138,7 @@ sap.ui.define([
 
 	/**
 	 * creates and returns the text for a condition
-	 * 
+	 *
 	 * @private
 	 * @param {string} sOperation the operation type sap.m.P13nConditionOperation
 	 * @param {string} sValue1 text of the first condition field
