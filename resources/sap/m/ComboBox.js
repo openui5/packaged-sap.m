@@ -4,9 +4,8 @@
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
-// Provides control sap.m.ComboBox.
-sap.ui.define(['jquery.sap.global', './ComboBoxBase', './ComboBoxBaseRenderer','./ComboBoxRenderer', './SelectList', './library'],
-	function(jQuery, ComboBoxBase, ComboBoxBaseRenderer, ComboBoxRenderer, SelectList, library) {
+sap.ui.define(['jquery.sap.global', './ComboBoxBase', './ComboBoxBaseRenderer', './ComboBoxRenderer', './Popover', './SelectList', './library'],
+	function(jQuery, ComboBoxBase, ComboBoxBaseRenderer, ComboBoxRenderer, Popover, SelectList, library) {
 		"use strict";
 
 		/**
@@ -16,11 +15,11 @@ sap.ui.define(['jquery.sap.global', './ComboBoxBase', './ComboBoxBaseRenderer','
 		 * @param {object} [mSettings] Initial settings for the new control.
 		 *
 		 * @class
-		 * The <code>sap.m.ComboBox</code> control combines a drop-down list with items and a text field with a button allowing the user to either type a value directly or choose from the list of existing items.
+		 * The <code>sap.m.ComboBox</code> control combines a dropdown list with items and a text field with a button, allowing the user to either type a value directly or choose from the list of existing items.
 		 * @extends sap.m.ComboBoxBase
 		 *
 		 * @author SAP SE
-		 * @version 1.28.26
+		 * @version 1.28.27
 		 *
 		 * @constructor
 		 * @public
@@ -55,7 +54,7 @@ sap.ui.define(['jquery.sap.global', './ComboBoxBase', './ComboBoxBaseRenderer','
 			events: {
 
 				/**
-				 * This event is fired when the user types something that matches with an item in the list; also when the user presses on a list item, or when navigating via keyboard.
+				 * This event is fired when the user types something that matches with an item in the list; it is also fired when the user presses on a list item, or when navigating via keyboard.
 				 */
 				selectionChange: {
 					parameters: {
@@ -189,7 +188,7 @@ sap.ui.define(['jquery.sap.global', './ComboBoxBase', './ComboBoxBaseRenderer','
 		ComboBox.prototype._createPopover = function() {
 
 			// initialize Popover
-			var oPicker = new sap.m.Popover({
+			var oPicker = new Popover({
 				showHeader: false,
 				placement: sap.m.PlacementType.Vertical,
 				offsetX: 0,
@@ -198,6 +197,7 @@ sap.ui.define(['jquery.sap.global', './ComboBoxBase', './ComboBoxBaseRenderer','
 				bounce: false
 			});
 
+			oPicker._bShowArrow = false;
 			this._decoratePopover(oPicker);
 			return oPicker;
 		};
@@ -211,22 +211,13 @@ sap.ui.define(['jquery.sap.global', './ComboBoxBase', './ComboBoxBaseRenderer','
 		ComboBox.prototype._decoratePopover = function(oPopover) {
 			var that = this;
 
-			// adding additional capabilities to the Popover
-			oPopover._removeArrow = function() {
-				this._marginTop = 0;
-				this._marginLeft = 0;
-				this._marginRight = 0;
-				this._marginBottom = 0;
-				this._arrowOffset = 0;
-				this._offsets = ["0 0", "0 0", "0 0", "0 0"];
-			};
+			oPopover._setMinWidth = function(sWidth) {
+				var oPickerDomRef = this.getDomRef();
 
-			oPopover._setPosition = function() {
-				this._myPositions = ["begin bottom", "begin center", "begin top", "end center"];
-				this._atPositions = ["begin top", "end center", "begin bottom", "begin center"];
+				if (oPickerDomRef) {
+					oPickerDomRef.style.minWidth = sWidth;
+				}
 			};
-
-			oPopover._setArrowPosition = function() {};
 
 			oPopover.open = function() {
 				return this.openBy(that);
@@ -239,27 +230,9 @@ sap.ui.define(['jquery.sap.global', './ComboBoxBase', './ComboBoxBaseRenderer','
 		 * @private
 		 */
 		ComboBox.prototype.onAfterRenderingPopover = function() {
-			var oPopover = this.getPicker();
-
-			// remove the Popover arrow
-			oPopover._removeArrow();
-
-			// position adaptations
-			oPopover._setPosition();
-		};
-
-		/**
-		 * Synchronizes the width of the picker popup with the width of the input field.
-		 *
-		 * @private
-		 * @since 1.30
-		 */
-		ComboBox.prototype._synchronizePickerWidth = function() {
-			var oDomRef = this.getDomRef();
-
-			if (oDomRef) {
-				this.getPicker().setContentWidth((oDomRef.offsetWidth / parseFloat(sap.m.BaseFontSize)) + "rem");
-			}
+			var oPopover = this.getPicker(),
+				sWidth = (this.$().outerWidth() / parseFloat(sap.m.BaseFontSize)) + "rem";
+			oPopover._setMinWidth(sWidth);
 		};
 
 		/* ----------------------------------------------------------- */
@@ -273,18 +246,16 @@ sap.ui.define(['jquery.sap.global', './ComboBoxBase', './ComboBoxBaseRenderer','
 		 * @private
 		 */
 		ComboBox.prototype._createDialog = function() {
-			var CSS_CLASS = sap.m.ComboBoxBaseRenderer.CSS_CLASS;
 
-			// initialize Dialog
 			var oDialog = new sap.m.Dialog({
-				stretchOnPhone: true,
+				stretch: true,
 				customHeader: new sap.m.Bar({
 					contentLeft: new sap.m.InputBase({
 						value: this.getSelectedItem().getText(),
 						width: "100%",
 						editable: false
-					}).addStyleClass(CSS_CLASS + "Input")
-				}).addStyleClass(CSS_CLASS + "Bar")
+					})
+				})
 			});
 
 			oDialog.getAggregation("customHeader").attachBrowserEvent("tap", function() {
@@ -361,7 +332,7 @@ sap.ui.define(['jquery.sap.global', './ComboBoxBase', './ComboBoxBaseRenderer','
 				}
 
 				// first match of the value
-				if (bFirst && bMatch && sValue !== "") {
+				if (oItem.getEnabled() && bFirst && bMatch && sValue !== "") {
 					bFirst = false;
 
 					if (this._bDoTypeAhead) {
@@ -443,9 +414,6 @@ sap.ui.define(['jquery.sap.global', './ComboBoxBase', './ComboBoxBaseRenderer','
 				return;
 			}
 
-			// mark the event for components that needs to know if the event was handled
-			oEvent.setMarked();
-
 			var mKeyCode = jQuery.sap.KeyCodes;
 			this._bDoTypeAhead = (oEvent.which !== mKeyCode.BACKSPACE) && (oEvent.which !== mKeyCode.DELETE);
 		};
@@ -461,7 +429,7 @@ sap.ui.define(['jquery.sap.global', './ComboBoxBase', './ComboBoxBaseRenderer','
 		};
 
 		/**
-		 * Handles the <code>sapenter</code> event when enter key is pressed.
+		 * Handles the <code>sapenter</code> event when the Enter key is pressed.
 		 *
 		 * @param {jQuery.Event} oEvent The event object.
 		 */
@@ -488,7 +456,7 @@ sap.ui.define(['jquery.sap.global', './ComboBoxBase', './ComboBoxBaseRenderer','
 		};
 
 		/**
-		 * Handles the <code>sapdown</code> pseudo event when keyboard DOWN arrow key is pressed.
+		 * Handles the <code>sapdown</code> pseudo event when the Down arrow key is pressed.
 		 *
 		 * @param {jQuery.Event} oEvent The event object.
 		 */
@@ -513,7 +481,7 @@ sap.ui.define(['jquery.sap.global', './ComboBoxBase', './ComboBoxBaseRenderer','
 		};
 
 		/**
-		 * Handles the <code>sapup</code> pseudo event when keyboard UP arrow key is pressed.
+		 * Handles the <code>sapup</code> pseudo event when the Up arrow key is pressed.
 		 *
 		 * @param {jQuery.Event} oEvent The event object.
 		 */
@@ -538,7 +506,7 @@ sap.ui.define(['jquery.sap.global', './ComboBoxBase', './ComboBoxBaseRenderer','
 		};
 
 		/**
-		 * Handles the <code>saphome</code> pseudo event when keyboard Home key is pressed.
+		 * Handles the <code>saphome</code> pseudo event when the Home key is pressed.
 		 *
 		 * The first selectable item is selected and the input field is updated accordingly.
 		 *
@@ -562,9 +530,9 @@ sap.ui.define(['jquery.sap.global', './ComboBoxBase', './ComboBoxBaseRenderer','
 		};
 
 		/**
-		 * Handles the <code>sapend</code> pseudo event when keyboard End key is pressed.
+		 * Handles the <code>sapend</code> pseudo event when the End key is pressed.
 		 *
-		 * The last selectable item is selected and the input field updated accordingly.
+		 * The last selectable item is selected and the input field is updated accordingly.
 		 *
 		 * @param {jQuery.Event} oEvent The event object.
 		 */
@@ -586,7 +554,7 @@ sap.ui.define(['jquery.sap.global', './ComboBoxBase', './ComboBoxBaseRenderer','
 		};
 
 		/**
-		 * Handles the <code>sappagedown</code> pseudo event when keyboard page down key is pressed.
+		 * Handles the <code>sappagedown</code> pseudo event when the Page Down key is pressed.
 		 *
 		 * @param {jQuery.Event} oEvent The event object.
 		 */
@@ -614,7 +582,7 @@ sap.ui.define(['jquery.sap.global', './ComboBoxBase', './ComboBoxBaseRenderer','
 		};
 
 		/**
-		 * Handles the <code>sappageup</code> pseudo event when keyboard page up key is pressed.
+		 * Handles the <code>sappageup</code> pseudo event when the Page Up key is pressed.
 		 *
 		 * @param {jQuery.Event} oEvent The event object.
 		 */
@@ -815,7 +783,7 @@ sap.ui.define(['jquery.sap.global', './ComboBoxBase', './ComboBoxBaseRenderer','
 		 */
 		ComboBox.prototype.createPicker = function(sPickerType) {
 			var oPicker = this.getAggregation("picker"),
-				CSS_CLASS = ComboBoxBaseRenderer.CSS_CLASS;
+				CSS_CLASS = ComboBoxBaseRenderer.CSS_CLASS_COMBOBOXBASE;
 
 			if (oPicker) {
 				return oPicker;
@@ -890,7 +858,7 @@ sap.ui.define(['jquery.sap.global', './ComboBoxBase', './ComboBoxBaseRenderer','
 				oDomRef = this.getFocusDomRef();
 
 			// add the active state to the control field
-			this.addStyleClass(sap.m.ComboBoxBaseRenderer.CSS_CLASS + "Pressed");
+			this.addStyleClass(ComboBoxBaseRenderer.CSS_CLASS_COMBOBOXBASE + "Pressed");
 
 			if (oDomRef) {
 
@@ -901,8 +869,6 @@ sap.ui.define(['jquery.sap.global', './ComboBoxBase', './ComboBoxBaseRenderer','
 
 			// call the hook to add additional content to the list
 			this.addContent();
-
-			sap.ui.Device.resize.attachHandler(this._synchronizePickerWidth, this);
 			fnPickerTypeBeforeOpen && fnPickerTypeBeforeOpen.call(this);
 		};
 
@@ -910,9 +876,7 @@ sap.ui.define(['jquery.sap.global', './ComboBoxBase', './ComboBoxBaseRenderer','
 		 * This event handler is called before the picker popover is opened.
 		 *
 		 */
-		ComboBox.prototype.onBeforeOpenPopover = function() {
-			this._synchronizePickerWidth();
-		};
+		ComboBox.prototype.onBeforeOpenPopover = function() {};
 
 		/**
 		 * This event handler is called after the picker popup is opened.
@@ -947,8 +911,7 @@ sap.ui.define(['jquery.sap.global', './ComboBoxBase', './ComboBoxBaseRenderer','
 			}
 
 			// remove the active state of the control's field
-			this.removeStyleClass(sap.m.ComboBoxBaseRenderer.CSS_CLASS + "Pressed");
-			sap.ui.Device.resize.detachHandler(this._synchronizePickerWidth, this);
+			this.removeStyleClass(ComboBoxBaseRenderer.CSS_CLASS_COMBOBOXBASE + "Pressed");
 		};
 
 		/**
@@ -995,7 +958,7 @@ sap.ui.define(['jquery.sap.global', './ComboBoxBase', './ComboBoxBaseRenderer','
 		};
 
 		/*
-		 * Clear the selection.
+		 * Clears the selection.
 		 *
 		 * @protected
 		 */
@@ -1042,8 +1005,8 @@ sap.ui.define(['jquery.sap.global', './ComboBoxBase', './ComboBoxBaseRenderer','
 		/**
 		 * Sets the start and end positions of the current text selection.
 		 *
-		 * @param {integer} iSelectionStart The index into the text at which the first selected character is located.
-		 * @param {integer} iSelectionEnd The index into the text at which the last selected character is located.
+		 * @param {integer} iSelectionStart The index of the first selected character.
+		 * @param {integer} iSelectionEnd The index of the character after the last selected character.
 		 * @protected
 		 * @since 1.22.1
 		 */

@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @class
 	 * ObjectHeader is a display control that enables the user to easily identify a specific object. The object header title is the key identifier of the object and additional text and icons can be used to further distinguish it from other objects.
 	 * @extends sap.ui.core.Control
-	 * @version 1.28.26
+	 * @version 1.28.27
 	 *
 	 * @constructor
 	 * @public
@@ -347,8 +347,9 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	};
 
 	ObjectHeader.prototype.removeAttribute = function (oAttribute) {
-		this._deregisterControlListener(oAttribute);
-		return this.removeAggregation("attributes", oAttribute);
+		var vResult = this.removeAggregation("attributes", oAttribute);
+		this._deregisterControlListener(vResult);
+		return vResult;
 	};
 
 	ObjectHeader.prototype.removeAllAttributes = function () {
@@ -363,7 +364,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	};
 
 	ObjectHeader.prototype.insertStatus = function (oStatus, iIndex) {
-		var vResult = this.insertAggregation("attributes", oStatus, iIndex);
+		var vResult = this.insertAggregation("statuses", oStatus, iIndex);
 		this._registerControlListener(oStatus);
 		return vResult;
 	};
@@ -375,8 +376,9 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	};
 
 	ObjectHeader.prototype.removeStatus = function (oStatus) {
-		this._deregisterControlListener(oStatus);
-		return this.removeAggregation("statuses", oStatus);
+		var vResult =  this.removeAggregation("statuses", oStatus);
+		this._deregisterControlListener(vResult);
+		return vResult;
 	};
 
 	ObjectHeader.prototype.removeAllStatuses = function () {

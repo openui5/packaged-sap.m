@@ -167,7 +167,8 @@
   top: 0px;
   left: 0px;
 }
-.sapMBar .sapMLabel {
+.sapMBar .sapMLabel,
+.sapMBar .sapMLnk {
   display: inline;
 }
 /* ============================================= */
@@ -508,35 +509,6 @@ html[dir=rtl][data-sap-ui-browser^="ed"] .sapMCrslInner {
 }
 .sapMListTblRow.sapMListTblRowBottom > td {
   vertical-align: bottom;
-}
-/* ============================================= */
-/* CSS for control sap.m/ComboBox.control        */
-/* ============================================= */
-/* ============================================= */
-/* CSS for control sap.m/ComboBoxBase.control    */
-/* ============================================= */
-.sapMComboBoxBaseArrow {
-  display: inline-block;
-  cursor: pointer;
-  outline: none;
-  padding: 0;
-  border: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  background: transparent;
-  font-size: inherit;
-  /* auto vertical centering */
-  top: 0;
-  bottom: 0;
-  margin-top: auto;
-  margin-bottom: auto;
-}
-.sapMComboBoxBaseReadonly .sapMComboBoxBaseArrow {
-  display: none;
-}
-div.sapMComboBoxBasePicker {
-  min-width: 0;
-  /* override the default min-width of the popover */
 }
 /* ============================================= */
 /* CSS for control sap.m/CustomTile.control */
@@ -1342,13 +1314,16 @@ html[data-sap-ui-browser="ie9"] .sapMFeedListItemTitleDiv {
 /* ============================================= */
 .sapMInputBase,
 .sapMInputBaseInner,
-.sapMInputBasePlaceholder {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
+.sapMInputBasePlaceholder,
+.sapMInputBaseMessage {
   box-sizing: border-box;
 }
 .sapMInputBasePlaceholder {
   cursor: text;
+  position: absolute;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 .sapMInputBaseDisabled > .sapMInputBaseReadonly,
 .sapMInputBaseDisabled > .sapMInputBasePlaceholder {
@@ -1367,6 +1342,26 @@ html[data-sap-ui-browser="ie9"] .sapMFeedListItemTitleDiv {
 .sapMInputBaseInner::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
+}
+.sapMInputBase {
+  background: transparent;
+  position: relative;
+  display: inline-block;
+  vertical-align: top;
+}
+.sapMILI-CTX .sapMInputBase {
+  display: block;
+}
+.sapMInputBaseInner {
+  -webkit-appearance: none;
+  border-radius: 0;
+  vertical-align: top;
+  margin: 0;
+  -moz-appearance: textfield;
+}
+.sapMInputBaseInner:focus {
+  outline: none;
+  outline-width: 0;
 }
 /* remove user agent pseudo-element clear button (IE specifix) */
 .sapMInputBaseInner::-ms-clear {
@@ -1396,9 +1391,6 @@ html[data-sap-ui-browser="ie9"] .sapMFeedListItemTitleDiv {
   padding: 0.3125rem;
   background: #ffffff;
   display: inline-block;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
 }
 .sapMInputBaseMessageText {
   width: 100%;
@@ -1407,6 +1399,54 @@ html[data-sap-ui-browser="ie9"] .sapMFeedListItemTitleDiv {
   /* disable native browser input validation visualization e.g. for type email or number */
   box-shadow: none;
 }
+/* note: the following three files are not in alphabetical order and should be imported after InputBase.less */
+/* =============================================== */
+/* CSS for control sap.m/ComboBoxTextField         */
+/* =============================================== */
+/* ------------------------------ */
+/* text field                     */
+/* ------------------------------ */
+input.sapMComboBoxTextFieldInner {
+  border: none;
+  margin: 0;
+  height: 100% !important;
+}
+.sapUiSizeCondensed .sapUiTableCell .sapMComboBoxTextField {
+  margin: 0;
+  border-color: transparent;
+}
+/* ------------------------------ */
+/* arrow                          */
+/* ------------------------------ */
+.sapMComboBoxTextFieldArrow {
+  display: inline-block;
+  position: absolute;
+  top: 0;
+  right: 0;
+  text-align: center;
+  cursor: pointer;
+  outline: none;
+  padding: 0;
+  height: 100%;
+  border: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background: transparent;
+  font-size: inherit;
+}
+.sapMComboBoxTextFieldReadonly .sapMComboBoxTextFieldArrow {
+  display: none;
+}
+/* ============================================= */
+/* CSS for control sap.m/ComboBoxBase.control    */
+/* ============================================= */
+/* remove the Popover's arrow */
+.sapMComboBoxBasePicker .sapMPopoverArr {
+  display: none;
+}
+/* ============================================= */
+/* CSS for control sap.m/ComboBox.control        */
+/* ============================================= */
 /* ============================================= */
 /* CSS for control sap.m/InputListItem.control   */
 /* ============================================= */
