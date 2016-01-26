@@ -20,7 +20,7 @@ sap.ui.define(["sap/m/semantic/SemanticConfiguration", "sap/ui/base/ManagedObjec
 	 * @abstract
 	 *
 	 * @author SAP SE
-	 * @version 1.34.2
+	 * @version 1.34.3
 	 *
 	 * @constructor
 	 * @public

@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './InputBase', './ComboBoxBase', '.
 	 * @extends sap.m.ComboBoxBase
 	 *
 	 * @author SAP SE
-	 * @version 1.34.2
+	 * @version 1.34.3
 	 *
 	 * @constructor
 	 * @public
@@ -312,24 +312,13 @@ sap.ui.define(['jquery.sap.global', './Bar', './InputBase', './ComboBoxBase', '.
 	};
 
 	/**
-	 * Get the reference element which the message popup should dock to.
-	 *
-	 * @return {object} Dom Element which the message popup should dock to.
-	 * @since 1.26
-	 * @protected
-	 */
-	MultiComboBox.prototype.getDomRefForValueStateMessage = function() {
-		return this.getDomRef("border");
-	};
-
-	/**
 	 * Handle the focus in event.
 	 *
 	 * @param {jQuery.Event} oEvent The event object.
 	 * @private
 	 */
 	MultiComboBox.prototype.onfocusin = function(oEvent) {
-		this.addStyleClass(this.getRenderer().CSS_CLASS_MULTICOMBOBOX + "Focused");
+		this.addStyleClass("sapMFocus");
 
 		if (oEvent.target === this.getOpenArea()) {
 			// force the focus to stay in the input field
@@ -591,14 +580,19 @@ sap.ui.define(['jquery.sap.global', './Bar', './InputBase', './ComboBoxBase', '.
 			CSS_CLASS_MULTICOMBOBOX = oRenderer.CSS_CLASS_MULTICOMBOBOX;
 
 		// configuration
-		oPicker.setHorizontalScrolling(false).addStyleClass(oRenderer.CSS_CLASS_COMBOBOXBASE + "Picker")
-											.addStyleClass(CSS_CLASS_MULTICOMBOBOX + "Picker")
-											.addStyleClass(CSS_CLASS_MULTICOMBOBOX + "Picker-CTX")
-				.attachBeforeOpen(this.onBeforeOpen, this).attachAfterOpen(this.onAfterOpen, this).attachBeforeClose(
-						this.onBeforeClose, this).attachAfterClose(this.onAfterClose, this).addEventDelegate({
+		oPicker.setHorizontalScrolling(false)
+				.addStyleClass(oRenderer.CSS_CLASS_COMBOBOXBASE + "Picker")
+				.addStyleClass(CSS_CLASS_MULTICOMBOBOX + "Picker")
+				.addStyleClass(CSS_CLASS_MULTICOMBOBOX + "Picker-CTX")
+				.attachBeforeOpen(this.onBeforeOpen, this)
+				.attachAfterOpen(this.onAfterOpen, this)
+				.attachBeforeClose(this.onBeforeClose, this)
+				.attachAfterClose(this.onAfterClose, this)
+				.addEventDelegate({
 					onBeforeRendering : this.onBeforeRenderingPicker,
 					onAfterRendering : this.onAfterRenderingPicker
-				}, this).addContent(this.getList());
+				}, this)
+				.addContent(this.getList());
 
 		return oPicker;
 	};
@@ -717,21 +711,6 @@ sap.ui.define(['jquery.sap.global', './Bar', './InputBase', './ComboBoxBase', '.
 	MultiComboBox.prototype._onBeforeOpenDialog = function() {};
 
 	/**
-	 * This event handler will be called before the control's picker popover is opened.
-	 *
-	 */
-	MultiComboBox.prototype._onBeforeOpenPopover = function() {
-		if (this.getWidth() != "auto") {
-			var oDomRef = this.getDomRef();
-			var oComputedStyle = window.getComputedStyle(oDomRef);
-
-			if (oComputedStyle) {
-				this.getPicker().setContentWidth((parseFloat(oComputedStyle.width) / parseFloat(sap.m.BaseFontSize)) + "rem");
-			}
-		}
-	};
-
-	/**
 	 * Creates an instance type of <code>sap.m.Dialog</code>.
 	 *
 	 * @returns {sap.m.Dialog}
@@ -766,11 +745,33 @@ sap.ui.define(['jquery.sap.global', './Bar', './InputBase', './ComboBoxBase', '.
 	MultiComboBox.prototype._decoratePopover = function(oPopover) {
 		var that = this;
 
-		oPopover.open = function() {
-			var oDomRef = jQuery(that.getDomRef());
-			var oBorder = oDomRef.find(MultiComboBoxRenderer.DOT_CSS_CLASS_MULTICOMBOBOX + "Border");
-			return this.openBy(oBorder[0]);
+		oPopover._setMinWidth = function(sWidth) {
+			var oPickerDomRef = this.getDomRef();
+
+			if (oPickerDomRef) {
+				oPickerDomRef.style.minWidth = sWidth;
+			}
 		};
+
+		oPopover.open = function() {
+			return this.openBy(that);
+		};
+	};
+
+	/**
+	 * Required adaptations after rendering of the Popover.
+	 *
+	 * @private
+	 */
+	MultiComboBox.prototype._onAfterRenderingPopover = function() {
+		var oPopover = this.getPicker(),
+			oDomRef = this.getDomRef(),
+			sWidth;
+
+		if (oDomRef && oPopover) {
+			sWidth = (oDomRef.offsetWidth / parseFloat(sap.m.BaseFontSize)) + "rem";
+			oPopover._setMinWidth(sWidth);
+		}
 	};
 
 	/**
@@ -1486,7 +1487,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './InputBase', './ComboBoxBase', '.
 	 * @private
 	 */
 	MultiComboBox.prototype.onfocusout = function(oEvent) {
-		this.removeStyleClass(this.getRenderer().CSS_CLASS_MULTICOMBOBOX + "Focused");
+		this.removeStyleClass("sapMFocus");
 		ComboBoxBase.prototype.onfocusout.apply(this, arguments);
 	};
 

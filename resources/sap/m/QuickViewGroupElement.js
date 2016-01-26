@@ -23,7 +23,7 @@ sap.ui.define([
 		* @extends sap.ui.core.Element
 		*
 		* @author SAP SE
-		* @version 1.34.2
+		* @version 1.34.3
 		*
 		* @constructor
 		* @public
@@ -120,6 +120,10 @@ sap.ui.define([
 		 * @private
 		 */
 		GroupElement.prototype._getGroupElementValue = function(sQuickViewPageId) {
+			if (!this.getValue()) {
+				return null;
+			}
+
 			switch (this.getType()) {
 				case GroupElementType.email:
 

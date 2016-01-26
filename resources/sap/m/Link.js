@@ -23,7 +23,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @implements sap.ui.core.IShrinkable
 	 *
 	 * @author SAP SE
-	 * @version 1.34.2
+	 * @version 1.34.3
 	 *
 	 * @constructor
 	 * @public
@@ -125,9 +125,9 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 */
 	Link.prototype.onBeforeRendering = function() {
 		// add/remove self reference for aria-labelledby  to fix reading issues
-		this.removeAriaLabelledBy(this.getId());
+		this.removeAssociation("ariaLabelledBy", this.getId(), true);
 		if (this.getAriaLabelledBy().length > 0) {
-			this.addAriaLabelledBy(this.getId());
+			this.addAssociation("ariaLabelledBy", this.getId(), true);
 		}
 	};
 

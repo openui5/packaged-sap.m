@@ -22,7 +22,7 @@ sap.ui.define([
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.34.2
+	 * @version 1.34.3
 	 *
 	 * @constructor
 	 * @public
@@ -326,6 +326,8 @@ sap.ui.define([
 			} else {
 				oFromPage.addStyleClass('sapMNavItemOffset');
 			}
+
+			oFromPage.$().parents('.sapMPanelContent').scrollTop(0);
 
 			this.fireNavigate(oEvent.getParameters());
 		};

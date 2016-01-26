@@ -21,7 +21,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Element', './StandardListItem',
 	 * This element holds the data of one row in the <code>PlanningCalendar</code>. Once the header information (e.g. person information)
 	 * are assigned. Then the appointments are assigned.
 	 * @extends sap.ui.core.Element
-	 * @version 1.34.2
+	 * @version 1.34.3
 	 *
 	 * @constructor
 	 * @public
@@ -212,6 +212,12 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Element', './StandardListItem',
 
 		this.setProperty("text", sText, true); // do not invalidate, only real rendered control must be invalidated
 		this._oColumnListItem.getCells()[0].setDescription(sText);
+
+		if (sText) {
+			this._oColumnListItem.getCells()[1].addStyleClass("sapMPlanCalRowLarge");
+		} else {
+			this._oColumnListItem.getCells()[1].removeStyleClass("sapMPlanCalRowLarge");
+		}
 
 		return this;
 

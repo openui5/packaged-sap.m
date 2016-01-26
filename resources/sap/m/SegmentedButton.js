@@ -22,7 +22,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.34.2
+	 * @version 1.34.3
 	 *
 	 * @constructor
 	 * @public
@@ -287,7 +287,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		if (this._isMie || this._bInsideDialog) {
 			setTimeout(function () {
 				that._fCalcBtnWidth();
-			},0);
+			},100);
 		} else {
 			that._fCalcBtnWidth();
 		}
@@ -615,6 +615,9 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 
 		if (aButtons.length === 0 && aItems.length > 0) {
 			this.updateItems();
+
+			//Keep buttons in sync
+			aButtons = this.getButtons();
 		}
 
 		if (aItems.length > 0 && aButtons.length > 0) {

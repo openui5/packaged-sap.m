@@ -25,12 +25,21 @@
 	-ms-transform: translate(-50%, -50%) scale(0.9);
 	-webkit-transform: translate(-50%, -50%) scale(0.9);
 	transform: translate(-50%, -50%) scale(0.9);
+
+  &:not(.sapMDialogHighPixelDensity) {
+	//prevent blurring when the device pixel ration is 1 (not high density screens)
+	//this is done with style and not with media query for wider support
+	-webkit-filter: blur(0);
+	-moz-filter: blur(0);
+	-ms-filter: blur(0);
+	filter: blur(0);
+  }
 }
 
 //the rtl will change the transform-translate from (-50% -50%) to (50% -50%)
 [dir="rtl"] .sapMDialog {
-	left: 50%; //this will be changed to auto from the rtl mode
-	right: -50%; //this will be reverted to 50% by the rtl mode
+	left: 50%; //this will be changed 'right: 50%' from the rtl mode
+	right: auto !important; //this will be reverted 'left: auto' by the rtl mode
 }
 
 // set max height and max width ========================================================================================
@@ -304,7 +313,15 @@
 .sapMDialog > footer {
 	padding: 0 0.25rem;
 
-	.sapMBtn {
+  #dialogWithManyButtons-footer-overflowButton-inner {
+	padding-left: 0;
+  }
+
+  #dialogWithManyButtons-footer-overflowButton-img {
+	position: static;
+  }
+
+  .sapMBtn {
 		//for some reason buttons have offset of 1px when focused and not exactly in the vertical middle
 		margin-top: -1px;
 		margin-left: 0;

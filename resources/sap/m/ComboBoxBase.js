@@ -19,7 +19,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './ComboBoxTextField', 
 		 * @extends sap.m.ComboBoxTextField
 		 *
 		 * @author SAP SE
-		 * @version 1.34.2
+		 * @version 1.34.3
 		 *
 		 * @constructor
 		 * @public
@@ -324,6 +324,24 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './ComboBoxTextField', 
 		ComboBoxBase.prototype.bShowLabelAsPlaceholder = sap.ui.Device.browser.msie;
 
 		/**
+		 * Gets the DOM reference the popup should be docked.
+		 *
+		 * @return {object}
+		 */
+		ComboBoxBase.prototype.getPopupAnchorDomRef = function() {
+			return this.getDomRef();
+		};
+
+		/**
+		 * Gets the DOM reference the message popup should be docked.
+		 *
+		 * @return {object}
+		 */
+		ComboBoxBase.prototype.getDomRefForValueStateMessage = function() {
+			return this.getDomRef();
+		};
+
+		/**
 		 * Hook method, can be used to add additional content to the control's picker popup.
 		 *
 		 * @param {sap.m.Dialog | sap.m.Popover} [oPicker]
@@ -579,22 +597,6 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './ComboBoxTextField', 
 		 * @protected
 		 */
 		ComboBoxBase.prototype.clearSelection = function() {};
-
-		ComboBoxBase.prototype.updateValueStateClasses = function(sValueState, sOldValueState) {
-			ComboBoxTextField.prototype.updateValueStateClasses.apply(this, arguments);
-
-			var mValueState = sap.ui.core.ValueState,
-				CSS_CLASS = this.getRenderer().CSS_CLASS_COMBOBOXBASE,
-				$DomRef = this.$();
-
-			if (sOldValueState !== mValueState.None) {
-				$DomRef.removeClass(CSS_CLASS + "State " + CSS_CLASS + sOldValueState);
-			}
-
-			if (sValueState !== mValueState.None) {
-				$DomRef.addClass(CSS_CLASS + "State " + CSS_CLASS + sValueState);
-			}
-		};
 
 		/* ----------------------------------------------------------- */
 		/* public methods                                              */

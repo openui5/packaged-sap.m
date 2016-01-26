@@ -21,7 +21,7 @@ function (library, Control, ItemNavigation, jQuery) {
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.34.2
+	 * @version 1.34.3
 	 *
 	 * @constructor
 	 * @private

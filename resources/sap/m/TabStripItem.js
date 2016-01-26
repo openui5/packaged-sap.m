@@ -19,7 +19,7 @@ sap.ui.define(["jquery.sap.global", "./library", "sap/ui/core/Item", "sap/ui/bas
 		 * @extends sap.ui.core.Item
 		 *
 		 * @author SAP SE
-		 * @version 1.34.2
+		 * @version 1.34.3
 		 *
 		 * @constructor
 		 * @private
@@ -99,20 +99,8 @@ sap.ui.define(["jquery.sap.global", "./library", "sap/ui/core/Item", "sap/ui/bas
 				type: sap.m.ButtonType.Transparent,
 				icon: IconPool.getIconURI("decline"),
 				tabIndex: "-1",
-				ariaHidden: "true",
-				press : function (oEvent) {
-					this.fireItemClosePressed({
-						item: this
-					});
-				}.bind(this)
-			})
-			.addEventDelegate({
-				ontap: function (oEvent) {
-					oEvent.stopPropagation();
-					oEvent.preventDefault();
-				}
-			})
-			.addStyleClass(TabStripItem.CSS_CLASS_CLOSEBUTTON);
+				ariaHidden: "true"
+			}).addStyleClass(TabStripItem.CSS_CLASS_CLOSEBUTTON);
 			this.setAggregation('_closeButton', oButton);
 		};
 

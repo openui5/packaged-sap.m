@@ -3288,8 +3288,8 @@
 			oComboBox.setValueState(sap.ui.core.ValueState.Error);
 
 			// assert
-			ok(oComboBox.$().hasClass(oComboBox.getRenderer().CSS_CLASS_COMBOBOXBASE));
-			ok(oComboBox.$().hasClass(oComboBox.getRenderer().CSS_CLASS_COMBOBOXBASE + "Error"));
+			ok(oComboBox.$().hasClass(oComboBox.getRenderer().CSS_CLASS_COMBOBOXTEXTFIELD));
+			ok(oComboBox.$().hasClass(oComboBox.getRenderer().CSS_CLASS_COMBOBOXTEXTFIELD + "Error"));
 
 			// cleanup
 			oComboBox.destroy();
@@ -7758,6 +7758,41 @@
 
 			// assert
 			strictEqual(fnOpenSpy.callCount, 0);
+
+			// cleanup
+			oComboBox.destroy();
+		});
+
+		// BCP 1670033530
+		test("it should not select the disabled item", function() {
+
+			// system under test
+			var oComboBox = new sap.m.ComboBox({
+				items: [
+					new sap.ui.core.Item({
+						text: "lorem ipsum",
+						enabled: false
+					})
+				]
+			});
+
+			// arrange
+			oComboBox.placeAt("content");
+			sap.ui.getCore().applyChanges();
+			oComboBox.focus();
+			var oTarget = oComboBox.getFocusDomRef();
+			oTarget.value = "l";
+
+			// act
+			sap.ui.qunit.QUnitUtils.triggerEvent("input", oTarget);
+
+			// assert
+			ok(oComboBox.getSelectedItem() === null);
+			strictEqual(oComboBox.getSelectedItemId(), "");
+			strictEqual(oComboBox.getSelectedKey(), "");
+			ok(oComboBox.getList().getSelectedItem() === null);
+			strictEqual(oComboBox.getList().getSelectedItemId(), "");
+			strictEqual(oComboBox.getList().getSelectedKey(), "");
 
 			// cleanup
 			oComboBox.destroy();

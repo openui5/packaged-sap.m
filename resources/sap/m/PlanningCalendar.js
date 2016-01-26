@@ -26,7 +26,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Control', 'sap/ui/core/LocaleDa
 	 * This could lead to a waiting time before a <code>PlanningCalendar</code> is used the first time.
 	 * To prevent this, applications using the <code>PlanningCalendar</code> should also load the <code>sap.ui.unified</code> library.
 	 * @extends sap.ui.core.Control
-	 * @version 1.34.2
+	 * @version 1.34.3
 	 *
 	 * @constructor
 	 * @public
@@ -927,6 +927,11 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Control', 'sap/ui/core/LocaleDa
 
 	function _handleResize(oEvent, bNoRowResize){
 
+		if (oEvent.size.width <= 0) {
+			// only if visible at all
+			return;
+		}
+
 		var aRows = this.getRows();
 		var oRow;
 		var i = 0;
@@ -978,6 +983,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Control', 'sap/ui/core/LocaleDa
 				oRow.getCalendarRow().handleResize();
 			}
 		}
+
 	}
 
 	function _updateCurrentTimeVisualization(bUpdateRows){

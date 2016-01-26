@@ -4,8 +4,8 @@
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
-sap.ui.define(['jquery.sap.global', './ComboBoxBase', './ComboBoxRenderer', './SelectList', './library'],
-	function(jQuery, ComboBoxBase, ComboBoxRenderer, SelectList, library) {
+sap.ui.define(['jquery.sap.global', './ComboBoxBase', './ComboBoxRenderer', './Popover', './SelectList', './library'],
+	function(jQuery, ComboBoxBase, ComboBoxRenderer, Popover, SelectList, library) {
 		"use strict";
 
 		/**
@@ -19,7 +19,7 @@ sap.ui.define(['jquery.sap.global', './ComboBoxBase', './ComboBoxRenderer', './S
 		 * @extends sap.m.ComboBoxBase
 		 *
 		 * @author SAP SE
-		 * @version 1.34.2
+		 * @version 1.34.3
 		 *
 		 * @constructor
 		 * @public
@@ -194,7 +194,7 @@ sap.ui.define(['jquery.sap.global', './ComboBoxBase', './ComboBoxRenderer', './S
 		ComboBox.prototype._createPopover = function() {
 
 			// initialize Popover
-			var oPicker = new sap.m.Popover({
+			var oPicker = new Popover({
 				showHeader: false,
 				placement: sap.m.PlacementType.Vertical,
 				offsetX: 0,
@@ -340,7 +340,7 @@ sap.ui.define(['jquery.sap.global', './ComboBoxBase', './ComboBoxRenderer', './S
 				}
 
 				// first match of the value
-				if (bFirst && bMatch && sValue !== "") {
+				if (oItem.getEnabled() && bFirst && bMatch && sValue !== "") {
 					bFirst = false;
 
 					if (this._bDoTypeAhead) {

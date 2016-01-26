@@ -19,7 +19,7 @@ sap.ui.define(['jquery.sap.global', './InputBase', './library'],
 		 * @extends sap.m.InputBase
 		 *
 		 * @author SAP SE
-		 * @version 1.34.2
+		 * @version 1.34.3
 		 *
 		 * @constructor
 		 * @public
@@ -43,6 +43,22 @@ sap.ui.define(['jquery.sap.global', './InputBase', './library'],
 				}
 			}
 		});
+
+		ComboBoxTextField.prototype.updateValueStateClasses = function(sValueState, sOldValueState) {
+			InputBase.prototype.updateValueStateClasses.apply(this, arguments);
+
+			var mValueState = sap.ui.core.ValueState,
+				CSS_CLASS = this.getRenderer().CSS_CLASS_COMBOBOXTEXTFIELD,
+				$DomRef = this.$();
+
+			if (sOldValueState !== mValueState.None) {
+				$DomRef.removeClass(CSS_CLASS + "State " + CSS_CLASS + sOldValueState);
+			}
+
+			if (sValueState !== mValueState.None) {
+				$DomRef.addClass(CSS_CLASS + "State " + CSS_CLASS + sValueState);
+			}
+		};
 
 		return ComboBoxTextField;
 	}, true);
