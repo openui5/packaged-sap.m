@@ -8,7 +8,6 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Renderer', 'sap/ui/core/ValueSt
 	function(jQuery, Renderer, ValueStateSupport) {
 	"use strict";
 
-
 	/**
 	 * Input renderer.
 	 *
@@ -42,6 +41,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Renderer', 'sap/ui/core/ValueSt
 
 		// outer classes
 		oRm.addClass("sapMInputBase");
+		this.addPaddingClass(oRm, oControl);
 		this.addCursorClass(oRm, oControl);
 		this.addOuterClasses(oRm, oControl);
 
@@ -75,9 +75,11 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Renderer', 'sap/ui/core/ValueSt
 		if (oControl.bShowLabelAsPlaceholder) {
 			oRm.write("<label");
 			oRm.writeAttribute("id", oControl.getId() + "-placeholder");
+
 			if (sTextAlign) {
 				oRm.addStyle("text-align", sTextAlign);
 			}
+
 			this.addPlaceholderClasses(oRm, oControl);
 			this.addPlaceholderStyles(oRm, oControl);
 			oRm.writeClasses();
@@ -131,9 +133,11 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Renderer', 'sap/ui/core/ValueSt
 
 		if (sap.ui.Device.browser.mozilla) {
 			if (sTooltip) {
+
 				// fill tooltip to mozilla validation flag too, to display it in validation error case too
 				oRm.writeAttributeEscaped("x-moz-errormessage", sTooltip);
 			} else {
+
 				// if no tooltip use blank text for mozilla validation text
 				oRm.writeAttribute("x-moz-errormessage", " ");
 			}
@@ -143,10 +147,12 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Renderer', 'sap/ui/core/ValueSt
 
 		// inner classes
 		oRm.addClass("sapMInputBaseInner");
+
 		if (sValueState !== sap.ui.core.ValueState.None) {
 			oRm.addClass("sapMInputBaseStateInner");
 			oRm.addClass("sapMInputBase" + sValueState + "Inner");
 		}
+
 		this.addInnerClasses(oRm, oControl);
 		oRm.writeClasses();
 
@@ -347,7 +353,17 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Renderer', 'sap/ui/core/ValueSt
 	 * @param {sap.ui.core.RenderManager} oRm The RenderManager that can be used for writing to the render output buffer.
 	 * @param {sap.ui.core.Control} oControl An object representation of the control that should be rendered.
 	 */
-	InputBaseRenderer.addCursorClass = function(oRm, oControl) {
+	InputBaseRenderer.addCursorClass = function(oRm, oControl) {};
+
+	/**
+	 * Add a padding class to input container.
+	 * May be overwritten by subclasses.
+	 *
+	 * @param {sap.ui.core.RenderManager} oRm The RenderManager that can be used for writing to the render output buffer.
+	 * @param {sap.ui.core.Control} oControl An object representation of the control that should be rendered.
+	 */
+	InputBaseRenderer.addPaddingClass = function(oRm, oControl) {
+		oRm.addClass("sapMInputBaseWidthPadding");
 	};
 
 	/**

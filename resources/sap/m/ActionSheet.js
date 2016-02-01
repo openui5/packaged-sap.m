@@ -22,7 +22,7 @@ sap.ui.define(['jquery.sap.global', './Dialog', './Popover', './library', 'sap/u
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.32.10
+	 * @version 1.32.11
 	 *
 	 * @constructor
 	 * @public
@@ -138,7 +138,7 @@ sap.ui.define(['jquery.sap.global', './Dialog', './Popover', './library', 'sap/u
 		if (oDomRef) {
 			this._oItemNavigation.setRootDomRef(oDomRef);
 			for (var i = 0; i < aButtons.length; i++) {
-				if (aButtons[i].getEnabled()) {
+				if (aButtons[i].getEnabled() && aButtons[i].getVisible()) {
 					aDomRefs.push(aButtons[i].getFocusDomRef());
 				}
 			}

@@ -448,15 +448,24 @@ html[dir=rtl][data-sap-ui-browser^="ed"] .sapMCrslInner {
   text-align: right;
 }
 .sapMCrslItemTable {
-  display: table;
+  height: 100%;
 }
 .sapMCrslItemTableCell {
   height: 100%;
-  display: table-cell;
 }
 .sapMCrslImg {
   text-align: center;
-  vertical-align: middle;
+  height: 100%;
+  -webkit-transform-style: preserve-3d;
+  -moz-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+}
+.sapMCrslItemTableCell.sapMCrslImg img {
+  position: relative;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
 }
 .sapMCrslInner.sapMCrslNoTransition {
   -webkit-transition-duration: 0.01s;
@@ -556,37 +565,6 @@ html[dir=rtl][data-sap-ui-browser^="ed"] .sapMCrslInner {
 }
 .sapMListTblRow.sapMListTblRowBottom > td {
   vertical-align: bottom;
-}
-/* ============================================= */
-/* CSS for control sap.m/ComboBox.control        */
-/* ============================================= */
-.sapMComboBoxArrow {
-  /* auto vertical centering */
-  margin-top: auto;
-  margin-bottom: auto;
-  top: 0;
-  bottom: 0;
-}
-/* ============================================= */
-/* CSS for control sap.m/ComboBoxBase.control    */
-/* ============================================= */
-.sapMComboBoxBaseArrow {
-  display: inline-block;
-  cursor: pointer;
-  outline: none;
-  padding: 0;
-  border: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  background: transparent;
-  font-size: inherit;
-}
-.sapMComboBoxBaseReadonly .sapMComboBoxBaseArrow {
-  display: none;
-}
-div.sapMComboBoxBasePicker {
-  min-width: 0;
-  /* override the default min-width of the popover */
 }
 /* ============================================= */
 /* CSS for controlsap.m/CustomListItem.control */
@@ -1740,6 +1718,50 @@ span.sapMImg {
   /* disable native browser input validation visualization e.g. for type email or number */
   box-shadow: none;
 }
+/* note: the following three files are not in alphabetical order and should be imported after InputBase.less */
+/* =============================================== */
+/* CSS for control sap.m/ComboBoxTextField         */
+/* =============================================== */
+/* ------------------------------ */
+/* text field                     */
+/* ------------------------------ */
+input.sapMComboBoxTextFieldInner {
+  border: none;
+  margin: 0;
+  height: 100% !important;
+}
+.sapUiSizeCondensed .sapUiTableCell .sapMComboBoxTextField {
+  margin: 0;
+  border-color: transparent;
+}
+/* ------------------------------ */
+/* arrow                          */
+/* ------------------------------ */
+.sapMComboBoxTextFieldArrow {
+  display: inline-block;
+  position: absolute;
+  top: 0;
+  right: 0;
+  text-align: center;
+  cursor: pointer;
+  outline: none;
+  padding: 0;
+  height: 100%;
+  border: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background: transparent;
+  font-size: inherit;
+}
+.sapMComboBoxTextFieldReadonly .sapMComboBoxTextFieldArrow {
+  display: none;
+}
+/* ============================================= */
+/* CSS for control sap.m/ComboBoxBase.control    */
+/* ============================================= */
+/* ============================================= */
+/* CSS for control sap.m/ComboBox.control        */
+/* ============================================= */
 /* ============================================= */
 /* CSS for control sap.m/InputListItem.control   */
 /* ============================================= */
@@ -4401,6 +4423,7 @@ html[data-sap-ui-animation='on'] .sapMPopover {
   bottom: .625rem;
   left: .75rem;
   right: .625rem;
+  pointer-events: none;
 }
 .sapMRbHasLabel.sapMRb:focus:before {
   right: -0.0625rem;
@@ -4684,6 +4707,9 @@ input.sapMSFI[type="search"]:focus {
   text-shadow: none;
   cursor: default;
   opacity: 0.5;
+}
+.sapMSegBBtn:not(.sapMSegBBtnDis) .sapUiIcon {
+  cursor: pointer;
 }
 html[data-sap-ui-os^="mac"][data-sap-ui-browser^="sf"] .sapMBar .sapMSegB {
   line-height: 2.5rem;

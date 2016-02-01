@@ -19,7 +19,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Control', './TimePickerSliderRe
 		 * @extends sap.ui.core.Control
 		 *
 		 * @author SAP SE
-		 * @version 1.32.10
+		 * @version 1.32.11
 		 *
 		 * @constructor
 		 * @public
@@ -73,7 +73,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Control', './TimePickerSliderRe
 			renderer: TimePickerSliderRenderer.render
 		});
 
-
+		var SCROLL_ANIMATION_DURATION = sap.ui.getCore().getConfiguration().getAnimation() ? 200 : 0;
 		TimePickerSlider.MIN_ITEMS = 50;
 
 		/**
@@ -183,7 +183,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Control', './TimePickerSliderRe
 
 				if (this._bOneTimeValueSelectionAnimation) {
 					this._animatingSnap = true;
-					this._getSliderContainerDomRef().animate({scrollTop: iIndex * this._getItemHeightInPx() - this._selectionOffset}, 200, 'linear', function () {
+					this._getSliderContainerDomRef().animate({scrollTop: iIndex * this._getItemHeightInPx() - this._selectionOffset}, SCROLL_ANIMATION_DURATION, 'linear', function () {
 						that._getSliderContainerDomRef().clearQueue();
 						that._animatingSnap = false;
 						that._bOneTimeValueSelectionAnimation = false;

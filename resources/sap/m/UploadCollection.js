@@ -19,7 +19,7 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.32.10
+	 * @version 1.32.11
 	 *
 	 * @constructor
 	 * @public
@@ -414,7 +414,7 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 	};
 
 	/* =========================================================== */
-	/* Redefinition of setters methods                             */
+	/* Redefinition of setter and getter methods                   */
 	/* =========================================================== */
 
 	UploadCollection.prototype.setFileType = function(aFileTypes) {
@@ -524,7 +524,7 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 		return this;
 	};
 
-	UploadCollection.prototype.setInstantUpload = function(bInstantUpload) {
+	UploadCollection.prototype.setInstantUpload = function() {
 		jQuery.sap.log.error("It is not supported to change the behavior at runtime.");
 		return this;
 	};
@@ -560,8 +560,8 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 		this._RenderManager = this._RenderManager || sap.ui.getCore().createRenderManager();
 		var i, cAitems;
 		checkInstantUpload.bind(this)();
-
-		if (!this.getInstantUpload()) {//
+		if (!this.getInstantUpload()) {
+			this.aItems = this.getItems();
 			this._getListHeader(this.aItems.length);
 			this._clearList();
 			this._fillList(this.aItems);
@@ -785,7 +785,7 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 
 		oContainer = new sap.ui.core.HTML({content : // a container for a text container and a button container
 				"<span id=" + sContainerId + " class= sapMUCTextButtonContainer> </span>",
-				afterRendering : function(oEvent) {
+				afterRendering : function() {
 					that._renderContent(oItem, sContainerId, that);
 				}
 		});
@@ -1430,10 +1430,10 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 		if (oEvent.target.id.lastIndexOf("editButton") < 0) {
 			if (oEvent.target.id.lastIndexOf("cancelButton") > 0) {
 				sap.m.UploadCollection.prototype._handleCancel(oEvent, oContext, sSourceId);
-			} else if (oEvent.target.id.lastIndexOf("ia_imageHL") < 0
-					   && oEvent.target.id.lastIndexOf("ia_iconHL") < 0
-					   && oEvent.target.id.lastIndexOf("deleteButton") < 0
-					   && oEvent.target.id.lastIndexOf("ta_editFileName-inner") < 0) {
+			} else if (oEvent.target.id.lastIndexOf("ia_imageHL") < 0 &&
+								 oEvent.target.id.lastIndexOf("ia_iconHL") < 0 &&
+								 oEvent.target.id.lastIndexOf("deleteButton") < 0 &&
+								 oEvent.target.id.lastIndexOf("ta_editFileName-inner") < 0) {
 				if (oEvent.target.id.lastIndexOf("cli") > 0) {
 					oContext.sFocusId = oEvent.target.id;
 				}
@@ -1828,7 +1828,7 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 		var sFileName = oEvent.getParameter("fileName");
 		var cItems = this.aItems.length;
 		for (i = 0; i < cItems ; i++) {
-			if (this.aItems[i] === sFileName && this.aItems[i]._requestIdName === sRequestId && this.aItems[i]._status === UploadCollection._uploadingStatus) {
+			if (this.aItems[i] && this.aItems[i].getFileName() === sFileName && this.aItems[i]._requestIdName === sRequestId && this.aItems[i]._status === UploadCollection._uploadingStatus) {
 				this.aItems.splice(i, 1);
 				this.removeItem(i);
 				break;
@@ -1867,7 +1867,7 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 						this.aItems[i]._status = UploadCollection._displayStatus;
 						break;
 					} else if (this.aItems[i].getProperty("fileName") === sUploadedFile &&
-										 this.aItems[i]._status === UploadCollection._uploadingStatus) {
+							this.aItems[i]._status === UploadCollection._uploadingStatus) {
 						this.aItems.splice(i, 1);
 					}
 				} else if (this.aItems[i].getProperty("fileName") === sUploadedFile &&
@@ -1878,8 +1878,9 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 					this.aItems[i]._status = UploadCollection._displayStatus;
 					break;
 				} else if (this.aItems[i].getProperty("fileName") === sUploadedFile &&
-									 this.aItems[i]._requestIdName === sRequestId &&
-									 this.aItems[i]._status === UploadCollection._uploadingStatus) {
+						this.aItems[i]._requestIdName === sRequestId &&
+						this.aItems[i]._status === UploadCollection._uploadingStatus ||
+						this.aItems[i]._status === UploadCollection._pendingUploadStatus) {
 					this.aItems.splice(i, 1);
 					break;
 				}
@@ -1969,13 +1970,13 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 	 * @private
 	 */
 	UploadCollection.prototype._getFileUploader = function() {
-	var that = this, bUploadOnChange = this.getInstantUpload();
+		var that = this, bUploadOnChange = this.getInstantUpload();
 		if (!bUploadOnChange || !this._oFileUploader) { // In case of instantUpload = false always create a new FU instance. In case of instantUpload = true only create a new FU instance if no FU instance exists yet
 			var bSendXHR = (sap.ui.Device.browser.msie && sap.ui.Device.browser.version <= 9) ? false : true;
 			this._iFUCounter = this._iFUCounter + 1; // counter for FileUploader instances
 			this._oFileUploader = new sap.ui.unified.FileUploader(this.getId() + "-" + this._iFUCounter + "-uploader",{
 				buttonOnly : true,
-				buttonText : " ",
+				iconOnly : true,
 				enabled : this.getUploadEnabled(),
 				fileType : this.getFileType(),
 				icon : "sap-icon://add",
@@ -2036,7 +2037,7 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 		var oRequestHeaders = {}, i, sRequestIdValue, iParamCounter, sFileName, oGetHeaderParameterResult;
 		this._iUploadStartCallCounter++;
 		iParamCounter = oEvent.getParameter("requestHeaders").length;
-		for ( i = 0; i < iParamCounter; i++ ) {
+		for (i = 0; i < iParamCounter; i++ ) {
 			if (oEvent.getParameter("requestHeaders")[i].name === this._headerParamConst.requestIdName) {
 				sRequestIdValue = oEvent.getParameter("requestHeaders")[i].value;
 				break;
@@ -2051,9 +2052,9 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 
 		var iDeletedItemForPendingUploadLength = this._aDeletedItemForPendingUpload.length;
 		for ( i = 0; i < iDeletedItemForPendingUploadLength; i++ ) {
-			if (this._aDeletedItemForPendingUpload[i].getAssociation("fileUploader") === oEvent.oSource.sId
-					&& this._aDeletedItemForPendingUpload[i].getFileName() === sFileName
-					&& this._aDeletedItemForPendingUpload[i]._internalFileIndexWithinFileUploader === this._iUploadStartCallCounter){
+			if (this._aDeletedItemForPendingUpload[i].getAssociation("fileUploader") === oEvent.oSource.sId &&
+					this._aDeletedItemForPendingUpload[i].getFileName() === sFileName &&
+					this._aDeletedItemForPendingUpload[i]._internalFileIndexWithinFileUploader === this._iUploadStartCallCounter){
 				oEvent.getSource().abort(this._headerParamConst.fileNameRequestIdName, this._encodeToAscii(sFileName) + sRequestIdValue);
 				return;
 			}
@@ -2066,13 +2067,13 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 
 		// ensure that the HeaderParameterValues are updated
 		if (jQuery.isArray(oGetHeaderParameterResult)) {
-			for (var i = 0; i < oGetHeaderParameterResult.length; i++) {
+			for (i = 0; i < oGetHeaderParameterResult.length; i++) {
 				if (oEvent.getParameter("requestHeaders")[i].name === oGetHeaderParameterResult[i].getName()) {
 					oEvent.getParameter("requestHeaders")[i].value = oGetHeaderParameterResult[i].getValue();
 				}
 			}
 		} else if (oGetHeaderParameterResult instanceof sap.m.UploadCollectionParameter) {
-			for (var i = 0; i < oEvent.getParameter("requestHeaders").length; i++) {
+			for (i = 0; i < oEvent.getParameter("requestHeaders").length; i++) {
 				if (oEvent.getParameter("requestHeaders")[i].name === oGetHeaderParameterResult.getName()) {
 					oEvent.getParameter("requestHeaders")[i].value = oGetHeaderParameterResult.getValue();
 					break;
@@ -2438,8 +2439,9 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 		var aUcpRequestHeaders = [];
 		var aRequestHeaders = this.getParameter("requestHeaders");
 		var iParamCounter = aRequestHeaders.length;
+		var i;
 		if (aRequestHeaders && sHeaderParameterName) {
-			for ( i = 0; i < iParamCounter; i++ ) {
+			for (i = 0; i < iParamCounter; i++ ) {
 				if (aRequestHeaders[i].name === sHeaderParameterName) {
 					return new sap.m.UploadCollectionParameter({
 						name: aRequestHeaders[i].name,
@@ -2449,7 +2451,7 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 			}
 		} else {
 			if (aRequestHeaders) {
-				for (var i = 0; i < iParamCounter; i++) {
+				for (i = 0; i < iParamCounter; i++) {
 					aUcpRequestHeaders.push(new sap.m.UploadCollectionParameter({
 						name: aRequestHeaders[i].name,
 						value: aRequestHeaders[i].value

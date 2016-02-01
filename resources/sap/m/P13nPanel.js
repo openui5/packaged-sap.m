@@ -17,7 +17,7 @@ sap.ui.define([
 	 * @param {object} [mSettings] initial settings for the new control
 	 * @class Base type for <code>panels</code> aggregation in P13nDialog control.
 	 * @extends sap.ui.core.Control
-	 * @version 1.32.10
+	 * @version 1.32.11
 	 * @constructor
 	 * @public
 	 * @since 1.26.0
