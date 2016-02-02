@@ -22,7 +22,7 @@ sap.ui.define(['jquery.sap.global', './InputBase', './library'],
 	 * @extends sap.m.InputBase
 	 *
 	 * @author SAP SE
-	 * @version 1.36.0
+	 * @version 1.36.1
 	 *
 	 * @constructor
 	 * @public
@@ -272,7 +272,7 @@ sap.ui.define(['jquery.sap.global', './InputBase', './library'],
 			for (scrollContainer = $this.parent(); scrollContainer[0]; scrollContainer = scrollContainer.parent()) {
 				if (scrollContainer.css("overflow-y") == "auto") {
 					// make sure to have enough padding to be able to scroll even the bottom control to the top of the screen
-					scrollContainer.children().css("padding-bottom", jQuery(window).height() + "px");
+					scrollContainer.children().last().css("padding-bottom", jQuery(window).height() + "px");
 					// do scroll
 					window.setTimeout(scrollIntoView, 100);
 					return;

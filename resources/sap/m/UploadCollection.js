@@ -19,7 +19,7 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.36.0
+	 * @version 1.36.1
 	 *
 	 * @constructor
 	 * @public
@@ -446,6 +446,7 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 		this._aDeletedItemForPendingUpload = [];
 		this._aFileUploadersForPendingUpload = [];
 		this._iFileUploaderPH = null; // Index of the place holder for the File Uploader
+		this._oListEventDelegate = null;
 	};
 
 	/* =========================================================== */
@@ -680,8 +681,13 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 	UploadCollection.prototype.onBeforeRendering = function() {
 		this._RenderManager = this._RenderManager || sap.ui.getCore().createRenderManager();
 		var i, cAitems;
+		if (this._oListEventDelegate) {
+			this._oList.removeEventDelegate(this._oListEventDelegate);
+			this._oListEventDelegate = null;
+		}
 		checkInstantUpload.bind(this)();
 		if (!this.getInstantUpload()) {
+			this.aItems = this.getItems();
 			this._getListHeader(this.aItems.length);
 			this._clearList();
 			this._fillList(this.aItems);
@@ -760,11 +766,12 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 							});
 						}
 						$oEditBox.focus();
-						this._oList.addDelegate({
+						this._oListEventDelegate = {
 							onclick: function(oEvent) {
 								sap.m.UploadCollection.prototype._handleClick(oEvent, that, sId);
 							}
-						});
+						};
+						this._oList.addDelegate(this._oListEventDelegate);
 					}
 				} else if (this.sFocusId) {
 					//set focus on line item after status = Edit
@@ -2042,7 +2049,8 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 					break;
 				} else if (this.aItems[i].getProperty("fileName") === sUploadedFile &&
 						this.aItems[i]._requestIdName === sRequestId &&
-						this.aItems[i]._status === UploadCollection._uploadingStatus) {
+						this.aItems[i]._status === UploadCollection._uploadingStatus ||
+						this.aItems[i]._status === UploadCollection._pendingUploadStatus) {
 					this.aItems.splice(i, 1);
 					break;
 				}

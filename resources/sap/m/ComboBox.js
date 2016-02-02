@@ -19,7 +19,7 @@ sap.ui.define(['jquery.sap.global', './ComboBoxBase', './ComboBoxRenderer', './P
 		 * @extends sap.m.ComboBoxBase
 		 *
 		 * @author SAP SE
-		 * @version 1.36.0
+		 * @version 1.36.1
 		 *
 		 * @constructor
 		 * @public
@@ -347,7 +347,7 @@ sap.ui.define(['jquery.sap.global', './ComboBoxBase', './ComboBoxRenderer', './P
 				}
 
 				// first match of the value
-				if (bFirst && bMatch && sValue !== "") {
+				if (oItem.getEnabled() && bFirst && bMatch && sValue !== "") {
 					bFirst = false;
 
 					if (this._bDoTypeAhead) {
