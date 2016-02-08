@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @class
 	 * ObjectHeader is a display control that enables the user to easily identify a specific object. The object header title is the key identifier of the object and additional text and icons can be used to further distinguish it from other objects.
 	 * @extends sap.ui.core.Control
-	 * @version 1.34.3
+	 * @version 1.34.4
 	 *
 	 * @constructor
 	 * @public
@@ -379,7 +379,10 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	};
 
 	ObjectHeader.prototype.destroyAttributes = function () {
-		this.getAggregation("attributes").forEach(this._deregisterControlListener, this);
+		var aAttributes = this.getAggregation("attributes");
+		if (aAttributes !== null) {
+			aAttributes.forEach(this._deregisterControlListener, this);
+		}
 		return this.destroyAggregation("attributes");
 	};
 
@@ -408,7 +411,10 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	};
 
 	ObjectHeader.prototype.destroyStatuses = function () {
-		this.getAggregation("statuses").forEach(this._deregisterControlListener, this);
+		var aStatuses = this.getAggregation("statuses");
+		if (aStatuses !== null) {
+			aStatuses.forEach(this._deregisterControlListener, this);
+		}
 		return this.destroyAggregation("statuses");
 	};
 

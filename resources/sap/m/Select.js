@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './Popov
 		 * @extends sap.ui.core.Control
 		 *
 		 * @author SAP SE
-		 * @version 1.34.3
+		 * @version 1.34.4
 		 *
 		 * @constructor
 		 * @public
@@ -801,12 +801,14 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './Popov
 		 */
 		Select.prototype.onkeypress = function(oEvent) {
 
-			// mark the event for components that needs to know if the event was handled
-			oEvent.setMarked();
-
+			// prevents actions from occurring when the control is disabled,
+			// IE11 browser focus non-focusable elements
 			if (!this.getEnabled()) {
 				return;
 			}
+
+			// mark the event for components that needs to know if the event was handled
+			oEvent.setMarked();
 
 			var oItem = this.findNextItemByFirstCharacter(String.fromCharCode(oEvent.which));	// note: jQuery oEvent.which normalizes oEvent.keyCode and oEvent.charCode
 			fnHandleKeyboardNavigation.call(this, oItem);
@@ -819,6 +821,12 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './Popov
 		 * @private
 		 */
 		Select.prototype.onsapshow = function(oEvent) {
+
+			// prevents actions from occurring when the control is disabled,
+			// IE11 browser focus non-focusable elements
+			if (!this.getEnabled()) {
+				return;
+			}
 
 			// mark the event for components that needs to know if the event was handled
 			oEvent.setMarked();
@@ -848,6 +856,12 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './Popov
 		 */
 		Select.prototype.onsapescape = function(oEvent) {
 
+			// prevents actions from occurring when the control is disabled,
+			// IE11 browser focus non-focusable elements
+			if (!this.getEnabled()) {
+				return;
+			}
+
 			if (this.isOpen()) {
 
 				// mark the event for components that needs to know if the event was handled
@@ -866,6 +880,12 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './Popov
 		 */
 		Select.prototype.onsapenter = function(oEvent) {
 
+			// prevents actions from occurring when the control is disabled,
+			// IE11 browser focus non-focusable elements
+			if (!this.getEnabled()) {
+				return;
+			}
+
 			// mark the event for components that needs to know if the event was handled
 			oEvent.setMarked();
 
@@ -880,6 +900,12 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './Popov
 		 * @private
 		 */
 		Select.prototype.onsapspace = function(oEvent) {
+
+			// prevents actions from occurring when the control is disabled,
+			// IE11 browser focus non-focusable elements
+			if (!this.getEnabled()) {
+				return;
+			}
 
 			// mark the event for components that needs to know if the event was handled
 			oEvent.setMarked();
@@ -902,6 +928,12 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './Popov
 		 */
 		Select.prototype.onsapdown = function(oEvent) {
 
+			// prevents actions from occurring when the control is disabled,
+			// IE11 browser focus non-focusable elements
+			if (!this.getEnabled()) {
+				return;
+			}
+
 			// mark the event for components that needs to know if the event was handled
 			oEvent.setMarked();
 
@@ -922,6 +954,12 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './Popov
 		 * @private
 		 */
 		Select.prototype.onsapup = function(oEvent) {
+
+			// prevents actions from occurring when the control is disabled,
+			// IE11 browser focus non-focusable elements
+			if (!this.getEnabled()) {
+				return;
+			}
 
 			// mark the event for components that needs to know if the event was handled
 			oEvent.setMarked();
@@ -945,6 +983,12 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './Popov
 		 */
 		Select.prototype.onsaphome = function(oEvent) {
 
+			// prevents actions from occurring when the control is disabled,
+			// IE11 browser focus non-focusable elements
+			if (!this.getEnabled()) {
+				return;
+			}
+
 			// mark the event for components that needs to know if the event was handled
 			oEvent.setMarked();
 
@@ -964,6 +1008,12 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './Popov
 		 */
 		Select.prototype.onsapend = function(oEvent) {
 
+			// prevents actions from occurring when the control is disabled,
+			// IE11 browser focus non-focusable elements
+			if (!this.getEnabled()) {
+				return;
+			}
+
 			// mark the event for components that needs to know if the event was handled
 			oEvent.setMarked();
 
@@ -981,6 +1031,12 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './Popov
 		 * @private
 		 */
 		Select.prototype.onsappagedown = function(oEvent) {
+
+			// prevents actions from occurring when the control is disabled,
+			// IE11 browser focus non-focusable elements
+			if (!this.getEnabled()) {
+				return;
+			}
 
 			// mark the event for components that needs to know if the event was handled
 			oEvent.setMarked();
@@ -1008,6 +1064,12 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './Popov
 		 * @private
 		 */
 		Select.prototype.onsappageup = function(oEvent) {
+
+			// prevents actions from occurring when the control is disabled,
+			// IE11 browser focus non-focusable elements
+			if (!this.getEnabled()) {
+				return;
+			}
 
 			// mark the event for components that needs to know if the event was handled
 			oEvent.setMarked();

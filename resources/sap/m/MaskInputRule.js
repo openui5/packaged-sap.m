@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Element'], function(jQuery, Ele
 	 *
 	 * @author SAP SE
 	 * @extends sap.ui.core.Element
-	 * @version 1.34.3
+	 * @version 1.34.4
 	 * @public
 	 * @constructor
 	 * @since 1.34.0

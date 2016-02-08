@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.34.3
+	 * @version 1.34.4
 	 *
 	 * @constructor
 	 * @public
@@ -814,7 +814,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		return this.getFocusDomRef();
 	};
 
-	InputBase.prototype.iOpenMessagePopupDuration = 200;
+	InputBase.prototype.iOpenMessagePopupDuration = 0;
 
 	/**
 	 * Open value state message popup.

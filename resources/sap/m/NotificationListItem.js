@@ -21,7 +21,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', './ListI
 		 * @extends sap.m.ListItemBase
 		 *
 		 * @author SAP SE
-		 * @version 1.34.3
+		 * @version 1.34.4
 		 *
 		 * @constructor
 		 * @public
@@ -361,7 +361,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', './ListI
 		NotificationListItem.prototype.close = function () {
 			var parent = this.getParent();
 			this.fireClose();
-			parent && parent.focus();
+			parent && parent instanceof sap.ui.core.Element && parent.focus();
 			this.destroy();
 		};
 

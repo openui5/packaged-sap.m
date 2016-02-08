@@ -26,7 +26,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Control', 'sap/ui/core/LocaleDa
 	 * This could lead to a waiting time before a <code>PlanningCalendar</code> is used the first time.
 	 * To prevent this, applications using the <code>PlanningCalendar</code> should also load the <code>sap.ui.unified</code> library.
 	 * @extends sap.ui.core.Control
-	 * @version 1.34.3
+	 * @version 1.34.4
 	 *
 	 * @constructor
 	 * @public
@@ -333,7 +333,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Control', 'sap/ui/core/LocaleDa
 
 		this._bBeforeRendering = true;
 
-		if ((!this._oTimeInterval && !this._oMonthInterval && !this._oMonthInterval) || this._bCheckView) {
+		if ((!this._oTimeInterval && !this._oDateInterval && !this._oMonthInterval) || this._bCheckView) {
 			// init intervalType settings if default is used
 			this.setViewKey(this.getViewKey());
 			this._bCheckView = undefined;
@@ -560,7 +560,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Control', 'sap/ui/core/LocaleDa
 
 		_updateSelectAllCheckBox.call(this);
 
-		if (this.getDomRef()) {
+		if (this._oTimeInterval || this._oDateInterval || this._oMonthInterval) {
 			var sKey = this.getViewKey();
 			var oView = _getView.call(this, sKey);
 			var sIntervalType = oView.getIntervalType();
@@ -592,7 +592,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Control', 'sap/ui/core/LocaleDa
 
 		_updateSelectAllCheckBox.call(this);
 
-		if (this.getDomRef()) {
+		if (this._oTimeInterval || this._oDateInterval || this._oMonthInterval) {
 			var sKey = this.getViewKey();
 			var oView = _getView.call(this, sKey);
 			var sIntervalType = oView.getIntervalType();

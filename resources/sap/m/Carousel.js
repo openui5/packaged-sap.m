@@ -24,7 +24,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.34.3
+	 * @version 1.34.4
 	 *
 	 * @constructor
 	 * @public
@@ -355,6 +355,17 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		} else {
 			jQuery(window).on("resize", this._fnAdjustAfterResize);
 		}
+
+		// Fixes wrong focusing in IE
+		// BCP: 1670008915
+		this.$().find('.sapMCrslItemTableCell').focus(function(e) {
+
+			e.preventDefault();
+
+			jQuery(e.target).parents('.sapMCrsl').focus();
+
+			return false;
+		});
 	};
 
 	/**
@@ -722,16 +733,17 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 */
 	Carousel.prototype.onkeydown = function(oEvent) {
 
+		if (oEvent.keyCode == jQuery.sap.KeyCodes.F7) {
+			this._handleF7Key(oEvent);
+			return;
+		}
+
 		// Exit the function if the event is not from the Carousel
 		if (oEvent.target != this.getDomRef()) {
 			return;
 		}
 
 		switch (oEvent.keyCode) {
-			// F7 key
-			case jQuery.sap.KeyCodes.F7:
-				this._handleF7Key(oEvent);
-				break;
 
 			// Minus keys
 			// TODO  jQuery.sap.KeyCodes.MINUS is not returning 189

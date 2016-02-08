@@ -10,29 +10,29 @@ sap.ui.define(['jquery.sap.global', './Popover', './TabStripSelectList', './libr
 		"use strict";
 
 		/**
-		 * Constructor for a new TabStripSelect.
+		 * Constructor for a new <code>TabStripSelect</code>.
 		 *
-		 * @param {string} [sId] ID for the new control, generated automatically if no ID is given.
-		 * @param {object} [mSettings] Initial settings for the new control.
+		 * @param {string} [sId] ID for the new control, generated automatically if no ID is given
+		 * @param {object} [mSettings] Initial settings for the new control
 		 *
 		 * @class
 		 * The <code>sap.m.TabStripSelect</code> control provides a list of items that allows users to interact with an item.
 		 * @extends sap.m.Select
 		 *
 		 * @author SAP SE
-		 * @version 1.34.3
+		 * @version 1.34.4
 		 * @since 1.34
 		 *
 		 * @constructor
 		 * @private
 		 * @alias sap.m.TabStripSelect
-		 * @ui5-metamodel This control will also be described in the UI5 (legacy) design time meta model.
+		 * @ui5-metamodel This control will also be described in the UI5 (legacy) design time meta model
 		 */
 		var TabStripSelect = Select.extend("sap.m.TabStripSelect", /** @lends sap.m.TabStripSelect.prototype */ {
 			metadata: {
 				library: "sap.m"
-
 			},
+			//ToDo: [Refactoring] Incorrect metadata nesting - put this in the scope of metadata
 			aggregations: {
 				/**
 				 * Holds the items contained within this control.
@@ -40,27 +40,44 @@ sap.ui.define(['jquery.sap.global', './Popover', './TabStripSelectList', './libr
 				items: { type: "sap.m.TabStripItem", multiple: true, singularName: "item", bindable: "bindable" },
 				list: { type: "sap.m.TabStripSelectList", multiple: false, bindable: "bindable" }
 			},
+			//ToDo: [Refactoring] Incorrect metadata nesting - put this in the scope of metadata
 			properties: {
 				/*
-				 * Altering this property hides/shows the control in the DOM
+				 * Altering this property hides/shows the control in the DOM tree
 				 * // ToDo: remove this todo comment when it is confirmed this property will be used
 				 */
 				visible: { type: "boolean", group : "Misc", defaultValue : true }
 			}
 		});
 
+		/**
+		 * The default CSS class for <code>TabStripSelect</code>.
+		 * @type {string}
+		 */
+		TabStripSelect.CSS_CLASS = 'sapMTSSlt';
 
+		/**
+		 * The default CSS class for <code>TabStripItem</code> in context of <code>TabStripSelect</code>.
+		 * @type {string}
+		 */
 		TabStripSelect.CSS_CLASS_INVISIBLE = 'sapMSltInvisible';
-		TabStripSelect.SPACE_BETWEEN_SELECT_BUTTON_AND_POPOVER = 5;
+
+		/**
+		 * The constant space size (in pixels) between the select button and its popover to be displayed.
+		 *
+		 * @type {number}
+		 */
+		TabStripSelect.SPACE_BETWEEN_SELECT_BUTTON_AND_POPOVER = -5;
 
 		/**
 		 * Initialization hook.
+		 *
 		 * @override
 		 * @private
 		 */
 		TabStripSelect.prototype.init = function() {
 			// set the picker type
-			this.setPickerType("Popover");
+			this.setPickerType(sap.ui.Device.system.phone ? "Dialog" : "Popover");
 
 			// initialize composites
 			this.createPicker(this.getPickerType());
@@ -80,7 +97,7 @@ sap.ui.define(['jquery.sap.global', './Popover', './TabStripSelectList', './libr
 
 
 		/**
-		 * Create the select list instance
+		 * Creates the <code>TabStripSelectList</code> instance.
 		 *
 		 * @override
 		 * @private
@@ -101,7 +118,8 @@ sap.ui.define(['jquery.sap.global', './Popover', './TabStripSelectList', './libr
 		};
 
 		/**
-		 * Method for proxying calls of the select methods to the inner select list methods.
+		 * Proxies the calls of the select methods to the inner <code>TabStripSelectList</code> methods.
+		 *
 		 * @override
 		 * @param {string} sFunctionName The name of the called method
 		 * @param {array} aArgs The supplied arguments
@@ -165,7 +183,40 @@ sap.ui.define(['jquery.sap.global', './Popover', './TabStripSelectList', './libr
 		};
 
 		/**
+		 * Creates an instance of <code>sap.m.Dialog</code>.
+		 *
+		 * @override
+		 * @private
+		 * @returns {sap.m.Dialog}
+		 */
+		TabStripSelect.prototype._createDialog = function() {
+			var CSS_CLASS_PARENT = this.getRenderer().CSS_CLASS;
+
+			// initialize Dialog
+			var oDialog = new sap.m.Dialog({
+				stretch: true,
+				customHeader: new sap.m.Bar({
+					contentLeft: new sap.m.InputBase({
+						width: "100%",
+						editable: false
+					})
+						.addStyleClass(TabStripSelect.CSS_CLASS + "Input")
+						.addStyleClass(CSS_CLASS_PARENT + "Input")
+				})
+					.addStyleClass(TabStripSelect.CSS_CLASS + "Bar")
+					.addStyleClass(CSS_CLASS_PARENT + "Bar")
+			});
+
+			oDialog.getAggregation("customHeader").attachBrowserEvent("tap", function() {
+				oDialog.close();
+			}, this);
+
+			return oDialog;
+		};
+
+		/**
 		 * This event handler is called after the picker popup is rendered.
+		 *
 		 * @override
 		 * @private
 		 */
@@ -180,13 +231,17 @@ sap.ui.define(['jquery.sap.global', './Popover', './TabStripSelectList', './libr
 				iPickerOffsetX = this.getPicker().$().width() - this.$().width();
 			}
 
-			this.getPicker().setOffsetX(-iPickerOffsetX);
-			this.getPicker()._calcPlacement(); // needed to apply the new offset after the popup is open
+			// on phone the picker is a dialog and does not have an offset
+			if (this.getPicker() instanceof sap.m.Popover === true) {
+				this.getPicker().setOffsetX(-iPickerOffsetX);
+				this.getPicker()._calcPlacement(); // needed to apply the new offset after the popup is open
+			}
 		};
 
 
 		/**
 		 * Cleans up before destruction.
+		 *
 		 * @override
 		 * @private
 		 */
@@ -198,9 +253,9 @@ sap.ui.define(['jquery.sap.global', './Popover', './TabStripSelectList', './libr
 
 
 		/**
-		 * Handle the touch start event on the TabStripSelect.
+		 * Handles the <code>touchstart<code> event on the <code>TabStripSelect</code>.
 		 *
-		 * @param {jQuery.Event} oEvent The event object.
+		 * @param {jQuery.Event} oEvent The event object
 		 * @private
 		 */
 		TabStripSelect.prototype.ontouchstart = function(oEvent) {
@@ -216,9 +271,9 @@ sap.ui.define(['jquery.sap.global', './Popover', './TabStripSelectList', './libr
 		};
 
 		/**
-		 * Handle the touch end event on the TabStripSelect.
+		 * Handles the <code>touchend</code> event on the <code>TabStripSelect</code>.
 		 *
-		 * @param {jQuery.Event} oEvent The event object.
+		 * @param {jQuery.Event} oEvent The event object
 		 * @private
 		 */
 		TabStripSelect.prototype.ontouchend = function(oEvent) {
@@ -271,7 +326,7 @@ sap.ui.define(['jquery.sap.global', './Popover', './TabStripSelectList', './libr
 		};
 
 		/**
-		 * Override the method in order to turn off default selected item.
+		 * Overrides the method in order to turn off default selected item.
 		 *
 		 * @returns {null}
 		 */
@@ -284,7 +339,7 @@ sap.ui.define(['jquery.sap.global', './Popover', './TabStripSelectList', './libr
 		};
 
 		/**
-		 * Overriden in order to also set proper visibility for modified state of the <code>Select</code> field.
+		 * Overridden, in order to set proper visibility for the modified state of the <code>Select</code> field.
 		 *
 		 * @override
 		 * @param {string} sValue

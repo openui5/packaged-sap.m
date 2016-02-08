@@ -18,7 +18,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/T
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.34.3
+	 * @version 1.34.4
 	 * @since 1.34
 	 *
 	 * @public
@@ -218,8 +218,12 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/T
 	 * @param {sap.ui.base.Event} oEvent which was fired
 	 */
 	GenericTile.prototype.ontouchstart = function (oEvent) {
-		if (this.getState() != sap.m.LoadState.Disabled) {
-			this.addStyleClass("sapMGTHvrOutln");
+		if (this.getState() !== sap.m.LoadState.Disabled) {
+			if (this.getBackgroundImage()) {
+				this.addStyleClass("sapMGTBackgroundHvrOutln");
+			} else {
+				this.addStyleClass("sapMGTHvrOutln");
+			}
 		}
 	};
 
@@ -229,7 +233,11 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/T
 	 * @param {sap.ui.base.Event} oEvent which was fired
 	 */
 	GenericTile.prototype.ontouchcancel = function(oEvent) {
-		this.removeStyleClass("sapMGTHvrOutln");
+		if (this.getBackgroundImage()) {
+			this.removeStyleClass("sapMGTBackgroundHvrOutln");
+		} else {
+			this.removeStyleClass("sapMGTHvrOutln");
+		}
 	};
 
 	/**
@@ -238,7 +246,11 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/T
 	 * @param {sap.ui.base.Event} oEvent which was fired
 	 */
 	GenericTile.prototype.ontouchend = function(oEvent) {
-		this.removeStyleClass("sapMGTHvrOutln");
+		if (this.getBackgroundImage()) {
+			this.removeStyleClass("sapMGTBackgroundHvrOutln");
+		} else {
+			this.removeStyleClass("sapMGTHvrOutln");
+		}
 	};
 
 	/**
