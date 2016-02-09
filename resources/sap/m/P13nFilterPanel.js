@@ -20,7 +20,7 @@ sap.ui.define([
 	 *
 	 * @class The FilterPanel Control can be used to...
 	 * @extends sap.m.P13nPanel
-	 * @version 1.28.27
+	 * @version 1.28.28
 	 *
 	 * @constructor
 	 * @public

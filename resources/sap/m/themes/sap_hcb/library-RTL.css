@@ -409,15 +409,24 @@ html[dir=rtl][data-sap-ui-browser^="ed"] .sapMCrslInner {
   text-align: right;
 }
 .sapMCrslItemTable {
-  display: table;
+  height: 100%;
 }
 .sapMCrslItemTableCell {
   height: 100%;
-  display: table-cell;
 }
 .sapMCrslImg {
   text-align: center;
-  vertical-align: middle;
+  height: 100%;
+  -webkit-transform-style: preserve-3d;
+  -moz-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+}
+.sapMCrslItemTableCell.sapMCrslImg img {
+  position: relative;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
 }
 .sapMCrslInner.sapMCrslNoTransition {
   -webkit-transition-duration: 0.01s;
@@ -4184,6 +4193,9 @@ input.sapMSFI[type="search"]:focus {
   cursor: default;
   opacity: 0.5;
 }
+.sapMSegBBtn:not(.sapMSegBBtnDis) .sapUiIcon {
+  cursor: pointer;
+}
 html[data-sap-ui-os^="mac"][data-sap-ui-browser^="sf"] .sapMBar .sapMSegB {
   line-height: 2.5rem;
 }
@@ -7767,6 +7779,10 @@ html[data-sap-ui-browser^=ff] .sapMCbBg > input {
 .sapUiSizeCompact .sapMLIBSelectM > .sapMCb {
   width: 2rem;
 }
+.sapUiSizeCompact .sapUiForm .sapMCbBg {
+  /* In forms, align left with '0.125rem' ( the focus width) */
+  right: 0.125rem;
+}
 /* Condensed size */
 .sapUiSizeCondensed .sapMCb {
   height: 1.5rem;
@@ -8957,6 +8973,16 @@ html[dir=rtl] .sapMITBTextOnly .sapMITBTab {
 .sapMITBNoText .sapMITBFilter:first-child > .sapMITBTab {
   margin-right: 0;
 }
+.sapMITBNoText .sapMITBItemNoCount.sapMITBFilter:last-child > .sapMITBTab {
+  margin-left: 0;
+}
+.sapMITBNoText .sapMITBItemNoCount.sapMITBFilter:last-child {
+  padding-left: 0;
+  margin-left: 0;
+}
+.sapMITBNoText .sapMITBItemNoCount.sapMITBFilter:last-child .sapMITBContentArrow {
+  margin-left: 0;
+}
 .sapMITBTextOnly .sapMITBFilter {
   margin: 0 1rem;
 }
@@ -9160,6 +9186,9 @@ html[data-sap-ui-os=win8] .sapMITBFilter:last-child,
 .sap-tablet .sapMITBNoText .sapMITBFilter:last-child,
 html[data-sap-ui-os=win8] .sapMITBNoText .sapMITBFilter:last-child {
   padding-left: 1rem;
+}
+.sapMITB .sapMITBItemNoCount.sapMITBFilter:last-child {
+  padding-left: 0;
 }
 /* Tab Separator Item */
 .sapMITBSep {

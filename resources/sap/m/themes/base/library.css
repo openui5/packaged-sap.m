@@ -404,15 +404,24 @@ html[dir=rtl][data-sap-ui-browser^="ed"] .sapMCrslInner {
   text-align: right;
 }
 .sapMCrslItemTable {
-  display: table;
+  height: 100%;
 }
 .sapMCrslItemTableCell {
   height: 100%;
-  display: table-cell;
 }
 .sapMCrslImg {
   text-align: center;
-  vertical-align: middle;
+  height: 100%;
+  -webkit-transform-style: preserve-3d;
+  -moz-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+}
+.sapMCrslItemTableCell.sapMCrslImg img {
+  position: relative;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
 }
 .sapMCrslInner.sapMCrslNoTransition {
   -webkit-transition-duration: 0.01s;
@@ -4178,6 +4187,9 @@ input.sapMSFI[type="search"]:focus {
   text-shadow: none;
   cursor: default;
   opacity: 0.5;
+}
+.sapMSegBBtn:not(.sapMSegBBtnDis) .sapUiIcon {
+  cursor: pointer;
 }
 html[data-sap-ui-os^="mac"][data-sap-ui-browser^="sf"] .sapMBar .sapMSegB {
   line-height: 2.5rem;
