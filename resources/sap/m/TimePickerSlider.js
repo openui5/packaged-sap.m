@@ -19,7 +19,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Control', './TimePickerSliderRe
 		 * @extends sap.ui.core.Control
 		 *
 		 * @author SAP SE
-		 * @version 1.34.4
+		 * @version 1.34.5
 		 *
 		 * @constructor
 		 * @private
@@ -317,6 +317,10 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Control', './TimePickerSliderRe
 					wheelData = oOriginalEvent.detail ? (-oOriginalEvent.detail / 3) : (oOriginalEvent.wheelDelta / 120),
 					that = this,
 					iResultOffset;
+
+			if (!wheelData) {
+				return false;
+			}
 
 			if (!this._aWheelDeltas) {
 				this._aWheelDeltas = [];

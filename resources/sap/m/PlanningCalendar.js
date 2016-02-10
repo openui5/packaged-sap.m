@@ -26,7 +26,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Control', 'sap/ui/core/LocaleDa
 	 * This could lead to a waiting time before a <code>PlanningCalendar</code> is used the first time.
 	 * To prevent this, applications using the <code>PlanningCalendar</code> should also load the <code>sap.ui.unified</code> library.
 	 * @extends sap.ui.core.Control
-	 * @version 1.34.4
+	 * @version 1.34.5
 	 *
 	 * @constructor
 	 * @public
@@ -219,10 +219,13 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Control', 'sap/ui/core/LocaleDa
 
 		if (sap.ui.Device.system.phone || jQuery('html').hasClass("sapUiMedia-Std-Phone")) {
 			this._iSize = 0;
+			this._iSizeScreen = 0;
 		}else if (sap.ui.Device.system.tablet || jQuery('html').hasClass("sapUiMedia-Std-Tablet")) {
 			this._iSize = 1;
+			this._iSizeScreen = 1;
 		}else {
 			this._iSize = 2;
+			this._iSizeScreen = 2;
 		}
 
 		var sLocale = sap.ui.getCore().getConfiguration().getFormatSettings().getFormatLocale().toString();
@@ -537,6 +540,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Control', 'sap/ui/core/LocaleDa
 
 		this.$().toggleClass("sapMPlanCalNoHead", !bShowRowHeaders);
 		_positionSelectAllCheckBox.call(this);
+		_setSelectionMode.call(this);
 
 		return this;
 
@@ -570,6 +574,8 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Control', 'sap/ui/core/LocaleDa
 			oCalendarRow.setShowSubIntervals(oView.getShowSubIntervals());
 		}
 
+		_setSelectionMode.call(this);
+
 		return this;
 
 	};
@@ -602,6 +608,8 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Control', 'sap/ui/core/LocaleDa
 			oCalendarRow.setShowSubIntervals(oView.getShowSubIntervals());
 		}
 
+		_setSelectionMode.call(this);
+
 		return this;
 
 	};
@@ -621,6 +629,8 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Control', 'sap/ui/core/LocaleDa
 		oCalendarRow.detachEvent("leaveRow", _handleLeaveRow, this);
 
 		_updateSelectAllCheckBox.call(this);
+
+		_setSelectionMode.call(this);
 
 		return oRemoved;
 
@@ -645,6 +655,8 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Control', 'sap/ui/core/LocaleDa
 
 		_updateSelectAllCheckBox.call(this);
 
+		_setSelectionMode.call(this);
+
 		return aRemoved;
 
 	};
@@ -657,6 +669,8 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Control', 'sap/ui/core/LocaleDa
 		oTable.destroyItems(true);
 
 		_updateSelectAllCheckBox.call(this);
+
+		_setSelectionMode.call(this);
 
 		return destroyed;
 
@@ -723,16 +737,14 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Control', 'sap/ui/core/LocaleDa
 
 		this.setProperty("singleSelection", bSingleSelection, true);
 
-		var oTable = this.getAggregation("table");
+		_positionSelectAllCheckBox.call(this);
+		_setSelectionMode.call(this);
+
 		if (bSingleSelection) {
-			oTable.setMode(sap.m.ListMode.SingleSelectMaster);
 			this.selectAllRows(false);
 		} else {
-			oTable.setMode(sap.m.ListMode.MultiSelect);
 			_updateSelectAllCheckBox.call(this);
 		}
-
-		_positionSelectAllCheckBox.call(this);
 
 		this.$().toggleClass("sapMPlanCalMultiSel", !bSingleSelection);
 
@@ -1123,6 +1135,15 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Control', 'sap/ui/core/LocaleDa
 			this._iSize = 2; // desktop
 		}
 
+		// use header sizes, as m.Table uses this for it's resizing
+		if (jQuery('html').hasClass("sapUiMedia-Std-Phone")) {
+			this._iSizeScreen = 0;
+		}else if (jQuery('html').hasClass("sapUiMedia-Std-Tablet")) {
+			this._iSizeScreen = 1;
+		}else {
+			this._iSizeScreen = 2;
+		}
+
 	}
 
 	function _getViews() {
@@ -1379,9 +1400,9 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Control', 'sap/ui/core/LocaleDa
 				});
 				this._oSelectAllCheckBox.attachEvent("select", _handleSelectAll, this);
 			}
-			if (this._iSize < 2 || !this.getShowRowHeaders()) {
+			if (this._iSizeScreen < 2 || !this.getShowRowHeaders()) {
 				var iIndex = this._oInfoToolbar.indexOfContent(this._oSelectAllCheckBox);
-				if (this._iSize < 2) {
+				if (this._iSizeScreen < 2) {
 					// on phone: checkbox below calendar
 					if (iIndex < this._oInfoToolbar.getContent().length - 1) {
 						this._oInfoToolbar.addContent(this._oSelectAllCheckBox);
@@ -1405,6 +1426,29 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Control', 'sap/ui/core/LocaleDa
 
 		if (oEvent.getParameter("name") == "selected") {
 			_updateSelectAllCheckBox.call(this);
+		}
+
+	}
+
+	function _setSelectionMode() {
+
+		var oTable = this.getAggregation("table");
+		var sMode = oTable.getMode();
+		var sModeNew;
+
+		if (this.getSingleSelection()) {
+			if (!this.getShowRowHeaders() && this.getRows().length == 1) {
+				// if only one row is displayed without header - do not enable row selection
+				sModeNew = sap.m.ListMode.None;
+			} else {
+				sModeNew = sap.m.ListMode.SingleSelectMaster;
+			}
+		} else {
+			sModeNew = sap.m.ListMode.MultiSelect;
+		}
+
+		if (sMode != sModeNew) {
+			oTable.setMode(sModeNew);
 		}
 
 	}

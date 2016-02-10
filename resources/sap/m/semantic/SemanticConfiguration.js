@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/base/Metadata', "sap/m/OverflowToolb
 	 * Constructor for a sap.m.semantic.SemanticConfiguration.
 	 *
 	 * @class Defines the visual properties and positioning for each supported semantic type
-	 * @version 1.34.4
+	 * @version 1.34.5
 	 * @private
 	 * @since 1.30.0
 	 * @alias sap.m.semantic.SemanticConfiguration
@@ -75,6 +75,11 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/base/Metadata', "sap/m/OverflowToolb
 	SemanticConfiguration.getSequenceOrderIndex = function (sType) {
 
 		return SemanticConfiguration._oTypeConfigs[sType].order;
+	};
+
+	SemanticConfiguration.getAriaId = function (sType) {
+
+		return SemanticConfiguration._oTypeConfigs[sType].getSettings().ariaLabelledBy;
 	};
 
 	SemanticConfiguration._oTypeConfigs = (function () { //TODO: set from outside?

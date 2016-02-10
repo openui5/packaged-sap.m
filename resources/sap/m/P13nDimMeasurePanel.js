@@ -18,7 +18,7 @@ sap.ui.define([
 	 * @class The P13nDimMeasurePanel control is used to define chart-specific settings like dimensions and measures for table personalization.
 	 * @extends sap.m.P13nPanel
 	 * @author SAP SE
-	 * @version 1.34.4
+	 * @version 1.34.5
 	 * @constructor
 	 * @public
 	 * @since 1.34.0

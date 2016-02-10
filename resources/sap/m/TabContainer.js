@@ -23,7 +23,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control'],
 		 * @extends sap.ui.core.Control
 		 *
 		 * @author SAP SE
-		 * @version 1.34.4
+		 * @version 1.34.5
 		 *
 		 * @constructor
 		 * @public
@@ -385,6 +385,44 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control'],
 			if (oTabStrip) {
 				oTabStrip.setAddButton(bShowButton ? this._getAddNewTabButton() : null);
 			}
+		};
+
+		/**
+		 * Override <code>selectedItem</code> property setter.
+		 *
+		 * @param oSelectedItem {sap.m.TabContainerItem} The new <code>TabContainerItem</code> to be selected
+		 * @override
+		 */
+		TabContainer.prototype.setSelectedItem = function (oSelectedItem) {
+			var oTabStrip = this._getTabStrip();
+
+			if (oSelectedItem && oTabStrip) {
+				oTabStrip.setSelectedItem(this._toTabStripItem(oSelectedItem));
+				this._rerenderContent(oSelectedItem.getContent());
+			}
+
+			return TabContainer.prototype.setAssociation.call(this, "selectedItem", oSelectedItem, true); //render manually;
+		};
+
+		/**
+		 * Re-renders only the displayed content.
+		 * @private
+		 * @param oContent Content, which should be rendered.
+		 */
+		TabContainer.prototype._rerenderContent = function(oContent) {
+			var $content = this.$("content"),
+				oRM;
+
+			if (!oContent || ($content.length <= 0)) {
+				return;
+			}
+
+			oRM = sap.ui.getCore().createRenderManager();
+			for (var i = 0; i < oContent.length; i++) {
+				oRM.renderControl(oContent[i]);
+			}
+			oRM.flush($content[0]);
+			oRM.destroy();
 		};
 
 		TabContainer.prototype._setDefaultTab = function() {

@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Control', 'sap/ui/core/IconPool
 		 * space is exceeded, a horizontal scrolling appears.
 		 *
 		 * @extends sap.ui.core.Control
-		 * @version 1.34.4
+		 * @version 1.34.5
 		 *
 		 * @constructor
 		 * @private

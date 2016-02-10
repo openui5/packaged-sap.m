@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @class
 	 * ObjectHeader is a display control that enables the user to easily identify a specific object. The object header title is the key identifier of the object and additional text and icons can be used to further distinguish it from other objects.
 	 * @extends sap.ui.core.Control
-	 * @version 1.34.4
+	 * @version 1.34.5
 	 *
 	 * @constructor
 	 * @public
@@ -787,8 +787,6 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	ObjectHeader.prototype._getImageControl = function() {
 		var sImgId = this.getId() + "-img";
 		var sSize = "2.5rem";
-		var sHeight = "3rem";
-		var sWidth = "3rem";
 
 		var mProperties = jQuery.extend(
 			{
@@ -797,8 +795,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 				useIconTooltip : false,
 				densityAware : this.getIconDensityAware()
 			},
-				IconPool.isIconURI(this.getIcon()) ?
-					{ size : sSize } : {height : sHeight, width : sWidth }
+				IconPool.isIconURI(this.getIcon()) ? { size : sSize } : {}
 		);
 
 		this._oImageControl = sap.m.ImageHelper.getImageControl(sImgId, this._oImageControl, this, mProperties);
