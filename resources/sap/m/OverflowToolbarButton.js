@@ -24,7 +24,7 @@ sap.ui.define(['sap/m/Button', 'sap/m/ButtonRenderer'],
 	 * @extends sap.m.Button
 	 *
 	 * @author SAP SE
-	 * @version 1.34.5
+	 * @version 1.34.6
 	 *
 	 * @constructor
 	 * @private
