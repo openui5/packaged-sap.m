@@ -21,7 +21,7 @@ sap.ui.define(['jquery.sap.global', './NavContainer', './library', 'sap/ui/core/
 	 * FacetFilter is used to provide filtering functionality with multiple parameters.
 	 * @extends sap.ui.core.Control
 	 * @implements sap.ui.core.IShrinkable
-	 * @version 1.32.11
+	 * @version 1.32.12
 	 *
 	 * @constructor
 	 * @public
@@ -1567,6 +1567,7 @@ oPopover.setContentWidth("30%");
 				var aLists = that.getLists();
 				for (var i = 0; i < aLists.length; i++) {
 					aLists[i]._searchValue = "";
+					aLists[i]._applySearch();
 					jQuery.sap.focus(aLists[i].getItems()[0]);
 				}
 				// Make sure we update selection texts

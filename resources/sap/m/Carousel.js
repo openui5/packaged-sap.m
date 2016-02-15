@@ -24,7 +24,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.32.11
+	 * @version 1.32.12
 	 *
 	 * @constructor
 	 * @public
@@ -355,6 +355,17 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		} else {
 			jQuery(window).on("resize", this._fnAdjustAfterResize);
 		}
+
+		// Fixes wrong focusing in IE
+		// BCP: 1670008915
+		this.$().find('.sapMCrslItemTableCell').focus(function(e) {
+
+			e.preventDefault();
+
+			jQuery(e.target).parents('.sapMCrsl').focus();
+
+			return false;
+		});
 	};
 
 	/**

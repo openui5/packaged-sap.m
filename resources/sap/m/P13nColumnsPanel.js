@@ -18,7 +18,7 @@ sap.ui.define([
 	 * @class The P13nColumnsPanel control is used to define column-specific settings for table personalization.
 	 * @extends sap.m.P13nPanel
 	 * @author SAP SE
-	 * @version 1.32.11
+	 * @version 1.32.12
 	 * @constructor
 	 * @public
 	 * @since 1.26.0

@@ -24,7 +24,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './InstanceManager', './OverflowToo
 		 * @implements sap.ui.core.PopupInterface
 		 *
 		 * @author SAP SE
-		 * @version 1.32.11
+		 * @version 1.32.12
 		 *
 		 * @constructor
 		 * @public
@@ -1008,6 +1008,12 @@ sap.ui.define(['jquery.sap.global', './Bar', './InstanceManager', './OverflowToo
 			}
 
 			oFocusDomRef = oFocusDomRef || jQuery.sap.domById(sFocusId);
+
+			// if focus dom ref is not found
+			if (!oFocusDomRef) {
+				this.setInitialFocus(""); // clear the saved initial focus
+				oFocusDomRef = sap.ui.getCore().byId(this._getFocusId()); // recalculate the element on focus
+			}
 
 			//if there is no set initial focus, set the default one to the initialFocus association
 			if (!this.getInitialFocus()) {
