@@ -20,7 +20,7 @@ function(jQuery, library, Control, IconPool, Toolbar, CheckBox, SearchField) {
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.36.1
+	 * @version 1.36.2
 	 *
 	 * @constructor
 	 * @public
@@ -472,17 +472,17 @@ function(jQuery, library, Control, IconPool, Toolbar, CheckBox, SearchField) {
 	 *
 	 * @overwrite
 	 * @public
-	 * @param {sap.m.ViewSettingsItem} oItem The selected item or a string with the key
-	 *
+	 * @param {sap.m.ViewSettingsItem|string} vItemOrKey The selected item or the item's key string
 	 * @return {sap.m.ViewSettingsDialog} this pointer for chaining
 	 */
-	ViewSettingsDialog.prototype.setSelectedSortItem = function(oItem) {
-		var aItems = this.getSortItems(), i = 0;
-
-		// convenience, also allow strings
-		if (typeof oItem === "string") {
-			oItem = getViewSettingsItemByKey(aItems, oItem);
-		}
+	ViewSettingsDialog.prototype.setSelectedSortItem = function(vItemOrKey) {
+		var aItems = this.getSortItems(),
+			i = 0,
+			oItem = findViewSettingsItemByKey(
+				vItemOrKey,
+				aItems,
+				"Could not set selected sort item. Item is not found: '" + vItemOrKey + "'"
+			);
 
 		//change selected item only if it is found among the sort items
 		if (validateViewSettingsItem(oItem)) {
@@ -498,9 +498,8 @@ function(jQuery, library, Control, IconPool, Toolbar, CheckBox, SearchField) {
 				this._updateListSelection(this._sortList, oItem);
 			}
 			this.setAssociation("selectedSortItem", oItem, true);
-		} else {
-			jQuery.sap.log.error("Could not set selected sort item. Item is not found: '" + oItem + "'");
 		}
+
 		return this;
 	};
 
@@ -509,16 +508,17 @@ function(jQuery, library, Control, IconPool, Toolbar, CheckBox, SearchField) {
 	 *
 	 * @overwrite
 	 * @public
-	 * @param {sap.m.ViewSettingsItem} oItem The selected item or a string with the key
+	 * @param {sap.m.ViewSettingsItem|string} vItemOrKey The selected item or the item's key string
 	 * @return {sap.m.ViewSettingsDialog} this pointer for chaining
 	 */
-	ViewSettingsDialog.prototype.setSelectedGroupItem = function(oItem) {
-		var aItems = this.getGroupItems(), i = 0;
-
-		// convenience, also allow strings
-		if (typeof oItem === "string") {
-			oItem = getViewSettingsItemByKey(aItems, oItem);
-		}
+	ViewSettingsDialog.prototype.setSelectedGroupItem = function(vItemOrKey) {
+		var aItems = this.getGroupItems(),
+			i = 0,
+			oItem = findViewSettingsItemByKey(
+				vItemOrKey,
+				aItems,
+				"Could not set selected group item. Item is not found: '" + vItemOrKey + "'"
+			);
 
 		//change selected item only if it is found among the group items
 		if (validateViewSettingsItem(oItem)) {
@@ -534,8 +534,6 @@ function(jQuery, library, Control, IconPool, Toolbar, CheckBox, SearchField) {
 				this._updateListSelection(this._groupList, oItem);
 			}
 			this.setAssociation("selectedGroupItem", oItem, true);
-		} else {
-			jQuery.sap.log.error("Could not set selected group item. Item is not found: '" + oItem + "'");
 		}
 
 		return this;
@@ -546,16 +544,17 @@ function(jQuery, library, Control, IconPool, Toolbar, CheckBox, SearchField) {
 	 *
 	 * @overwrite
 	 * @public
-	 * @param {sap.m.ViewSettingsItem} oItem The selected item or a string with the key
+	 * @param {sap.m.ViewSettingsItem|string} vItemOrKey The selected item or the item's key string
 	 * @return {sap.m.ViewSettingsDialog} this pointer for chaining
 	 */
-	ViewSettingsDialog.prototype.setSelectedPresetFilterItem = function(oItem) {
-		var aItems = this.getPresetFilterItems(), i = 0;
-
-		// convenience, also allow strings
-		if (typeof oItem === "string") {
-			oItem = getViewSettingsItemByKey(aItems, oItem);
-		}
+	ViewSettingsDialog.prototype.setSelectedPresetFilterItem = function(vItemOrKey) {
+		var aItems = this.getPresetFilterItems(),
+			i = 0,
+			oItem = findViewSettingsItemByKey(
+				vItemOrKey,
+				aItems,
+				"Could not set selected preset filter item. Item is not found: '" + vItemOrKey + "'"
+			);
 
 		//change selected item only if it is found among the preset filter items
 		if (validateViewSettingsItem(oItem)) {
@@ -569,8 +568,6 @@ function(jQuery, library, Control, IconPool, Toolbar, CheckBox, SearchField) {
 			this._clearSelectedFilters();
 
 			this.setAssociation("selectedPresetFilterItem", oItem, true);
-		} else {
-			jQuery.sap.log.error("Could not set selected preset filter item. Item is not found: '" + oItem + "'");
 		}
 
 		return this;
@@ -1659,14 +1656,27 @@ function(jQuery, library, Control, IconPool, Toolbar, CheckBox, SearchField) {
 	 *
 	 * @overwrite
 	 * @public
-	 * @param oFilterItem The filter item to be removed
+	 * @param { int| sap.m.ViewSettingsFilterItem | string } vFilterItem The filter item's index, or the item itself, or its id
 	 * @returns {sap.m.ViewSettingsDialog} this pointer for chaining
 	 */
-	ViewSettingsDialog.prototype.removeFilterItem = function (oFilterItem) {
-		if (this._vContentPage === 3 && this._oContentItem && this._oContentItem.getId() === oFilterItem.getId()) {
-			resetFilterPage.call(this);
+	ViewSettingsDialog.prototype.removeFilterItem = function (vFilterItem) {
+		var sFilterItemId = "";
+
+		if (this._vContentPage === 3 && this._oContentItem) {
+			if (typeof (vFilterItem) === "object") {
+				sFilterItemId = vFilterItem.getId();
+			} else if (typeof (vFilterItem) === "string") {
+				sFilterItemId = vFilterItem;
+			} else if (typeof (vFilterItem) === "number") {
+				sFilterItemId = this.getFilterItems()[vFilterItem].getId();
+			}
+
+			if (this._oContentItem.getId() === sFilterItemId) {
+				resetFilterPage.call(this);
+			}
 		}
-		return this.removeAggregation('filterItems', oFilterItem);
+
+		return this.removeAggregation('filterItems', vFilterItem);
 	};
 
 	/**
@@ -2130,7 +2140,7 @@ function(jQuery, library, Control, IconPool, Toolbar, CheckBox, SearchField) {
 	 * @private
 	 */
 	function getViewSettingsItemByKey(aViewSettingsItems, sKey) {
-		var i, oItem = sKey;
+		var i, oItem;
 
 		// convenience, also allow strings
 		// find item with this key
@@ -2139,6 +2149,34 @@ function(jQuery, library, Control, IconPool, Toolbar, CheckBox, SearchField) {
 				oItem = aViewSettingsItems[i];
 				break;
 			}
+		}
+
+		return oItem;
+	}
+
+	/**
+	 * Finds a sap.m.ViewSettingsItem from a list of items by a given key.
+	 * If it does not succeed logs an error.
+	 *
+	 * @param {sap.m.ViewSettingsItem|string}
+	 * @param aViewSettingsItems The list of sap.m.ViewSettingsItem objects to be searched
+	 * @param {string} sErrorMessage The error message that will be logged if the item is not found
+	 * @returns {*} The sap.m.ViewSettingsItem found in the list of items
+	 * @private
+	 */
+	function findViewSettingsItemByKey(vItemOrKey, aViewSettingsItems, sErrorMessage) {
+		var oItem;
+
+		// convenience, also allow strings
+		if (typeof vItemOrKey === "string") {
+			// find item with this key
+			oItem = getViewSettingsItemByKey(aViewSettingsItems, vItemOrKey);
+
+			if (!oItem) {
+				jQuery.sap.log.error(sErrorMessage);
+			}
+		} else {
+			oItem = vItemOrKey;
 		}
 
 		return oItem;

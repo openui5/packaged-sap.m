@@ -17,19 +17,19 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/Device', 'sap/ui/base/DataType',
 
 
 	/**
-	 * SAPUI5 library with controls specialized for mobile devices.
+	 * The main UI5 control library, with responsive controls that can be used in touch devices as well as desktop browsers.
 	 *
 	 * @namespace
 	 * @name sap.m
 	 * @author SAP SE
-	 * @version 1.36.1
+	 * @version 1.36.2
 	 * @public
 	 */
 
 	// delegate further initialization of this library to the Core
 	sap.ui.getCore().initLibrary({
 		name : "sap.m",
-		version: "1.36.1",
+		version: "1.36.2",
 		dependencies : ["sap.ui.core"],
 		types: [
 			"sap.m.BackgroundDesign",

@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './Popover', './TabStripSelectList', './libr
 		 * @extends sap.m.Select
 		 *
 		 * @author SAP SE
-		 * @version 1.36.1
+		 * @version 1.36.2
 		 * @since 1.34
 		 *
 		 * @constructor
@@ -51,6 +51,12 @@ sap.ui.define(['jquery.sap.global', './Popover', './TabStripSelectList', './libr
 		});
 
 		/**
+		 * The default CSS class for <code>TabStripSelect</code>.
+		 * @type {string}
+		 */
+		TabStripSelect.CSS_CLASS = 'sapMTSSlt';
+
+		/**
 		 * The default CSS class for <code>TabStripItem</code> in context of <code>TabStripSelect</code>.
 		 * @type {string}
 		 */
@@ -61,7 +67,7 @@ sap.ui.define(['jquery.sap.global', './Popover', './TabStripSelectList', './libr
 		 *
 		 * @type {number}
 		 */
-		TabStripSelect.SPACE_BETWEEN_SELECT_BUTTON_AND_POPOVER = 5;
+		TabStripSelect.SPACE_BETWEEN_SELECT_BUTTON_AND_POPOVER = -5;
 
 		/**
 		 * Initialization hook.
@@ -71,7 +77,7 @@ sap.ui.define(['jquery.sap.global', './Popover', './TabStripSelectList', './libr
 		 */
 		TabStripSelect.prototype.init = function() {
 			// set the picker type
-			this.setPickerType("Popover");
+			this.setPickerType(sap.ui.Device.system.phone ? "Dialog" : "Popover");
 
 			// initialize composites
 			this.createPicker(this.getPickerType());
@@ -177,6 +183,38 @@ sap.ui.define(['jquery.sap.global', './Popover', './TabStripSelectList', './libr
 		};
 
 		/**
+		 * Creates an instance of <code>sap.m.Dialog</code>.
+		 *
+		 * @override
+		 * @private
+		 * @returns {sap.m.Dialog}
+		 */
+		TabStripSelect.prototype._createDialog = function() {
+			var CSS_CLASS_PARENT = this.getRenderer().CSS_CLASS;
+
+			// initialize Dialog
+			var oDialog = new sap.m.Dialog({
+				stretch: true,
+				customHeader: new sap.m.Bar({
+					contentLeft: new sap.m.InputBase({
+						width: "100%",
+						editable: false
+					})
+						.addStyleClass(TabStripSelect.CSS_CLASS + "Input")
+						.addStyleClass(CSS_CLASS_PARENT + "Input")
+				})
+					.addStyleClass(TabStripSelect.CSS_CLASS + "Bar")
+					.addStyleClass(CSS_CLASS_PARENT + "Bar")
+			});
+
+			oDialog.getAggregation("customHeader").attachBrowserEvent("tap", function() {
+				oDialog.close();
+			}, this);
+
+			return oDialog;
+		};
+
+		/**
 		 * This event handler is called after the picker popup is rendered.
 		 *
 		 * @override
@@ -193,8 +231,11 @@ sap.ui.define(['jquery.sap.global', './Popover', './TabStripSelectList', './libr
 				iPickerOffsetX = this.getPicker().$().width() - this.$().width();
 			}
 
-			this.getPicker().setOffsetX(-iPickerOffsetX);
-			this.getPicker()._calcPlacement(); // needed to apply the new offset after the popup is open
+			// on phone the picker is a dialog and does not have an offset
+			if (this.getPicker() instanceof sap.m.Popover === true) {
+				this.getPicker().setOffsetX(-iPickerOffsetX);
+				this.getPicker()._calcPlacement(); // needed to apply the new offset after the popup is open
+			}
 		};
 
 
@@ -305,7 +346,7 @@ sap.ui.define(['jquery.sap.global', './Popover', './TabStripSelectList', './libr
 		 * @private
 		 */
 		TabStripSelect.prototype.setValue = function(sValue) {
-			var $ModifiedDom = this.$().find(".sapMTabSelectListItemModified").eq(0);
+			var $ModifiedDom = this.$().find(".sapMTabStripSelectListItemModified").eq(0);
 			Select.prototype.setValue.apply(this, arguments);
 			if (this.getSelectedItem().getProperty('modified')) {
 				$ModifiedDom.removeClass(TabStripItem.CSS_CLASS_STATEINVISIBLE);

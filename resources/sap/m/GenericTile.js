@@ -18,7 +18,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/T
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.36.1
+	 * @version 1.36.2
 	 * @since 1.34
 	 *
 	 * @public
@@ -142,6 +142,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/T
 		}
 
 		this._generateFailedText();
+		this.$().unbind("mouseenter", this._updateAriaAndTitle);
 	};
 
 	/**
@@ -155,8 +156,8 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/T
 		} else {
 			this._oBusy.$().unbind("tap", this._handleOverlayClick);
 		}
-		// attaches handler this._removeTitle to the event mouseenter for all content elements (the handler is executed once per element)
-		this.$().find("*").one("mouseenter", this._removeTitle);
+		// attaches handler this._updateAriaAndTitle to the event mouseenter and removes attributes ARIA-label and title of all content elements
+		this.$().bind("mouseenter", this._updateAriaAndTitle.bind(this));
 	};
 
 	/**
@@ -222,8 +223,12 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/T
 	 * @param {sap.ui.base.Event} oEvent which was fired
 	 */
 	GenericTile.prototype.ontouchstart = function (oEvent) {
-		if (this.getState() != sap.m.LoadState.Disabled) {
-			this.addStyleClass("sapMGTHvrOutln");
+		if (this.getState() !== sap.m.LoadState.Disabled) {
+			if (this.getBackgroundImage()) {
+				this.addStyleClass("sapMGTBackgroundHvrOutln");
+			} else {
+				this.addStyleClass("sapMGTHvrOutln");
+			}
 		}
 	};
 
@@ -233,7 +238,11 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/T
 	 * @param {sap.ui.base.Event} oEvent which was fired
 	 */
 	GenericTile.prototype.ontouchcancel = function(oEvent) {
-		this.removeStyleClass("sapMGTHvrOutln");
+		if (this.getBackgroundImage()) {
+			this.removeStyleClass("sapMGTBackgroundHvrOutln");
+		} else {
+			this.removeStyleClass("sapMGTHvrOutln");
+		}
 	};
 
 	/**
@@ -242,7 +251,11 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/T
 	 * @param {sap.ui.base.Event} oEvent which was fired
 	 */
 	GenericTile.prototype.ontouchend = function(oEvent) {
-		this.removeStyleClass("sapMGTHvrOutln");
+		if (this.getBackgroundImage()) {
+			this.removeStyleClass("sapMGTBackgroundHvrOutln");
+		} else {
+			this.removeStyleClass("sapMGTHvrOutln");
+		}
 	};
 
 	/**
@@ -506,14 +519,19 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/T
 	};
 
 	/**
-	 * Removes attribute title.
-	 * The method is called for a given element and all his parents. In each iteration step the method removes attribute title of a given element.
+	 * Updates the attributes ARIA-label and title of the GenericTile. The updated attribute title is used for tooltip as well.
+	 * The attributes ARIA-label and title of the descendants will be removed.
 	 *
 	 * @private
 	 */
-	GenericTile.prototype._removeTitle = function (event) {
-		event.preventDefault();
-		jQuery(this).removeAttr("title");
+	GenericTile.prototype._updateAriaAndTitle = function () {
+		var sAriaAndTitle = this._getAriaAndTooltipText();
+		var $Tile = this.$();
+
+		if ($Tile.attr("title") !== sAriaAndTitle) {
+			$Tile.attr("aria-label", sAriaAndTitle).attr("title", sAriaAndTitle);
+		}
+		$Tile.find('*').removeAttr("aria-label").removeAttr("title");
 	};
 
 	return GenericTile;
