@@ -5,8 +5,8 @@
  */
 
 // Provides control sap.m.Dialog.
-sap.ui.define(['jquery.sap.global', './Bar', './InstanceManager', './AssociativeOverflowToolbar', './ToolbarSpacer', './library', 'sap/ui/core/Control', 'sap/ui/core/IconPool', 'sap/ui/core/Popup', 'sap/ui/core/delegate/ScrollEnablement', 'sap/ui/core/theming/Parameters'],
-	function (jQuery, Bar, InstanceManager, AssociativeOverflowToolbar, ToolbarSpacer, library, Control, IconPool, Popup, ScrollEnablement, Parameters) {
+sap.ui.define(['jquery.sap.global', './Bar', './InstanceManager', './AssociativeOverflowToolbar', './ToolbarSpacer', './library', 'sap/ui/core/Control', 'sap/ui/core/IconPool', 'sap/ui/core/Popup', 'sap/ui/core/delegate/ScrollEnablement', 'sap/ui/core/theming/Parameters', 'sap/ui/core/RenderManager'],
+	function (jQuery, Bar, InstanceManager, AssociativeOverflowToolbar, ToolbarSpacer, library, Control, IconPool, Popup, ScrollEnablement, Parameters, RenderManager) {
 		"use strict";
 
 
@@ -25,7 +25,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './InstanceManager', './Associative
 		 * @implements sap.ui.core.PopupInterface
 		 *
 		 * @author SAP SE
-		 * @version 1.34.6
+		 * @version 1.34.7
 		 *
 		 * @constructor
 		 * @public
@@ -270,6 +270,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './InstanceManager', './Associative
 			this._externalIcon = undefined;
 			this._oManuallySetSize = null;
 			this._oManuallySetPosition = null;
+			this._bRTL = sap.ui.getCore().getConfiguration().getRTL();
 
 			// used to judge if enableScrolling needs to be disabled
 			this._scrollContentList = ["NavContainer", "Page", "ScrollContainer"];
@@ -507,6 +508,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './InstanceManager', './Associative
 			// to use for rendering; since there are two elements with the same ID at that point, it does not work.
 			// As the Dialog can only contain other controls, we can safely discard the DOM - we cannot do this inside
 			// the Popup, since it supports displaying arbitrary HTML content.
+			RenderManager.preserveContent(this.getDomRef());
 			this.$().remove();
 
 			InstanceManager.removeDialogInstance(this);
@@ -656,21 +658,48 @@ sap.ui.define(['jquery.sap.global', './Bar', './InstanceManager', './Associative
 		 * @private
 		 */
 		Dialog.prototype._onResize = function () {
+			var $dialog,
+				$dialogContent,
+				iDialogWidth,
+				iDialogHeight,
+				sTranslateX = '',
+				sTranslateY = '';
+
 			//if there is a manually set height or height by manually resizing return;
 			if (this.getContentHeight() || this._oManuallySetSize) {
 				return;
 			}
 
-			var $dialog = this.$(),
+			if (!this.getContentHeight()) {
+				$dialog = this.$();
 				$dialogContent = this.$('cont');
 
-			//reset the height so the dialog can grow
-			$dialogContent.css({
-				height: 'auto'
-			});
+				//reset the height so the dialog can grow
+				$dialogContent.css({
+					height: 'auto'
+				});
 
-			//set the newly calculated size by getting it from the browser rendered layout - by the max-height
-			$dialogContent.height(parseInt($dialog.height(), 10) + parseInt($dialog.css("border-top-width"), 10) + parseInt($dialog.css("border-bottom-width"), 10));
+				//set the newly calculated size by getting it from the browser rendered layout - by the max-height
+				$dialogContent.height(parseInt($dialog.height(), 10) + parseInt($dialog.css("border-top-width"), 10) + parseInt($dialog.css("border-bottom-width"), 10));
+			}
+
+			if (this.getStretch()) {
+				return;
+			}
+
+			iDialogWidth = $dialog.innerWidth();
+			iDialogHeight = $dialog.innerHeight();
+
+			if (iDialogWidth % 2 !== 0 || iDialogHeight % 2 !== 0) {
+				if (!this._bRTL) {
+					sTranslateX = '-' + Math.floor(iDialogWidth / 2) + "px";
+				} else {
+					sTranslateX = Math.floor(iDialogWidth / 2) + "px";
+				}
+
+				sTranslateY = '-' + Math.floor(iDialogHeight / 2) + "px";
+				$dialog.css('transform', 'translate(' + sTranslateX + ',' + sTranslateY + ') scale(1)');
+			}
 		};
 
 		/**
@@ -1424,7 +1453,6 @@ sap.ui.define(['jquery.sap.global', './Bar', './InstanceManager', './Associative
 
 					that._$dialog.addClass('sapMDialogResizing');
 
-					var isInRTLMode = sap.ui.getCore().getConfiguration().getRTL();
 					var styles = {};
 					var minWidth = parseInt(that._$dialog.css('min-width'), 10);
 					var maxLeftOffset = initial.x + initial.width - minWidth;
@@ -1438,7 +1466,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './InstanceManager', './Associative
 								height: initial.height + e.pageY - initial.y
 							};
 
-							if (isInRTLMode) {
+							if (that._bRTL) {
 								styles.left = Math.min(Math.max(e.pageX, 0), maxLeftOffset);
 								that._oManuallySetSize.width = initial.width + initial.x - Math.max(e.pageX, 0);
 							}

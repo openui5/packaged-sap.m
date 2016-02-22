@@ -5,8 +5,8 @@
  */
 
 // Provides control sap.m.Link.
-sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/core/InvisibleText', 'sap/ui/core/EnabledPropagator'],
-	function(jQuery, library, Control, InvisibleText, EnabledPropagator) {
+sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/core/InvisibleText', 'sap/ui/core/EnabledPropagator', 'sap/ui/core/LabelEnablement'],
+	function(jQuery, library, Control, InvisibleText, EnabledPropagator, LabelEnablement) {
 	"use strict";
 
 
@@ -23,7 +23,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @implements sap.ui.core.IShrinkable
 	 *
 	 * @author SAP SE
-	 * @version 1.34.6
+	 * @version 1.34.7
 	 *
 	 * @constructor
 	 * @public
@@ -126,7 +126,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	Link.prototype.onBeforeRendering = function() {
 		// add/remove self reference for aria-labelledby  to fix reading issues
 		this.removeAssociation("ariaLabelledBy", this.getId(), true);
-		if (this.getAriaLabelledBy().length > 0) {
+		if (this.getAriaLabelledBy().length > 0 || LabelEnablement.getReferencingLabels(this).length > 0) {
 			this.addAssociation("ariaLabelledBy", this.getId(), true);
 		}
 	};

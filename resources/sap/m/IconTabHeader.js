@@ -21,7 +21,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.34.6
+	 * @version 1.34.7
 	 *
 	 * @constructor
 	 * @public
@@ -345,9 +345,9 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 
 		if (oItem.getVisible()) {
 			//click on already selected item leads to expanding/collapsing of the content (if expandable enabled)
-			if (this.oSelectedItem === oItem && !bAPIchange) {
+			if (this.oSelectedItem === oItem) {
 				//if content is not expandable nothing should happen otherwise content will be expanded/collapsed
-				if (bIsParentIconTabBar && oParent.getExpandable()) {
+				if (!bAPIchange && bIsParentIconTabBar && oParent.getExpandable()) {
 					oParent._toggleExpandCollapse();
 				}
 			//click on other item leads to showing the right content of this item
