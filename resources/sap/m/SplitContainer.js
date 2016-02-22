@@ -22,7 +22,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 *
 	 * This control must be rendered as a full screen control in order to make the show/hide master area work properly.
 	 * @extends sap.ui.core.Control
-	 * @version 1.28.28
+	 * @version 1.28.29
 	 *
 	 * @constructor
 	 * @public
@@ -1744,7 +1744,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 				if ($master[0]) {
 					var rm = sap.ui.getCore().createRenderManager();
 					rm.renderControl(that._oMasterNav.addStyleClass("sapMSplitContainerMaster"));
-					rm.flush($master[0], false, 1);
+					rm.flush($master[0], false, (that.$("BG")[0]) ? 1 : 0);
 					rm.destroy();
 				}
 			};
