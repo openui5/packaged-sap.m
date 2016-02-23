@@ -5,9 +5,8 @@
  */
 
 // Provides control sap.m.TabStripSelectList.
-sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/SelectList', 'sap/m/TabStripItem', 'sap/ui/base/ManagedObject', 'sap/ui/core/IconPool'],
-	//ToDo: [Refactoring] Incorrect dependency number - add icon pool dependency
-	function(jQuery, library, Control, SelectList, TabStripItem, ManagedObject) {
+sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/SelectList', 'sap/m/TabStripItem'],
+	function(jQuery, library, Control, SelectList, TabStripItem) {
 		"use strict";
 
 		/**
@@ -21,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/S
 		 * @extends sap.ui.core.SelectList
 		 *
 		 * @author SAP SE
-		 * @version 1.36.2
+		 * @version 1.36.3
 		 *
 		 * @constructor
 		 * @public
@@ -35,20 +34,30 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/S
 			}
 		});
 
-		TabStripSelectList.CSS_CLASS_SELECTLIST             = 'sapMSelectList';
-		TabStripSelectList.CSS_CLASS_TABSELECTLIST          = 'sapMTabStripSelectList';
-		TabStripSelectList.CSS_CLASS_CLOSEBUTTON            = 'sapMTabStripSelectListItemCloseBtn';
-		TabStripSelectList.CSS_CLASS_CLOSEBUTTONINVISIBLE   = 'sapMTabStripSelectListItemCloseBtnInvisible'; // ToDo: this belongs to item
+		/**
+		 * The default CSS class name of <code>SelectList</code>.
+		 *
+		 * @type {string}
+		 */
+		TabStripSelectList.CSS_CLASS_SELECTLIST = 'sapMSelectList';
 
 		/**
-		 * Initializes the control instance.
+		 * The default CSS class name of <code>TabStripSelectList</code>.
+		 *
+		 * @type {string}
+		 */
+		TabStripSelectList.CSS_CLASS_TABSTRIPSELECTLIST = 'sapMTabStripSelectList';
+
+		/**
+		 * Initializes the control.
+		 *
 		 * @override
-		 * @private
+		 * @public
 		 */
 		TabStripSelectList.prototype.init = function () {
 			SelectList.prototype.init.call(this);
 			this.addStyleClass(TabStripSelectList.CSS_CLASS_SELECTLIST);
-			this.addStyleClass(TabStripSelectList.CSS_CLASS_TABSELECTLIST);
+			this.addStyleClass(TabStripSelectList.CSS_CLASS_TABSTRIPSELECTLIST);
 		};
 
 		/**
@@ -74,7 +83,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/S
 				oControl instanceof sap.m.TabStripItem && // only this type has _closeButton aggregation
 				this.getSelectedItem() !== oControl
 			) {
-					oControl.getAggregation('_closeButton').$().removeClass(TabStripSelectList.CSS_CLASS_CLOSEBUTTONINVISIBLE);
+					oControl.getAggregation('_closeButton').$().removeClass(TabStripItem.CSS_CLASS_CLOSE_BUTTON_INVISIBLE);
 			}
 		};
 
@@ -91,7 +100,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/S
 				jQuery(oEvent.target).hasClass('sapMSelectListItem') &&
 				this.getSelectedItem() !== oControl
 			) {
-					oControl.getAggregation('_closeButton').$().addClass(TabStripSelectList.CSS_CLASS_CLOSEBUTTONINVISIBLE);
+					oControl.getAggregation('_closeButton').$().addClass(TabStripItem.CSS_CLASS_CLOSE_BUTTON_INVISIBLE);
 			}
 		};
 
@@ -111,7 +120,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/S
 				if (oPrevSelectedItem && oPrevSelectedItem !== oItem) {
 					if (sap.ui.Device.system.desktop) {
 						// close button is always visible on phone and tablet
-						oPrevSelectedItem.getAggregation('_closeButton').addStyleClass(TabStripSelectList.CSS_CLASS_CLOSEBUTTONINVISIBLE);
+						oPrevSelectedItem.getAggregation('_closeButton').addStyleClass(TabStripItem.CSS_CLASS_CLOSE_BUTTON_INVISIBLE);
 					}
 				}
 				this.setSelection(oItem);
@@ -136,9 +145,9 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/S
 				if (vItemId === oItem.getId()) {
 					$oItemState = jQuery(oItem.$().children('.' + TabStripItem.CSS_CLASS_STATE)[0]);
 					if (bShowState === true) {
-						$oItemState.removeClass(TabStripItem.CSS_CLASS_STATEINVISIBLE);
-					} else if (!$oItemState.hasClass(TabStripItem.CSS_CLASS_STATEINVISIBLE)) {
-						$oItemState.addClass(TabStripItem.CSS_CLASS_STATEINVISIBLE);
+						$oItemState.removeClass(TabStripItem.CSS_CLASS_STATE_INVISIBLE);
+					} else if (!$oItemState.hasClass(TabStripItem.CSS_CLASS_STATE_INVISIBLE)) {
+						$oItemState.addClass(TabStripItem.CSS_CLASS_STATE_INVISIBLE);
 					}
 				}
 			});

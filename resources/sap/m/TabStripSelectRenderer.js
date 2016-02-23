@@ -27,8 +27,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Renderer', 'sap/m/SelectRendere
 
 			oRm.write("<button");
 
-			// ToDo: use TabStripSelect.CSS_CLASS
-			oRm.addClass('sapMTabStripSelect');
+			oRm.addClass(TabStripSelect.CSS_CLASS);
 
 			if (!oSelect.getVisible()) {
 				oRm.addClass(TabStripSelect.CSS_CLASS_INVISIBLE);
@@ -118,7 +117,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Renderer', 'sap/m/SelectRendere
 			oRm.write(">");
 			oRm.writeEscaped(oSelectedItem ? oSelectedItem.getText() : "");
 			if (!oSelectedItem.getProperty('modified')) {
-				sStateClass += TabStripItem.CSS_CLASS_STATEINVISIBLE; // ToDo: fix the name of the variable
+				sStateClass += TabStripItem.CSS_CLASS_STATE_INVISIBLE;
 			}
 			oRm.write('</label>');
 			oRm.write('<span style="position: absolute" class="sapMTabStripSelectListItemModified' + sStateClass + '">*</span>');

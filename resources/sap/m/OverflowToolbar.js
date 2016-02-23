@@ -37,7 +37,7 @@ sap.ui.define([
 	 * @extends sap.ui.core.Toolbar
 	 *
 	 * @author SAP SE
-	 * @version 1.36.2
+	 * @version 1.36.3
 	 *
 	 * @constructor
 	 * @public
@@ -371,14 +371,18 @@ sap.ui.define([
 		// Clean up the action sheet, hide the overflow button, remove flexbox css from controls
 		this._resetToolbar();
 
-		// If there are any action sheet only controls, move them to the action sheet first
+		// If there are any action sheet only controls and they are visible, move them to the action sheet first
 		if (this._aActionSheetOnlyControls.length) {
 			for (i = this._aActionSheetOnlyControls.length - 1; i >= 0; i--) {
-				aButtonsToMoveToActionSheet.unshift(this._aActionSheetOnlyControls[i]);
+				if (this._aActionSheetOnlyControls[i].getVisible()){
+					aButtonsToMoveToActionSheet.unshift(this._aActionSheetOnlyControls[i]);
+				}
 			}
 
-			// At least one control will be in the action sheet, so the overflow button is needed
-			iContentSize = fnAddOverflowButton.call(this, iContentSize);
+			if (aButtonsToMoveToActionSheet.length > 0) {
+				// At least one control will be in the action sheet, so the overflow button is needed
+				iContentSize = fnAddOverflowButton.call(this, iContentSize);
+			}
 		}
 
 		// If all content fits - put the buttons from the previous step (if any) in the action sheet and stop here

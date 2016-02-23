@@ -7534,7 +7534,7 @@ html[data-sap-ui-browser="ie9"] .sapMPersoDialog .sapMPersoDialogFixedBar .sapMP
   width: 100%;
   font-size: .75rem;
 }
-.sapMTabStrip .sapMTSTabContainer {
+.sapMTabStrip .sapMTSTabsContainer {
   height: 100%;
   white-space: nowrap;
   position: absolute;
@@ -7543,12 +7543,12 @@ html[data-sap-ui-browser="ie9"] .sapMPersoDialog .sapMPersoDialogFixedBar .sapMP
   overflow: hidden;
   outline: none;
 }
-.sapMTabStrip .sapMTSTabContainer .sapMTSTabs {
+.sapMTabStrip .sapMTSTabsContainer .sapMTSTabs {
   float: right;
   height: 100%;
   margin-left: -999em;
 }
-.sapMTabStrip .sapMTSTabContainer .sapMTSTabs .sapMTabContainerItem {
+.sapMTabStrip .sapMTSTabsContainer .sapMTSTabs .sapMTabStripItem {
   position: relative;
   box-sizing: border-box;
   height: 100%;
@@ -7560,25 +7560,25 @@ html[data-sap-ui-browser="ie9"] .sapMPersoDialog .sapMPersoDialogFixedBar .sapMP
   -ms-user-select: none;
   user-select: none;
 }
-.sapMTabStrip .sapMTSTabContainer .sapMTSTabs .sapMTabContainerItem .sapMTabContainerItemLabel {
+.sapMTabStrip .sapMTSTabsContainer .sapMTSTabs .sapMTabStripItem .sapMTabStripItemLabel {
   vertical-align: middle;
   line-height: 3rem;
 }
-.sapMTabStrip .sapMTSTabContainer .sapMTSTabs .sapMTabContainerItem .sapMTabContainerItemLabel:after {
+.sapMTabStrip .sapMTSTabsContainer .sapMTSTabs .sapMTabStripItem .sapMTabStripItemLabel:after {
   content: '';
   vertical-align: middle;
 }
-.sapMTabStrip .sapMTSTabContainer .sapMTSTabs .sapMTabContainerItem .sapMTSTabCloseBtnCnt {
+.sapMTabStrip .sapMTSTabsContainer .sapMTSTabs .sapMTabStripItem .sapMTSItemCloseBtnCnt {
   display: inline-block;
   height: 100%;
   width: 2rem;
   text-align: center;
   vertical-align: middle;
 }
-.sapMTabStrip .sapMTSTabContainer .sapMTSTabs .sapMTabContainerItem .sapMTSTabCloseBtnCnt .sapMBtn {
+.sapMTabStrip .sapMTSTabsContainer .sapMTSTabs .sapMTabStripItem .sapMTSItemCloseBtnCnt .sapMBtn {
   opacity: 1;
 }
-.sapMTabStrip .sapMTSTabContainer .sapMTSTabs .sapMTabContainerItem.sapMTabContainerItemModified .sapMTabContainerItemLabel:after {
+.sapMTabStrip .sapMTSTabsContainer .sapMTSTabs .sapMTabStripItem.sapMTabStripItemModified .sapMTabStripItemLabel:after {
   content: '*';
   vertical-align: middle;
 }
@@ -7641,14 +7641,14 @@ html[data-sap-ui-browser="ie9"] .sapMPersoDialog .sapMPersoDialogFixedBar .sapMP
   font-size: .75rem;
   margin: 0;
 }
-html[data-sap-ui-animation='on'] .sapMTabStrip .sapMTSTabContainer .sapMTSTabs .sapMTabContainerItem {
+html[data-sap-ui-animation='on'] .sapMTabStrip .sapMTSTabsContainer .sapMTSTabs .sapMTabStripItem {
   -webkit-transition: padding 0.3s;
   -moz-transition: padding 0.3s;
   -ms-transition: padding 0.3s;
   -o-transition: padding 0.3s;
   transition: padding 0.3s;
 }
-html[data-sap-ui-animation='on'] .sapMTabStrip .sapMTSTabContainer .sapMTSTabs .sapMTabContainerItem .sapMTSTabCloseBtnCnt .sapMBtn {
+html[data-sap-ui-animation='on'] .sapMTabStrip .sapMTSTabsContainer .sapMTSTabs .sapMTabStripItem .sapMTSItemCloseBtnCnt .sapMBtn {
   -webkit-transition: opacity 0.3s;
   -moz-transition: opacity 0.3s;
   -ms-transition: opacity 0.3s;
@@ -7684,35 +7684,35 @@ html[data-sap-ui-animation='on'] .sapMTabStrip .sapMTSTabContainer .sapMTSTabs .
   font-size: .75rem;
   margin: 0;
 }
-.sapUiSizeCompact .sapMTabStrip .sapMTSTabContainer .sapMTSTabs .sapMTabContainerItem {
+.sapUiSizeCompact .sapMTabStrip .sapMTSTabsContainer .sapMTSTabs .sapMTabStripItem {
   padding: 0 1rem;
 }
-.sapUiSizeCompact .sapMTabStrip .sapMTSTabContainer .sapMTSTabs .sapMTabContainerItem .sapMTabContainerItemLabel {
+.sapUiSizeCompact .sapMTabStrip .sapMTSTabsContainer .sapMTSTabs .sapMTabStripItem .sapMTabStripItemLabel {
   vertical-align: middle;
   line-height: 2rem;
 }
-.sapUiSizeCompact .sapMTabStrip .sapMTSTabContainer .sapMTSTabs .sapMTabContainerItem .sapMTabContainerItemLabel:after {
+.sapUiSizeCompact .sapMTabStrip .sapMTSTabsContainer .sapMTSTabs .sapMTabStripItem .sapMTabStripItemLabel:after {
   content: '';
   vertical-align: middle;
 }
-.sapUiSizeCompact .sapMTabStrip .sapMTSTabContainer .sapMTSTabs .sapMTabContainerItem .sapMTSTabCloseBtnCnt {
+.sapUiSizeCompact .sapMTabStrip .sapMTSTabsContainer .sapMTSTabs .sapMTabStripItem .sapMTSItemCloseBtnCnt {
   width: 1.5rem;
   position: absolute;
   left: 0;
   text-align: center;
 }
-.sapUiSizeCompact .sapMTabStrip .sapMTSTabContainer .sapMTSTabs .sapMTabContainerItem .sapMTSTabCloseBtnCnt .sapMBtn {
+.sapUiSizeCompact .sapMTabStrip .sapMTSTabsContainer .sapMTSTabs .sapMTabStripItem .sapMTSItemCloseBtnCnt .sapMBtn {
   opacity: 0;
 }
-.sapUiSizeCompact .sapMTabStrip .sapMTSTabContainer .sapMTSTabs .sapMTabContainerItem.selected,
-.sapUiSizeCompact .sapMTabStrip .sapMTSTabContainer .sapMTSTabs .sapMTabContainerItem:hover {
+.sapUiSizeCompact .sapMTabStrip .sapMTSTabsContainer .sapMTSTabs .sapMTabStripItem.sapMTabStripItemSelected,
+.sapUiSizeCompact .sapMTabStrip .sapMTSTabsContainer .sapMTSTabs .sapMTabStripItem:hover {
   padding: 0 0.5rem 0 1.5rem;
 }
-.sapUiSizeCompact .sapMTabStrip .sapMTSTabContainer .sapMTSTabs .sapMTabContainerItem.selected .sapMTSTabCloseBtnCnt .sapMBtn,
-.sapUiSizeCompact .sapMTabStrip .sapMTSTabContainer .sapMTSTabs .sapMTabContainerItem:hover .sapMTSTabCloseBtnCnt .sapMBtn {
+.sapUiSizeCompact .sapMTabStrip .sapMTSTabsContainer .sapMTSTabs .sapMTabStripItem.sapMTabStripItemSelected .sapMTSItemCloseBtnCnt .sapMBtn,
+.sapUiSizeCompact .sapMTabStrip .sapMTSTabsContainer .sapMTSTabs .sapMTabStripItem:hover .sapMTSItemCloseBtnCnt .sapMBtn {
   opacity: 1;
 }
-.sapUiSizeCompact .sapMTabStrip .sapMTSTabContainer .sapMTSTabs .sapMTabContainerItem.sapMTabContainerItemModified .sapMTabContainerItemLabel:after {
+.sapUiSizeCompact .sapMTabStrip .sapMTSTabsContainer .sapMTSTabs .sapMTabStripItem.sapMTabStripItemModified .sapMTabStripItemLabel:after {
   content: '*';
   vertical-align: middle;
 }
@@ -7768,7 +7768,7 @@ html[data-sap-ui-animation='on'] .sapMTabStrip .sapMTSTabContainer .sapMTSTabs .
 /* ------------------------------ */
 /* Select commons styles          */
 /* ------------------------------ */
-.sapMSlt.sapMTabStripSelect {
+.sapMSlt.sapMTSSlt {
   float: right;
   text-align: center;
   vertical-align: middle;
@@ -7778,16 +7778,16 @@ html[data-sap-ui-animation='on'] .sapMTabStrip .sapMTSTabContainer .sapMTSTabs .
   padding: 0;
   margin: 0;
 }
-.sapMSlt.sapMTabStripSelect.sapMSltInvisible {
+.sapMSlt.sapMTSSlt.sapMSltInvisible {
   visibility: hidden;
 }
-.sapMSlt.sapMTabStripSelect .sapMSltInner {
+.sapMSlt.sapMTSSlt .sapMSltInner {
   position: relative;
   margin: 0 auto;
   width: 1.625rem;
   height: 1.625rem;
 }
-.sapMSlt.sapMTabStripSelect .sapMSltInner .sapMSltIcon {
+.sapMSlt.sapMTSSlt .sapMSltInner .sapMSltIcon {
   border-radius: 0.15em;
   position: absolute;
   top: 0;
@@ -7798,29 +7798,29 @@ html[data-sap-ui-animation='on'] .sapMTabStrip .sapMTSTabContainer .sapMTSTabs .
   padding: 0;
   line-height: 1.25rem;
 }
-.sapMSlt.sapMTabStripSelect .sapMSltInner .sapUiIcon:before {
+.sapMSlt.sapMTSSlt .sapMSltInner .sapUiIcon:before {
   position: relative;
   top: 0.2rem;
 }
-.sapUiSizeCompact .sapMSlt.sapMTabStripSelect {
+.sapUiSizeCompact .sapMSlt.sapMTSSlt {
   margin: 0;
   height: 100%;
   width: 1.5rem;
 }
-.sapUiSizeCompact .sapMSlt.sapMTabStripSelect .sapMSltInner {
+.sapUiSizeCompact .sapMSlt.sapMTSSlt .sapMSltInner {
   width: 1.25rem;
   height: 1.25rem;
 }
-.sapUiSizeCompact .sapMSlt.sapMTabStripSelect .sapMSltInner .sapMSltIcon {
+.sapUiSizeCompact .sapMSlt.sapMTSSlt .sapMSltInner .sapMSltIcon {
   border-radius: 0.30em;
   font-size: 0.75rem;
   line-height: 0.75rem;
 }
-.sapUiSizeCompact .sapMSlt.sapMTabStripSelect .sapMSltInner .sapUiIcon:before {
+.sapUiSizeCompact .sapMSlt.sapMTSSlt .sapMSltInner .sapUiIcon:before {
   position: relative;
   top: 0.2rem;
 }
-.sap-phone .sapMSlt.sapMTabStripSelect {
+.sap-phone .sapMSlt.sapMTSSlt {
   height: 3rem;
   width: 100%;
   margin: 0;
@@ -7828,17 +7828,17 @@ html[data-sap-ui-animation='on'] .sapMTabStrip .sapMTSTabContainer .sapMTSTabs .
   text-align: left;
   box-shadow: none;
 }
-.sap-phone .sapMSlt.sapMTabStripSelect .sapMSltLabel {
+.sap-phone .sapMSlt.sapMTSSlt .sapMSltLabel {
   line-height: 3rem;
   font-size: 0.875rem;
 }
-.sap-phone .sapMSlt.sapMTabStripSelect .sapMSltInner {
+.sap-phone .sapMSlt.sapMTSSlt .sapMSltInner {
   margin: 0;
   position: static;
   height: 3rem;
   width: 100%;
 }
-.sap-phone .sapMSlt.sapMTabStripSelect span {
+.sap-phone .sapMSlt.sapMTSSlt span {
   width: 1.625rem;
   height: 1.625rem;
   line-height: 1.625rem;
@@ -7860,10 +7860,10 @@ html[data-sap-ui-animation='on'] .sapMTabStrip .sapMTSTabContainer .sapMTSTabs .
   margin-left: 0.4rem;
   font-size: 0.85rem;
 }
-html[dir='rtl'].sap-phone .sapMSlt.sapMTabStripSelect {
+html[dir='rtl'].sap-phone .sapMSlt.sapMTSSlt {
   text-align: right;
 }
-.sapMTSScrollable .sapMTabStripSelect {
+.sapMTSScrollable .sapMTSSlt {
   visibility: visible;
 }
 /* ====================================================== */
@@ -11478,6 +11478,8 @@ li.sapMLIB.sapMFeedListItemTitleDiv.sapMLIBNoFlex > .sapMLIBContent > .sapMLIBCo
 /* ========================================= */
 .sapMGT {
   border-radius: 0.375rem;
+  border: 0.125rem dotted transparent;
+  /* reserve border for :focus effect */
 }
 .sapMGTHdrContent {
   color: #ffffff;
@@ -17310,38 +17312,38 @@ html[dir=rtl] .sapMSwtTrans > .sapMSwtInner {
 .sapMTabStrip .sapMTSLeftOverflowButtons {
   background: linear-gradient(90deg, #000000 0%, #000000 75%, rgba(0, 0, 0, 0) 100%);
 }
-.sapMTabStrip .sapMTSTabContainer .sapMTSTabs .sapMTabContainerItem {
+.sapMTabStrip .sapMTSTabsContainer .sapMTSTabs .sapMTabStripItem {
   font-size: 0.875rem;
   background: #000000;
   border-left: 1px solid #ffffff;
   color: #ffffff;
   position: relative;
 }
-.sapMTabStrip .sapMTSTabContainer .sapMTSTabs .sapMTabContainerItem.selected {
+.sapMTabStrip .sapMTSTabsContainer .sapMTSTabs .sapMTabStripItem.sapMTabStripItemSelected {
   background: #0f5d94;
   border-left: 1px solid #ffffff;
   color: #ffffff;
 }
-.sapMTabStrip .sapMTSTabContainer .sapMTSTabs .sapMTabContainerItem:hover {
+.sapMTabStrip .sapMTSTabsContainer .sapMTSTabs .sapMTabStripItem:hover {
   background: #7a5100;
   border-left: 1px solid #ffffff;
   color: #ffffff;
 }
-.sapMTabStrip .sapMTSTabContainer .sapMTSTabs .sapMTabContainerItem:active {
+.sapMTabStrip .sapMTSTabsContainer .sapMTSTabs .sapMTabStripItem:active {
   background: #0f5d94;
   border-left: 1px solid #ffffff;
   color: #ffffff;
 }
-.sapMTabStrip .sapMTSTabContainer .sapMTSTabs .sapMTabContainerItem .sapMTSTabCloseBtnCnt .sapMBtn .sapMBtnInner:active {
+.sapMTabStrip .sapMTSTabsContainer .sapMTSTabs .sapMTabStripItem .sapMTSItemCloseBtnCnt .sapMBtn .sapMBtnInner:active {
   background-color: #0f5d94;
 }
-.sapMTabStrip .sapMTSTabContainer .sapMTSTabs .sapMTabContainerItem:first-child {
+.sapMTabStrip .sapMTSTabsContainer .sapMTSTabs .sapMTabStripItem:first-child {
   border-right: 1px solid #ffffff;
 }
-.sapMTabStrip .sapMTSTabContainer .sapMTSTabs .sapMTabContainerItem:focus {
+.sapMTabStrip .sapMTSTabsContainer .sapMTSTabs .sapMTabStripItem:focus {
   outline: none;
 }
-.sapMTabStrip .sapMTSTabContainer .sapMTSTabs .sapMTabContainerItem:focus::before {
+.sapMTabStrip .sapMTSTabsContainer .sapMTSTabs .sapMTabStripItem:focus::before {
   pointer-events: none;
   content: "";
   position: absolute;
@@ -17358,74 +17360,74 @@ html[dir=rtl] .sapMSwtTrans > .sapMSwtInner {
 /* CSS for control sap.m/TabStrip.control   */
 /* High Contrast Black theme                */
 /* ======================================== */
-.sapMSlt.sapMTabStripSelect {
+.sapMSlt.sapMTSSlt {
   border: none;
   color: #ffffff;
 }
-.sapMSlt.sapMTabStripSelect .sapMSltInner {
+.sapMSlt.sapMTSSlt .sapMSltInner {
   border: 1px solid #ffffff;
   background-color: #000000;
   border-radius: 0.375rem;
 }
-.sapMSlt.sapMTabStripSelect.sapMSltPressed {
+.sapMSlt.sapMTSSlt.sapMSltPressed {
   background-color: #0f5d94;
 }
-.sapMSlt.sapMTabStripSelect.sapMSltPressed.sapMSltIconOnly:not(.sapMSltDisabled) {
+.sapMSlt.sapMTSSlt.sapMSltPressed.sapMSltIconOnly:not(.sapMSltDisabled) {
   background-color: transparent;
 }
-.sapMSlt.sapMTabStripSelect.sapMSltPressed.sapMSltIconOnly:not(.sapMSltDisabled).sapMSltHoverable:hover {
+.sapMSlt.sapMTSSlt.sapMSltPressed.sapMSltIconOnly:not(.sapMSltDisabled).sapMSltHoverable:hover {
   background-color: transparent;
 }
-.sapMSlt.sapMTabStripSelect.sapMSltPressed.sapMSltIconOnly:not(.sapMSltDisabled) .sapMSltInner .sapMSltIcon {
+.sapMSlt.sapMTSSlt.sapMSltPressed.sapMSltIconOnly:not(.sapMSltDisabled) .sapMSltInner .sapMSltIcon {
   background-color: #0f5d94;
 }
-.sapMSlt.sapMTabStripSelect.sapMSltPressed.sapMSltIconOnly:not(.sapMSltDisabled):hover .sapMSltIcon {
+.sapMSlt.sapMTSSlt.sapMSltPressed.sapMSltIconOnly:not(.sapMSltDisabled):hover .sapMSltIcon {
   background-color: #7a5100;
 }
-.sapMSlt.sapMTabStripSelect.sapMSltPressed .sapMSltArrow {
+.sapMSlt.sapMTSSlt.sapMSltPressed .sapMSltArrow {
   background-color: #0f5d94;
 }
-.sapMSlt.sapMTabStripSelect:not(.sapMSltPressed).sapMSltHoverable:hover .sapMSltInner .sapMSltIcon {
+.sapMSlt.sapMTSSlt:not(.sapMSltPressed).sapMSltHoverable:hover .sapMSltInner .sapMSltIcon {
   background-color: #7a5100;
 }
-.sapMSlt.sapMTabStripSelect:hover,
-.sapMSlt.sapMTabStripSelect.sapMSltPressed:hover {
+.sapMSlt.sapMTSSlt:hover,
+.sapMSlt.sapMTSSlt.sapMSltPressed:hover {
   background-color: transparent;
 }
-.sapMSlt.sapMTabStripSelect:hover .sapMSltInner,
-.sapMSlt.sapMTabStripSelect.sapMSltPressed:hover .sapMSltInner {
+.sapMSlt.sapMTSSlt:hover .sapMSltInner,
+.sapMSlt.sapMTSSlt.sapMSltPressed:hover .sapMSltInner {
   background-color: #7a5100;
 }
-.sap-desktop .sapMSlt.sapMTabStripSelect.sapMSltIconOnly:not(.sapMSltDisabled):focus {
+.sap-desktop .sapMSlt.sapMTSSlt.sapMSltIconOnly:not(.sapMSltDisabled):focus {
   outline: none;
 }
-.sap-desktop .sapMSlt.sapMTabStripSelect.sapMSltIconOnly:hover:not(.sapMSltPressed) {
+.sap-desktop .sapMSlt.sapMTSSlt.sapMSltIconOnly:hover:not(.sapMSltPressed) {
   background-color: transparent;
 }
-.sap-phone .sapMSlt.sapMTabStripSelect {
+.sap-phone .sapMSlt.sapMTSSlt {
   background-color: transparent;
 }
-.sap-phone .sapMSlt.sapMTabStripSelect.sapMSltPressed {
+.sap-phone .sapMSlt.sapMTSSlt.sapMSltPressed {
   background-color: #0f5d94;
 }
-.sap-phone .sapMSlt.sapMTabStripSelect:hover,
-.sap-phone .sapMSlt.sapMTabStripSelect.sapMSltPressed:hover {
+.sap-phone .sapMSlt.sapMTSSlt:hover,
+.sap-phone .sapMSlt.sapMTSSlt.sapMSltPressed:hover {
   background: none;
 }
-.sap-phone .sapMSlt.sapMTabStripSelect:hover .sapMSltInner,
-.sap-phone .sapMSlt.sapMTabStripSelect.sapMSltPressed:hover .sapMSltInner {
+.sap-phone .sapMSlt.sapMTSSlt:hover .sapMSltInner,
+.sap-phone .sapMSlt.sapMTSSlt.sapMSltPressed:hover .sapMSltInner {
   background: none;
 }
-.sap-phone .sapMSlt.sapMTabStripSelect:active {
+.sap-phone .sapMSlt.sapMTSSlt:active {
   background-color: #0f5d94;
 }
-.sap-phone .sapMSlt.sapMTabStripSelect:active .sapMSltInner {
+.sap-phone .sapMSlt.sapMTSSlt:active .sapMSltInner {
   background-color: #0f5d94;
 }
-.sap-phone .sapMSlt.sapMTabStripSelect .sapMSltInner {
+.sap-phone .sapMSlt.sapMTSSlt .sapMSltInner {
   border: none;
 }
-.sap-phone .sapMSlt.sapMTabStripSelect .sapMSltArrow {
+.sap-phone .sapMSlt.sapMTSSlt .sapMSltArrow {
   border: 1px solid #ffffff;
   border-radius: 0.375rem;
 }

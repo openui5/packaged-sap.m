@@ -22,7 +22,7 @@ sap.ui.define(['jquery.sap.global', './Input', './Token', './library', 'sap/ui/c
 	 * @extends sap.m.Input
 	 *
 	 * @author SAP SE
-	 * @version 1.36.2
+	 * @version 1.36.3
 	 *
 	 * @constructor
 	 * @public
@@ -865,11 +865,12 @@ sap.ui.define(['jquery.sap.global', './Input', './Token', './library', 'sap/ui/c
 		var aSeparatedText = this._tokenizer._parseString(sOriginalText);
 		setTimeout(function() {
 			if (aSeparatedText) {
-				var i = 0;
-				for ( i = 0; i < aSeparatedText.length; i++) {
-					this.setValue(aSeparatedText[i]);
-					this._validateCurrentText();
-
+				if (this.fireEvent("_validateOnPaste", {texts: aSeparatedText}, true)) {
+					var i = 0;
+					for ( i = 0; i < aSeparatedText.length; i++) {
+						this.setValue(aSeparatedText[i]);
+						this._validateCurrentText();
+					}
 				}
 				this.cancelPendingSuggest();
 			}

@@ -27,7 +27,7 @@ sap.ui.define([
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.36.2
+	 * @version 1.36.3
 	 *
 	 * @constructor
 	 * @public
@@ -1540,7 +1540,7 @@ sap.ui.define([
 				}
 			}
 
-			if (!bIsInPages || oSource.getId() === this.getCurrentPage()) {
+			if (!bIsInPages || oSource === this.getCurrentPage()) {
 				// TODO: there will be more cases where invalidation is not required...
 				this.forceInvalidation();
 			} // else : the invalidation source is a non-current page, so do not rerender anything
