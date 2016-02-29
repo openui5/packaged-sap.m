@@ -114,12 +114,12 @@
   max-width: 100% !important;
   max-height: 100% !important;
   opacity: 1;
+  transform: translate(0, 0) !important;
 }
 .sapMActionSheetDialog.sapMDialogOpen {
   -webkit-transform: translate(0, 0);
   -moz-transform: translate(0, 0);
   -ms-transform: translate(0, 0);
-  transform: translate(0, 0);
 }
 .sapMActionSheet:focus {
   outline: none;
@@ -5743,6 +5743,10 @@ html[data-sap-ui-browser^="ie"] .sapMRbGDummy {
   margin-left: 0;
   padding-left: 2.875rem;
   display: inline-block;
+}
+html[data-sap-ui-browser^="ie"] .sapMRbG .sapMRbBLabel {
+  box-sizing: border-box;
+  min-width: 5rem;
 }
 .sapMRbG .sapMRbHasLabel .sapMRbBOut {
   margin: 0.8125rem;
@@ -15711,7 +15715,8 @@ html.sap-desktop .sapMSegBBtnFocusable:hover {
   border-top-right-radius: 0.375rem;
   border-bottom-right-radius: 0.375rem;
 }
-.sapUiSizeCompact .sapMSegBIcons .sapMSegBBtn img {
+.sapUiSizeCompact .sapMSegBIcons .sapMSegBBtn img,
+.sapUiSizeCompact .sapMSegBIcons .sapMSegBBtn .sapUiIcon {
   padding: 0 .5rem;
 }
 .sapUiSizeCompact .sapMSegB img {

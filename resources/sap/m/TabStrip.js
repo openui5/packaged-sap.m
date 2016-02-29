@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Control', 'sap/ui/core/IconPool
 		 * space is exceeded, a horizontal scrollbar appears.
 		 *
 		 * @extends sap.ui.core.Control
-		 * @version 1.34.7
+		 * @version 1.34.8
 		 *
 		 * @constructor
 		 * @private
@@ -124,7 +124,6 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Control', 'sap/ui/core/IconPool
 		 *
 		 * @enum
 		 * @type {{LeftArrowButton: string, RightArrowButton: string, DownArrowButton: string, AddButton: string}}
-		 * @public
 		 */
 		TabStrip.ICON_BUTTONS = {
 			LeftArrowButton: "slim-arrow-left",
@@ -137,7 +136,6 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Control', 'sap/ui/core/IconPool
 		 * <code>TabStripSelect</code> ID prefix.
 		 *
 		 * @type {string}
-		 * @public
 		 */
 		TabStrip.SELECT_ITEMS_ID_SUFFIX = '-SelectItem';
 
@@ -145,14 +143,12 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Control', 'sap/ui/core/IconPool
 		 * ScrollLeft constant.
 		 *
 		 * @type {number}
-		 * @public
 		 */
 		TabStrip.SCROLL_SIZE = 320;
 
 		/**
 		 * The minimum horizontal offset threshold for drag/swipe.
 		 * @type {number}
-		 * @public
 		 */
 		TabStrip.MIN_DRAG_OFFSET = sap.ui.Device.support.touch ? 15 : 5;
 
@@ -160,7 +156,6 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Control', 'sap/ui/core/IconPool
 		 * Scrolling animation duration constant
 		 *
 		 * @type {number}
-		 * @public
 		 */
 		TabStrip.SCROLL_ANIMATION_DURATION = sap.ui.getCore().getConfiguration().getAnimation() ? 500 : 0;
 
@@ -169,7 +164,6 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Control', 'sap/ui/core/IconPool
 		 *
 		 * @enum
 		 * @type {{closable: sap.ui.core.InvisibleControl, modified: sap.ui.core.InvisibleControl, notModified: sap.ui.core.InvisibleControl}}
-		 * @public
 		 */
 		TabStrip.ARIA_STATIC_TEXTS = {
 			/**
@@ -1069,10 +1063,10 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Control', 'sap/ui/core/IconPool
 			aItems.forEach(function (oItem) {
 				if (vItemId === oItem.getId()) {
 					$oItemState = jQuery(oItem.$());
-					if (bShowState === true && !$oItemState.hasClass(TabStripItem._CSS_CLASS_MODIFIED)) {
-						$oItemState.addClass(TabStripItem._CSS_CLASS_MODIFIED);
+					if (bShowState === true && !$oItemState.hasClass(TabStripItem.CSS_CLASS_MODIFIED)) {
+						$oItemState.addClass(TabStripItem.CSS_CLASS_MODIFIED);
 					} else {
-						$oItemState.removeClass(TabStripItem._CSS_CLASS_MODIFIED);
+						$oItemState.removeClass(TabStripItem.CSS_CLASS_MODIFIED);
 					}
 				}
 			});

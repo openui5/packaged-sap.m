@@ -22,7 +22,7 @@ sap.ui.define(['jquery.sap.global', './Input', './Token', './library', 'sap/ui/c
 	 * @extends sap.m.Input
 	 *
 	 * @author SAP SE
-	 * @version 1.34.7
+	 * @version 1.34.8
 	 *
 	 * @constructor
 	 * @public
@@ -1077,9 +1077,8 @@ sap.ui.define(['jquery.sap.global', './Input', './Token', './library', 'sap/ui/c
 					if (this._oSuggestionTable.getItems().length === 0) {
 						var that = this;
 						this._oPopupInput.onsapenter = function(oEvent){
-
-							that._validateCurrentText();
-							that.setValue("");
+								that._validateCurrentText();
+								that._setValueInvisible();
 						};
 					}
 

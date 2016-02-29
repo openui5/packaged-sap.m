@@ -22,7 +22,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 	 * @extends sap.m.InputBase
 	 *
 	 * @author SAP SE
-	 * @version 1.34.7
+	 * @version 1.34.8
 	 *
 	 * @constructor
 	 * @public
@@ -1176,8 +1176,10 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 					customHeader : new Bar(oInput.getId()
 							+ "-popup-header", {
 						contentMiddle : oInput._oPopupInput.addEventDelegate({onsapenter: function(){
+							if (!(sap.m.MultiInput && oInput instanceof sap.m.MultiInput)) {
 								oInput._closeSuggestionPopup();
-							}}, this)
+							}
+						}}, this)
 					}),
 					horizontalScrolling : false,
 					initialFocus : oInput._oPopupInput
