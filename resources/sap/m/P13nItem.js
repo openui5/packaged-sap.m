@@ -18,7 +18,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Element'], functio
 	 *
 	 * @class tbd (should enable panels of personalization to have a constistent view of the 'columns' of the table)
 	 * @extends sap.ui.core.Item
-	 * @version 1.28.29
+	 * @version 1.28.30
 	 *
 	 * @constructor
 	 * @public
