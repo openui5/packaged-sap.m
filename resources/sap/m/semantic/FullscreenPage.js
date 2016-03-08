@@ -32,14 +32,14 @@ sap.ui.define(["sap/m/semantic/ShareMenuPage", "sap/m/semantic/SemanticConfigura
 	 * 	<li>{@link sap.m.semantic.SendEmailAction}</li>
 	 * 	<li>{@link sap.m.semantic.SendMessageAction}</li>
 	 * 	<li>{@link sap.m.semantic.PrintAction}</li>
-	 * 	<li>{@link sap.m.semantic.MessagesAction}</li>
+	 * 	<li>{@link sap.m.semantic.MessagesIndicator}</li>
 	 * 	<li>{@link sap.m.DraftIndicator}</li>
 	 * </ul>
 	 *
 	 * @extends sap.m.semantic.ShareMenuPage
 	 *
 	 * @author SAP SE
-	 * @version 1.36.3
+	 * @version 1.36.4
 	 *
 	 * @constructor
 	 * @public
@@ -172,20 +172,9 @@ sap.ui.define(["sap/m/semantic/ShareMenuPage", "sap/m/semantic/SemanticConfigura
 				},
 				/**
 				 * MessagesIndicator
-				 * @deprecated Since version 1.36.
-				 * This aggregation is deprecated, use the messagesAction instead.
 				 */
 				messagesIndicator: {
 					type: "sap.m.semantic.MessagesIndicator",
-					multiple: false
-				},
-				/**
-				 * Messages action
-				 *
-				 * Since version 1.36
-				 */
-				messagesAction: {
-					type: "sap.m.semantic.MessagesAction",
 					multiple: false
 				},
 				/**

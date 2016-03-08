@@ -109,12 +109,12 @@
   max-width: 100% !important;
   max-height: 100% !important;
   opacity: 1;
+  transform: translate(0, 0) !important;
 }
 .sapMActionSheetDialog.sapMDialogOpen {
   -webkit-transform: translate(0, 0);
   -moz-transform: translate(0, 0);
   -ms-transform: translate(0, 0);
-  transform: translate(0, 0);
 }
 .sapMActionSheet:focus {
   outline: none;
@@ -702,16 +702,15 @@ html[dir=rtl][data-sap-ui-browser^="ed"] .sapMCrslInner {
 .sapMCrslImg {
   text-align: center;
   height: 100%;
-  -webkit-transform-style: preserve-3d;
-  -moz-transform-style: preserve-3d;
-  transform-style: preserve-3d;
+}
+.sapMCrslImg:before {
+  content: ' ';
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
 }
 .sapMCrslItemTableCell.sapMCrslImg img {
-  position: relative;
-  top: 50%;
-  -webkit-transform: translateY(-50%);
-  -ms-transform: translateY(-50%);
-  transform: translateY(-50%);
+  vertical-align: middle;
 }
 .sapMCrslInner.sapMCrslNoTransition {
   -webkit-transition-duration: 0.01s;
@@ -772,6 +771,36 @@ html[dir=rtl][data-sap-ui-browser^="ed"] .sapMCrslInner {
 .sapMCrsl.sapUiNoContentPadding > .sapMCrslInner > .sapMCrslItem > .sapMScrollCont > .sapMScrollContScroll {
   padding: 0;
 }
+/*
+  Carousel control base styling
+*/
+.sapMCrslControls {
+  padding-top: 0.625rem;
+  text-align: center;
+}
+.sapMCrslControls a {
+  padding: 0.3125rem;
+  -webkit-user-select: none;
+  -moz-user-select: -moz-none;
+  user-select: none;
+  -webkit-user-drag: none;
+  -moz-user-drag: -moz-none;
+  user-drag: none;
+}
+.sapMCrslBulleted.sapMCrslBottomOffset {
+  position: absolute;
+  padding-top: 0;
+  bottom: 0.3125rem;
+  width: 100%;
+  z-index: 10;
+}
+.sapMCrslBulleted.sapMCrslTopOffset {
+  position: absolute;
+  padding-bottom: 0.125rem;
+  width: 100%;
+  z-index: 10;
+  padding-top: 0.1875rem;
+}
 /* Styles needed for keyboard handling
    ========================================================================== */
 .sapMCrslItem {
@@ -786,6 +815,7 @@ html[dir=rtl][data-sap-ui-browser^="ed"] .sapMCrslInner {
 .sapMCb {
   display: inline-block;
   position: relative;
+  white-space: normal;
 }
 .sapMCb .sapMLabel {
   cursor: default;
@@ -1815,6 +1845,10 @@ html[data-sap-ui-browser="ie9"] .sapMFeedListItemTitleDiv {
   -ms-flex-preferred-size: auto;
   -ms-flex-negative: 1;
 }
+.sapMFlexBoxAlignItemsCenter.sapMVBox > .sapMFlexItem {
+  max-width: 100%;
+  /* When using align-items:center on a flex container in the column direction, the contents of flex item, if too big, will overflow their container in IE 10-11. */
+}
 /*** flex-direction ***/
 .sapMHBox {
   -webkit-box-orient: horizontal;
@@ -2811,8 +2845,8 @@ html[data-sap-ui-animation='on'] .sapMMsgStrip {
   transition: opacity 0.2s;
 }
 html[data-sap-ui-animation='on'] .sapMMsgStripCloseButton {
-  -webkit-transition: opacity 0.1s;
-  transition: opacity 0.1s;
+  -webkit-transition: color 0.1s;
+  transition: color 0.1s;
 }
 .sapMMsgStripClosing {
   opacity: 0;
@@ -2853,10 +2887,6 @@ html[data-sap-ui-animation='on'] .sapMMsgStripCloseButton {
   font-family: 'SAP-icons';
   font-size: 0.75rem;
   cursor: pointer;
-  opacity: 0.6;
-}
-.sapMMsgStripCloseButton:hover {
-  opacity: 1;
 }
 .sapMMsgStripCloseButton:focus {
   outline: 0;
@@ -5979,6 +6009,10 @@ html[data-sap-ui-browser^="ie"] .sapMRbGDummy {
   padding-left: 2.875rem;
   display: inline-block;
 }
+html[data-sap-ui-browser^="ie"] .sapMRbG .sapMRbBLabel {
+  box-sizing: border-box;
+  min-width: 5rem;
+}
 .sapMRbG .sapMRbHasLabel .sapMRbBOut {
   margin: 0.8125rem;
 }
@@ -9028,6 +9062,13 @@ html[dir=rtl][data-sap-ui-browser^="ed"] .sapMTitleAlignEnd {
 /* ============================================== */
 /* CSS for control sap.m/ToolbarSeparator.control */
 /* ============================================== */
+.sapMTBSeparator {
+  width: 0.0625rem;
+  height: 2rem;
+}
+.sapUiSizeCompact .sapMTBSeparator {
+  height: 1.5rem;
+}
 .sapMTBSpacer {
   /* should never have padding/margin/border */
   margin: 0 !important;

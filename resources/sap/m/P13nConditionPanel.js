@@ -17,7 +17,7 @@ sap.ui.define([
 	 * @param {object} [mSettings] initial settings for the new control
 	 * @class The ConditionPanel Control will be used to implement the Sorting, Filtering and Grouping panel of the new Personalization dialog.
 	 * @extends sap.ui.core.Control
-	 * @version 1.36.3
+	 * @version 1.36.4
 	 * @constructor
 	 * @public
 	 * @experimental since version 1.26 !!! THIS CONTROL IS ONLY FOR INTERNAL USE !!!
@@ -1863,7 +1863,7 @@ sap.ui.define([
 			var aValues = oCurrentKeyField.values || this._oTypeValues[sCtrlType] || ["", false, true ];
 			var sTrueValue = aValues[aValues.length - 1].toString();
 			oValue1 = sValue1 === sTrueValue;
-			oValue2 = sValue2 === sTrueValue;
+			oValue2 = null; // for boolean we only support EQ and value2 can be null
 		}
 
 		var bShowIfGrouped = oConditionGrid.showIfGrouped.getSelected();
