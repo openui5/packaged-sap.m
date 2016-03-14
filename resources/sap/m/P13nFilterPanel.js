@@ -17,7 +17,7 @@ sap.ui.define([
 	 * @param {object} [mSettings] initial settings for the new control
 	 * @class The P13nFilterPanel control is used to define filter-specific settings for table personalization.
 	 * @extends sap.m.P13nPanel
-	 * @version 1.32.12
+	 * @version 1.32.13
 	 * @constructor
 	 * @public
 	 * @alias sap.m.P13nFilterPanel
@@ -413,7 +413,6 @@ sap.ui.define([
 
 		this._oIncludeFilterPanel = new P13nConditionPanel({
 			maxConditions: this.getMaxIncludes(),
-			autoAddNewRow: true,
 			alwaysShowAddIcon: false,
 			layoutMode: this.getLayoutMode(),
 			dataChange: this._handleDataChange()
@@ -437,7 +436,6 @@ sap.ui.define([
 		this._oExcludeFilterPanel = new P13nConditionPanel({
 			exclude: true,
 			maxConditions: this.getMaxExcludes(),
-			autoAddNewRow: true,
 			alwaysShowAddIcon: false,
 			layoutMode: this.getLayoutMode(),
 			dataChange: this._handleDataChange()

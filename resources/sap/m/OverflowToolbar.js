@@ -24,7 +24,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/m/ToggleButton', 'sap/ui/c
 		 * @extends sap.ui.core.Toolbar
 		 *
 		 * @author SAP SE
-		 * @version 1.32.12
+		 * @version 1.32.13
 		 *
 		 * @constructor
 		 * @public

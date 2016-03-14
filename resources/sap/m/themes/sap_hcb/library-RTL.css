@@ -461,16 +461,15 @@ html[dir=rtl][data-sap-ui-browser^="ed"] .sapMCrslInner {
 .sapMCrslImg {
   text-align: center;
   height: 100%;
-  -webkit-transform-style: preserve-3d;
-  -moz-transform-style: preserve-3d;
-  transform-style: preserve-3d;
+}
+.sapMCrslImg:before {
+  content: ' ';
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
 }
 .sapMCrslItemTableCell.sapMCrslImg img {
-  position: relative;
-  top: 50%;
-  -webkit-transform: translateY(-50%);
-  -ms-transform: translateY(-50%);
-  transform: translateY(-50%);
+  vertical-align: middle;
 }
 .sapMCrslInner.sapMCrslNoTransition {
   -webkit-transition-duration: 0.01s;
@@ -533,6 +532,36 @@ html[dir=rtl][data-sap-ui-browser^="ed"] .sapMCrslInner {
 .sapMCrsl.sapUiNoContentPadding > .sapMCrslInner > .sapMCrslItem > .sapMScrollCont > .sapMScrollContScroll {
   padding: 0;
 }
+/*
+  Carousel control base styling
+*/
+.sapMCrslControls {
+  padding-top: 0.625rem;
+  text-align: center;
+}
+.sapMCrslControls a {
+  padding: 0.3125rem;
+  -webkit-user-select: none;
+  -moz-user-select: -moz-none;
+  user-select: none;
+  -webkit-user-drag: none;
+  -moz-user-drag: -moz-none;
+  user-drag: none;
+}
+.sapMCrslBulleted.sapMCrslBottomOffset {
+  position: absolute;
+  padding-top: 0;
+  bottom: 0.3125rem;
+  width: 100%;
+  z-index: 10;
+}
+.sapMCrslBulleted.sapMCrslTopOffset {
+  position: absolute;
+  padding-bottom: 0.125rem;
+  width: 100%;
+  z-index: 10;
+  padding-top: 0.1875rem;
+}
 /* Styles needed for keyboard handling
    ========================================================================== */
 .sapMCrslItem {
@@ -547,6 +576,7 @@ html[dir=rtl][data-sap-ui-browser^="ed"] .sapMCrslInner {
 .sapMCb {
   display: inline-block;
   position: relative;
+  white-space: normal;
 }
 .sapMCb .sapMLabel {
   cursor: default;
@@ -1896,7 +1926,6 @@ td.sapUiFormElementLbl > .sapMLabel {
   position: relative;
   /* This should not break the list but help swipe list content position calculation */
   box-sizing: border-box;
-  overflow: hidden;
 }
 .sapMListUl {
   list-style-type: none;
@@ -3669,6 +3698,15 @@ html[dir=rtl][data-sap-ui-browser^="ed"] .sapMOTAPopover.sapMPopover .sapMPopove
 }
 .sapMConditionPanel .sapMCb {
   display: block;
+}
+.sapMConditionPanel .sapMTB {
+  border-bottom: 0px;
+}
+.sapMFilterPanel .sapMPanelWrappingDivTb {
+  border-bottom: 0px;
+}
+.sapMFilterPanel .sapMTB {
+  border-bottom: 0px;
 }
 /* ============================================= */
 /* CSS for control sap.m/P13nDialog.control */
@@ -8311,31 +8349,6 @@ div.sapMBtnInner.sapMBtnEmphasized {
 /* CSS for control sap.m/Carousel.control        */
 /* HCB theme                                     */
 /* ============================================= */
-/* Carousel control base styling */
-.sapMCrslControls {
-  padding-top: 0.625rem;
-  text-align: center;
-}
-.sapMCrslControls a {
-  padding: 0.3125rem;
-  -webkit-user-select: none;
-  -moz-user-select: -moz-none;
-  user-select: none;
-  -webkit-user-drag: none;
-  -moz-user-drag: -moz-none;
-  user-drag: none;
-}
-.sapMCrslBulleted.sapMCrslBottomOffset {
-  position: absolute;
-  padding-top: 0;
-  bottom: 0.3125rem;
-  width: 100%;
-  z-index: 10;
-}
-.sapMCrslBulleted:not(.sapMCrslBottomOffset) {
-  padding-bottom: 0.1875rem;
-  padding-top: 0.125rem;
-}
 /* Carousel controls: Bulleted */
 .sapMCrslBulleted > span {
   text-indent: 2rem;
@@ -8375,6 +8388,7 @@ div.sapMBtnInner.sapMBtnEmphasized {
 .sapMCrslHud a {
   z-index: 2;
   opacity: 0;
+  display: none;
   position: absolute;
   top: calc(46.125%);
   width: 3rem;
@@ -8402,6 +8416,7 @@ div.sapMBtnInner.sapMBtnEmphasized {
 }
 .sapMCrsl:hover .sapMCrslHud a {
   opacity: 1;
+  display: block;
 }
 .sapMCrslHud .sapMCrslHudInner {
   -webkit-border-radius: 50%;
@@ -8460,6 +8475,9 @@ html[dir='rtl'] .sapMCrslNext > .sapMCrslHudInner > .sapUiIcon,
 }
 .sapMCrslItem.sapMCrslBottomOffset {
   padding-bottom: 1.6875rem;
+}
+.sapMCrslItem.sapMCrslTopOffset {
+  padding-top: 1.6875rem;
 }
 /* HCB Additional Styles */
 .sapMCrslHud .sapMCrslHudInner:hover {
@@ -13685,7 +13703,8 @@ html[data-sap-ui-browser^="ie"] .sapMFocus > .sapMSFF::after {
   border-top-left-radius: 0.375rem;
   border-bottom-left-radius: 0.375rem;
 }
-.sapUiSizeCompact .sapMSegBIcons .sapMSegBBtn img {
+.sapUiSizeCompact .sapMSegBIcons .sapMSegBBtn img,
+.sapUiSizeCompact .sapMSegBIcons .sapMSegBBtn .sapUiIcon {
   padding: 0 .5rem;
 }
 .sapUiSizeCompact .sapMSegB img {

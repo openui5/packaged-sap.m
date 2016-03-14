@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.32.12
+	 * @version 1.32.13
 	 *
 	 * @constructor
 	 * @public
@@ -130,6 +130,25 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		}
 	};
 
+	/*
+	 * Remember active state if the button was depressed before re-rendering.
+	 */
+	Button.prototype.onBeforeRendering = function() {
+		this._bRenderActive = this._bActive;
+	};
+
+	/*
+	 * Restore active state if the button was depressed before re-rendering.
+	 * Save _bRenderActive to treate the next mouseup as a tap event.
+	 */
+	Button.prototype.onAfterRendering = function() {
+		if (this._bRenderActive) {
+			this._activeButton();
+			// now, this._bActive may be false if the button was disabled
+			this._bRenderActive = this._bActive;
+		}
+	};
+
 	/**
 	 * Function is called when touchstart occurs on button .
 	 * @param {jQuery.Event} oEvent - the touch event.
@@ -139,6 +158,9 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 
 		// mark the event for components that needs to know if the event was handled by the button
 		oEvent.setMarked();
+		if (this._bRenderActive) {
+			delete this._bRenderActive;
+		}
 
 		// change the source only when the first finger is on the control, the
 		// following fingers doesn't affect
@@ -146,9 +168,6 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 
 			// set active button state
 			this._activeButton();
-
-			// set target which started the event
-			this._target = oEvent.target;
 		}
 	};
 
@@ -157,10 +176,18 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @param {jQuery.Event} oEvent - the touch event.
 	 * @private
 	 */
-	Button.prototype.ontouchend = function() {
+	Button.prototype.ontouchend = function(oEvent) {
 
 		// set inactive button state
 		this._inactiveButton();
+
+		// if the button was re-rendered being in depressed state, the tap event won't come. Simulate it:
+		if (this._bRenderActive) {
+			delete this._bRenderActive;
+			if (oEvent.originalEvent && oEvent.originalEvent.type in {mouseup:1, touchend:1}) {
+				this.ontap(oEvent);
+			}
+		}
 	};
 
 	/**
@@ -186,27 +213,14 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 
 		// fire tap event
 		if (this.getEnabled()) {
-
-			// if target is empty set target (specially for selenium test)
-			if (!this._target) {
-				this._target = oEvent.target;
+			// note: on mobile, the press event should be fired after the focus is on the button
+			if (oEvent.originalEvent && oEvent.originalEvent.type === "touchend") {
+				this.focus();
 			}
 
-			// check if target which started the event is the same
-			if ((!!this._target) && (this._target === oEvent.target)) {
-
-				// note: on mobile, the press event should be fired after the focus is on the button
-				if (oEvent.originalEvent && oEvent.originalEvent.type === "touchend") {
-					this.focus();
-				}
-
-				this.fireTap({/* no parameters */}); // (This event is deprecated, use the "press" event instead)
-				this.firePress({/* no parameters */});
-			}
+			this.fireTap({/* no parameters */}); // (This event is deprecated, use the "press" event instead)
+			this.firePress({/* no parameters */});
 		}
-
-		// reset target which started the event
-		delete this._target;
 	};
 
 	/**
@@ -225,9 +239,6 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 
 			// set active button state
 			this._activeButton();
-
-			// set target which started the event
-			this._target = oEvent.target;
 		}
 	};
 
@@ -238,13 +249,6 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @private
 	 */
 	Button.prototype.onkeyup = function(oEvent) {
-
-		// if keydown isn't caught by button, ignore the keyup.
-		if (!this._target) {
-			return;
-		}
-
-		this._target = null;
 
 		if (oEvent.which === jQuery.sap.KeyCodes.SPACE || oEvent.which === jQuery.sap.KeyCodes.ENTER) {
 
@@ -280,7 +284,8 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		}
 
 		// handling active icon
-		if (this.getEnabled()) {
+		this._bActive = this.getEnabled();
+		if (this._bActive) {
 			if (this.getIcon() && this.getActiveIcon() && this._image) {
 				this._image.setSrc(this.getActiveIcon());
 			}
@@ -298,6 +303,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		}
 
 		// handling active icon
+		this._bActive = false;
 		if (this.getEnabled()) {
 			if (this.getIcon() && this.getActiveIcon() && this._image) {
 				this._image.setSrc(this.getIcon());
