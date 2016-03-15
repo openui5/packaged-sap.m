@@ -258,6 +258,7 @@
 				}
 			};
 
+
 			module("Initial Check", {
 				setup : function () {
 					this.oResourceBundle = sap.ui.getCore().getLibraryResourceBundle("sap.m");
@@ -373,6 +374,40 @@
 
 				//clean
 				jQuery.sap.log.error.restore();
+			});
+
+			test("setFilter count doe not throw an error when filter item type is sap.m.ViewSettingsCustomItem", function () {
+				var done = assert.async(),
+						oVSD = new sap.m.ViewSettingsDialog({
+							filterItems: [
+								new sap.m.ViewSettingsCustomItem({
+									text: "Material",
+									key: "MaterialID",
+									customControl: new sap.m.Input({width: "100%", placeholder: "{i18n>ENTER_FILTER}"})
+								}),
+								new sap.m.ViewSettingsCustomItem({
+									text: "Material Description",
+									key: "MaterialDescription",
+									customControl: new sap.m.Input({width: "100%", placeholder: "{i18n>ENTER_FILTER}"})
+								})
+							],
+							confirm: function () {
+								var oItem0 = oVSD.getFilterItems()[0];
+								oItem0.setFilterCount(1);
+								oItem0.setSelected(true);
+
+								strictEqual(oItem0.getFilterCount(), 1, "To have set filter count properly");
+								strictEqual(oItem0.getSelected(), true, "To set property selected to TRUE");
+
+								oVSD.destroy();
+								oVSD = null;
+								done();
+							}
+						});
+
+				oVSD.open();
+				oVSD._filterList.getItems()[0].firePress();
+				oVSD._dialog.getBeginButton().firePress();
 			});
 
 			module("Performance", {
@@ -1427,8 +1462,6 @@
 			}, delay);
 		});
 
-
-
 		test("Reopening filter detail page of a removed detail with model change - remove single filter", function (assert) {
 			var delay = 1000,
 				done = assert.async(),
@@ -1463,7 +1496,6 @@
 				}, delay);
 			}, delay);
 		});
-
 
 		test("Reopening filter detail page of a removed detail with model change - remove all filters", function (assert) {
 			var delay = 1000,
@@ -1501,7 +1533,7 @@
 			}, delay);
 		});
 
-		test("Reset Button is availabe on second open of the ViewSettinsDialog", function () {
+		test("Reset Button is available on second open of the ViewSettinsDialog", function () {
 			var modelData = this.getFirstModelData();
 			var modelData2 = this.getSecondModelData();
 			var oModel = new sap.ui.model.json.JSONModel();
@@ -1526,18 +1558,376 @@
 			strictEqual(this.oVSD._getSubHeader().getContentRight().length, 1, "Reset Button should be available on page1 when the dialog is opened again");
 		});
 
-			module("Others");
+		test("Reset group items selection on cancel", function () {
+			var delay = 1000,
+				done = assert.async();
 
-			test("customControl is cloned as expected", function(){
-				var oViewSettingsCustomItem = new sap.m.ViewSettingsCustomItem({
-					text     : "SomeText",
-					key      : "SomeKey",
-					customControl : new sap.m.Input()
+			var aGroupItems = [
+				new sap.m.ViewSettingsItem({
+					key: "test1",
+					text: "test1"
+				}),
+				new sap.m.ViewSettingsItem({
+					key: "test2",
+					text: "test2"
+				}),
+				new sap.m.ViewSettingsItem({
+					key: "test3",
+					text: "test3"
+				})];
+
+			aGroupItems.forEach(function (oItem) {
+				this.oVSD.addGroupItem(oItem);
+			}, this);
+			this.oVSD.open();
+			sap.ui.getCore().applyChanges();
+
+			strictEqual(sap.ui.getCore().byId(this.oVSD.getSelectedGroupItem()).getText(), "None", "Should have None button selected");
+
+			this.oVSD.setSelectedGroupItem(aGroupItems[0]);
+			sap.ui.getCore().applyChanges();
+			notStrictEqual(sap.ui.getCore().byId(this.oVSD.getSelectedGroupItem()).getText(), "None", "Should have changed the selection");
+
+			this.oVSD._dialog.getEndButton().firePress();
+			sap.ui.getCore().applyChanges();
+
+			setTimeout(function () {
+				this.oVSD.open();
+				strictEqual(sap.ui.getCore().byId(this.oVSD.getSelectedGroupItem()).getText(), "None", "Previous selection should have been reset");
+				done();
+			}.bind(this), delay);
+		});
+
+		module("Data binding", {
+			setup : function () {
+				this.oVSD = new sap.m.ViewSettingsDialog();
+				this.bindAggregations(this.oVSD);
+
+				this.oVSD.placeAt("content");
+				sap.ui.getCore().applyChanges();
+
+			},
+			teardown : function () {
+				this.oVSD.destroy();
+				this.oVSD = null;
+			},
+			getFirstModelData: function() {
+				return {
+					sortData: [
+						{
+							myKey: "key1",
+							myText: "Sort text 1 A"
+						},
+						{
+							myKey: "key2",
+							myText: "Sort text 2 A"
+						}],
+					groupData: [
+						{
+							myKey: "groupKey1",
+							myText: "Group text A"
+						},
+						{
+							myKey: "groupKey2",
+							myText: "Group text 2 A"
+						}],
+					filterData: [
+						{
+							myKey: "filterKey1",
+							myText: "Filter text A",
+							myItems: [
+								{
+									myKey: 'item1',
+									myText: 'item A'
+								}
+							]
+						},
+						{
+							myKey: "filterKey2",
+							myText: "Filter text 2 A"
+						}]
+				};
+			},
+			getSecondModelData: function() {
+				return{
+					sortData: [
+						{
+							myKey: "key2",
+							myText: "Sort text 1 B"
+						}],
+					groupData: [
+						{
+							myKey: "groupKey2",
+							myText: "Group text B"
+						}],
+					filterData: [
+						{
+							myKey: "filterKey1",
+							myText: "Filter text B",
+							myItems: [
+								{
+									myKey: 'item2',
+									myText: 'item B'
+								}
+							]
+						}]
+				}
+			},
+			bindAggregations: function(oVsdInst) {
+				var template1 = new sap.m.ViewSettingsItem({
+					key: "{myKey}",
+					text: "{myText}"
+				});
+				var template2 = new sap.m.ViewSettingsItem({
+					key: "{myKey}",
+					text: "{myText}"
+				});
+				var template3 = new sap.m.ViewSettingsFilterItem({
+					key: "{myKey}",
+					text: "{myText}",
+					items: {
+						path: 'myItems',
+						template: new sap.m.ViewSettingsItem({
+							key: "{myKey}",
+							text: "{myText}"
+						}),
+						templateShareable: true
+					}
 				});
 
-				var oClone = oViewSettingsCustomItem.clone();
-				ok(!!oClone.getCustomControl(), "Custom control is cloned");
+				var oModel = new sap.ui.model.json.JSONModel();
+				oModel.setData(this.getFirstModelData());
+
+				this.oVSD.setModel(oModel);
+
+				this.oVSD.bindAggregation("sortItems", "/sortData", template1);
+				this.oVSD.bindAggregation("groupItems", "/groupData", template2);
+				this.oVSD.bindAggregation("filterItems", "/filterData", template3);
+			}
+		});
+
+		test("Change sort items in the model", function () {
+			var done = assert.async();
+			this.oVSD.open();
+
+			var aItems = this.oVSD._sortList.getItems();
+			var oItem = aItems[0];
+			var sFirstItemId = oItem.getId();
+			var sTitleSelector = "#" + this.oVSD._getDialog().getId() + " .sapMSLITitleOnly";
+
+			setTimeout(function () {
+				strictEqual(oItem.getTitle(), 'Sort text 1 A', 'Correct item is being asserted.');
+				strictEqual(jQuery("#"+oItem.getId()).length, 1, 'First item is rendered before mode property change.');
+
+				var oSecondData = this.getSecondModelData()['sortData'];
+				this.oVSD.getModel().setProperty('/sortData', oSecondData);
+
+				setTimeout(function () {
+					var aItems = this.oVSD._sortList.getItems();
+					var oItem = aItems[0];
+					var sSecondItemId = oItem.getId();
+
+					strictEqual(oItem.getTitle(), 'Sort text 1 B', 'Correct item is being asserted.');
+					strictEqual(jQuery("#"+sSecondItemId).length, 1, 'Second item is rendered after model property change.');
+					oSecondData.push({
+						myKey: 'test1',
+						myText: 'test1'
+					});{}
+
+					this.oVSD.getModel().setProperty('/sortData', oSecondData);
+
+					strictEqual(jQuery(sTitleSelector).length, 3, 'Starting with four items.');
+					setTimeout(function () {
+						strictEqual(jQuery(sTitleSelector).length, 4, 'Item was successfully added.');
+						oSecondData.unshift({
+							myKey: 'test2',
+							myText: 'test2'
+						});
+						this.oVSD.getModel().setProperty('/sortData', oSecondData);
+						setTimeout(function () {
+							strictEqual(jQuery(sTitleSelector).length, 5, 'Item was successfully inserted.');
+							done();
+						}.bind(this), 1000);
+					}.bind(this), 1000);
+				}.bind(this), 1000);
+
+			}.bind(this), 1000);
+		});
+
+
+		test("Change filter items in the model", function () {
+			var done = assert.async();
+
+			this.oVSD._switchToPage(2);
+			this.oVSD.open();
+
+			var aItems = this.oVSD._filterList.getItems();
+			var oItem = aItems[0];
+			var sFirstItemId = oItem.getId();
+			var sTitleSelector = "#" + this.oVSD._getDialog().getId() + " .sapMSLITitleOnly";
+
+			setTimeout(function () {
+				strictEqual(oItem.getTitle(), 'Filter text A', 'Correct item is being asserted.');
+				strictEqual(jQuery("#"+oItem.getId()).length, 1, 'First item is rendered before mode property change.');
+
+				var oSecondData = this.getSecondModelData()['filterData'];
+				this.oVSD.getModel().setProperty('/filterData', oSecondData);
+
+				setTimeout(function () {
+					var aItems = this.oVSD._filterList.getItems();
+					var oItem = aItems[0];
+					var sSecondItemId = oItem.getId();
+
+					strictEqual(oItem.getTitle(), 'Filter text B', 'Correct item is being asserted.');
+					strictEqual(jQuery("#"+sSecondItemId).length, 1, 'Second item is rendered after model property change.');
+
+					oSecondData.push({
+						myKey: 'test1',
+						myText: 'test1'
+					});{}
+
+					this.oVSD.getModel().setProperty('/filterData', oSecondData);
+
+					strictEqual(jQuery(sTitleSelector).length, 1, 'Starting with one item.');
+					setTimeout(function () {
+						strictEqual(jQuery(sTitleSelector).length, 2, 'Item was successfully added.');
+						oSecondData.unshift({
+							myKey: 'test2',
+							myText: 'test2'
+						});
+						this.oVSD.getModel().setProperty('/filterData', oSecondData);
+						setTimeout(function () {
+							strictEqual(jQuery(sTitleSelector).length, 3, 'Item was successfully inserted.');
+							done();
+						}, 1000);
+					}.bind(this), 1000);
+				}.bind(this), 1000);
+
+			}.bind(this), 1000);
+		});
+
+
+
+		test("Change filter detail items in the model", function () {
+			var done = assert.async();
+
+			this.oVSD.open();
+
+			this.oVSD._getPage2().getCustomHeader().getContentMiddle()
+
+			jQuery.sap.delayedCall(0, this.oVSD._navContainer, "to", [this.oVSD.getId() + '-page2', "show"]);
+			this.oVSD._switchToPage(3, this.oVSD.getFilterItems()[0]);
+
+			var aItems = this.oVSD._filterDetailList.getItems();
+			var oItem = aItems[0];
+			var sFirstItemId = oItem.getId();
+			var sTitleSelector = "#" + this.oVSD._getDialog().getId() + " .sapMSLITitleOnly";
+
+
+			setTimeout(function () {
+				strictEqual(oItem.getTitle(), 'item A', 'Correct item is being asserted.');
+				strictEqual(jQuery("#"+oItem.getId()).length, 1, 'First item is rendered before mode property change.');
+
+				var oSecondData = this.getSecondModelData()['filterData'];
+				this.oVSD.getModel().setProperty('/filterData', oSecondData);
+
+				setTimeout(function () {
+					var aItems = this.oVSD._filterDetailList.getItems();
+					var oItem = aItems[0];
+					var sSecondItemId = oItem.getId();
+
+					strictEqual(oItem.getTitle(), 'item B', 'Correct item is being asserted.');
+					strictEqual(jQuery("#"+sSecondItemId).length, 1, 'Second item is rendered after model property change.');
+
+					strictEqual(this.oVSD._getPage2().getCustomHeader().getContentMiddle()[0].getText(), "Filter By: Filter text B", 'Title correctly changed in the header.');
+
+					oSecondData[0].myItems.push({
+						myKey: 'test1',
+						myText: 'test1'
+					});
+
+					this.oVSD.getModel().setProperty('/filterData', oSecondData);
+
+					setTimeout(function () {
+						strictEqual(jQuery(sTitleSelector).length, 2, 'Item was successfully added.');
+						oSecondData[0].myItems.unshift({
+							myKey: 'test2',
+							myText: 'test2'
+						});
+						this.oVSD.getModel().setProperty('/filterData', oSecondData);
+						setTimeout(function () {
+							strictEqual(jQuery(sTitleSelector).length, 3, 'Item was successfully inserted.');
+							done();
+						}, 1000);
+					}.bind(this), 1000);
+				}.bind(this), 1000);
+			}.bind(this), 1000);
+		});
+
+
+		test("Change group items in the model", function () {
+			var done = assert.async();
+
+			this.oVSD._switchToPage(1);
+			this.oVSD.open();
+
+			var aItems = this.oVSD._groupList.getItems();
+			var oItem = aItems[0];
+			var sFirstItemId = oItem.getId();
+			var sTitleSelector = "#" + this.oVSD._getDialog().getId() + " .sapMSLITitleOnly";
+
+			setTimeout(function () {
+				strictEqual(oItem.getTitle(), 'Group text A', 'Correct item is being asserted.');
+				strictEqual(jQuery("#"+oItem.getId()).length, 1, 'First item is rendered before mode property change.');
+
+				var oSecondData = this.getSecondModelData()['groupData'];
+				this.oVSD.getModel().setProperty('/groupData', oSecondData);
+
+				setTimeout(function () {
+					var aItems = this.oVSD._groupList.getItems();
+					var oItem = aItems[0];
+					var sSecondItemId = oItem.getId();
+
+					strictEqual(oItem.getTitle(), 'Group text B', 'Correct item is being asserted.');
+					strictEqual(jQuery("#"+sSecondItemId).length, 1, 'Second item is rendered after model property change.');
+
+					oSecondData.push({
+						myKey: 'test1',
+						myText: 'test1'
+					});{}
+
+					this.oVSD.getModel().setProperty('/groupData', oSecondData);
+
+					strictEqual(jQuery(sTitleSelector).length, 4, 'Starting with four items.');
+
+					setTimeout(function () {
+						strictEqual(jQuery(sTitleSelector).length, 5, 'Item was successfully added.');
+						oSecondData.unshift({
+							myKey: 'test2',
+							myText: 'test2'
+						});
+						this.oVSD.getModel().setProperty('/groupData', oSecondData);
+						setTimeout(function () {
+							strictEqual(jQuery(sTitleSelector).length, 6, 'Item was successfully inserted.');
+							done();
+						}, 1000);
+					}.bind(this), 1000);
+				}.bind(this), 1000);
+			}.bind(this), 1000);
+		});
+
+
+		module("Others");
+		test("customControl is cloned as expected", function(){
+			var oViewSettingsCustomItem = new sap.m.ViewSettingsCustomItem({
+				text     : "SomeText",
+				key      : "SomeKey",
+				customControl : new sap.m.Input()
 			});
+
+			var oClone = oViewSettingsCustomItem.clone();
+			ok(!!oClone.getCustomControl(), "Custom control is cloned");
+		});
 		</script>
 	</head>
 	<body id="body" class="sapUiBody">
