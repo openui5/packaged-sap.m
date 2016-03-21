@@ -22,7 +22,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.36.4
+	 * @version 1.36.5
 	 *
 	 * @constructor
 	 * @public
@@ -224,7 +224,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 			return;
 		}
 
-		var $Items = $This.parent().find(".sapMLIB");
+		var $Items = $This.parent().children(".sapMLIB");
 		$This.attr(jQuery.extend({
 			"aria-setsize": $Items.length,
 			"aria-posinset": $Items.index($This) + 1

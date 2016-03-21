@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './Popov
 		 * @extends sap.ui.core.Control
 		 *
 		 * @author SAP SE
-		 * @version 1.36.4
+		 * @version 1.36.5
 		 *
 		 * @constructor
 		 * @public
@@ -533,7 +533,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './Popov
 				oPicker = new Popover({
 				showArrow: false,
 				showHeader: false,
-				placement: sap.m.PlacementType.Vertical,
+				placement: sap.m.PlacementType.VerticalPreferredBottom,
 				offsetX: 0,
 				offsetY: 0,
 				initialFocus: this,

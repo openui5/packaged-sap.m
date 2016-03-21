@@ -20,7 +20,7 @@ function(jQuery, library, Control, IconPool, Toolbar, CheckBox, SearchField) {
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.36.4
+	 * @version 1.36.5
 	 *
 	 * @constructor
 	 * @public
@@ -267,6 +267,10 @@ function(jQuery, library, Control, IconPool, Toolbar, CheckBox, SearchField) {
 			this._ariaSortOrderInvisibleText = null;
 		}
 
+		if (this._oGroupingNoneItem) {
+			this._oGroupingNoneItem.destroy();
+			this._oGroupingNoneItem = null;
+		}
 		if (this._groupList) {
 			this._groupList.destroy();
 			this._groupList = null;
@@ -442,10 +446,11 @@ function(jQuery, library, Control, IconPool, Toolbar, CheckBox, SearchField) {
 
 		// Attach 'itemPropertyChaged' handler, that will re-initiate (specific) dialog content
 		oObject.attachEvent('itemPropertyChanged', function (sAggregationName, oEvent) {
-			/* If the the changed item was a filter item, but not an instance of 'sap.m.ViewSettingsFilterItem'
+			/* If the the changed item was a 'sap.m.ViewSettingsItem'
 			 * then threat it differently as filter detail item.
 			 * */
-			if (sAggregationName === 'filterItems' && !(oEvent.getParameter('changedItem') instanceof sap.m.ViewSettingsFilterItem)) {
+			if (sAggregationName === 'filterItems' &&
+				oEvent.getParameter('changedItem').getMetadata().getName() === 'sap.m.ViewSettingsItem') {
 				// handle the select differently
 				if (oEvent.getParameter('propertyKey') !== 'selected') {
 					// if on filter details page for a concrete filter item
@@ -979,10 +984,10 @@ function(jQuery, library, Control, IconPool, Toolbar, CheckBox, SearchField) {
 				contentWidth        : this._sDialogWidth,
 				contentHeight       : this._sDialogHeight,
 				content             : this._getNavContainer(),
-				beginButton         : new sap.m.Button({
+				beginButton         : new sap.m.Button(this.getId() + "-acceptbutton", {
 					text : this._rb.getText("VIEWSETTINGS_ACCEPT")
 				}).attachPress(this._onConfirm, this),
-				endButton           : new sap.m.Button({
+				endButton           : new sap.m.Button(this.getId() + "-cancelbutton", {
 					text : this._rb.getText("VIEWSETTINGS_CANCEL")
 				}).attachPress(this._onCancel, this)
 			}).addStyleClass("sapMVSD");
@@ -1406,28 +1411,47 @@ function(jQuery, library, Control, IconPool, Toolbar, CheckBox, SearchField) {
 	 * Create list item instance for each group item.
 	 * @private
 	 */
-	ViewSettingsDialog.prototype._initGroupItems = function() {
-		var aGroupItems,
-		    oListItem;
+	ViewSettingsDialog.prototype._initGroupItems = function () {
+		var oListItem,
+			bHasSelections,
+			aGroupItems = this.getGroupItems();
+
 		this._groupList.removeAllItems();
-		aGroupItems = this.getGroupItems();
-		if (aGroupItems.length) {
-			aGroupItems.forEach(function(oItem) {
+
+		if (!!aGroupItems.length) {
+			aGroupItems.forEach(function (oItem) {
 				oListItem = new sap.m.StandardListItem({
-					title : oItem.getText(),
-					type : sap.m.ListType.Active,
-					selected : oItem.getSelected()
+					title: oItem.getText(),
+					type: sap.m.ListType.Active,
+					selected: oItem.getSelected()
 				}).data("item", oItem);
 				this._groupList.addItem(oListItem);
 			}, this);
-		}
-		// add none item to group list
-		if (aGroupItems.length) {
+
+			if (!this._oGroupingNoneItem || this._oGroupingNoneItem.bIsDestroyed) {
+				bHasSelections = !!this.getSelectedGroupItem();
+				this._oGroupingNoneItem = new sap.m.ViewSettingsItem({
+					text: this._rb.getText("VIEWSETTINGS_NONE_ITEM"),
+					selected: !bHasSelections,
+					/**
+					 * Set properly selections. ViewSettingsItem-s are attached
+					 * to that listener when addAggregation is executed
+					 */
+					itemPropertyChanged: function () {
+						this._initGroupContent();
+						this._initGroupItems();
+					}.bind(this)
+				});
+
+				!bHasSelections && this.setAssociation("selectedGroupItem", this._oGroupingNoneItem, true);
+			}
+
+			// Append the None button to the list
 			oListItem = new sap.m.StandardListItem({
-				title : this._rb.getText("VIEWSETTINGS_NONE_ITEM"),
-				type : sap.m.ListType.Active,
-				selected : !!this.getSelectedGroupItem()
-			});
+				title: this._oGroupingNoneItem.getText(),
+				type: sap.m.ListType.Active,
+				selected: this._oGroupingNoneItem.getSelected()
+			}).data("item", this._oGroupingNoneItem);
 			this._groupList.addItem(oListItem);
 		}
 	};
@@ -1473,9 +1497,14 @@ function(jQuery, library, Control, IconPool, Toolbar, CheckBox, SearchField) {
 			{
 				mode : sap.m.ListMode.SingleSelectLeft,
 				includeItemInSelection : true,
-				selectionChange : function(oEvent) {
-					var item = oEvent.getParameter("listItem").data("item");
-					if (item) {
+				selectionChange: function (oEvent) {
+					var oSelectedGroupItem = sap.ui.getCore().byId(that.getSelectedGroupItem()),
+						item = oEvent.getParameter("listItem").data("item");
+
+					if (!!item) {
+						if (!!oSelectedGroupItem) {
+							oSelectedGroupItem.setSelected(!oEvent.getParameter("listItem").getSelected());
+						}
 						item.setProperty('selected', oEvent.getParameter("listItem").getSelected(), true);
 					}
 					that.setAssociation("selectedGroupItem", item, true);

@@ -105,7 +105,8 @@
 				ok(jQuery.sap.domById("qunit-header"), "Page content should be rendered");
 				ok(jQuery.sap.byId("myFirstPage-intHeader").is("header"), "header should be rendered as header tag");
 				ok(jQuery.sap.byId("myFooter").is("footer"), "footer should be rendered as footer tag");
-				equal (parseInt(jQuery.sap.byId("mySubHeader").position().top, 10), parseInt((jQuery.sap.byId("myFirstPage-intHeader").position().top + jQuery.sap.byId("myFirstPage-intHeader").outerHeight()), 10), "subHeader should be directly below header");
+				ok(parseInt(jQuery.sap.byId("mySubHeader").position().top, 10) >= parseInt(jQuery.sap.byId("myFirstPage-intHeader").position().top, 10) + parseInt(jQuery.sap.byId("myFirstPage-intHeader").outerHeight(), 10),
+							"subHeader should be directly below header");
 				ok(jQuery.sap.byId("myFirstPage-intHeader").hasClass("sapMHeader-CTX"), "header should contain header context");
 				ok(!jQuery.sap.byId("mySubHeader").hasClass("sapMHeader-CTX"), "subHeader should not contain header context");
 				ok(jQuery.sap.byId("myFooter").hasClass("sapMFooter-CTX"), "footer should contain footer context");
@@ -120,7 +121,9 @@
 				oPage.setBackgroundDesign("Transparent");
 				ok(jQuery.sap.byId("myFirstPage").hasClass("sapMPageBgTransparent"), "Page content should be transparent");
 
-				var transparentCssString = (sap.ui.Device.browser.firefox || sap.ui.Device.browser.internet_explorer) ? "transparent" : "rgba(0, 0, 0, 0)"
+				var transparentCssString = (sap.ui.Device.browser.firefox ||
+                                    sap.ui.Device.browser.internet_explorer ||
+                                    sap.ui.Device.browser.edge) ? "transparent" : "rgba(0, 0, 0, 0)"
 				equal(jQuery.sap.byId("myFirstPage-cont").css("background-color"), transparentCssString, "Page content should be transparent");
 			});
 

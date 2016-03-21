@@ -18,7 +18,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/T
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.36.4
+	 * @version 1.36.5
 	 * @since 1.34
 	 *
 	 * @public
@@ -424,6 +424,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/T
 	 * @returns {String} The tooltip and ARIA label text
 	 */
 	GenericTile.prototype._getAriaAndTooltipText = function() {
+		var sTooltip;
 		switch (this.getState()) {
 			case sap.m.LoadState.Disabled :
 				return "";
@@ -432,7 +433,12 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/T
 			case sap.m.LoadState.Failed :
 				return this._oFailedText.getText();
 			default :
-				return (this.getTooltip_AsString() && !this._isTooltipSuppressed()) ? this.getTooltip_AsString() : (this._getHeaderAriaAndTooltipText() + "\n" + this._getContentAriaAndTooltipText());
+				sTooltip = (this.getTooltip_AsString() && !this._isTooltipSuppressed()) ? this.getTooltip_AsString() : (this._getHeaderAriaAndTooltipText() + "\n" + this._getContentAriaAndTooltipText());
+				if (jQuery.trim(sTooltip).length === 0) { // If the string is empty or just whitespace, IE renders an empty tooltip (e.g. "" + "\n" + "")
+					return "";
+				} else {
+					return sTooltip;
+				}
 		}
 	};
 
