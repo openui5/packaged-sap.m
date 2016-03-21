@@ -497,6 +497,7 @@ html[dir=rtl][data-sap-ui-browser^="ed"] .sapMCrslInner {
 .sapMCb {
   display: inline-block;
   position: relative;
+  white-space: normal;
 }
 .sapMCbBg {
   height: 2rem;
