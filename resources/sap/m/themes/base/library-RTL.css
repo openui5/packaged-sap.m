@@ -465,6 +465,8 @@ html[dir=rtl][data-sap-ui-browser^="ed"] .sapMCrslInner {
 }
 .sapMCrslItemTableCell.sapMCrslImg img {
   vertical-align: middle;
+  max-width: 100%;
+  max-height: 100%;
 }
 .sapMCrslInner.sapMCrslNoTransition {
   -webkit-transition-duration: 0.01s;
@@ -754,7 +756,7 @@ html[dir=rtl] .sapMDTICustomDateTime .dwc:last-child {
 .sapMDialogScroll {
   display: inline-block;
   /*this is for horizontal scrolling enablement */
-  min-height: 100%;
+  height: 100%;
   width: 100%;
   vertical-align: middle;
 }
@@ -791,6 +793,7 @@ html[dir=rtl] .sapMDTICustomDateTime .dwc:last-child {
 }
 .sapUiPopupWithPadding .sapMDialogScrollCont {
   padding: 1rem;
+  height: calc(100% - 2 *  1rem);
 }
 /* messagedialog always has content padding */
 .sapMMessageDialog .sapMDialogScrollCont {
@@ -1073,12 +1076,12 @@ html[dir=rtl] .sapMDTICustomDateTime .dwc:last-child {
   user-select: none;
 }
 .sapMDialogResizeHandler {
-  bottom: -0.5rem;
+  bottom: 0;
   cursor: sw-resize;
-  height: 1rem;
+  height: .5rem;
   position: absolute;
-  left: -0.5rem;
-  width: 1rem;
+  left: 0rem;
+  width: .5rem;
   z-index: 2;
 }
 .sapMDialogResizeHandler:before {
@@ -3130,6 +3133,9 @@ html[dir=rtl][data-sap-ui-browser^=ed].sap-desktop .sapMOHRStatesOneOrThree > .s
   width: 30%;
   box-sizing: border-box;
 }
+html[data-sap-ui-os^="Android"] .sapMOHR .sapMObjectNumberUnit {
+  padding-top: 0.25rem;
+}
 .sap-desktop.sapUiMedia-Std-Tablet .sapMOHR .sapMObjectNumber,
 .sap-tablet .sapMOHR .sapMObjectNumber {
   width: 35%;
@@ -3546,6 +3552,9 @@ html[data-sap-ui-browser="ie9"] li.sapMLIB.sapMLIBNoFlex.sapMObjLItem > .sapMLIB
   max-width: 100%;
   vertical-align: middle;
   padding-top: 0.125rem;
+}
+html[data-sap-ui-os^="Android"] .sapMObjectNumberUnit {
+  padding-top: 0;
 }
 /* ============================================= */
 /* CSS for control sap.m/ObjectStatus.control */

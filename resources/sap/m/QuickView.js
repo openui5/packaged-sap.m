@@ -28,7 +28,7 @@ sap.ui.define([
 	 * @extends sap.m.QuickViewBase
 	 *
 	 * @author SAP SE
-	 * @version 1.32.13
+	 * @version 1.32.14
 	 *
 	 * @constructor
 	 * @public
@@ -217,6 +217,7 @@ sap.ui.define([
 
 		// Update pages only if items aggregation is changed
 		if (this._bItemsChanged) {
+			this._clearContainerHeight();
 			this._initPages();
 
 			// add a close button on phone devices when there are no pages
@@ -291,6 +292,15 @@ sap.ui.define([
 
 		oPage.addStyleClass('sapMQuickViewPage');
 		this._oNavContainer.addPage(oPage);
+	};
+
+	QuickView.prototype._clearContainerHeight = function() {
+		var oPopupControl = this._oPopover.getAggregation("_popup");
+		var $container = oPopupControl.$().find('.sapMPopoverCont');
+
+		if ($container[0] && $container[0].style.height) {
+			$container[0].style.height = '';
+		}
 	};
 
 	/**

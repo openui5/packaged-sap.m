@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @class
 	 * ObjectHeader is a display control that enables the user to easily identify a specific object. The object header title is the key identifier of the object and additional text and icons can be used to further distinguish it from other objects.
 	 * @extends sap.ui.core.Control
-	 * @version 1.32.13
+	 * @version 1.32.14
 	 *
 	 * @constructor
 	 * @public
@@ -59,7 +59,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 			introActive : {type : "boolean", group : "Misc", defaultValue : null},
 
 			/**
-			 * Indicates that the title is clickable
+			 * Indicates that the title is clickable and is set only if a title is provided
 			 */
 			titleActive : {type : "boolean", group : "Misc", defaultValue : null},
 
@@ -309,8 +309,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	}});
 
 	ObjectHeader.prototype.init = function() {
-		var that = this,
-			oLibraryResourceBundle = sap.ui.getCore().getLibraryResourceBundle("sap.m"); // get resource translation bundle;
+		var oLibraryResourceBundle = sap.ui.getCore().getLibraryResourceBundle("sap.m"); // get resource translation bundle;
 
 		//TODO Remove placeholder when Safari iconFont issue is addressed.
 		this._oPlaceholderIcon = IconPool.createControlByURI({
@@ -342,9 +341,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 			tooltip: oLibraryResourceBundle.getText("OH_SELECT_ARROW_TOOLTIP"),
 			size: "1.375rem",
 			press : function(oEvent) {
-				that.fireTitleSelectorPress({
-					domRef : this.getDomRef()
-				});
+				// empty function here becuase icon needs an event handler in order to show pointer cursor
 			}
 		});
 
@@ -560,6 +557,10 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 			}
 		} else if (this.getIconActive() && (sSourceId === this.getId() + "-img" || sSourceId === this.getId() + "-icon")) {
 			this.fireIconPress({
+				domRef : jQuery.sap.domById(sSourceId)
+			});
+		} else if (sSourceId === this.getId() + "-titleArrow") {
+			this.fireTitleSelectorPress({
 				domRef : jQuery.sap.domById(sSourceId)
 			});
 		}

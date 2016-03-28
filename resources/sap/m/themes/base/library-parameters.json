@@ -280,6 +280,7 @@
     "sapUiEscapedEmptyString": "",
     "SapBarHeight": "3rem",
     "SapBarCompactHeight": "2.5rem",
+    "SapDialogPadding": "1rem",
     "sapMShellAppWidthLimit": "1280px",
     "sapMShellAppWidthLimitBy2": "640px",
     "sapMShellAppHeight": "3333px",
