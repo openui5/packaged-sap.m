@@ -22,7 +22,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Button', './InstanceManager', '.
 		 * @implements sap.ui.core.PopupInterface
 		 *
 		 * @author SAP SE
-		 * @version 1.34.9
+		 * @version 1.34.10
 		 *
 		 * @constructor
 		 * @public
@@ -286,6 +286,9 @@ sap.ui.define(['jquery.sap.global', './Bar', './Button', './InstanceManager', '.
 			this._offsets = ["0 -18", "18 0", "0 18", "-18 0"];
 
 			this._arrowOffset = 18;
+			if (sap.m._bSizeCompact || !!document.querySelector('.sapUiSizeCompact')) {
+				this._arrowOffset = 9;
+			}
 
 			this._followOfTolerance = 32;
 
@@ -632,7 +635,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Button', './InstanceManager', '.
 				}
 
 				// Set compact style class if the referenced DOM element is compact too
-				this.toggleStyleClass("sapUiSizeCompact", !!jQuery(oParentDomRef).closest(".sapUiSizeCompact").length);
+				this.toggleStyleClass("sapUiSizeCompact", sap.m._bSizeCompact || !!document.querySelector('.sapUiSizeCompact'));
 
 				oPopup.setAutoCloseAreas([oParentDomRef]);
 				oPopup.setContent(this);
@@ -1664,6 +1667,11 @@ sap.ui.define(['jquery.sap.global', './Bar', './Button', './InstanceManager', '.
 
 				this._arrowOffset = 18;
 				this._offsets = ["0 -18", "18 0", "0 18", "-18 0"];
+
+				if (sap.m._bSizeCompact || !!document.querySelector('.sapUiSizeCompact')) {
+					this._arrowOffset = 9;
+					this._offsets = ["0 -9", "9 0", "0 9", "-9 0"];
+				}
 
 				this._myPositions = ["center bottom", "begin center", "center top", "end center"];
 				this._atPositions = ["center top", "end center", "center bottom", "begin center"];

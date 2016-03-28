@@ -37,7 +37,7 @@ sap.ui.define([
 			* @extends sap.ui.core.Control
 			*
 			* @author SAP SE
-			* @version 1.34.9
+			* @version 1.34.10
 			*
 			* @constructor
 			* @public
@@ -543,6 +543,9 @@ sap.ui.define([
 					this._bItemsChanged = true;
 
 					mNavContext.popover.focus();
+
+					mNavContext.quickView._clearContainerHeight();
+
 					this._createPage();
 					mNavContext.quickView._restoreFocus();
 				}

@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.34.9
+	 * @version 1.34.10
 	 *
 	 * @constructor
 	 * @public
@@ -176,7 +176,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * TODO: write two different functions for two different behaviour
 	 */
 	InputBase.prototype._getInputValue = function(sValue) {
-		sValue = (sValue === undefined) ? this.$("inner").val() : sValue.toString();
+		sValue = (sValue === undefined) ? this.$("inner").val() || "" : sValue.toString();
 
 		if (this.getMaxLength && this.getMaxLength() > 0) {
 			sValue = sValue.substring(0, this.getMaxLength());
@@ -849,7 +849,6 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 
 		var mDock = Popup.Dock;
 		var $Input = this.$("inner");
-		var bIsRightAligned = $Input.css("text-align") === "right";
 		var sClass = "sapMInputBaseMessage sapMInputBaseMessage" + sState;
 		var sTextClass = "sapMInputBaseMessageText";
 		var oRB = sap.ui.getCore().getLibraryResourceBundle("sap.m");
@@ -881,8 +880,8 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		this._popup.close(0);
 		this._popup.open(
 			this.iOpenMessagePopupDuration,
-			bIsRightAligned ? mDock.EndTop : mDock.BeginTop,
-			bIsRightAligned ? mDock.EndBottom : mDock.BeginBottom,
+			mDock.BeginTop,
+			mDock.BeginBottom,
 			this.getDomRefForValueStateMessage(),
 			null,
 			null,
@@ -897,7 +896,6 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		}
 
 		$Input.addAriaDescribedBy(sMessageId);
-
 	};
 
 	InputBase.prototype.updateValueStateClasses = function(sValueState, sOldValueState) {
@@ -1086,7 +1084,6 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 				oDescribedByDomRef.textContent = sAnnouncement;
 			}
 		}
-
 		return this;
 	};
 
