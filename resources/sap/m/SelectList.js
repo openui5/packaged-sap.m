@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		 * @extends sap.ui.core.Control
 		 *
 		 * @author SAP SE
-		 * @version 1.28.31
+		 * @version 1.28.32
 		 *
 		 * @constructor
 		 * @public
@@ -221,6 +221,8 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 			// track coordinates of the touch point
 			this._fStartX = 0;
 			this._fStartY = 0;
+
+			this.enableKeyboardNavigation = true;
 		};
 
 		/**
@@ -236,7 +238,9 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		 *
 		 */
 		SelectList.prototype.onAfterRendering = function() {
-			this.createItemNavigation();
+			if (this.enableKeyboardNavigation) {
+				this.createItemNavigation();
+			}
 		};
 
 		/**
