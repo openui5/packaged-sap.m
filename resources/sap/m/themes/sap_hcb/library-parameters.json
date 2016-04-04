@@ -338,6 +338,7 @@
     "SapDialogMarginHeight": "7%",
     "SapBarHeight": "3rem",
     "SapBarCompactHeight": "2.5rem",
+    "SapDialogPadding": "1rem",
     "leftPaddingSpace": "1.5rem",
     "containerPadding": "1rem",
     "closeButtonSize": "2.5rem",

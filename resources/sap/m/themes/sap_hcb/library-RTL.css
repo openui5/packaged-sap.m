@@ -716,6 +716,8 @@ html[dir=rtl][data-sap-ui-browser^="ed"] .sapMCrslInner {
 }
 .sapMCrslItemTableCell.sapMCrslImg img {
   vertical-align: middle;
+  max-width: 100%;
+  max-height: 100%;
 }
 .sapMCrslInner.sapMCrslNoTransition {
   -webkit-transition-duration: 0.01s;
@@ -934,6 +936,9 @@ html[dir=rtl] .sapMDTICustomDateTime .dwc:last-child {
   -ms-filter: blur(0);
   filter: blur(0);
 }
+html[data-sap-ui-browser^="ie9"] .sapMDialog:not(.sapMDialogHighPixelDensity) {
+  filter: none;
+}
 [dir="rtl"] .sapMDialog {
   right: 50%;
   left: auto !important;
@@ -1053,7 +1058,7 @@ html[dir=rtl] .sapMDTICustomDateTime .dwc:last-child {
 .sapMDialogScroll {
   display: inline-block;
   /*this is for horizontal scrolling enablement */
-  min-height: 100%;
+  height: 100%;
   width: 100%;
   vertical-align: middle;
 }
@@ -1090,6 +1095,7 @@ html[dir=rtl] .sapMDTICustomDateTime .dwc:last-child {
 }
 .sapUiPopupWithPadding .sapMDialogScrollCont {
   padding: 1rem;
+  height: calc(100% - 2 *  1rem);
 }
 /* messagedialog always has content padding */
 .sapMMessageDialog .sapMDialogScrollCont {
@@ -1118,9 +1124,9 @@ html[dir=rtl] .sapMDTICustomDateTime .dwc:last-child {
 }
 .sapMDialogOpen {
   opacity: 1;
-  transform: translate3d(50%, -50%, 0) scale(1);
-  -ms-transform: translate3d(50%, -50%, 0) scale(1);
-  -webkit-transform: translate3d(50%, -50%, 0) scale(1);
+  transform: translate(50%, -50%) scale(1);
+  -ms-transform: translate(50%, -50%) scale(1);
+  -webkit-transform: translate(50%, -50%) scale(1);
 }
 .sapMDialogBlockLayerAnimation {
   position: absolute;
@@ -1300,12 +1306,12 @@ html[dir=rtl] .sapMDTICustomDateTime .dwc:last-child {
   -webkit-transition: none;
 }
 .sapMDialogResizeHandler {
-  bottom: -0.5rem;
+  bottom: 0;
   cursor: sw-resize;
-  height: 1rem;
+  height: .5rem;
   position: absolute;
-  left: -0.5rem;
-  width: 1rem;
+  left: 0rem;
+  width: .5rem;
   z-index: 2;
 }
 .sapMDialogResizeHandler:before {
@@ -4491,6 +4497,9 @@ html[dir=rtl][data-sap-ui-browser^=ed].sap-desktop .sapMOHRStatesOneOrThree > .s
   width: 30%;
   box-sizing: border-box;
 }
+html[data-sap-ui-os^="Android"] .sapMOHR .sapMObjectNumberUnit {
+  padding-top: 0.25rem;
+}
 .sap-desktop.sapUiMedia-Std-Tablet .sapMOHR .sapMObjectNumber,
 .sap-tablet .sapMOHR .sapMObjectNumber {
   width: 35%;
@@ -4658,6 +4667,12 @@ html[data-sap-ui-os=win8].sap-desktop.sapUiMedia-Std-Phone .sapMOHRTabs .sapMITB
   overflow: hidden;
   position: relative;
   white-space: nowrap;
+}
+html.sap-phone .sapMOHR .sapMITBHead {
+  display: inline-block;
+  margin: 1rem 0 0;
+  vertical-align: top;
+  padding: 0;
 }
 .sapMOHR .sapMPI {
   margin: 0;
@@ -4907,6 +4922,9 @@ html[data-sap-ui-browser="ie9"] li.sapMLIB.sapMLIBNoFlex.sapMObjLItem > .sapMLIB
   max-width: 100%;
   vertical-align: middle;
   padding-top: 0.125rem;
+}
+html[data-sap-ui-os^="Android"] .sapMObjectNumberUnit {
+  padding-top: 0;
 }
 /* ============================================= */
 /* CSS for control sap.m/ObjectStatus.control */
@@ -11600,7 +11618,7 @@ li.sapMLIB.sapMFeedListItemTitleDiv.sapMLIBNoFlex > .sapMLIBContent > .sapMLIBCo
   position: relative;
   white-space: nowrap;
 }
-.sap-phone .sapMITBHead {
+html.sap-phone .sapMITB .sapMITBHead {
   display: inline-block;
   margin: 1rem 0 0;
   vertical-align: top;
@@ -11826,6 +11844,9 @@ html[dir=rtl] .sapMITBTextOnly .sapMITBTab {
   position: relative;
   text-align: left;
   top: 0.4375rem;
+}
+html[dir='rtl'] .sapMITBHorizontal.sapMITBFilter > .sapMITBHorizontalWrapper > .sapMITBCount {
+  text-align: right;
 }
 .sapMITBHorizontal.sapMITBFilter > .sapMITBTab {
   display: inline-block;
@@ -14643,6 +14664,9 @@ li.sapMLIB.sapMLIBNoFlex.sapMObjLItem > .sapMLIBContent > .sapMLIBContentNF .sap
 /* ========================================== */
 .sapMObjectNumberUnit {
   font-size: 0.75rem;
+}
+.sapMObjectNumberText {
+  font-size: 0.875rem;
 }
 .sapMLIBActive .sapMObjectNumber {
   color: #ffffff;

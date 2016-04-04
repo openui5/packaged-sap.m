@@ -20,7 +20,7 @@ function(jQuery, library, Control, IconPool, Toolbar, CheckBox, SearchField) {
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.36.5
+	 * @version 1.36.6
 	 *
 	 * @constructor
 	 * @public
@@ -1318,7 +1318,7 @@ function(jQuery, library, Control, IconPool, Toolbar, CheckBox, SearchField) {
 
 		if (bMultiSelectMode) {
 			this._filterSearchField = this._getFilterSearchField(this._filterDetailList);
-			this._selectAllCheckBox = this._getSelectAllCheckbox(aSubFilters, this._filterDetailList);
+			this._selectAllCheckBox = this._createSelectAllCheckbox(aSubFilters, this._filterDetailList);
 			this._getPage2().addContent(this._filterSearchField.addStyleClass('sapMVSDFilterSearchField'));
 			this._filterDetailList.setHeaderToolbar(new Toolbar({
 				content: [ this._selectAllCheckBox ]
@@ -1498,16 +1498,8 @@ function(jQuery, library, Control, IconPool, Toolbar, CheckBox, SearchField) {
 				mode : sap.m.ListMode.SingleSelectLeft,
 				includeItemInSelection : true,
 				selectionChange: function (oEvent) {
-					var oSelectedGroupItem = sap.ui.getCore().byId(that.getSelectedGroupItem()),
-						item = oEvent.getParameter("listItem").data("item");
-
-					if (!!item) {
-						if (!!oSelectedGroupItem) {
-							oSelectedGroupItem.setSelected(!oEvent.getParameter("listItem").getSelected());
-						}
-						item.setProperty('selected', oEvent.getParameter("listItem").getSelected(), true);
-					}
-					that.setAssociation("selectedGroupItem", item, true);
+					var item = oEvent.getParameter("listItem").data("item");
+					that.setSelectedGroupItem(item);
 				},
 				ariaLabelledBy: this._ariaGroupListInvisibleText
 			});
@@ -2099,10 +2091,18 @@ function(jQuery, library, Control, IconPool, Toolbar, CheckBox, SearchField) {
 	 * @returns {sap.m.CheckBox} A checkbox instance
 	 * @private
 	 */
-	ViewSettingsDialog.prototype._getSelectAllCheckbox = function(aFilterSubItems, oFilterDetailList) {
+	ViewSettingsDialog.prototype._createSelectAllCheckbox = function(aFilterSubItems, oFilterDetailList) {
+		var bAllSelected = false;
+
+		if (aFilterSubItems && aFilterSubItems.length !== 0) {
+			bAllSelected = aFilterSubItems.every(function (oItem) {
+				return oItem.getSelected();
+			});
+		}
+
 		var oSelectAllCheckBox = new CheckBox({
-			text: 'Select All',
-			selected: aFilterSubItems.every(function(oItem) { return oItem.getSelected(); }),
+			text: this._rb.getText("COLUMNSPANEL_SELECT_ALL"),
+			selected: bAllSelected,
 			select: function(oEvent) {
 				var bSelected = oEvent.getParameter('selected');
 				//update the list items
@@ -2125,14 +2125,27 @@ function(jQuery, library, Control, IconPool, Toolbar, CheckBox, SearchField) {
 	 * @private
 	 */
 	ViewSettingsDialog.prototype._updateSelectAllCheckBoxState = function() {
-		var bAllSelected = this._filterDetailList.getItems().filter(function(oItem) {
-			return oItem.getVisible();
-		}).every(function(oItem) {
-			return oItem.getSelected();
-		});
-		if (this._selectAllCheckBox) {
-			this._selectAllCheckBox.setSelected(bAllSelected);
+		var bAllSelected = false,
+		    aItems = this._filterDetailList.getItems(),
+		    aItemsVisible = [];
+
+		if (!this._selectAllCheckBox) {
+			return;
 		}
+
+		if (aItems && aItems.length !== 0) {
+			aItemsVisible = aItems.filter(function (oItem) {
+				return oItem.getVisible();
+			});
+		}
+		// if empty array, the 'every' call will return true
+		if (aItemsVisible.length !== 0) {
+			bAllSelected = aItemsVisible.every(function (oItem) {
+				return oItem.getSelected();
+			});
+		}
+
+		this._selectAllCheckBox.setSelected(bAllSelected);
 	};
 
 	/**

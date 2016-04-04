@@ -22,7 +22,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.36.5
+	 * @version 1.36.6
 	 *
 	 * @constructor
 	 * @public
@@ -279,18 +279,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		//Flag if control is inside the bar. If inside bar the buttons always use the width they need.
 		this._bInsideBar = (this.$().closest('.sapMIBar').length > 0) ? true : false;
 
-		//Flag if control is inside a dialog
-		this._bInsideDialog = (this.$().closest('.sapMDialogScrollCont').length > 0);
-
-
-		var that = this;
-		if (this._isMie || this._bInsideDialog) {
-			setTimeout(function () {
-				that._fCalcBtnWidth();
-			},100);
-		} else {
-			that._fCalcBtnWidth();
-		}
+		this._fCalcBtnWidth();
 		this.$().removeClass("sapMSegBHide");
 		// Keyboard
 		this._setItemNavigation();
@@ -328,7 +317,8 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 			iCntOutWidth = $this.outerWidth(true) - $this.width(),
 			iBarContainerPadding = $this.closest('.sapMBarContainer').outerWidth() - $this.closest('.sapMBarContainer').width(),
 			iBarContainerPaddingFix = 2,//Temporary solution to fix the segmentedButton with 100% width in dialog issue.
-			iInnerWidth = $this.children('#' + this.getButtons()[0].getId()).outerWidth(true) - $this.children('#' + this.getButtons()[0].getId()).width(),
+			$FirstButton = this.getButtons()[0].$(),
+			iInnerWidth = $FirstButton.outerWidth(true) - $FirstButton.width(),
 			oButtons = this.getButtons();
 		// If parent width is bigger than actual screen width set parent width to screen width => android 2.3
 		iParentWidth;

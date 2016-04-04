@@ -533,6 +533,13 @@ html[dir=rtl][data-sap-ui-browser^=ed].sap-desktop .sapMOHRStatesOneOrThree > .s
 	box-sizing: border-box;
 }
 
+// Android fix
+html[data-sap-ui-os^="Android"] {
+	.sapMOHR .sapMObjectNumberUnit {
+		padding-top: 0.25rem;
+	}
+}
+
 .sap-desktop.sapUiMedia-Std-Tablet .sapMOHR .sapMObjectNumber,
 .sap-tablet .sapMOHR .sapMObjectNumber {
 	width: 35%;
@@ -739,6 +746,13 @@ html[data-sap-ui-os=win8].sap-desktop.sapUiMedia-Std-Phone .sapMOHRTabs .sapMITB
 	overflow: hidden;
 	position: relative;
 	white-space: nowrap;
+}
+
+html.sap-phone .sapMOHR .sapMITBHead {
+	display: inline-block;
+	margin: 1rem 0 0;
+	vertical-align: top;
+	padding: 0;
 }
 
 .sapMOHR .sapMPI {
