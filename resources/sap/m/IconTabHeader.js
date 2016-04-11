@@ -21,7 +21,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.34.10
+	 * @version 1.34.11
 	 *
 	 * @constructor
 	 * @public
@@ -91,7 +91,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	IconTabHeader.SCROLL_STEP = 264; // how many pixels to scroll with every overflow arrow click
 
 	// When to create a scroll delegate:
-	IconTabHeader.prototype._bDoScroll = !sap.ui.Device.system.desktop || (sap.ui.Device.os.windows && sap.ui.Device.os.version === 8);
+	IconTabHeader.prototype._bDoScroll = !sap.ui.Device.system.desktop || (sap.ui.Device.os.windows && sap.ui.Device.os.version >= 8);
 
 	IconTabHeader.prototype.init = function() {
 		this._bPreviousScrollForward = false; // remember the item overflow state
@@ -706,7 +706,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		var src;
 
 		if (sap.ui.Device.system.desktop) {
-			// use navigation arrows on desktop and win8 combi devices
+			// use navigation arrows on desktop and win8/win10 combi devices
 			src = IconPool.getIconURI("navigation-" + sName + "-arrow");
 		} else {
 			// use slim arrows on mobile devices
@@ -830,8 +830,8 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 
 				//on mobile devices click on arrows has no effect
 				if (sTargetId == sId + "-arrowScrollLeft" && sap.ui.Device.system.desktop) {
-					if (sap.ui.Device.os.windows && sap.ui.Device.os.version === 8) {
-						//combi devices with windows 8 should also scroll on click on arrows
+					if (sap.ui.Device.os.windows && sap.ui.Device.os.version >= 8) {
+						//combi devices with win8/win10 should also scroll on click on arrows
 						//need to use iscroll
 						var iScrollLeft = this._oScroller.getScrollLeft() - IconTabHeader.SCROLL_STEP;
 						if (iScrollLeft < 0) {
@@ -847,8 +847,8 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 					}
 
 				} else if (sTargetId == sId + "-arrowScrollRight" && sap.ui.Device.system.desktop) {
-					if (sap.ui.Device.os.windows && sap.ui.Device.os.version === 8) {
-						//combi devices with windows 8 should also scroll on click on arrows
+					if (sap.ui.Device.os.windows && sap.ui.Device.os.version >= 8) {
+						//combi devices with win8/win10 should also scroll on click on arrows
 						//need to use iscroll
 						var iScrollLeft = this._oScroller.getScrollLeft() + IconTabHeader.SCROLL_STEP;
 						var iContainerWidth = this.$("scrollContainer").width();
@@ -1110,6 +1110,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 
 		// check for valid changes
 		if (!oTouch || oTouch.pageX === this._iTouchStartPageX) {
+			this._iActiveTouch = undefined;
 			return;
 		}
 

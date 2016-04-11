@@ -21,7 +21,7 @@ sap.ui.define(['jquery.sap.global', './InputBase', './MaskInputRule', 'sap/ui/co
 	 *
 	 * @author SAP SE
 	 * @extends sap.m.InputBase
-	 * @version 1.34.10
+	 * @version 1.34.11
 	 *
 	 * @constructor
 	 * @public
@@ -222,13 +222,14 @@ sap.ui.define(['jquery.sap.global', './InputBase', './MaskInputRule', 'sap/ui/co
 	 * @public
 	 */
 	MaskInput.prototype.setValue = function (sValue) {
-		InputBase.prototype.setValue.apply(this, arguments);
+		sValue = this.validateProperty('value', sValue);
+		InputBase.prototype.setValue.call(this, sValue);
 		// We need this check in case when MaskInput is initialized with specific value
 		if (!this._oTempValue) {
 			this._setupMaskVariables();
 		}
 		// We don't need to validate the initial MaskInput placeholder value because this will break setting it to empty value on focusout
-		if (this._oTempValue._aInitial.join('') !== sValue) {
+		if (this._oTempValue._aInitial.join('') !== sValue && sValue.length) {
 			this._applyRules(sValue);
 		}
 
@@ -948,7 +949,8 @@ sap.ui.define(['jquery.sap.global', './InputBase', './MaskInputRule', 'sap/ui/co
 		}
 
 		if (this._sOldInputValue !== this._oTempValue.toString()) {
-			this.setValue(sValue);
+			InputBase.prototype.setValue.call(this, sValue);
+			this._sOldInputValue = sValue;
 			if (this.onChange && !this.onChange({value: sValue})) {//if the subclass didn't fire the "change" event by itself
 				this.fireChangeEvent(sValue);
 			}

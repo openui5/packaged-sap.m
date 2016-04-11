@@ -856,6 +856,10 @@ html[dir=rtl][data-sap-ui-browser^="ed"] .sapMCrslInner {
 .sapMCLI .sapMLIBSelectD {
   margin-right: 0;
 }
+.sapMCLI:not(.sapMLIBNoFlex) > .sapMLIBContent {
+  width: 100%;
+  /* IE flexbox workaround max-width is not respected */
+}
 /* ============================================= */
 /* CSS for control sap.m/CustomTile.control */
 /* ============================================= */
@@ -4423,6 +4427,12 @@ html[data-sap-ui-os=win8].sap-desktop.sapUiMedia-Std-Phone .sapMOHRTabs .sapMITB
   position: relative;
   white-space: nowrap;
 }
+html.sap-phone .sapMOHR .sapMITBHead {
+  display: inline-block;
+  margin: 1rem 0 0;
+  vertical-align: top;
+  padding: 0;
+}
 .sapMOHR .sapMPI {
   margin: 0;
 }
@@ -5957,18 +5967,20 @@ input.sapMSFI[type="search"]:focus {
   padding: 0;
   -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
   border: none;
-  display: inline-block;
   white-space: nowrap;
+  display: inline-block;
+  box-sizing: border-box;
 }
-.sapMSegBBtn {
+.sapMSegB .sapMSegBBtn {
   list-style: none;
   text-overflow: ellipsis;
   overflow: hidden;
   -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
-  display: inline-block;
   text-align: center;
   cursor: pointer;
   vertical-align: text-bottom;
+  box-sizing: border-box;
+  display: inline-block;
 }
 .sapMSegBBtn:focus {
   outline: none;
@@ -5985,6 +5997,7 @@ input.sapMSFI[type="search"]:focus {
 }
 .sapMSegB .sapMSegBBtn.sapMSegBBtnMixed {
   padding-right: 0.5rem;
+  padding-left: 0.5rem;
 }
 .sapMSegB .sapMSegBBtn:not(.sapMSegBBtnMixed) .sapMBtnIcon {
   margin-right: 0;

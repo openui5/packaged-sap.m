@@ -25,7 +25,7 @@ sap.ui.define(['jquery.sap.global', './InputBase', './MaskInput', './MaskInputRu
 		 * @extends sap.m.MaskInput
 		 *
 		 * @author SAP SE
-		 * @version 1.34.10
+		 * @version 1.34.11
 		 *
 		 * @constructor
 		 * @public
@@ -481,7 +481,7 @@ sap.ui.define(['jquery.sap.global', './InputBase', './MaskInput', './MaskInputRu
 				sOutputValue;
 
 			sValue = this.validateProperty('value', sValue);
-			MaskInput.prototype.setValue.call(this, sValue, true);
+			MaskInput.prototype.setValue.call(this, sValue);
 			this._bValid = true;
 
 			// convert to date object
