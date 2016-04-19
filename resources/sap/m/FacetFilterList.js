@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './List', './library'],
 	 * @class
 	 * FacetFilterList represents a list of values for the FacetFilter control.
 	 * @extends sap.m.List
-	 * @version 1.36.6
+	 * @version 1.36.7
 	 *
 	 * @constructor
 	 * @public
@@ -557,15 +557,19 @@ sap.ui.define(['jquery.sap.global', './List', './library'],
 	 * @private
 	 */
 	FacetFilterList.prototype._updateSelectAllCheckBox = function() {
+		var iItemsCount = this.getItems().length,
+			oCheckbox, bAtLeastOneItemIsSelected, bSelectAllSelected;
+
 		function isSelected(oItem) {
 			return oItem.getSelected();
 		}
 
 		if (this.getMultiSelect()) {
-			var oCheckbox = sap.ui.getCore().byId(this.getAssociation("allcheckbox"));
-			var bSelected = this.getActive() && this.getItems().filter(isSelected).length === this.getItems().length;
+			oCheckbox = sap.ui.getCore().byId(this.getAssociation("allcheckbox"));
+			bAtLeastOneItemIsSelected = iItemsCount > 0 && iItemsCount === this.getItems().filter(isSelected).length;
+			bSelectAllSelected = this.getActive() && bAtLeastOneItemIsSelected;
 
-			oCheckbox && oCheckbox.setSelected(bSelected);
+			oCheckbox && oCheckbox.setSelected(bSelectAllSelected);
 		}
 	};
 
@@ -656,7 +660,9 @@ sap.ui.define(['jquery.sap.global', './List', './library'],
 		this.setActive(this.getActive() || bSelect);
 		!this.getDomRef() && this.getParent() && this.getParent().getDomRef() && this.getParent().invalidate();
 
-		setTimeout(function() {this._updateSelectAllCheckBox();}.bind(this), 10);
+		// Postpone the _updateSelectAllCheckBox, as the oItem(type ListItemBase) has not yet set it's 'selected' property
+		// See ListItemBase.prototype.setSelected
+		jQuery.sap.delayedCall(0, this, this._updateSelectAllCheckBox);
 	};
 
 

@@ -23,7 +23,7 @@ sap.ui.define(['jquery.sap.global', './Button', './Dialog', './SearchField', './
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.36.6
+	 * @version 1.36.7
 	 *
 	 * @constructor
 	 * @public
@@ -723,7 +723,7 @@ sap.ui.define(['jquery.sap.global', './Button', './Dialog', './SearchField', './
 	};
 
 	TableSelectDialog.prototype.getBindingContext = function (sModelName) {
-		return this._oTable.getBindingContext(sModelName);
+		return this._oTable && this._oTable.getBindingContext(sModelName);
 	};
 
 	/**

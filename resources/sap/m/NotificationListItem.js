@@ -21,7 +21,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', './ListI
 		 * @extends sap.m.ListItemBase
 		 *
 		 * @author SAP SE
-		 * @version 1.36.6
+		 * @version 1.36.7
 		 *
 		 * @constructor
 		 * @public
@@ -412,6 +412,12 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', './ListI
 				this._closeButton.destroy();
 				this._closeButton = null;
 			}
+
+			if (this._collapseButton) {
+				this._collapseButton.destroy();
+				this._collapseButton = null;
+			}
+
 			if (this._ariaDetailsText) {
 				this._ariaDetailsText.destroy();
 				this._ariaDetailsText = null;

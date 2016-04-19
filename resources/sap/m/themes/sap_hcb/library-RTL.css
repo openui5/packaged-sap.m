@@ -827,6 +827,12 @@ html[dir=rtl][data-sap-ui-browser^="ed"] .sapMCrslInner {
 .sapMCb .sapMLabel {
   cursor: default;
 }
+.sapMCb .sapMLabel.sapMLabelNoText {
+  position: absolute;
+  visibility: hidden;
+  right: -10000px;
+  top: -10000px;
+}
 .sapMCbBg {
   height: 2rem;
   width: 2rem;
@@ -861,6 +867,10 @@ html[dir=rtl][data-sap-ui-browser^="ed"] .sapMCrslInner {
 .sapMCLI .sapMLIBSelectS,
 .sapMCLI .sapMLIBSelectD {
   margin-left: 0;
+}
+.sapMCLI:not(.sapMLIBNoFlex) > .sapMLIBContent {
+  width: 100%;
+  /* IE flexbox workaround max-width is not respected */
 }
 /* ============================================= */
 /* CSS for control sap.m/CustomTile.control */
@@ -1095,15 +1105,11 @@ html[data-sap-ui-browser^="ie9"] .sapMDialog:not(.sapMDialogHighPixelDensity) {
 }
 .sapUiPopupWithPadding .sapMDialogScrollCont {
   padding: 1rem;
-  height: calc(100% - 2 *  1rem);
 }
 /* messagedialog always has content padding */
 .sapMMessageDialog .sapMDialogScrollCont {
   box-sizing: border-box;
   padding: 1rem;
-}
-.sapMDialogScrollCont {
-  height: 100%;
 }
 .sapMDialogWithScrollCont .sapMDialogScroll {
   /*
@@ -2086,8 +2092,6 @@ html[data-sap-ui-browser="ie9"] .sapMFeedListItemTitleDiv {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  margin-top: 3px;
-  /* Usage of px as aligned with designers. */
 }
 .sapUiMedia-Std-Phone .sapMGT.Auto.OneByOne,
 .sapMGT.S.OneByOne {
@@ -2353,6 +2357,9 @@ span.sapMImg {
 }
 .sapMInputValHelpInner.sapUiIcon {
   vertical-align: top;
+}
+.sapMInputValHelp:focus {
+  outline: none;
 }
 /* ============================================= */
 /* CSS for control sap.m/InputBase.control       */
@@ -4062,6 +4069,16 @@ html[dir=rtl] .sapMNCValue {
 /* ============================================= */
 /* CSS for control sap.m/ObjectHeaderItem.control */
 /* ============================================= */
+.sapMOH h6,
+.sapMOHR h6,
+.sapMOH h5,
+.sapMOHR h5,
+.sapMOH h4,
+.sapMOHR h4,
+.sapMOH h3,
+.sapMOHR h3,
+.sapMOH h2,
+.sapMOHR h2,
 .sapMOH h1,
 .sapMOHR h1 {
   margin: 0;
@@ -4106,6 +4123,16 @@ html[dir=rtl] .sapMNCValue {
 }
 .sapMOHIntroActive > a:active,
 .sap-desktop .sapMOHIntroActive > a:hover,
+.sapMOHTitleActive h6 .sapMText:active,
+.sap-desktop .sapMOHTitleActive h6 .sapMText:hover,
+.sapMOHTitleActive h5 .sapMText:active,
+.sap-desktop .sapMOHTitleActive h5 .sapMText:hover,
+.sapMOHTitleActive h4 .sapMText:active,
+.sap-desktop .sapMOHTitleActive h4 .sapMText:hover,
+.sapMOHTitleActive h3 .sapMText:active,
+.sap-desktop .sapMOHTitleActive h3 .sapMText:hover,
+.sapMOHTitleActive h2 .sapMText:active,
+.sap-desktop .sapMOHTitleActive h2 .sapMText:hover,
 .sapMOHTitleActive h1 .sapMText:active,
 .sap-desktop .sapMOHTitleActive h1 .sapMText:hover {
   text-decoration: underline;
@@ -4149,9 +4176,19 @@ html[dir=rtl] .sapMNCValue {
 .sapMText.sapMOHTitle {
   position: relative;
 }
+.sapMOHTitle h6 .sapMText,
+.sapMOHTitle h5 .sapMText,
+.sapMOHTitle h4 .sapMText,
+.sapMOHTitle h3 .sapMText,
+.sapMOHTitle h2 .sapMText,
 .sapMOHTitle h1 .sapMText {
   font-size: 1.375rem;
 }
+.sapMListTbl .sapMOHTitle h6 .sapMText,
+.sapMListTbl .sapMOHTitle h5 .sapMText,
+.sapMListTbl .sapMOHTitle h4 .sapMText,
+.sapMListTbl .sapMOHTitle h3 .sapMText,
+.sapMListTbl .sapMOHTitle h2 .sapMText,
 .sapMListTbl .sapMOHTitle h1 .sapMText {
   font-size: 0.875rem;
 }
@@ -4214,6 +4251,16 @@ html[dir=rtl] .sapMNCValue {
 .sapMOHC > .sapMOHNumberDiv {
   padding-right: 0.5rem;
 }
+.sapMOHC .sapMOHTitle h6 > .sapMText,
+.sap-phone .sapMOHC .sapMOHTitle h6 > .sapMText,
+.sapMOHC .sapMOHTitle h5 > .sapMText,
+.sap-phone .sapMOHC .sapMOHTitle h5 > .sapMText,
+.sapMOHC .sapMOHTitle h4 > .sapMText,
+.sap-phone .sapMOHC .sapMOHTitle h4 > .sapMText,
+.sapMOHC .sapMOHTitle h3 > .sapMText,
+.sap-phone .sapMOHC .sapMOHTitle h3 > .sapMText,
+.sapMOHC .sapMOHTitle h2 > .sapMText,
+.sap-phone .sapMOHC .sapMOHTitle h2 > .sapMText,
 .sapMOHC .sapMOHTitle h1 > .sapMText,
 .sap-phone .sapMOHC .sapMOHTitle h1 > .sapMText {
   line-height: 1.8rem;
@@ -5734,6 +5781,7 @@ html[data-sap-ui-animation='on'] .sapMPopover {
   border: 1px solid #ffffff;
   padding: 1px;
   margin: 0.25rem 0;
+  min-width: 5rem;
 }
 .sapMPIBar {
   height: 100%;
@@ -6207,18 +6255,20 @@ input.sapMSFI[type="search"]:focus {
   padding: 0;
   -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
   border: none;
-  display: inline-block;
   white-space: nowrap;
+  display: inline-block;
+  box-sizing: border-box;
 }
-.sapMSegBBtn {
+.sapMSegB .sapMSegBBtn {
   list-style: none;
   text-overflow: ellipsis;
   overflow: hidden;
   -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
-  display: inline-block;
   text-align: center;
   cursor: pointer;
   vertical-align: text-bottom;
+  box-sizing: border-box;
+  display: inline-block;
 }
 .sapMSegBBtn:focus {
   outline: none;
@@ -6235,6 +6285,7 @@ input.sapMSFI[type="search"]:focus {
 }
 .sapMSegB .sapMSegBBtn.sapMSegBBtnMixed {
   padding-left: 0.5rem;
+  padding-right: 0.5rem;
 }
 .sapMSegB .sapMSegBBtn:not(.sapMSegBBtnMixed) .sapMBtnIcon {
   margin-left: 0;
@@ -11625,7 +11676,8 @@ html.sap-phone .sapMITB .sapMITBHead {
   padding: 0;
 }
 .sap-tablet .sapMITBHead,
-html[data-sap-ui-os=win8] .sapMITBHead {
+html[data-sap-ui-os=win8] .sapMITBHead,
+html[data-sap-ui-os=win10] .sapMITBHead {
   display: inline-block;
   margin: 1rem 0.25rem 0 0.75rem;
   vertical-align: top;
@@ -11645,7 +11697,8 @@ html[data-sap-ui-os=win8] .sapMITBHead {
   display: none;
 }
 .sap-tablet .sapMITBScrollContainer,
-html[data-sap-ui-os=win8] .sapMITBScrollContainer {
+html[data-sap-ui-os=win8] .sapMITBScrollContainer,
+html[data-sap-ui-os=win10] .sapMITBScrollContainer {
   margin: 0 1.75rem;
 }
 /* scrollbar from iscroll should not be visible */
@@ -11706,7 +11759,8 @@ html[dir='rtl'] .sapMITBContentArrow {
 }
 .sap-phone .sapMITBContainerContent,
 .sap-tablet .sapMITBContainerContent,
-html[data-sap-ui-os=win8] .sapMITBContainerContent {
+html[data-sap-ui-os=win8] .sapMITBContainerContent,
+html[data-sap-ui-os=win10] .sapMITBContainerContent {
   margin-top: 0;
 }
 .sapMITBContainerContent.sapMITBContentClosed {
@@ -11973,9 +12027,11 @@ html[dir='rtl'] .sapMITBHorizontal.sapMITBFilter > .sapMITBHorizontalWrapper > .
 .sap-phone .sapMITBFilter:last-child,
 .sap-tablet .sapMITBFilter:last-child,
 html[data-sap-ui-os=win8] .sapMITBFilter:last-child,
+html[data-sap-ui-os=win10] .sapMITBFilter:last-child,
 .sap-phone .sapMITBNoText .sapMITBFilter:last-child,
 .sap-tablet .sapMITBNoText .sapMITBFilter:last-child,
-html[data-sap-ui-os=win8] .sapMITBNoText .sapMITBFilter:last-child {
+html[data-sap-ui-os=win8] .sapMITBNoText .sapMITBFilter:last-child,
+html[data-sap-ui-os=win10] .sapMITBNoText .sapMITBFilter:last-child {
   padding-left: 1rem;
 }
 .sapMITB .sapMITBItemNoCount.sapMITBFilter:last-child {
@@ -12016,7 +12072,8 @@ html[data-sap-ui-os=win8] .sapMITBNoText .sapMITBFilter:last-child {
 }
 .sap-phone .sapMITBArrowScroll,
 .sap-tablet .sapMITBArrowScroll,
-html[data-sap-ui-os=win8] .sapMITBArrowScroll {
+html[data-sap-ui-os=win8] .sapMITBArrowScroll,
+html[data-sap-ui-os=win10] .sapMITBArrowScroll {
   top: 1rem;
 }
 .sapMITBArrowScrollLeft {
@@ -12061,8 +12118,10 @@ html[data-sap-ui-os=win8] .sapMITBArrowScroll {
 }
 .sap-tablet .sapMITBArrowScrollLeftTextOnly,
 html[data-sap-ui-os=win8] .sapMITBArrowScrollLeftTextOnly,
+html[data-sap-ui-os=win10] .sapMITBArrowScrollLeftTextOnly,
 .sap-tablet .sapMITBArrowScrollRightTextOnly,
-html[data-sap-ui-os=win8] .sapMITBArrowScrollRightTextOnly {
+html[data-sap-ui-os=win8] .sapMITBArrowScrollRightTextOnly,
+html[data-sap-ui-os=win10] .sapMITBArrowScrollRightTextOnly {
   padding: 1.3rem 0.4rem;
 }
 .sapMITBNotScrollable > .sapMITBArrowScroll {
@@ -12169,8 +12228,10 @@ html[data-sap-ui-os=win8] .sapMITBArrowScrollRightTextOnly {
   }
   .sap-tablet .sapMITB.sapMITBStretch .sapMITBArrowScrollLeftTextOnly,
   html[data-sap-ui-os=win8] .sapMITB.sapMITBStretch .sapMITBArrowScrollLeftTextOnly,
+  html[data-sap-ui-os=win10] .sapMITB.sapMITBStretch .sapMITBArrowScrollLeftTextOnly,
   .sap-tablet .sapMITB.sapMITBStretch .sapMITBArrowScrollRightTextOnly,
-  html[data-sap-ui-os=win8] .sapMITB.sapMITBStretch .sapMITBArrowScrollRightTextOnly {
+  html[data-sap-ui-os=win8] .sapMITB.sapMITBStretch .sapMITBArrowScrollRightTextOnly,
+  html[data-sap-ui-os=win10] .sapMITB.sapMITBStretch .sapMITBArrowScrollRightTextOnly {
     padding: 1.25rem 0 0.75rem;
   }
   .sapMITB.sapMITBStretch .sapMITBArrowScrollLeftTextOnly,
@@ -12178,7 +12239,9 @@ html[data-sap-ui-os=win8] .sapMITBArrowScrollRightTextOnly {
     padding: 2.1rem 0 0.75rem;
   }
   html[data-sap-ui-os=win8] .sapMITB.sapUiNoContentPadding .sapMITBHead,
-  html[data-sap-ui-os=win8] .sapMITB.sapUiResponsiveContentPadding .sapMITBHead {
+  html[data-sap-ui-os=win10] .sapMITB.sapUiNoContentPadding .sapMITBHead,
+  html[data-sap-ui-os=win8] .sapMITB.sapUiResponsiveContentPadding .sapMITBHead,
+  html[data-sap-ui-os=win10] .sapMITB.sapUiResponsiveContentPadding .sapMITBHead {
     margin: 1rem 0 0 1rem;
   }
 }
@@ -14323,27 +14386,62 @@ html[data-sap-ui-browser*='ie'].sap-desktop .sapMLIB.sapMNLG:focus .sapMNLI::bef
 .sapMOH .sapMObjStatusWarning .sapUiIcon {
   color: #ffab1d;
 }
+.sapMOH .sapMOHTitle h6 .sapMText,
+.sapMOH .sapMOHTitle h5 .sapMText,
+.sapMOH .sapMOHTitle h4 .sapMText,
+.sapMOH .sapMOHTitle h3 .sapMText,
+.sapMOH .sapMOHTitle h2 .sapMText,
 .sapMOH .sapMOHTitle h1 .sapMText {
   color: #ffffff;
 }
+.sapMOH .sap-phone .sapMOHTitle h6 > .sapMText,
+.sapMOH .sap-phone .sapMOHTitle h5 > .sapMText,
+.sapMOH .sap-phone .sapMOHTitle h4 > .sapMText,
+.sapMOH .sap-phone .sapMOHTitle h3 > .sapMText,
+.sapMOH .sap-phone .sapMOHTitle h2 > .sapMText,
 .sapMOH .sap-phone .sapMOHTitle h1 > .sapMText {
   font-size: 1.125rem;
 }
+.sapMOH .sapMOHTitle.sapMOHTitleActive > h6 .sapMText,
+.sapMOH .sapMOHTitle.sapMOHTitleActive > h5 .sapMText,
+.sapMOH .sapMOHTitle.sapMOHTitleActive > h4 .sapMText,
+.sapMOH .sapMOHTitle.sapMOHTitleActive > h3 .sapMText,
+.sapMOH .sapMOHTitle.sapMOHTitleActive > h2 .sapMText,
 .sapMOH .sapMOHTitle.sapMOHTitleActive > h1 .sapMText {
   text-decoration: underline;
   cursor: pointer;
 }
+.sapMOH a.sapMOHTitle.sapMOHTitleActive:hover > h6 .sapMText,
+.sapMOH a.sapMOHTitle.sapMOHTitleActive:hover > h5 .sapMText,
+.sapMOH a.sapMOHTitle.sapMOHTitleActive:hover > h4 .sapMText,
+.sapMOH a.sapMOHTitle.sapMOHTitleActive:hover > h3 .sapMText,
+.sapMOH a.sapMOHTitle.sapMOHTitleActive:hover > h2 .sapMText,
 .sapMOH a.sapMOHTitle.sapMOHTitleActive:hover > h1 .sapMText {
   text-decoration: none;
 }
+.sapMOH .sapMOHTitle.sapMOHTitleActive:focus > h6 .sapMText,
+.sapMOH .sapMOHTitle.sapMOHTitleActive:focus > h5 .sapMText,
+.sapMOH .sapMOHTitle.sapMOHTitleActive:focus > h4 .sapMText,
+.sapMOH .sapMOHTitle.sapMOHTitleActive:focus > h3 .sapMText,
+.sapMOH .sapMOHTitle.sapMOHTitleActive:focus > h2 .sapMText,
 .sapMOH .sapMOHTitle.sapMOHTitleActive:focus > h1 .sapMText {
   text-decoration: none;
 }
+.sapMOH .sapMOHTitle.sapMOHTitleActive:focus > h6 span,
+.sapMOH .sapMOHTitle.sapMOHTitleActive:focus > h5 span,
+.sapMOH .sapMOHTitle.sapMOHTitleActive:focus > h4 span,
+.sapMOH .sapMOHTitle.sapMOHTitleActive:focus > h3 span,
+.sapMOH .sapMOHTitle.sapMOHTitleActive:focus > h2 span,
 .sapMOH .sapMOHTitle.sapMOHTitleActive:focus > h1 span {
   outline: 0.125rem dotted #ffffff;
   outline-offset: -0.125rem;
   text-decoration: none;
 }
+.sapMOH .sapMOHTitle.sapMOHTitleActive > h6 .sapMText:hover,
+.sapMOH .sapMOHTitle.sapMOHTitleActive > h5 .sapMText:hover,
+.sapMOH .sapMOHTitle.sapMOHTitleActive > h4 .sapMText:hover,
+.sapMOH .sapMOHTitle.sapMOHTitleActive > h3 .sapMText:hover,
+.sapMOH .sapMOHTitle.sapMOHTitleActive > h2 .sapMText:hover,
 .sapMOH .sapMOHTitle.sapMOHTitleActive > h1 .sapMText:hover {
   text-decoration: none;
 }
@@ -14405,6 +14503,11 @@ html[data-sap-ui-browser^="ie"] .sapMOH .sapMOHTitle {
 html[data-sap-ui-browser^="ie"] .sapMOH a.sapMOHTitleActive:focus {
   border: 1px solid transparent;
 }
+html[data-sap-ui-browser^="ie"] .sapMOH a.sapMOHTitleActive:focus ~ .sapMOHTitle > h6 > span,
+html[data-sap-ui-browser^="ie"] .sapMOH a.sapMOHTitleActive:focus ~ .sapMOHTitle > h5 > span,
+html[data-sap-ui-browser^="ie"] .sapMOH a.sapMOHTitleActive:focus ~ .sapMOHTitle > h4 > span,
+html[data-sap-ui-browser^="ie"] .sapMOH a.sapMOHTitleActive:focus ~ .sapMOHTitle > h3 > span,
+html[data-sap-ui-browser^="ie"] .sapMOH a.sapMOHTitleActive:focus ~ .sapMOHTitle > h2 > span,
 html[data-sap-ui-browser^="ie"] .sapMOH a.sapMOHTitleActive:focus ~ .sapMOHTitle > h1 > span {
   outline: none;
   border: 0.125rem dotted #ffffff;
@@ -14443,6 +14546,11 @@ html[data-sap-ui-browser^="ie"] .sapMOH .sapMOHIntroActive {
 .sapMOHR .sapMObjStatusWarning .sapUiIcon {
   color: #ffab1d;
 }
+.sapMOHR .sapMOHRTitle h6,
+.sapMOHR .sapMOHRTitle h5,
+.sapMOHR .sapMOHRTitle h4,
+.sapMOHR .sapMOHRTitle h3,
+.sapMOHR .sapMOHRTitle h2,
 .sapMOHR .sapMOHRTitle h1 {
   font-size: 1.375rem;
   font-weight: normal;
@@ -14479,6 +14587,16 @@ html[data-sap-ui-browser^="ie"] .sapMOH .sapMOHIntroActive {
   outline: 0.125rem dotted #ffffff;
   outline-offset: -0.125rem;
 }
+.sap-phone .sapMOHRTitle h6,
+.sap-desktop.sapUiMedia-Std-Phone .sapMOHRTitle h6,
+.sap-phone .sapMOHRTitle h5,
+.sap-desktop.sapUiMedia-Std-Phone .sapMOHRTitle h5,
+.sap-phone .sapMOHRTitle h4,
+.sap-desktop.sapUiMedia-Std-Phone .sapMOHRTitle h4,
+.sap-phone .sapMOHRTitle h3,
+.sap-desktop.sapUiMedia-Std-Phone .sapMOHRTitle h3,
+.sap-phone .sapMOHRTitle h2,
+.sap-desktop.sapUiMedia-Std-Phone .sapMOHRTitle h2,
 .sap-phone .sapMOHRTitle h1,
 .sap-desktop.sapUiMedia-Std-Phone .sapMOHRTitle h1 {
   font-size: 1.125rem;
@@ -14651,12 +14769,12 @@ li.sapMLIB.sapMLIBNoFlex.sapMObjLItem > .sapMLIBContent > .sapMLIBContentNF .sap
 }
 .sapMLIBSelected .sapMObjLNumber,
 .sapMLIBSelected .sapMObjLNumberUnit,
-.sapMLIB:hover .sapMObjLNumber,
-.sapMLIB:hover .sapMObjLNumberUnit,
+.sapMLIBHoverable:hover .sapMObjLNumber,
+.sapMLIBHoverable:hover .sapMObjLNumberUnit,
 .sapMLIBSelected .sapMObjectNumberText,
 .sapMLIBSelected .sapMObjectNumberUnit,
-.sapMLIB:hover .sapMObjectNumberText,
-.sapMLIB:hover .sapMObjectNumberUnit {
+.sapMLIBHoverable:hover .sapMObjectNumberText,
+.sapMLIBHoverable:hover .sapMObjectNumberUnit {
   color: #ffffff;
 }
 /* ========================================== */
@@ -15870,12 +15988,14 @@ html[data-sap-ui-browser^="ie"] .sapMFocus > .sapMSFF::after {
 /* ==============================================*/
 .sapMSegB {
   height: 2.5rem;
-  padding: 0.250rem 0;
   position: relative;
+}
+.sapMBar .sapMSegB {
+  margin: 0.250rem 0;
 }
 .sapMSegBBtn {
   font-size: 0.875rem;
-  height: 2.375rem;
+  height: 2.5rem;
   line-height: 2.375rem;
   padding-right: 1rem;
   padding-left: 1rem;
@@ -15883,7 +16003,6 @@ html[data-sap-ui-browser^="ie"] .sapMFocus > .sapMSFF::after {
   text-shadow: none;
   color: #ffffff;
   border: 1px solid #ffffff;
-  border-left: 0;
   background-color: #000000;
   margin-left: 0;
   -webkit-tap-highlight-color: transparent;
@@ -15910,11 +16029,28 @@ html[data-sap-ui-browser^="ie"] .sapMFocus > .sapMSFF::after {
 .sapMSegBBtn.sapMSegBBtnSel:focus:not(.sapMSegBBtnDis) {
   border-radius: 0;
 }
+.sapMSegB.sapMSegBIcons .sapMSegBBtn:not(.sapMSegBBtnMixed) {
+  padding: 0;
+}
+.sapMSegB.sapMSegBIcons .sapMSegBBtn.sapMSegBBtnMixed .sapMImg,
+.sapMSegB.sapMSegBIcons .sapMSegBBtn.sapMSegBBtnMixed .sapUiIcon {
+  padding-right: 0;
+  padding-left: 0.5rem;
+}
+.sapMSegB .sapMSegBBtn:not(:last-child) {
+  border-left: 1px solid transparent;
+}
+.sapMSegB .sapMSegBBtn + .sapMSegBBtn.sapMSegBBtnFocusable:focus {
+  border-left: 1px solid transparent;
+}
+.sapMSegB .sapMSegBBtn:last-child:not(.sapMSegBBtnDis) {
+  border-left: 1px solid #ffffff;
+}
+.sapMSegB .sapMSegBBtn.sapMSegBBtnDis:last-child {
+  border-left: 1px solid rgba(153, 153, 153, 0.5);
+}
 html.sap-desktop .sapMSegBBtnFocusable:hover {
   background: #7a5100;
-}
-.sapMSegBBtn:last-child {
-  border-left: 1px solid #ffffff;
 }
 /* Fix for disabled button border nested between active buttons */
 .sapMSegBBtn.sapMSegBBtnFocusable + .sapMSegBBtnDis {
@@ -15945,20 +16081,14 @@ html.sap-desktop .sapMSegBBtnFocusable:hover {
 }
 .sapMSegBBtnFocusable:active + .sapMSegBBtn:not(:last-child),
 .sapMSegBBtnFocusable:focus + .sapMSegBBtn:not(:last-child) {
-  border-left: none;
-  border-right: none;
+  border-right: 1px solid transparent;
 }
 .sapMSegBBtnFocusable:active + .sapMSegBBtn:last-child,
 .sapMSegBBtnFocusable:focus + .sapMSegBBtn:last-child {
-  border-right: none;
+  border-right: 1px solid transparent;
 }
 .sapMSegBBtnFocusable.sapMSegBBtnSel:focus + .sapMSegBBtn {
-  border-right: 0;
-}
-.sapMFooter-CTX .sapMSegB:not(.sapMSegBIcons) .sapMSegBBtnFocusable.sapMSegBBtnSel:focus,
-.sapMSegB:not(.sapMSegBIcons):not(.sapMBarChild) .sapMSegBBtnFocusable.sapMSegBBtnSel:focus {
-  padding-left: 1.0625rem;
-  border-left: none;
+  border-right: 1px solid transparent;
 }
 .sapMSegBIcons .sapMSegBBtn {
   padding-right: 0;
@@ -16005,10 +16135,9 @@ html.sap-desktop .sapMSegBBtnFocusable:hover {
 /* Compact size */
 .sapUiSizeCompact .sapMSegB {
   height: 1.625rem;
-  padding: 0.1875rem 0;
 }
-.sapUiSizeCompact .sapMSegBBtn {
-  height: 1.5rem;
+.sapUiSizeCompact .sapMSegBBtn:not(.sapMSegBIcons) {
+  height: 1.625rem;
   line-height: 1.5rem;
   padding-right: 0.4375rem;
   padding-left: 0.4375rem;
@@ -16027,10 +16156,10 @@ html.sap-desktop .sapMSegBBtnFocusable:hover {
 }
 .sapUiSizeCompact .sapMSegBIcons .sapMSegBBtn img,
 .sapUiSizeCompact .sapMSegBIcons .sapMSegBBtn .sapUiIcon {
-  padding: 0 .5rem;
+  padding: 0;
 }
 .sapUiSizeCompact .sapMSegB img {
-  line-height: 1.5rem;
+  line-height: 1.3rem;
   height: 1.3rem;
   width: 1.3rem;
 }
@@ -16043,10 +16172,15 @@ html.sap-desktop .sapMSegBBtnFocusable:hover {
 .sapUiSizeCompact .sapMSegB .sapMBtnIconLeft {
   margin-right: 0;
 }
-.sapUiSizeCompact .sapMFooter-CTX .sapMSegB:not(.sapMSegBIcons) .sapMSegBBtnFocusable.sapMSegBBtnSel:focus,
-.sapUiSizeCompact .sapMSegB:not(.sapMSegBIcons):not(.sapMBarChild) .sapMSegBBtnFocusable.sapMSegBBtnSel:focus {
-  padding-left: 0.5rem;
-  border-left: none;
+.sapUiSizeCompact .sapMSegBIcons:not(.sapMSegBBtnMixed) .sapMImg,
+.sapUiSizeCompact .sapMSegBIcons:not(.sapMSegBBtnMixed) .sapUiIcon {
+  padding-right: 0.4375rem;
+  padding-left: 0.4375rem;
+}
+.sapUiSizeCompact .sapMSegBIcons .sapMSegBBtn.sapMSegBBtnMixed .sapMImg,
+.sapUiSizeCompact .sapMSegBIcons .sapMSegBBtn.sapMSegBBtnMixed .sapUiIcon {
+  padding-right: 0;
+  padding-left: 0;
 }
 /* IE mobile and desctop ignores outline-offset. Use an overlay: */
 html[data-sap-ui-browser^="ie"] .sapMSegBBtn:focus {

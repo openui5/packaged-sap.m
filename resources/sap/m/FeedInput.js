@@ -22,7 +22,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.36.6
+	 * @version 1.36.7
 	 *
 	 * @constructor
 	 * @public
@@ -213,11 +213,11 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 				icon : "sap-icon://feeder-arrow",
 				tooltip : this.getButtonTooltip(),
 				press : jQuery.proxy(function (oEvt) {
+					this._oTextArea.focus();
 					this.firePost({
 						value : this.getValue()
 					});
 					this.setValue(null);
-					this._oTextArea.focus();
 				}, this)
 			});
 			this._oButton.setParent(this);

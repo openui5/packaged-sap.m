@@ -161,7 +161,6 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Renderer', './ListBaseRenderer'
 		}
 	};
 
-
 	/**
 	 * add table container class name
 	 */
@@ -173,6 +172,15 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Renderer', './ListBaseRenderer'
 	 * render table tag and add required classes
 	 */
 	TableRenderer.renderListStartAttributes = function(rm, oControl) {
+		rm.write("<div");
+		rm.writeAttribute("id", oControl.getId() + "-labelledby");
+		rm.writeAttribute("aria-hidden", "true");
+		rm.addClass("sapUiInvisibleText");
+		rm.writeClasses();
+		rm.write(">");
+		rm.writeEscaped(sap.ui.getCore().getLibraryResourceBundle("sap.m").getText("LIST_VIEW"));
+		rm.write("</div>");
+
 		rm.write("<table");
 		rm.addClass("sapMListTbl");
 		if (oControl.getFixedLayout() === false) {
@@ -190,6 +198,16 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Renderer', './ListBaseRenderer'
 	 */
 	TableRenderer.getAriaRole = function(oControl) {
 		return "grid";
+	};
+
+	/**
+	 * returns the additional aria-labelledby assosiation
+	 */
+	TableRenderer.getAriaLabelledBy = function(oControl) {
+		var sAriaLabelledBy = oControl.getId() + "-labelledby",
+			sBaseLabelledBy = ListBaseRenderer.getAriaLabelledBy.call(this, oControl);
+
+		return sBaseLabelledBy ? (sAriaLabelledBy + " " + sBaseLabelledBy) : sAriaLabelledBy;
 	};
 
 	/**

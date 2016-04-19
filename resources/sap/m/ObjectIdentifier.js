@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @class
 	 * The ObjectIdentifier is a display control that enables the user to easily identify a specific object. The ObjectIdentifier title is the key identifier of the object and additional text and icons can be used to further distinguish it from other objects.
 	 * @extends sap.ui.core.Control
-	 * @version 1.36.6
+	 * @version 1.36.7
 	 *
 	 * @constructor
 	 * @public
@@ -422,9 +422,9 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 			var sResultTexts = [];
 
 			aAriaLabelledAssociation.forEach(function (sId) {
-				if (sId) {
+				var oControl = sap.ui.getCore().byId(sId);
+				if (oControl) {
 					sResultIds.push(sId);
-					var oControl = sap.ui.getCore().byId(sId);
 					var sControlText = oControl.getText();
 					if (sControlText) {
 						sResultTexts.push(sControlText);

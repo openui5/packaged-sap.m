@@ -22,7 +22,7 @@ sap.ui.define(['jquery.sap.global', './Input', './Token', './library', 'sap/ui/c
 	 * @extends sap.m.Input
 	 *
 	 * @author SAP SE
-	 * @version 1.36.6
+	 * @version 1.36.7
 	 *
 	 * @constructor
 	 * @public
@@ -698,9 +698,8 @@ sap.ui.define(['jquery.sap.global', './Input', './Token', './library', 'sap/ui/c
 
 		Input.prototype.onAfterRendering.apply(this, arguments);
 
-		if (!(this._bUseDialog && this._isMultiLineMode)) {
-			this._setContainerSizes();
-		}
+		this._setContainerSizes();
+
 	};
 
 	/**
@@ -868,7 +867,7 @@ sap.ui.define(['jquery.sap.global', './Input', './Token', './library', 'sap/ui/c
 				if (this.fireEvent("_validateOnPaste", {texts: aSeparatedText}, true)) {
 					var i = 0;
 					for ( i = 0; i < aSeparatedText.length; i++) {
-						this.setValue(aSeparatedText[i]);
+						this.updateDomValue(aSeparatedText[i]);
 						this._validateCurrentText();
 					}
 				}

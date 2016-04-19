@@ -27,6 +27,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/ValueStateSupport'],
 		// get control properties
 		var bEnabled = oCheckBox.getEnabled();
 		var bEditable = oCheckBox.getEditable();
+		var oCbLabel = oCheckBox.getAggregation("_label");
 
 		// CheckBox wrapper
 		oRm.write("<div");
@@ -38,6 +39,10 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/ValueStateSupport'],
 
 		if (!bEnabled) {
 			oRm.addClass("sapMCbBgDis");
+		}
+
+		if (oCheckBox.getText()) {
+			oRm.addClass("sapMCbHasLabel");
 		}
 
 		oRm.writeControlData(oCheckBox);
@@ -105,7 +110,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/ValueStateSupport'],
 		}
 
 		oRm.write(" /></div>");
-		oRm.renderControl(oCheckBox._oLabel);
+		oRm.renderControl(oCbLabel);
 		oRm.write("</div>");
 	};
 
