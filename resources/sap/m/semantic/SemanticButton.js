@@ -20,7 +20,7 @@ sap.ui.define(['sap/m/semantic/SemanticControl', 'sap/m/Button', 'sap/m/Overflow
 	 * @abstract
 	 *
 	 * @author SAP SE
-	 * @version 1.32.14
+	 * @version 1.32.15
 	 *
 	 * @constructor
 	 * @public
