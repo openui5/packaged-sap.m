@@ -30,7 +30,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control'],
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.28.32
+	 * @version 1.28.33
 	 *
 	 * @constructor
 	 * @public
@@ -229,6 +229,14 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control'],
 		if (!this.isEditable() && !this._parentPreventsTapEvent) {
 			this.firePress({});
 		}
+	};
+
+	Tile.prototype.setVisible = function(bVisible){
+		this.setProperty("visible", bVisible);
+		if (this.getParent() && this.getParent() instanceof sap.m.TileContainer) {
+			this.getParent().invalidate(); // Force rerendering of TileContainer, so the tiles can be rearanged
+		}
+		return this;
 	};
 
 	/**

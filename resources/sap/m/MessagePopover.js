@@ -24,7 +24,7 @@ sap.ui.define(["jquery.sap.global", "./ResponsivePopover", "sap/m/Button", "sap/
 		 * @extends sap.ui.core.Control
 		 *
 		 * @author SAP SE
-		 * @version 1.28.32
+		 * @version 1.28.33
 		 *
 		 * @constructor
 		 * @public
@@ -169,6 +169,7 @@ sap.ui.define(["jquery.sap.global", "./ResponsivePopover", "sap/m/Button", "sap/
 					that.fireAfterOpen({openBy: oEvent.getParameter("openBy")});
 				},
 				afterClose: function (oEvent) {
+					that._navContainer.backToTop();
 					that.fireAfterClose({openBy: oEvent.getParameter("openBy")});
 				},
 				beforeOpen: function (oEvent) {
