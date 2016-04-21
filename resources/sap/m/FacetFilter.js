@@ -21,7 +21,7 @@ sap.ui.define(['jquery.sap.global', './NavContainer', './library', 'sap/ui/core/
 	 * The FacetFilter control is used to provide filtering functionality with multiple parameters.
 	 * @extends sap.ui.core.Control
 	 * @implements sap.ui.core.IShrinkable
-	 * @version 1.36.7
+	 * @version 1.36.8
 	 *
 	 * @constructor
 	 * @public

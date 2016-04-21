@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './Popover', './TabStripSelectList', './libr
 		 * @extends sap.m.Select
 		 *
 		 * @author SAP SE
-		 * @version 1.36.7
+		 * @version 1.36.8
 		 * @since 1.34
 		 *
 		 * @constructor

@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @class
 	 * Tokenizer displays multiple tokens
 	 * @extends sap.ui.core.Control
-	 * @version 1.36.7
+	 * @version 1.36.8
 	 *
 	 * @constructor
 	 * @public

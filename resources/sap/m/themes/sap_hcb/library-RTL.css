@@ -5058,7 +5058,7 @@ html[data-sap-ui-os^="Android"] .sapMObjectNumberUnit {
   width: auto !important;
 }
 .sapMOTAPopover.sapMPopover .sapMPopoverCont .sapMPopoverScroll > div.sapMSegBSelectWrapper {
-  width: 100%;
+  width: 100% !important;
 }
 .sapMOTAPopover.sapMPopover .sapMPopoverCont .sapMPopoverScroll > div.sapMSegBSelectWrapper > div.sapMSlt {
   width: 100% !important;
