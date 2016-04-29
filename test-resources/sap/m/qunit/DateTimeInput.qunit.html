@@ -1,0 +1,230 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+<title>Test Page for sap.m.DateTimeInput</title>
+<script id="sap-ui-bootstrap" data-sap-ui-theme="sap_bluecrystal"
+	type="text/javascript" 
+	data-sap-ui-noConflict="true"
+	data-sap-ui-libs="sap.m"
+	data-sap-ui-language="en-US"
+	src="../../../../resources/sap-ui-core.js">
+</script>
+
+<link rel="stylesheet" href="../../../../resources/sap/ui/thirdparty/qunit.css" type="text/css" media="screen">
+<script type="text/javascript" src="../../../../resources/sap/ui/thirdparty/qunit.js"></script>
+<script type="text/javascript" src="../../../../resources/sap/ui/qunit/qunit-junit.js"></script>
+
+<script type="text/javascript" src="../../../../resources/sap/ui/qunit/QUnitUtils.js"></script>
+<script type="text/javascript" src="../../../../resources/sap/ui/thirdparty/sinon.js"></script>
+<script type="text/javascript" src="../../../../resources/sap/ui/thirdparty/sinon-qunit.js"></script>
+
+<!-- use the sinon faketimers for this test -->
+<script type="text/javascript">
+	sinon.config.useFakeTimers = true;
+	// make jQuery.now work with Sinon fake timers (since jQuery 2.x, jQuery.now caches the native Date.now)
+	jQuery.now = function() {
+		return Date.now();
+	};
+</script>
+
+<script type="text/javascript">
+	jQuery.sap.require("sap.ui.model.type.Date");
+
+	var oNow = new Date(),
+		oCore = sap.ui.getCore(),
+		sValueFormat = "yyyy-MM-dd",
+		sDateValue1 = "2012-05-29",
+		sDateValue2 = "1984-03-26",
+		sDateValue3 = "1984-03-04",
+		oModel = new sap.ui.model.json.JSONModel(),
+		oFormatter = sap.ui.core.format.DateFormat.getDateInstance({
+			pattern : sValueFormat
+		});
+
+	oModel.setData({
+		dateVal : new Date(+oNow)
+	});
+	sap.ui.getCore().setModel(oModel);
+
+	var bChange = false;
+	var sValue = "";
+	var bValid = false;
+	var sId = "";
+
+	function handleChange(oEvent){
+			var oDTI = oEvent.oSource;
+			sValue = oEvent.getParameter("newValue");
+			bValid = oEvent.getParameter("valid");
+			bChange = true;
+			sId = oDTI.getId();
+		};
+
+	var dti0 = new sap.m.DateTimeInput({
+			displayFormat : "dd MMMM, yyyy",
+			valueFormat : sValueFormat,
+			placeholder : "Test",
+			ariaLabelledBy : "XXX",
+			width: "100px",
+			change: handleChange
+		}).placeAt("content"),
+		dti1 = new sap.m.DateTimeInput({
+			type : "Time",
+			change: handleChange
+		}).placeAt("content"),
+		dti2 = new sap.m.DateTimeInput({
+			type : "DateTime",
+			displayFormat : new sap.ui.model.type.DateTime({style: "long"}).getOutputPattern(),
+			change: handleChange
+		}).placeAt("content"),
+		dti3 = new sap.m.DateTimeInput({
+			value : {
+				path : "/dateVal",
+				type : new sap.ui.model.type.Date({pattern : sValueFormat})
+			},
+			change: handleChange
+		}).placeAt("content"),
+		dti4 = new sap.m.DateTimeInput("errordti", {
+			displayFormat : "dd MMMM, yyyy",
+			valueState:"Error",
+			valueStateText:"Error Message",
+			change: handleChange
+		}).placeAt("content");
+
+
+	qutils.delayTestStart();
+
+	module("Properties");
+
+	test("Set and Get Date Value ", function() {
+
+		var oDateValue1 = oFormatter.parse(sDateValue1);
+		dti0.setValue(sDateValue1);
+		oCore.applyChanges();
+		strictEqual(dti0.getValue(), sDateValue1, "value after setValue: " + sDateValue1);
+		strictEqual(+dti0.getDateValue(), +oDateValue1, "dateValue after setValue : " + oDateValue1 + " " + dti0.getDateValue());
+
+		var oDateValue2 = oFormatter.parse(sDateValue2);
+		dti0.setDateValue(oDateValue2);
+		oCore.applyChanges();
+		strictEqual(dti0.getValue(), sDateValue2, "value after setDateValue: " + sDateValue2);
+		strictEqual(+dti0.getDateValue(), +oDateValue2, "dateValue after setDateValue : " + oDateValue2);
+
+		var oDateValue3 = oFormatter.parse(sDateValue3);
+		oModel.setData({
+			dateVal : oDateValue3
+		});
+		oCore.applyChanges();
+		strictEqual(dti3.getValue(), sDateValue3, "value after oModel.setData: " + sDateValue3);
+		strictEqual(+dti3.getDateValue(), +oDateValue3, "dateValue after oModel.setData : " + oDateValue3);
+	});
+
+	test("used picker", function() {
+		equal(dti0.getAggregation("_picker").getMetadata().getName(), "sap.m.DatePicker", "DatePicker control used inside");
+		equal(dti1.getAggregation("_picker").getMetadata().getName(), "sap.m.TimePicker", "TimePicker control used inside");
+		equal(dti2.getAggregation("_picker").getMetadata().getName(), "sap.m.DateTimePicker", "DateTimePicker control used inside");
+	});
+
+	test("picker properties", function() {
+		var oDatePicker = dti0.getAggregation("_picker");
+		equal(dti0.getValue(), oDatePicker.getValue(), "DatePicker value");
+		equal(dti0.getDateValue().getTime(), oDatePicker.getDateValue().getTime(), "DatePicker Datealue");
+		equal(dti0.getValueFormat(), oDatePicker.getValueFormat(), "DatePicker valueFormat");
+		equal(dti0.getDisplayFormat(), oDatePicker.getDisplayFormat(), "DatePicker displayFormat");
+		equal(dti0.getPlaceholder(), oDatePicker.getPlaceholder(), "DatePicker value");
+		equal(dti0.getWidth(), "100px", "DateTimeInput width");
+		equal(oDatePicker.getWidth(), "100%", "DatePicker width");
+		ok(jQuery.sap.equal(dti0.getAriaLabelledBy(), oDatePicker.getAriaLabelledBy()), "DatePicker getAriaLabelledBy");
+
+		oDatePicker = dti4.getAggregation("_picker");
+		equal(dti4.getValueState(), oDatePicker.getValueState(), "DatePicker valueState");
+		equal(dti4.getValueStateText(), oDatePicker.getValueStateText(), "DatePicker valueStateText");
+	});
+
+
+	test("Invalid Value", function() {
+		var sInvalidValue = ":)";
+
+		dti2.setValue(sInvalidValue);
+		oCore.applyChanges();
+
+		strictEqual(dti2.getValue(), ":)", "value after invalid value set : " + dti2.getValue());
+		strictEqual(dti2.getDateValue(), null, "dateValue after invalid value set : " + dti2.getDateValue());
+	});
+
+	module("Interaction");
+
+	test("Change event", function() {
+		var oDateValue2 = oFormatter.parse(sDateValue2);
+		var oDatePicker = dti0.getAggregation("_picker");
+		bChange = false;
+		sValue = "";
+		bValid = true;
+		sId = "";
+		dti0.focus();
+		oDatePicker.$().children("input").val("33 May, 2012");
+		qutils.triggerKeyboardEvent("__input0-Picker-inner", jQuery.sap.KeyCodes.ENTER, false, false, false);
+		oDatePicker.$().children("input").change(); // trigger change event, because browser do not if value is changed using jQuery
+		equal(sId, dti0.getId(), "Change event fired");
+		equal(sValue, "33 May, 2012", "Value of event has entered value if invalid");
+		ok(!bValid, "Value is not valid");
+		equal(dti0.getValue(), "33 May, 2012", "Value has entered value if invalid");
+		equal(dti0.getDateValue().getTime(), oDateValue2.getTime(), "DateValue not changed set");
+
+		bChange = false;
+		sValue = "";
+		bValid = false;
+		sId = "";
+		dti0.focus();
+		oDatePicker.$().children("input").val("30 May, 2012");
+		qutils.triggerKeyboardEvent("__input0-Picker-inner", jQuery.sap.KeyCodes.ENTER, false, false, false);
+		oDatePicker.$().children("input").change(); // trigger change event, because browser do not if value is changed using jQuery
+		equal(sId, dti0.getId(), "Change event fired");
+		equal(sValue, "2012-05-30", "Value in internal format priovided");
+		ok(bValid, "Value is valid");
+		equal(dti0.getValue(), "2012-05-30", "Value in internal format set");
+		equal(dti0.getDateValue().getTime(), new Date("2012", "04", "30").getTime(), "DateValue set");
+
+	});
+
+	test("Destroy", function() {
+		strictEqual(dti1.$().length, 1, "Before destroy DateTimeInput is available");
+		dti1.destroy();
+		strictEqual(dti1.$().length, 0, "DateTimeInput is destroyed");
+	});
+
+	test("value state and value state message", function() {
+		var oPicker = dti4.getAggregation("_picker");
+		dti4.focus();
+		ok(oPicker._popup.isOpen(), "error message is open");
+		this.clock.tick(500);
+
+		document.activeElement.blur();
+		ok(!oPicker._popup.isOpen(), "error message is closed");
+	});
+	
+	module("Accessibility");
+	
+	test("getAccessibilityInfo", function() {
+		var oInput = new sap.m.DateTimeInput();
+		ok(!!oInput.getAccessibilityInfo, "DateTimeInput has a getAccessibilityInfo function");
+		var oInfo = oInput.getAccessibilityInfo();
+		ok(!!oInfo, "getAccessibilityInfo returns a info object");
+		//Rest is tested in unit tests of inner controls
+		oInput.destroy();
+	});
+
+</script>
+
+</head>
+<body>
+	<h1 id="qunit-header">QUnit page for sap.m.DateTimeInput</h1>
+	<h2 id="qunit-banner"></h2>
+	<h2 id="qunit-userAgent"></h2>
+	<div id="qunit-testrunner-toolbar"></div>
+	<div id="qunit-fixture">test markup, will be hidden</div>
+	<ol id="qunit-tests"></ol>
+	<div id="content"></div>
+</body>
+</html>
