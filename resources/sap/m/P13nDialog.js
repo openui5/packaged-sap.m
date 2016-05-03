@@ -20,7 +20,7 @@ sap.ui.define([
 	 *        tables.
 	 * @extends sap.m.Dialog
 	 * @author SAP SE
-	 * @version 1.38.0
+	 * @version 1.38.1
 	 * @constructor
 	 * @public
 	 * @since 1.26.0
@@ -317,7 +317,16 @@ sap.ui.define([
 	 * @private
 	 */
 	P13nDialog.prototype.showValidationDialog = function(fCallbackIgnore, aFailedPanelTypes, aValidationResult) {
-		var bWithBulletPoint = (aFailedPanelTypes.length + aValidationResult.length) > 1;
+		if (!aFailedPanelTypes.length && !aValidationResult.length) {
+			return;
+		}
+		var aMessagedReduced = [];
+		aValidationResult.forEach(function(oResult) {
+			if (oResult.messageText && aMessagedReduced.indexOf(oResult.messageText) < 0) {
+				aMessagedReduced.push(oResult.messageText);
+			}
+		});
+		var bWithBulletPoint = (aFailedPanelTypes.length + aMessagedReduced.length) > 1;
 		var sMessageText = "";
 		aFailedPanelTypes.forEach(function(sPanelType) {
 			switch (sPanelType) {
@@ -329,9 +338,8 @@ sap.ui.define([
 					break;
 			}
 		});
-		for ( var sType in aValidationResult) {
-			var oMessage = aValidationResult[sType];
-			sMessageText = (bWithBulletPoint ? "• " : "") + oMessage.messageText + "\n" + sMessageText;
+		for ( var sType in aMessagedReduced) {
+			sMessageText = (bWithBulletPoint ? "• " : "") + aMessagedReduced[sType] + "\n" + sMessageText;
 		}
 		jQuery.sap.require("sap.m.MessageBox");
 		sap.m.MessageBox.show(sMessageText, {

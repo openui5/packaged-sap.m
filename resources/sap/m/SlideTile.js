@@ -18,7 +18,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/G
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.38.0
+	 * @version 1.38.1
 	 * @since 1.34
 	 *
 	 * @public
@@ -277,7 +277,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/G
 	 * Changes the size to given size
 	 *
 	 * @private
-	 * @param {Integer} tileIndex of the element in the tiles aggregation
+	 * @param {int} tileIndex of the element in the tiles aggregation
 	 */
 	SlideTile.prototype._changeSizeTo = function(tileIndex) {
 		var oTile = this.getTiles()[tileIndex];
@@ -300,7 +300,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/G
 	 * Returns the index of the next tile based on the current index
 	 *
 	 * @private
-	 * @param {Integer} tileIndex of the element in the tiles aggregation
+	 * @param {int} tileIndex of the element in the tiles aggregation
 	 */
 	SlideTile.prototype._getNextTileIndex = function(tileIndex) {
 		if (tileIndex + 1 < this.getTiles().length) {
@@ -314,7 +314,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/G
 	 * Returns the index of the previous tile based on the current index
 	 *
 	 * @private
-	 * @param {Integer} tileIndex of the element in the tiles aggregation
+	 * @param {int} tileIndex of the element in the tiles aggregation
 	 */
 	SlideTile.prototype._getPrevTileIndex = function(tileIndex) {
 		if (tileIndex - 1 >= 0) {

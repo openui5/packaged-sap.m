@@ -25,7 +25,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './InstanceManager', './Associative
 		 * @implements sap.ui.core.PopupInterface
 		 *
 		 * @author SAP SE
-		 * @version 1.38.0
+		 * @version 1.38.1
 		 *
 		 * @constructor
 		 * @public
@@ -1082,6 +1082,9 @@ sap.ui.define(['jquery.sap.global', './Bar', './InstanceManager', './Associative
 			if (!this._sContentResizeListenerId) {
 				this._sContentResizeListenerId = sap.ui.core.ResizeHandler.register(this.getDomRef("scrollCont"), jQuery.proxy(this._onResize, this));
 			}
+
+			//set the initial size of the content container so when a dialog with large content is open there will be a scroller
+			this._onResize();
 		};
 
 		Dialog.prototype._attachHandler = function(oButton) {

@@ -36,7 +36,7 @@ sap.ui.define(["jquery.sap.global", "./ResponsivePopover", "./Button", "./Toolba
 		 * @extends sap.ui.core.Control
 		 *
 		 * @author SAP SE
-		 * @version 1.38.0
+		 * @version 1.38.1
 		 *
 		 * @constructor
 		 * @private
@@ -373,6 +373,7 @@ sap.ui.define(["jquery.sap.global", "./ResponsivePopover", "./Button", "./Toolba
 		 */
 		ViewSettingsPopover.prototype._showContentFor = function (sPageId, oParentItem) {
 			this._getPopover().setContentHeight('300px');
+			this._getPopover().setContentWidth('300px');
 
 			// remove any current contents from the page
 			this._removePageContents(sPageId);
@@ -636,7 +637,7 @@ sap.ui.define(["jquery.sap.global", "./ResponsivePopover", "./Button", "./Toolba
 				iButtonWidth = iButtonWidth * 2;
 			}
 			iNewWidth = (iButtonWidth + iButtonMargin) * (iButtonsLen + 1.6); // make more room for close button
-			this._getPopover().$().width(iNewWidth);
+			this._getPopover().setContentWidth(iNewWidth + "px");
 		};
 
 		/**

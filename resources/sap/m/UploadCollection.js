@@ -19,7 +19,7 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.38.0
+	 * @version 1.38.1
 	 *
 	 * @constructor
 	 * @public
@@ -721,7 +721,6 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 	 * @param {sap.m.UploadCollectionItem} item The item to update with a new version. This parameter is mandatory.
 	 * @returns {sap.m.UploadCollection} To ensure method chaining, return the UploadCollection.
 	 * @since 1.38.0
-	 * @experimental
 	 * @public
 	 */
 	UploadCollection.prototype.openFileDialog = function(item) {

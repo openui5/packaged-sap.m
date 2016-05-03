@@ -17,7 +17,7 @@ sap.ui.define([
 	 * @param {object} [mSettings] initial settings for the new control
 	 * @class The ConditionPanel Control will be used to implement the Sorting, Filtering and Grouping panel of the new Personalization dialog.
 	 * @extends sap.ui.core.Control
-	 * @version 1.38.0
+	 * @version 1.38.1
 	 * @constructor
 	 * @public
 	 * @experimental since version 1.26 !!! THIS CONTROL IS ONLY FOR INTERNAL USE !!!
@@ -257,7 +257,7 @@ sap.ui.define([
 	 *
 	 * @param {object} oCondition the new condition of type { "key": "007", "operation": sap.m.P13nConditionOperation.Ascending, "keyField":
 	 *        "keyFieldKey", "value1": "", "value2": ""};
-	 * @param {integer} index of the new condition
+	 * @param {int} index of the new condition
 	 * @public
 	 * @since 1.26.0
 	 */
@@ -1066,7 +1066,7 @@ sap.ui.define([
 	 * @param {grid} oTargetGrid the main grid in which the new condition grid will be added
 	 * @param {object} oConditionGridData the condition data for the new added condition grid controls
 	 * @param {string} sKey the key for the new added condition grid
-	 * @param {integer} iPos the index of the new condition in the targetGrid
+	 * @param {int} iPos the index of the new condition in the targetGrid
 	 */
 	P13nConditionPanel.prototype._createConditionRow = function(oTargetGrid, oConditionGridData, sKey, iPos) {
 		var oButtonContainer = null;

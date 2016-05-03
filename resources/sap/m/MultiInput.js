@@ -22,7 +22,7 @@ sap.ui.define(['jquery.sap.global', './Input', './Token', './library', 'sap/ui/c
 	 * @extends sap.m.Input
 	 *
 	 * @author SAP SE
-	 * @version 1.38.0
+	 * @version 1.38.1
 	 *
 	 * @constructor
 	 * @public
@@ -501,7 +501,9 @@ sap.ui.define(['jquery.sap.global', './Input', './Token', './library', 'sap/ui/c
 
 		// necessary to display expanded MultiInput which is inside SimpleForm
 		var $Parent;
-		if (this.$().parent('[class*="sapUiRespGridSpan"]')) {
+		if (this.$().closest('.sapUiVlt')) {
+			$Parent = this.$().closest('.sapUiVlt');
+		} else if (this.$().parent('[class*="sapUiRespGridSpan"]')) {
 			$Parent = this.$().parent('[class*="sapUiRespGridSpan"]');
 		} else if (this.$().parents(".sapUiRFLContainer")) {
 			$Parent = this.$().parents(".sapUiRFLContainer");
@@ -1230,7 +1232,7 @@ sap.ui.define(['jquery.sap.global', './Input', './Token', './library', 'sap/ui/c
 	 * Functions returns the current input field's cursor position
 	 *
 	 * @private
-	 * @return {integer} the cursor position
+	 * @return {int} the cursor position
 	 */
 	MultiInput.prototype.getCursorPosition = function() {
 		return this._$input.cursorPos();
