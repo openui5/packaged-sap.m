@@ -25,7 +25,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './InstanceManager', './Associative
 		 * @implements sap.ui.core.PopupInterface
 		 *
 		 * @author SAP SE
-		 * @version 1.34.11
+		 * @version 1.34.12
 		 *
 		 * @constructor
 		 * @public
@@ -314,7 +314,12 @@ sap.ui.define(['jquery.sap.global', './Bar', './InstanceManager', './Associative
 					top: that._oManuallySetPosition ? that._oManuallySetPosition.y : '50%'
 				};
 
+				//deregister the content resize handler before repositioning
+				that._deregisterContentResizeHandler();
 				Popup.prototype._applyPosition.call(this, oPosition);
+
+				//register the content resize handler
+				that._registerContentResizeHandler();
 			};
 
 			if (Dialog._bPaddingByDefault) {
@@ -363,6 +368,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './InstanceManager', './Associative
 
 		Dialog.prototype.exit = function () {
 			InstanceManager.removeDialogInstance(this);
+			this._deregisterContentResizeHandler();
 			this._deregisterResizeHandler();
 
 			if (this.oPopup) {
@@ -458,6 +464,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './InstanceManager', './Associative
 				this._oManuallySetPosition = null;
 				this._oManuallySetSize = null;
 				oPopup.close();
+				this._deregisterContentResizeHandler();
 			}
 			return this;
 		};
@@ -673,17 +680,16 @@ sap.ui.define(['jquery.sap.global', './Bar', './InstanceManager', './Associative
 			}
 
 			if (!this.getContentHeight()) {
-
 				//reset the height so the dialog can grow
 				$dialogContent.css({
 					height: 'auto'
 				});
 
 				//set the newly calculated size by getting it from the browser rendered layout - by the max-height
-				$dialogContent.height(parseInt($dialog.height(), 10) + parseInt($dialog.css("border-top-width"), 10) + parseInt($dialog.css("border-bottom-width"), 10));
+				$dialogContent.height(parseInt($dialog.height(), 10));
 			}
 
-			if (this.getStretch()) {
+			if (this.getStretch() || this._bDisableRepositioning) {
 				return;
 			}
 
@@ -1046,6 +1052,31 @@ sap.ui.define(['jquery.sap.global', './Bar', './InstanceManager', './Associative
 			//This can be removed and the layout change to flex when the support for IE9 is dropped
 			this._resizeListenerId = sap.ui.core.ResizeHandler.register(_$srollSontent.get(0), jQuery.proxy(this._onResize, this));
 			sap.ui.Device.resize.attachHandler(this._onResize.bind(this));
+
+			//set the initial size of the content container so when a dialog with large content is open there will be a scroller
+			this._onResize();
+		};
+
+		/**
+		 *
+		 * @private
+		 */
+		Dialog.prototype._deregisterContentResizeHandler = function () {
+			if (this._sContentResizeListenerId) {
+				sap.ui.core.ResizeHandler.deregister(this._sContentResizeListenerId);
+				this._sContentResizeListenerId = null;
+			}
+		};
+
+		/**
+		 *
+		 * @param oScrollDomRef
+		 * @private
+		 */
+		Dialog.prototype._registerContentResizeHandler = function() {
+			if (!this._sContentResizeListenerId) {
+				this._sContentResizeListenerId = sap.ui.core.ResizeHandler.register(this.getDomRef("scrollCont"), jQuery.proxy(this._onResize, this));
+			}
 
 			//set the initial size of the content container so when a dialog with large content is open there will be a scroller
 			this._onResize();

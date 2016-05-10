@@ -20,7 +20,7 @@ sap.ui.define([
 	 *        tables.
 	 * @extends sap.m.Dialog
 	 * @author SAP SE
-	 * @version 1.34.11
+	 * @version 1.34.12
 	 * @constructor
 	 * @public
 	 * @since 1.26.0
@@ -212,6 +212,7 @@ sap.ui.define([
 	P13nDialog.prototype._createDialog = function() {
 		if (sap.ui.Device.system.phone) {
 			var that = this;
+			this.setStretch(true);
 			this.setVerticalScrolling(false);
 			this.setHorizontalScrolling(false);
 			this.setCustomHeader(new sap.m.Bar({
@@ -346,7 +347,7 @@ sap.ui.define([
 		if (sap.ui.Device.system.phone) {
 			oNavigationItem = new sap.m.StandardListItem({
 				type: sap.m.ListType.Navigation,
-				text: oPanel.getBindingPath("title") ? jQuery.extend(true, {}, oPanel.getBindingInfo("title")) : oPanel.getTitle()
+				title: oPanel.getBindingPath("title") ? jQuery.extend(true, {}, oPanel.getBindingInfo("title")) : oPanel.getTitle()
 			});
 		} else {
 			oNavigationItem = new sap.m.Button({
@@ -390,6 +391,7 @@ sap.ui.define([
 	 */
 	P13nDialog.prototype._switchPanel = function(oNavigationItem) {
 		var oPanel = this._getPanelByNavigationItem(oNavigationItem);
+		this.setVerticalScrolling(oPanel.getVerticalScrolling());
 		if (sap.ui.Device.system.phone) {
 			var oNavigationControl = this._getNavigationControl();
 			if (oNavigationControl) {
@@ -400,7 +402,6 @@ sap.ui.define([
 				this.getCustomHeader().getContentLeft()[0].setVisible(true);
 			}
 		} else {
-			this.setVerticalScrolling(oPanel.getVerticalScrolling());
 			this.getPanels().forEach(function(oPanel_) {
 				if (oPanel_ === oPanel) {
 					oPanel_.beforeNavigationTo();

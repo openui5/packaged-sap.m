@@ -390,11 +390,14 @@
 		oBar.placeAt("qunit-fixture");
 		sap.ui.getCore().applyChanges();
 
-		elementWidth = oSegmentedButton.$().width();
+		// Using native getBoundingClientRect() method because jQuery.width|outerWidth report rounded widths and
+		// the test becomes unstable.
+		elementWidth = oSegmentedButton.getDomRef().getBoundingClientRect().width;
 
 		// Assert
-		strictEqual(oButton1.$().outerWidth() + oButton2.$().outerWidth(),
-				elementWidth, "Control outer width is the same as sum of all buttons width");
+		strictEqual(oButton1.getDomRef().getBoundingClientRect().width +
+					oButton2.getDomRef().getBoundingClientRect().width,
+					elementWidth, "Control outer width is the same as sum of all buttons width");
 
 		// Cleanup
 		oBar.destroy();
@@ -437,41 +440,47 @@
 
 	});
 
-	if (sap.ui.Device.browser.name == "ie" && (sap.ui.Device.browser.versionStr == "9" || sap.ui.Device.browser.versionStr == "10")) {
-		// TODO: fix this - do not run this tests on IE9 & IE10 because of width reading problem
-	} else {
-		test("Mixed content buttons width calculation when in bar (all buttons should have the same width)", function() {
+	test("Mixed content buttons width calculation when in bar (all buttons should have the same width)", function() {
 
-			// Arrange
-			var oButton1 = new sap.m.Button({text: "All"}),
-				oButton2 = new sap.m.Button({text: "Text", icon: sap.ui.core.IconPool.getIconURI("attachment")}),
-				oButton3 = new sap.m.Button({text: "Text", icon: sap.ui.core.IconPool.getIconURI("attachment")}),
-				oSegmentedButton = new sap.m.SegmentedButton({
-					buttons: [oButton1, oButton2, oButton3]
-				}),
-				oBar = new sap.m.Bar({contentMiddle: oSegmentedButton}),
-				sExpectedWidth;
+		// Arrange
+		var oButton1 = new sap.m.Button({text: "All"}),
+			oButton2 = new sap.m.Button({text: "Text", icon: sap.ui.core.IconPool.getIconURI("attachment")}),
+			oButton3 = new sap.m.Button({text: "Text", icon: sap.ui.core.IconPool.getIconURI("attachment")}),
+			oSegmentedButton = new sap.m.SegmentedButton({
+				buttons: [oButton1, oButton2, oButton3]
+			}),
+			oBar = new sap.m.Bar({contentMiddle: oSegmentedButton}),
+			iButton1Width,
+			iButton2Width,
+			iButton3Width,
+			iControlWidth;
 
-			// System under Test
-			oBar.placeAt("qunit-fixture");
-			sap.ui.getCore().applyChanges();
+		// System under Test
+		oBar.placeAt("qunit-fixture");
+		sap.ui.getCore().applyChanges();
 
-			// Control width is the first button width
-			sExpectedWidth = Math.abs(oButton1.$().outerWidth());
+		// Using native getBoundingClientRect() method because jQuery.width|outerWidth report rounded widths and
+		// the test becomes unstable.
+		iControlWidth = oSegmentedButton.getDomRef().getBoundingClientRect().width;
+		iButton1Width = oButton1.getDomRef().getBoundingClientRect().width;
+		iButton2Width = oButton2.getDomRef().getBoundingClientRect().width;
+		iButton3Width = oButton3.getDomRef().getBoundingClientRect().width;
 
-			// Assert
-			strictEqual(Math.abs(oButton2.$().outerWidth()), (sExpectedWidth + 1), 'Second button width should be equal to the ' +
-					'first button width (mind here we add 1px to the expected result because of the 2 borders of middle' +
-					'buttons)');
+		// Assert
+		strictEqual(Math.floor(iButton2Width), Math.floor(iButton1Width), 'Second button width should be equal to the ' +
+				'first button width (mind here we add 1px to the expected result because of the 2 borders of middle' +
+				'buttons)');
 
-			strictEqual(Math.abs(oButton3.$().outerWidth()), sExpectedWidth, 'Third button width should be equal to the ' +
-					'first button width');
+		strictEqual(Math.floor(iButton3Width), Math.floor(iButton1Width), 'Third button width should be equal to the ' +
+				'first button width');
 
-			// Cleanup
-			oBar.destroy();
+		strictEqual(iControlWidth, Math.round(iButton1Width + iButton2Width + iButton3Width), "The sum of all buttons width " +
+				"should be the same as the control width");
 
-		});
-	}
+		// Cleanup
+		oBar.destroy();
+
+	});
 
 	test("Initialize with items aggregation", function() {
 
@@ -1300,6 +1309,203 @@
 		oSB = null;
 		aButtons = null;
 
+	});
+
+	test("_getRenderedButtonWidths private method", function () {
+		// Arrange
+		var oSB,
+			aButtons;
+
+		oSB = new sap.m.SegmentedButton({
+			buttons: [
+				new sap.m.Button({text: "Btn 1", width: "100px"}),
+				new sap.m.Button({text: "Btn 2 long", width: "100px"}),
+				new sap.m.Button({text: "Btn 3 again longer", width: "100px"})
+			]
+		});
+		aButtons = oSB.getButtons();
+
+		// Assert
+		deepEqual(oSB._getRenderedButtonWidths(aButtons), [null,null,null], "Before the control is rendered an array " +
+				"of empty widths is returned");
+
+		// Act
+		oSB.placeAt("qunit-fixture");
+		sap.ui.getCore().applyChanges();
+
+		// Assert
+		deepEqual(oSB._getRenderedButtonWidths(aButtons), [100,100,100], "Returned array of widths " +
+				"equals to predefined widths of the buttons");
+
+		// Cleanup
+		oSB.destroy();
+		oSB = null;
+		aButtons = null;
+	});
+
+	test("_clearAutoWidthAppliedToControl private method", function () {
+		// Arrange
+		var oSB,
+			aButtons,
+			i;
+
+		oSB = new sap.m.SegmentedButton({
+			items: [
+				new sap.m.SegmentedButtonItem({text: "Btn 1"}),
+				new sap.m.SegmentedButtonItem({text: "Btn 2", width: "20px"}),
+				new sap.m.SegmentedButtonItem({text: "Btn 3"})
+			]
+		}).placeAt("qunit-fixture");
+		sap.ui.getCore().applyChanges();
+
+		aButtons = oSB.getButtons();
+
+		// Assert
+		ok(oSB.$().attr("style").indexOf("width:") !== -1, "Auto width is applied to control");
+		for (i = 0;i < aButtons.length; i++) {
+			ok(aButtons[i].$().attr("style").indexOf("width:") !== -1, "Auto|predefined width is applied to internal " +
+					"button");
+		}
+
+		// Act
+		oSB._clearAutoWidthAppliedToControl();
+
+		// Assert
+		notOk(oSB.$().attr("style"), "Auto width is removed from control");
+		notOk(aButtons[0].$().attr("style"), "Auto width is removed from internal button");
+		ok(aButtons[1].$().attr("style").indexOf("20px") !== -1, "Predefined width is not removed from internal button");
+		notOk(aButtons[2].$().attr("style"), "Auto width is removed from internal button");
+
+		// Act
+		oSB.setWidth("200px");
+		aButtons[0].setWidth("10px");
+		sap.ui.getCore().applyChanges();
+		oSB._clearAutoWidthAppliedToControl();
+
+		// Assert
+		ok(oSB.$().attr("style").indexOf("200px") !== -1, "Control width is not cleared if predefined");
+		ok(aButtons[0].$().attr("style").indexOf("10px") !== -1, "First button width is not cleared if predefined");
+
+		// Cleanup
+		oSB.destroy();
+		oSB = null;
+		aButtons = null;
+	});
+
+	test("_handleContainerResize private method", function () {
+		// Arrange
+		var oSB = new sap.m.SegmentedButton({
+			items: [
+				new sap.m.SegmentedButtonItem({text: "Btn 1"}),
+				new sap.m.SegmentedButtonItem({text: "Btn 2"}),
+				new sap.m.SegmentedButtonItem({text: "Btn 3"})
+			]
+		});
+
+		this.spy(oSB, "_clearAutoWidthAppliedToControl");
+		this.spy(oSB, "_getRenderedButtonWidths");
+		this.spy(oSB, "_updateWidth");
+
+		// Act
+		oSB._handleContainerResize();
+
+		// Assert
+		ok(oSB._clearAutoWidthAppliedToControl.calledOnce, "Method _clearAutoWidthAppliedToControl called once");
+		ok(oSB._getRenderedButtonWidths.calledOnce, "Method _getRenderedButtonWidths called once");
+		ok(oSB._updateWidth.calledOnce, "Method _updateWidth called once");
+
+		// Cleanup
+		oSB.destroy();
+		oSB = null;
+	});
+
+	test("_updateWidth private method", function () {
+		// Arrange
+		var oSB,
+			aButtons,
+			i;
+
+		oSB = new sap.m.SegmentedButton({
+			items: [
+				new sap.m.SegmentedButtonItem({text: "Btn 1"}),
+				new sap.m.SegmentedButtonItem({text: "Btn 2"}),
+				new sap.m.SegmentedButtonItem({text: "Btn 3"}),
+				new sap.m.SegmentedButtonItem({text: "Btn 4"})
+			]
+		}).placeAt("qunit-fixture");
+
+		sap.ui.getCore().applyChanges();
+
+		aButtons = oSB.getButtons();
+
+		// Act
+		oSB._aWidths = [20, 20, 20, 20];
+		oSB._updateWidth();
+
+		// Assert
+		strictEqual(oSB.$().attr("style"), "width: 81px;", "Result should be sum of all 4 button widths which is 80 " +
+				"plus one pixel added for the border");
+
+		// Act
+		oSB.setWidth("400px");
+
+		// Assert
+		for (i = 0;i < aButtons.length;i++) {
+			strictEqual(aButtons[i].$().attr("style"), "width: 25%;", "Width of all buttons should be 25%");
+		}
+
+		// Act
+		oSB._aWidths = [0, 0, 0, 0];
+		oSB._updateWidth();
+
+		// Assert
+		notOk(oSB.$().css("width") === "1px", "Corner case when all reported inner buttons width is 0 applied width " +
+				"should not be 1px");
+
+		// Cleanup
+		aButtons = null;
+		oSB.destroy();
+		oSB = null;
+	});
+
+	test("_updateWidth - sum of buttons width is greater than parent element width", function () {
+		// Arrange
+		var that = this,
+			oSB = new sap.m.SegmentedButton({
+				items: [
+					new sap.m.SegmentedButtonItem({text: "Btn 1"}),
+					new sap.m.SegmentedButtonItem({text: "Btn 2"}),
+					new sap.m.SegmentedButtonItem({text: "Btn 3"}),
+					new sap.m.SegmentedButtonItem({text: "Btn 4"})
+				]
+			}).placeAt("qunit-fixture");
+
+		sap.ui.getCore().applyChanges();
+
+		// Act
+		// Here we replace the jQuery.innerWidth method to report stable width for the parent element if the parent
+		// element is the qunit-fixture itself
+		this._ojQueryInnerWidthMethod = jQuery.fn.innerWidth;
+		jQuery.fn.innerWidth = function (sWidth) {
+			if (!sWidth && this[0].id === "qunit-fixture") {
+				return 100;
+			}
+			return that._ojQueryInnerWidthMethod.apply(this, arguments);
+		};
+
+		oSB._aWidths = [100, 100, 100];
+		oSB._updateWidth();
+
+		// Assert
+		strictEqual(oSB.$().attr("style"), "width: 100%;", "a");
+
+		// Restore jQuery.innerWidth method
+		jQuery.fn.innerWidth = this._ojQueryInnerWidthMethod;
+
+		// Cleanup
+		oSB.destroy();
+		oSB = null;
+		this._ojQueryInnerWidthMethod = null;
 	});
 
 	/* =========================================================== */

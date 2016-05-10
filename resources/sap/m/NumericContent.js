@@ -18,7 +18,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control','sap/m/Te
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.34.11
+	 * @version 1.34.12
 	 * @since 1.34
 	 *
 	 * @public
@@ -303,9 +303,13 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control','sap/m/Te
 	 * @param {Object} With scale and value
 	 */
 	NumericContent.prototype._parseFormattedValue = function(sValue) {
+
+		// remove the invisible unicode character LTR and RTL mark before processing the regular expression.
+		var sTrimmedValue = sValue.replace(String.fromCharCode(8206), "").replace(String.fromCharCode(8207), "");
+
 		return {
-			scale: sValue.replace(/^[+-., \d]*(.*)$/g, "$1").trim().replace(/\.$/, ""),
-			value: sValue.replace(/^([+-., \d]*).*$/g, "$1").trim()
+			scale: sTrimmedValue.replace(/[+-., \d]*(.*)$/g, "$1").trim().replace(/\.$/, ""),
+			value: sTrimmedValue.replace(/([+-., \d]*).*$/g, "$1").trim()
 		};
 	};
 
