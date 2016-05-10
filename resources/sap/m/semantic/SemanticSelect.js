@@ -19,7 +19,7 @@ sap.ui.define(['sap/m/semantic/SemanticControl', 'sap/m/Select'], function (Sema
 	 * @abstract
 	 *
 	 * @author SAP SE
-	 * @version 1.36.8
+	 * @version 1.36.9
 	 *
 	 * @constructor
 	 * @public

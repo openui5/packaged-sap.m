@@ -24,7 +24,7 @@ sap.ui.define(['jquery.sap.global', './ListBase', './library'],
 	 * @extends sap.m.ListBase
 	 *
 	 * @author SAP SE
-	 * @version 1.36.8
+	 * @version 1.36.9
 	 *
 	 * @constructor
 	 * @public
@@ -222,7 +222,7 @@ sap.ui.define(['jquery.sap.global', './ListBase', './library'],
 	Table.prototype.setNavigationItems = function(oItemNavigation) {
 		var $Header = this.$("tblHeader");
 		var $Footer = this.$("tblFooter");
-		var $Rows = this.$("tblBody").find(".sapMLIB");
+		var $Rows = this.$("tblBody").children(".sapMLIB");
 
 		var aItemDomRefs = $Header.add($Rows).add($Footer).get();
 		oItemNavigation.setItemDomRefs(aItemDomRefs);

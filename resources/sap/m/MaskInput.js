@@ -21,7 +21,7 @@ sap.ui.define(['jquery.sap.global', './InputBase', './MaskInputRule', 'sap/ui/co
 	 *
 	 * @author SAP SE
 	 * @extends sap.m.InputBase
-	 * @version 1.36.8
+	 * @version 1.36.9
 	 *
 	 * @constructor
 	 * @public
@@ -784,6 +784,7 @@ sap.ui.define(['jquery.sap.global', './InputBase', './MaskInputRule', 'sap/ui/co
 	 */
 	MaskInput.prototype.oncut = function(oEvent) {
 		var oSelection = this._getTextSelection(),
+			iMinBrowserDelay = this._getMinBrowserDelay(),
 			iBegin = oSelection.iFrom,
 			iEnd = oSelection.iTo;
 
@@ -802,7 +803,7 @@ sap.ui.define(['jquery.sap.global', './InputBase', './MaskInputRule', 'sap/ui/co
 
 		// give a chance the normal browser cut and oninput handler to finish its work with the current selection,
 		// before messing up the dom value (updateDomValue) or the selection (by setting a new cursor position)
-		jQuery.sap.delayedCall(0, this,
+		jQuery.sap.delayedCall(iMinBrowserDelay, this,
 			function updateDomAndCursor(sValue, iPos, aOldTempValueContent) {
 				//update the temp value back
 				//because oninput breaks it
@@ -812,7 +813,7 @@ sap.ui.define(['jquery.sap.global', './InputBase', './MaskInputRule', 'sap/ui/co
 				//we want that shortly after updateDomValue
 				//but _positionCaret sets the cursor, also with a delayedCall
 				//so we must put our update in the queue
-				jQuery.sap.delayedCall(0, this, this._setCursorPosition, [iPos]);
+				jQuery.sap.delayedCall(iMinBrowserDelay, this, this._setCursorPosition, [iPos]);
 			},
 			[
 				this._oTempValue.toString(),
@@ -1029,6 +1030,7 @@ sap.ui.define(['jquery.sap.global', './InputBase', './MaskInputRule', 'sap/ui/co
 	 */
 	MaskInput.prototype._positionCaret = function (bSelectAllIfInputIsCompleted) {
 		var sMask = this.getMask(),
+			iMinBrowserDelay = this._getMinBrowserDelay(),
 			iEndSelectionIndex;
 
 		clearTimeout(this._iCaretTimeoutId);
@@ -1037,7 +1039,7 @@ sap.ui.define(['jquery.sap.global', './InputBase', './MaskInputRule', 'sap/ui/co
 			iEndSelectionIndex = sMask.length;
 		}
 
-		this._iCaretTimeoutId = jQuery.sap.delayedCall(0, this, function () {
+		this._iCaretTimeoutId = jQuery.sap.delayedCall(iMinBrowserDelay, this, function () {
 			if (this.getFocusDomRef() !== document.activeElement) {
 				return;
 			}
@@ -1049,7 +1051,16 @@ sap.ui.define(['jquery.sap.global', './InputBase', './MaskInputRule', 'sap/ui/co
 		});
 	};
 
-
+	/**
+	 * Determines the browser specific minimal delay time for setTimeout.
+	 *
+	 * Todo: This logic is a good candidate to be implemented generally in jQuery.sap.delayedCall method.
+	 *
+	 * @private
+	 */
+	MaskInput.prototype._getMinBrowserDelay = function () {
+		return !sap.ui.Device.browser.msie ? 4 : 50;
+	};
 
 	/**
 	 * Determines if a given string contains characters that will not comply to the mask input rules.
