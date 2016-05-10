@@ -5455,7 +5455,7 @@ html[data-sap-ui-browser="ie9"] .sapMPersoDialog .sapMPersoDialogFixedBar .sapMP
   resize: none;
 }
 .sapMTextArea > .sapMTextAreaInner {
-  height: 100%;
+  height: auto;
   width: 100%;
 }
 /* ====================================== */
