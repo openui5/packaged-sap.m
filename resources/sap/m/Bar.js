@@ -24,7 +24,7 @@ sap.ui.define(['jquery.sap.global', './BarInPageEnabler', './library', 'sap/ui/c
 	 * @implements sap.m.IBar
 	 *
 	 * @author SAP SE
-	 * @version 1.38.1
+	 * @version 1.38.2
 	 *
 	 * @constructor
 	 * @public
@@ -77,7 +77,8 @@ sap.ui.define(['jquery.sap.global', './BarInPageEnabler', './library', 'sap/ui/c
 			 *  Represents the right content area. Controls such as action buttons or search field can be placed here.
 			 */
 			contentRight : {type : "sap.ui.core.Control", multiple : true, singularName : "contentRight"}
-		}
+		},
+		designtime : true
 	}});
 
 	Bar.prototype.onBeforeRendering = function() {

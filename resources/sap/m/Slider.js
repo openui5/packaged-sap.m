@@ -11,7 +11,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		/**
 		 * Constructor for a new <code>sap.m.Slider</code>.
 		 *
-		 * @param {string} [sId] Id for the new control, generated automatically if no ID is given.
+		 * @param {string} [sId] ID for the new control, generated automatically if no ID is given.
 		 * @param {object} [mSettings] Initial settings for the new control.
 		 *
 		 * @class
@@ -19,7 +19,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		 * @extends sap.ui.core.Control
 		 *
 		 * @author SAP SE
-		 * @version 1.38.1
+		 * @version 1.38.2
 		 *
 		 * @constructor
 		 * @public
@@ -83,7 +83,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 				 * @since 1.31
 				 *
 				 */
-				showHandleTooltip: { type: "boolean", group: "Appearance", defaultValue: true }
+				showHandleTooltip: { type: "boolean", group: "Appearance", defaultValue: true}
 			},
 			associations: {
 

@@ -17,7 +17,7 @@ sap.ui.define([
 	 * @param {object} [mSettings] initial settings for the new control
 	 * @class The P13nFilterPanel control is used to define filter-specific settings for table personalization.
 	 * @extends sap.m.P13nPanel
-	 * @version 1.38.1
+	 * @version 1.38.2
 	 * @constructor
 	 * @public
 	 * @alias sap.m.P13nFilterPanel
@@ -457,6 +457,7 @@ sap.ui.define([
 			layoutMode: this.getLayoutMode(),
 			dataChange: this._handleDataChange()
 		});
+		this._oIncludeFilterPanel._sAddRemoveIconTooltipKey = "FILTER";
 
 		for ( var sType in this._aIncludeOperations) {
 			this._oIncludeFilterPanel.setOperations(this._aIncludeOperations[sType], sType);
@@ -480,6 +481,7 @@ sap.ui.define([
 			layoutMode: this.getLayoutMode(),
 			dataChange: this._handleDataChange()
 		});
+		this._oExcludeFilterPanel._sAddRemoveIconTooltipKey = "FILTER";
 
 		for ( var sType in this._aExcludeOperations) {
 			this._oExcludeFilterPanel.setOperations(this._aExcludeOperations[sType], sType);

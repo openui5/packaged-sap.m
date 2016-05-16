@@ -22,7 +22,7 @@ sap.ui.define(['jquery.sap.global', './Button', './library', 'sap/ui/core/Enable
 	 * @extends sap.m.Button
 	 *
 	 * @author SAP SE
-	 * @version 1.38.1
+	 * @version 1.38.2
 	 *
 	 * @constructor
 	 * @public
@@ -77,6 +77,15 @@ sap.ui.define(['jquery.sap.global', './Button', './library', 'sap/ui/core/Enable
 
 		if (oEvent.which === jQuery.sap.KeyCodes.SPACE || oEvent.which === jQuery.sap.KeyCodes.ENTER) {
 			this.ontap(oEvent);
+		}
+	};
+
+	/**
+	 * Override the keyup event handler of Button.js.
+	 */
+	ToggleButton.prototype.onkeyup = function(oEvent) {
+		if (oEvent.which === jQuery.sap.KeyCodes.SPACE || oEvent.which === jQuery.sap.KeyCodes.ENTER) {
+			oEvent.setMarked();
 		}
 	};
 

@@ -47,7 +47,7 @@ sap.ui.define(['jquery.sap.global', './DatePicker', './library'],
 	 * the <code>sap.ui.unified</code> library.
 	 *
 	 * @extends sap.m.DatePicker
-	 * @version 1.38.1
+	 * @version 1.38.2
 	 *
 	 * @constructor
 	 * @public
@@ -562,13 +562,13 @@ sap.ui.define(['jquery.sap.global', './DatePicker', './library'],
 				this._$input.val(sValue);
 				this._curpos = this._$input.cursorPos();
 			}
+			this._lastValue = sValue;
 			this.setProperty("value", sValue, true);
 			if (this._bValid) {
 				this.setProperty("dateValue", aDates[0], true);
 				this.setProperty("secondDateValue", aDates[1], true);
 			}
 			this._setLabelVisibility();
-			this._lastValue = sValue;
 
 			if (this._oPopup && this._oPopup.isOpen()) {
 

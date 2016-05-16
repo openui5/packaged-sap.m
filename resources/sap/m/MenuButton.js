@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', './Butto
 		 * @extends sap.ui.core.Control
 		 *
 		 * @author SAP SE
-		 * @version 1.38.1
+		 * @version 1.38.2
 		 *
 		 * @constructor
 		 * @public
@@ -32,7 +32,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', './Butto
 			properties : {
 				/**
 				 * Defines the text of the <code>MenuButton</code>.
-				 * <b>Note:</b> In <code>Split</code> <code>buttonMode</code> with <code>useDefaultActionOnly</code>
+				 * <br/><b>Note:</b> In <code>Split</code> <code>buttonMode</code> with <code>useDefaultActionOnly</code>
 				 * set to <code>false</code>, the text is changed to display the last selected item's text,
 				 * while in <code>Regular</code> <code>buttonMode<code> the text stays unchanged.
 				 */
@@ -50,7 +50,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', './Butto
 
 				/**
 				 * Boolean property to enable the control (default is <code>true</code>).
-				 * <b>Note:</b> Depending on custom settings, the buttons that are disabled have other colors than the enabled ones.
+				 * <br/><b>Note:</b> Depending on custom settings, the buttons that are disabled have other colors than the enabled ones.
 				 */
 				enabled : {type : "boolean", group : "Behavior", defaultValue : true},
 
@@ -68,7 +68,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', './Butto
 				activeIcon : {type : "sap.ui.core.URI", group : "Misc", defaultValue : null},
 
 				/**
-				 * When set to <code>true</code (default), one or more requests are sent trying to get the
+				 * When set to <code>true</code> (default), one or more requests are sent trying to get the
 				 * density perfect version of image if this version of image doesn't exist on the server.
 				 * If only one version of image is provided, set this value to <code>false</code> to
 				 * avoid the attempt of fetching density perfect image.

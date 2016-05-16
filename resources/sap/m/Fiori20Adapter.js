@@ -42,7 +42,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/base/Object', 'sap/ui/base/EventProv
 	 *
 	 *
 	 * @class text
-	 * @version 1.38.1
+	 * @version 1.38.2
 	 * @private
 	 * @since 1.38
 	 * @alias HeaderAdapter
@@ -205,7 +205,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/base/Object', 'sap/ui/base/EventProv
 	 * Constructor for a sap.m.Fiori20Adapter.
 	 *
 	 * @class text
-	 * @version 1.38.1
+	 * @version 1.38.2
 	 * @private
 	 * @since 1.38
 	 * @alias sap.m.Fiori20Adapter
@@ -281,6 +281,17 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/base/Object', 'sap/ui/base/EventProv
 				var oChangedContent = oEvent.getParameter("adaptableContent");
 				this._adaptContent(oChangedContent, oControl, oAdaptOptions);
 			}.bind(this));
+
+			if (isInstanceOf(oControl, "sap/m/Page")) {
+				oControl._attachModifyAggregation("content", oAdaptOptions, function(oEvent) {
+					var sType = oEvent.getParameter("type"),
+						oObject = oEvent.getParameter("object");
+
+					if ((sType === "add") || (sType === "insert")) {
+						this.traverse(oObject, oAdaptOptions);
+					}
+				}, this);
+			}
 
 			// attach listener for changes in the nav container current page
 			if (isInstanceOf(oControl, "sap/m/NavContainer")) {
