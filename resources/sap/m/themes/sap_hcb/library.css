@@ -3503,7 +3503,7 @@ html[data-sap-ui-animation='on'] .sapMNavItem.sapMNavItemDooring {
   padding-left: 0;
 }
 .sapMNLG-Body .sapMNLI {
-  margin-bottom: 0;
+  margin: 0;
   box-shadow: none;
   border-bottom: none;
 }
@@ -3608,7 +3608,10 @@ html[data-sap-ui-browser*='ie'] .sapMNLG-Footer .sapMBtnInner {
   padding: 1rem;
   position: relative;
   border-radius: 0.1875rem;
-  margin-bottom: 0.5rem;
+  margin: 0 0.25rem 0.5rem;
+}
+.sapMNLI:first-of-type {
+  margin-top: 0.125rem;
 }
 .sapMNLI.sapMLIB {
   display: block;
@@ -4937,6 +4940,10 @@ html[data-sap-ui-browser="ie9"] li.sapMLIB.sapMLIBNoFlex.sapMObjLItem > .sapMLIB
 html[data-sap-ui-browser="ie9"] li.sapMLIB.sapMLIBNoFlex.sapMObjLItem > .sapMLIBContent > .sapMLIBContentNF > .sapMObjLTopRow {
   padding-top: 0px;
   padding-bottom: 0px;
+}
+.sapMObjLIconDiv > .sapMImg {
+  max-height: 3rem;
+  max-width: 3rem;
 }
 /* ============================================= */
 /* CSS for control sap.m/ObjectNumber.control */
@@ -14064,6 +14071,7 @@ li.sapMMultiComboBoxItem {
   box-shadow: 0 0.125rem 1rem 0 rgba(255, 255, 255, 0.8);
 }
 .sapMNLG .sapMNLI {
+  margin-top: 0;
   border-left: 0;
   border-right: 0;
 }

@@ -48,7 +48,7 @@ sap.ui.define(['jquery.sap.global', './InputBase', 'sap/ui/model/type/Date', 'sa
 	 * This could lead to a waiting time before a <code>DatePicker</code> is opened the first time. To prevent this, applications using the <code>DatePicker</code> should also load
 	 * the <code>sap.ui.unified</code> library.
 	 * @extends sap.m.InputBase
-	 * @version 1.36.9
+	 * @version 1.36.10
 	 *
 	 * @constructor
 	 * @public
@@ -314,6 +314,9 @@ sap.ui.define(['jquery.sap.global', './InputBase', 'sap/ui/model/type/Date', 'sa
 		 *
 		 * If this property is used, the <code>dateValue</code> property should not be changed from the caller.
 		 *
+		 * If Data binding using a <code>sap.ui.model.type.Date</code> is used, please set the <code>formatOption</code> <code>stricktParsing</code> to <code>true</code>.
+		 * This prevents unwanted automatic corrections of wrong input.
+		 *
 		 * @param {string} sValue The new value of the input.
 		 * @return {sap.m.DatePicker} <code>this</code> to allow method chaining
 		 * @public
@@ -533,17 +536,22 @@ sap.ui.define(['jquery.sap.global', './InputBase', 'sap/ui/model/type/Date', 'sa
 
 			// compare with the old known value
 			if (sValue !== this._lastValue) {
-				this.setProperty("value", sValue, true); // no rerendering
-				if (this._bValid) {
-					this.setProperty("dateValue", oDate, true); // no rerendering
-				}
-
 				// remember the last value on change
 				this._lastValue = sValue;
 
-				this.fireChangeEvent(sValue, {valid: this._bValid});
+				this.setProperty("value", sValue, true); // no rerendering
+				var sNewValue = this.getValue(); // in databinding a formatter could change the value (including dateValue) directly
+
+				if (this._bValid && sValue == sNewValue) {
+					this.setProperty("dateValue", oDate, true); // no rerendering
+				}
+
+				sValue = sNewValue;
 
 				if (this._oPopup && this._oPopup.isOpen()) {
+					if (this._bValid) {
+						oDate = this.getDateValue(); // as in databinding a formatter could change the date
+					}
 					this._oCalendar.focusDate(oDate);
 					var oStartDate = this._oDateRange.getStartDate();
 					if ((!oStartDate && oDate) || (oStartDate && oDate && oStartDate.getTime() != oDate.getTime())) {
@@ -552,6 +560,8 @@ sap.ui.define(['jquery.sap.global', './InputBase', 'sap/ui/model/type/Date', 'sa
 						this._oDateRange.setStartDate(undefined);
 					}
 				}
+
+				this.fireChangeEvent(sValue, {valid: this._bValid});
 			}
 
 		};
@@ -694,7 +704,7 @@ sap.ui.define(['jquery.sap.global', './InputBase', 'sap/ui/model/type/Date', 'sa
 				this._oCalendar.setPrimaryCalendarType(sCalendarType);
 			}
 
-			var sValue = this._formatValue(this.getDateValue());
+			var sValue = this._bValid ? this._formatValue(this.getDateValue()) : this.getValue();
 			if (sValue != this._$input.val()) {
 				this.onChange(); // to check manually typed in text
 			}
