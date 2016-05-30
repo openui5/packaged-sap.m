@@ -161,7 +161,7 @@ sap.ui.define(['jquery.sap.global', './ListItemBaseRenderer', './ListRenderer', 
 				bRenderCell = true,
 				oCell = aCells[oColumn.getInitialOrder()];
 
-			if (!oCell || !oColumn.getVisible() || oColumn.isNeverVisible(true) || oColumn.isPopin()) {
+			if (!oCell || !oColumn.getVisible() || oColumn.isPopin()) {
 				// update the visible index of the column
 				oColumn.setIndex(-1);
 				return;
@@ -256,6 +256,10 @@ sap.ui.define(['jquery.sap.global', './ListItemBaseRenderer', './ListRenderer', 
 		var bSelected = oLI.getProperty("selected"),
 			bSelectable = oLI.isSelectable();
 
+		// remove existing popin first
+		oLI.removePopin();
+
+		// popin row
 		rm.write("<tr");
 		rm.addClass("sapMListTblSubRow");
 		rm.writeElementData(oLI.getPopin());

@@ -24,7 +24,7 @@ sap.ui.define(['jquery.sap.global', './GroupHeaderListItem', './library', 'sap/u
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.36.10
+	 * @version 1.36.11
 	 *
 	 * @constructor
 	 * @public
@@ -970,6 +970,7 @@ sap.ui.define(['jquery.sap.global', './GroupHeaderListItem', './library', 'sap/u
 	ListBase.prototype._fireUpdateFinished = function(oInfo) {
 		this._hideBusyIndicator();
 		jQuery.sap.delayedCall(0, this, function() {
+			this._bItemNavigationInvalidated = true;
 			this.fireUpdateFinished({
 				reason : this._sUpdateReason,
 				actual : oInfo ? oInfo.actual : this.getItems(true).length,
@@ -1453,7 +1454,7 @@ sap.ui.define(['jquery.sap.global', './GroupHeaderListItem', './library', 'sap/u
 			// root element should still be tabbable
 			this._oItemNavigation.setTabIndex0();
 
-			// implicitly setting table mode with one column
+			// explicitly setting table mode with one column
 			// to disable up/down reaction on events of the cell
 			this._oItemNavigation.setTableMode(true, true).setColumns(1);
 
@@ -1537,13 +1538,14 @@ sap.ui.define(['jquery.sap.global', './GroupHeaderListItem', './library', 'sap/u
 	 */
 	ListBase.prototype.forwardTab = function(bForward) {
 		this._bIgnoreFocusIn = true;
-		this.$(bForward ? "after" : "listUl").focus();
+		this.$(bForward ? "after" : "before").focus();
 	};
 
 	// move focus out of the table for nodata row
 	ListBase.prototype.onsaptabnext = function(oEvent) {
 		if (oEvent.target.id == this.getId("nodata")) {
 			this.forwardTab(true);
+			oEvent.setMarked();
 		}
 	};
 
@@ -1704,9 +1706,7 @@ sap.ui.define(['jquery.sap.global', './GroupHeaderListItem', './library', 'sap/u
 		}
 
 		// handle only for backward navigation
-		if (oEvent.isMarked() ||
-			!this._oItemNavigation ||
-			oEvent.target.id != this.getId("after")) {
+		if (oEvent.isMarked() || !this._oItemNavigation || oEvent.target.id != this.getId("after")) {
 			return;
 		}
 

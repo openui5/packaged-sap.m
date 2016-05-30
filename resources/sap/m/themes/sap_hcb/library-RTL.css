@@ -951,7 +951,9 @@ html[data-sap-ui-browser^="ie9"] .sapMDialog:not(.sapMDialogHighPixelDensity) {
 }
 [dir="rtl"] .sapMDialog {
   right: 50%;
-  left: auto !important;
+}
+[dir="rtl"] .sapMDialog.sapMDialogTouched {
+  right: auto;
 }
 .sapMDialog {
   max-width: calc(100% -  10%);
@@ -1105,6 +1107,12 @@ html[data-sap-ui-browser^="ie9"] .sapMDialog:not(.sapMDialogHighPixelDensity) {
 }
 .sapUiPopupWithPadding .sapMDialogScrollCont {
   padding: 1rem;
+}
+.sapUiPopupWithPadding .sapMDialogScrollCont.sapMDialogStretchContent {
+  height: calc(100% - 2 *  1rem);
+}
+.sapMDialogScrollCont.sapMDialogStretchContent {
+  height: 100%;
 }
 /* messagedialog always has content padding */
 .sapMMessageDialog .sapMDialogScrollCont {
@@ -2580,6 +2588,7 @@ td.sapUiFormElementLbl > .sapMLabel {
   overflow: hidden;
   text-overflow: ellipsis;
   word-wrap: normal;
+  font-family: Arial, Helvetica, sans-serif;
 }
 .sapMLnk:active {
   background-color: transparent;
@@ -2642,6 +2651,10 @@ td.sapUiFormElementLbl > .sapMLabel {
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
+}
+.sapMListDummyArea {
+  position: fixed;
+  /* keep it in the visible viewport, so that IE does not scroll on focus */
 }
 /* swipe animations */
 @-webkit-keyframes sapMListSwpInAnim {
@@ -6431,6 +6444,14 @@ html[data-sap-ui-os^="Android"] .sapUiSizeCompact .sapMSegBBtn .sapUiIcon {
   padding: 0;
   width: auto;
   opacity: 0;
+}
+/* ------------------------------ */
+/* table context                  */
+/* ------------------------------ */
+.sapUiTableCell .sapMSlt,
+.sapUiSizeCondensed .sapUiTableCell .sapMSlt,
+.sapUiSizeCompact .sapUiTableCell .sapMSlt {
+  margin: 0;
 }
 /* ============================================= */
 /* CSS for control sap.m/SelectDialog.control    */
@@ -16615,8 +16636,6 @@ div.sapMSltPicker .sapMDialogScrollCont {
 /* ------------------------------ */
 .sapUiSizeCondensed .sapUiTableCell .sapMSlt {
   height: 1.5rem;
-  margin-top: 0;
-  margin-bottom: 0;
 }
 /* ------------------------------ */
 /* Select in the Table            */

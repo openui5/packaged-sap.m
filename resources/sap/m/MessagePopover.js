@@ -25,7 +25,7 @@ sap.ui.define(["jquery.sap.global", "./ResponsivePopover", "./Button", "./Toolba
 		 * @extends sap.ui.core.Control
 		 *
 		 * @author SAP SE
-		 * @version 1.36.10
+		 * @version 1.36.11
 		 *
 		 * @constructor
 		 * @public
@@ -413,7 +413,7 @@ sap.ui.define(["jquery.sap.global", "./ResponsivePopover", "./Button", "./Toolba
 				press: this.close.bind(this)
 			}).addStyleClass(CSS_CLASS + "CloseBtn");
 
-			this._oSegmentedButton = new SegmentedButton(this.getId() + "-segmented", {});
+			this._oSegmentedButton = new SegmentedButton(this.getId() + "-segmented", {}).addStyleClass("sapMSegmentedButtonNoAutoWidth");
 
 			this._oListHeader = new Toolbar({
 				content: [this._oSegmentedButton, new ToolbarSpacer(), oCloseBtn, oCloseBtnARIAHiddenDescr, oHeadingARIAHiddenDescr]

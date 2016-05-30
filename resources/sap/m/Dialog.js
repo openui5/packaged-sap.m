@@ -25,7 +25,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './InstanceManager', './Associative
 		 * @implements sap.ui.core.PopupInterface
 		 *
 		 * @author SAP SE
-		 * @version 1.36.10
+		 * @version 1.36.11
 		 *
 		 * @constructor
 		 * @public
@@ -123,7 +123,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './InstanceManager', './Associative
 				aggregations: {
 
 					/**
-					 * The content inside the dialog.
+					 * The content inside the dialog.<br/><b>Note:</b> When the content of the <code>Dialog</code> is comprised of controls that use <code>position: absolute</code>, such as <code>SplitContainer</code>, the dialog has to have either <code>stretch: true</code> or <code>contentHeight</code> set.
 					 */
 					content: {type: "sap.ui.core.Control", multiple: true, singularName: "content"},
 
@@ -1441,6 +1441,9 @@ sap.ui.define(['jquery.sap.global', './Bar', './InstanceManager', './Associative
 						action();
 					}, 0);
 				};
+				var DIALOG_MIN_VISIBLE_SIZE = 30;
+				var windowWidth = window.innerWidth;
+				var windowHeight = window.innerHeight;
 				var initial = {
 					x: e.pageX,
 					y: e.pageY,
@@ -1471,9 +1474,8 @@ sap.ui.define(['jquery.sap.global', './Bar', './InstanceManager', './Associative
 
 					//set the new position of the dialog on mouse down when the transform is disabled by the class
 					that._$dialog.css({
-						left: that._oManuallySetPosition.x,
-						top: that._oManuallySetPosition.y,
-						transform: "initial"
+						left: Math.min(Math.max(0, that._oManuallySetPosition.x), windowWidth - DIALOG_MIN_VISIBLE_SIZE),
+						top: Math.min(Math.max(0, that._oManuallySetPosition.y), windowHeight - DIALOG_MIN_VISIBLE_SIZE)
 					});
 				}
 
@@ -1489,9 +1491,8 @@ sap.ui.define(['jquery.sap.global', './Bar', './InstanceManager', './Associative
 
 							//move the dialog
 							that._$dialog.css({
-								left: that._oManuallySetPosition.x,
-								top: that._oManuallySetPosition.y,
-								transform: "initial"
+								left: Math.min(Math.max(0, that._oManuallySetPosition.x), windowWidth - DIALOG_MIN_VISIBLE_SIZE),
+								top: Math.min(Math.max(0, that._oManuallySetPosition.y), windowHeight - DIALOG_MIN_VISIBLE_SIZE)
 							});
 						});
 					});

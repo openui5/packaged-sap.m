@@ -22,7 +22,7 @@ sap.ui.define(['jquery.sap.global', './Dialog', './Popover', './library', 'sap/u
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.36.10
+	 * @version 1.36.11
 	 *
 	 * @constructor
 	 * @public
@@ -585,7 +585,7 @@ sap.ui.define(['jquery.sap.global', './Dialog', './Popover', './library', 'sap/u
 			return this[sPrivateName];
 		} else {
 			var sGetterName = "get" + this._firstLetterUpperCase(sPos) + "Button";
-			return this[sGetterName]();
+			return this._oControl[sGetterName]();
 		}
 	};
 

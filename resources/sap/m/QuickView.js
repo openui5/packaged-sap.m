@@ -28,7 +28,7 @@ sap.ui.define([
 	 * @extends sap.m.QuickViewBase
 	 *
 	 * @author SAP SE
-	 * @version 1.36.10
+	 * @version 1.36.11
 	 *
 	 * @constructor
 	 * @public

@@ -24,7 +24,7 @@ sap.ui.define(['jquery.sap.global', './ListBase', './library'],
 	 * @extends sap.m.ListBase
 	 *
 	 * @author SAP SE
-	 * @version 1.36.10
+	 * @version 1.36.11
 	 *
 	 * @constructor
 	 * @public
@@ -477,6 +477,7 @@ sap.ui.define(['jquery.sap.global', './ListBase', './library'],
 		var oLastTabbableDomRef = $Row.find(":sapTabbable").get(-1) || $Row[0];
 		if (oEvent.target === oLastTabbableDomRef) {
 			this.forwardTab(true);
+			oEvent.setMarked();
 		}
 	};
 

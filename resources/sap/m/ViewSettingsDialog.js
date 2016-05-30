@@ -22,7 +22,7 @@ function(jQuery, library, Control, IconPool, Toolbar, CheckBox, SearchField) {
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.36.10
+	 * @version 1.36.11
 	 *
 	 * @constructor
 	 * @public

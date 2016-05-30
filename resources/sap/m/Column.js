@@ -22,7 +22,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Element', 'sap/ui/
 	 * @extends sap.ui.core.Element
 	 *
 	 * @author SAP SE
-	 * @version 1.36.10
+	 * @version 1.36.11
 	 *
 	 * @constructor
 	 * @public
@@ -295,37 +295,6 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Element', 'sap/ui/
 		}
 		return cls.trim();
 	};
-
-
-	/**
-	 * Returns visible probability of the column
-	 *
-	 * @param {boolean} [bReturnCache] Whether return cache or new result
-	 * @return {boolean}
-	 * @protected
-	 */
-	Column.prototype.isNeverVisible = function(bReturnCache) {
-		if (bReturnCache) {
-			return this._isNeverVisible;
-		}
-
-		if (!this._minWidth) {
-			this._isNeverVisible = false;
-			return this._isNeverVisible;
-		}
-
-		var width = parseFloat(this._minWidth),
-			unit = this._minWidth.replace(/[^a-z]/g, ""),
-			baseFontSize = parseFloat(sap.m.BaseFontSize) || 16;
-
-		if (unit != "px") {
-			width *= baseFontSize;
-		}
-
-		this._isNeverVisible = (width > Math.max(window.screen.width, window.screen.height));
-		return this._isNeverVisible;
-	};
-
 
 	/**
 	 * Sets the visible column index

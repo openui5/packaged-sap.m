@@ -25,7 +25,7 @@ sap.ui.define(['jquery.sap.global', './InputBase', './MaskInput', './MaskInputRu
 		 * @extends sap.m.MaskInput
 		 *
 		 * @author SAP SE
-		 * @version 1.36.10
+		 * @version 1.36.11
 		 *
 		 * @constructor
 		 * @public
@@ -274,7 +274,6 @@ sap.ui.define(['jquery.sap.global', './InputBase', './MaskInput', './MaskInputRu
 			this._bPickerOpening = false;
 
 			if (oSliders) {
-				oSliders.updateSlidersValues();
 				oSliders._initFocus();
 
 				//WAI-ARIA region
@@ -738,13 +737,17 @@ sap.ui.define(['jquery.sap.global', './InputBase', './MaskInput', './MaskInputRu
 		 * @private
 		 */
 		TimePicker.prototype._openPicker = function () {
-			var oPicker = this._getPicker();
+			var oPicker = this._getPicker(),
+				oSliders;
 
 			if (!oPicker) {
 				oPicker = this._createPicker(this.getDisplayFormat());
 			}
 
 			oPicker.open();
+
+			oSliders = this._getSliders();
+			jQuery.sap.delayedCall(0, oSliders, oSliders.updateSlidersValues);
 
 			return oPicker;
 		};
