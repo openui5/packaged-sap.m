@@ -9945,10 +9945,6 @@ label.sapMComboBoxPlaceholder {
   font-family: Arial, Helvetica, sans-serif;
   font-weight: normal;
 }
-.sapMLabel.sapMLabelTBHeader {
-  font-size: 1rem;
-  font-weight: normal;
-}
 .sapMLabel.sapMLabelBold {
   font-weight: bold;
 }
@@ -9960,11 +9956,6 @@ label.sapMComboBoxPlaceholder {
 }
 .sapMIBar-CTX.sapMFooter-CTX .sapMLabel {
   font-size: 0.875rem;
-}
-.sapMIBar-CTX.sapMPageHeader .sapMLabel,
-.sapMDialog-CTX .sapMIBar-CTX .sapMLabel {
-  font-size: 1rem;
-  font-weight: normal;
 }
 /* collapse lines in a form */
 .sapUiForm .sapUiFormElementLbl > .sapMLabel {
@@ -10002,11 +9993,6 @@ label.sapMComboBoxPlaceholder {
 /* Transparent Toolbar Context*/
 .sapMTB-Transparent-CTX .sapMLabel {
   font-weight: normal;
-  font-size: 1rem;
-}
-/* Transparent Toolbar Label Header */
-.sapMTB-Transparent-CTX > .sapMLabelTBHeader {
-  font-size: 1.125rem;
 }
 /* ============================ */
 /* Overwrites for Label in Form */
@@ -10099,14 +10085,6 @@ html[dir=rtl][data-sap-ui-browser^=ed] .sapUiRespGridMedia-Std-Desktop.sapUiForm
 .sapUiSizeCompact .sapMDialog-CTX .sapMIBar-CTX .sapMLabel,
 .sapUiSizeCondensed .sapMDialog-CTX .sapMIBar-CTX .sapMLabel {
   font-size: 0.875rem;
-}
-.sapUiSizeCompact .sapMTB-Transparent-CTX .sapMLabel,
-.sapUiSizeCondensed .sapMTB-Transparent-CTX .sapMLabel {
-  font-size: 0.875rem;
-}
-.sapUiSizeCompact .sapMTB-Transparent-CTX > .sapMLabelTBHeader,
-.sapUiSizeCondensed .sapMTB-Transparent-CTX > .sapMLabelTBHeader {
-  font-size: 1.125rem;
 }
 .sapUiSizeCondensed .sapUiTableCell > .sapMLabel {
   box-sizing: border-box;
@@ -14297,10 +14275,6 @@ html[data-sap-ui-browser^="ie"] .sapMListTbl {
 /* Info Toolbar Context */
 .sapMTB-Info-CTX .sapMText {
   font-style: italic;
-}
-/* Transparent Toolbar Context*/
-.sapMTB-Transparent-CTX .sapMText {
-  font-size: 1rem;
 }
 /* Compact size */
 .sapUiSizeCompact .sapUiFormEdit .sapMText {

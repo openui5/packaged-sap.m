@@ -22,7 +22,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.28.34
+	 * @version 1.28.35
 	 *
 	 * @constructor
 	 * @public
@@ -242,9 +242,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		var bInputEnabled = this.getProperty("enabled");
 		var bPostButtonEnabled = (bInputEnabled && !!sValue && sValue.trim().length > 0);
 		var oButton = this._getPostButton();
-		if (oButton.getEnabled() !== bPostButtonEnabled) {
-			oButton.setEnabled(bPostButtonEnabled);
-		}
+		oButton.setEnabled(bPostButtonEnabled);
 	};
 
 	/**

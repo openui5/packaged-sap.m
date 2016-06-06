@@ -20,7 +20,7 @@ sap.ui.define([
 	 *
 	 * @class The GroupPanel Control can be used to...
 	 * @extends sap.m.P13nPanel
-	 * @version 1.28.34
+	 * @version 1.28.35
 	 *
 	 * @constructor
 	 * @public
