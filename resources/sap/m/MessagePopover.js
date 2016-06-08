@@ -25,7 +25,7 @@ sap.ui.define(["jquery.sap.global", "./ResponsivePopover", "./Button", "./Toolba
 		 * @extends sap.ui.core.Control
 		 *
 		 * @author SAP SE
-		 * @version 1.38.2
+		 * @version 1.38.3
 		 *
 		 * @constructor
 		 * @public
@@ -423,7 +423,7 @@ sap.ui.define(["jquery.sap.global", "./ResponsivePopover", "./Button", "./Toolba
 				press: this.close.bind(this)
 			}).addStyleClass(CSS_CLASS + "CloseBtn");
 
-			this._oSegmentedButton = new SegmentedButton(this.getId() + "-segmented", {});
+			this._oSegmentedButton = new SegmentedButton(this.getId() + "-segmented", {}).addStyleClass("sapMSegmentedButtonNoAutoWidth");
 
 			this._oListHeader = new Toolbar({
 				content: [this._oSegmentedButton, new ToolbarSpacer(), oCloseBtn, oCloseBtnARIAHiddenDescr, oHeadingARIAHiddenDescr]
@@ -1069,8 +1069,10 @@ sap.ui.define(["jquery.sap.global", "./ResponsivePopover", "./Button", "./Toolba
 		 * @private
 		 */
 		MessagePopover.prototype._expandMsgPopover = function () {
+			var sHeight = this._oPopover.$("cont").css("height") || this._oPopover.getContentWidth();
+
 			this._oPopover
-				.setContentHeight(this._oPopover.getContentWidth())
+				.setContentHeight(sHeight)
 				.removeStyleClass(CSS_CLASS + "-init");
 		};
 

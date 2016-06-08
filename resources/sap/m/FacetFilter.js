@@ -21,7 +21,7 @@ sap.ui.define(['jquery.sap.global', './NavContainer', './library', 'sap/ui/core/
 	 * The FacetFilter control is used to provide filtering functionality with multiple parameters.
 	 * @extends sap.ui.core.Control
 	 * @implements sap.ui.core.IShrinkable
-	 * @version 1.38.2
+	 * @version 1.38.3
 	 *
 	 * @constructor
 	 * @public
@@ -1442,7 +1442,7 @@ oPopover.setContentWidth("30%");
 			return null;
 		}
 
-		var bSelected = oList.getActive() && Object.getOwnPropertyNames(oList._oSelectedKeys).length === oList.getItems().length;
+		var bSelected = oList.getActive() && oList.getItems().length > 0 && Object.getOwnPropertyNames(oList._oSelectedKeys).length === oList.getItems().length;
 
 		var oCheckbox = new sap.m.CheckBox(oList.getId() + "-selectAll", {
 			text : this._bundle.getText("FACETFILTER_CHECKBOX_ALL"),

@@ -27,7 +27,7 @@ sap.ui.define(['jquery.sap.global', "sap/ui/core/Control", 'sap/ui/core/Renderer
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.38.2
+	 * @version 1.38.3
 	 *
 	 * @constructor
 	 * @public
@@ -261,6 +261,20 @@ sap.ui.define(['jquery.sap.global', "sap/ui/core/Control", 'sap/ui/core/Renderer
 	 */
 	ObjectMarker.prototype.setVisibility = function(sVisibility) {
 		this.setProperty("visibility", sVisibility);
+		this._adjustControl();
+
+		return this;
+	};
+
+	/**
+	 * Intercepts <code>setType</code> in order to adjust some control properties.
+	 *
+	 * @override
+	 * @param sType value of the <code>sap.m.ObjectMarkerType</code> enumeration
+	 * @returns {sap.m.ObjectMarker} <code>this</code> pointer for chaining
+	 */
+	ObjectMarker.prototype.setType = function(sType) {
+		this.setProperty("type", sType);
 		this._adjustControl();
 
 		return this;

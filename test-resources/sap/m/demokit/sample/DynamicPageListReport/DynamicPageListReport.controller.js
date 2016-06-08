@@ -24,6 +24,10 @@ sap.ui.define([
 			this.oModel = null;
 		},
 
+		formatToggleButtonText: function (bValue){
+			return bValue ? "Collapse Header" : "Expand Header";
+		},
+
 		onToggleFooter : function () {
 			this.getPage().setShowFooter(!this.getPage().getShowFooter());
 		},
@@ -40,7 +44,7 @@ sap.ui.define([
 
 		filterTable: function (aCurrentFilterValues) {
 			this.getTableItems().filter(this.getFilters(aCurrentFilterValues));
-			this.updateFilterCriterias(this.getFilterCriterias(aCurrentFilterValues));
+			this.updateFilterCriterias(this.getFilterCriteria(aCurrentFilterValues));
 		},
 
 		updateFilterCriterias : function (aFilterCriterias) {
@@ -70,7 +74,7 @@ sap.ui.define([
 
 			return this.aFilters;
 		},
-		getFilterCriterias : function (aCurrentFilterValues){
+		getFilterCriteria : function (aCurrentFilterValues){
 			return this.aKeys.filter(function (el, i) {
 				if (aCurrentFilterValues[i] !== "") return  el;
 			});

@@ -24,7 +24,7 @@ sap.ui.define(['jquery.sap.global', './GroupHeaderListItem', './library', 'sap/u
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.38.2
+	 * @version 1.38.3
 	 *
 	 * @constructor
 	 * @public
@@ -116,28 +116,28 @@ sap.ui.define(['jquery.sap.global', './GroupHeaderListItem', './library', 'sap/u
 			/**
 			 * If set to <code>true</code>, enables the growing feature of the control to load more items by requesting from the model.
 			 * <b>Note:</b>: This feature only works when an <code>items</code> aggregation is bound. Growing must not be used together with two-way binding.
-			 * @since 1.16
+			 * @since 1.16.0
 			 */
 			growing : {type : "boolean", group : "Behavior", defaultValue : false},
 
 			/**
 			 * Defines the number of items to be requested from the model for each grow.
 			 * This property can only be used if the <code>growing</code> property is set to <code>true</code>.
-			 * @since 1.16
+			 * @since 1.16.0
 			 */
 			growingThreshold : {type : "int", group : "Misc", defaultValue : 20},
 
 			/**
 			 * Defines the text displayed on the growing button. The default is a translated text ("More") coming from the message bundle.
 			 * This property can only be used if the <code>growing</code> property is set to <code>true</code>.
-			 * @since 1.16
+			 * @since 1.16.0
 			 */
 			growingTriggerText : {type : "string", group : "Appearance", defaultValue : null},
 
 			/**
 			 * If set to true, the user can scroll down to load more items. Otherwise a growing button is displayed at the bottom of the control.
 			 * <b>Note:</b> This property can only be used if the <code>growing</code> property is set to <code>true</code> and only if there is one instance of <code>sap.m.List</code> or <code>sap.m.Table</code> inside the scrollable scroll container (e.g <code>sap.m.Page</code>).
-			 * @since 1.16
+			 * @since 1.16.0
 			 */
 			growingScrollToLoad : {type : "boolean", group : "Behavior", defaultValue : false},
 
@@ -485,14 +485,24 @@ sap.ui.define(['jquery.sap.global', './GroupHeaderListItem', './library', 'sap/u
 		return Control.prototype._bindAggregation.apply(this, arguments);
 	};
 
-	ListBase.prototype.destroyItems = function() {
+	ListBase.prototype.destroyItems = function(bSuppressInvalidate) {
+		// check whether we have items to destroy or not
+		if (!this.getItems(true).length) {
+			return this;
+		}
+
+		// clean up the selection
 		this._oSelectedItem = null;
 
 		// suppress the synchronous DOM removal of the aggregation destroy
 		this.destroyAggregation("items", "KeepDom");
 
 		// invalidate to update the DOM on the next tick of the RenderManager
-		return this.invalidate();
+		if (!bSuppressInvalidate) {
+			this.invalidate();
+		}
+
+		return this;
 	};
 
 
@@ -895,6 +905,9 @@ sap.ui.define(['jquery.sap.global', './GroupHeaderListItem', './library', 'sap/u
 		return this.getDomRef("listUl");
 	};
 
+
+	ListBase.prototype.checkGrowingFromScratch = function() {};
+
 	/*
 	 * This hook method gets called if growing feature is enabled and before new page loaded
 	 * @protected
@@ -992,6 +1005,7 @@ sap.ui.define(['jquery.sap.global', './GroupHeaderListItem', './library', 'sap/u
 	ListBase.prototype._fireUpdateFinished = function(oInfo) {
 		this._hideBusyIndicator();
 		jQuery.sap.delayedCall(0, this, function() {
+			this._bItemNavigationInvalidated = true;
 			this.fireUpdateFinished({
 				reason : this._sUpdateReason,
 				actual : oInfo ? oInfo.actual : this.getItems(true).length,
@@ -1405,13 +1419,14 @@ sap.ui.define(['jquery.sap.global', './GroupHeaderListItem', './library', 'sap/u
 			title: oGroup.text || oGroup.key
 		});
 
+		oHeader._bGroupHeader = true;
 		this.addAggregation("items", oHeader, bSuppressInvalidate);
 		return oHeader;
 	};
 
 	ListBase.prototype.removeGroupHeaders = function(bSuppressInvalidate) {
 		this.getItems(true).forEach(function(oItem) {
-			if (oItem instanceof GroupHeaderListItem) {
+			if (oItem.isGroupHeader()) {
 				oItem.destroy(bSuppressInvalidate);
 			}
 		});
@@ -1460,8 +1475,11 @@ sap.ui.define(['jquery.sap.global', './GroupHeaderListItem', './library', 'sap/u
 			return;
 		}
 
-		// item navigation is not necessary if there is no item in edit mode
-		if (this.getKeyboardMode() == sap.m.ListKeyboardMode.Edit && !this.getItems(true).length) {
+		var sKeyboardMode = this.getKeyboardMode(),
+			mKeyboardMode = sap.m.ListKeyboardMode;
+
+		// ItemNavigation is not necessary if there is no item in edit mode
+		if (sKeyboardMode == mKeyboardMode.Edit && !this.getItems(true).length) {
 			return;
 		}
 
@@ -1477,10 +1495,11 @@ sap.ui.define(['jquery.sap.global', './GroupHeaderListItem', './library', 'sap/u
 			this._oItemNavigation.setCycling(false);
 			this.addEventDelegate(this._oItemNavigation);
 
-			// root element should still be tabbable
-			this._oItemNavigation.setTabIndex0();
+			// set the tab index of active items
+			var iTabIndex = (sKeyboardMode == mKeyboardMode.Edit) ? -1 : 0;
+			this._setItemNavigationTabIndex(iTabIndex);
 
-			// implicitly setting table mode with one column
+			// explicitly setting table mode with one column
 			// to disable up/down reaction on events of the cell
 			this._oItemNavigation.setTableMode(true, true).setColumns(1);
 
@@ -1535,14 +1554,22 @@ sap.ui.define(['jquery.sap.global', './GroupHeaderListItem', './library', 'sap/u
 		return this._oItemNavigation;
 	};
 
+	// sets the active elements tabindex of ItemNavigation
+	ListBase.prototype._setItemNavigationTabIndex = function(iTabIndex) {
+		if (this._oItemNavigation) {
+			this._oItemNavigation.iActiveTabIndex = iTabIndex;
+			this._oItemNavigation.iTabIndex = iTabIndex;
+		}
+	};
+
 	ListBase.prototype.setKeyboardMode = function(sKeyboardMode) {
 		this.setProperty("keyboardMode", sKeyboardMode, true);
 
-		var oContainerDom = this.getDomRef("listUl");
-		if (oContainerDom) {
-			var iTabIndex = (this.getKeyboardMode() == sap.m.ListKeyboardMode.Edit) ? -1 : 0;
-			jQuery(oContainerDom).prop("tabIndex", iTabIndex);
+		if (this.isActive()) {
+			var iTabIndex = (sKeyboardMode == sap.m.ListKeyboardMode.Edit) ? -1 : 0;
+			this.$("listUl").prop("tabIndex", iTabIndex);
 			this.$("after").prop("tabIndex", iTabIndex);
+			this._setItemNavigationTabIndex(iTabIndex);
 		}
 
 		return this;
@@ -1577,7 +1604,7 @@ sap.ui.define(['jquery.sap.global', './GroupHeaderListItem', './library', 'sap/u
 	 */
 	ListBase.prototype.forwardTab = function(bForward) {
 		this._bIgnoreFocusIn = true;
-		this.$(bForward ? "after" : "listUl").focus();
+		this.$(bForward ? "after" : "before").focus();
 	};
 
 	// move focus out of the table for nodata row
@@ -1588,6 +1615,7 @@ sap.ui.define(['jquery.sap.global', './GroupHeaderListItem', './library', 'sap/u
 
 		if (oEvent.target.id == this.getId("nodata")) {
 			this.forwardTab(true);
+			oEvent.setMarked();
 		}
 	};
 
@@ -1752,8 +1780,7 @@ sap.ui.define(['jquery.sap.global', './GroupHeaderListItem', './library', 'sap/u
 		}
 
 		// handle only for backward navigation
-		if (oEvent.isMarked() ||
-			!this._oItemNavigation ||
+		if (oEvent.isMarked() || !this._oItemNavigation ||
 			this.getKeyboardMode() == sap.m.ListKeyboardMode.Edit ||
 			oEvent.target.id != this.getId("after")) {
 			return;
@@ -1769,7 +1796,7 @@ sap.ui.define(['jquery.sap.global', './GroupHeaderListItem', './library', 'sap/u
 			iIndex = aItems.indexOf(oListItem) + (oEvent.type == "sapup" ? -1 : 1),
 			oItem = aItems[iIndex];
 
-		if (oItem instanceof GroupHeaderListItem) {
+		if (oItem.isGroupHeader()) {
 			oItem = aItems[iIndex + (oEvent.type == "sapup" ? -1 : 1)];
 		}
 

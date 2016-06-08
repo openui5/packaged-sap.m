@@ -18,7 +18,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/G
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.38.2
+	 * @version 1.38.3
 	 * @since 1.34
 	 *
 	 * @public
@@ -46,6 +46,12 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/G
 	}});
 
 	/* --- Lifecycle Handling --- */
+	/**
+	 * Init function for the control
+	 */
+	SlideTile.prototype.init = function() {
+		this._oRb = sap.ui.getCore().getLibraryResourceBundle("sap.m");
+	};
 
 	/**
 	 * Handler for beforerendering
@@ -61,6 +67,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/G
 	 */
 	SlideTile.prototype.onAfterRendering = function() {
 		var cTiles = this.getTiles().length;
+		this._removeGTFocus();
 		this._bAnimationPause = false;
 		this._iCurrAnimationTime = 0;
 
@@ -78,6 +85,16 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/G
 	};
 
 	/* --- Event Handling --- */
+	/**
+	 * Handler for tap
+	 *
+	 * @param {sap.ui.base.Event} oEvent which was fired
+	 */
+	SlideTile.prototype.ontap = function(oEvent) {
+		if (sap.ui.Device.browser.internet_explorer) {
+			this.$().focus();
+		}
+	};
 
 	/**
 	 * Handler for touchstart
@@ -112,8 +129,31 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/G
 	 * @param {sap.ui.base.Event} oEvent which was fired
 	 */
 	SlideTile.prototype.onkeydown = function(oEvent) {
-		if (oEvent.which === jQuery.sap.KeyCodes.ENTER) {
-			this.getTiles()[this._iCurrentTile].firePress();
+		if (jQuery.sap.PseudoEvents.sapenter.fnCheck(oEvent)) {
+			var oGenericTile = this.getTiles()[this._iCurrentTile];
+			oGenericTile.onkeydown(oEvent);
+		}
+	};
+
+	/**
+	 * Handler for keyup event
+	 *
+	 * @param {sap.ui.base.Event} oEvent which was fired
+	 */
+	SlideTile.prototype.onkeyup = function(oEvent) {
+		if (jQuery.sap.PseudoEvents.sapenter.fnCheck(oEvent)) {
+			var oGenericTile = this.getTiles()[this._iCurrentTile];
+			oGenericTile.onkeyup(oEvent);
+			return;
+		}
+		if (jQuery.sap.PseudoEvents.sapspace.fnCheck(oEvent)) {
+			this._toggleAnimation();
+		}
+		if (oEvent.which === jQuery.sap.KeyCodes.B && this._bAnimationPause) {
+			this._scrollToPreviousTile(true);
+		}
+		if (oEvent.which === jQuery.sap.KeyCodes.F && this._bAnimationPause) {
+			this._scrollToNextTile(true);
 		}
 	};
 
@@ -125,11 +165,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/G
 	SlideTile.prototype.onmouseup = function(oEvent) {
 		this.removeStyleClass("sapMSTHvr");
 		if (sap.ui.Device.system.desktop) {
-			if (this._bPreventEndEvent) {
-				this._bPreventEndEvent = false;
-				oEvent.preventDefault();
-				return;
-			}
+			oEvent.preventDefault();
 			this.getTiles()[this._iCurrentTile].firePress();
 		}
 	};
@@ -143,7 +179,29 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/G
 		this.addStyleClass("sapMSTHvr");
 	};
 
+	/**
+	 * Handles the focusout event.
+	 *
+	 * @private
+	 * @param {jQuery.Event} oEvent Event object
+	 */
+	SlideTile.prototype.onfocusout = function (oEvent) {
+		if (this.getTiles().length > 1) {
+			this._startAnimation();
+		}
+	};
+
 	/* --- Helpers --- */
+	/**
+	 * Removes the focus of tiles in SlideTile
+	 *
+	 * @private
+	 */
+	SlideTile.prototype._removeGTFocus = function() {
+		for (var i = 0; i < this.getTiles().length; i++) {
+			this.getTiles()[i].$().removeAttr('tabindex');
+		}
+	};
 
 	/**
 	 * Toggles the animation
@@ -158,8 +216,6 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/G
 				this._stopAnimation();
 			}
 		}
-
-		this._bAnimationPause = !this._bAnimationPause;
 	};
 
 	/**
@@ -178,6 +234,10 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/G
 			var oWrapperFrom = jQuery.sap.byId(this.getId() + "-wrapper-" + this._iPreviousTile);
 			oWrapperFrom.stop();
 		}
+		if (this._iCurrAnimationTime > this.getDisplayTime()) {
+			this._scrollToNextTile(true); //Completes the animation and stops
+		}
+		this._bAnimationPause = true;
 	};
 
 	/**
@@ -193,13 +253,83 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/G
 			that._scrollToNextTile();
 		}, iDisplayTime);
 		this._iStartTime = Date.now();
+		this._bAnimationPause = false;
+	};
+
+	/**
+	 * Scrolls to the previous tile
+	 *
+	 * @private
+	 * @param {Boolean} pause Triggers if the animation gets paused or not
+	 */
+	SlideTile.prototype._scrollToPreviousTile = function(pause) {
+		var iTransitionTime = this._iCurrAnimationTime - this.getDisplayTime();
+		iTransitionTime = this.getTransitionTime() - (iTransitionTime > 0 ? iTransitionTime : 0);
+		var bFirstAnimation = iTransitionTime === this.getTransitionTime();
+
+		if (bFirstAnimation) {
+			var iPrevTile = this._getPreviousTileIndex(this._iCurrentTile);
+			this._iNextTile = this._iCurrentTile;
+			this._iCurrentTile = iPrevTile;
+		}
+
+		var oWrapperTo = this.$("wrapper-" + this._iCurrentTile);
+		var sDir = sap.ui.getCore().getConfiguration().getRTL() ? "right" : "left";
+
+		if (jQuery.isNumeric(this._iNextTile)) {
+			var oWrapperFrom = this.$("wrapper-" + this._iNextTile);
+			var sWidthFrom = oWrapperFrom.css("width");
+			var fWidthTo = parseFloat(oWrapperTo.css("width"));
+			var fWidthFrom = parseFloat(sWidthFrom);
+
+			if (fWidthFrom < fWidthTo) {
+				this._changeSizeTo(this._iCurrentTile);
+			}
+
+			if (bFirstAnimation) {
+				oWrapperTo.css(sDir, sWidthFrom);
+			}
+
+			var oDir = {};
+			oDir[sDir] = sWidthFrom;
+
+			var that = this;
+			oWrapperFrom.animate(oDir, {
+				duration : iTransitionTime,
+				done : function() {
+					if (fWidthFrom >= fWidthTo) {
+						that._changeSizeTo(that._iCurrentTile);
+					}
+					oWrapperFrom.css(sDir, "");
+				}
+			});
+			oDir[sDir] = "-" + sWidthFrom;
+			oWrapperTo.animate(oDir, 0);
+
+			oDir[sDir] = "0rem";
+			oWrapperTo.animate(oDir, {
+				duration : iTransitionTime,
+				done : function() {
+					that._iCurrAnimationTime = 0;
+					if (!pause) {
+						that._startAnimation();
+					}
+				}
+			});
+		} else {
+			this._changeSizeTo(this._iCurrentTile);
+			oWrapperTo.css(sDir, "0rem");
+		}
+		if (this.getTiles()[this._iCurrentTile]) {
+			this._setAriaDescriptor();
+		}
 	};
 
 	/**
 	 * Scrolls to the next tile
 	 *
 	 * @private
-	 * @param {Boolean} pause triggers if the animations gets paused or not
+	 * @param {Boolean} pause Triggers if the animation gets paused or not
 	 */
 	SlideTile.prototype._scrollToNextTile = function(pause) {
 		var iTransitionTime = this._iCurrAnimationTime - this.getDisplayTime();
@@ -213,10 +343,9 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/G
 		}
 
 		var oWrapperTo = jQuery.sap.byId(this.getId() + "-wrapper-" + this._iCurrentTile);
-		var bDoAnimate = this._iPreviousTile !== undefined;
 		var sDir = sap.ui.getCore().getConfiguration().getRTL() ? "right" : "left";
 
-		if (bDoAnimate) {
+		if (jQuery.isNumeric(this._iPreviousTile)) {
 			var oWrapperFrom = jQuery.sap.byId(this.getId() + "-wrapper-" + this._iPreviousTile);
 			var sWidthFrom = oWrapperFrom.css("width");
 			var fWidthTo = parseFloat(oWrapperTo.css("width"));
@@ -270,7 +399,12 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/G
 	 * @private
 	 */
 	SlideTile.prototype._setAriaDescriptor = function() {
-		this.$().attr("aria-label", this.getTiles()[this._iCurrentTile]._getAriaText().replace(/\s/g, " "));
+		var sToggleSliding = this._oRb.getText("SLIDETILE_TOGGLE_SLIDING"),
+			sText = this.getTiles()[this._iCurrentTile]._getAriaText().replace(/\s/g, " "); //Tile's ARIA text
+		if (this.getTiles().length > 1) {
+			sText = sText + "\n" + sToggleSliding;
+		}
+		this.$().attr("aria-label", sText);
 	};
 
 	/**
@@ -297,10 +431,26 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/G
 	};
 
 	/**
+	 * Returns the index of the previous tile based on the current index
+	 *
+	 * @private
+	 * @param {int} tileIndex of the element in the tiles aggregation
+	 * @returns {int} Index of the previous tile
+	 */
+	SlideTile.prototype._getPreviousTileIndex = function(tileIndex) {
+		if (tileIndex > 0) {
+			return tileIndex - 1;
+		} else {
+			return this.getTiles().length - 1;
+		}
+	};
+
+	/**
 	 * Returns the index of the next tile based on the current index
 	 *
 	 * @private
 	 * @param {int} tileIndex of the element in the tiles aggregation
+	 * @returns {int} Index of the next tile
 	 */
 	SlideTile.prototype._getNextTileIndex = function(tileIndex) {
 		if (tileIndex + 1 < this.getTiles().length) {
@@ -315,6 +465,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/G
 	 *
 	 * @private
 	 * @param {int} tileIndex of the element in the tiles aggregation
+	 * @returns {int} Index of the previous tile
 	 */
 	SlideTile.prototype._getPrevTileIndex = function(tileIndex) {
 		if (tileIndex - 1 >= 0) {

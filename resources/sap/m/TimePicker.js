@@ -25,7 +25,7 @@ sap.ui.define(['jquery.sap.global', './InputBase', './MaskInput', './MaskInputRu
 		 * @extends sap.m.MaskInput
 		 *
 		 * @author SAP SE
-		 * @version 1.38.2
+		 * @version 1.38.3
 		 *
 		 * @constructor
 		 * @public
@@ -202,10 +202,11 @@ sap.ui.define(['jquery.sap.global', './InputBase', './MaskInput', './MaskInputRu
 		 */
 		TimePicker.prototype.onfocusin = function (oEvent) {
 			var oPicker = this._getPicker();
+			var bIconClicked = jQuery(oEvent.target).hasClass("sapUiIcon");
 
 			MaskInput.prototype.onfocusin.apply(this, arguments);
 
-			if (oPicker && oPicker.isOpen()) {
+			if (oPicker && oPicker.isOpen() && !bIconClicked) {
 				this._closePicker();
 			}
 		};
@@ -254,7 +255,6 @@ sap.ui.define(['jquery.sap.global', './InputBase', './MaskInput', './MaskInputRu
 			var oSliders = this._getSliders();
 
 			if (oSliders) {
-				oSliders.updateSlidersValues();
 				oSliders._initFocus();
 
 				//WAI-ARIA region
@@ -718,13 +718,17 @@ sap.ui.define(['jquery.sap.global', './InputBase', './MaskInput', './MaskInputRu
 		 * @private
 		 */
 		TimePicker.prototype._openPicker = function () {
-			var oPicker = this._getPicker();
+			var oPicker = this._getPicker(),
+				oSliders;
 
 			if (!oPicker) {
 				oPicker = this._createPicker(this.getDisplayFormat());
 			}
 
 			oPicker.open();
+
+			oSliders = this._getSliders();
+			jQuery.sap.delayedCall(0, oSliders, oSliders.updateSlidersValues);
 
 			return oPicker;
 		};

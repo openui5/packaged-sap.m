@@ -37,7 +37,7 @@ sap.ui.define([
 	 * @extends sap.ui.core.Toolbar
 	 *
 	 * @author SAP SE
-	 * @version 1.38.2
+	 * @version 1.38.3
 	 *
 	 * @constructor
 	 * @public
@@ -936,6 +936,10 @@ sap.ui.define([
 
 	OverflowToolbar.prototype._detireminePopoverVerticalOffset = function () {
 		return this.$().parents().hasClass('sapUiSizeCompact') ? 2 : 3;
+	};
+
+	OverflowToolbar.prototype.onThemeChanged = function() {
+		this._resetAndInvalidateToolbar();
 	};
 
 	return OverflowToolbar;

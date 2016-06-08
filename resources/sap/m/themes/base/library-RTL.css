@@ -1121,6 +1121,12 @@ html.sap-desktop .sapMDialog {
 .sapUiPopupWithPadding .sapMDialogScrollCont {
   padding: 1rem;
 }
+.sapUiPopupWithPadding .sapMDialogScrollCont.sapMDialogStretchContent {
+  height: calc(100% - 2 *  1rem);
+}
+.sapMDialogScrollCont.sapMDialogStretchContent {
+  height: 100%;
+}
 /* messagedialog always has content padding */
 .sapMMessageDialog .sapMDialogScrollCont {
   box-sizing: border-box;
@@ -1457,9 +1463,15 @@ html[data-sap-ui-animation='off'] .sapMDialogBlockLayerAnimation {
   height: 100%;
   position: relative;
 }
+.sapMDynamicPageFixedContent .sapMDynamicPageContent {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+}
 .sapMDynamicPageContent {
   padding-top: 1rem;
-  background: #ffffff;
 }
 .sapMDynamicPageFooterSpacer .sapMDynamicPageContent {
   margin-bottom: 4rem;
@@ -1468,16 +1480,19 @@ html[data-sap-ui-animation='off'] .sapMDialogBlockLayerAnimation {
   margin-bottom: 3.5rem;
 }
 .sapMDynamicPageContent {
-  padding-left: 3rem;
-  padding-right: 3rem;
-}
-.sapMDynamicPage-Std-Tablet .sapMDynamicPageContent {
   padding-left: 2rem;
   padding-right: 2rem;
+  padding-bottom: 1rem;
 }
-.sapMDynamicPage-Std-Phone .sapMDynamicPageContent {
+.sapMDynamicPage-Std-Tablet .sapMDynamicPageContent {
   padding-left: 1rem;
   padding-right: 1rem;
+  padding-bottom: 1rem;
+}
+.sapMDynamicPage-Std-Phone .sapMDynamicPageContent {
+  padding-left: 0;
+  padding-right: 0;
+  padding-bottom: 0;
 }
 .sapMDynamicPageContentWrapper {
   width: 100%;
@@ -1486,6 +1501,7 @@ html[data-sap-ui-animation='off'] .sapMDialogBlockLayerAnimation {
   overflow-y: auto;
   will-change: transform;
   -webkit-overflow-scrolling: touch;
+  background: #ffffff;
 }
 .sapMDynamicPageSupressScroll .sapMDynamicPageContentWrapper {
   overflow: hidden;
@@ -1526,11 +1542,16 @@ html[data-sap-ui-animation='off'] .sapMDialogBlockLayerAnimation {
   bottom: 0;
   left: 0;
   right: 0;
-  border: 1px solid;
   border-radius: 0.25rem;
   margin-right: 0.5rem;
   margin-left: 0.5rem;
   margin-bottom: 0.5rem;
+}
+.sapMDynamicPage.sapMDynamicPageFixedContent .sapMDynamicPageFooter {
+  position: relative;
+}
+.sapMDynamicPage.sapMDynamicPageFixedContent .sapMDynamicPageFooter .sapMDynamicPageActualFooterControl {
+  bottom: 3rem;
 }
 .sapUiSizeCompact .sapMDynamicPage .sapMDynamicPageFooter .sapMDynamicPageActualFooterControl {
   height: 2.5rem;
@@ -1633,6 +1654,7 @@ html[data-sap-ui-animation='on'] .sapMDynamicPage .sapMDynamicPageActualFooterCo
 }
 .sapMDynamicPageTitle {
   z-index: 2;
+  height: 3rem;
   position: relative;
   padding: 0 3rem 0 2rem;
   display: flex;
@@ -1722,16 +1744,19 @@ html[data-sap-ui-animation='on'] .sapMDynamicPage .sapMDynamicPageActualFooterCo
   z-index: 2;
   position: relative;
   overflow: hidden;
-  padding: 1rem 3rem;
+  padding: 0 3rem 1rem 3rem;
 }
 .sapMDynamicPageHeader:focus {
   outline: none;
 }
+.sapMDynamicPageHeaderHidden {
+  display: none;
+}
 .sapMDynamicPage-Std-Tablet .sapMDynamicPageHeader {
-  padding: 1rem 2rem;
+  padding: 0 2rem 1rem 2rem;
 }
 .sapMDynamicPage-Std-Phone .sapMDynamicPageHeader {
-  padding: 1rem;
+  padding: 0 1rem 1rem 1rem;
 }
 .sapUiSizeCompact .sapMDynamicPageHeader {
   padding: 1rem 3rem;
@@ -2715,7 +2740,7 @@ html.sap-phone .sapMITBScrollContainer {
   height: 0.625rem;
 }
 .sapMITBInLine.sapMITBTextOnly > .sapMITBVertical.sapMITBFilter > .sapMITBText + .sapMITBContentArrow {
-  height: 0.75rem;
+  height: 0.8125rem;
 }
 html.sap-phone :not(.sapMITBInLine).sapMITBTextOnly > .sapMITBVertical.sapMITBFilter > .sapMITBText + .sapMITBContentArrow {
   height: 0.5rem;
@@ -2769,7 +2794,7 @@ html.sap-phone .sapMITBContent {
 }
 .sapMITBTextOnly .sapMITBTab {
   height: 1rem;
-  padding: 0.5rem 0 0.375rem 0;
+  padding: 0.5625rem 0 0.3125rem 0;
   text-align: left;
   width: auto;
 }
@@ -3402,6 +3427,7 @@ td.sapUiFormElementLbl > .sapMLabel {
   overflow: hidden;
   text-overflow: ellipsis;
   word-wrap: normal;
+  font-family: Arial, Helvetica, sans-serif;
 }
 .sapMLnk:active {
   background-color: transparent;
@@ -3464,6 +3490,10 @@ td.sapUiFormElementLbl > .sapMLabel {
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
+}
+.sapMListDummyArea {
+  position: fixed;
+  /* keep it in the visible viewport, so that IE does not scroll on focus */
 }
 /* swipe animations */
 @-webkit-keyframes sapMListSwpInAnim {
@@ -3539,6 +3569,9 @@ td.sapUiFormElementLbl > .sapMLabel {
   display: block;
   text-align: center;
   overflow: hidden;
+}
+.sapMGrowingListDescription {
+  display: none;
 }
 .sapMGrowingListBusyIndicatorVisible .sapMGrowingListTriggerText,
 .sapMGrowingListBusyIndicatorVisible .sapMGrowingListDescription {
@@ -4844,6 +4877,7 @@ html[dir=rtl] .sapMNCValueScr {
   .sapMNCIconImage {
     font-size: 1.5rem;
     height: 1.5rem;
+    line-height: 1.4rem;
     width: 1.5rem;
     margin-top: 0.375rem;
     padding-left: 0.5rem;
@@ -6845,7 +6879,7 @@ html.sap-tablet .sapMQuickViewPage > section {
 .sapMQuickViewPage .sapUiVlt .sapMText {
   font-weight: normal;
 }
-.sapMQuickViewPage .sapUiFormResGrid > div {
+.sapMQuickViewPage .sapUiFormResGrid.sapUiFormBackgrTranslucent > div {
   background-color: transparent;
 }
 .sapMQuickViewPage .sapUiSimpleForm .sapMTitle {
@@ -6874,9 +6908,11 @@ html.sap-tablet .sapMQuickViewPage > section {
   margin-bottom: 2rem;
 }
 .sapMQuickViewCard .sapUiHLayout,
-.sapMQuickViewCard .sapUiHLayoutChildWrapper,
 .sapMQuickViewCard .sapUiVlt {
   display: block;
+}
+.sapMQuickViewCard .sapUiHLayoutChildWrapper:only-child {
+  width: 100%;
 }
 html.sap-phone .sapMQuickViewPage .sapUiHLayout {
   margin: 1rem 0.75rem 0 0;
@@ -7402,6 +7438,14 @@ html[data-sap-ui-os^="Android"] .sapUiSizeCompact .sapMSegBBtn .sapUiIcon {
   width: auto;
   opacity: 0;
 }
+/* ------------------------------ */
+/* table context                  */
+/* ------------------------------ */
+.sapUiTableCell .sapMSlt,
+.sapUiSizeCondensed .sapUiTableCell .sapMSlt,
+.sapUiSizeCompact .sapUiTableCell .sapMSlt {
+  margin: 0;
+}
 /* ============================================= */
 /* CSS for control sap.m/SelectDialog.control    */
 /* ============================================= */
@@ -7761,6 +7805,15 @@ html.sap-tablet .sapMGTHvrOutln:active {
 }
 .sapMST .sapMGT {
   border: none;
+}
+.sapMSTFocusDiv {
+  position: absolute;
+  pointer-events: none;
+  right: 1px;
+  top: 1px;
+  left: 1px;
+  bottom: 1px;
+  border-radius: 0.25rem;
 }
 /* BREAKPOINT FOR SMALL PHONES */
 @media screen and (max-width: 374px) {

@@ -22,7 +22,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.38.2
+	 * @version 1.38.3
 	 *
 	 * @constructor
 	 * @public
@@ -577,6 +577,10 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		var tooltip;
 
 		this.$().toggleClass("sapMFocus", false);
+
+		if (this._bSuggestionSuppressed) {
+			this._bSuggestionSuppressed = false; // void the reset button handling
+		}
 
 		// restore toltip of the refresh button
 		if (this.getShowRefreshButton()) {

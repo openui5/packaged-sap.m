@@ -83,11 +83,11 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/theming/Parameters', './ListIte
 			oHeaderTBar.addStyleClass("sapMListHdrTBar");
 			rm.renderControl(oHeaderTBar);
 		} else if (sHeaderText) {
-			rm.write("<div class='sapMListHdr'");
+			rm.write("<header class='sapMListHdr'");
 			rm.writeAttribute("id", oControl.getId("header"));
 			rm.write(">");
 			rm.writeEscaped(sHeaderText);
-			rm.write("</div>");
+			rm.write("</header>");
 		}
 
 		// render info bar
@@ -99,8 +99,15 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/theming/Parameters', './ListIte
 		}
 
 		// determine items rendering
-		var aItems = oControl.getItems(true);
-		var bRenderItems = oControl.shouldRenderItems() && aItems.length;
+		var aItems = oControl.getItems(true),
+			bShowNoData = oControl.getShowNoData(),
+			bRenderItems = oControl.shouldRenderItems() && aItems.length,
+			iTabIndex = oControl.getKeyboardMode() == sap.m.ListKeyboardMode.Edit ? -1 : 0;
+
+		// dummy keyboard handling area
+		if (bRenderItems || bShowNoData) {
+			this.renderDummyArea(rm, oControl, "before", -1);
+		}
 
 		// run hook method to start building list
 		this.renderListStartAttributes(rm, oControl);
@@ -111,8 +118,8 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/theming/Parameters', './ListIte
 		// list attributes
 		rm.addClass("sapMListUl");
 		rm.writeAttribute("id", oControl.getId("listUl"));
-		if (bRenderItems || oControl.getShowNoData()) {
-			rm.writeAttribute("tabindex", oControl.getKeyboardMode() == sap.m.ListKeyboardMode.Edit ? -1 : 0);
+		if (bRenderItems || bShowNoData) {
+			rm.writeAttribute("tabindex", iTabIndex);
 		}
 
 		// separators
@@ -133,31 +140,27 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/theming/Parameters', './ListIte
 		this.renderListHeadAttributes(rm, oControl);
 
 		// render child controls
-		bRenderItems && aItems.forEach(function(oItem) {
-			rm.renderControl(oItem);
-		});
+		if (bRenderItems) {
+			for (var i = 0; i < aItems.length; i++) {
+				rm.renderControl(aItems[i]);
+			}
+		}
 
 		// render no-data if needed
-		if (!bRenderItems && oControl.getShowNoData()) {
-			// hook method to render no data
+		if (!bRenderItems && bShowNoData) {
 			this.renderNoData(rm, oControl);
 		}
 
 		// run hook method to finish building list
 		this.renderListEndAttributes(rm, oControl);
 
-		// dummy after focusable area
-		rm.write("<div");
-		rm.writeAttribute("id", oControl.getId("after"));
-		if (bRenderItems || oControl.getShowNoData()) {
-			rm.writeAttribute("tabindex", oControl.getKeyboardMode() == sap.m.ListKeyboardMode.Edit ? -1 : 0);
+		// dummy keyboard handling area
+		if (bRenderItems || bShowNoData) {
+			this.renderDummyArea(rm, oControl, "after", iTabIndex);
 		}
-		rm.write("></div>");
 
-		// render growing delegate if available
-		if (bRenderItems && oControl._oGrowingDelegate) {
-			oControl._oGrowingDelegate.render(rm);
-		}
+		// render growing
+		this.renderGrowing(rm, oControl);
 
 		// footer
 		if (oControl.getFooterText()) {
@@ -304,6 +307,28 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/theming/Parameters', './ListIte
 		rm.write("</div>");
 
 		rm.write("</li>");
+	};
+
+
+	ListBaseRenderer.renderDummyArea = function(rm, oControl, sAreaId, iTabIndex) {
+		rm.write("<div");
+		rm.writeAttribute("id", oControl.getId(sAreaId));
+		rm.writeAttribute("tabindex", iTabIndex);
+
+		if (sap.ui.Device.browser.msie) {
+			rm.addClass("sapMListDummyArea").writeClasses();
+		}
+
+		rm.write("></div>");
+	};
+
+	ListBaseRenderer.renderGrowing = function(rm, oControl) {
+		var oGrowingDelegate = oControl._oGrowingDelegate;
+		if (!oGrowingDelegate) {
+			return;
+		}
+
+		oGrowingDelegate.render(rm);
 	};
 
 	return ListBaseRenderer;

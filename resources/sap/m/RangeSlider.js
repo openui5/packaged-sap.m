@@ -20,7 +20,7 @@ sap.ui.define(["./Slider"],
          * @extends sap.m.Slider
          *
          * @author SAP SE
-         * @version 1.38.2
+         * @version 1.38.3
          *
          * @constructor
          * @public
@@ -193,11 +193,17 @@ sap.ui.define(["./Slider"],
                 aRange = this.getRange(),
                 iIndex = this._getIndexOfHandle(oHandle),
                 fPercentVal = this._getPercentOfValue(fValue),
-                sCssClass = this.getRenderer().CSS_CLASS;
+                sCssClass = this.getRenderer().CSS_CLASS,
+                oFormInput = this.getDomRef("input");
 
 
             aRange[iIndex] = fValue;
             this.setRange(aRange);
+
+            if (!!this.getName()) {
+                oFormInput.setAttribute(oHandle.getAttribute("data-range-val"), aRange[iIndex]);
+                oFormInput.setAttribute("value", this.getValue());
+            }
 
             if (this._bRTL) {
                 oHandle.style.right = fPercentVal + "%";

@@ -21,7 +21,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', './ListI
          * @extends sap.m.ListItemBase
          *
          * @author SAP SE
-         * @version 1.38.2
+         * @version 1.38.3
          *
          * @constructor
          * @public
@@ -108,7 +108,19 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', './ListI
                      * The OverflowToolbar control that holds the footer buttons.
                      * @private
                      */
-                    _overflowToolbar: {type: 'sap.m.OverflowToolbar', multiple: false, visibility: "hidden"}
+                    _overflowToolbar: {type: 'sap.m.OverflowToolbar', multiple: false, visibility: "hidden"},
+
+                    /**
+                     * The close button of the notification item/group.
+                     * @private
+                     */
+                    _closeButton: {type: 'sap.m.Button', multiple: false, visibility: "hidden"},
+
+                    /**
+                     * The collapse button of the notification item/group.
+                     * @private
+                     */
+                    _collapseButton: {type: 'sap.m.Button', multiple: false, visibility: "hidden"}
                 },
                 events: {
                     /**
@@ -174,8 +186,6 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', './ListI
             if (parent && parent instanceof sap.ui.core.Element) {
                 parent.focus();
             }
-
-            this.destroy();
         };
 
         //================================================================================

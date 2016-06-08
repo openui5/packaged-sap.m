@@ -5,8 +5,8 @@
  */
 
 // Provides control sap.m.DynamicPageHeader.
-sap.ui.define(["jquery.sap.global", "./library", "sap/ui/core/Control", "sap/ui/core/InvisibleText", "./ToggleButton"],
-	function (jQuery, library, Control, InvisibleText, ToggleButton) {
+sap.ui.define(["jquery.sap.global", "./library", "sap/ui/core/Control", "sap/ui/core/InvisibleText", "./ButtonType", "./ToggleButton"],
+	function (jQuery, library, Control, InvisibleText, ButtonType, ToggleButton) {
 		"use strict";
 
 		/**
@@ -21,7 +21,7 @@ sap.ui.define(["jquery.sap.global", "./library", "sap/ui/core/Control", "sap/ui/
 		 * Disclaimer: this control is in beta state - incompatible API changes may be done before its official public release. Use at your own discretion.
 		 *
 		 * @author SAP SE
-		 * @version 1.38.2
+		 * @version 1.38.3
 		 *
 		 * @constructor
 		 * @private
@@ -82,7 +82,6 @@ sap.ui.define(["jquery.sap.global", "./library", "sap/ui/core/Control", "sap/ui/
 		};
 
 		/*************************************** Lifecycle members ******************************************/
-
 		DynamicPageHeader.prototype.onBeforeRendering = function () {
 			if (this.getPinnable()) {
 				this._getPinButton().addAriaLabelledBy(this._getARIAInvisibleText());
@@ -205,6 +204,7 @@ sap.ui.define(["jquery.sap.global", "./library", "sap/ui/core/Control", "sap/ui/
 				var oPinButton = new ToggleButton({
 					id: this.getId() + "-pinBtn",
 					icon: "sap-icon://pushpin-off",
+					type: ButtonType.Transparent,
 					press: this._pinUnpinFireEvent.bind(this)
 				});
 				this.setAggregation("_pinButton", oPinButton, true);

@@ -533,7 +533,7 @@
 		assert.strictEqual(this.NotificationListItem.getTruncate(), true, 'Notification should be truncated.');
 
 		// act
-		this.NotificationListItem._collapseButton.firePress();
+		this.NotificationListItem.getAggregation('_collapseButton').firePress();
 		sap.ui.getCore().applyChanges();
 		this.clock.tick(500);
 
@@ -699,7 +699,6 @@
 
 		// assert
 		assert.strictEqual(fnEventSpy.callCount, 1, 'Firing the event should call the close function');
-		assert.equal(document.getElementById(this.NotificationListItem.getId()), null, 'Notification List Item should be destroyed');
 	});
 
 	QUnit.test('Pressing the close button', function(assert) {
@@ -707,7 +706,7 @@
 		var fnEventSpy = sinon.spy(this.NotificationListItem, 'fireClose');
 
 		// act
-		this.NotificationListItem._closeButton.firePress();
+		this.NotificationListItem.getAggregation('_closeButton').firePress();
 
 		// assert
 		assert.strictEqual(fnEventSpy.callCount, 1, 'Pressing the close button should fire the  close event');

@@ -24,7 +24,7 @@ sap.ui.define(['jquery.sap.global', './ListBase', './library'],
 	 * @extends sap.m.ListBase
 	 *
 	 * @author SAP SE
-	 * @version 1.38.2
+	 * @version 1.38.3
 	 *
 	 * @constructor
 	 * @public
@@ -117,12 +117,12 @@ sap.ui.define(['jquery.sap.global', './ListBase', './library'],
 
 	Table.prototype.destroyItems = function() {
 		this._notifyColumns("ItemsRemoved");
-		return ListBase.prototype.destroyItems.call(this);
+		return ListBase.prototype.destroyItems.apply(this, arguments);
 	};
 
 	Table.prototype.removeAllItems = function() {
 		this._notifyColumns("ItemsRemoved");
-		return ListBase.prototype.removeAllItems.call(this);
+		return ListBase.prototype.removeAllItems.apply(this, arguments);
 	};
 
 	Table.prototype.removeSelections = function() {
@@ -438,11 +438,12 @@ sap.ui.define(['jquery.sap.global', './ListBase', './library'],
 		return !!jQuery(oEvent.target).closest($Footer, this.getTableDomRef()).length;
 	};
 
-	/*
-	 * This gets called after navigation items are focused
-	 * Overwrites the ListItemBase default handling
-	 */
-	Table.prototype.onNavigationItemFocus = function() {
+	// this gets called after navigation items are focused
+	Table.prototype.onNavigationItemFocus = function(oEvent) {
+		var aItemDomRefs = this._oItemNavigation.getItemDomRefs(),
+			oItemDomRef = aItemDomRefs[oEvent.getParameter("index")];
+
+		this.getNavigationRoot().setAttribute("aria-activedescendant", oItemDomRef.id);
 	};
 
 	// keyboard handling
@@ -477,6 +478,7 @@ sap.ui.define(['jquery.sap.global', './ListBase', './library'],
 		var oLastTabbableDomRef = $Row.find(":sapTabbable").get(-1) || $Row[0];
 		if (oEvent.target === oLastTabbableDomRef) {
 			this.forwardTab(true);
+			oEvent.setMarked();
 		}
 	};
 

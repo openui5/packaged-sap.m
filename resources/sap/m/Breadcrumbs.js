@@ -31,7 +31,7 @@ sap.ui.define([
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.38.2
+	 * @version 1.38.3
 	 *
 	 * @constructor
 	 * @public
@@ -87,6 +87,10 @@ sap.ui.define([
 		}
 
 		this._configureKeyboardHandling();
+	};
+
+	Breadcrumbs.prototype.onThemeChanged = function () {
+		this._resetControl();
 	};
 
 	Breadcrumbs.prototype.exit = function () {
