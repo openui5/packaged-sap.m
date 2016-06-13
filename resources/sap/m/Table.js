@@ -24,7 +24,7 @@ sap.ui.define(['jquery.sap.global', './ListBase', './library'],
 	 * @extends sap.m.ListBase
 	 *
 	 * @author SAP SE
-	 * @version 1.36.12
+	 * @version 1.36.13
 	 *
 	 * @constructor
 	 * @public
@@ -438,11 +438,12 @@ sap.ui.define(['jquery.sap.global', './ListBase', './library'],
 		return !!jQuery(oEvent.target).closest($Footer, this.getTableDomRef()).length;
 	};
 
-	/*
-	 * This gets called after navigation items are focused
-	 * Overwrites the ListItemBase default handling
-	 */
-	Table.prototype.onNavigationItemFocus = function() {
+	// this gets called after navigation items are focused
+	Table.prototype.onNavigationItemFocus = function(oEvent) {
+		var aItemDomRefs = this._oItemNavigation.getItemDomRefs(),
+			oItemDomRef = aItemDomRefs[oEvent.getParameter("index")];
+
+		this.getNavigationRoot().setAttribute("aria-activedescendant", oItemDomRef.id);
 	};
 
 	// keyboard handling

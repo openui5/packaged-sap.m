@@ -19,7 +19,7 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.36.12
+	 * @version 1.36.13
 	 *
 	 * @constructor
 	 * @public
@@ -1734,6 +1734,11 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 							oContext.invalidate();
 						}
 					}
+				} else {
+					// exiting error state after an attempt to save a file with an empty filename in case same filenames are allowed
+					oContext.aItems[iSourceLine].errorState = null;
+					oContext.sErrorState = null;
+					oContext.editModeItem = null;
 				}
 				if (bTriggerOk) {
 					oContext._oItemForRename = oContext.aItems[iSourceLine];

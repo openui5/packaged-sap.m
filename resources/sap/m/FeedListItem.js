@@ -23,7 +23,7 @@ sap.ui.define(['jquery.sap.global', './ListItemBase', './library'],
 	 * @extends sap.m.ListItemBase
 	 *
 	 * @author SAP SE
-	 * @version 1.36.12
+	 * @version 1.36.13
 	 *
 	 * @constructor
 	 * @public
@@ -104,8 +104,15 @@ sap.ui.define(['jquery.sap.global', './ListItemBase', './library'],
 
 					/**
 					 * Dom reference of the feed item's sender string to be used for positioning.
+					 * @deprecated Since version 1.28.36. This parameter is deprecated, use parameter getDomRef instead.
 					 */
-					domRef : {type : "string"}
+
+					domRef : {type : "string"},
+					/**
+					 * Function to retrieve the DOM reference for the <code>senderPress</code> event.
+					 * The function returns the DOM element of the sender link or null
+					 */
+					getDomRef : {type : "function"}
 				}
 			},
 
@@ -117,8 +124,15 @@ sap.ui.define(['jquery.sap.global', './ListItemBase', './library'],
 
 					/**
 					 * Dom reference of the feed item's icon to be used for positioning.
+					 * @deprecated Since version 1.28.36. This parameter is deprecated, use parameter getDomRef instead.
 					 */
-					domRef : {type : "string"}
+					domRef : {type : "string"},
+
+					/**
+					 * Function to retrieve the DOM reference for the <code>iconPress</code> event.
+					 * The function returns the DOM element of the icon or null
+					 */
+					getDomRef : {type : "function"}
 				}
 			}
 		}
@@ -202,9 +216,9 @@ sap.ui.define(['jquery.sap.global', './ListItemBase', './library'],
 
 		if (this.getIconActive()) {
 			this._oImageControl.attachPress(function() {
-				var sIconDomRef = this.getDomRef();
 				that.fireIconPress({
-					domRef : sIconDomRef
+					domRef : this.getDomRef(),
+					getDomRef : this.getDomRef.bind(this)
 				});
 			});
 		}
@@ -226,9 +240,9 @@ sap.ui.define(['jquery.sap.global', './ListItemBase', './library'],
 			var that = this;
 			this._oLinkControl = new sap.m.Link({
 				press : function() {
-					var sSenderDomRef = this.getDomRef();
 					that.fireSenderPress({
-						domRef : sSenderDomRef
+						domRef : this.getDomRef(),
+						getDomRef : this.getDomRef.bind(this)
 					});
 				}
 			});
