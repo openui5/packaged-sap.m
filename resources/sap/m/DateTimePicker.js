@@ -47,7 +47,7 @@ sap.ui.define(['jquery.sap.global', './DatePicker', 'sap/ui/model/type/Date', '.
 	 * the <code>sap.ui.unified</code> library.
 	 *
 	 * @extends sap.m.DatePicker
-	 * @version 1.38.3
+	 * @version 1.38.4
 	 *
 	 * @constructor
 	 * @public
@@ -423,7 +423,7 @@ sap.ui.define(['jquery.sap.global', './DatePicker', 'sap/ui/model/type/Date', '.
 		var oDate = this.getDateValue();
 
 		if (oDate) {
-			oDate = new Date(oDate);
+			oDate = new Date(oDate.getTime());
 		} else {
 			oDate = new Date();
 		}
@@ -455,9 +455,9 @@ sap.ui.define(['jquery.sap.global', './DatePicker', 'sap/ui/model/type/Date', '.
 			}
 
 			if (oDate.getTime() < this._oMinDate.getTime()) {
-				oDate = new Date(this._oMinDate);
+				oDate = new Date(this._oMinDate.getTime());
 			}else if (oDate.getTime() > this._oMaxDate.getTime()){
-				oDate = new Date(this._oMaxDate);
+				oDate = new Date(this._oMaxDate.getTime());
 			}
 		}
 

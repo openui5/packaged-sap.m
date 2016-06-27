@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', './Butto
 		 * @extends sap.ui.core.Control
 		 *
 		 * @author SAP SE
-		 * @version 1.38.3
+		 * @version 1.38.4
 		 *
 		 * @constructor
 		 * @private
@@ -339,8 +339,8 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', './Butto
 				oIconInfo = IconPool.getIconInfo(this.getIcon()),
 				sResult;
 
-			if (sTooltip || (oIconInfo && !this.getText())) {
-				sResult = sTooltip || oIconInfo.text || oIconInfo.name;
+			if (sTooltip || (oIconInfo && oIconInfo.text && !this.getText())) {
+				sResult = sTooltip || oIconInfo.text;
 			}
 
 			return sResult;

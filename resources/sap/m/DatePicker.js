@@ -48,7 +48,7 @@ sap.ui.define(['jquery.sap.global', './InputBase', 'sap/ui/model/type/Date', 'sa
 	 * This could lead to a waiting time before a <code>DatePicker</code> is opened the first time. To prevent this, applications using the <code>DatePicker</code> should also load
 	 * the <code>sap.ui.unified</code> library.
 	 * @extends sap.m.InputBase
-	 * @version 1.38.3
+	 * @version 1.38.4
 	 *
 	 * @constructor
 	 * @public
@@ -446,11 +446,11 @@ sap.ui.define(['jquery.sap.global', './InputBase', 'sap/ui/model/type/Date', 'sa
 				throw new Error("Date must be between 0001-01-01 and 9999-12-31; " + this);
 			}
 
-			this._oMinDate = new Date(oDate);
+			this._oMinDate = new Date(oDate.getTime());
 			var oDateValue = this.getDateValue();
 			if (oDateValue && oDateValue.getTime() < oDate.getTime()) {
 				jQuery.sap.log.warning("DateValue not in valid date -> changed to minDate", this);
-				this.setDateValue(new Date(oDate));
+				this.setDateValue(new Date(oDate.getTime()));
 			}
 		} else {
 			this._oMinDate = new Date(1, 0, 1);
@@ -484,11 +484,11 @@ sap.ui.define(['jquery.sap.global', './InputBase', 'sap/ui/model/type/Date', 'sa
 				throw new Error("Date must be between 0001-01-01 and 9999-12-31; " + this);
 			}
 
-			this._oMaxDate = new Date(oDate);
+			this._oMaxDate = new Date(oDate.getTime());
 			var oDateValue = this.getDateValue();
 			if (oDateValue && oDateValue.getTime() > oDate.getTime()) {
 				jQuery.sap.log.warning("DateValue not in valid date -> changed to maxDate", this);
-				this.setDateValue(new Date(oDate));
+				this.setDateValue(new Date(oDate.getTime()));
 			}
 		} else {
 			this._oMaxDate = new Date(9999, 11, 31, 23, 59, 59, 99);
@@ -509,10 +509,10 @@ sap.ui.define(['jquery.sap.global', './InputBase', 'sap/ui/model/type/Date', 'sa
 
 		if (this._oMinDate.getTime() > this._oMaxDate.getTime()) {
 			jQuery.sap.log.warning("minDate > MaxDate -> dates switched", this);
-			var oMaxDate = new Date(this._oMinDate);
-			var oMinDate = new Date(this._oMaxDate);
-			this._oMinDate = new Date(oMinDate);
-			this._oMaxDate = new Date(oMaxDate);
+			var oMaxDate = new Date(this._oMinDate.getTime());
+			var oMinDate = new Date(this._oMaxDate.getTime());
+			this._oMinDate = new Date(oMinDate.getTime());
+			this._oMaxDate = new Date(oMaxDate.getTime());
 			this.setProperty("minDate", oMinDate, true);
 			this.setProperty("maxDate", oMaxDate, true);
 			if (this._oCalendar) {
@@ -668,7 +668,7 @@ sap.ui.define(['jquery.sap.global', './InputBase', 'sap/ui/model/type/Date', 'sa
 				this._oCalendar.focusDate(oDate);
 				var oStartDate = this._oDateRange.getStartDate();
 				if ((!oStartDate && oDate) || (oStartDate && oDate && oStartDate.getTime() != oDate.getTime())) {
-					this._oDateRange.setStartDate(new Date(oDate));
+					this._oDateRange.setStartDate(new Date(oDate.getTime()));
 				} else if (oStartDate && !oDate) {
 					this._oDateRange.setStartDate(undefined);
 				}
@@ -880,7 +880,7 @@ sap.ui.define(['jquery.sap.global', './InputBase', 'sap/ui/model/type/Date', 'sa
 		var oDate = this.getDateValue();
 
 		if (oDate) {
-			this._oCalendar.focusDate(new Date(oDate));
+			this._oCalendar.focusDate(new Date(oDate.getTime()));
 			if (!this._oDateRange.getStartDate() || this._oDateRange.getStartDate().getTime() != oDate.getTime()) {
 				this._oDateRange.setStartDate(new Date(oDate.getTime()));
 			}
@@ -948,7 +948,7 @@ sap.ui.define(['jquery.sap.global', './InputBase', 'sap/ui/model/type/Date', 'sa
 
 		// do not use this.onChange() because output pattern will change date (e.g. only last 2 number of year -> 1966 -> 2066 )
 		if (!jQuery.sap.equal(oDate, oDateOld)) {
-			this.setDateValue(new Date(oDate));
+			this.setDateValue(new Date(oDate.getTime()));
 			// compare Dates because value can be the same if only 2 digits for year
 			sValue = this.getValue();
 			this.fireChangeEvent(sValue, {valid: true});
@@ -964,6 +964,7 @@ sap.ui.define(['jquery.sap.global', './InputBase', 'sap/ui/model/type/Date', 'sa
 				if (this.getDomRef()) { // as control could be destroyed during update binding
 					this._$input.val(sValue);
 				}
+				this.setProperty("value", sValue, true); // no rerendering
 				this.fireChangeEvent(sValue, {valid: true});
 			}
 		}

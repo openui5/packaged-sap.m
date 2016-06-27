@@ -1925,8 +1925,8 @@ html[data-sap-ui-animation='on'] .sapMDynamicPage .sapMDynamicPageActualFooterCo
   position: relative;
 }
 .sapMFeedInImage {
-  width: 4rem;
-  line-height: 4rem;
+  width: 3.75rem;
+  line-height: 3.75rem;
   font-size: 2.25rem;
   display: block;
   margin-right: auto;
@@ -1938,13 +1938,14 @@ html[data-sap-ui-animation='on'] .sapMDynamicPage .sapMDynamicPageActualFooterCo
 .sapMFeedListItem {
   display: block;
 }
+.sapMFeedListItemImageInactive {
+  cursor: default;
+}
 .sapMFeedListShowSeparatorsAll .sapMFeedListItem {
   padding-top: 1rem;
   padding-bottom: 1rem;
 }
-/*
-	Makes sure that floating image is not displayed in next	list item.
-*/
+/* Makes sure that floating image is not displayed in the next list item. */
 .sapMFeedListItem:after {
   content: " ";
   display: block;
@@ -1991,11 +1992,12 @@ html.sap-desktop .sapMFeedListItemHasFigure {
   overflow: visible;
   margin: 0rem;
 }
+.sapMFeedListItemImageInactive,
 .sapMFeedListItemImage {
   width: 3rem;
   height: 3rem;
   line-height: 3rem;
-  font-size: 3rem;
+  font-size: 2.5rem;
   margin-right: 0rem;
   margin-left: 0rem;
   overflow: hidden;
@@ -2063,9 +2065,10 @@ html.sap-phone .sapMFeedListItemHeader.sapMFeedListItemFullHeight,
 html.sap-phone .sapMFeedListItemHeader.sapMFeedListItemHasFigure {
   height: 3rem;
 }
+html.sap-phone .sapMFeedListItemImageInactive,
 html.sap-phone .sapMFeedListItemImage {
   width: 3rem;
-  heigth: 3rem;
+  height: 3rem;
   line-height: 3rem;
   font-size: 2.5rem;
 }
@@ -2113,6 +2116,15 @@ html.sap-phone .sapMFeedListItemText {
 /* ============================================= */
 /* CSS for control sap.m/FlexBox.control         */
 /* ============================================= */
+.sapMFlexBoxBGSolid {
+  background-color: #000000;
+}
+.sapMFlexBoxBGTranslucent {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+.sapMFlexBoxBGTransparent {
+  background-color: transparent;
+}
 .sapMFlexBox {
   display: -webkit-box;
   /* old syntax old support, up to android native 4.3, iOS Safari 6.1, Chrome Beta for Android */
@@ -2412,6 +2424,9 @@ html[data-sap-ui-animation='on'] .sapMFCL .sapMFCLColumn {
   border-radius: 0.125rem;
   border: 1px solid transparent;
   position: relative;
+  outline: none;
+}
+.sapMGT:focus {
   outline: none;
 }
 .sapMGT.OneByOne {
@@ -4029,6 +4044,10 @@ li.sapMMultiComboBoxItem .sapMCbBg {
   bottom: 0;
   margin: auto;
 }
+/* Workaround for missing disabled state of sap.m.Tokenizer */
+.sapMMultiComboBox.sapMComboBoxBaseDisabled {
+  pointer-events: none;
+}
 /* ============================================= */
 /* CSS for control sap.m/MultiInput.control */
 /* ============================================= */
@@ -4542,6 +4561,9 @@ html[data-sap-ui-animation='on'] .sapMNavItem.sapMNavItemDooring {
 .sapMNLG-Header {
   padding-bottom: 0.375rem;
 }
+.sapMNLG-Title {
+  padding-left: 1.75rem;
+}
 .sapMNLG-Header > .sapMNLGTitleUnread {
   font-weight: bold;
 }
@@ -4615,6 +4637,9 @@ html[data-sap-ui-browser*='ie'] .sapMNLG-Footer .sapMBtnInner {
 }
 .sapMNLG-Collapsed .sapMNLG-Footer {
   border-top: 0;
+}
+.sapUiSizeCompact .sapMNLG-Title {
+  padding-left: 1.25rem;
 }
 .sapUiSizeCompact .sapMNLG-Footer {
   padding-top: 0.25rem;
@@ -5845,6 +5870,10 @@ html[data-sap-ui-browser="ie9"] li.sapMLIB.sapMLIBNoFlex.sapMObjLItem > .sapMLIB
 .sapMObjLIconDiv > .sapMImg {
   max-height: 3rem;
   max-width: 3rem;
+}
+html[data-sap-ui-browser^="ie"] .sapMObjLAttrDiv > .sapMObjectAttributeActive.sapMObjectAttributeDiv,
+html[data-sap-ui-browser^="ed"] .sapMObjLAttrDiv > .sapMObjectAttributeActive.sapMObjectAttributeDiv {
+  padding: 0.125rem;
 }
 /* ============================================= */
 /* CSS for control sap.m/ObjectMarker.control    */
@@ -7784,11 +7813,8 @@ li.sapMSelectListItemBaseInvisible {
   overflow: hidden;
   display: inline-block;
   font-size: 0;
-  box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.5);
   border-radius: 0.125rem;
   outline: none;
-  border: 1px transparent dotted;
-  /* Usage of px as aligned with designers. */
 }
 .sapMSTWrapper {
   position: absolute;
@@ -7820,6 +7846,75 @@ html.sap-tablet .sapMGTHvrOutln:active {
   bottom: 1px;
   border-radius: 0.25rem;
 }
+/* Bulleted indicator of multiple tiles*/
+.sapMSTBulleted {
+  position: absolute;
+  text-align: center;
+  bottom: 0.25rem;
+  width: 100%;
+  z-index: 1;
+  cursor: pointer;
+}
+.sapMSTBulleted > span {
+  display: inline-block;
+  height: 0.375rem;
+  width: 0.375rem;
+  margin: 0 0.25rem;
+  border-radius: 50%;
+}
+.sapMST .sapMSTIconClickTapArea {
+  position: absolute;
+  left: 0.75rem;
+  top: 0.75rem;
+  height: 2rem;
+  width: 2rem;
+  z-index: 3;
+  background-color: transparent;
+  border-radius: 50%;
+  cursor: pointer;
+}
+.sapMST .sapMSTIconDisplayArea {
+  position: absolute;
+  left: 0.75rem;
+  top: 0.75rem;
+  height: 2rem;
+  width: 2rem;
+  z-index: 1;
+  opacity: 0.3;
+  overflow: hidden;
+  border-radius: 50%;
+}
+html.sap-desktop .sapMST .sapMSTIconClickTapArea:hover ~ .sapMSTIconDisplayArea {
+  opacity: 0.6;
+}
+html.sap-desktop .sapMST.sapMSTIconPressed .sapMSTIconClickTapArea:hover ~ .sapMSTIconDisplayArea {
+  opacity: 1.0;
+}
+.sapMST .sapMSTIconNestedArea {
+  left: 5.9%;
+  z-index: 1;
+  position: absolute;
+  top: 10.9%;
+  outline: none;
+}
+.sapMST.sapMSTPauseIcon .sapMSTIconNestedArea {
+  left: 6.9%;
+}
+.sapMSTIconNestedArea :active {
+  outline: none;
+}
+html.sap-phone .sapMST .sapMSTIconClickTapArea,
+html.sap-tablet .sapMST .sapMSTIconClickTapArea {
+  left: 0.25rem;
+  top: 0.25rem;
+  height: 3rem;
+  width: 3rem;
+}
+html.sap-desktop .sapMST:not(:hover).sapMST:not(:focus) .sapMSTIconDisplayArea,
+html.sap-desktop .sapMST:not(:hover).sapMST:not(:focus) .sapMSTIconNestedArea,
+html.sap-desktop .sapMST:not(:hover).sapMST:not(:focus) .sapMSTBulleted {
+  visibility: hidden;
+}
 /* BREAKPOINT FOR SMALL PHONES */
 @media screen and (max-width: 374px) {
   .sapMST.OneByOne {
@@ -7829,6 +7924,9 @@ html.sap-tablet .sapMGTHvrOutln:active {
   .sapMST.TwoByOne {
     width: 19rem;
     height: 9.25rem;
+  }
+  .sapMSTBulleted {
+    bottom: 0.188rem;
   }
 }
 .sapMSB {
@@ -10344,17 +10442,19 @@ html.sap-phone .sapMTokenizerMultiLine > .sapMTokenizerScrollContainer > .sapMTo
   padding-bottom: 1rem;
 }
 /* Item icon */
+.sapMUCItemIconInactive,
 .sapMUCItemIcon {
-  font-size: 2rem;
+  font-size: 2.5rem;
 }
 .sapMImg.sapMUCItemImage {
   background-size: cover;
 }
+.sapMUCItemIconInactive,
 .sapMUCItemIcon,
 .sapMUCItemImage {
   height: 3rem;
   width: 3rem;
-  margin-left: 0.65rem;
+  margin-left: 0.75rem;
   /* because of the keyboard frame it should be margin and not padding */
   margin-top: 0.1rem;
   /* is needed so that keyboard frame is visible; after the central focus concept is implemented delete the margin */
@@ -10375,11 +10475,13 @@ html.sap-phone .sapMTokenizerMultiLine > .sapMTokenizerScrollContainer > .sapMTo
   /* NEW, Firefox 20+ */
 }
 /* fallback for IE9 as it does not support flex */
+html[data-sap-ui-browser="ie9"] .sapMUCItemIconInactive,
 html[data-sap-ui-browser="ie9"] .sapMUCItemIcon,
 html[data-sap-ui-browser="ie9"] .sapMUCItemImage {
   float: right;
 }
 /*if no image is provided a standard placeholder is displayed */
+.sapMUCItemPlaceholderInactive,
 .sapMUCItemPlaceholder {
   line-height: 3rem;
 }
@@ -12153,6 +12255,43 @@ html.sap-desktop .sapMFFScrolling.sapMFFNoScrollForward > .sapMFFArrowScrollRigh
   background-color: #0f5d94;
   color: white;
 }
+/* ============================================= */
+/* HCB CSS for control sap.m/FacetFilterList.control */
+/* ============================================= */
+/* Facet Filter Popover */
+.sapMFFPop.sapMPopover,
+.sapMFFPop.sapMPopover .sapMPopoverCont {
+  min-width: 300px;
+}
+.sapMFFPop .sapMCbLabel {
+  cursor: pointer;
+}
+.sapMFF .sapMFFLRemoveIcon {
+  color: #ffffff;
+  font-size: 1rem;
+  line-height: 1rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+/*
+We need to toggle separate classes to show/hide the remove icon, otherwise
+clicking the icon does not remove the facet button in ie9
+*/
+.sapMFF .sapMFFLVisibleRemoveIcon {
+  visibility: visible;
+}
+.sapMFF .sapMFFLHiddenRemoveIcon {
+  visibility: hidden;
+}
+.sapMFF .sapMFFLRemoveIcon:hover {
+  background-color: #7a5100;
+}
+.sapMFF .sapMFFLRemoveIcon:active {
+  background-color: #0f5d94;
+  color: white;
+}
 /* ======================================== */
 /* CSS for control sap.m/FeedContent.control */
 /* ======================================== */
@@ -12219,6 +12358,8 @@ html.sap-desktop .sapMFC:focus:not([tabindex]) {
   overflow: hidden;
 }
 .sapMFeedInImage {
+  width: 3.875rem;
+  line-height: 3.875rem;
   color: #999999;
 }
 .sapMFeedIn .sapMFeedInContainer {
@@ -12300,6 +12441,7 @@ html[data-sap-ui-browser^="ie"] .sapMFeedIn .sapMFeedInContainer :not(.sapMInput
   color: #ffffff;
   word-wrap: break-word;
 }
+.sapMFeedListItemImageInactive:focus,
 .sapMFeedListItemImage:focus {
   outline-style: dotted;
   outline-color: #ffffff;
@@ -12310,9 +12452,7 @@ html.sap-tablet .sapMFeedListItem .sapMLnk:focus {
   outline-color: #ffffff;
   outline-width: 0.0625rem;
 }
-/*
-       Allow image outline(-left) to be rendered completely
-*/
+/* Allow image outline(-left) to be rendered completely */
 .sapMFeedListShowSeparatorsAll .sapMFeedListItem {
   padding-right: 0.0625rem;
 }
@@ -12323,7 +12463,9 @@ html.sap-desktop .sapMFeedListItem .sapMLnk:focus {
   outline-color: #ffffff;
 }
 .sapMFeedListItemImage,
-.sapMLIBActive .sapMFeedListItem span.sapMFeedListItemImage {
+.sapMFeedListItemImageInactive,
+.sapMLIBActive .sapMFeedListItem span.sapMFeedListItemImage,
+.sapMLIBActive .sapMFeedListItem span.sapMFeedListItemImageInactive {
   color: #999999;
 }
 .sapMFeedListItemTextName {
@@ -12430,6 +12572,10 @@ html.sap-phone .sapMFeedListItemTimestamp {
 /* CSS for control sap.m/FlexBox.control         */
 /* HCB theme                                     */
 /* ============================================= */
+.sapMFlexBoxBGSolid,
+.sapMFlexBoxBGTranslucent {
+  background-color: #000000;
+}
 .sapUiSizeCondensed .sapUiTableCell > .sapMFlexBox {
   box-sizing: border-box;
   padding: 0 0.5rem;
@@ -17296,6 +17442,21 @@ html.sap-desktop .sapMST:focus .sapMSTFocusDiv {
 html.sap-desktop .sapMST:focus:not([tabindex]) {
   border-color: transparent;
 }
+/* Bulleted indicator of multiple tiles*/
+.sapMSTBulleted > span {
+  background-color: #000000;
+  box-shadow: 0rem 0rem 0rem 1px #ffffff;
+  border-color: #ffffff;
+}
+.sapMSTBulleted > span.sapMSTActive {
+  background-color: #ffffff;
+}
+.sapMST .sapMSTIconDisplayArea {
+  background-color: #1e1400;
+}
+.sapMST .sapMSTIconClickTapArea:hover ~ .sapMSTIconDisplayArea {
+  background-color: #7a5100;
+}
 .sapMSB:focus .sapMSBInner::after {
   top: 0.25rem;
   bottom: 0.25rem;
@@ -18642,10 +18803,12 @@ html[data-sap-ui-browser^="ie"].sap-desktop .sapMTBActive:focus:before {
 /* HCB Theme                                                                             */
 /* ===================================================================================== */
 /* Item Icon */
+.sapMUCItemIconInactive,
 .sapMUCItemIcon {
   color: #ffffff;
 }
 /*if no image is provided a placeholder camera is displayed */
+.sapMUCItemPlaceholderInactive,
 .sapMUCItemPlaceholder {
   background-color: #000000;
   box-sizing: border-box;
@@ -18655,6 +18818,7 @@ html[data-sap-ui-browser^="ie"].sap-desktop .sapMTBActive:focus:before {
   border-radius: 0;
 }
 /*pictogram color for the placeholder */
+.sapMUCItemPlaceholderInactive.sapUiIcon::before,
 .sapMUCItemPlaceholder.sapUiIcon::before {
   color: #999999;
 }
@@ -18688,6 +18852,7 @@ html[data-sap-ui-browser^="ie"].sap-desktop .sapMTBActive:focus:before {
 /* ************************************************************************************* */
 /* local fixes: should be done by used simple controls
 /* ************************************************************************************* */
+.sapMUCItemIconInactive.sapUiIcon:focus,
 .sapMUCItemIcon.sapUiIcon:focus,
 .sapMUCItemImage:focus {
   outline-width: 0.125rem;

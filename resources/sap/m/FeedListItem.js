@@ -23,7 +23,7 @@ sap.ui.define(['jquery.sap.global', './ListItemBase', './library'],
 	 * @extends sap.m.ListItemBase
 	 *
 	 * @author SAP SE
-	 * @version 1.38.3
+	 * @version 1.38.4
 	 *
 	 * @constructor
 	 * @public
@@ -104,8 +104,15 @@ sap.ui.define(['jquery.sap.global', './ListItemBase', './library'],
 
 					/**
 					 * Dom reference of the feed item's sender string to be used for positioning.
+					 * @deprecated Since version 1.28.36. This parameter is deprecated, use parameter getDomRef instead.
 					 */
-					domRef : {type : "string"}
+
+					domRef : {type : "string"},
+					/**
+					 * Function to retrieve the DOM reference for the <code>senderPress</code> event.
+					 * The function returns the DOM element of the sender link or null
+					 */
+					getDomRef : {type : "function"}
 				}
 			},
 
@@ -117,8 +124,15 @@ sap.ui.define(['jquery.sap.global', './ListItemBase', './library'],
 
 					/**
 					 * Dom reference of the feed item's icon to be used for positioning.
+					 * @deprecated Since version 1.28.36. This parameter is deprecated, use parameter getDomRef instead.
 					 */
-					domRef : {type : "string"}
+					domRef : {type : "string"},
+
+					/**
+					 * Function to retrieve the DOM reference for the <code>iconPress</code> event.
+					 * The function returns the DOM element of the icon or null
+					 */
+					getDomRef : {type : "function"}
 				}
 			}
 		}
@@ -171,9 +185,9 @@ sap.ui.define(['jquery.sap.global', './ListItemBase', './library'],
 		if (oEvent.srcControl) {
 			if ((!this.getIconActive() && this._oImageControl && oEvent.srcControl.getId() === this._oImageControl.getId()) || // click on inactive image
 					(!this.getSenderActive() && this._oLinkControl && oEvent.srcControl.getId() === this._oLinkControl.getId()) || // click on inactive sender link
-					(!this._oImageControl || (oEvent.srcControl.getId() !== this._oImageControl.getId()) &&                        // not image clicked
-					(!this._oLinkControl || (oEvent.srcControl.getId() !== this._oLinkControl.getId())) &&                         // not sender link clicked
-					(!this._oLinkExpandCollapse || (oEvent.srcControl.getId() !== this._oLinkExpandCollapse.getId())))) {          // not expand/collapse link clicked
+					(!this._oImageControl || (oEvent.srcControl.getId() !== this._oImageControl.getId()) &&                        // no image clicked
+					(!this._oLinkControl || (oEvent.srcControl.getId() !== this._oLinkControl.getId())) &&                         // no sender link clicked
+					(!this._oLinkExpandCollapse || (oEvent.srcControl.getId() !== this._oLinkExpandCollapse.getId())))) {          // no expand/collapse link clicked
 				ListItemBase.prototype.ontap.apply(this, [oEvent]);
 			}
 		}
@@ -186,25 +200,31 @@ sap.ui.define(['jquery.sap.global', './ListItemBase', './library'],
 	 * @returns {sap.m.Image} Image control based on the provided 'icon' control property
 	 */
 	FeedListItem.prototype._getImageControl = function() {
-
-		var sIconSrc = this.getIcon() ? this.getIcon() : sap.ui.core.IconPool.getIconURI("person-placeholder"), sImgId = this
-				.getId()
-				+ '-icon', mProperties = {
+		var sIcon = this.getIcon();
+		var sIconSrc = sIcon ? sIcon : sap.ui.core.IconPool.getIconURI("person-placeholder");
+		var sImgId = this.getId() + '-icon';
+		var mProperties = {
 			src : sIconSrc,
 			alt : this.getSender(),
 			densityAware : this.getIconDensityAware(),
 			decorative : false,
-			useIconTooltip : false
-		}, aCssClasses = ['sapMFeedListItemImage'];
+			useIconTooltip : false };
+
+		var aCssClasses;
+		if (this.getIconActive()) {
+			aCssClasses = ['sapMFeedListItemImage'];
+		} else {
+			aCssClasses = ['sapMFeedListItemImageInactive'];
+		}
 
 		var that = this;
 		this._oImageControl = sap.m.ImageHelper.getImageControl(sImgId, this._oImageControl, this, mProperties, aCssClasses);
 
 		if (this.getIconActive()) {
 			this._oImageControl.attachPress(function() {
-				var sIconDomRef = this.getDomRef();
 				that.fireIconPress({
-					domRef : sIconDomRef
+					domRef : this.getDomRef(),
+					getDomRef : this.getDomRef.bind(this)
 				});
 			});
 		}
@@ -226,9 +246,9 @@ sap.ui.define(['jquery.sap.global', './ListItemBase', './library'],
 			var that = this;
 			this._oLinkControl = new sap.m.Link({
 				press : function() {
-					var sSenderDomRef = this.getDomRef();
 					that.fireSenderPress({
-						domRef : sSenderDomRef
+						domRef : this.getDomRef(),
+						getDomRef : this.getDomRef.bind(this)
 					});
 				}
 			});
