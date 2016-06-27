@@ -22,14 +22,14 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/Device', 'sap/ui/base/DataType',
 	 * @namespace
 	 * @name sap.m
 	 * @author SAP SE
-	 * @version 1.36.13
+	 * @version 1.36.15
 	 * @public
 	 */
 
 	// delegate further initialization of this library to the Core
 	sap.ui.getCore().initLibrary({
 		name : "sap.m",
-		version: "1.36.13",
+		version: "1.36.15",
 		dependencies : ["sap.ui.core"],
 		types: [
 			"sap.m.BackgroundDesign",
@@ -2901,6 +2901,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/Device', 'sap/ui/base/DataType',
 	 * @param {int} iLength If iLength is provided only these number of entries will be requested.
 	 *
 	 * @name sap.m.InputODataSuggestProvider
+	 * @namespace
 	 * @since 1.21.2
 	 *
 	 * @public

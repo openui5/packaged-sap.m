@@ -21,7 +21,7 @@ function (library, Control, ResizeHandler, ItemNavigation, Device, jQuery) {
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.36.13
+	 * @version 1.36.15
 	 *
 	 * @constructor
 	 * @private

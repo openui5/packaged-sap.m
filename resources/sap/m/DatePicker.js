@@ -48,7 +48,7 @@ sap.ui.define(['jquery.sap.global', './InputBase', 'sap/ui/model/type/Date', 'sa
 	 * This could lead to a waiting time before a <code>DatePicker</code> is opened the first time. To prevent this, applications using the <code>DatePicker</code> should also load
 	 * the <code>sap.ui.unified</code> library.
 	 * @extends sap.m.InputBase
-	 * @version 1.36.13
+	 * @version 1.36.15
 	 *
 	 * @constructor
 	 * @public
@@ -555,7 +555,7 @@ sap.ui.define(['jquery.sap.global', './InputBase', 'sap/ui/model/type/Date', 'sa
 					this._oCalendar.focusDate(oDate);
 					var oStartDate = this._oDateRange.getStartDate();
 					if ((!oStartDate && oDate) || (oStartDate && oDate && oStartDate.getTime() != oDate.getTime())) {
-						this._oDateRange.setStartDate(new Date(oDate));
+						this._oDateRange.setStartDate(new Date(oDate.getTime()));
 					} else if (oStartDate && !oDate) {
 						this._oDateRange.setStartDate(undefined);
 					}
@@ -730,7 +730,7 @@ sap.ui.define(['jquery.sap.global', './InputBase', 'sap/ui/model/type/Date', 'sa
 			var oDate = this.getDateValue();
 
 			if (oDate) {
-				this._oCalendar.focusDate(new Date(oDate));
+				this._oCalendar.focusDate(new Date(oDate.getTime()));
 				if (!this._oDateRange.getStartDate() || this._oDateRange.getStartDate().getTime() != oDate.getTime()) {
 					this._oDateRange.setStartDate(new Date(oDate.getTime()));
 				}
@@ -784,6 +784,7 @@ sap.ui.define(['jquery.sap.global', './InputBase', 'sap/ui/model/type/Date', 'sa
 					if (this.getDomRef()) { // as control could be destroyed during update binding
 						this._$input.val(sValue);
 					}
+					this.setProperty("value", sValue, true); // no rerendering
 					this.fireChangeEvent(sValue, {valid: true});
 				}
 			}

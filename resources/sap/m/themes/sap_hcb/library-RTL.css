@@ -4958,6 +4958,10 @@ html[data-sap-ui-browser="ie9"] li.sapMLIB.sapMLIBNoFlex.sapMObjLItem > .sapMLIB
   max-height: 3rem;
   max-width: 3rem;
 }
+html[data-sap-ui-browser^="ie"] .sapMObjLAttrDiv > .sapMObjectAttributeActive.sapMObjectAttributeDiv,
+html[data-sap-ui-browser^="ed"] .sapMObjLAttrDiv > .sapMObjectAttributeActive.sapMObjectAttributeDiv {
+  padding: 0.125rem;
+}
 /* ============================================= */
 /* CSS for control sap.m/ObjectNumber.control */
 /* ============================================= */
@@ -11355,6 +11359,43 @@ html[dir=rtl] .sapMDLIValue {
   background-color: #7a5100;
 }
 .sapMFF .sapMFFArrowScroll:active {
+  background-color: #0f5d94;
+  color: white;
+}
+/* ============================================= */
+/* HCB CSS for control sap.m/FacetFilterList.control */
+/* ============================================= */
+/* Facet Filter Popover */
+.sapMFFPop.sapMPopover,
+.sapMFFPop.sapMPopover .sapMPopoverCont {
+  min-width: 300px;
+}
+.sapMFFPop .sapMCbLabel {
+  cursor: pointer;
+}
+.sapMFF .sapMFFLRemoveIcon {
+  color: #ffffff;
+  font-size: 1rem;
+  line-height: 1rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+/*
+We need to toggle separate classes to show/hide the remove icon, otherwise
+clicking the icon does not remove the facet button in ie9
+*/
+.sapMFF .sapMFFLVisibleRemoveIcon {
+  visibility: visible;
+}
+.sapMFF .sapMFFLHiddenRemoveIcon {
+  visibility: hidden;
+}
+.sapMFF .sapMFFLRemoveIcon:hover {
+  background-color: #7a5100;
+}
+.sapMFF .sapMFFLRemoveIcon:active {
   background-color: #0f5d94;
   color: white;
 }

@@ -4953,6 +4953,10 @@ html[data-sap-ui-browser="ie9"] li.sapMLIB.sapMLIBNoFlex.sapMObjLItem > .sapMLIB
   max-height: 3rem;
   max-width: 3rem;
 }
+html[data-sap-ui-browser^="ie"] .sapMObjLAttrDiv > .sapMObjectAttributeActive.sapMObjectAttributeDiv,
+html[data-sap-ui-browser^="ed"] .sapMObjLAttrDiv > .sapMObjectAttributeActive.sapMObjectAttributeDiv {
+  padding: 0.125rem;
+}
 /* ============================================= */
 /* CSS for control sap.m/ObjectNumber.control */
 /* ============================================= */

@@ -22,7 +22,7 @@ sap.ui.define(['jquery.sap.global', './Input', './Token', './library', 'sap/ui/c
 	 * @extends sap.m.Input
 	 *
 	 * @author SAP SE
-	 * @version 1.36.13
+	 * @version 1.36.15
 	 *
 	 * @constructor
 	 * @public
@@ -1407,6 +1407,11 @@ sap.ui.define(['jquery.sap.global', './Input', './Token', './library', 'sap/ui/c
 
 	MultiInput.prototype.destroyTokens = function() {
 		return this._tokenizer.destroyTokens();
+	};
+
+	MultiInput.prototype.updateTokens = function() {
+		this.destroyTokens();
+		return this.updateAggregation("tokens");
 	};
 
 	/**

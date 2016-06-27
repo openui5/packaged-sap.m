@@ -21,7 +21,7 @@ sap.ui.define(['jquery.sap.global', './InputBase', './MaskInputRule', 'sap/ui/co
 	 *
 	 * @author SAP SE
 	 * @extends sap.m.InputBase
-	 * @version 1.36.13
+	 * @version 1.36.15
 	 *
 	 * @constructor
 	 * @public
@@ -224,6 +224,7 @@ sap.ui.define(['jquery.sap.global', './InputBase', './MaskInputRule', 'sap/ui/co
 	MaskInput.prototype.setValue = function (sValue) {
 		sValue = this.validateProperty('value', sValue);
 		InputBase.prototype.setValue.call(this, sValue);
+		this._sOldInputValue = sValue;
 		// We need this check in case when MaskInput is initialized with specific value
 		if (!this._oTempValue) {
 			this._setupMaskVariables();

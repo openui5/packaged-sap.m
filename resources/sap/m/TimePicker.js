@@ -25,7 +25,7 @@ sap.ui.define(['jquery.sap.global', './InputBase', './MaskInput', './MaskInputRu
 		 * @extends sap.m.MaskInput
 		 *
 		 * @author SAP SE
-		 * @version 1.36.13
+		 * @version 1.36.15
 		 *
 		 * @constructor
 		 * @public
@@ -412,6 +412,7 @@ sap.ui.define(['jquery.sap.global', './InputBase', './MaskInput', './MaskInputRu
 						this._synchronizeInput(sValue);
 					} else {
 						this.setProperty("value", sValue, true); // no rerendering
+						this._sLastChangeValue = sValue;
 					}
 				}
 			}
@@ -469,6 +470,7 @@ sap.ui.define(['jquery.sap.global', './InputBase', './MaskInput', './MaskInputRu
 
 			sValue = this.validateProperty('value', sValue);
 			MaskInput.prototype.setValue.call(this, sValue);
+			this._sLastChangeValue = sValue;
 			this._bValid = true;
 
 			// convert to date object
@@ -529,6 +531,7 @@ sap.ui.define(['jquery.sap.global', './InputBase', './MaskInput', './MaskInputRu
 
 			// set the property in any case but check validity on output
 			this.setProperty("value", sValue, true); // no rerendering
+			this._sLastChangeValue = sValue;
 
 			if (this.isActive()) {
 				// convert to output
@@ -1102,13 +1105,8 @@ sap.ui.define(['jquery.sap.global', './InputBase', './MaskInput', './MaskInputRu
 			}
 
 			if (sValue !== this._sLastChangeValue) {
-				//fire only when there is a change from a meaningful value or to a meaningful value
-				//not when the value changes from null to ""
-				if (sValue || this._sLastChangeValue) {
-					InputBase.prototype.fireChangeEvent.call(this, sValue, oParams);
-				}
-
 				this._sLastChangeValue = sValue;
+				InputBase.prototype.fireChangeEvent.call(this, sValue, oParams);
 			}
 		};
 
