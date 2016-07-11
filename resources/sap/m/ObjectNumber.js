@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * ObjectNumber displays number and number unit properties for an object. The number can be displayed using semantic
 	 * colors to provide addition meaning about the object to the user.
 	 * @extends sap.ui.core.Control
-	 * @version 1.28.35
+	 * @version 1.28.36
 	 *
 	 * @constructor
 	 * @public

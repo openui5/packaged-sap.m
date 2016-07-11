@@ -3980,7 +3980,6 @@ html[data-sap-ui-browser^="ie"] .sapMRbGDummy {
   text-overflow: ellipsis;
 }
 .sapMRbG.sapMRbG1Row > .sapMRb {
-  float: none;
   clear: none;
   margin-left: 15px;
 }
