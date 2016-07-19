@@ -21,7 +21,7 @@ sap.ui.define(['jquery.sap.global', './NavContainer', './library', 'sap/ui/core/
 	 * The FacetFilter control is used to provide filtering functionality with multiple parameters.
 	 * @extends sap.ui.core.Control
 	 * @implements sap.ui.core.IShrinkable
-	 * @version 1.40.1
+	 * @version 1.40.2
 	 *
 	 * @constructor
 	 * @public
@@ -304,7 +304,7 @@ sap.ui.define(['jquery.sap.global', './NavContainer', './library', 'sap/ui/core/
 		var oDialog = this._getFacetDialog();
 		var oNavContainer = this._getFacetDialogNavContainer();
 		oDialog.addContent(oNavContainer);
-		//keoboard acc - focus on 1st item of 1st page
+		//keyboard acc - focus on 1st item of 1st page
 		oDialog.setInitialFocus(oNavContainer.getPages()[0].getContent()[0].getItems()[0]);
 		oDialog.open();
 		return this;
@@ -1187,7 +1187,11 @@ oPopover.setContentWidth("30%");
 	 */
 	FacetFilter.prototype._getFacetDialogNavContainer = function() {
 
-		var oNavContainer = new NavContainer();
+		// set autoFocus of the NavContainer to false because otherwise on touch devices
+		// the keyboard pops out due to the focus being automatically set on an input field
+		var oNavContainer = new NavContainer({
+				autoFocus: false
+			});
 		var oFacetPage = this._createFacetPage();
 		oNavContainer.addPage(oFacetPage);
 		oNavContainer.setInitialPage(oFacetPage);

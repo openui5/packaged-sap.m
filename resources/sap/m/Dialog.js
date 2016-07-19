@@ -28,7 +28,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './InstanceManager', './Associative
 		 * @implements sap.ui.core.PopupInterface
 		 *
 		 * @author SAP SE
-		 * @version 1.40.1
+		 * @version 1.40.2
 		 *
 		 * @constructor
 		 * @public
@@ -707,7 +707,10 @@ sap.ui.define(['jquery.sap.global', './Bar', './InstanceManager', './Associative
 		Dialog.prototype._onResize = function () {
 			var $dialog = this.$(),
 				$dialogContent = this.$('cont'),
-				sContentHeight = this.getContentHeight();
+				sContentHeight = this.getContentHeight(),
+				iDialogHeight,
+				iDialogTopBorderHeight,
+				iDialogBottomBorderHeight;
 
 			//if height is set by manually resizing return;
 			if (this._oManuallySetSize) {
@@ -721,7 +724,10 @@ sap.ui.define(['jquery.sap.global', './Bar', './InstanceManager', './Associative
 				});
 
 				//set the newly calculated size by getting it from the browser rendered layout - by the max-height
-				$dialogContent.height(parseInt($dialog.height(), 10));
+				iDialogHeight = parseFloat($dialog.height());
+				iDialogTopBorderHeight = parseFloat($dialog.css("border-top-width"));
+				iDialogBottomBorderHeight = parseFloat($dialog.css("border-bottom-width"));
+				$dialogContent.height(Math.round( iDialogHeight + iDialogTopBorderHeight + iDialogBottomBorderHeight));
 			}
 
 			if (this.getStretch() || this._bDisableRepositioning) {

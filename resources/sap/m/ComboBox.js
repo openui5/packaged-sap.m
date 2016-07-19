@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './ComboBoxTextField', './ComboBoxBase', './
 		 * @extends sap.m.ComboBoxBase
 		 *
 		 * @author SAP SE
-		 * @version 1.40.1
+		 * @version 1.40.2
 		 *
 		 * @constructor
 		 * @public
@@ -553,6 +553,8 @@ sap.ui.define(['jquery.sap.global', './ComboBoxTextField', './ComboBoxBase', './
 			this.close();
 			this.updateDomValue(oItem.getText());
 
+			this.setProperty("value", oItem.getText(), true);
+
 			// deselect the text and move the text cursor at the endmost position
 			setTimeout(this.selectText.bind(this, this.getValue().length, this.getValue().length), 0);
 
@@ -821,7 +823,7 @@ sap.ui.define(['jquery.sap.global', './ComboBoxTextField', './ComboBoxBase', './
 				}
 
 				// open the message popup
-				if (!this.isOpen() && this.bOpenValueStateMessage) {
+				if (!this.isOpen() && this.bOpenValueStateMessage && this.shouldValueStateMessageBeOpened()) {
 					this.openValueStateMessage();
 				}
 
@@ -1102,11 +1104,12 @@ sap.ui.define(['jquery.sap.global', './ComboBoxTextField', './ComboBoxBase', './
 
 			if (oDomRef) {
 				oDomRef.setAttribute("aria-expanded", "false");
-			}
 
-			// if the focus is back to the input after close the picker, the message should be open
-			if (document.activeElement === oDomRef) {
-				this.openValueStateMessage();
+				// if the focus is back to the input after closing the picker,
+				// the value state message should be reopen
+				if (this.shouldValueStateMessageBeOpened() && (document.activeElement === oDomRef)) {
+					this.openValueStateMessage();
+				}
 			}
 
 			// clear the filter to make all items visible
@@ -1152,7 +1155,7 @@ sap.ui.define(['jquery.sap.global', './ComboBoxTextField', './ComboBoxBase', './
 				oControl = (oData && oData.srcControl) || this.getPickerTextField();
 
 			// propagate some property changes to the picker text field
-			if (/value|enabled|name|placeholder|editable|textAlign|textDirection/.test(sProperty) &&
+			if (/\bvalue\b|\benabled\b|\bname\b|\bplaceholder\b|\beditable\b|\btextAlign\b|\btextDirection\b/.test(sProperty) &&
 				oControl && (typeof oControl[sMutator] === "function")) {
 				oControl[sMutator](sNewValue);
 			}

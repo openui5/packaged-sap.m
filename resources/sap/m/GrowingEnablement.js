@@ -132,8 +132,6 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/base/Object', 'sap/ui/core/format/Nu
 					left : oScrollDelegate.getScrollLeft(),
 					bottom : oScrollDelegate.getScrollHeight() - Math.max(oScrollDelegate.getScrollTop(), 0)
 				};
-
-
 			}
 
 			this.requestNewPage();
@@ -225,7 +223,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/base/Object', 'sap/ui/core/format/Nu
 		_getGroupingPath : function(oBinding) {
 			var aSorters = oBinding.aSorters || [];
 			var oSorter = aSorters[0] || {};
-			return (oSorter.fnGroup) ? oSorter.sPath : "";
+			return (oSorter.fnGroup) ? oSorter.sPath || "" : "";
 		},
 
 		// if table has pop-in then we have two rows for one item
@@ -473,7 +471,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/base/Object', 'sap/ui/core/format/Nu
 				this.rebuildListItems(aContexts, oBindingInfo, true);
 			} else if (oBinding.isGrouped() || oControl.checkGrowingFromScratch()) {
 
-				if (this._sGroupingPath && this._sGroupingPath != this._getGroupingPath(oBinding)) {
+				if (this._sGroupingPath != this._getGroupingPath(oBinding)) {
 					// grouping is changed so we need to rebuild the list for the group headers
 					bFromScratch = true;
 				} else {

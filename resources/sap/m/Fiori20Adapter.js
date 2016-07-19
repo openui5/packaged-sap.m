@@ -26,7 +26,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/base/Object', 'sap/ui/base/EventProv
 	 *
 	 *
 	 * @class text
-	 * @version 1.40.1
+	 * @version 1.40.2
 	 * @private
 	 * @since 1.38
 	 * @alias HeaderAdapter
@@ -81,7 +81,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/base/Object', 'sap/ui/base/EventProv
 
 	HeaderAdapter.prototype._adaptTitle = function() {
 
-		if (!HeaderAdapter._isStandardHeader(this._oHeader) || this._oAdaptOptions.bMoveTitle !== true) {
+		if (!HeaderAdapter._isAdaptableHeader(this._oHeader) || this._oAdaptOptions.bMoveTitle !== true) {
 			return false;
 		}
 
@@ -98,7 +98,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/base/Object', 'sap/ui/base/EventProv
 
 	HeaderAdapter.prototype._adaptBackButton = function() {
 
-		if (!HeaderAdapter._isStandardHeader(this._oHeader) || this._oAdaptOptions.bHideBackButton !== true) {
+		if (!HeaderAdapter._isAdaptableHeader(this._oHeader) || this._oAdaptOptions.bHideBackButton !== true) {
 			return false;
 		}
 
@@ -121,14 +121,18 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/base/Object', 'sap/ui/base/EventProv
 		}
 	};
 
-	HeaderAdapter._isStandardHeader = function(oHeader) {
-		return oHeader && isInstanceOf(oHeader, "sap/m/Bar");
+	HeaderAdapter._isAdaptableHeader = function(oHeader) {
+		if (!oHeader || !isInstanceOf(oHeader, "sap/m/Bar")) {
+			return false;
+		}
+		var oParent = oHeader.getParent();
+		return oParent && (isInstanceOf(oParent, "sap/m/Page") || isInstanceOf(oParent, "sap/uxap/ObjectPageHeader"));
 	};
 
 	HeaderAdapter.prototype._detectTitle = function() {
 		var oTitleInfo;
 
-		if (HeaderAdapter._isStandardHeader(this._oHeader)) {
+		if (HeaderAdapter._isAdaptableHeader(this._oHeader)) {
 			var aMiddleContent = this._oHeader.getContentMiddle();
 			if (aMiddleContent.length === 1 && isTextualControl(aMiddleContent[0])) {
 				var oTitle = aMiddleContent[0];
@@ -161,7 +165,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/base/Object', 'sap/ui/base/EventProv
 
 	HeaderAdapter.prototype._detectBackButton = function() {
 
-		if (HeaderAdapter._isStandardHeader(this._oHeader)) {
+		if (HeaderAdapter._isAdaptableHeader(this._oHeader)) {
 			var aBeginContent = this._oHeader.getContentLeft();
 			if (aBeginContent.length > 0 && isInstanceOf(aBeginContent[0], "sap/m/Button") &&
 				(aBeginContent[0].getType() === "Back" || aBeginContent[0].getType() === "Up" || aBeginContent[0].getIcon() === "sap-icon://nav-back")) {
@@ -175,7 +179,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/base/Object', 'sap/ui/base/EventProv
 		var bTitleHidden = this._oTitleInfo,
 			bBackButtonHidden = this._oBackButton;
 
-		if (HeaderAdapter._isStandardHeader(this._oHeader)) {
+		if (HeaderAdapter._isAdaptableHeader(this._oHeader)) {
 			var aBeginContent = this._oHeader.getContentLeft();
 			var aMiddleContent = this._oHeader.getContentMiddle();
 			var aEndContent = this._oHeader.getContentRight();
@@ -192,7 +196,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/base/Object', 'sap/ui/base/EventProv
 	 * Constructor for a sap.m.Fiori20Adapter.
 	 *
 	 * @class text
-	 * @version 1.40.1
+	 * @version 1.40.2
 	 * @private
 	 * @since 1.38
 	 * @alias sap.m.Fiori20Adapter
@@ -292,7 +296,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/base/Object', 'sap/ui/base/EventProv
 		// attach listeners to re-trigger adaptation when content is added at a later stage
 		this._attachDefferedAdaptationListeners(oControl, oAdaptOptions);
 
-		if (HeaderAdapter._isStandardHeader(oControl)) {
+		if (HeaderAdapter._isAdaptableHeader(oControl)) {
 			return this._adaptHeader(oControl, oAdaptOptions);
 		}
 		if (oControl.getParent() && isInstanceOf(oControl.getParent(), "sap/m/NavContainer")) {
