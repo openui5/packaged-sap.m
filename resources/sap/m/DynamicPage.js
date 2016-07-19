@@ -30,7 +30,7 @@ sap.ui.define([
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.40.0
+	 * @version 1.40.1
 	 *
 	 * @constructor
 	 * @private
@@ -386,7 +386,7 @@ sap.ui.define([
 	DynamicPage.prototype._pin = function () {
 		if (!this._bPinned) {
 			this._bPinned = true;
-			this.getHeader().$().appendTo(this.$titleArea);
+			this._moveHeaderToTitleArea();
 			this.getHeader()._updateARIAPinButtonState(this._bPinned);
 		}
 	};
@@ -398,7 +398,6 @@ sap.ui.define([
 	DynamicPage.prototype._unPin = function () {
 		if (this._bPinned) {
 			this._bPinned = false;
-			this.getHeader().$().prependTo(this.$wrapper);
 			this.getHeader()._updateARIAPinButtonState(this._bPinned);
 		}
 	};
@@ -835,7 +834,7 @@ sap.ui.define([
 	 * @private
 	 */
 	DynamicPage.prototype._onWrapperScroll = function (oEvent) {
-		if (Device.system.phone || !this._bExpandingWithAClick) {
+		if (!Device.system.desktop || !this._bExpandingWithAClick) {
 			this._toggleHeader();
 		}
 
@@ -914,8 +913,6 @@ sap.ui.define([
 			this._pin(oEvent);
 			this._restorePinButtonFocus();
 		}
-
-		this._updateScrollBar();
 	};
 
 

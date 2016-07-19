@@ -28,7 +28,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control'],
 	 * @implements sap.m.ObjectHeaderContainer
 	 *
 	 * @author SAP SE
-	 * @version 1.40.0
+	 * @version 1.40.1
 	 *
 	 * @constructor
 	 * @public
@@ -105,9 +105,10 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control'],
 			backgroundDesign : {type : "sap.m.BackgroundDesign", group : "Appearance", defaultValue : sap.m.BackgroundDesign.Solid},
 
 			/**
-			 * Specifies the header mode.
+			 * Specifies the header mode. Note that when Inline mode is used, only the text and the count
+			 * of the IconTabFilter are displayed, the icon is ignored.
 			 *
-			 * @since 1.42
+			 * @since 1.40
 			 */
 			headerMode : {type : "sap.m.IconTabHeaderMode", group : "Appearance", defaultValue : sap.m.IconTabHeaderMode.Standard}
 		},

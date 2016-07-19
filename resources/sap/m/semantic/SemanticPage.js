@@ -35,7 +35,7 @@ function (jQuery, SegmentedContainer, SemanticConfiguration, Button, Title, Acti
 	 * @abstract
 	 *
 	 * @author SAP SE
-	 * @version 1.40.0
+	 * @version 1.40.1
 	 *
 	 * @constructor
 	 * @public
@@ -102,6 +102,17 @@ function (jQuery, SegmentedContainer, SemanticConfiguration, Button, Title, Acti
 					type: "boolean",
 					group: "Appearance",
 					defaultValue: true
+				},
+
+				/**
+				 * Determines whether the floating footer behavior is enabled.
+				 * If set to <code>true</code>, the content is visible when it's underneath the footer.
+				 * @since 1.40.1
+				 */
+				floatingFooter: {
+					type: "boolean",
+					group:"Appearance",
+					defaultValue: false
 				}
 			},
 			defaultAggregation: "content",
@@ -228,6 +239,12 @@ function (jQuery, SegmentedContainer, SemanticConfiguration, Button, Title, Acti
 	SemanticPage.prototype.setShowFooter = function (bShowFooter, bSuppressInvalidate) {
 		this._getPage().setShowFooter(bShowFooter, bSuppressInvalidate);
 		this.setProperty("showFooter", bShowFooter, true);
+		return this;
+	};
+
+	SemanticPage.prototype.setFloatingFooter = function (bFloatingFooter, bSuppressInvalidate) {
+		this._getPage().setFloatingFooter(bFloatingFooter, bSuppressInvalidate);
+		this.setProperty("floatingFooter", bFloatingFooter, true);
 		return this;
 	};
 

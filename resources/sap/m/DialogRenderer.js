@@ -160,7 +160,6 @@ sap.ui.define(['jquery.sap.global', './BarRenderer'],
 			}
 
 			if (oSubHeader) {
-				oSubHeader.addStyleClass("sapContrastPlus");
 				oSubHeader.addStyleClass("sapMDialogSubHeader");
 				oRm.renderControl(oSubHeader);
 			}

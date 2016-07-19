@@ -109,7 +109,11 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/IconPool'],
 					sTabParams += 'role="separator"';
 				}
 			} else {
-				sTabParams += 'role="tab" aria-controls="' + oControl.getParent().sId + '-content" ';
+				sTabParams += 'role="tab"';
+
+				if (oIconTabBar instanceof sap.m.IconTabBar) {
+					sTabParams += ' aria-controls="' + oIconTabBar.sId + '-content" ';
+				}
 
 				//if there is tab text
 				if (oItem) {
@@ -222,6 +226,11 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/IconPool'],
 					if (bUpperCase) {
 						oRM.addClass("sapMITBTextUpperCase");
 					}
+
+					if (bInLine) {
+						oRM.writeAttribute("dir", "ltr");
+					}
+
 					oRM.writeClasses();
 					oRM.write(">");
 					oRM.writeEscaped(oControl._getDisplayText(oItem));

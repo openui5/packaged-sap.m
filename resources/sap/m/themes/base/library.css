@@ -2372,7 +2372,8 @@ html.sap-phone .sapMFeedListItemText {
 /* ============================================ */
 /* CSS for control sap.m/FlexibleColumnLayout   */
 /* ============================================ */
-.sapMFCL {
+.sapMFCL,
+.sapMFCL.sapMNavItem {
   display: -webkit-flex;
   display: flex;
   width: 100%;
@@ -2436,6 +2437,9 @@ html[data-sap-ui-animation='on'] .sapMFCL .sapMFCLColumn {
   border-radius: 0.125rem;
   border: 1px solid transparent;
   position: relative;
+  outline: none;
+}
+.sapMGT:focus {
   outline: none;
 }
 .sapMGT.OneByOne {
@@ -3351,6 +3355,8 @@ input.sapMComboBoxTextFieldInner {
 }
 .sapUiSizeCondensed .sapUiTableCell .sapMComboBoxTextField {
   margin: 0;
+}
+.sapUiSizeCondensed .sapUiTableCell .sapMComboBoxTextField:not(.sapMComboBoxTextFieldState) {
   border-color: transparent;
 }
 /* ------------------------------ */
@@ -4065,6 +4071,10 @@ html[data-sap-ui-animation='on'] .sapMMsgStripCloseButton {
 .sapUiSizeCompact.sapMMsgPopover .sapMBtnInner {
   padding: 0;
 }
+.sapUiSizeCompact.sapMMsgPopover .sapMMsgPopoverCloseBtn .sapMBtnIcon,
+.sapUiSizeCompact.sapMMsgPopover .sapMMsgPopoverBackBtn .sapMBtnIcon {
+  margin-right: 0;
+}
 .sapUiSizeCompact.sapMMsgPopover .sapMBtnCustomIcon {
   margin-left: 0;
 }
@@ -4073,10 +4083,6 @@ html[data-sap-ui-animation='on'] .sapMMsgStripCloseButton {
   height: 1.626rem;
   line-height: 1.626rem;
   font-size: 1rem;
-}
-.sapUiSizeCompact.sapMMsgPopover .sapMLIBImgNav {
-  font-size: 1rem;
-  color: #000000;
 }
 .sapUiSizeCompact.sapMMsgPopover .sapMSLIDescription {
   margin-top: 0;
@@ -4838,6 +4844,9 @@ html[data-sap-ui-browser*='ie'] .sapMNLI-Footer .sapMBtnInner {
 .sapMNLI-TextWrapper--initial-overwrite .sapMTextLineClamp,
 .sapMNLI-TitleWrapper--initial-overwrite .sapMTextLineClamp {
   -webkit-line-clamp: initial !important;
+}
+.sapMNLI-TextWrapper .sapMTextMaxLine {
+  line-height: 1rem;
 }
 .sapMNLI-LSize .sapMNLI-Header .sapMText {
   box-sizing: border-box;
@@ -5954,6 +5963,10 @@ html[data-sap-ui-browser="ie9"] li.sapMLIB.sapMLIBNoFlex.sapMObjLItem > .sapMLIB
 .sapMObjLIconDiv > .sapMImg {
   max-height: 3rem;
   max-width: 3rem;
+}
+html[data-sap-ui-browser^="ie"] .sapMObjLAttrDiv > .sapMObjectAttributeActive.sapMObjectAttributeDiv,
+html[data-sap-ui-browser^="ed"] .sapMObjLAttrDiv > .sapMObjectAttributeActive.sapMObjectAttributeDiv {
+  padding: 0.125rem;
 }
 /* ============================================= */
 /* CSS for control sap.m/ObjectMarker.control    */
@@ -7383,6 +7396,17 @@ html[data-sap-ui-browser^="ie"] .sapMRbG .sapMRbBLabel {
   width: auto;
   justify-content: space-between;
   transition-property: left, right;
+  visibility: hidden;
+}
+.sapMSliderTooltipContainer .sapMInputBaseWidthPadding {
+  padding: 0;
+}
+.sapMSliderTooltipContainer .sapMInputBaseInner {
+  height: 26px;
+  font-size: 0.75rem;
+  position: relative;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
 }
 /* ============================================= */
 /* CSS for control sap.m/RatingIndicator.control */
@@ -8041,11 +8065,8 @@ li.sapMSelectListItemBaseInvisible {
   overflow: hidden;
   display: inline-block;
   font-size: 0;
-  box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.5);
   border-radius: 0.125rem;
   outline: none;
-  border: 1px transparent dotted;
-  /* Usage of px as aligned with designers. */
 }
 .sapMSTWrapper {
   position: absolute;
@@ -8118,17 +8139,18 @@ html.sap-tablet .sapMGTHvrOutln:active {
 html.sap-desktop .sapMST .sapMSTIconClickTapArea:hover ~ .sapMSTIconDisplayArea {
   opacity: 0.6;
 }
-.sapMST.sapMSTIconPressed .sapMSTIconClickTapArea:hover ~ .sapMSTIconDisplayArea {
+html.sap-desktop .sapMST.sapMSTIconPressed .sapMSTIconClickTapArea:hover ~ .sapMSTIconDisplayArea {
   opacity: 1.0;
 }
 .sapMST .sapMSTIconNestedArea {
+  right: 5.9%;
+  z-index: 1;
   position: absolute;
-  left: 34%;
-  top: 11%;
+  top: 10.9%;
   outline: none;
 }
 .sapMST.sapMSTPauseIcon .sapMSTIconNestedArea {
-  left: 38%;
+  right: 6.9%;
 }
 .sapMSTIconNestedArea :active {
   outline: none;
@@ -8140,8 +8162,9 @@ html.sap-tablet .sapMST .sapMSTIconClickTapArea {
   height: 3rem;
   width: 3rem;
 }
-html.sap-desktop .sapMST:not(:hover) .sapMSTIconDisplayArea,
-html.sap-desktop .sapMST:not(:hover) .sapMSTBulleted {
+html.sap-desktop .sapMST:not(:hover).sapMST:not(:focus) .sapMSTIconDisplayArea,
+html.sap-desktop .sapMST:not(:hover).sapMST:not(:focus) .sapMSTIconNestedArea,
+html.sap-desktop .sapMST:not(:hover).sapMST:not(:focus) .sapMSTBulleted {
   visibility: hidden;
 }
 /* BREAKPOINT FOR SMALL PHONES */
@@ -9991,6 +10014,8 @@ html.sap-phone .sapMTC .sapMTCEdgeRight {
   -ms-user-select: none;
   -o-user-select: none;
   user-select: none;
+  border-radius: 0 0 0.25rem 0.25rem !important;
+  box-shadow: 0 0.125rem 0.375rem 0 rgba(0, 0, 0, 0.2), 0 0 0.125rem 0 rgba(0, 0, 0, 0.3) !important;
 }
 .sapMTimePickerDropDown .sapMTimePickerContainer {
   height: 100%;
@@ -10108,6 +10133,10 @@ html.sap-phone .sapMTC .sapMTCEdgeRight {
   /* ======================================== */
   /* TimePicker Dropdown                      */
   /* ======================================== */
+}
+.sapUiSizeCompact .sapMTimePickerDropDown {
+  border-radius: 0 0 0.25rem 0.25rem !important;
+  box-shadow: 0 0.125rem 0.375rem 0 rgba(0, 0, 0, 0.2), 0 0 0.125rem 0 rgba(0, 0, 0, 0.3) !important;
 }
 .sapUiSizeCompact .sapMTimePickerDropDown .sapMTimePickerContainer {
   min-width: 17rem;
@@ -10534,8 +10563,7 @@ html.sap-phone .sapMTokenizerMultiLine > .sapMTokenizerScrollContainer > .sapMTo
   margin: 0 .5rem;
 }
 .sapMIBar.sapMTB.sapMTB-Info-CTX > .sapUiIcon {
-  height: 1rem;
-  padding: 0.5rem 0;
+  padding-left: 0.5rem;
 }
 .sapMTBActive,
 .sapMTBActive > * {
@@ -11054,6 +11082,9 @@ html[data-sap-ui-browser="ie9"] .sapMUCButtonContainer {
 }
 .sapMTB.sapMVSDFilterHeaderToolbar .sapMBarChild.sapMCb .sapMCbMark {
   white-space: normal;
+}
+.sapUiPopupWithPadding .sapMDialogScrollCont.sapMDialogStretchContent {
+  height: inherit;
 }
 .sapMSF.sapMVSDFilterSearchField,
 .sapUiSizeCompact .sapMSF.sapMVSDFilterSearchField {

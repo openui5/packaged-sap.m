@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Element', 'sap/m/O
 	 * @extends sap.ui.core.Element
 	 *
 	 * @author SAP SE
-	 * @version 1.40.0
+	 * @version 1.40.1
 	 *
 	 * @constructor
 	 * @public
@@ -189,7 +189,8 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Element', 'sap/m/O
 				 */
 				attributes : {
 					type : "sap.m.ObjectAttribute",
-					multiple : true
+					multiple : true,
+					bindable : "bindable"
 				},
 				/**
 				 * Hidden aggregation for the attributes created from the deprecated properties uploadedDate, contributor and fileSize
@@ -207,7 +208,8 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Element', 'sap/m/O
 				 */
 				statuses : {
 					type : "sap.m.ObjectStatus",
-					multiple : true
+					multiple : true,
+					bindable : "bindable"
 				},
 				/**
 				 * Markers of an uploaded item
@@ -217,7 +219,8 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Element', 'sap/m/O
 				 */
 				markers : {
 					type : "sap.m.ObjectMarker",
-					multiple : true
+					multiple : true,
+					bindable : "bindable"
 				}
 			},
 

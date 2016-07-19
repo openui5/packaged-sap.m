@@ -18,7 +18,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/G
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.40.0
+	 * @version 1.40.1
 	 * @since 1.34
 	 *
 	 * @public
@@ -59,7 +59,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/G
 			id: this.getId() + "-pause-play-icon",
 			src: "sap-icon://media-pause",
 			color: "#ffffff",
-			size: "1.3rem",
+			size: "0.95rem",
 			noTabStop: true
 		}), true);
 	};
