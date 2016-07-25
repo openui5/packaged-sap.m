@@ -22,7 +22,7 @@ function(jQuery, library, Control, IconPool, Toolbar, CheckBox, SearchField) {
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.40.2
+	 * @version 1.40.3
 	 *
 	 * @constructor
 	 * @public
@@ -464,7 +464,7 @@ function(jQuery, library, Control, IconPool, Toolbar, CheckBox, SearchField) {
 			 * then threat it differently as filter detail item.
 			 * */
 			if (sAggregationName === 'filterItems' &&
-				oEvent.getParameter('changedItem').getMetadata().getName() === 'sap.m.ViewSettingsItem') {
+				oEvent.getParameter('changedItem').getParent().getMetadata().getName() === 'sap.m.ViewSettingsFilterItem') {
 				// handle the select differently
 				if (oEvent.getParameter('propertyKey') !== 'selected') {
 					// if on filter details page for a concrete filter item

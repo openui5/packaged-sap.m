@@ -11,6 +11,13 @@
 /* =========================== */
 /* Global CSS for 'base' theme */
 /* =========================== */
+/* Common CSS for condensed table cell content controls */
+.sapUiCondensedTableCellContent {
+  box-sizing: border-box;
+  padding: 0 0.5rem;
+  line-height: 1.5rem;
+  vertical-align: middle;
+}
 /* ============================================= */
 /* CSS for control sap.m/ActionListItem.control  */
 /* ============================================= */
@@ -1822,6 +1829,10 @@ html[data-sap-ui-animation='on'] .sapMDynamicPage .sapMDynamicPageActualFooterCo
 .sapMMessagePage > .sapMPage > .sapMPageHeader + section {
   top: 30%;
 }
+.sapMMessagePage > .sapMPage.sapF2CollapsedHeader.sapMPageWithHeader > section {
+  top: 30%;
+  /* Fiori 2.0 adaptation */
+}
 .sapMMessagePage > .sapMPage > section > .sapUiIcon::before {
   font-size: 6rem;
 }
@@ -3514,6 +3525,21 @@ td.sapUiFormElementLbl > .sapMLabel {
 .sapMLnkMaxWidth {
   max-width: 100%;
 }
+/* Link in sap.ui.table.* tables */
+.sapUiTableCell .sapMLnk {
+  margin-top: 0.125rem;
+}
+.sapUiSizeCondensed .sapUiTableCell .sapMLnk {
+  margin-top: 0;
+  box-sizing: border-box;
+  padding: 0 0.5rem;
+  line-height: 1.5rem;
+  vertical-align: middle;
+  /* see shared.css */
+}
+html.sap-desktop .sapUiSizeCondensed .sapUiTableCell .sapMLnk:focus:not(.sapMLnkDsbl) {
+  outline-offset: -0.125rem;
+}
 /* ============================================= */
 /* CSS for controlsap.m/List.control */
 /* ============================================= */
@@ -4013,11 +4039,6 @@ html[data-sap-ui-animation='on'] .sapMMsgStripCloseButton {
 }
 .sapMMsgPopover .sapMMsgPopoverTitleText {
   vertical-align: middle;
-}
-.sapMMsgPopover .markupDescription {
-  float: left;
-  padding: 0 1rem 0 3rem;
-  margin-top: 1rem;
 }
 .sapMMsgPopover .sapMSLIDescription {
   margin-top: 0.125rem;
@@ -4803,9 +4824,6 @@ html[data-sap-ui-browser*='ie'] .sapMNLG-Footer .sapMBtnInner {
   margin-left: 0.25rem;
   padding: 0;
   float: left;
-}
-.sapMNLI-Footer .sapMBtnInner.sapMBtnIconFirst {
-  padding-left: 0;
 }
 /* Buttons in footer don't render correctly due to fix for IE, overwriting the fix in sap.m.Button */
 html[data-sap-ui-browser*='ie'] .sapMNLI-Footer .sapMBtnInner {
@@ -6046,8 +6064,14 @@ html[data-sap-ui-os^="Android"] .sapMObjectNumberUnit {
 .sapUiForm.sapUiFormEdit .sapMObjectNumber {
   line-height: 3rem;
 }
+.sapUiForm.sapUiFormEdit .sapMObjectNumber .sapMObjectNumberUnit {
+  line-height: 2.875rem;
+}
 .sapUiSizeCompact .sapUiForm.sapUiFormEdit .sapMObjectNumber {
   line-height: 2rem;
+}
+.sapUiSizeCompact .sapUiForm.sapUiFormEdit .sapMObjectNumber .sapMObjectNumberUnit {
+  line-height: 1.875rem;
 }
 /* ============================================= */
 /* CSS for control sap.m/ObjectStatus.control */
@@ -11462,13 +11486,6 @@ html.sap-phone .sapMWizardProgressNav {
 .sapMObjStatusMarkerInvisible {
   visibility: hidden;
 }
-/* Common CSS for condensed table cell content controls */
-.sapUiCondensedTableCellContent {
-  box-sizing: border-box;
-  padding: 0 0.5rem;
-  line-height: 1.5rem;
-  vertical-align: middle;
-}
 /* CURSORS */
 .sapMPointer {
   cursor: pointer;
@@ -13923,13 +13940,24 @@ html.sap-desktop .sapMLnk:hover:not(.sapMLnkDsbl) {
 .sapUiSizeCompact .sapUiFormEdit .sapMLnk {
   line-height: 2rem;
 }
-/* Condensed size */
-.sapUiSizeCondensed .sapUiTableCell > .sapMLnk {
-  box-sizing: border-box;
-  padding: 0 0.5rem;
-  line-height: 1.5rem;
-  vertical-align: middle;
-  /* see shared.css */
+/* Link in sap.ui.table.* tables */
+html[data-sap-ui-browser^="ed"].sap-desktop .sapUiSizeCondensed .sapUiTableCell .sapMLnk:focus:not(.sapMLnkDsbl),
+html[data-sap-ui-browser^="ie"].sap-desktop .sapUiSizeCondensed .sapUiTableCell .sapMLnk:focus:not(.sapMLnkDsbl) {
+  outline: none;
+  position: relative;
+}
+html[data-sap-ui-browser^="ed"].sap-desktop .sapUiSizeCondensed .sapUiTableCell .sapMLnk:focus:not(.sapMLnkDsbl):before,
+html[data-sap-ui-browser^="ie"].sap-desktop .sapUiSizeCondensed .sapUiTableCell .sapMLnk:focus:not(.sapMLnkDsbl):before {
+  position: absolute;
+  top: 0.125rem;
+  left: 0.125rem;
+  right: 0.125rem;
+  bottom: 0.125rem;
+  border-width: 0.125rem;
+  border-style: dotted;
+  border-color: #ffffff;
+  content: "";
+  pointer-events: none;
 }
 /* List CSS for IE9 (no FLEX)     */
 /* replace flex boxes with tables */
@@ -14596,13 +14624,9 @@ html.sap-desktop .sapMLIBIconDel:focus {
   border-color: #ff5e5e;
 }
 .sapMMsgPopover .sapMMsgPopoverTitleText {
-  font-size: 1.125rem;
+  font-size: 1rem;
 }
-.sapMMsgPopover .sapMMsgPopoverDescriptionText,
-.sapMMsgPopover .markupDescription {
-  font-size: 0.875rem;
-}
-.sapUiSizeCompact.sapMMsgPopover .sapMMsgPopoverTitleText {
+.sapMMsgPopover .sapMMsgPopoverDescriptionText {
   font-size: 0.875rem;
 }
 /* ============================================= */

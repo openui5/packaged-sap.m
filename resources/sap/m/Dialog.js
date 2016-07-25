@@ -28,7 +28,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './InstanceManager', './Associative
 		 * @implements sap.ui.core.PopupInterface
 		 *
 		 * @author SAP SE
-		 * @version 1.40.2
+		 * @version 1.40.3
 		 *
 		 * @constructor
 		 * @public
@@ -656,7 +656,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './InstanceManager', './Associative
 
 			$this.css(oStyles);
 
-			if (!bStretch && !this._oManuallySetSize) {
+			if (!bStretch && !this._oManuallySetSize && !this._bDisableRepositioning) {
 				this._applyCustomTranslate();
 			}
 
@@ -730,11 +730,9 @@ sap.ui.define(['jquery.sap.global', './Bar', './InstanceManager', './Associative
 				$dialogContent.height(Math.round( iDialogHeight + iDialogTopBorderHeight + iDialogBottomBorderHeight));
 			}
 
-			if (this.getStretch() || this._bDisableRepositioning) {
-				return;
+			if (!this.getStretch() && !this._oManuallySetSize && !this._bDisableRepositioning) {
+				this._applyCustomTranslate();
 			}
-
-			this._applyCustomTranslate();
 		};
 
 		/**
@@ -1586,6 +1584,9 @@ sap.ui.define(['jquery.sap.global', './Bar', './InstanceManager', './Associative
 					var styles = {};
 					var minWidth = parseInt(that._$dialog.css('min-width'), 10);
 					var maxLeftOffset = initial.x + initial.width - minWidth;
+
+					// BCP: 1680048166 remove inline set height so that the content resizes together with the mouse pointer
+					that.$('cont').height('');
 
 					$w.on("mousemove.sapMDialog", function (e) {
 						fnMouseMoveHandler(function () {

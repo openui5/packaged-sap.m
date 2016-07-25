@@ -22,7 +22,7 @@ sap.ui.define(['jquery.sap.global', './Tile', './library', 'sap/ui/core/IconPool
 	 * @extends sap.m.Tile
 	 *
 	 * @author SAP SE
-	 * @version 1.40.2
+	 * @version 1.40.3
 	 *
 	 * @constructor
 	 * @public
