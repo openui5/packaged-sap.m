@@ -30,7 +30,7 @@ sap.ui.define([
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.38.4
+	 * @version 1.38.5
 	 *
 	 * @constructor
 	 * @private
@@ -781,7 +781,7 @@ sap.ui.define([
 	 * @private
 	 */
 	DynamicPage.prototype._onWrapperScroll = function (oEvent) {
-		if (Device.system.phone || !this._bExpandingWithAClick) {
+		if (!Device.system.desktop || !this._bExpandingWithAClick) {
 			this._toggleHeader();
 		}
 

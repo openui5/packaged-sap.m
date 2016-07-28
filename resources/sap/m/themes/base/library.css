@@ -6,6 +6,13 @@
 /* =========================== */
 /* Global CSS for 'base' theme */
 /* =========================== */
+/* Common CSS for condensed table cell content controls */
+.sapUiCondensedTableCellContent {
+  box-sizing: border-box;
+  padding: 0 0.5rem;
+  line-height: 1.5rem;
+  vertical-align: middle;
+}
 /* ============================================= */
 /* CSS for control sap.m/ActionListItem.control  */
 /* ============================================= */
@@ -1805,6 +1812,16 @@ html[data-sap-ui-animation='on'] .sapMDynamicPage .sapMDynamicPageActualFooterCo
 /* ============================================= */
 /* CSS for control sap.m/FacetFilter.control */
 /* ============================================= */
+.sapUiSizeCompact .sapMFF {
+  height: 2rem;
+}
+.sapUiSizeCompact .sapMFFArrowScroll {
+  padding: 0.5rem 0.4rem;
+}
+.sapUiSizeCompact .sapMFF .sapMFFLRemoveIcon {
+  line-height: 0.8rem;
+  padding: 0.6rem;
+}
 /* ============================================= */
 /* CSS for control sap.m/FacetFilterItem.control */
 /* ============================================= */
@@ -3468,6 +3485,21 @@ td.sapUiFormElementLbl > .sapMLabel {
 .sapMLnkMaxWidth {
   max-width: 100%;
 }
+/* Link in sap.ui.table.* tables */
+.sapUiTableCell .sapMLnk {
+  margin-top: 0.125rem;
+}
+.sapUiSizeCondensed .sapUiTableCell .sapMLnk {
+  margin-top: 0;
+  box-sizing: border-box;
+  padding: 0 0.5rem;
+  line-height: 1.5rem;
+  vertical-align: middle;
+  /* see shared.css */
+}
+html.sap-desktop .sapUiSizeCondensed .sapUiTableCell .sapMLnk:focus:not(.sapMLnkDsbl) {
+  outline-offset: -0.125rem;
+}
 /* ============================================= */
 /* CSS for controlsap.m/List.control */
 /* ============================================= */
@@ -4422,6 +4454,10 @@ html[data-sap-ui-animation='on'] .sapMNavItem.sapMNavItemDooring {
   border-radius: 0.1875rem;
   display: block;
   padding: 1rem 0;
+  margin: 0 0.25rem 0.5rem;
+}
+.sapMLIB.sapMNLB:first-of-type {
+  margin-top: 0.125rem;
 }
 /* ==========================================================================
    Priority styles
@@ -4650,7 +4686,6 @@ html[data-sap-ui-browser*='ie'] .sapMNLG-Footer .sapMBtnInner {
 .sapMNLI {
   padding: 1rem;
   position: relative;
-  margin: 0 0.25rem 0.5rem;
 }
 .sapMNLI:first-of-type {
   margin-top: 0.125rem;
@@ -4713,9 +4748,6 @@ html[data-sap-ui-browser*='ie'] .sapMNLG-Footer .sapMBtnInner {
   margin-left: 0.25rem;
   padding: 0;
   float: left;
-}
-.sapMNLI-Footer .sapMBtnInner.sapMBtnIconFirst {
-  padding-left: 0;
 }
 /* Buttons in footer don't render correctly due to fix for IE, overwriting the fix in sap.m.Button */
 html[data-sap-ui-browser*='ie'] .sapMNLI-Footer .sapMBtnInner {
@@ -5931,6 +5963,22 @@ html[data-sap-ui-browser^="ed"] .sapMObjLAttrDiv > .sapMObjectAttributeActive.sa
 html[data-sap-ui-os^="Android"] .sapMObjectNumberUnit {
   padding-top: 0;
 }
+.sapUiForm .sapMObjectNumberUnit,
+.sapUiForm .sapMObjectNumberText {
+  vertical-align: top;
+}
+.sapUiForm.sapUiFormEdit .sapMObjectNumber {
+  line-height: 3rem;
+}
+.sapUiForm.sapUiFormEdit .sapMObjectNumber .sapMObjectNumberUnit {
+  line-height: 2.875rem;
+}
+.sapUiSizeCompact .sapUiForm.sapUiFormEdit .sapMObjectNumber {
+  line-height: 2rem;
+}
+.sapUiSizeCompact .sapUiForm.sapUiFormEdit .sapMObjectNumber .sapMObjectNumberUnit {
+  line-height: 1.875rem;
+}
 /* ============================================= */
 /* CSS for control sap.m/ObjectStatus.control */
 /* ============================================= */
@@ -6708,6 +6756,10 @@ html[data-sap-ui-animation='on'] .sapMPopover {
 }
 .sapMPopoverArrDown:before {
   margin-top: -1.85rem;
+}
+/* Outer width of the Popover's content is wrong in IE */
+html[data-sap-ui-browser^="ie"] .sapMPopover .sapMPopoverScroll {
+  display: block;
 }
 .sapMPopover.sapUiSizeCompact .sapMPopoverArrLeft:before,
 .sapMPopover.sapUiSizeCompact .sapMPopoverArrRight:before {
