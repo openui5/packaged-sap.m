@@ -21,7 +21,7 @@ sap.ui.define(['jquery.sap.global', './NavContainer', './library', 'sap/ui/core/
 	 * The FacetFilter control is used to provide filtering functionality with multiple parameters.
 	 * @extends sap.ui.core.Control
 	 * @implements sap.ui.core.IShrinkable
-	 * @version 1.40.3
+	 * @version 1.40.4
 	 *
 	 * @constructor
 	 * @public
@@ -818,6 +818,9 @@ sap.ui.define(['jquery.sap.global', './NavContainer', './library', 'sap/ui/core/
 
 				placement: sap.m.PlacementType.Bottom,
 				beforeOpen: function(oEvent) {
+					if (that._displayedList) {
+						that._displayedList._setSearchValue("");
+					}
 
 					this.setCustomHeader(that._createFilterItemsSearchFieldBar(that._displayedList));
 					var subHeaderBar = this.getSubHeader();
@@ -959,8 +962,8 @@ sap.ui.define(['jquery.sap.global', './NavContainer', './library', 'sap/ui/core/
 	              var oList = sap.ui.getCore().byId(oControl.getAssociation("list"));
 	              jQuery.sap.assert(oList, "The facet filter button should be associated with a list.");
 
+			      oList.fireListOpen({});
 	              this._moveListToDisplayContainer(oList, oPopover);
-	              oList.fireListOpen({});
 	              oPopover.openBy(oControl);
 	              //Display remove facet icon only if ShowRemoveFacetIcon property is set to true
 	              if (oList.getShowRemoveFacetIcon()) {
@@ -1070,29 +1073,18 @@ oPopover.setContentWidth("30%");
 
 			var sText = "";
 			var aSelectedKeyNames = Object.getOwnPropertyNames(oList._oSelectedKeys);
-			var iSelectedKeysLength = aSelectedKeyNames.length,
-				iListLength;
+			var iLength = aSelectedKeyNames.length;
 
-			iListLength = oList.getItems().filter(function(oItem) {
-				return oItem.getVisible();
-			}).length;
+			if (iLength > 0) {
 
-			switch (iSelectedKeysLength) {
-				case 0:
-					sText = oList.getTitle();
-					break;
-				case 1:
+				if (iLength === 1) { // Use selected item value for button label if only one selected
 					var sSelectedItemText = oList._oSelectedKeys[aSelectedKeyNames[0]];
-					sText = this._bundle.getText("FACETFILTER_ITEM_SELECTION", [oList.getTitle(), sSelectedItemText]);
-					break;
-				case iListLength:
-          //this excludes when iSelectedKeysLength=0, that is handled in the 1st case.
-					//The old behavior was considering for "all" the case where none is selected.
-					sText = this._bundle.getText("FACETFILTER_ALL_SELECTED", [oList.getTitle()]);
-					break;
-				default:
-					sText = this._bundle.getText("FACETFILTER_ITEM_SELECTION", [oList.getTitle(), iSelectedKeysLength]);
-					break;
+					sText = this._bundle.getText("FACETFILTER_ITEM_SELECTION", [ oList.getTitle(), sSelectedItemText ]);
+				} else {
+					sText = this._bundle.getText("FACETFILTER_ITEM_SELECTION", [ oList.getTitle(), iLength ]);
+				}
+			} else {
+				sText = oList.getTitle();
 			}
 
 			oButton.setText(sText);
@@ -1516,7 +1508,7 @@ oPopover.setContentWidth("30%");
 			selected: bSelected,
 			select : function(oEvent) {
 				oCheckbox.setSelected(oEvent.getParameter("selected"));
-				handleSelectAll(oEvent.getParameter("selected"));
+				oList._handleSelectAll(oEvent.getParameter("selected"));
 			}
 		});
 
@@ -1530,17 +1522,12 @@ oPopover.setContentWidth("30%");
 		oBar.addEventDelegate({
 			ontap: function(oEvent) {
 				if (oEvent.srcControl === this) {
-					handleSelectAll(oCheckbox.getSelected());
+					oList._handleSelectAll(oCheckbox.getSelected());
 				}
 			}
 		}, oBar);
-		oBar.addContentLeft(oCheckbox);
 
-		var handleSelectAll = function(bSelected) {
-				oList.getItems().forEach(function (oItem) {
-					oItem.setSelected(bSelected);
-				}, this);
-		};
+		oBar.addContentLeft(oCheckbox);
 		oBar.addStyleClass("sapMFFCheckbar");
 
 		return oBar;
@@ -1579,6 +1566,7 @@ oPopover.setContentWidth("30%");
 		// This page instance is used to display content for every facet filter list, so remove any prior content, if any.
 		//oFilterItemsPage.destroyAggregation("content", true);
 
+		oFacetFilterList.fireListOpen({});
 		// Add the facet filter list
 		this._moveListToDisplayContainer(oFacetFilterList, oFilterItemsPage);
 
@@ -1595,7 +1583,6 @@ oPopover.setContentWidth("30%");
 
 		oFilterItemsPage.setTitle(oFacetFilterList.getTitle());
 
-		oFacetFilterList.fireListOpen({});
 		oNavCont.to(oFilterItemsPage);
 		}
 	};

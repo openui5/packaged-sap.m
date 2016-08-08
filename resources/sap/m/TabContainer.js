@@ -24,7 +24,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		 * @extends sap.ui.core.Control
 		 *
 		 * @author SAP SE
-		 * @version 1.40.3
+		 * @version 1.40.4
 		 *
 		 * @constructor
 		 * @public
@@ -182,7 +182,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 						this.getParent().getParent().fireAddNewButtonPress();
 					}
 				});
-
+				oControl.addStyleClass("sapMTSAddNewTabBtn");
 				this.setAggregation("_addNewButton", oControl, true);
 			}
 

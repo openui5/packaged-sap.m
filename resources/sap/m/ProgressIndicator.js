@@ -23,7 +23,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.40.3
+	 * @version 1.40.4
 	 *
 	 * @constructor
 	 * @public
@@ -83,7 +83,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		var that = this;
 
 		// validation of fPercentValue
-		if (typeof (fPercentValue) !== "number" || fPercentValue < 0 || fPercentValue > 100) {
+		if (!isValidPercentValue(fPercentValue)) {
 			jQuery.sap.log.warning(this + ": percentValue (" + fPercentValue + ") is not correct! Setting the default percentValue:0.");
 			fPercentValue = 0;
 			this.$().addClass("sapMPIValueMin");
@@ -106,8 +106,8 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 			}
 
 			this.$().addClass("sapMPIAnimate")
-					.attr("aria-valuenow", fPercentValue)
-					.attr("aria-valuetext", this._getAriaValueText({fPercent: fPercentValue}));
+				.attr("aria-valuenow", fPercentValue)
+				.attr("aria-valuetext", this._getAriaValueText({fPercent: fPercentValue}));
 
 			var time = Math.abs(that.getPercentValue() - fPercentValue) * 20;
 			var $Bar = this.$("bar");
@@ -173,6 +173,10 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 			enabled: this.getEnabled()
 		};
 	};
+
+	function isValidPercentValue(value) {
+		return (typeof (value) === 'number') && !isNaN(value) && value >= 0 && value <= 100;
+	}
 
 	return ProgressIndicator;
 

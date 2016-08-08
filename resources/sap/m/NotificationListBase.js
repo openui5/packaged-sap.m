@@ -21,7 +21,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', './ListI
          * @extends sap.m.ListItemBase
          *
          * @author SAP SE
-         * @version 1.40.3
+         * @version 1.40.4
          *
          * @constructor
          * @public
@@ -186,7 +186,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', './ListI
             if (parent && parent instanceof sap.ui.core.Element) {
                 var delegate = {
                     onAfterRendering: function() {
-                        parent.focus();
+                        parent.getDomRef().focus();
                         parent.removeEventDelegate(delegate);
                     }
                 };

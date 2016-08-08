@@ -24,7 +24,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Element'],
 	 * @implements sap.m.IconTab
 	 *
 	 * @author SAP SE
-	 * @version 1.40.3
+	 * @version 1.40.4
 	 *
 	 * @constructor
 	 * @public
