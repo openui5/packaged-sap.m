@@ -21,7 +21,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', './ListI
          * @extends sap.m.ListItemBase
          *
          * @author SAP SE
-         * @version 1.38.5
+         * @version 1.38.6
          *
          * @constructor
          * @public
@@ -184,7 +184,13 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', './ListI
             this.fireClose();
 
             if (parent && parent instanceof sap.ui.core.Element) {
-                parent.focus();
+                var delegate = {
+                    onAfterRendering: function() {
+                        parent.getDomRef().focus();
+                        parent.removeEventDelegate(delegate);
+                    }
+                };
+                parent.addEventDelegate(delegate);
             }
         };
 

@@ -20,7 +20,7 @@ sap.ui.define(["jquery.sap.global", "./library", "sap/ui/core/Item"],
 		 * @extends sap.ui.core.Element
 		 *
 		 * @author SAP SE
-		 * @version 1.38.5
+		 * @version 1.38.6
 		 *
 		 * @constructor
 		 * @public
@@ -67,7 +67,7 @@ sap.ui.define(["jquery.sap.global", "./library", "sap/ui/core/Item"],
 			var oParent = this.getParent(),
 				sType = this.getType().toLowerCase(),
 				// Blacklist properties. Some properties have already been set and shouldn't be changed in the StandardListItem
-				aPropertiesNotToUpdateInList = ["description"],
+				aPropertiesNotToUpdateInList = ["description", "type"],
 				fnUpdateProperty = function (sName, oItem) {
 					if (oItem._oMessagePopoverItem.getId() === this.getId() && oItem.getMetadata().getProperty(sName)) {
 						oItem.setProperty(sName, oValue);

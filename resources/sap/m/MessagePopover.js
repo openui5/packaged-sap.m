@@ -25,7 +25,7 @@ sap.ui.define(["jquery.sap.global", "./ResponsivePopover", "./Button", "./Toolba
 		 * @extends sap.ui.core.Control
 		 *
 		 * @author SAP SE
-		 * @version 1.38.5
+		 * @version 1.38.6
 		 *
 		 * @constructor
 		 * @public
@@ -354,7 +354,7 @@ sap.ui.define(["jquery.sap.global", "./ResponsivePopover", "./Button", "./Toolba
 						path: "message>/",
 						template: new MessagePopoverItem({
 							type: "{message>type}",
-							title: "{message>title}",
+							title: "{message>message}",
 							description: "{message>description}",
 							longtextUrl: "{message>longtextUrl}"
 						})

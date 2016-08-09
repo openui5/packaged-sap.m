@@ -1151,6 +1151,9 @@ html.sap-desktop .sapMDialog {
   */
   position: relative;
 }
+.sapUiPopupWithPadding.sapMDialogWithScrollCont .sapMDialogScrollCont {
+  height: 100%;
+}
 .sapMDialogWithScrollCont .sapMDialogScrollCont {
   height: 100%;
   padding: 0;
@@ -4587,6 +4590,9 @@ html[data-sap-ui-animation='on'] .sapMNavItem.sapMNavItemDooring {
 .sapMNLG.sapMLIB {
   padding-bottom: 0;
 }
+.sapMNLG .sapMLIB.sapMNLB:first-of-type {
+  margin-top: 0;
+}
 .sapMNLG-Header > .sapMNLB-Priority {
   padding-top: 1rem;
   border-radius: 0.1875rem 0 0 0;
@@ -5925,10 +5931,10 @@ html[data-sap-ui-browser^="ed"] .sapMObjLAttrDiv > .sapMObjectAttributeActive.sa
   padding-bottom: 1px;
 }
 .sapMObjectMarker.sapMObjectMarkerIcon.sapMObjectMarkerText .sapUiIcon {
-  margin-right: 0.5rem;
+  margin-right: 0.25rem;
 }
 .sapMListTbl .sapMObjectMarkerIcon .sapMText {
-  padding-top: 0px;
+  padding-top: 0;
 }
 .sapMListTbl .sapMObjectMarkerIcon .sapUiIcon:before {
   vertical-align: inherit;
@@ -13219,8 +13225,8 @@ html[dir=rtl] .sapMILI-CTX .sapMInputBasePlaceholder {
   height: 1.5rem;
   padding: 0;
 }
-.sapUiSizeCondensed .sapUiTableCell .sapMInputBaseInner {
-  border-color: #ffffff;
+.sapUiSizeCondensed .sapUiTableCell .sapMInputBaseInner:not(.sapMInputBaseStateInner) {
+  border-color: transparent;
 }
 .sapUiSizeCondensed .sapUiTableCell .sapMInputBaseInner {
   height: 1.5rem;

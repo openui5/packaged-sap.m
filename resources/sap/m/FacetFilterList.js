@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './List', './library'],
 	 * @class
 	 * FacetFilterList represents a list of values for the FacetFilter control.
 	 * @extends sap.m.List
-	 * @version 1.38.5
+	 * @version 1.38.6
 	 *
 	 * @constructor
 	 * @public
@@ -168,7 +168,7 @@ sap.ui.define(['jquery.sap.global', './List', './library'],
 		var searchVal = this._getSearchValue();
 		if (searchVal != null) {
 			this._search(searchVal, true);
-
+			this._updateSelectAllCheckBox();
 		}
 	};
 
