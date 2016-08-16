@@ -19,7 +19,7 @@ sap.ui.define(["./Slider", "./Input", 'sap/ui/core/InvisibleText'],
          * @extends sap.m.Slider
          *
          * @author SAP SE
-         * @version 1.38.6
+         * @version 1.38.7
          *
          * @constructor
          * @public
@@ -163,10 +163,6 @@ sap.ui.define(["./Slider", "./Input", 'sap/ui/core/InvisibleText'],
             // Setting the handles to the Start and the End points of the provided or the default range
             this._updateHandle(this._mHandleTooltip.start.handle, aRange[0]);
             this._updateHandle(this._mHandleTooltip.end.handle, aRange[1]);
-        };
-
-        RangeSlider.prototype.exit = function () {
-            this._aInitialFocusRange = null;
         };
 
 		/**

@@ -5710,7 +5710,7 @@ html.sap-phone .sapMOHR .sapMITBHead {
   overflow: visible;
   font-weight: bold;
   font-size: 1rem;
-  display: inline;
+  display: inline-block;
   word-wrap: break-word;
   white-space: normal;
 }
@@ -5728,15 +5728,11 @@ html.sap-phone .sapMOHR .sapMITBHead {
 /* ObjectIdentifier inside a table */
 .sapMListTbl .sapMObjectIdentifierTitle .sapMLnk,
 .sapMListTbl .sapMObjectIdentifierTitle .sapMText {
-  overflow: visible;
-  font-weight: bold;
   font-size: 0.875rem;
-  display: inline-block;
-  word-wrap: break-word;
-  white-space: normal;
   padding-top: 0;
 }
 .sapMListTbl .sapMObjectIdentifierTitle .sapMText {
+  font-weight: bold;
   color: #ffffff;
 }
 .sapMListTbl .sapMObjectIdentifierText .sapMText {
@@ -6397,6 +6393,7 @@ html[data-sap-ui-os^="iOS7"][data-sap-ui-browser^="msf"]:not(.sap-tablet) .sapUi
   padding: 1rem;
   box-sizing: border-box;
   overflow: auto;
+  white-space: normal;
 }
 .sapMPanelExpandablePart {
   clear: both;

@@ -21,7 +21,7 @@ sap.ui.define(['jquery.sap.global', './NavContainer', './library', 'sap/ui/core/
 	 * The FacetFilter control is used to provide filtering functionality with multiple parameters.
 	 * @extends sap.ui.core.Control
 	 * @implements sap.ui.core.IShrinkable
-	 * @version 1.38.6
+	 * @version 1.38.7
 	 *
 	 * @constructor
 	 * @public
@@ -813,6 +813,9 @@ sap.ui.define(['jquery.sap.global', './NavContainer', './library', 'sap/ui/core/
 
 				placement: sap.m.PlacementType.Bottom,
 				beforeOpen: function(oEvent) {
+					if (that._displayedList) {
+						that._displayedList._setSearchValue("");
+					}
 
 					this.setCustomHeader(that._createFilterItemsSearchFieldBar(that._displayedList));
 					var subHeaderBar = this.getSubHeader();
@@ -944,8 +947,8 @@ sap.ui.define(['jquery.sap.global', './NavContainer', './library', 'sap/ui/core/
 	              var oList = sap.ui.getCore().byId(oControl.getAssociation("list"));
 	              jQuery.sap.assert(oList, "The facet filter button should be associated with a list.");
 
+			      oList.fireListOpen({});
 	              this._moveListToDisplayContainer(oList, oPopover);
-	              oList.fireListOpen({});
 	              oPopover.openBy(oControl);
 	              //Display remove facet icon only if ShowRemoveFacetIcon property is set to true
 	              if (oList.getShowRemoveFacetIcon()) {
@@ -1489,7 +1492,7 @@ oPopover.setContentWidth("30%");
 			selected: bSelected,
 			select : function(oEvent) {
 				oCheckbox.setSelected(oEvent.getParameter("selected"));
-				handleSelectAll(oEvent.getParameter("selected"));
+				oList._handleSelectAll(oEvent.getParameter("selected"));
 			}
 		});
 
@@ -1503,17 +1506,12 @@ oPopover.setContentWidth("30%");
 		oBar.addEventDelegate({
 			ontap: function(oEvent) {
 				if (oEvent.srcControl === this) {
-					handleSelectAll(oCheckbox.getSelected());
+					oList._handleSelectAll(oCheckbox.getSelected());
 				}
 			}
 		}, oBar);
-		oBar.addContentLeft(oCheckbox);
 
-		var handleSelectAll = function(bSelected) {
-				oList.getItems().forEach(function (oItem) {
-					oItem.setSelected(bSelected);
-				}, this);
-		};
+		oBar.addContentLeft(oCheckbox);
 		oBar.addStyleClass("sapMFFCheckbar");
 
 		return oBar;
@@ -1552,6 +1550,7 @@ oPopover.setContentWidth("30%");
 		// This page instance is used to display content for every facet filter list, so remove any prior content, if any.
 		//oFilterItemsPage.destroyAggregation("content", true);
 
+		oFacetFilterList.fireListOpen({});
 		// Add the facet filter list
 		this._moveListToDisplayContainer(oFacetFilterList, oFilterItemsPage);
 
@@ -1568,7 +1567,6 @@ oPopover.setContentWidth("30%");
 
 		oFilterItemsPage.setTitle(oFacetFilterList.getTitle());
 
-		oFacetFilterList.fireListOpen({});
 		oNavCont.to(oFilterItemsPage);
 		}
 	};
