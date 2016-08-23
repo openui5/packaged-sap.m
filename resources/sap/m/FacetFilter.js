@@ -21,7 +21,7 @@ sap.ui.define(['jquery.sap.global', './NavContainer', './library', 'sap/ui/core/
 	 * The FacetFilter control is used to provide filtering functionality with multiple parameters.
 	 * @extends sap.ui.core.Control
 	 * @implements sap.ui.core.IShrinkable
-	 * @version 1.40.5
+	 * @version 1.40.6
 	 *
 	 * @constructor
 	 * @public
@@ -1705,13 +1705,13 @@ oPopover.setContentWidth("30%");
 			});
 
 			var that = this;
+			// create info bar without setting the height to "auto" (use default height)
+			// since we need the exact height of 2rem for both cozy and compact mode, which is set via css
 			oSummaryBar = new sap.m.Toolbar({
 				content : [ oText ], // Text is set before rendering
 				active : this.getType() === sap.m.FacetFilterType.Light ? true : false,
 				design : sap.m.ToolbarDesign.Info,
-				height: "auto",
 				press : function(oEvent) {
-
 						that.openFilterDialog();
 				}
 			});

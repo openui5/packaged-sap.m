@@ -1845,7 +1845,8 @@ html[data-sap-ui-animation='on'] .sapMDynamicPage .sapMDynamicPageActualFooterCo
 /* ============================================= */
 /* CSS for control sap.m/FacetFilter.control */
 /* ============================================= */
-.sapUiSizeCompact .sapMFF {
+.sapMFF > .sapMTB-Info-CTX.sapMTB,
+.sapMFF {
   height: 2rem;
 }
 .sapUiSizeCompact .sapMFFArrowScroll {
@@ -4208,6 +4209,12 @@ html.sap-desktop .sapMMultiInputBorder {
 }
 .sapMMultiInputMultiModeInputContainer {
   position: static;
+}
+html.sap-desktop .sapMMultiInput.sapMFocus .sapMInputBaseInner:focus {
+  outline: none;
+}
+.sapMMultiInput .sapMInputBaseInner:not(.sapMInputBaseReadonlyInner):not(.sapMInputBaseStateInner):not(.sapMInputBaseDisabledInner):hover {
+  background: transparent;
 }
 /* ============================================= */
 /* CSS for control sap.m/NavContainer.control */
@@ -7295,6 +7302,11 @@ html.sap-phone .sapMQuickViewPage .sapUiHLayout {
   outline: none;
   text-overflow: ellipsis;
   position: relative;
+  white-space: nowrap;
+  max-width: 100%;
+}
+.sapMRb > .sapMLabel {
+  max-width: calc(100% - 2.8125rem);
 }
 .sapMILI-CTX .sapMRb {
   float: right;
@@ -7337,7 +7349,7 @@ html.sap-phone .sapMQuickViewPage .sapUiHLayout {
   pointer-events: none;
 }
 .sapMRbHasLabel.sapMRb:focus:before {
-  right: -0.0625rem;
+  right: 0;
 }
 .sapMRbDis:focus:before {
   display: none;
@@ -8767,7 +8779,7 @@ html.sap-phone .sapMStdTileNumS {
 .sapMStepInput .sapMStepInputBtnWrapper.sapMStepInputBtnIncrease {
   right: 0;
 }
-.sapMStepInput-CTX .sapMInput .sapMInputBaseInner {
+.sapMStepInput-CTX .sapMInput .sapMInputBaseInner:not(.sapMInputBaseReadonlyInner) {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
@@ -8775,10 +8787,6 @@ html.sap-phone .sapMStdTileNumS {
 }
 .sapMStepInput-CTX .sapMInputBaseWidthPadding {
   padding: 0;
-}
-.sapMStepInput-CTX.sapMStepInputDisabled .sapMInput .sapMInputBaseInner {
-  padding-left: 0;
-  padding-right: 0;
 }
 .sapMStepInput-CTX .sapMBtn {
   padding: 0;
@@ -8800,7 +8808,7 @@ html.sap-phone .sapMStdTileNumS {
 .sapMStepInput-CTX.sapMStepInputWarning .sapMBtn .sapMBtnInner {
   width: 2.25rem;
 }
-.sapUiSizeCompact .sapMStepInput-CTX .sapMInput .sapMInputBaseInner {
+.sapUiSizeCompact .sapMStepInput-CTX .sapMInput .sapMInputBaseInner:not(.sapMInputBaseReadonlyInner) {
   padding: 0 1.75rem;
 }
 .sapUiSizeCompact .sapMStepInput-CTX .sapMInputBaseWidthPadding {
@@ -14937,9 +14945,6 @@ html.sap-tablet .sapUiSizeCompact .sapMMultiInputMultiModeBorder {
   left: 0;
   pointer-events: none;
 }
-.sapMMultiInput.sapMFocus .sapMInputBaseInner:focus {
-  outline: 0 none;
-}
 .sapMMultiInputShadowDiv {
   font-size: 1rem;
   font-family: Arial, Helvetica, sans-serif;
@@ -19388,16 +19393,16 @@ html.sap-desktop .sapMToken:hover {
   border: 0.125rem solid #ffffff;
   border-radius: 0.3125rem;
 }
-.sapMTBActive:focus {
+.sapMTB-Info-CTX.sapMTBActive:focus {
   outline: 0.125rem dotted #ffffff;
   outline-offset: -0.1875rem;
 }
 /* IE ignores outline-offset. Use an overlay: */
-html[data-sap-ui-browser^="ie"].sap-desktop .sapMTBActive:focus {
+html[data-sap-ui-browser^="ie"].sap-desktop .sapMTB-Info-CTX.sapMTBActive:focus {
   outline: none;
   position: relative;
 }
-html[data-sap-ui-browser^="ie"].sap-desktop .sapMTBActive:focus:before {
+html[data-sap-ui-browser^="ie"].sap-desktop .sapMTB-Info-CTX.sapMTBActive:focus:before {
   content: " ";
   box-sizing: border-box;
   width: calc(100% - 0.0625rem);

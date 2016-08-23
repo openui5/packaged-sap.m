@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.40.5
+	 * @version 1.40.6
 	 *
 	 * @constructor
 	 * @public
@@ -109,6 +109,14 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 			press : {}
 		}
 	}});
+
+
+	/**
+	 * Specifies whether the button should be excluded (default false) from tab chain.
+	 * @type {boolean}
+	 * @protected
+	 */
+	//this._bExcludeFromTabChain
 
 	EnabledPropagator.call(Button.prototype);
 
