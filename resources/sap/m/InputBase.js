@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.40.6
+	 * @version 1.40.7
 	 *
 	 * @constructor
 	 * @public
@@ -507,7 +507,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	/**
 	 * Handle DOM input event.
 	 *
-	 * This event is fired synchronously when the value of an <input> or <textarea> element is changed.
+	 * This event is fired synchronously when the value of an <code><input></code> or <code><textarea></code> element is changed.
 	 * IE9 does not fire an input event when the user removes characters via BACKSPACE / DEL / CUT
 	 * InputBase normalize this behaviour for IE9 and calls oninput for the subclasses
 	 *
