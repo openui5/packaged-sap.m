@@ -4,7 +4,7 @@
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
-sap.ui.define(['sap/m/semantic/SemanticControl', 'sap/m/Button', 'sap/m/OverflowToolbarButton'], function(SemanticControl, Button, OverflowToolbarButton) {
+sap.ui.define(['sap/m/semantic/SemanticControl', 'sap/m/Button', 'sap/m/semantic/SemanticOverflowToolbarButton'], function(SemanticControl, Button, SemanticOverflowToolbarButton) {
 	"use strict";
 
 	/**
@@ -20,7 +20,7 @@ sap.ui.define(['sap/m/semantic/SemanticControl', 'sap/m/Button', 'sap/m/Overflow
 	 * @abstract
 	 *
 	 * @author SAP SE
-	 * @version 1.38.7
+	 * @version 1.38.8
 	 *
 	 * @constructor
 	 * @public
@@ -61,7 +61,7 @@ sap.ui.define(['sap/m/semantic/SemanticControl', 'sap/m/Button', 'sap/m/Overflow
 		if (!oControl) {
 
 			var oClass = this._getConfiguration()
-				&& this._getConfiguration().constraints === "IconOnly" ? OverflowToolbarButton : Button;
+				&& this._getConfiguration().constraints === "IconOnly" ? SemanticOverflowToolbarButton : Button;
 
 			var oNewInstance = this._createInstance(oClass);
 

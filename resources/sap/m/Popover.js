@@ -22,7 +22,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Button', './InstanceManager', '.
 		 * @implements sap.ui.core.PopupInterface
 		 *
 		 * @author SAP SE
-		 * @version 1.38.7
+		 * @version 1.38.8
 		 *
 		 * @constructor
 		 * @public
@@ -603,10 +603,13 @@ sap.ui.define(['jquery.sap.global', './Bar', './Button', './InstanceManager', '.
 			// initialFocus, beginButton, endButton, and popover itself.
 			// focus has to be inside/on popover otherwise autoclose() will not work
 				sFocusId = this._getInitialFocusId(),
-				oParentDomRef, iPlacePos;
+				oParentDomRef, iPlacePos, aCompactParents;
+
+			oParentDomRef = (oControl.getDomRef && oControl.getDomRef()) || oControl;
+			aCompactParents = jQuery(oParentDomRef).closest(".sapUiSizeCompact");
 
 			// Determines if the Popover will be rendered in a compact mode
-			this._bSizeCompact = sap.m._bSizeCompact || !!document.querySelector('body.sapUiSizeCompact') || this.hasStyleClass("sapUiSizeCompact");
+			this._bSizeCompact = sap.m._bSizeCompact || !!aCompactParents.length || this.hasStyleClass("sapUiSizeCompact");
 
 			this._adaptPositionParams();
 
@@ -1375,7 +1378,8 @@ sap.ui.define(['jquery.sap.global', './Bar', './Button', './InstanceManager', '.
 
 		/**
 		 * Calculate outerWidth of the element; used as hook for SVG elements
-		 *
+		 * @param {HTMLElement} oElement An Element for which outerWidth will be calculated.
+		 * @param {boolean} bIncludeMargin Determines if the margins should be included in the calculated outerWidth. Default value is false.
 		 * @protected
 		 */
 		Popover.outerWidth = function (oElement, bIncludeMargin) {
@@ -1383,12 +1387,13 @@ sap.ui.define(['jquery.sap.global', './Bar', './Button', './InstanceManager', '.
 				return oElement.getBoundingClientRect().width;
 			}
 
-			return jQuery(oElement).outerWidth(bIncludeMargin);
+			return jQuery(oElement).outerWidth(!!bIncludeMargin);
 		};
 
 		/**
 		 * Calculate outerHeight of the element; used as hook for SVG elements
-		 *
+		 * @param {HTMLElement} oElement An Element for which outerHeight will be calculated.
+		 * @param {boolean} bIncludeMargin Determines if the margins should be included in the calculated outerHeight. Default value is false.
 		 * @protected
 		 */
 		Popover.outerHeight = function (oElement, bIncludeMargin) {
@@ -1396,7 +1401,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Button', './InstanceManager', '.
 				return oElement.getBoundingClientRect().height;
 			}
 
-			return jQuery(oElement).outerHeight(bIncludeMargin);
+			return jQuery(oElement).outerHeight(!!bIncludeMargin);
 		};
 
 		Popover.prototype._getPositionParams = function ($popover, $arrow, $content, $scrollArea) {
@@ -1545,7 +1550,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Button', './InstanceManager', '.
 
 			return {
 				top: iTop,
-				bottom: Math.max(iBottom - oPosParams._fWindowTop, iBottom),
+				bottom: iBottom - oPosParams._fWindowTop,
 				left: iLeft,
 				right: typeof iRight === "number" ? iRight - oPosParams._fWindowLeft : iRight
 			};

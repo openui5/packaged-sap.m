@@ -22,14 +22,14 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/Device', 'sap/ui/base/DataType',
 	 * @namespace
 	 * @name sap.m
 	 * @author SAP SE
-	 * @version 1.38.7
+	 * @version 1.38.8
 	 * @public
 	 */
 
 	// delegate further initialization of this library to the Core
 	sap.ui.getCore().initLibrary({
 		name : "sap.m",
-		version: "1.38.7",
+		version: "1.38.8",
 		dependencies : ["sap.ui.core"],
 		types: [
 			"sap.m.BackgroundDesign",
@@ -54,6 +54,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/Device', 'sap/ui/base/DataType',
 			"sap.m.ImageMode",
 			"sap.m.Size",
 			"sap.m.ValueColor",
+			"sap.m.ValueCSSColor",
 			"sap.m.InputType",
 			"sap.m.LabelDesign",
 			"sap.m.ListHeaderDesign",
@@ -1057,9 +1058,10 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/Device', 'sap/ui/base/DataType',
 
 	/**
 	 *
-	 *   Marker interface for controls which are suitable as items for the IconTabBar.
-	 *   These controls must implement a method isSelectable().
-	 *
+	 * Represents an interface for controls, which are suitable as items for the sap.m.IconTabBar.
+	 * The classes which implement this interface are:
+	 * - sap.m.IconTabFilter
+	 * - sap.m.IconTabSeparator
 	 *
 	 * @name sap.m.IconTab
 	 * @interface

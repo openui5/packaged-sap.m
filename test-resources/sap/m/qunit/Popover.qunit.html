@@ -62,7 +62,7 @@
 
 		sap.ui.test.qunit.delayTestStart();
 
-		var iBarHeight = 48, iArrowOffset = 18;
+		var iBarHeight = 48, iArrowOffset = 9;
 
 		var oButton = new sap.m.Button({
 			text: "Popover",
@@ -1736,6 +1736,24 @@
 			deepEqual(oPopover._myPositions, ["begin bottom", "begin center", "begin top", "end center"], "myPositions should be correct");
 			deepEqual(oPopover._atPositions, ["begin top", "end center", "begin bottom", "begin center"], "atPositions should be correct");
 
+			oPopover.destroy();
+		});
+
+		test("Popover should be in compact mode if one of it's parents is compact", function () {
+			var oScrollContainer = new sap.m.ScrollContainer().addStyleClass("sapUiSizeCompact"),
+				oButton = new sap.m.Button,
+				oPopover = new sap.m.Popover;
+
+			oScrollContainer.addContent(oButton);
+
+			oScrollContainer.placeAt("content");
+			sap.ui.getCore().applyChanges();
+			oPopover.openBy(oButton);
+
+			equal(oPopover._arrowOffset, 9, "_arrowoffset should be 9");
+			deepEqual(oPopover._offsets, ["0 -9", "9 0", "0 9", "-9 0"], "offsets should be correct according the arrowOffset");
+
+			oScrollContainer.destroy();
 			oPopover.destroy();
 		});
 

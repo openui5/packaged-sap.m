@@ -23,7 +23,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.38.7
+	 * @version 1.38.8
 	 *
 	 * @constructor
 	 * @public
@@ -334,7 +334,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 			(bIsParentIconTabBar && oParent.getExpandable() || this.oSelectedItem !== oItem)) {
 			this.oSelectedItem.$()
 					.removeClass("sapMITBSelected")
-					.removeAttr('aria-selected')
+					.attr('aria-selected', false)
 					.removeAttr('aria-expanded');
 		}
 

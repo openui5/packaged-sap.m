@@ -22,7 +22,7 @@ sap.ui.define(['./Popover', './PopoverRenderer', './OverflowToolbarAssociativePo
 	 * @extends sap.ui.core.Popover
 	 *
 	 * @author SAP SE
-	 * @version 1.38.7
+	 * @version 1.38.8
 	 *
 	 * @constructor
 	 * @private
@@ -76,7 +76,9 @@ sap.ui.define(['./Popover', './PopoverRenderer', './OverflowToolbarAssociativePo
 
 		if (sResult) {
 			oControlObject = sap.ui.getCore().byId(sResult);
-			this._postProcessControl(oControlObject);
+			if (oControlObject) {
+				this._postProcessControl(oControlObject);
+			}
 		}
 		return sResult;
 	};

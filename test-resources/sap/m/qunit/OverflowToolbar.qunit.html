@@ -1180,17 +1180,28 @@
 		test("[removeContent] Removing a control with removeContent works no matter if the control is in the toolbar or popover", function () {
 			var aContent,
 					oOverflowTB,
+					removeAssociatedContentSpy,
+					oAssociativePopover,
+					oControlToRemove,
+					sControlToRemoveId,
 					widthTypes = getSampleWidths();
 
 			widthTypes.forEach(function (sWidth) {
 				aContent = getDefaultContent();
 				oOverflowTB = createOverflowToolbar({width: sWidth}, aContent);
-				oOverflowTB.removeContent(aContent[aContent.length - 1]);
+				oAssociativePopover = oOverflowTB._getPopover();
+				this.clock.tick(1000);
+				removeAssociatedContentSpy = this.spy(oAssociativePopover, "removeAssociatedContent");
+				oControlToRemove = aContent[aContent.length - 1];
+				sControlToRemoveId = oControlToRemove.getId();
 
+				oOverflowTB.removeContent(oControlToRemove);
+				ok(removeAssociatedContentSpy.calledWith(sControlToRemoveId), "The control is removed from the AssociatedContent");
+				strictEqual(oAssociativePopover.getAssociatedContent().indexOf(sControlToRemoveId), -1, "The control cannot be found in the AssociatedContent");
 				strictEqual(oOverflowTB.getContent().length, aContent.length - 1, "For a toolbar with width = " + sWidth + ", removing the last control works");
 
 				oOverflowTB.destroy();
-			});
+			}, this);
 
 		});
 
@@ -1311,6 +1322,23 @@
 				oOverflowTB.destroy();
 			}, this);
 
+		});
+
+		test("Destroying a control that is in the overflow is possible", function () {
+
+			var btn = new sap.m.Button({
+						text: "Button in overflow",
+						layoutData: new sap.m.OverflowToolbarLayoutData({priority: sap.m.OverflowToolbarPriority.AlwaysOverflow})
+					}),
+					oOverflowTB = createOverflowToolbar({width: 'auto'}, [btn]);
+
+			sap.ui.getCore().applyChanges();
+
+			btn.destroy();
+
+			strictEqual(oOverflowTB.getContent().length, 0, "Button successfully removed from the toolbar");
+
+			oOverflowTB.destroy();
 		});
 
 		module("Layout");

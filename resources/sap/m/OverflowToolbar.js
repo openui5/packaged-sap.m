@@ -37,7 +37,7 @@ sap.ui.define([
 	 * @extends sap.ui.core.Toolbar
 	 *
 	 * @author SAP SE
-	 * @version 1.38.7
+	 * @version 1.38.8
 	 *
 	 * @constructor
 	 * @public
@@ -680,6 +680,9 @@ sap.ui.define([
 
 	OverflowToolbar.prototype.removeContent = function (oControl) {
 		var vContent = this._callToolbarMethod("removeContent", arguments);
+		if (vContent) {
+			this._getPopover().removeAssociatedContent(vContent.getId());
+		}
 		this._resetAndInvalidateToolbar(false);
 
 		this._postProcessControl(vContent);

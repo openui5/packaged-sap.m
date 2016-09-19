@@ -21,7 +21,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.38.7
+	 * @version 1.38.8
 	 *
 	 * @constructor
 	 * @public
@@ -159,7 +159,9 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		var oDomRef = this.getDomRef();
 		if (oDomRef) {
 			oDomRef.style.height = sHeight;
-			oDomRef.querySelector(".sapMPanelContent").style.height = sHeight;
+			if (parseFloat(sHeight) != 0) {
+				oDomRef.querySelector(".sapMPanelContent").style.height = sHeight;
+			}
 			this._setContentHeight();
 		}
 
