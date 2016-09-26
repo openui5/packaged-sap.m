@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.40.7
+	 * @version 1.40.8
 	 *
 	 * @constructor
 	 * @public
@@ -419,6 +419,9 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 
 			// inform change detection
 			return true;
+		} else {
+			// same value as before --> ignore Dom update
+			this._bCheckDomValue = false;
 		}
 	};
 

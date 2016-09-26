@@ -1827,9 +1827,6 @@ html[data-sap-ui-animation='on'] .sapMDynamicPage .sapMDynamicPageActualFooterCo
   font-size: 1rem;
   display: inline-block;
 }
-.sapMMessagePage > .sapMPage {
-  position: inherit;
-}
 .sapMMessagePage > .sapMPage section {
   max-width: 30rem;
   box-sizing: border-box;
@@ -2715,6 +2712,7 @@ html[data-sap-ui-browser*='ff'] .sapMGT:not(.sapMGTHeaderMode) .sapMGTHdrContent
   padding: 0;
   text-align: left;
   width: auto;
+  overflow: visible;
 }
 .sapMITBTextUpperCase .sapMITBText {
   text-transform: uppercase;
@@ -7468,8 +7466,8 @@ html[data-sap-ui-browser^="ie"] .sapMRbG .sapMRbBLabel {
 .sapMSliderTooltipContainer {
   display: flex;
   position: absolute;
-  top: -2.75rem;
-  height: 1.5rem;
+  top: -3rem;
+  height: 2rem;
   width: auto;
   justify-content: space-between;
   transition-property: left, right;
@@ -7478,12 +7476,23 @@ html[data-sap-ui-browser^="ie"] .sapMRbG .sapMRbBLabel {
 .sapMSliderTooltipContainer .sapMInputBaseWidthPadding {
   padding: 0;
 }
+.sapMSliderTooltipContainer .sapMInputBase {
+  height: inherit;
+}
 .sapMSliderTooltipContainer .sapMInputBaseInner {
-  height: 26px;
+  height: inherit;
   font-size: 0.75rem;
   position: relative;
   padding-right: 0.5rem;
   padding-left: 0.5rem;
+}
+.sapUiSizeCozy .sapMSliderTooltipContainer .sapMInputBase {
+  height: 3rem;
+  top: -1rem;
+  padding: 0.25rem 0;
+}
+.sapUiSizeCozy .sapMSliderTooltipContainer .sapMInputBaseInner {
+  height: 2.5rem;
 }
 /* ============================================= */
 /* CSS for control sap.m/RatingIndicator.control */
@@ -12071,6 +12080,9 @@ html.sap-desktop .sapMActionSelectPicker .sapMBtnDefault:focus {
 /* increase outline offset */
 .sapMTB > .sapMBtnInner.sapMFocusable:focus {
   outline-offset: -0.125rem;
+}
+.sapMTB-Info-CTX > .sapUiIcon:focus {
+  outline: 0.125rem dotted #ffffff;
 }
 /* ------------------------------------------------ */
 /* Compact size                                     */
@@ -16800,8 +16812,7 @@ span.sapMSliderHandleOverlap {
   color: #ffffff;
 }
 .sapMSliderHandleTooltip {
-  /*top: -3rem;*/
-  border: 0.625rem solid #ffffff;
+  border: 0.1rem solid #ffffff;
   background: #000000;
   padding-right: 0.5rem;
   padding-left: 0.5rem;
@@ -16817,8 +16828,13 @@ span.sapMSliderHandleOverlap {
 .sapMSliderHandleTooltipShow {
   visibility: visible;
 }
-.sapMSlider:hover .sapMSliderHandleTooltip {
+.sapMSlider:hover .sapMSliderHandleTooltip,
+.sapMSlider:hover .sapMSliderTooltipContainer {
   visibility: visible;
+}
+.sapMSliderTooltipContainer .sapMInputBase,
+.sapMSliderTooltipContainer .sapMInputBaseInner {
+  height: inherit;
 }
 /* ================================================ */
 /* CSS for control sap.m/ResponsivePopover.control  */

@@ -19,7 +19,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Control', './TimePickerSliderRe
 		 * @extends sap.ui.core.Control
 		 *
 		 * @author SAP SE
-		 * @version 1.40.7
+		 * @version 1.40.8
 		 *
 		 * @constructor
 		 * @private
@@ -832,6 +832,9 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Control', './TimePickerSliderRe
 				this._selectionOffset = 0;
 			}
 
+			//WAI-ARIA region
+			this.$().attr('aria-expanded', this.getIsExpanded());
+
 			this.setSelectedValue(sSelectedValue);
 		};
 
@@ -915,9 +918,9 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Control', './TimePickerSliderRe
 
 			sAriaLabel = fnFindKeyByText.call(this, sSelectedItemText);
 
-			$aItems.eq(this._iSelectedItemIndex).addClass("sapMTimePickerItemSelected").attr("aria-selected", "true");
+			$aItems.eq(this._iSelectedItemIndex).addClass("sapMTimePickerItemSelected");
 			//WAI-ARIA region
-			document.getElementById(this.getId() + "-valDescription").setAttribute("aria-label", sAriaLabel);
+			document.getElementById(this.getId() + "-valDescription").innerHTML = sAriaLabel;
 		};
 
 		/**
