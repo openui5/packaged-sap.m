@@ -118,14 +118,14 @@
         "id": "d06b75b00f08e9f477afc0bdae46eb167c4755d2",
         "author": "Adrian Bobev \u003cadrian.bobev@sap.com\u003e",
         "type": "FEATURE",
-        "text": "sap.m.Popover: showArrow property added",
+        "text": "sap.m.Popover: ShowArrow property added",
         "references": []
       },
       {
         "id": "2b3e49d661b285449f08d26d6a35440c59f7c8f4",
         "author": "Teodor Taushanov \u003cteodor.taushanov@sap.com\u003e",
         "type": "FEATURE",
-        "text": "sap.m.QuickView:  Icons screen reader support is improved",
+        "text": "sap.m.QuickView: Icons screen reader support is improved",
         "references": []
       },
       {
@@ -244,7 +244,7 @@
         "id": "a4d0eea4a705e93c1d7dc8fa7a5726276532a1c2",
         "author": "Shtiliyan Uzunov \u003cshtiliyan.uzunov@sap.com\u003e",
         "type": "FEATURE",
-        "text": "sap.m.Wizard: new property introduced: finishButtonText",
+        "text": "sap.m.Wizard: New property introduced: finishButtonText",
         "references": []
       },
       {
@@ -419,7 +419,7 @@
         "id": "5b120898d8bfa5c46c0e09f8931e1a88999cd518",
         "author": "Arley Triana Morin \u003carley.triana.morin@sap.com\u003e",
         "type": "FIX",
-        "text": "sap.m.ComboBox: Fix custom placeholder alignment issue in IE10",
+        "text": "sap.m.ComboBox: Fix custom placeholder alignment issue in Internet Explorer 10",
         "references": []
       },
       {
@@ -3501,6 +3501,32 @@
         "author": "Yavor Ivanov \u003cyavor.ivanov@sap.com\u003e",
         "type": "FIX",
         "text": "sap.m.ViewSettingsDialog: Group\u0027s \"None\" button now returns undefined",
+        "references": []
+      }
+    ]
+  },
+  "1.32.17": {
+    "date": "September 2016",
+    "notes": [
+      {
+        "id": "05731179678ac0ad7be420b92c3895666cfef7f7",
+        "author": "Sebastian Allmann \u003csebastian.allmann@sap.com\u003e",
+        "type": "FIX",
+        "text": "sap.m.DatePicker: invalid input lost after rerendering",
+        "references": []
+      },
+      {
+        "id": "4ef073c58fb4b0f666464f65fa19d333d38c7011",
+        "author": "Pia Kinkel \u003cpia.kinkel@sap.com\u003e",
+        "type": "FIX",
+        "text": "sap.m.FeedInput: Disable Button when FeedInput is disabled",
+        "references": []
+      },
+      {
+        "id": "ca48c654773835d3ab4793f24d92ff7527cc3bad",
+        "author": "Martin R. Hristov \u003cmartin.r.hristov@sap.com\u003e",
+        "type": "FIX",
+        "text": "sap.m.ResponsivePopover: calling getBegin/EndButton causes endless recursion",
         "references": []
       }
     ]

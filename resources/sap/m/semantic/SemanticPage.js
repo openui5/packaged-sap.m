@@ -35,7 +35,7 @@ function (jQuery, SegmentedContainer, SemanticConfiguration, Button, Title, Acti
 	 * @abstract
 	 *
 	 * @author SAP SE
-	 * @version 1.42.0
+	 * @version 1.42.2
 	 *
 	 * @constructor
 	 * @public
@@ -203,6 +203,16 @@ function (jQuery, SegmentedContainer, SemanticConfiguration, Button, Title, Acti
 		if (this._oWrappedFooter) {
 			this._oWrappedFooter.destroy();
 			this._oWrappedFooter = null;
+		}
+
+		if (this._oTitle) {
+			this._oTitle.destroy();
+			this._oTitle = null;
+		}
+
+		if (this._oNavButton) {
+			this._oNavButton.destroy();
+			this._oNavButton = null;
 		}
 
 		this._oPositionsMap = null;

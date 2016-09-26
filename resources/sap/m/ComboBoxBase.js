@@ -19,7 +19,7 @@ sap.ui.define(['jquery.sap.global', './Dialog', './ComboBoxTextField', './Toolba
 		 * @extends sap.m.ComboBoxTextField
 		 *
 		 * @author SAP SE
-		 * @version 1.42.0
+		 * @version 1.42.2
 		 *
 		 * @constructor
 		 * @public
@@ -349,7 +349,7 @@ sap.ui.define(['jquery.sap.global', './Dialog', './ComboBoxTextField', './Toolba
 			// mark the event for components that needs to know if the event was handled
 			oEvent.setMarked();
 
-			if (oControl.isOpenArea(oEvent.target)) {
+			if (oControl.isOpenArea && oControl.isOpenArea(oEvent.target)) {
 
 				if (this.isOpen()) {
 					this.close();

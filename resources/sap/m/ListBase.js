@@ -24,7 +24,7 @@ sap.ui.define(['jquery.sap.global', './GroupHeaderListItem', './library', 'sap/u
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.42.0
+	 * @version 1.42.2
 	 *
 	 * @constructor
 	 * @public
@@ -951,7 +951,7 @@ sap.ui.define(['jquery.sap.global', './GroupHeaderListItem', './library', 'sap/u
 	 */
 	ListBase.prototype.getMaxItemsCount = function() {
 		var oBinding = this.getBinding("items");
-		if (oBinding) {
+		if (oBinding && oBinding.getLength) {
 			return oBinding.getLength() || 0;
 		}
 		return this.getItems(true).length;

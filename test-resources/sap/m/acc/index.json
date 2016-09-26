@@ -42,7 +42,7 @@
 		},
 		{
 			"control": "sap.m.Carousel",
-			"url": "../Carousel.html",
+			"url": "../CarouselLessPages.html",
 			"appComponent": "CA-UI5-CTR-SOF-ROD"
 		},
 		{
@@ -108,11 +108,6 @@
 		{
 			"control": "sap.m.GenericTile",
 			"url": "../GenericTile.html",
-			"appComponent" : "CA-UI5-BS-FCW"
-		},
-		{
-			"control": "sap.m.HeaderContainer",
-			"url":  "../HeaderContainer.html",
 			"appComponent" : "CA-UI5-BS-FCW"
 		},
 		{

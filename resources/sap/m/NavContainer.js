@@ -26,7 +26,7 @@ sap.ui.define([
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.42.0
+	 * @version 1.42.2
 	 *
 	 * @constructor
 	 * @public
@@ -486,7 +486,7 @@ sap.ui.define([
 		if (bNavigatingBackToPreviousLocation) {
 			// set focus to the remembered focus object if available
 			// if no focus was set set focus to first focusable object in "to page"
-			domRefRememberedFocusSubject = this._mFocusObject[sPageId];
+			domRefRememberedFocusSubject = this._mFocusObject != null ? this._mFocusObject[sPageId] : null;
 			if (domRefRememberedFocusSubject) {
 				jQuery.sap.focus(domRefRememberedFocusSubject);
 			} else if (bAutoFocus) {
@@ -562,7 +562,7 @@ sap.ui.define([
 	 * @public
 	 * @ui5-metamodel This method also will be described in the UI5 (legacy) designtime metamodel
 	 */
-	NavContainer.prototype.to = function (pageId, transitionName, data, oTransitionParameters) {
+	NavContainer.prototype.to = function (pageId, transitionName, data, oTransitionParameters, bFromQueue) {
 		if (pageId instanceof Control) {
 			pageId = pageId.getId();
 		}
@@ -585,7 +585,7 @@ sap.ui.define([
 			jQuery.sap.log.info(this.toString() + ": Cannot navigate to page " + pageId + " because another navigation is already in progress. - navigation will be executed after the previous one");
 
 			this._aQueue.push(jQuery.proxy(function () {
-				this.to(pageId, transitionName, data, oTransitionParameters);
+				this.to(pageId, transitionName, data, oTransitionParameters, true);
 			}, this));
 
 			return this;
@@ -599,6 +599,9 @@ sap.ui.define([
 		var oFromPage = this.getCurrentPage();
 		if (oFromPage && (oFromPage.getId() === pageId)) { // cannot navigate to the page that is already current
 			jQuery.sap.log.warning(this.toString() + ": Cannot navigate to page " + pageId + " because this is the current page.");
+			if (bFromQueue) {
+				this._aQueue.shift();
+			}
 			return this;
 		}
 

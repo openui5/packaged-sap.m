@@ -18,7 +18,7 @@ sap.ui.define(['jquery.sap.global', './FlexBoxStylingHelper', './library', 'sap/
 	 * @class
 	 * Holds layout data for a FlexBox|HBox|VBox
 	 * @extends sap.ui.core.LayoutData
-	 * @version 1.42.0
+	 * @version 1.42.2
 	 *
 	 * @constructor
 	 * @public
@@ -176,6 +176,14 @@ sap.ui.define(['jquery.sap.global', './FlexBoxStylingHelper', './library', 'sap/
 		var sOldValue = this.getBackgroundDesign();
 		this.setProperty("backgroundDesign", sValue, true);
 		this.$().removeClass("sapMFlexBoxBG" + sOldValue).addClass("sapMFlexBoxBG" + this.getBackgroundDesign());
+
+		return this;
+	};
+
+	FlexItemData.prototype.setStyleClass = function(sValue) {
+		var sOldValue = this.getStyleClass();
+		this.setProperty("styleClass", sValue, true);
+		this.$().removeClass(sOldValue).addClass(this.getStyleClass());
 
 		return this;
 	};

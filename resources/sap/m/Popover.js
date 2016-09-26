@@ -22,7 +22,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Button', './InstanceManager', '.
 		 * @implements sap.ui.core.PopupInterface
 		 *
 		 * @author SAP SE
-		 * @version 1.42.0
+		 * @version 1.42.2
 		 *
 		 * @constructor
 		 * @public
@@ -1550,7 +1550,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Button', './InstanceManager', '.
 
 			return {
 				top: iTop,
-				bottom: Math.max(iBottom - oPosParams._fWindowTop, iBottom),
+				bottom: iBottom - oPosParams._fWindowTop,
 				left: iLeft,
 				right: typeof iRight === "number" ? iRight - oPosParams._fWindowLeft : iRight
 			};
