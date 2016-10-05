@@ -23,7 +23,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.28.38
+	 * @version 1.28.40
 	 *
 	 * @constructor
 	 * @public
@@ -370,7 +370,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 
 	RatingIndicator.prototype._toPx = function (cssSize) {
 		cssSize = cssSize || 0;
-		var  scopeVal = RatingIndicator._pxCalculations[cssSize],
+		var scopeVal = RatingIndicator._pxCalculations[cssSize],
 			scopeTest;
 
 		if (scopeVal === undefined) {
@@ -378,7 +378,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 				scopeTest = jQuery('<div style="display: none; width: ' + cssSize + '; margin: 0; padding:0; height: auto; line-height: 1; font-size: 1; border:0; overflow: hidden">&nbsp;</div>').appendTo(sap.ui.getCore().getStaticAreaRef());
 				scopeVal = scopeTest.width();
 			} else {
-				scopeTest = jQuery('<div class="sapMRIIcon">&nbsp;</div>').appendTo(sap.ui.getCore().getStaticAreaRef());
+				scopeTest = jQuery('<div style="height: 1.375rem; overflow: hidden;">&nbsp;</div>').appendTo(sap.ui.getCore().getStaticAreaRef());
 				scopeVal = scopeTest.height();
 			}
 			scopeTest.remove();
