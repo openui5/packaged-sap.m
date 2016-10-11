@@ -24,6 +24,7 @@ sap.ui.define(['jquery.sap.global'],
 		var fPercentValue = oControl.getPercentValue(),
 			iWidthControl = oControl.getWidth(),
 			iHeightControl = oControl.getHeight(),
+			sPercentValueClassName = oControl._getCSSClassByPercentValue(fPercentValue),
 			sTextValue = oControl.getDisplayValue(),
 			bShowText = oControl.getShowValue(),
 			sState = oControl.getState(),
@@ -34,19 +35,8 @@ sap.ui.define(['jquery.sap.global'],
 		oRm.write("<div");
 		oRm.writeControlData(oControl);
 		oRm.addClass("sapMPI");
+		oRm.addClass(sPercentValueClassName);
 		oRm.addStyle("width", iWidthControl);
-
-		if (fPercentValue > 50) {
-			oRm.addClass("sapMPIValueGreaterHalf");
-		}
-
-		if (fPercentValue === 100) {
-			oRm.addClass("sapMPIValueMax");
-		}
-
-		if (fPercentValue === 0) {
-			oRm.addClass("sapMPIValueMin");
-		}
 
 		if (iHeightControl) {
 			oRm.addStyle("height", iHeightControl);

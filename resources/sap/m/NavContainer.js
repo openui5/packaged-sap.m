@@ -26,7 +26,7 @@ sap.ui.define([
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.42.2
+	 * @version 1.42.3
 	 *
 	 * @constructor
 	 * @public
@@ -1630,12 +1630,13 @@ sap.ui.define([
 	};
 
 	NavContainer.prototype.insertPage = function (oPage, iIndex) {
+		var iPreviousPageCount = this.getPages().length;
+
 		this.insertAggregation("pages", oPage, iIndex, true);
 
 		// sapMNavItem must be added after addAggregation is called because addAggregation can lead
 		// to a removePage-call where the class is removed again.
 		oPage.addStyleClass("sapMNavItem");
-		var iPreviousPageCount = this.getPages().length;
 
 		if (iPreviousPageCount === 0 && this.getPages().length === 1 && this.getDomRef()) { // the added page is the first and only page and has been newly added
 			this._ensurePageStackInitialized();

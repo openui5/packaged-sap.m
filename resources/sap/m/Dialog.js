@@ -28,7 +28,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './InstanceManager', './Associative
 		 * @implements sap.ui.core.PopupInterface
 		 *
 		 * @author SAP SE
-		 * @version 1.42.2
+		 * @version 1.42.3
 		 *
 		 * @constructor
 		 * @public
@@ -323,10 +323,20 @@ sap.ui.define(['jquery.sap.global', './Bar', './InstanceManager', './Associative
 				that._adjustScrollingPane();
 
 				//set to hard 50% or the values set from a drag or resize
-				oPosition.at = {
-					left: that._oManuallySetPosition ? that._oManuallySetPosition.x : '50%',
-					top: that._oManuallySetPosition ? that._oManuallySetPosition.y : '50%'
-				};
+				oPosition.at = {};
+
+				if (that._oManuallySetPosition) {
+					oPosition.at.left = that._oManuallySetPosition.x;
+					oPosition.at.top = that._oManuallySetPosition.y;
+				} else {
+					oPosition.at.top = '50%';
+
+					if (that._bRTL) {
+						oPosition.at.left = 'auto'; // RTL mode adds right 50% so we have to remove left 50%
+					} else {
+						oPosition.at.left = '50%';
+					}
+				}
 
 				//deregister the content resize handler before repositioning
 				that._deregisterContentResizeHandler();

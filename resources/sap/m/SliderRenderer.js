@@ -112,7 +112,7 @@ sap.ui.define(['jquery.sap.global'],
 				oRm.writeAttributeEscaped("id", mOptions.id);
 			}
 
-			if (oSlider.getShowHandleTooltip()) {
+			if (oSlider.getShowHandleTooltip() && !oSlider.getShowAdvancedTooltip()) {
 				this.writeHandleTooltip(oRm, oSlider);
 			}
 

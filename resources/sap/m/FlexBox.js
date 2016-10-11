@@ -25,7 +25,7 @@ sap.ui.define(['jquery.sap.global', './FlexBoxStylingHelper', './FlexItemData', 
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.42.2
+	 * @version 1.42.3
 	 *
 	 * @constructor
 	 * @public
@@ -226,6 +226,27 @@ sap.ui.define(['jquery.sap.global', './FlexBoxStylingHelper', './FlexItemData', 
 		if (oLayoutData instanceof FlexItemData) {
 			FlexBoxStylingHelper.setFlexItemStyles(null, oLayoutData);
 		}
+	};
+
+	FlexBox.prototype.setRenderType = function(sValue) {
+		var sOldValue = this.getRenderType(),
+			aItems = this.getItems();
+
+		if (sValue === sOldValue) {
+			return this;
+		}
+
+		this.setProperty("renderType", sValue);
+
+		if (sOldValue === "Bare") {
+			aItems.forEach(this._onItemRemoved, this);
+		}
+
+		if (sValue === "Bare") {
+			aItems.forEach(this._onItemInserted, this);
+		}
+
+		return this;
 	};
 
 	FlexBox.prototype.setDisplayInline = function(bInline) {

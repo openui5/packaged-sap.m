@@ -21,7 +21,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.42.2
+	 * @version 1.42.3
 	 *
 	 * @constructor
 	 * @public
@@ -159,14 +159,15 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		var oDomRef = this.getDomRef();
 		if (oDomRef) {
 			oDomRef.style.height = sHeight;
-			oDomRef.querySelector(".sapMPanelContent").style.height = sHeight;
+			if (parseFloat(sHeight) != 0) {
+				oDomRef.querySelector(".sapMPanelContent").style.height = sHeight;
+			}
 			this._setContentHeight();
 		}
 
 		return this;
 	};
 
-	// Fixes BCP: 1680025907
 	Panel.prototype.onThemeChanged = function () {
 		this._setContentHeight();
 	};

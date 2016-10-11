@@ -19,7 +19,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './InputBase', './ComboBoxBase', '.
 	 * @extends sap.m.ComboBoxBase
 	 *
 	 * @author SAP SE
-	 * @version 1.42.2
+	 * @version 1.42.3
 	 *
 	 * @constructor
 	 * @public
@@ -1061,14 +1061,20 @@ sap.ui.define(['jquery.sap.global', './Bar', './InputBase', './ComboBoxBase', '.
 			return;
 		}
 
-		var DOT_CSS_CLASS_MULTICOMBOBOX = this.getRenderer().DOT_CSS_CLASS_MULTICOMBOBOX;
-		var $InputContainer = $MultiComboBox.find(DOT_CSS_CLASS_MULTICOMBOBOX + "InputContainer");
-		var $ShadowDiv = $MultiComboBox.children(DOT_CSS_CLASS_MULTICOMBOBOX + "ShadowDiv");
+		var DOT_CSS_CLASS_MULTICOMBOBOX = this.getRenderer().DOT_CSS_CLASS_MULTICOMBOBOX,
+			$InputContainer = $MultiComboBox.find(DOT_CSS_CLASS_MULTICOMBOBOX + "InputContainer"),
+			$ShadowDiv = $MultiComboBox.children(DOT_CSS_CLASS_MULTICOMBOBOX + "ShadowDiv"),
+			iAvailableWidth = this.$().find(".sapMMultiComboBoxBorder").width();
+
 		$ShadowDiv.text(this.getValue());
 
-		var iIconWidth = jQuery(this.getOpenArea()).outerWidth(true);
-		var sTokenizerScrollWidth = (this._oTokenizer.getScrollWidth() / parseFloat(sap.m.BaseFontSize)) + "rem";
-		var sInputWidth = (($ShadowDiv.outerWidth() + iIconWidth) / parseFloat(sap.m.BaseFontSize)) + "rem";
+		var iIconWidth = jQuery(this.getOpenArea()).outerWidth(true),
+			iInputWidthMinimalNeeded = $ShadowDiv.outerWidth() + iIconWidth,
+			iAvailableInnerSpace = iAvailableWidth - iInputWidthMinimalNeeded,
+			iIconWidth = jQuery(this.getOpenArea()).outerWidth(true),
+			sTokenizerScrollWidth = (this._oTokenizer.getScrollWidth() / parseFloat(sap.m.BaseFontSize)) + "rem",
+			sDesktopInputWidth = ((iAvailableInnerSpace > 0 ? iInputWidthMinimalNeeded : iAvailableWidth ) / parseFloat(sap.m.BaseFontSize)) + "rem",
+			sInputWidth = this.isPickerDialog() ? "3rem" : sDesktopInputWidth;
 
 		this._oTokenizer.$().css("width","calc(100% - " + sInputWidth + ")");
 		$InputContainer.css("width", "calc(100% - " + (bHasTokens ? sTokenizerScrollWidth : "0px") + ")");

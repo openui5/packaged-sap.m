@@ -5,8 +5,9 @@
  */
 
 // Provides control sap.m.Popover.
-sap.ui.define(['jquery.sap.global', './Bar', './Button', './InstanceManager', './library', 'sap/ui/core/Control', 'sap/ui/core/Popup', 'sap/ui/core/delegate/ScrollEnablement', 'sap/ui/core/theming/Parameters'],
-	function (jQuery, Bar, Button, InstanceManager, library, Control, Popup, ScrollEnablement, Parameters) {
+sap.ui.define(['jquery.sap.global', './Bar', './Button', './InstanceManager', './library', 'sap/ui/core/Control',
+		'sap/ui/core/Popup', 'sap/ui/core/delegate/ScrollEnablement', 'sap/ui/core/theming/Parameters', 'sap/ui/Device'],
+	function (jQuery, Bar, Button, InstanceManager, library, Control, Popup, ScrollEnablement, Parameters, Device) {
 		"use strict";
 
 
@@ -22,7 +23,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Button', './InstanceManager', '.
 		 * @implements sap.ui.core.PopupInterface
 		 *
 		 * @author SAP SE
-		 * @version 1.42.2
+		 * @version 1.42.3
 		 *
 		 * @constructor
 		 * @public
@@ -268,8 +269,8 @@ sap.ui.define(['jquery.sap.global', './Bar', './Button', './InstanceManager', '.
 		/* =========================================================== */
 		/*                   begin: lifecycle methods                  */
 		/* =========================================================== */
-		Popover._bIE9 = (sap.ui.Device.browser.internet_explorer && sap.ui.Device.browser.version < 10);
-		Popover._bIOS7 = sap.ui.Device.os.ios && sap.ui.Device.os.version >= 7 && sap.ui.Device.os.version < 8 && sap.ui.Device.browser.name === "sf";
+		Popover._bIE9 = (Device.browser.internet_explorer && Device.browser.version < 10);
+		Popover._bIOS7 = Device.os.ios && Device.os.version >= 7 && Device.os.version < 8 && Device.browser.name === "sf";
 
 		/**
 		 * Initializes the popover control.
@@ -333,7 +334,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Button', './InstanceManager', '.
 
 				// When runs on mobile device, Popover always follows the open by control.
 				// When runs on the other platforms, Popover is repositioned if the position change of openBy is smaller than the tolerance, otherwise popover is closed.
-				if (!sap.ui.Device.system.desktop
+				if (!Device.system.desktop
 					|| (Math.abs(oLastRect.top - oRect.top) <= this._followOfTolerance && Math.abs(oLastRect.left - oRect.left) <= this._followOfTolerance)
 					|| (Math.abs(oLastRect.top + oLastRect.height - oRect.top - oRect.height) <= this._followOfTolerance && Math.abs(oLastRect.left + oLastRect.width - oRect.left - oRect.width) <= this._followOfTolerance)) {
 					this.oPopup._applyPosition(this.oPopup._oLastPosition, true);
@@ -421,7 +422,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Button', './InstanceManager', '.
 
 				// some mobile browser changes the scrollLeft of window after firing resize event
 				// which caused the popover to be positioned at the wrong place.
-				if (!sap.ui.Device.system.desktop) {
+				if (!Device.system.desktop) {
 					jQuery(window).scrollLeft(0);
 				}
 
@@ -453,7 +454,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Button', './InstanceManager', '.
 				Popup.prototype.close.apply(this, bBooleanParam ? [] : arguments);
 				that.removeDelegate(that._oRestoreFocusDelegate);
 
-				if (document.activeElement && !this.restoreFocus && !this._bModal) {
+				if (document.activeElement && !this.restoreFocus && !this._bModal && !Device.system.tablet) {
 					 document.activeElement.blur();
 				}
 			};
@@ -488,7 +489,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Button', './InstanceManager', '.
 				this._bContentChanged = false;
 				oNavContent = this._getSingleNavContent();
 				oPageContent = this._getSinglePageContent();
-				if (oNavContent && !this.getModal() && !sap.ui.Device.support.touch && !jQuery.sap.simulateMobileOnDesktop) {
+				if (oNavContent && !this.getModal() && !Device.support.touch && !jQuery.sap.simulateMobileOnDesktop) {
 					//gain the focus back to popover in order to prevent the autoclose of the popover
 					oNavContent.attachEvent("afterNavigate", function (oEvent) {
 						jQuery.sap.focus(this.getDomRef());
@@ -549,7 +550,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Button', './InstanceManager', '.
 		Popover.prototype.exit = function () {
 			this._deregisterContentResizeHandler();
 
-			sap.ui.Device.resize.detachHandler(this._fnOrientationChange);
+			Device.resize.detachHandler(this._fnOrientationChange);
 
 			InstanceManager.removePopoverInstance(this);
 
@@ -639,8 +640,8 @@ sap.ui.define(['jquery.sap.global', './Bar', './Button', './InstanceManager', '.
 			//CSN 2012 4216945
 			//binding should be registered here (very early) because when keyboard in android closes at the same time, resize event needs to be reacted in order to
 			//reposition the popover after the keyboard fully closes.
-			if (sap.ui.Device.support.touch) {
-				sap.ui.Device.resize.attachHandler(this._fnOrientationChange);
+			if (Device.support.touch) {
+				Device.resize.attachHandler(this._fnOrientationChange);
 			}
 
 			if (!this._oOpenBy || oControl !== this._oOpenBy) {
@@ -849,9 +850,9 @@ sap.ui.define(['jquery.sap.global', './Bar', './Button', './InstanceManager', '.
 			this.oPopup.detachOpened(this._handleOpened, this);
 
 			//	recalculate the arrow position when the size of the popover changes.
-			if (!sap.ui.Device.support.touch) {
+			if (!Device.support.touch) {
 				setTimeout(function () {
-					sap.ui.Device.resize.attachHandler(that._fnOrientationChange);
+					Device.resize.attachHandler(that._fnOrientationChange);
 				}, 0);
 			}
 
@@ -866,7 +867,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Button', './InstanceManager', '.
 		Popover.prototype._handleClosed = function () {
 			this.oPopup.detachClosed(this._handleClosed, this);
 
-			sap.ui.Device.resize.detachHandler(this._fnOrientationChange);
+			Device.resize.detachHandler(this._fnOrientationChange);
 
 			InstanceManager.removePopoverInstance(this);
 			this.fireAfterClose({openBy: this._oOpenBy});
@@ -1422,7 +1423,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Button', './InstanceManager', '.
 
 			oPosParams._fWindowTop = this._$window.scrollTop();
 			oPosParams._fWindowRight = this._$window.width();
-			oPosParams._fWindowBottom = (Popover._bIOS7 && sap.ui.Device.orientation.landscape && window.innerHeight) ? window.innerHeight : this._$window.height();
+			oPosParams._fWindowBottom = (Popover._bIOS7 && Device.orientation.landscape && window.innerHeight) ? window.innerHeight : this._$window.height();
 			oPosParams._fWindowLeft = this._$window.scrollLeft();
 
 			oPosParams._fDocumentWidth = oPosParams._fWindowLeft + oPosParams._fWindowRight;
@@ -1918,7 +1919,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Button', './InstanceManager', '.
 						setTimeout(function () {
 							fnTransitionEnd();
 						}, 300);
-					}, sap.ui.Device.browser.firefox ? 50 : 0);
+					}, Device.browser.firefox ? 50 : 0);
 				}, 0);
 			}
 		};
@@ -2336,7 +2337,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Button', './InstanceManager', '.
 		};
 
 		Popover.prototype.setResizable = function (bValue) {
-			if (!sap.ui.Device.system.desktop) {
+			if (!Device.system.desktop) {
 				bValue = false;
 			}
 
