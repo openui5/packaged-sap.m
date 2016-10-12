@@ -31,7 +31,7 @@ sap.ui.define([
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.38.8
+	 * @version 1.38.9
 	 *
 	 * @constructor
 	 * @public
@@ -321,13 +321,18 @@ sap.ui.define([
 	};
 
 	Breadcrumbs.prototype._getControlsForBreadcrumbTrail = function () {
+		var aVisibleControls;
+
 		if (this._bControlDistributionCached && this._oDistributedControls) {
 			return this._oDistributedControls.aControlsForBreadcrumbTrail;
 		}
+
+		aVisibleControls = this.getLinks().filter(function (oLink) { return oLink.getVisible(); });
+
 		if (this.getCurrentLocationText()) {
-			return this.getLinks().concat([this._getCurrentLocation()]);
+			return aVisibleControls.concat([this._getCurrentLocation()]);
 		}
-		return this.getLinks();
+		return aVisibleControls;
 	};
 
 	Breadcrumbs.prototype._getControlInfo = function (oControl) {

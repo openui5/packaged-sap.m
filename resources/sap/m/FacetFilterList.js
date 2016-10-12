@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './List', './library'],
 	 * @class
 	 * FacetFilterList represents a list of values for the FacetFilter control.
 	 * @extends sap.m.List
-	 * @version 1.38.8
+	 * @version 1.38.9
 	 *
 	 * @constructor
 	 * @public
@@ -298,6 +298,22 @@ sap.ui.define(['jquery.sap.global', './List', './library'],
 		}
 	};
 
+	/**
+	 * Filters the items to not consist a group header items
+
+	 * @private
+	 * @returns {Array} aItems Items only, not group headers
+	 */
+	FacetFilterList.prototype._getNonGroupItems = function() {
+			var aItems = [];
+			this.getItems().forEach(function(oItem) {
+				if (oItem.getMode() !== sap.m.ListMode.None){
+					aItems.push(oItem);
+				}
+			});
+		return aItems;
+	};
+
 
 	/**
 	 * Removes the specified key from the selected keys cache and deselects the item.
@@ -314,7 +330,7 @@ sap.ui.define(['jquery.sap.global', './List', './library'],
 	FacetFilterList.prototype.removeSelectedKey = function(sKey, sText) {
 
 		if (this._removeSelectedKey(sKey, sText)) {
-			this.getItems().forEach(function(oItem) {
+			this._getNonGroupItems().forEach(function(oItem) {
 				var sItemKey = oItem.getKey() || oItem.getText();
 				sKey === sItemKey && oItem.setSelected(false);
 			});
@@ -557,7 +573,8 @@ sap.ui.define(['jquery.sap.global', './List', './library'],
 	 * @private
 	 */
 	FacetFilterList.prototype._updateSelectAllCheckBox = function() {
-		var iItemsCount = this.getItems().length,
+		var aItems = this._getNonGroupItems(),
+			iItemsCount = aItems.length,
 			oCheckbox, bAtLeastOneItemIsSelected, bSelectAllSelected;
 
 		function isSelected(oItem) {
@@ -566,7 +583,7 @@ sap.ui.define(['jquery.sap.global', './List', './library'],
 
 		if (this.getMultiSelect()) {
 			oCheckbox = sap.ui.getCore().byId(this.getAssociation("allcheckbox"));
-			bAtLeastOneItemIsSelected = iItemsCount > 0 && iItemsCount === this.getItems().filter(isSelected).length;
+			bAtLeastOneItemIsSelected = iItemsCount > 0 && iItemsCount === aItems.filter(isSelected).length;
 			bSelectAllSelected = this.getActive() && bAtLeastOneItemIsSelected;
 
 			oCheckbox && oCheckbox.setSelected(bSelectAllSelected);
@@ -644,7 +661,8 @@ sap.ui.define(['jquery.sap.global', './List', './library'],
 	 * @private
 	 */
 	FacetFilterList.prototype._selectItemsByKeys = function(){
-		this.getItems().forEach(function (oItem){
+
+		this._getNonGroupItems().forEach(function (oItem){
 			oItem.setSelected(this._isItemSelected(oItem));
 		}, this);
 	};
@@ -655,7 +673,7 @@ sap.ui.define(['jquery.sap.global', './List', './library'],
 	 * @private
 	 */
 	FacetFilterList.prototype._handleSelectAll = function(bSelected) {
-		this.getItems().forEach(function (oItem) {
+		this._getNonGroupItems().forEach(function (oItem) {
 			if (bSelected) {
 				this._addSelectedKey(oItem.getKey(), oItem.getText());
 			} else {

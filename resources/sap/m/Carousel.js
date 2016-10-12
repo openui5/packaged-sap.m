@@ -24,7 +24,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.38.8
+	 * @version 1.38.9
 	 *
 	 * @constructor
 	 * @public
@@ -147,7 +147,6 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	//Constants convenient class selections
 	Carousel._INNER_SELECTOR = ".sapMCrslInner";
 	Carousel._PAGE_INDICATOR_SELECTOR = ".sapMCrslBulleted";
-	Carousel._HUD_SELECTOR = ".sapMCrslHud";
 	Carousel._ITEM_SELECTOR = ".sapMCrslItem";
 	Carousel._LEFTMOST_CLASS = "sapMCrslLeftmost";
 	Carousel._RIGHTMOST_CLASS = "sapMCrslRightmost";
@@ -453,7 +452,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		if (sap.ui.Device.system.desktop && !this.getLoop() && this.getPages().length > 1) {
 			//update HUD arrow visibility for left- and
 			//rightmost pages
-			var $HUDContainer = this.$().find(Carousel._HUD_SELECTOR);
+			var $HUDContainer = this.$('hud');
 			//clear marker classes first
 			$HUDContainer.removeClass(Carousel._LATERAL_CLASSES);
 

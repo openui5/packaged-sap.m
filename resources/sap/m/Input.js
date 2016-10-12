@@ -22,7 +22,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 	 * @extends sap.m.InputBase
 	 *
 	 * @author SAP SE
-	 * @version 1.38.8
+	 * @version 1.38.9
 	 *
 	 * @constructor
 	 * @public
@@ -1003,13 +1003,6 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 
 			var value = this._$input.val();
 
-			// add maxlength support for all types except for the type Number
-			// TODO: type number add min and max properties
-			if (this.getMaxLength() > 0 && this.getType() !== sap.m.InputType.Number && value.length > this.getMaxLength()) {
-				value = value.substring(0, this.getMaxLength());
-				this._$input.val(value);
-			}
-
 			if (this.getValueLiveUpdate()) {
 				this.setProperty("value",value, true);
 			}
@@ -1419,8 +1412,9 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 			oInput._iPopupListSelectedIndex = -1;
 
 			if (!bShowSuggestion ||
+				!oInput._bShouldRefreshListItems ||
 				!oInput.getDomRef() ||
-				(!oInput._bUseDialog && oInput._bShouldRefreshListItems && !oInput.$().hasClass("sapMInputFocused"))) {
+				(!oInput._bUseDialog && !oInput.$().hasClass("sapMInputFocused"))) {
 				return false;
 			}
 
@@ -1778,7 +1772,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 		// add suggestion columns
 		bindingInfo = this.getBindingInfo("suggestionColumns");
 		if (bindingInfo) {
-			oInputClone.bindAggregation("suggestionColumns", bindingInfo);
+			oInputClone.bindAggregation("suggestionColumns", jQuery.extend({}, bindingInfo));
 		} else {
 			this.getSuggestionColumns().forEach(function(oColumn){
 				oInputClone.addSuggestionColumn(oColumn.clone(), true);
@@ -1788,7 +1782,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 		// add suggestion rows
 		bindingInfo = this.getBindingInfo("suggestionRows");
 		if (bindingInfo) {
-			oInputClone.bindAggregation("suggestionRows", bindingInfo);
+			oInputClone.bindAggregation("suggestionRows", jQuery.extend({}, bindingInfo));
 		} else {
 			this.getSuggestionRows().forEach(function(oRow){
 				oInputClone.addSuggestionRow(oRow.clone(), true);

@@ -61,6 +61,7 @@ sap.ui.define(['jquery.sap.global'],
 		//visual indicator
 		if (sPageIndicatorPlacement === sap.m.PlacementType.Top) {
 			this._renderPageIndicator({
+				oCarousel: oCarousel,
 				rm: rm,
 				iPageCount: iPageCount,
 				bBottom: false,
@@ -108,7 +109,8 @@ sap.ui.define(['jquery.sap.global'],
 
 		if (sap.ui.Device.system.desktop && iPageCount > 1) {
 			//heads up controls for desktop browsers
-			rm.write("<div class='sapMCrslControls sapMCrslHud'>");
+			var sHudId = oCarousel.getId() + '-hud';
+			rm.write("<div id='" + sHudId + "' class='sapMCrslControls sapMCrslHud'>");
 				rm.write("<a class='sapMCrslPrev' href='#' data-slide='prev' tabindex='-1'><div class='sapMCrslHudInner'>");
 				rm.renderControl(oCarousel._getNavigationArrow('left'));
 				rm.write("</div></a>");
@@ -123,6 +125,7 @@ sap.ui.define(['jquery.sap.global'],
 		//visual indicator
 		if (sPageIndicatorPlacement === sap.m.PlacementType.Bottom) {
 			this._renderPageIndicator({
+				oCarousel: oCarousel,
 				rm: rm,
 				iPageCount: iPageCount,
 				bBottom: true,
@@ -151,7 +154,8 @@ sap.ui.define(['jquery.sap.global'],
 			bShowPageIndicator = settings.bShowPageIndicator,
 			oResourceBundle = sap.ui.getCore().getLibraryResourceBundle('sap.m'),
 			sOffsetCSSClass = "",
-			sDisplayStyle = bShowPageIndicator ? "" : "display: none";
+			sDisplayStyle = bShowPageIndicator ? "" : "display: none",
+			sPageIndicatorId = settings.oCarousel.getId() + '-pageIndicator';
 
 		if (iPageCount > 1 && bShowPageIndicator) {
 			if (bBottom) {
@@ -166,7 +170,7 @@ sap.ui.define(['jquery.sap.global'],
 			return;
 		}
 
-		rm.write('<div class="sapMCrslControls sapMCrslBulleted' + sOffsetCSSClass + '" style="' + sDisplayStyle + '">');
+		rm.write('<div id="' + sPageIndicatorId + '" class="sapMCrslControls sapMCrslBulleted' + sOffsetCSSClass + '" style="' + sDisplayStyle + '">');
 
 		for ( var i = 1; i <= iPageCount; i++) {
 			rm.write("<span role='img' data-slide=" + i + " aria-label='" + oResourceBundle.getText('CAROUSEL_POSITION', [i, iPageCount]) + "'>" + i + "</span>");

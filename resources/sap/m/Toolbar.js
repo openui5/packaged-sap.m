@@ -28,7 +28,7 @@ sap.ui.define(['jquery.sap.global', './BarInPageEnabler', './ToolbarLayoutData',
 	 * @implements sap.ui.core.Toolbar,sap.m.IBar
 	 *
 	 * @author SAP SE
-	 * @version 1.38.8
+	 * @version 1.38.9
 	 *
 	 * @constructor
 	 * @public

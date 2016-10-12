@@ -25,7 +25,7 @@ sap.ui.define(['jquery.sap.global', './InputBase', './MaskInput', './MaskInputRu
 		 * @extends sap.m.MaskInput
 		 *
 		 * @author SAP SE
-		 * @version 1.38.8
+		 * @version 1.38.9
 		 *
 		 * @constructor
 		 * @public
@@ -801,6 +801,7 @@ sap.ui.define(['jquery.sap.global', './InputBase', './MaskInput', './MaskInputRu
 				beginButton: new sap.m.Button({ text: sOKButtonText, press: jQuery.proxy(this._handleOkPress, this) }),
 				endButton: new sap.m.Button({ text: sCancelButtonText, press: jQuery.proxy(this._handleCancelPress, this) }),
 				content: [
+					//ToDo: This is inconsistent with the parent locale (if set). Add 'localeID' property to this control which will read its parent 'localeID' property
 					new TimePickerSliders(this.getId() + "-sliders", {
 						format: sFormat,
 						labelText: sTitle ? sTitle : "",

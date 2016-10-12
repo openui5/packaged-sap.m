@@ -3506,6 +3506,7 @@ td.sapUiFormElementLbl > .sapMLabel {
 /* Global focus offset */
 html.sap-desktop .sapMLnk:focus:not(.sapMLnkDsbl) {
   outline-offset: -1px;
+  text-decoration: underline;
 }
 /* Link focus offset in sap.ui.table.* tables */
 html.sap-desktop .sapUiSizeCondensed .sapUiTableCell .sapMLnk:focus:not(.sapMLnkDsbl) {
@@ -10262,7 +10263,7 @@ html[dir=rtl][data-sap-ui-browser^="ed"] .sapMTitleAlignEnd {
 }
 .sapMTokenTruncate > .sapMTokenIcon {
   position: absolute;
-  right: 0rem;
+  right: 0;
 }
 .sapMTokenTruncate > .sapMTokenText {
   line-height: 1.625rem;
@@ -10300,6 +10301,7 @@ html.sap-phone .sapMTokenizerMultiLine > .sapMTokenizerScrollContainer > .sapMTo
   border: 0.0625rem dotted #ffffff;
 }
 .sapMTokenizerScrollContainer {
+  width: 100%;
   display: inline-block;
   -moz-user-select: none;
   -webkit-user-select: none;
