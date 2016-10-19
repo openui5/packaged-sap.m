@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @class
 	 * Tokenizer displays multiple tokens
 	 * @extends sap.ui.core.Control
-	 * @version 1.40.8
+	 * @version 1.40.10
 	 *
 	 * @constructor
 	 * @public
@@ -908,7 +908,9 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 
 		for (i = 0; i < length; i++) {
 			token = tokensToBeDeleted[i];
-			this.removeToken(token);
+			if (token.getEditable()) {
+				this.removeToken(token);
+			}
 		}
 
 		this.scrollToEnd();

@@ -22,7 +22,7 @@ sap.ui.define(['jquery.sap.global', './ViewSettingsItem', 'sap/ui/base/ManagedOb
 	 * @extends sap.m.ViewSettingsItem
 	 *
 	 * @author SAP SE
-	 * @version 1.40.8
+	 * @version 1.40.10
 	 *
 	 * @constructor
 	 * @public

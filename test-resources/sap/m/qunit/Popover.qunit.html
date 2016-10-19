@@ -1739,29 +1739,31 @@
 			oPopover.destroy();
 		});
 
-		test("In belize theme the Popover should use compact arrow and adjust offsets", function () {
-			var stubTheme = sinon.stub(sap.ui.getCore().getConfiguration(), "getTheme").returns("sap_belize"),
+		test("Popover should use compact arrow offset if a theme sets less variable sapMPopoverForceCompactArrowOffset to true", function () {
+			var stubGetParameters = sinon.stub(sap.ui.core.theming.Parameters, "get"),
 				oPopover = new sap.m.Popover();
 
+			stubGetParameters.withArgs("sapMPopoverForceCompactArrowOffset").returns("true");
 			oPopover.openBy(oButton2);
 
 			equal(oPopover._arrowOffset, 9, "_arrowoffset should be 9");
 			deepEqual(oPopover._offsets, ["0 -9", "9 0", "0 9", "-9 0"], "offsets should be correct according the arrowOffset");
 
-			stubTheme.restore();
+			stubGetParameters.restore();
 			oPopover.destroy();
 		});
 
-		test("In belize plus theme the Popover should use compact arrow and adjust offsets", function () {
-			var stubTheme = sinon.stub(sap.ui.getCore().getConfiguration(), "getTheme").returns("sap_belize_plus"),
+		test("Popover should use normal arrow offset if a theme sets less variable sapMPopoverForceCompactArrowOffset to be false", function () {
+			var stubGetParameters = sinon.stub(sap.ui.core.theming.Parameters, "get"),
 				oPopover = new sap.m.Popover();
 
+			stubGetParameters.withArgs("sapMPopoverForceCompactArrowOffset").returns("false");
 			oPopover.openBy(oButton2);
 
-			equal(oPopover._arrowOffset, 9, "_arrowoffset should be 9");
-			deepEqual(oPopover._offsets, ["0 -9", "9 0", "0 9", "-9 0"], "offsets should be correct according the arrowOffset");
+			equal(oPopover._arrowOffset, 18, "_arrowoffset should be 18");
+			deepEqual(oPopover._offsets, ["0 -18", "18 0", "0 18", "-18 0"], "offsets should be correct according the arrowOffset");
 
-			stubTheme.restore();
+			stubGetParameters.restore();
 			oPopover.destroy();
 		});
 
@@ -1872,6 +1874,43 @@
 			this.clock.tick(400);
 			equal(jQuery.sap.byId(oPopover.getId() + "-cont").attr("role"), "application", "Popover's content should have role application");
 
+			oPopover.destroy();
+			oButton.destroy();
+		});
+
+		QUnit.module("Integration");
+
+		QUnit.test("Don't call a blur on tablet", function (assert) {
+			this.stub(sap.ui.Device, "system", {
+				desktop: false,
+				phone: false,
+				tablet: true,
+				combi: false
+			});
+			this.stub(sap.ui.core.Popup.prototype, "restoreFocus", false);
+
+			var oPopover = new sap.m.Popover({
+				title: "Title text"
+			});
+			var oButton = new sap.m.Button({
+				text: "Open Popover"
+			}).placeAt("content");
+
+			sap.ui.getCore().applyChanges();
+
+			oPopover.openBy(oButton);
+			this.clock.tick(500);
+			sap.ui.getCore().applyChanges();
+
+			var spy = this.spy(document.activeElement, "blur");
+
+			oPopover.close();
+			this.clock.tick(500);
+
+
+			assert.ok(!spy.callCount, "Blur shouldn't be called");
+
+			spy.restore();
 			oPopover.destroy();
 			oButton.destroy();
 		});

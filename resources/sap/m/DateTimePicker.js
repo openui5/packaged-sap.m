@@ -47,7 +47,7 @@ sap.ui.define(['jquery.sap.global', './DatePicker', 'sap/ui/model/type/Date', '.
 	 * the <code>sap.ui.unified</code> library.
 	 *
 	 * @extends sap.m.DatePicker
-	 * @version 1.40.8
+	 * @version 1.40.10
 	 *
 	 * @constructor
 	 * @public
@@ -403,6 +403,10 @@ sap.ui.define(['jquery.sap.global', './DatePicker', 'sap/ui/model/type/Date', '.
 
 		this._oPopup.openBy(this);
 
+		var oSliders = this._oPopup.getContent()[0] && this._oPopup.getContent()[0].getTimeSliders();
+		if (oSliders) {//Sliders values need to be updated after a popup is (especially sliders) is really visible
+			jQuery.sap.delayedCall(0, oSliders, oSliders.updateSlidersValues);
+		}
 	};
 
 	DateTimePicker.prototype._createPopupContent = function(){

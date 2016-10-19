@@ -24,7 +24,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		 * @extends sap.ui.core.Control
 		 *
 		 * @author SAP SE
-		 * @version 1.40.8
+		 * @version 1.40.10
 		 *
 		 * @constructor
 		 * @public
@@ -151,6 +151,13 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 
 			}
 		});
+
+		/* Contains mapping between TabContainerItem properties and TabStripItem properties,
+		that may be set via setter method */
+		var mTCItemToTSItemProperties = {
+			"name": "text",
+			"modified": "modified"
+		};
 
 		/**
 		 * Called before the control is rendered.
@@ -335,14 +342,12 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 
 			if (sAggregationName === 'items') {
 				oObject.attachItemPropertyChanged(function (oEvent) {
-					oTabStripItem = this._toTabStripItem(oEvent.getSource());
 					sPropertyKey = oEvent['mParameters'].propertyKey;
-					if (sPropertyKey === 'name') {
-						sPropertyKey = 'text';
-					}
 
-					if (oTabStripItem) {
-						oTabStripItem.setProperty(sPropertyKey, oEvent['mParameters'].propertyValue, false);
+					if (mTCItemToTSItemProperties[sPropertyKey]) {//forward only if such property exists in TabStripItem
+						sPropertyKey = mTCItemToTSItemProperties[sPropertyKey];
+						oTabStripItem = this._toTabStripItem(oEvent.getSource());
+						oTabStripItem && oTabStripItem.setProperty(sPropertyKey, oEvent['mParameters'].propertyValue, false);
 					}
 				}.bind(this));
 			}
@@ -446,6 +451,8 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		 * @override
 		 */
 		TabContainer.prototype.setShowAddNewButton = function (bShowButton) {
+			this.setProperty("showAddNewButton", bShowButton, true);
+
 			var oTabStrip = this._getTabStrip();
 			if (oTabStrip) {
 				oTabStrip.setAddButton(bShowButton ? this._getAddNewTabButton() : null);

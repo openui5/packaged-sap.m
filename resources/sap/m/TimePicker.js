@@ -25,7 +25,7 @@ sap.ui.define(['jquery.sap.global', './InputBase', './MaskInput', './MaskInputRu
 		 * @extends sap.m.MaskInput
 		 *
 		 * @author SAP SE
-		 * @version 1.40.8
+		 * @version 1.40.10
 		 *
 		 * @constructor
 		 * @public
@@ -90,13 +90,13 @@ sap.ui.define(['jquery.sap.global', './InputBase', './MaskInput', './MaskInputRu
 					 * Sets the minutes slider step.
 					 * The minutes slider is populated only by multiples of the step.
 					 */
-					minutesStep: {type: "integer", group: "Misc", defaultValue: 1},
+					minutesStep: {type: "int", group: "Misc", defaultValue: 1},
 
 					/**
 					 * Sets the seconds slider step.
 					 * The seconds slider is populated only by multiples of the step.
 					 */
-					secondsStep: {type: "integer", group: "Misc", defaultValue: 1}
+					secondsStep: {type: "int", group: "Misc", defaultValue: 1}
 				},
 				aggregations: {
 					/**
@@ -837,6 +837,7 @@ sap.ui.define(['jquery.sap.global', './InputBase', './MaskInput', './MaskInputRu
 				beginButton: new sap.m.Button({ text: sOKButtonText, press: jQuery.proxy(this._handleOkPress, this) }),
 				endButton: new sap.m.Button({ text: sCancelButtonText, press: jQuery.proxy(this._handleCancelPress, this) }),
 				content: [
+					//ToDo: This is inconsistent with the parent locale (if set). Add 'localeID' property to this control which will read its parent 'localeID' property
 					new TimePickerSliders(this.getId() + "-sliders", {
 						format: sFormat,
 						labelText: sTitle ? sTitle : "",
