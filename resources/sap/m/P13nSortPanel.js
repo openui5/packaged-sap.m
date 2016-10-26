@@ -20,7 +20,7 @@ sap.ui.define([
 	 *
 	 * @class The SortPanel Control can be used to...
 	 * @extends sap.m.P13nPanel
-	 * @version 1.28.40
+	 * @version 1.28.41
 	 *
 	 * @constructor
 	 * @public
