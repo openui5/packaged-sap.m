@@ -45,13 +45,10 @@ sap.ui.define([],
 		if (typeof sTooltip !== "string") {
 			sTooltip = "";
 		}
-		oRm.writeAttributeEscaped("title", sTooltip);
-		oRm.writeAttribute("role", "presentation");
-		if (sap.ui.Device.browser.firefox) {
-			oRm.writeAttributeEscaped("aria-label", oControl.getAltText().replace(/\s/g, " ") + "" + sTooltip);
-		} else {
-			oRm.writeAttributeEscaped("aria-label", oControl.getAltText().replace(/\s/g, " ") + " " + sTooltip);
-		}
+
+		oRm.writeAttributeEscaped("aria-label", sTooltip);
+		oRm.writeAttribute("role", "image");
+
 		if (sState == sap.m.LoadState.Failed || sState == sap.m.LoadState.Loading) {
 			oRm.writeAttribute("aria-disabled", "true");
 		}
@@ -70,6 +67,7 @@ sap.ui.define([],
 		}
 		oRm.writeClasses();
 		oRm.write(">");
+
 		oRm.write("<div");
 		oRm.addClass("sapMNCInner");
 		oRm.addClass(sWithoutMargin);
@@ -83,6 +81,7 @@ sap.ui.define([],
 			this._renderScaleAndIndicator(oRm, oControl, bIndicator, bScale, sWithoutMargin, sIndicator, sScale);
 		}
 		oRm.write("</div>");
+
 		oRm.write("</div>");
 	};
 
@@ -137,6 +136,7 @@ sap.ui.define([],
 			oRm.addClass(sState);
 			oRm.writeClasses();
 			oRm.write(">");
+
 			oRm.write("<div");
 			oRm.writeAttribute("id", oControl.getId() + "-indicator");
 			oRm.addClass("sapMNCIndicator");
@@ -144,7 +144,8 @@ sap.ui.define([],
 			oRm.addClass(sState);
 			oRm.addClass(sColor);
 			oRm.writeClasses();
-			oRm.write("></div>");
+			oRm.write("/>");
+
 			if (isScale) {
 				oRm.write("<div");
 				oRm.writeAttribute("id", oControl.getId() + "-scale");
@@ -156,6 +157,7 @@ sap.ui.define([],
 				oRm.writeEscaped(textScale.substring(0, 3));
 				oRm.write("</div>");
 			}
+
 			oRm.write("</div>");
 		}
 	};
@@ -205,6 +207,7 @@ sap.ui.define([],
 				oRm.writeEscaped(sEmptyValue);
 			}
 		}
+
 		oRm.write("</div>");
 		oRm.write("</div>");
 	};

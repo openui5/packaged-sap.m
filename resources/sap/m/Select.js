@@ -19,7 +19,7 @@ sap.ui.define(['jquery.sap.global', './Dialog', './Popover', './SelectList', './
 		 * @extends sap.ui.core.Control
 		 *
 		 * @author SAP SE
-		 * @version 1.42.3
+		 * @version 1.42.4
 		 *
 		 * @constructor
 		 * @public
@@ -1869,8 +1869,11 @@ sap.ui.define(['jquery.sap.global', './Dialog', './Popover', './SelectList', './
 		/* ----------------------------------------------------------- */
 
 		Select.prototype.setShowSecondaryValues = function(bAdditionalText) {
-			this.setProperty("showSecondaryValues", bAdditionalText, true);
 
+			// invalidate the field only when the width is set to "auto",
+			// otherwise invalidate only the dropdown list
+			var bSuppressInvalidate = !this._isShadowListRequired();
+			this.setProperty("showSecondaryValues", bAdditionalText, bSuppressInvalidate);
 			var oList = this.getList();
 
 			if (oList) {
@@ -2288,6 +2291,22 @@ sap.ui.define(['jquery.sap.global', './Dialog', './Popover', './SelectList', './
 			}
 
 			return oInfo;
+		};
+
+		Select.prototype.propagateMessages = function(sName, aMessages) {
+			if (aMessages && aMessages.length > 0) {
+				this.setValueState(aMessages[0].type);
+				this.setValueStateText(aMessages[0].message);
+			} else {
+				this.setValueState(sap.ui.core.ValueState.None);
+				this.setValueStateText("");
+			}
+		};
+
+		Select.prototype.refreshDataState = function(sName, oDataState) {
+			if (oDataState.getChanges().messages) {
+				this.propagateMessages(sName, oDataState.getMessages());
+			}
 		};
 
 		return Select;

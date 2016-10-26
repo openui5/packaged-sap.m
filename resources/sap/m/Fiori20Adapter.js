@@ -26,7 +26,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/base/Object', 'sap/ui/base/EventProv
 	 *
 	 *
 	 * @class text
-	 * @version 1.42.3
+	 * @version 1.42.4
 	 * @private
 	 * @since 1.38
 	 * @alias HeaderAdapter
@@ -196,7 +196,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/base/Object', 'sap/ui/base/EventProv
 	 * Constructor for a sap.m.Fiori20Adapter.
 	 *
 	 * @class text
-	 * @version 1.42.3
+	 * @version 1.42.4
 	 * @private
 	 * @since 1.38
 	 * @alias sap.m.Fiori20Adapter

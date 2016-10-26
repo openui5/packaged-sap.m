@@ -18,7 +18,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/T
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.42.3
+	 * @version 1.42.4
 	 * @since 1.34
 	 *
 	 * @public
@@ -71,6 +71,32 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/T
 		this._oContentText.cacheLineHeight = false;
 		this.setAggregation("contentTextAgr", this._oContentText, true);
 		this.setTooltip("{AltText}"); // TODO Nov. 2015: needs to be checked with ACC. Issue will be addresses via BLI.
+	};
+
+	NewsContent.prototype.onBeforeRendering = function() {
+		this.$().unbind("mouseenter", this._addTooltip);
+		this.$().unbind("mouseleave", this._removeTooltip);
+	};
+
+	NewsContent.prototype.onAfterRendering = function() {
+		this.$().bind("mouseenter", this._addTooltip.bind(this));
+		this.$().bind("mouseleave", this._removeTooltip.bind(this));
+	};
+
+	/**
+	 * Sets the control's title attribute in order to show the tooltip.
+	 * @private
+	 */
+	NewsContent.prototype._addTooltip = function() {
+		this.$().attr("title", this.getTooltip_AsString());
+	};
+
+	/**
+	 * Removes the control's tooltip in order to prevent screen readers from reading it.
+	 * @private
+	 */
+	NewsContent.prototype._removeTooltip = function() {
+		this.$().attr("title", null);
 	};
 
 	/* --- Getters and Setters --- */

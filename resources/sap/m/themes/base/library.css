@@ -3694,6 +3694,7 @@ td.sapUiFormElementLbl > .sapMLabel {
 /* Global focus offset */
 html.sap-desktop .sapMLnk:focus:not(.sapMLnkDsbl) {
   outline-offset: -1px;
+  text-decoration: underline;
 }
 /* Link focus offset in sap.ui.table.* tables */
 html.sap-desktop .sapUiSizeCondensed .sapUiTableCell .sapMLnk:focus:not(.sapMLnkDsbl) {
@@ -5995,6 +5996,14 @@ html.sap-phone .sapMOHR .sapMITBHead {
   line-height: 1.4;
   padding-top: 0;
 }
+/* compact table cell context */
+.sapUiSizeCompact .sapMListTblCell .sapMObjectIdentifier {
+  margin: .5rem 0;
+}
+/* compact table cell context with existing content margin */
+.sapUiSizeCompact .sapMListTblCell .sapMTableContentMargin .sapMObjectIdentifier {
+  margin: 0;
+}
 /* ============================================= */
 /* CSS base theme for control sap.m/ObjectListItem.control */
 /* ============================================= */
@@ -6264,6 +6273,11 @@ html[data-sap-ui-os^="Android"] .sapMObjectNumberUnit {
 }
 .sapMObjStatus > .sapMObjStatusTitle {
   padding-right: .25rem;
+}
+.sapUiTableCell .sapMObjStatus {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 .sapUiTableCell .sapMObjStatusText,
 .sapUiTableCell .sapMObjStatusTitle,
