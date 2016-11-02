@@ -779,6 +779,9 @@ html[dir=rtl][data-sap-ui-browser^="ed"] .sapMCrslInner {
   position: relative;
   white-space: normal;
 }
+.sapMCb:not(.sapMCbBgDis).sapMCbHasLabel:focus:before {
+  pointer-events: none;
+}
 .sapMCb .sapMLabel {
   cursor: default;
 }
@@ -3461,6 +3464,7 @@ td.sapUiFormElementLbl > .sapMLabel {
   text-overflow: ellipsis;
   word-wrap: normal;
   font-family: Arial, Helvetica, sans-serif;
+  cursor: pointer;
 }
 .sapMLnk:active {
   background-color: transparent;
@@ -5991,6 +5995,11 @@ html[data-sap-ui-os^="Android"] .sapMObjectNumberUnit {
 .sapMObjStatus > .sapMObjStatusTitle {
   padding-left: .25rem;
 }
+.sapUiTableCell .sapMObjStatus {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
 .sapUiTableCell .sapMObjStatusText,
 .sapUiTableCell .sapMObjStatusTitle,
 .sapUiTableCell .sapMObjStatusIcon .sapUiIcon,
@@ -6428,17 +6437,6 @@ html[data-sap-ui-animation='on'] .sapMPanelExpandableIconExpanded {
   /* 400ms is standard jQuery duration */
   -webkit-transition: all 0.4s ease-out;
   transition: all 0.4s ease-out;
-}
-html[dir=rtl] .sapUiIconMirrorInRTL:not(.sapUiIconSuppressMirrorInRTL).sapMPanelExpandableIcon {
-  -webkit-transform: translateY(-50%) scale(-1, 1);
-  -ms-transform: translateY(-50%) scale(-1, 1);
-  transform: translateY(-50%) scale(-1, 1);
-}
-/* rotate(90deg) will be mirrored to rotate(-90deg) for RTL */
-html[dir=rtl] .sapUiIconMirrorInRTL:not(.sapUiIconSuppressMirrorInRTL).sapMPanelExpandableIconExpanded {
-  -webkit-transform: translateY(-50%) rotate(-90deg) scale(-1, 1);
-  -ms-transform: translateY(-50%) rotate(-90deg) scale(-1, 1);
-  transform: translateY(-50%) rotate(-90deg) scale(-1, 1);
 }
 .sapMPanelWrappingDiv,
 .sapMPanelWrappingDivTb {
@@ -7046,7 +7044,7 @@ html.sap-phone .sapMQuickViewPage .sapUiHLayout {
   max-width: 100%;
 }
 .sapMRb > .sapMLabel {
-  max-width: calc(100% - 2.8125rem);
+  max-width: calc(100% - 3rem + 5px);
 }
 .sapMILI-CTX .sapMRb {
   float: left;
@@ -7056,7 +7054,8 @@ html.sap-phone .sapMQuickViewPage .sapUiHLayout {
   width: 3em;
   display: inline-block;
   /* for ie*/
-  display: -webkit-inline-box;
+  font-size: 1rem;
+  /* override font size of the message dialog */
 }
 .sapMRbB .sapMRbBOut {
   height: 1.03em;
@@ -7100,22 +7099,23 @@ html.sap-phone .sapMQuickViewPage .sapUiHLayout {
   right: .4375rem;
   left: .325rem;
 }
-/* ======================================================= */
-/* CSS for control sap.ui.commons/RadioButtonGroup.control */
-/* ======================================================= */
+/* ======================================= */
+/* CSS for control sap.m/RadioButtonGroup  */
+/* Base theme                              */
+/* ======================================= */
 .sapMRbG {
   display: inline-block;
 }
 .sapMRbGTab {
-  display: box;
-  display: -moz-box;
   display: -webkit-box;
-}
-html[data-sap-ui-browser^="ie"] .sapMRbGTab {
-  display: table;
-  table-layout: fixed;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
 }
 .sapMRbGCol {
+  -ms-flex-positive: 1;
+  -webkit-box-flex: 1;
+  flex-grow: 1;
   vertical-align: top;
   min-width: 10px;
   margin-left: 0;
@@ -7128,19 +7128,11 @@ html[data-sap-ui-browser^="ie"] .sapMRbGTab {
   -webkit-box-flex: 1;
   box-flex: 1;
 }
-html[data-sap-ui-browser^="ie"] .sapMRbGCol {
-  display: table-cell;
-  padding-left: 15px;
-}
 .sapMRbGDummy {
-  -moz-box-flex: 1000;
-  -webkit-box-flex: 1000;
-  box-flex: 1000;
+  -ms-flex-positive: 100;
+  -webkit-box-flex: 100;
+  flex-grow: 100;
   min-width: 1px;
-}
-html[data-sap-ui-browser^="ie"] .sapMRbGDummy {
-  display: table-cell;
-  width: 1px;
 }
 .sapMRbG > .sapMRb,
 .sapMRbGCol > .sapMRb {
@@ -7168,9 +7160,8 @@ html[data-sap-ui-browser^="ie"] .sapMRbGDummy {
   padding-right: 2.875rem;
   display: inline-block;
 }
-html[data-sap-ui-browser^="ie"] .sapMRbG .sapMRbBLabel {
-  box-sizing: border-box;
-  min-width: 5rem;
+.sapMRbG .sapMRbHasLabel .sapMRbBOut {
+  margin: 0.8125rem;
 }
 .sapMRbG .sapMRbHasLabel .sapMRbBOut {
   margin: 0.8125rem;
@@ -10799,10 +10790,6 @@ html[data-sap-ui-browser="ie9"] .sapMUCButtonContainer {
   margin-right: -0.875rem;
   margin-left: -0.125rem;
 }
-.sapMLIBContent > .sapMUCItemIcon,
-.sapMUCItemImage {
-  margin-top: 0;
-}
 .sapUiSizeCompact .sapMUCItem > .sapMLIBSelectM {
   margin-right: -0.9rem;
   padding-top: 0.3rem;
@@ -10832,10 +10819,10 @@ html[data-sap-ui-browser="ie9"] .sapMUCButtonContainer {
   width: 100%;
 }
 .sapMTB.sapMVSDFilterHeaderToolbar .sapMBarChild.sapMCb {
-  overflow: hidden;
   margin-right: 0;
 }
 .sapMTB.sapMVSDFilterHeaderToolbar .sapMBarChild.sapMCb .sapMCbLabel {
+  overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
 }
@@ -10850,10 +10837,8 @@ html[data-sap-ui-browser="ie9"] .sapMUCButtonContainer {
   height: 2rem;
   padding-right: 0.5rem;
 }
-.sapUiSizeCompact .sapMTB.sapMListHdrTBar.sapMVSDFilterHeaderToolbar .sapMCb {
-  overflow: hidden;
-}
 .sapUiSizeCompact .sapMTB.sapMListHdrTBar.sapMVSDFilterHeaderToolbar .sapMLabel.sapMCbLabel {
+  overflow: hidden;
   padding-right: 0.5rem;
   text-overflow: ellipsis;
 }

@@ -21,7 +21,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', './Butto
 		 * @extends sap.ui.core.Control
 		 *
 		 * @author SAP SE
-		 * @version 1.38.9
+		 * @version 1.38.10
 		 *
 		 * @constructor
 		 * @public
@@ -594,6 +594,8 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', './Butto
 						vMenuOrList.rerender();
 					}
 				}
+				// destroy removed visual items from Menu or List
+				oVisualItem.destroy();
 			}
 		};
 
@@ -670,6 +672,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', './Butto
 		*/
 		Menu.prototype._onAggregationChanged = function(oEvent) {
 			var sAggregationname = oEvent.getParameter("aggregationName");
+
 			switch (sAggregationname) {
 				case 'items':
 					this._onItemsAggregationChanged(oEvent);

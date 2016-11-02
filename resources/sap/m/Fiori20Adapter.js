@@ -26,7 +26,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/base/Object', 'sap/ui/base/EventProv
 	 *
 	 *
 	 * @class text
-	 * @version 1.38.9
+	 * @version 1.38.10
 	 * @private
 	 * @since 1.38
 	 * @alias HeaderAdapter
@@ -196,7 +196,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/base/Object', 'sap/ui/base/EventProv
 	 * Constructor for a sap.m.Fiori20Adapter.
 	 *
 	 * @class text
-	 * @version 1.38.9
+	 * @version 1.38.10
 	 * @private
 	 * @since 1.38
 	 * @alias sap.m.Fiori20Adapter
@@ -261,9 +261,9 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/base/Object', 'sap/ui/base/EventProv
 			childAdaptOptions = jQuery.extend({}, oAdaptOptions, {iSearchDepth: this._updateSearchDepth(iSearchDepth, oNode)});
 
 		if (oNodeAdaptationResult) {
-			var bTitleHidden = !!oAdaptationResult.oTitleInfo,
-			bBackButtonHidden = !!oAdaptationResult.oBackButton,
-			bPageStyled = !!oAdaptationResult.oStyledPage;
+			var bTitleHidden = !!oNodeAdaptationResult.oTitleInfo,
+			bBackButtonHidden = !!oNodeAdaptationResult.oBackButton,
+			bPageStyled = !!oNodeAdaptationResult.oStyledPage;
 
 			childAdaptOptions = jQuery.extend(childAdaptOptions, {
 				bMoveTitle: oAdaptOptions.bMoveTitle && !bTitleHidden,

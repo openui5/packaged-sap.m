@@ -23,7 +23,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Button', './InstanceManager', '.
 		 * @implements sap.ui.core.PopupInterface
 		 *
 		 * @author SAP SE
-		 * @version 1.38.9
+		 * @version 1.38.10
 		 *
 		 * @constructor
 		 * @public
@@ -1148,6 +1148,13 @@ sap.ui.define(['jquery.sap.global', './Bar', './Button', './InstanceManager', '.
 			this.oPopup.setPosition(this._myPositions[iPlacePos], this._atPositions[iPlacePos], oParentDomRef, this._calcOffset(this._offsets[iPlacePos]), "fit");
 		};
 
+		Popover.prototype._getDocHeight = function () {
+			var body = document.body,
+				html = document.documentElement;
+
+			return Math.max( body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight );
+		};
+
 		Popover.prototype._calcVertical = function () {
 			var $parent = jQuery(this._getOpenByDomRef());
 			var bHasParent = $parent[0] !== undefined;
@@ -1159,9 +1166,8 @@ sap.ui.define(['jquery.sap.global', './Bar', './Button', './InstanceManager', '.
 			var iParentHeight = bHasParent ? $parent[0].getBoundingClientRect().height : 0;
 			var iOffsetY = this._getOffsetY();
 			var iTopSpace = iParentTop - this._marginTop + iOffsetY;
-			var iParentBottom = iParentTop + iParentHeight;
-			var iBottomSpace = this._$window.height() - iParentBottom - this._marginBottom - iOffsetY;
 			var iPopoverHeight = this.$().outerHeight();
+			var iBottomSpace = this._getDocHeight() - ($parent.offset().top + iParentHeight + this._marginBottom + iOffsetY);
 
 			if (bPreferredPlacementTop && iTopSpace > iPopoverHeight + this._arrowOffset) {
 					this._bVerticalFlip = false;
@@ -1287,8 +1293,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Button', './InstanceManager', '.
 			var iParentHeight = bHasParent ? $parent[0].getBoundingClientRect().height : 0;
 			var iOffsetY = this._getOffsetY();
 			var iTopSpace = iParentTop - this._marginTop + iOffsetY;
-			var iParentBottom = iParentTop + iParentHeight;
-			var iBottomSpace = this._$window.height() - iParentBottom - this._marginBottom - iOffsetY;
+			var iBottomSpace = this._getDocHeight() - $parent.offset().top - iParentHeight - this._marginBottom - iOffsetY;
 
 			var $this = this.$();
 			var iHeight = $this.outerHeight() + this._arrowOffset;
@@ -1314,8 +1319,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Button', './InstanceManager', '.
 			var iOffsetX = this._getOffsetX();
 			var iOffsetY = this._getOffsetY();
 			var iTopSpace = iParentTop - this._marginTop + iOffsetY;
-			var iParentBottom = iParentTop + iParentHeight;
-			var iBottomSpace = this._$window.height() - iParentBottom - this._marginBottom - iOffsetY;
+			var iBottomSpace = this._getDocHeight() - $parent.offset().top - iParentHeight - this._marginBottom - iOffsetY;
 			var iLeftSpace = iParentLeft - this._marginLeft + iOffsetX;
 			var iParentRight = iParentLeft + iParentWidth;
 			var iRightSpace = this._$window.width() - iParentRight - this._marginRight - iOffsetX;

@@ -21,7 +21,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control'],
 	 * @implements sap.ui.core.IShrinkable
 	 *
 	 * @author SAP SE
-	 * @version 1.38.9
+	 * @version 1.38.10
 	 *
 	 * @constructor
 	 * @public
@@ -134,7 +134,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control'],
 	Text.setNodeValue = function(oDomRef, sNodeValue) {
 		sNodeValue = sNodeValue || "";
 		var aChildNodes = oDomRef.childNodes;
-		if (aChildNodes.length == 1) {
+		if (aChildNodes.length === 1 && aChildNodes[0].nodeType === window.Node.TEXT_NODE) {
 			aChildNodes[0].nodeValue = sNodeValue;
 		} else {
 			oDomRef.textContent = sNodeValue;
