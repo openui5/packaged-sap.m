@@ -19,7 +19,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Control', './TimePickerSlidersR
 		 * @extends sap.ui.core.Control
 		 *
 		 * @author SAP SE
-		 * @version 1.40.10
+		 * @version 1.40.11
 		 *
 		 * @constructor
 		 * @private
@@ -48,12 +48,14 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Control', './TimePickerSlidersR
 					/**
 					 * Sets the minutes slider step.
 					 * The minutes slider is populated only by multiples of the step.
+					 * @since 1.40
 					 */
 					minutesStep: {type: "int", group: "Misc", defaultValue: 1},
 
 					/**
 					 * Sets the seconds slider step.
 					 * The seconds slider is populated only by multiples of the step.
+					 * @since 1.40
 					 */
 					secondsStep: {type: "int", group: "Misc", defaultValue: 1}
 				},

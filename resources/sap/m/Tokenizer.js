@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @class
 	 * Tokenizer displays multiple tokens
 	 * @extends sap.ui.core.Control
-	 * @version 1.40.10
+	 * @version 1.40.11
 	 *
 	 * @constructor
 	 * @public
@@ -309,6 +309,26 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		this._removeLastTokensTruncation();
 
 		return this.$().children(".sapMTokenizerScrollContainer")[0].scrollWidth;
+	};
+
+	Tokenizer.prototype.clone = function() {
+		var aTokens = this.getTokens(),
+			oClone,
+			i;
+
+		for (i = 0; i < aTokens.length; i++) {
+			aTokens[i].detachDelete(this._onDeleteToken, this);
+			aTokens[i].detachPress(this._onTokenPress, this);
+		}
+
+		oClone = Control.prototype.clone.apply(this, arguments);
+
+		for (i = 0; i < aTokens.length; i++) {
+			aTokens[i].attachDelete(this._onDeleteToken, this);
+			aTokens[i].attachPress(this._onTokenPress, this);
+		}
+
+		return oClone;
 	};
 
 	Tokenizer.prototype.onBeforeRendering = function() {
@@ -807,18 +827,12 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		if (oParent instanceof sap.m.MultiInput) {
 			// if max number is set and the number of existing tokens is equal to or more than the max number, then do not add token.
 			if (oParent.getMaxTokens() !== undefined && oParent.getTokens().length >= oParent.getMaxTokens()) {
-				return;
+				return this;
 			}
 		}
 		this.addAggregation("tokens", oToken, bSuppressInvalidate);
 		oToken.attachDelete(this._onDeleteToken, this);
 		oToken.attachPress(this._onTokenPress, this);
-
-		oToken.setEditable = function (bEnabled) {
-			//ReadOnly css is handled by Token, using overwrite for further developing
-			//in case the token in tokenizer has different design for editable property
-			sap.m.Token.prototype.setEditable.apply(oToken, arguments);
-		};
 
 		this._bScrollToEndIsActive = true; //Ensure scroll to end is active after rendering
 
@@ -826,6 +840,8 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 			token : oToken,
 			type : Tokenizer.TokenChangeType.Added
 		});
+
+		return this;
 	};
 
 	Tokenizer.prototype.removeToken = function(oToken) {
@@ -1014,12 +1030,10 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		var tokens = this.getTokens();
 		var length = tokens.length;
 		for (var i = 0; i < length; i++) {
-			var currentToken = tokens[i];
-			currentToken.setEditable(bEditable);
+			tokens[i].setEditable(bEditable);
 		}
 
 		return this;
-
 	};
 
 	/**
@@ -1084,6 +1098,24 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 				jQuery.sap.focus(oFocusRef.id == this.getId() + "-clip" ? this.getDomRef() : oFocusRef);
 			}
 		}
+	};
+
+	/**
+	 * Returns if tokens should be rendered in reverse order
+	 * @private
+	 * @returns {boolean} true if tokens should be rendered in reverse order
+	 */
+	Tokenizer.prototype.getReverseTokens = function() {
+		return !!this._reverseTokens;
+	};
+
+	/**
+	 * Sets internal property defining if tokens should be rendered in reverse order
+	 * @param {boolean} bReverseTokens
+	 * @private
+	 */
+	Tokenizer.prototype.setReverseTokens = function(bReverseTokens) {
+		this._reverseTokens = bReverseTokens;
 	};
 
 	Tokenizer.TokenChangeType = {

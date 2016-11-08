@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.40.10
+	 * @version 1.40.11
 	 *
 	 * @constructor
 	 * @public
@@ -221,7 +221,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		// fire tap event
 		if (this.getEnabled() && this.getVisible()) {
 			// note: on mobile, the press event should be fired after the focus is on the button
-			if (oEvent.originalEvent && oEvent.originalEvent.type === "touchend") {
+			if ((oEvent.originalEvent && oEvent.originalEvent.type === "touchend") || sap.ui.Device.browser.safari ){
 				this.focus();
 			}
 

@@ -1780,7 +1780,6 @@ html[data-sap-ui-animation='on'] .sapMDynamicPage .sapMDynamicPageActualFooterCo
 .sapMDynamicPageHeader {
   z-index: 2;
   position: relative;
-  overflow: hidden;
   padding: 0 3rem 1rem 3rem;
   -webkit-flex-shrink: 0;
   -moz-flex-shrink: 0;
@@ -3511,6 +3510,7 @@ td.sapUiFormElementLbl > .sapMLabel {
   text-overflow: ellipsis;
   word-wrap: normal;
   font-family: Arial, Helvetica, sans-serif;
+  cursor: pointer;
 }
 .sapMLnk:active {
   background-color: transparent;
@@ -5837,6 +5837,14 @@ html.sap-phone .sapMOHR .sapMITBHead {
   line-height: 1.4;
   padding-top: 0;
 }
+/* compact table cell context */
+.sapUiSizeCompact .sapMListTblCell .sapMObjectIdentifier {
+  margin: .5rem 0;
+}
+/* compact table cell context with existing content margin */
+.sapUiSizeCompact .sapMListTblCell .sapMTableContentMargin .sapMObjectIdentifier {
+  margin: 0;
+}
 /* ============================================= */
 /* CSS base theme for control sap.m/ObjectListItem.control */
 /* ============================================= */
@@ -6663,17 +6671,6 @@ html[data-sap-ui-animation='on'] .sapMPanelExpandableIconExpanded {
   /* 400ms is standard jQuery duration */
   -webkit-transition: all 0.4s ease-out;
   transition: all 0.4s ease-out;
-}
-html[dir=rtl] .sapUiIconMirrorInRTL:not(.sapUiIconSuppressMirrorInRTL).sapMPanelExpandableIcon {
-  -webkit-transform: translateY(-50%) scale(-1, 1);
-  -ms-transform: translateY(-50%) scale(-1, 1);
-  transform: translateY(-50%) scale(-1, 1);
-}
-/* rotate(90deg) will be mirrored to rotate(-90deg) for RTL */
-html[dir=rtl] .sapUiIconMirrorInRTL:not(.sapUiIconSuppressMirrorInRTL).sapMPanelExpandableIconExpanded {
-  -webkit-transform: translateY(-50%) rotate(-90deg) scale(-1, 1);
-  -ms-transform: translateY(-50%) rotate(-90deg) scale(-1, 1);
-  transform: translateY(-50%) rotate(-90deg) scale(-1, 1);
 }
 .sapMPanelWrappingDiv,
 .sapMPanelWrappingDivTb {
@@ -10585,11 +10582,15 @@ html[dir=rtl][data-sap-ui-browser^="ed"] .sapMTitleAlignEnd {
   box-sizing: border-box;
   position: relative;
 }
+.sapMTokenReadOnly .sapMTokenText {
+  vertical-align: initial;
+}
 .sapMTokenText {
   display: inline;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  vertical-align: middle;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   -khtml-user-select: none;
@@ -10599,6 +10600,7 @@ html[dir=rtl][data-sap-ui-browser^="ed"] .sapMTitleAlignEnd {
 }
 .sapMTokenIcon {
   display: inline;
+  line-height: 1rem;
 }
 .sapMToken .sapUiIcon {
   display: inline-block;
@@ -10686,6 +10688,7 @@ html.sap-phone .sapMTokenizerMultiLine > .sapMTokenizerScrollContainer > .sapMTo
 .sapMTokenizerScrollContainer {
   width: 100%;
   display: inline-block;
+  pointer-events: none;
   -moz-user-select: none;
   -webkit-user-select: none;
   -ms-user-select: none;
@@ -11240,10 +11243,10 @@ html[data-sap-ui-browser="ie9"] .sapMUCButtonContainer {
   width: 100%;
 }
 .sapMTB.sapMVSDFilterHeaderToolbar .sapMBarChild.sapMCb {
-  overflow: hidden;
   margin-right: 0;
 }
 .sapMTB.sapMVSDFilterHeaderToolbar .sapMBarChild.sapMCb .sapMCbLabel {
+  overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
 }
@@ -11261,10 +11264,8 @@ html[data-sap-ui-browser="ie9"] .sapMUCButtonContainer {
   height: 2rem;
   padding-right: 0.5rem;
 }
-.sapUiSizeCompact .sapMTB.sapMListHdrTBar.sapMVSDFilterHeaderToolbar .sapMCb {
-  overflow: hidden;
-}
 .sapUiSizeCompact .sapMTB.sapMListHdrTBar.sapMVSDFilterHeaderToolbar .sapMLabel.sapMCbLabel {
+  overflow: hidden;
   padding-right: 0.5rem;
   text-overflow: ellipsis;
 }
@@ -12188,6 +12189,7 @@ html.sap-desktop .sapMActionSelectPicker .sapMBtnDefault:focus {
   z-index: 9;
   width: 2.5rem;
   height: 2.5rem;
+  pointer-events: none;
 }
 .sapMCrslHud .sapMCrslPrev {
   right: 0.625rem;
@@ -12211,6 +12213,7 @@ html[dir='rtl'] .sapMCrslNext > .sapMCrslHudInner > .sapUiIcon,
   display: table-cell;
   vertical-align: middle;
   cursor: inherit !important;
+  pointer-events: none;
 }
 /* extra bits */
 /* captions */
@@ -12332,7 +12335,7 @@ html.sap-desktop .sapMCb:not(.sapMCbBgDis).sapMCbHasLabel:focus:before {
   /* Cb in HCB the outline should have offset 0 from the control */
   border: 0.125rem dotted #ffffff;
 }
-html.sap-desktop .sapUiSimpleForm .sapMCb:not(.sapMCbBgDis):focus:before {
+html.sap-desktop .sapUiForm .sapMCb:not(.sapMCbBgDis):focus:before {
   right: -1px;
   /* Cb in SimpleForm: left and right border adjustment */
   left: 0.125rem;
@@ -15741,10 +15744,6 @@ html[data-sap-ui-os^="iOS"] .sapMOHR .sapMOHRTitleActive .sapMOHRTitleText:activ
 }
 .sapMListTbl .sapMObjectIdentifierTitle .sapMText {
   color: #ffffff;
-}
-/* compact table cell context */
-.sapUiSizeCompact .sapMListTblCell > .sapMObjectIdentifier {
-  margin: .5rem 0;
 }
 /* ============================================= */
 /* CSS High Contrast Black for control sap.m/ObjectListItem.control */
@@ -19395,7 +19394,7 @@ html.sap-desktop .sapMToken:hover {
 /* CSS for control sap.m/Tokenizer.control ======= */
 /* High Contrast Black theme ================= */
 /* =========================================== */
-.sapMTokenizer:focus {
+html.sap-desktop .sapMTokenizer:focus {
   outline: 0.125rem dotted #ffffff;
   outline-offset: -3px;
 }
