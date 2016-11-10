@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @class
 	 * Tokenizer displays multiple tokens
 	 * @extends sap.ui.core.Control
-	 * @version 1.42.4
+	 * @version 1.42.5
 	 *
 	 * @constructor
 	 * @public
@@ -834,12 +834,6 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		oToken.attachDelete(this._onDeleteToken, this);
 		oToken.attachPress(this._onTokenPress, this);
 
-		oToken.setEditable = function (bEnabled) {
-			//ReadOnly css is handled by Token, using overwrite for further developing
-			//in case the token in tokenizer has different design for editable property
-			sap.m.Token.prototype.setEditable.apply(oToken, arguments);
-		};
-
 		this._bScrollToEndIsActive = true; //Ensure scroll to end is active after rendering
 
 		this.fireTokenChange({
@@ -1036,12 +1030,10 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		var tokens = this.getTokens();
 		var length = tokens.length;
 		for (var i = 0; i < length; i++) {
-			var currentToken = tokens[i];
-			currentToken.setEditable(bEditable);
+			tokens[i].setEditable(bEditable);
 		}
 
 		return this;
-
 	};
 
 	/**

@@ -25,7 +25,7 @@ sap.ui.define(['jquery.sap.global', './InputBase', './MaskInput', './MaskInputRu
 		 * @extends sap.m.MaskInput
 		 *
 		 * @author SAP SE
-		 * @version 1.42.4
+		 * @version 1.42.5
 		 *
 		 * @constructor
 		 * @public
@@ -89,12 +89,14 @@ sap.ui.define(['jquery.sap.global', './InputBase', './MaskInput', './MaskInputRu
 					/**
 					 * Sets the minutes slider step.
 					 * The minutes slider is populated only by multiples of the step.
+					 * @since 1.40
 					 */
 					minutesStep: {type: "int", group: "Misc", defaultValue: 1},
 
 					/**
 					 * Sets the seconds slider step.
 					 * The seconds slider is populated only by multiples of the step.
+					 * @since 1.40
 					 */
 					secondsStep: {type: "int", group: "Misc", defaultValue: 1}
 				},

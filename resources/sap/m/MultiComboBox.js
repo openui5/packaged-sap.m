@@ -19,7 +19,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './InputBase', './ComboBoxBase', '.
 	 * @extends sap.m.ComboBoxBase
 	 *
 	 * @author SAP SE
-	 * @version 1.42.4
+	 * @version 1.42.5
 	 *
 	 * @constructor
 	 * @public
@@ -1515,11 +1515,6 @@ sap.ui.define(['jquery.sap.global', './Bar', './InputBase', './ComboBoxBase', '.
 		if (this._iFocusedIndex != null && oList.getItems().length > this._iFocusedIndex) {
 			oList.getItems()[this._iFocusedIndex].focus();
 			this._iFocusedIndex = null;
-		} else {
-			var oFocusDomRef = this.getFocusDomRef();
-			if (oFocusDomRef) {
-				oFocusDomRef.focus();
-			}
 		}
 	};
 
