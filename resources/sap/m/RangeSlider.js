@@ -40,7 +40,7 @@ sap.ui.define(["jquery.sap.global", "./Slider", "./Input", "sap/ui/core/Invisibl
          * @extends sap.m.Slider
          *
          * @author SAP SE
-         * @version 1.42.5
+         * @version 1.42.6
          *
          * @constructor
          * @public

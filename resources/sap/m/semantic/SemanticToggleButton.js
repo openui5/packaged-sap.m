@@ -19,7 +19,7 @@ sap.ui.define(['sap/m/semantic/SemanticButton', 'sap/m/semantic/SemanticControl'
 	 * @abstract
 	 *
 	 * @author SAP SE
-	 * @version 1.42.5
+	 * @version 1.42.6
 	 *
 	 * @constructor
 	 * @public
