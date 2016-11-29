@@ -6,7 +6,7 @@
   <copyright>UI development toolkit for HTML5 (OpenUI5)
  * (c) Copyright 2009-2016 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.</copyright>
-  <version>1.40.11</version>
+  <version>1.40.12</version>
 
   <documentation>The main UI5 control library, with responsive controls that can be used in touch devices as well as desktop browsers.</documentation>
 
@@ -54,6 +54,14 @@
                 <module>sap/m/NewsContent</module>
                 <module>sap/m/NumericContent</module>
                 <module>sap/m/ImageContent</module>
+                <module>sap/m/GenericTileMode</module>
+                <module>sap/m/Size</module>
+                <module>sap/m/ValueColor</module>
+                <module>sap/m/ValueCSSColor</module>
+                <module>sap/m/FrameType</module>
+                <module>sap/m/UploadCollectionItem</module>
+                <module>sap/m/UploadCollectionParameter</module>
+                <module>sap/m/LoadState</module>
             </modules>
         </component>
         <component>

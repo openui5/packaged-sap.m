@@ -28,7 +28,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './InstanceManager', './Associative
 		 * @implements sap.ui.core.PopupInterface
 		 *
 		 * @author SAP SE
-		 * @version 1.40.11
+		 * @version 1.40.12
 		 *
 		 * @constructor
 		 * @public
@@ -921,8 +921,8 @@ sap.ui.define(['jquery.sap.global', './Bar', './InstanceManager', './Associative
 			var oFocusDomRef;
 
 			if (oControl) {
-				//if someone tryies to focus an existing but not visible control, focus the Dialog itself.
-				if (!oControl.getVisible()) {
+				//if someone tries to focus an existing but not visible control, focus the Dialog itself.
+				if (oControl.getVisible && !oControl.getVisible()) {
 					this.focus();
 					return;
 				}
@@ -1085,7 +1085,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './InstanceManager', './Associative
 				this._resizeListenerId = null;
 			}
 
-			sap.ui.Device.resize.detachHandler(this._onResize);
+			sap.ui.Device.resize.detachHandler(this._onResize.bind(this));
 		};
 
 		/**

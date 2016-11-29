@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/D
 		 * @extends sap.ui.core.Control
 		 *
 		 * @author SAP SE
-		 * @version 1.40.11
+		 * @version 1.40.12
 		 *
 		 * @constructor
 		 * @public
@@ -205,11 +205,12 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/D
 		 * @public
 		 */
 		BusyDialog.prototype.close = function (isClosedFromUserInteraction) {
-
 			//fire the close event with 'cancelPressed' = true/false depending on how the busyDialog is closed
 			this.fireClose({cancelPressed: isClosedFromUserInteraction || false});
 
 			this._oDialog.close();
+
+			return this;
 		};
 
 		BusyDialog.prototype.setTitle = function (title) {

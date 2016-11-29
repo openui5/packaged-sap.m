@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @class
 	 * Tokenizer displays multiple tokens
 	 * @extends sap.ui.core.Control
-	 * @version 1.40.11
+	 * @version 1.40.12
 	 *
 	 * @constructor
 	 * @public
@@ -358,6 +358,15 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 			this.$().on("copy", function(oEvent){
 				that.oncopy(oEvent);
 			});
+		}
+	};
+
+	Tokenizer.prototype.invalidate = function(oOrigin) {
+		var oParent = this.getParent();
+		if (oParent instanceof sap.m.MultiInput) {
+			oParent.invalidate(oOrigin);
+		} else {
+			Control.prototype.invalidate.call(this, oOrigin);
 		}
 	};
 
@@ -1003,15 +1012,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 				removedTokens : [token],
 				type : Tokenizer.TokenChangeType.TokensChanged
 			});
-
-			if (this.getParent() &&  this.getParent() instanceof sap.m.MultiInput && !this.getParent()._bUseDialog) {
-				// not set focus to MultiInput in phone mode
-				var $oParent = this.getParent().$();
-				$oParent.find("input").focus();
-			}
-
 		}
-
 	};
 
 	/**

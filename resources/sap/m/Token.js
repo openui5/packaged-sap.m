@@ -22,7 +22,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control'],
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.40.11
+	 * @version 1.40.12
 	 *
 	 * @constructor
 	 * @public
@@ -109,9 +109,9 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control'],
 		text: oRb.getText("TOKEN_ARIA_DELETABLE")
 	}).toStatic().getId();
 
-	///**
-	// * This file defines behavior for the control,
-	// */
+	/**
+	 * This file defines behavior for the control,
+	 */
 	Token.prototype.init = function() {
 		this._deleteIcon = new sap.ui.core.Icon({
 			src : "sap-icon://sys-cancel"

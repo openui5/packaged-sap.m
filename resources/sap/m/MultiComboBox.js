@@ -4,8 +4,8 @@
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
-sap.ui.define(['jquery.sap.global', './Bar', './InputBase', './ComboBoxBase', './Dialog', './List', './MultiComboBoxRenderer', './Popover', './library', 'sap/ui/core/EnabledPropagator', 'sap/ui/core/IconPool', 'jquery.sap.xml'],
-	function(jQuery, Bar, InputBase, ComboBoxBase, Dialog, List, MultiComboBoxRenderer, Popover, library, EnabledPropagator, IconPool/* , jQuerySap */) {
+sap.ui.define(['jquery.sap.global', './Bar', './InputBase', './ComboBoxTextField', './ComboBoxBase', './Dialog', './MultiInput', './Input', './ToggleButton', './List', './MultiComboBoxRenderer', './Popover', './library', 'sap/ui/core/EnabledPropagator', 'sap/ui/core/IconPool', 'jquery.sap.xml'],
+	function(jQuery, Bar, InputBase, ComboBoxTextField, ComboBoxBase, Dialog, MultiInput, Input, ToggleButton, List, MultiComboBoxRenderer, Popover, library, EnabledPropagator, IconPool/* , jQuerySap */) {
 	"use strict";
 
 	/**
@@ -19,7 +19,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './InputBase', './ComboBoxBase', '.
 	 * @extends sap.m.ComboBoxBase
 	 *
 	 * @author SAP SE
-	 * @version 1.40.11
+	 * @version 1.40.12
 	 *
 	 * @constructor
 	 * @public
@@ -195,6 +195,10 @@ sap.ui.define(['jquery.sap.global', './Bar', './InputBase', './ComboBoxBase', '.
 	 * @private
 	 */
 	MultiComboBox.prototype._selectItemByKey = function(oEvent) {
+		var aVisibleItems, oParam,
+			oItem, i, bItemMatched,
+			bPickerOpened = this.isOpen();
+
 		if (!this.getEnabled() || !this.getEditable()) {
 			return;
 		}
@@ -205,22 +209,18 @@ sap.ui.define(['jquery.sap.global', './Bar', './InputBase', './ComboBoxBase', '.
 			oEvent.setMarked();
 		}
 
-		var aVisibleItems;
+		aVisibleItems = this._getUnselectedItems(bPickerOpened ? "" : this.getValue());
 
-		if (this.isOpen()) {
-			aVisibleItems = this._getUnselectedItems();
-		} else {
-			aVisibleItems = this._getItemsStartingText(this.getValue());
+		for (i = 0; i < aVisibleItems.length; i++) {
+			if (aVisibleItems[i].getText().toUpperCase() === this.getValue().toUpperCase()) {
+				oItem = aVisibleItems[i];
+				bItemMatched = true;
+				break;
+			}
 		}
 
-		// Only unique value can be take over
-		if (aVisibleItems.length > 1) {
-			this._showWrongValueVisualEffect();
-		}
-
-		if (aVisibleItems.length === 1) {
-			var oItem = aVisibleItems[0];
-			var oParam = {
+		if (bItemMatched) {
+			oParam = {
 				item: oItem,
 				id: oItem.getId(),
 				key: oItem.getKey(),
@@ -230,6 +230,8 @@ sap.ui.define(['jquery.sap.global', './Bar', './InputBase', './ComboBoxBase', '.
 				listItemUpdated: false
 			};
 
+			this._bPreventValueRemove = false;
+
 			if (this.getValue() === "" || jQuery.sap.startsWithIgnoreCase(oItem.getText(), this.getValue())) {
 				if (this.getListItem(oItem).isSelected()) {
 					this.setValue('');
@@ -237,6 +239,9 @@ sap.ui.define(['jquery.sap.global', './Bar', './InputBase', './ComboBoxBase', '.
 					this.setSelection(oParam);
 				}
 			}
+		} else {
+			this._bPreventValueRemove = true;
+			this._showWrongValueVisualEffect();
 		}
 
 		if (oEvent) {
@@ -670,8 +675,12 @@ sap.ui.define(['jquery.sap.global', './Bar', './InputBase', './ComboBoxBase', '.
 	 * This event handler will be called before the MultiComboBox's Pop-up is closed.
 	 *
 	 */
-	MultiComboBox.prototype.onBeforeClose = function() {
+	MultiComboBox.prototype.onBeforeClose = function () {
 		ComboBoxBase.prototype.onBeforeClose.apply(this, arguments);
+
+		this.fireSelectionFinish({
+			selectedItems: this.getSelectedItems()
+		});
 	};
 
 	/**
@@ -685,12 +694,10 @@ sap.ui.define(['jquery.sap.global', './Bar', './InputBase', './ComboBoxBase', '.
 
 		// Show all items when the list will be opened next time
 		this.clearFilter();
-		this.setValue("");
-		this._sOldValue = "";
 
-		this.fireSelectionFinish({
-			selectedItems: this.getSelectedItems()
-		});
+		// resets or not the value of the input depending on the event (enter does not clear the value)
+		!this._bPreventValueRemove && this.setValue("");
+		this._sOldValue = "";
 	};
 
 	/**
@@ -1441,11 +1448,6 @@ sap.ui.define(['jquery.sap.global', './Bar', './InputBase', './ComboBoxBase', '.
 		if (this._iFocusedIndex != null && oList.getItems().length > this._iFocusedIndex) {
 			oList.getItems()[this._iFocusedIndex].focus();
 			this._iFocusedIndex = null;
-		} else {
-			var oFocusDomRef = this.getFocusDomRef();
-			if (oFocusDomRef) {
-				oFocusDomRef.focus();
-			}
 		}
 	};
 
@@ -2279,7 +2281,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './InputBase', './ComboBoxBase', '.
 	};
 
 	MultiComboBox.prototype.init = function() {
-		InputBase.prototype.init.apply(this, arguments);
+		ComboBoxTextField.prototype.init.apply(this, arguments);
 
 		// initialize list
 		this.createList();
@@ -2289,6 +2291,9 @@ sap.ui.define(['jquery.sap.global', './Bar', './InputBase', './ComboBoxBase', '.
 		 *
 		 */
 		this.bItemsUpdated = false;
+
+		// determines if value of the combobox should be empty string after popup's close
+		this._bPreventValueRemove = false;
 		this.setPickerType(sap.ui.Device.system.phone ? "Dialog" : "Popover");
 		this._oTokenizer = this._createTokenizer();
 		this._aCustomerKeys = [];
