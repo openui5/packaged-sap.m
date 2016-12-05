@@ -1,0 +1,48 @@
+/* ==================================== */
+/* CSS for control sap.m/MultiComboBox  */
+/* High Contrast Black theme            */
+/* ==================================== */
+
+/* ------------------------------ */
+/* BorderDiv                      */
+/* ------------------------------ */
+
+.sapMFocus.sapMMultiComboBox:not(.sapMInputBaseReadonly) > .sapMMultiComboBoxBorder::after {
+	border: 2px dotted @sapUiContentFocusColor;
+	content: "";
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	pointer-events: none;
+}
+
+.sapMFocus.sapMMultiComboBox .sapMInputBaseInner:focus {
+	outline: 0 none;
+}
+
+/* ------------------------------ */
+/* ValueState                     */
+/* ------------------------------ */
+
+.sapMComboBoxTextFieldError.sapMMultiComboBox .sapMMultiComboBoxBorder {
+	background-color: @sapUiFieldInvalidBackground;
+}
+
+/* focus to allow go down via keyboard navigation into list */
+html.sap-desktop .sapMMultiComboBoxList .sapMComboBoxBaseItem:focus {
+	position: relative;
+}
+
+/* HCB Additional Styles */
+.sapMComboBoxBaseDisabled .sapMToken,
+.sapMComboBoxBaseDisabled .sapMTokenIcon,
+.sapMComboBoxBaseDisabled .sapMMultiComboBoxBorder,
+.sapMComboBoxBaseDisabled.sapMInputBaseError .sapMMultiComboBoxBorder,
+.sapMComboBoxBaseDisabled.sapMInputBaseWarning .sapMMultiComboBoxBorder,
+.sapMComboBoxBaseDisabled.sapMInputBaseSuccess .sapMMultiComboBoxBorder {
+	background-color: @sapUiFieldDisabledBackground;
+	border-color: @sapUiFieldDisabledBorderColor;
+	color: @sapUiContentDisabledTextColor;
+}
