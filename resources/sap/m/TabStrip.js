@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Control', 'sap/ui/core/IconPool
 		 * space is exceeded, a horizontal scrollbar appears.
 		 *
 		 * @extends sap.ui.core.Control
-		 * @version 1.38.11
+		 * @version 1.38.12
 		 *
 		 * @constructor
 		 * @private
@@ -1166,6 +1166,17 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Control', 'sap/ui/core/IconPool
 				// Not needed anymore
 				this._oTouchStartX = null;
 			}
+		};
+
+		/**
+		 * Destroys all <code>TabStripItem</code> entities from the <code>items</code> aggregation of the <code>TabStrip</code>.
+		 *
+		 * @returns {sap.m.TabStrip} This instance for chaining
+		 * @override
+		 */
+		TabStrip.prototype.destroyItems = function() {
+			this.setAssociation("selectedItem", null);
+			return this.destroyAggregation("items");
 		};
 
 		return TabStrip;
