@@ -35,7 +35,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control'],
 		 * Tokens can only be used with the Tokenizer as a container.
 		 *
 		 * @author SAP SE
-		 * @version 1.44.0
+		 * @version 1.44.1
 		 *
 		 * @constructor
 		 * @public
@@ -133,18 +133,6 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control'],
 		this._deleteIcon.addStyleClass("sapMTokenIcon");
 		this.setAggregation("deleteIcon", this._deleteIcon);
 		this._deleteIcon.setUseIconTooltip(false);
-	};
-
-	Token.prototype.setEditable = function(bEditable){
-		this.setProperty("editable", bEditable);
-		if (bEditable) {
-			this.removeStyleClass("sapMTokenReadOnly");
-			this.$().attr("aria-readonly", "true");
-		} else {
-			this.addStyleClass("sapMTokenReadOnly");
-			this.$().attr("aria-readonly", "false");
-		}
-		return this;
 	};
 
 	/**

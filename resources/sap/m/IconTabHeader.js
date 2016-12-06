@@ -25,7 +25,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.44.0
+	 * @version 1.44.1
 	 *
 	 * @constructor
 	 * @public
@@ -427,9 +427,6 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 			this._sResizeListenerId = null;
 		}
 
-		var oParent = this.getParent();
-		var bIsParentIconTabBar = oParent instanceof sap.m.IconTabBar;
-
 		if (aItems.length > 0) {
 			if (!this.oSelectedItem || sSelectedKey && sSelectedKey !== this.oSelectedItem._getNonEmptyKey()) {
 				if (sSelectedKey) {
@@ -442,9 +439,8 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 					}
 				}
 
-				// no key and no item, we set the first visible item as selected if container is not explicitly set to collapsed
-				if (!this.oSelectedItem &&
-					(!bIsParentIconTabBar || bIsParentIconTabBar && oParent.getExpanded())) {
+				// no key and no item, we set the first visible item as selected
+				if (!this.oSelectedItem) {
 					for (i = 0; i < aItems.length; i++) { // tab item
 						if (!(aItems[i] instanceof sap.m.IconTabSeparator) && aItems[i].getVisible()) {
 							this.oSelectedItem = aItems[i];
@@ -454,10 +450,8 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 				}
 			}
 
-			//in case the selected tab is not visible anymore and the content is expanded, the selected tab will change to the first visible tab
-			if (this.oSelectedItem &&
-				!this.oSelectedItem.getVisible() &&
-				(!bIsParentIconTabBar || bIsParentIconTabBar && oParent.getExpanded())) {
+			//in case the selected tab is not visible anymore, the selected tab will change to the first visible tab
+			if (this.oSelectedItem && !this.oSelectedItem.getVisible()) {
 				for (i = 0; i < aItems.length; i++) { // tab item
 					if (!(aItems[i] instanceof sap.m.IconTabSeparator) && aItems[i].getVisible()) {
 						this.oSelectedItem = aItems[i];

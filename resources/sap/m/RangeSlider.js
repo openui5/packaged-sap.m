@@ -33,7 +33,7 @@ sap.ui.define(["jquery.sap.global", "./Slider", "./Input", "sap/ui/core/Invisibl
          * <br><br>
          * You can move the currently selected range by clicking on it and dragging it along the interval.
          * @author SAP SE
-         * @version 1.44.0
+         * @version 1.44.1
          *
          * @constructor
          * @public
@@ -171,6 +171,8 @@ sap.ui.define(["jquery.sap.global", "./Slider", "./Input", "sap/ui/core/Invisibl
         };
 
         RangeSlider.prototype.onAfterRendering = function () {
+            Slider.prototype.onAfterRendering.apply(this, arguments);
+
             var aRange = this.getRange(),
                 fMin = this.getMin(),
                 fMax = this.getMax(),

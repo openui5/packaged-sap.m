@@ -19,7 +19,7 @@ sap.ui.define(['jquery.sap.global', './Dialog', './Popover', './SelectList', './
 		 * @extends sap.ui.core.Control
 		 *
 		 * @author SAP SE
-		 * @version 1.44.0
+		 * @version 1.44.1
 		 *
 		 * @constructor
 		 * @public
@@ -517,6 +517,7 @@ sap.ui.define(['jquery.sap.global', './Dialog', './Popover', './SelectList', './
 
 			// add the active state to the Select's field
 			this.addStyleClass(this.getRenderer().CSS_CLASS + "Pressed");
+			this.addStyleClass(this.getRenderer().CSS_CLASS + "Expanded");
 
 			// close value state message before opening the picker
 			this.closeValueStateMessage();
@@ -579,6 +580,7 @@ sap.ui.define(['jquery.sap.global', './Dialog', './Popover', './SelectList', './
 
 			// remove the active state of the Select's field
 			this.removeStyleClass(this.getRenderer().CSS_CLASS + "Pressed");
+			this.removeStyleClass(this.getRenderer().CSS_CLASS + "Expanded");
 		};
 
 		/**

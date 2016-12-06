@@ -5,8 +5,8 @@
  */
 
 // Provides control sap.m.DatePicker.
-sap.ui.define(['jquery.sap.global', './InputBase', 'sap/ui/model/type/Date', 'sap/ui/core/date/UniversalDate', './library'],
-	function(jQuery, InputBase, Date1, UniversalDate, library) {
+sap.ui.define(['jquery.sap.global', 'sap/ui/Device', './InputBase', 'sap/ui/model/type/Date', 'sap/ui/core/date/UniversalDate', './library'],
+	function(jQuery, Device, InputBase, Date1, UniversalDate, library) {
 	"use strict";
 
 
@@ -48,7 +48,7 @@ sap.ui.define(['jquery.sap.global', './InputBase', 'sap/ui/model/type/Date', 'sa
 	 * This could lead to a waiting time before a <code>DatePicker</code> is opened the first time. To prevent this, applications using the <code>DatePicker</code> should also load
 	 * the <code>sap.ui.unified</code> library.
 	 * @extends sap.m.InputBase
-	 * @version 1.44.0
+	 * @version 1.44.1
 	 *
 	 * @constructor
 	 * @public
@@ -783,7 +783,8 @@ sap.ui.define(['jquery.sap.global', './InputBase', 'sap/ui/model/type/Date', 'sa
 		}
 
 		// compare with the old known value
-		if (sValue !== this._lastValue) {
+		if (this._lastValue !== sValue
+			|| (oDate && this.getDateValue() && oDate.getFullYear() !== this.getDateValue().getFullYear())) {
 			// remember the last value on change
 			this._lastValue = sValue;
 
@@ -1095,7 +1096,7 @@ sap.ui.define(['jquery.sap.global', './InputBase', 'sap/ui/model/type/Date', 'sa
 			// compare Dates because value can be the same if only 2 digits for year
 			sValue = this.getValue();
 			this.fireChangeEvent(sValue, {valid: true});
-			if (this.getDomRef()) { // as control could be destroyed during update binding
+			if (this.getDomRef() && !Device.support.touch && !jQuery.sap.simulateMobileOnDesktop) { // as control could be destroyed during update binding
 				this._curpos = this._$input.val().length;
 				this._$input.cursorPos(this._curpos);
 			}
@@ -1114,8 +1115,6 @@ sap.ui.define(['jquery.sap.global', './InputBase', 'sap/ui/model/type/Date', 'sa
 
 		// close popup and focus input after change event to allow application to reset value state or similar things
 		this._oPopup.close();
-		this._bFocusNoPopup = true;
-		this.focus();
 
 	};
 
@@ -1136,17 +1135,13 @@ sap.ui.define(['jquery.sap.global', './InputBase', 'sap/ui/model/type/Date', 'sa
 
 		if (this._oPopup && this._oPopup.isOpen()) {
 			this._oPopup.close();
-			this._bFocusNoPopup = true;
-			this.focus();
+			if (!Device.support.touch && !jQuery.sap.simulateMobileOnDesktop) {
+				this.focus();
+			}
 		}
 
 	}
-/*
-	function _handleClosed(oEvent) {
 
-
-	};
-*/
 	function _increaseDate(iNumber, sUnit) {
 
 		var oOldDate = this.getDateValue();

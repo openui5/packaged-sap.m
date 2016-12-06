@@ -21,7 +21,7 @@ sap.ui.define(['jquery.sap.global', './Input', './Token', './library'],
 	 * @extends sap.m.Input
 	 *
 	 * @author SAP SE
-	 * @version 1.44.0
+	 * @version 1.44.1
 	 *
 	 * @constructor
 	 * @public
@@ -38,6 +38,7 @@ sap.ui.define(['jquery.sap.global', './Input', './Token', './library'],
 				 * If set to true, the MultiInput will be displayed in multi-line display mode.
 				 * In multi-line display mode, all tokens can be fully viewed and easily edited in the MultiInput.
 				 * The default value is false.
+				 * <b>Note:</b> This property does not take effect on smartphones.
 				 * @since 1.28
 				 */
 				enableMultiLineMode: {type: "boolean", group: "Behavior", defaultValue: false},
@@ -164,7 +165,7 @@ sap.ui.define(['jquery.sap.global', './Input', './Token', './library'],
 		this.invalidate();
 
 		if (this._bUseDialog && this._tokenizer.getParent() instanceof sap.m.Dialog) {
-			this._showAllTokens(this._tokenizer);
+			this._showAllTokens();
 			return;
 		}
 
@@ -174,7 +175,7 @@ sap.ui.define(['jquery.sap.global', './Input', './Token', './library'],
 			this.focus();
 		}
 
-		if (args.getParameter("type") === "added" && iLength > 1 && this._isMultiLineMode && !this._isMultiLineOpen) {
+		if (args.getParameter("type") === "added" && iLength > 1 && this._isMultiLineMode && !this._isMultiLineOpen && this.getEditable()) {
 			this._showIndicator();
 		}
 
@@ -237,7 +238,7 @@ sap.ui.define(['jquery.sap.global', './Input', './Token', './library'],
 				this._tokenizer.setVisible(true);
 			}
 
-			this._setAllTokenVisible(this._tokenizer);
+			this._setAllTokenVisible();
 
 			if (this._oList instanceof sap.m.Table) {
 				// CSN# 1421140/2014: hide the table for empty/initial results to not show the table columns
@@ -266,7 +267,7 @@ sap.ui.define(['jquery.sap.global', './Input', './Token', './library'],
 				this._tokenizer.setVisible(false);
 			} else {
 				this._tokenizer.setVisible(true);
-				this._setAllTokenVisible(this._tokenizer);
+				this._setAllTokenVisible();
 			}
 		} else {
 			this._setContainerSizes();
@@ -280,14 +281,16 @@ sap.ui.define(['jquery.sap.global', './Input', './Token', './library'],
 	 * @since 1.28
 	 * @private
 	 */
-	MultiInput.prototype._setAllTokenVisible = function (oTokenizer) {
+	MultiInput.prototype._setAllTokenVisible = function () {
+		var oTokenizer = this._tokenizer,
+			aTokens = oTokenizer.getTokens(),
+			i;
+
 		if (oTokenizer.getVisible() === false) {
 			oTokenizer.setVisible(true);
 		}
 
-		var aTokens = oTokenizer.getTokens();
 		if (aTokens.length > 0) {
-			var i = 0;
 			for (i = 0; i < aTokens.length; i++) {
 				aTokens[i].setVisible(true);
 			}
@@ -301,10 +304,10 @@ sap.ui.define(['jquery.sap.global', './Input', './Token', './library'],
 	 * @private
 	 */
 	MultiInput.prototype._setAllTokenInvisible = function () {
+		var aTokens = this.getTokens(),
+			i = 0;
 
-		var aTokens = this.getTokens();
 		if (aTokens.length > 0) {
-			var i = 0;
 			for (i = 0; i < aTokens.length; i++) {
 				aTokens[i].setVisible(false);
 			}
@@ -373,9 +376,9 @@ sap.ui.define(['jquery.sap.global', './Input', './Token', './library'],
 	 * @since 1.28
 	 * @private
 	 */
-	MultiInput.prototype._showAllTokens = function (oTokenizer) {
+	MultiInput.prototype._showAllTokens = function () {
 
-		this._setAllTokenVisible(oTokenizer);
+		this._setAllTokenVisible();
 		this._removeIndicator();
 	};
 
@@ -409,8 +412,10 @@ sap.ui.define(['jquery.sap.global', './Input', './Token', './library'],
 		}
 
 		if (bMultiLineMode) {
+			if (this.getEditable()) {
+				this._showIndicator();
+			}
 
-			this._showIndicator();
 			this._isMultiLineMode = true;
 
 			if (this.getDomRef()) {
@@ -422,7 +427,7 @@ sap.ui.define(['jquery.sap.global', './Input', './Token', './library'],
 		} else {
 			this._isMultiLineMode = false;
 
-			this._showAllTokens(this._tokenizer);
+			this._showAllTokens();
 			this.setValue("");
 
 			if (this.getDomRef()) {
@@ -549,7 +554,7 @@ sap.ui.define(['jquery.sap.global', './Input', './Token', './library'],
 			availableWidth,// the space available for the tokenizer, the input/the indicator and the value help icon
 			shadowDiv, // the input's shadow div
 			$indicator,
-			inputMinWidthNeeded = 4 * 16, // space for input should be at least 4rem
+			inputMinWidthNeeded = this.getEditable() ? 4 * 16 : 0, // space for input should be at least 4rem for editable and 0 for non-editable
 			tokenizerWidth,
 			iIndicatorWidth, // the "N More" indicator width
 			iconWidth, // the value help icon width
@@ -829,7 +834,12 @@ sap.ui.define(['jquery.sap.global', './Input', './Token', './library'],
 	 */
 	MultiInput.prototype.onpaste = function (oEvent) {
 
-		var sOriginalText;
+		var sOriginalText, i;
+
+		if (this.getValueHelpOnly()) { // BCP: 1670448929
+			return;
+		}
+
 		// for the purpose to copy from column in excel and paste in MultiInput/MultiComboBox
 		if (window.clipboardData) {
 			//IE
@@ -843,7 +853,7 @@ sap.ui.define(['jquery.sap.global', './Input', './Token', './library'],
 		setTimeout(function () {
 			if (aSeparatedText) {
 				if (this.fireEvent("_validateOnPaste", {texts: aSeparatedText}, true)) {
-					for (var i = 0; i < aSeparatedText.length; i++) {
+					for (i = 0; i < aSeparatedText.length; i++) {
 						if (aSeparatedText[i]) { // pasting from excel can produce empty strings in the array, we don't have to handle empty strings
 							this.updateDomValue(aSeparatedText[i]);
 							this._validateCurrentText();
@@ -1026,7 +1036,7 @@ sap.ui.define(['jquery.sap.global', './Input', './Token', './library'],
 					this._tokenizer.setVisible(false);
 				} else {
 					this._tokenizer.setVisible(true);
-					this._setAllTokenVisible(this._tokenizer);
+					this._setAllTokenVisible();
 				}
 
 				this._tokenizer._oScroller.setHorizontal(false);
@@ -1049,7 +1059,7 @@ sap.ui.define(['jquery.sap.global', './Input', './Token', './library'],
 				|| oEvent.target.className.indexOf("sapMTokenText") > -1) {
 
 				this.openMultiLine();
-				this._showAllTokens(this._tokenizer);
+				this._showAllTokens();
 
 				var that = this;
 				setTimeout(function () {
@@ -1100,7 +1110,7 @@ sap.ui.define(['jquery.sap.global', './Input', './Token', './library'],
 	 */
 	MultiInput.prototype.onfocusin = function (oEvent) {
 
-		if (this._isMultiLineMode) {
+		if (this._isMultiLineMode && this.getEditable()) {
 			this._processMultiLine(oEvent);
 		}
 
@@ -1187,7 +1197,7 @@ sap.ui.define(['jquery.sap.global', './Input', './Token', './library'],
 							if (that._tokenizer.getVisible() === false) {
 								that._tokenizer.setVisible(true);
 							}
-							that._setAllTokenVisible(that._tokenizer);
+							that._setAllTokenVisible();
 						}
 
 					}
@@ -1248,8 +1258,16 @@ sap.ui.define(['jquery.sap.global', './Input', './Token', './library'],
 	};
 
 	MultiInput.prototype.setEditable = function (bEditable) {
+		bEditable = this.validateProperty("editable", bEditable);
+
 		if (bEditable === this.getEditable()) {
 			return this;
+		}
+
+		if (bEditable && (this.getEnableMultiLineMode() || this._bUseDialog)) {
+			this._bShowIndicator = true;
+		} else {
+			this._bShowIndicator = false;
 		}
 
 		if (Input.prototype.setEditable) {
@@ -1350,6 +1368,7 @@ sap.ui.define(['jquery.sap.global', './Input', './Token', './library'],
 	};
 
 	MultiInput.prototype.addToken = function (oToken) {
+		oToken.setEditable(this.getEditable() && oToken.getEditable());
 		this._tokenizer.addToken(oToken);
 		return this;
 	};
@@ -1428,9 +1447,26 @@ sap.ui.define(['jquery.sap.global', './Input', './Token', './library'],
 	 * @param {sap.m.Token[]}
 	 *          aTokens - the new token set
 	 * @public
+	 * @returns {sap.m.MultiInput} Pointer to the control instance for chaining
 	 */
 	MultiInput.prototype.setTokens = function (aTokens) {
-		this._tokenizer.setTokens(aTokens);
+		var oValidatedToken,
+			aValidatedTokens = [],
+			i;
+
+		if (Array.isArray(aTokens)) {
+			for (i = 0; i < aTokens.length; i++) {
+				oValidatedToken = this.validateAggregation("tokens", aTokens[i], true);
+				oValidatedToken.setEditable(this.getEditable() && oValidatedToken.getEditable());
+				aValidatedTokens.push(oValidatedToken);
+			}
+
+			this._tokenizer.setTokens(aValidatedTokens);
+		} else {
+			throw new Error("\"" + aTokens + "\" is of type " + typeof aTokens + ", expected array for aggregation tokens of " + this);
+		}
+
+		return this;
 	};
 
 	MultiInput.TokenChangeType = {
