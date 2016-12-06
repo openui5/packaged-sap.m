@@ -27,7 +27,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Control', 'sap/ui/core/LocaleDa
 	 * This could lead to a waiting time before a <code>PlanningCalendar</code> is used for the first time.
 	 * To prevent this, applications using the <code>PlanningCalendar</code> should also load the <code>sap.ui.unified</code> library.
 	 * @extends sap.ui.core.Control
-	 * @version 1.44.1
+	 * @version 1.44.2
 	 *
 	 * @constructor
 	 * @public
@@ -476,10 +476,12 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Control', 'sap/ui/core/LocaleDa
 	 * Sets the given date as start date.
 	 * Depending on the current view the start date may be adjusted (e.g. week view shows always the first weekday
 	 * of the same week as the given date).
-	 * @param oStartDate the date to set as <code>PlanningCalendar</code> start date
+	 * @param {Date} oStartDate the date to set as <code>sap.m.PlanningCalendar</code> <code>startDate</code>. May be changed(adjusted) if
+	 * property <code>startDate</code> is adjusted. See remark about week view above.
 	 * @returns {sap.m.PlanningCalendar}
 	*/
 	PlanningCalendar.prototype.setStartDate = function(oStartDate){
+		var oFirstDateOfWeek;
 
 		if (!oStartDate) {
 			//set default value
@@ -491,7 +493,14 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Control', 'sap/ui/core/LocaleDa
 		}
 
 		if (this.getViewKey() ===  sap.ui.unified.CalendarIntervalType.Week) {
-			oStartDate = CalendarUtils.getFirstDateOfWeek(oStartDate);
+			/* Calculate the first week date for the given oStartDate. Have in mind that the oStartDate is the date that
+			 * the user sees in the UI, thus - local one. As CalendarUtils.getFirstDateOfWeek works with UTC dates (this
+			 * is because the dates are timezone irrelevant), it should be called with the local datetime values presented
+			 * as UTC ones(e.g. if oStartDate is 21 Dec 1981, 13:00 GMT+02:00, it will be converted to 21 Dec 1981, 13:00 GMT+00:00)
+			 */
+			oFirstDateOfWeek = CalendarUtils.getFirstDateOfWeek(CalendarUtils._createUniversalUTCDate(oStartDate, undefined, true));
+			//CalendarUtils.getFirstDateOfWeek works with UTC based date values, restore the result back in local timezone.
+            oStartDate.setTime(CalendarUtils._createLocalDate(oFirstDateOfWeek, true).getTime());
 		}
 
 		if (jQuery.sap.equal(oStartDate, this.getStartDate())) {
@@ -690,7 +699,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Control', 'sap/ui/core/LocaleDa
 	};
 
 	PlanningCalendar.prototype.setViewKey = function(sKey){
-		var sDateInterval, sDateIntervalSuffix, oDateInterval, clDateInterval;
+		var sDateInterval, sDateIntervalSuffix, oDateInterval, clDateInterval, oOldStartDate;
 
 		this.setProperty("viewKey", sKey, true);
 
@@ -701,8 +710,8 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Control', 'sap/ui/core/LocaleDa
 		}
 
 		if (sKey === sap.ui.unified.CalendarIntervalType.Week) {
-			var oOldStartDate = this.getStartDate();
-			this.setStartDate(oOldStartDate); //make sure the start date is aligned according to the week rules
+			oOldStartDate = this.getStartDate();
+			this.setStartDate(new Date(oOldStartDate.getTime())); //make sure the start date is aligned according to the week rules
 			if (oOldStartDate.getTime() !== this.getStartDate().getTime()) {
 				this.fireStartDateChange();
 			}

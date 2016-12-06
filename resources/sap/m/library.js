@@ -22,14 +22,14 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/Device', 'sap/ui/base/DataType',
 	 * @namespace
 	 * @name sap.m
 	 * @author SAP SE
-	 * @version 1.44.1
+	 * @version 1.44.2
 	 * @public
 	 */
 
 	// delegate further initialization of this library to the Core
 	sap.ui.getCore().initLibrary({
 		name : "sap.m",
-		version: "1.44.1",
+		version: "1.44.2",
 		dependencies : ["sap.ui.core"],
 		types: [
 			"sap.m.BackgroundDesign",
@@ -1019,9 +1019,8 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/Device', 'sap/ui/base/DataType',
 		 */
 		HeaderMode : "HeaderMode",
 		/**
-		 * Line mode (Only header and subtitle is rendered in one line).
+		 * Line mode (Only header and subtitle are rendered continuously spanning multiple lines).
 		 * @since 1.44.0
-		 * @experimental since 1.44.0 LineMode is currently under development
 		 * @public
 		 */
 		LineMode : "LineMode"
@@ -2370,7 +2369,14 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/Device', 'sap/ui/base/DataType',
 		 * Use when you need to display the name of the user who locked the object.
 		 * @public
 		 */
-		LockedBy : "LockedBy"
+		LockedBy : "LockedBy",
+
+		/**
+		 * UnsavedBy type
+		 * Use when you need to display the name of the user whos changes were unsaved.
+		 * @public
+		 */
+		UnsavedBy : "UnsavedBy"
 	};
 
 

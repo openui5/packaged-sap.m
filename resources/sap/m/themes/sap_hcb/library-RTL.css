@@ -2403,6 +2403,9 @@ html.sap-phone .sapMFeedListItemText {
   box-sizing: border-box;
   background-position: 0px;
 }
+.sapMGT.sapMPointer * {
+  cursor: pointer;
+}
 .sapMGT:focus {
   outline: none;
 }
@@ -2417,6 +2420,7 @@ html.sap-phone .sapMFeedListItemText {
 .sapMGTHdrTxt > .sapMGTTitle,
 .sapMGTSubHdrTxt,
 .sapMGT .sapMGTContent {
+  user-select: none;
   -webkit-user-select: none;
   -moz-user-select: -moz-none;
   -ms-user-select: none;
@@ -2489,7 +2493,10 @@ html.sap-phone .sapMFeedListItemText {
   padding: 0.5rem 0 0.5rem 0;
   margin-top: 0.175rem;
   overflow: hidden;
-  width: calc(98.25%);
+  width: 100%;
+}
+.sapMGTLineMode .sapMGTLineModeFailedIcon + .sapMGTLineModeHelpContainer {
+  width: calc(100% - 1.75rem);
 }
 .sapMGTLineMode .sapMGTHdrTxt {
   position: relative;
@@ -2509,6 +2516,10 @@ html.sap-phone .sapMFeedListItemText {
   margin-top: 0.625rem;
   text-align: left;
 }
+/* IE does not support text-align: start, this is a workaround:*/
+html[dir=rtl] .sapMGTLineMode .sapMGTLineModeFailedIcon {
+  text-align: right;
+}
 /************************ LINE MODE COMPACT *****************/
 .sapUiSizeCompact.sapMGTLineModeContainer,
 .sapUiSizeCompact .sapMGTLineModeContainer {
@@ -2516,6 +2527,7 @@ html.sap-phone .sapMFeedListItemText {
   box-sizing: border-box;
 }
 .sapUiSizeCompact .sapMGT.sapMGTLineMode {
+  user-select: none;
   -webkit-user-select: none;
   -moz-user-select: -moz-none;
   -ms-user-select: none;
@@ -2547,6 +2559,7 @@ html.sap-phone .sapMFeedListItemText {
   white-space: normal;
   position: relative;
   right: 0.5rem;
+  top: 1px;
   border-top: 2px solid transparent;
   border-bottom: 2px solid transparent;
   z-index: 2;
@@ -2566,6 +2579,7 @@ html.sap-phone .sapMFeedListItemText {
 .sapUiSizeCompact .sapMGTLineMode .sapMGTLineModeFailedIcon {
   display: inline-block;
   line-height: 1.375rem;
+  width: 1.625rem;
   vertical-align: top;
   padding-top: 0.25rem;
   padding-left: 0;
@@ -5433,6 +5447,21 @@ html.sap-desktop .sapMMultiInputBorder {
   display: inline-block;
   position: static;
 }
+.sapMMultiInput.sapMMultiInputMultiLine .sapMToken,
+html.sap-phone .sapMMultiInput .sapMToken {
+  display: none;
+}
+.sapMMultiInput.sapMMultiInputMultiLine.sapMInputBaseReadonly .sapMToken,
+html.sap-phone .sapMMultiInput.sapMInputBaseReadonly .sapMToken {
+  display: inline-block;
+}
+.sapMMultiInput.sapMMultiInputMultiLine .sapMToken:last-child,
+html.sap-phone .sapMMultiInput .sapMToken:last-child {
+  display: inline-block;
+}
+.sapMMultiInput.sapMMultiInputMultiLine .sapMMultiInputMultiModeBorder .sapMToken {
+  display: inline-block;
+}
 .sapUiSizeCompact .sapMMultiInput .sapMInputValHelp {
   display: inline-block;
   position: static;
@@ -5443,16 +5472,10 @@ html.sap-desktop .sapMMultiInputBorder {
   top: 0;
   left: 0;
 }
-.sapMMultiInputTextInput :not(.sapMMultiInputNotEditable) {
-  border-radius: 0;
-}
-.sapMMultiInputInputContainer {
+.sapMMultiInput .sapMMultiInputInputContainer {
   position: absolute;
   top: 0;
   left: 0;
-}
-.sapMMultiInputNotEditable .sapMMultiInputInputContainer {
-  visibility: collapse;
 }
 .sapMMultiInputShadowDiv {
   display: inline;
@@ -5461,7 +5484,10 @@ html.sap-desktop .sapMMultiInputBorder {
   top: 0;
   right: 0;
 }
-.sapMMultiInputMultiModeInputContainer {
+.sapMMultiInput.sapMInputBaseReadonly .sapMMultiInputInputContainer {
+  position: absolute;
+}
+.sapMMultiInputInputContainer.sapMMultiInputMultiModeInputContainer {
   position: static;
 }
 html.sap-desktop .sapMMultiInput.sapMFocus .sapMInputBaseInner:focus {
@@ -5469,6 +5495,10 @@ html.sap-desktop .sapMMultiInput.sapMFocus .sapMInputBaseInner:focus {
 }
 .sapMMultiInput .sapMInputBaseInner:not(.sapMInputBaseReadonlyInner):not(.sapMInputBaseStateInner):not(.sapMInputBaseDisabledInner):hover {
   background: transparent;
+}
+html.sap-phone .sapMToken:focus,
+html.sap-tablet:not(.sap-desktop) .sapMToken:focus {
+  outline-color: transparent;
 }
 /* ============================================= */
 /* CSS for control sap.m/NavContainer.control */
@@ -5768,6 +5798,9 @@ html[data-sap-ui-animation='on'] .sapMNavItem.sapMNavItemDooring {
 .sapMNwCCTxt .sapMText {
   display: inline;
   line-height: 1.063rem;
+}
+.sapMNwCCTxt .sapMText.sapMPointer * {
+  cursor: pointer;
 }
 .sapMNwCSbh {
   overflow: hidden;
@@ -6217,7 +6250,7 @@ html[data-sap-ui-browser*='ie'] .sapMNLI-Footer .sapMBtnInner {
   position: absolute;
   left: 0;
   right: 0;
-  padding-top: 0.91rem;
+  padding-top: 0.5rem;
 }
 .sapMNCInner.WithoutMargin {
   top: 0;
@@ -8773,7 +8806,7 @@ html[data-sap-ui-browser^="ie"] .sapMRbB .sapMRbBInn {
 .sapUiSizeCompact .sapMRbB .sapMRbBInn {
   height: 0.25rem;
   width: 0.25rem;
-  margin: 0.125rem;
+  margin: 0.150rem;
 }
 .sapUiSizeCompact .sapMRbBLabel {
   line-height: 2rem;
@@ -8885,6 +8918,9 @@ html[data-sap-ui-browser^="ie"] .sapMRbB .sapMRbBInn {
 }
 .sapUiSizeCompact .sapMRbG .sapMRbHasLabel .sapMRbB {
   width: 2rem;
+}
+.sapUiSizeCompact .sapMRbG .sapMRbHasLabel .sapMRbBOut {
+  margin: 0.5rem;
 }
 .sapUiSizeCompact .sapMRbG .sapMRbBLabel {
   padding-right: 2rem;
@@ -11646,7 +11682,7 @@ html[dir=rtl] .sapMTileCntFtrTxt {
 }
 /* Content */
 .sapMTileCntContent {
-  overflow: hidden;
+  overflow: visible;
   display: inline-block;
   width: 100%;
   box-sizing: border-box;
@@ -15538,7 +15574,7 @@ html.sap-desktop .sapMLnk:focus:not(.sapMLnkDsbl) {
 /* IE and Edge ignores outline-offset. Use an overlay: */
 html[data-sap-ui-browser^="ie"].sap-desktop .sapMLnk:focus:not(.sapMLnkDsbl):before,
 html[data-sap-ui-browser^="ed"].sap-desktop .sapMLnk:focus:not(.sapMLnkDsbl):before {
-  border: 0.125rem dotted #ffffff;
+  border: 0.125rem dashed #ffffff;
 }
 html.sap-desktop .sapMLnk:hover:not(.sapMLnkDsbl) {
   text-decoration: none;
@@ -15561,7 +15597,7 @@ html[data-sap-ui-browser^="ie"].sap-desktop .sapUiSizeCondensed .sapUiTableCell 
   left: 0.125rem;
   bottom: 0.125rem;
   border-width: 0.125rem;
-  border-style: dotted;
+  border-style: dashed;
   border-color: #ffffff;
   content: "";
   pointer-events: none;

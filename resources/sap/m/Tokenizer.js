@@ -35,7 +35,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		 * The tokenizer can only be used as part of {@link sap.m.MultiComboBox MultiComboBox},{@link sap.m.MultiInput MultiInput} or {@link sap.ui.comp.valuehelpdialog.ValueHelpDialog ValueHelpDialog}
 		 *
 		 * @author SAP SE
-		 * @version 1.44.1
+		 * @version 1.44.2
 		 *
 		 * @constructor
 		 * @public
@@ -373,6 +373,15 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 			this.$().on("copy", function(oEvent){
 				that.oncopy(oEvent);
 			});
+		}
+	};
+
+	Tokenizer.prototype.invalidate = function(oOrigin) {
+		var oParent = this.getParent();
+		if (oParent instanceof sap.m.MultiInput) {
+			oParent.invalidate(oOrigin);
+		} else {
+			Control.prototype.invalidate.call(this, oOrigin);
 		}
 	};
 
@@ -1018,15 +1027,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 				removedTokens : [token],
 				type : Tokenizer.TokenChangeType.TokensChanged
 			});
-
-			if (this.getParent() &&  this.getParent() instanceof sap.m.MultiInput && !this.getParent()._bUseDialog) {
-				// not set focus to MultiInput in phone mode
-				var $oParent = this.getParent().$();
-				$oParent.find("input").focus();
-			}
-
 		}
-
 	};
 
 	/**

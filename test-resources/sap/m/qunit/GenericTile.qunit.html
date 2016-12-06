@@ -298,6 +298,7 @@
 				mode: sap.m.GenericTileMode.LineMode
 			});
 			sinon.stub(this.oGenericTile, "_isCompact").returns(true);
+			sinon.stub(this.oGenericTile, "_checkContentDensity");
 
 			//stub this function on order to not queue any updates which might influence the other tests
 			sinon.stub(this.oGenericTile, "_updateHoverStyle");
@@ -308,6 +309,7 @@
 			}).placeAt("qunit-fixture");
 			sap.ui.getCore().applyChanges();
 			this.oGenericTile._updateHoverStyle.reset();
+			this.oGenericTile._checkContentDensity.reset();
 		},
 		afterEach: function() {
 			this.oGenericTile.destroy();
@@ -330,6 +332,36 @@
 		assert.ok(this.oGenericTile.$("subHdr-text").length > 0, "SubHeader was found.");
 		assert.equal(this.oGenericTile.$("subHdr-text").text(), "Expenses By Region", "SubHeader was correct.");
 		assert.ok(this.oGenericTile.$("styleHelper").length > 0, "Style helper was found.");
+	});
+
+	QUnit.test("Tile attached interval timer after rendering", function(assert) {
+		//Arrange
+		sinon.spy(sap.ui.getCore(), "attachIntervalTimer");
+
+		//Act
+		this.oGenericTile.invalidate();
+		sap.ui.getCore().applyChanges();
+
+		//Assert
+		assert.equal(sap.ui.getCore().attachIntervalTimer.callCount, 1);
+
+		//Cleanup
+		sap.ui.getCore().attachIntervalTimer.restore();
+	});
+
+	QUnit.test("Tile is invalidated on content density change", function(assert) {
+		//Arrange
+		var done = assert.async();
+
+		//Act
+		this.oParent.$().addClass("sapUiSizeCompact");
+
+		jQuery.sap.delayedCall(250, null, function() {
+			//Assert
+			assert.equal(this.oGenericTile._checkContentDensity.callCount, 1, "Content density check has been executed.");
+
+			done();
+		}.bind(this));
 	});
 
 	QUnit.test("All elements found in failed state", function(assert) {
@@ -428,6 +460,19 @@
 		oStubGetPixelValue.restore();
 	});
 
+	QUnit.test("_calculateStyleData returns null if no rendering was done", function(assert) {
+		//Arrange
+		var oTile = new sap.m.GenericTile({
+			mode: sap.m.GenericTileMode.LineMode
+		});
+
+		//Act
+		var oStyleData = oTile._calculateStyleData();
+
+		//Assert
+		assert.equal(oStyleData, null, "In case no rendering happened, this function returns null.");
+	});
+
 	QUnit.test("Function _getStyleData updates internal object on change", function(assert) {
 		//Arrange
 		var oStubCalculateStyleData = sinon.stub(this.oGenericTile, "_calculateStyleData").returns({ field: "value" });
@@ -455,66 +500,24 @@
 		assert.equal(this.oGenericTile._oStyleData, null, "Style data has not been updated.");
 	});
 
-	QUnit.test("Function _getBoundingBox creates styleData when nothing exists yet", function(assert) {
-		//Arrange
-		this.oGenericTile._oStyleData = null;
-		sinon.spy(this.oGenericTile, "_getStyleData");
-
-		//Act
-		var oBoundingBox = this.oGenericTile._getBoundingBox();
-
-		//Assert
-		assert.equal(this.oGenericTile._getStyleData.callCount, 1, "_getStyleData has been called once.");
-	});
-
-	QUnit.test("Function _getBoundingBox returns object with necessary fields in cozy mode", function(assert) {
-		//Arrange
-		this.oGenericTile._isCompact.returns(false);
-
-		//Act
-		this.oGenericTile.invalidate();
-		sap.ui.getCore().applyChanges();
-		this.oGenericTile._oStyleData = {};
-		var oBoundingBox = this.oGenericTile._getBoundingBox();
-
-		//Assert
-		assert.ok(oBoundingBox.x >= 0, "The field 'x' is available.");
-		assert.ok(oBoundingBox.y >= 0, "The field 'y' is available.");
-		assert.ok(oBoundingBox.width >= 0, "The field 'width' is available.");
-		assert.ok(oBoundingBox.height >= 0, "The field 'height' is available.");
-	});
-
-	QUnit.test("Function _getBoundingBox returns object with necessary fields in compact mode", function(assert) {
-		//Arrange
-		var oStubGetPixelValue = sinon.stub(sap.m.GenericTileLineModeRenderer, "_getCSSPixelValue");
-		oStubGetPixelValue.withArgs(this.oGenericTile, "line-height").returns(30);
-		oStubGetPixelValue.withArgs(this.oGenericTile, "min-height").returns(26);
-		oStubGetPixelValue.withArgs(this.oGenericTile, "margin-top").returns(4);
-
-		//Act
-		this.oGenericTile.invalidate();
-		sap.ui.getCore().applyChanges();
-		var oBoundingBox = this.oGenericTile._getBoundingBox();
-
-		//Assert
-		assert.ok(oBoundingBox.x >= 0, "The field 'x' is available.");
-		assert.ok(oBoundingBox.y >= 0, "The field 'y' is available.");
-		assert.ok(oBoundingBox.width >= 0, "The field 'width' is available.");
-		assert.ok(oBoundingBox.height >= 0, "The field 'height' is available.");
-
-		//Cleanup
-		oStubGetPixelValue.restore();
-	});
-
 	QUnit.test("Hover style update on resize", function(assert) {
 		//Arrange
+		sinon.stub(sap.m.GenericTileLineModeRenderer, "_updateHoverStyle");
+		var done = assert.async();
+
 		//Act
 		this.oParent.setWidth("500px");
 		this.oParent.invalidate();
 		sap.ui.getCore().applyChanges();
 
-		//Assert
-		assert.equal(this.oGenericTile._updateHoverStyle.callCount, 1, "Function _updateHoverStyle is called once.");
+		jQuery.sap.delayedCall(100, null, function() {
+			//Assert
+			assert.equal(sap.m.GenericTileLineModeRenderer._updateHoverStyle.callCount, 1, "Renderer function _updateHoverStyle is called once.");
+
+			//Cleanup
+			sap.m.GenericTileLineModeRenderer._updateHoverStyle.restore();
+			done();
+		}.bind(this));
 	});
 
 	QUnit.test("Hover style update of siblings on state change", function(assert) {
@@ -527,7 +530,7 @@
 			mode: sap.m.GenericTileMode.LineMode
 		});
 		this.oParent.addItem(oSiblingTile);
-		sinon.stub(oSiblingTile, "_isCompact").returns(true);
+		this.oParent.addStyleClass("sapUiSizeCompact");
 		sap.ui.getCore().applyChanges();
 
 		this.oGenericTile._updateHoverStyle.restore(); //restore stub in order to use spy
@@ -754,6 +757,108 @@
 		assert.equal(jQuery.sap.clearDelayedCall.firstCall.args[0], 100, "Correct first ID has been cleared.");
 		assert.equal(jQuery.sap.clearDelayedCall.secondCall.args[0], 200, "Correct second ID has been cleared.");
 		assert.deepEqual(this.oGenericTile._oAnimationEndCallIds, {}, "All IDs have been removed from the object.");
+	});
+
+	QUnit.module("Protected method getBoundingRects", {
+		beforeEach: function() {
+			this.oGenericTile = new sap.m.GenericTile({
+				state: sap.m.LoadState.Loaded,
+				subheader: "Expenses By Region",
+				header: "Comparative Annual Totals",
+				mode: sap.m.GenericTileMode.LineMode
+			});
+
+			//stub this function on order to not queue any updates which might influence the other tests
+			sinon.stub(this.oGenericTile, "_updateHoverStyle");
+
+			this.oGenericTile.placeAt("qunit-fixture");
+			sap.ui.getCore().applyChanges();
+		},
+		afterEach: function() {
+			this.oGenericTile.destroy();
+			this.oGenericTile = null;
+		}
+	});
+
+	QUnit.test("getBoundingRects in compact tile creates styleData when nothing exists yet", function(assert) {
+		//Arrange
+		this.oGenericTile._oStyleData = null;
+		sinon.spy(this.oGenericTile, "_getStyleData");
+		sinon.stub(this.oGenericTile, "_calculateStyleData").returns({
+			lines: []
+		});
+		sinon.stub(this.oGenericTile, "_isCompact").returns(true);
+
+		//Act
+		var aBoundingRects = this.oGenericTile.getBoundingRects();
+
+		//Assert
+		assert.equal(this.oGenericTile._getStyleData.callCount, 1, "_getStyleData has been called once.");
+	});
+
+	QUnit.test("getBoundingRects in cozy tile returns object with necessary fields in cozy mode", function(assert) {
+		//Arrange
+		sinon.stub(this.oGenericTile, "_isCompact").returns(false);
+
+		//Act
+		var aBoundingRects = this.oGenericTile.getBoundingRects();
+
+		//Assert
+		assert.equal(aBoundingRects.length, 1, "An array has been returned.");
+		assert.ok(aBoundingRects[0].offset.x >= 0, "The field 'offset.x' is available.");
+		assert.ok(aBoundingRects[0].offset.y >= 0, "The field 'offset.y' is available.");
+		assert.ok(aBoundingRects[0].width >= 0, "The field 'width' is available.");
+		assert.ok(aBoundingRects[0].height >= 0, "The field 'height' is available.");
+	});
+
+	QUnit.test("getBoundingRects returns object with necessary fields in compact mode", function(assert) {
+		//Arrange
+		var oStubGetPixelValue = sinon.stub(sap.m.GenericTileLineModeRenderer, "_getCSSPixelValue");
+		oStubGetPixelValue.withArgs(this.oGenericTile, "line-height").returns(30);
+		oStubGetPixelValue.withArgs(this.oGenericTile, "min-height").returns(26);
+		oStubGetPixelValue.withArgs(this.oGenericTile, "margin-top").returns(4);
+		sinon.stub(this.oGenericTile, "_isCompact").returns(true);
+		jQuery("#qunit-fixture").addClass("sapUiSizeCompact");
+
+		//Act
+		this.oGenericTile.invalidate();
+		sap.ui.getCore().applyChanges();
+		var aBoundingRects = this.oGenericTile.getBoundingRects();
+
+		//Assert
+		assert.equal(aBoundingRects.length, 1, "An array has been returned.");
+		assert.ok(aBoundingRects[0].offset.x >= 0, "The field 'offset.x' is available.");
+		assert.ok(aBoundingRects[0].offset.y, "The field 'offset.y' is available.");
+		assert.ok(aBoundingRects[0].width >= 0, "The field 'width' is available.");
+		assert.ok(aBoundingRects[0].height >= 0, "The field 'height' is available.");
+
+		//Cleanup
+		oStubGetPixelValue.restore();
+		jQuery("#qunit-fixture").removeClass("sapUiSizeCompact");
+	});
+
+	QUnit.test("Correct offset in RTL", function() {
+		//Arrange
+		sinon.stub(this.oGenericTile, "_isCompact").returns(true);
+		this.oGenericTile._oStyleData = {
+			availableWidth: 1000,
+			rtl: true,
+			lines: [ {
+				offset: {
+					x: 100,
+					y: 100
+				},
+				width: 50
+			} ]
+		};
+		sinon.stub(this.oGenericTile, "_getStyleData");
+
+		//Act
+		var aBoundingRects = this.oGenericTile.getBoundingRects();
+
+		//Assert
+		assert.equal(aBoundingRects.length, 1, "One line has been returned.");
+		assert.equal(aBoundingRects[0].offset.x, 950, "Horizontal position has been converted from right to left.");
 	});
 
 	QUnit.module("Rendering tests for failing state", {
@@ -1118,7 +1223,7 @@
 		assert.equal(sTooltipText, "someTooltipText", "Expected text for tooltip generated in case an explicite tooltip is set");
 	});
 
-	QUnit.module("Tests for ARIA-label and tooltip text", {
+	QUnit.module("Tests for ARIA-label", {
 		beforeEach : function() {
 			this.oGenericTile = new sap.m.GenericTile("generic-tile", {
 				subheader : "Expenses By Region",
@@ -1148,21 +1253,55 @@
 		}
 	});
 
-	QUnit.test("Generation of text for ARIA-label and tooltip", function(assert) {
+	QUnit.test("Generation of text for ARIA-label, Loaded state", function(assert) {
 		//Arrange
-		var sLoadingText = this.oGenericTile._rb.getText("INFOTILE_LOADING");
-		this.oGenericTile.setState(sap.m.LoadState.Loading);
+		this.oGenericTile.setState(sap.m.LoadState.Loaded);
+		var sLoadedText = "Comparative Annual Totals\nExpenses By Region\n20M\nAscending\nGood\nEUR\nCurrent Quarter";
 		//Act
-		var sAriaAndTooltipText = this.oGenericTile._getAriaAndTooltipText();
+		var sAriaLabel = this.oGenericTile._getAriaAndTooltipText();
 		//Assert
-		assert.equal(sAriaAndTooltipText, sLoadingText, "Text for ARIA-label and tooltip has been generated for Loading state");
+		assert.equal(sAriaLabel, sLoadedText, "Text for ARIA-label has been generated for Loaded state");
+	});
 
+	QUnit.test("Generation of text for ARIA-label, Loading state", function(assert) {
+		//Arrange
+		this.oGenericTile.setState(sap.m.LoadState.Loading);
+		var sLoadingText = "Comparative Annual Totals\nExpenses By Region\n20M\nAscending\nGood\nEUR\nCurrent Quarter\n" + this.oGenericTile._rb.getText("INFOTILE_LOADING");
+		//Act
+		var sAriaLabel = this.oGenericTile._getAriaAndTooltipText();
+		//Assert
+		assert.equal(sAriaLabel, sLoadingText, "Text for ARIA-label has been generated for Loading state");
+	});
+
+	QUnit.test("Generation of text for ARIA-label generated by the control, Failed state", function(assert) {
+		//Arrange
+		this.oGenericTile.setState(sap.m.LoadState.Failed);
+		var sFailedText = "Comparative Annual Totals\nExpenses By Region\n20M\nAscending\nGood\nEUR\nCurrent Quarter\n" + this.oGenericTile._oFailedText.getText();
+		//Act
+		var sAriaLabel = this.oGenericTile._getAriaAndTooltipText();
+		//Assert
+		assert.equal(sAriaLabel, sFailedText, "Text for ARIA-label has been generated for Failed state");
+	});
+
+	QUnit.test("Explicit text for Failed state set by user", function(assert) {
+		//Arrange
+		this.oGenericTile.setFailedText("explicitFailedText");
+		this.oGenericTile.setState(sap.m.LoadState.Failed);
+		sap.ui.getCore().applyChanges();
+		var sFailedText = "Comparative Annual Totals\nExpenses By Region\n20M\nAscending\nGood\nEUR\nCurrent Quarter\n" + "explicitFailedText";
+		//Act
+		var sAriaLabel = this.oGenericTile._getAriaAndTooltipText();
+		//Assert
+		assert.equal(sAriaLabel, sFailedText, "Text for ARIA-label has been generated for Failed state");
+	});
+
+	QUnit.test("Generation of text for ARIA-label and tooltip, Disabled state", function(assert) {
 		//Arrange
 		this.oGenericTile.setState(sap.m.LoadState.Disabled);
 		//Act
-		sAriaAndTooltipText = this.oGenericTile._getAriaAndTooltipText();
+		sAriaLabel = this.oGenericTile._getAriaAndTooltipText();
 		//Assert
-		assert.equal(sAriaAndTooltipText, "", "Text for ARIA-label and tooltip has been generated for Disabled state");
+		assert.equal(sAriaLabel, "", "No text for ARIA-label has been generated for Disabled state");
 	});
 
 	QUnit.test("Generation of text for ARIA-label and tooltip after updated content", function(assert) {

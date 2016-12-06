@@ -25,7 +25,7 @@ sap.ui.define(['jquery.sap.global', './FlexBoxStylingHelper', './FlexItemData', 
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.44.1
+	 * @version 1.44.2
 	 *
 	 * @constructor
 	 * @public
@@ -152,14 +152,8 @@ sap.ui.define(['jquery.sap.global', './FlexBoxStylingHelper', './FlexItemData', 
 	};
 
 	FlexBox.prototype.removeItem = function(vItem) {
-		var oItem = this.removeAggregation("items", vItem, true);
-		if (oItem && !(oItem instanceof sap.m.FlexBox)) {
-			if (oItem instanceof sap.m.FlexBox) {
-				oItem.$().remove();
-			} else {
-				oItem.$().parent().remove();
-			}
-		}
+		var oItem = this.removeAggregation("items", vItem);
+
 		this._onItemRemoved(oItem);
 
 		return oItem;

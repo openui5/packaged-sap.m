@@ -35,7 +35,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control'],
 		 * Tokens can only be used with the Tokenizer as a container.
 		 *
 		 * @author SAP SE
-		 * @version 1.44.1
+		 * @version 1.44.2
 		 *
 		 * @constructor
 		 * @public
@@ -122,9 +122,9 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control'],
 		text: oRb.getText("TOKEN_ARIA_DELETABLE")
 	}).toStatic().getId();
 
-	///**
-	// * This file defines behavior for the control,
-	// */
+	/**
+	 * This file defines behavior for the control,
+	 */
 	Token.prototype.init = function() {
 		this._deleteIcon = new sap.ui.core.Icon({
 			src : "sap-icon://sys-cancel"
