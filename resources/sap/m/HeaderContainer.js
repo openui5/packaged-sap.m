@@ -45,7 +45,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @since 1.42.0
 	 *
 	 * @author SAP SE
-	 * @version 1.44.2
+	 * @version 1.44.3
 	 *
 	 * @public
 	 * @alias sap.m.HeaderContainer

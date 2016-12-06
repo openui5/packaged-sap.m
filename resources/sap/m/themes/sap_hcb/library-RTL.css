@@ -1136,6 +1136,10 @@ html[data-sap-ui-browser^=ff] .sapMCbBg > input {
 .sapMCLI .sapMLIBSelectD {
   margin-left: 0;
 }
+.sapMLIBLegacyOutline.sapMCLI > .sapMLIBContent {
+  width: 100%;
+  /* IE flexbox workaround max-width is not respected */
+}
 /* ============================================= */
 /* CSS for control sap.m/CustomTile.control */
 /* ============================================= */

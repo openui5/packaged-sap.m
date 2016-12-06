@@ -35,7 +35,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control'],
 		 * Tokens can only be used with the Tokenizer as a container.
 		 *
 		 * @author SAP SE
-		 * @version 1.44.2
+		 * @version 1.44.3
 		 *
 		 * @constructor
 		 * @public
