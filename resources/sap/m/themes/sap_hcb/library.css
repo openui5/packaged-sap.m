@@ -1857,6 +1857,13 @@ html[data-sap-ui-animation='on'] .sapMDynamicPage .sapMDynamicPageActualFooterCo
   line-height: 0.8rem;
   padding: 0.6rem;
 }
+/* specific selector for the light facet filter text to use padding instead of margin,
+  otherwise the text gets cut off in Arabic because of the italic font
+*/
+.sapMFF > .sapMIBar.sapMTB.sapMTB-Info-CTX > .sapMText {
+  margin: 0;
+  padding: 0.5rem;
+}
 /* ============================================= */
 /* CSS for control sap.m/FacetFilterItem.control */
 /* ============================================= */
@@ -3283,7 +3290,7 @@ span.sapMImg {
   font-weight: normal;
 }
 .sapMInputSuggestionTableHidden {
-  visibility: hidden;
+  display: none;
 }
 /* valueHelpOnly overwrites text cursor for input */
 .sapMInputVHO,
@@ -4583,6 +4590,7 @@ html[data-sap-ui-animation='on'] .sapMNavItem.sapMNavItemDooring {
   display: block;
   padding: 0 0 1rem;
   margin: 0 0.25rem 0.5rem;
+  overflow: hidden;
 }
 .sapMLIB.sapMNLB:first-of-type {
   margin-top: 0.125rem;
@@ -4762,12 +4770,6 @@ html[data-sap-ui-animation='on'] .sapMNavItem.sapMNavItemDooring {
 .sapMLIB.sapMNLG-Collapsed .sapMNLG-Body {
   display: none;
 }
-.sapMNLG-Body .sapMNLI {
-  border-radius: 0;
-}
-.sapMNLG-Body > .sapMNLI .sapMNLB-Priority {
-  border-radius: 0;
-}
 .sapMNLG-Footer {
   border-top: 1px solid #ffffff;
   height: 3rem;
@@ -4806,9 +4808,12 @@ html[data-sap-ui-browser*='ie'] .sapMNLG-Footer .sapMBtnInner {
   margin-left: 0.25rem;
   padding: 0;
 }
-.sapMNLGNoHdrFooter {
-  padding-top: 0 !important;
+.sapMNLG.sapMLIB.sapMNLGNoHdrFooter {
+  padding-top: 0;
 }
+/* ==========================================================================
+   NotificationListItem
+  ========================================================================== */
 .sapMNLI {
   padding: 1rem;
   position: relative;
@@ -4816,9 +4821,12 @@ html[data-sap-ui-browser*='ie'] .sapMNLG-Footer .sapMBtnInner {
 .sapMNLI:first-of-type {
   margin-top: 0.125rem;
 }
-.sapMNLI .sapMNLB-Priority {
-  border-radius: 0.25rem 0 0 0.25rem;
-}
+/* ==========================================================================
+   Priority styles
+  ========================================================================== */
+/* ==========================================================================
+   Header styles
+  ========================================================================== */
 .sapMNLI-Header {
   max-height: 2.5rem;
 }
@@ -4835,6 +4843,9 @@ html[data-sap-ui-browser*='ie'] .sapMNLG-Footer .sapMBtnInner {
 .sapMNLI-Header > .sapMText.sapMNLI-Unread {
   font-weight: bold;
 }
+/* ==========================================================================
+   Body styles
+  ========================================================================== */
 .sapMNLI-Body {
   display: -webkit-box;
   display: -webkit-flex;
@@ -4864,6 +4875,9 @@ html[data-sap-ui-browser*='ie'] .sapMNLG-Footer .sapMBtnInner {
 .sapMNLI-Description .sapMNLI-Text {
   color: #ffffff;
 }
+/* ==========================================================================
+   Footer styles
+  ========================================================================== */
 .sapMNLI-Footer {
   margin-bottom: -1rem;
   text-align: right;
@@ -4883,6 +4897,8 @@ html[data-sap-ui-browser*='ie'] .sapMNLI-Footer .sapMBtnInner {
 .sapMNLI-Footer .sapMNLI-CollapseButtonHide {
   display: none;
 }
+/* Compact mode
+  ========================================================================== */
 .sapUiSizeCompact .sapMNLI-Footer {
   margin-bottom: -1rem;
   box-sizing: border-box;
@@ -4899,6 +4915,8 @@ html[data-sap-ui-browser*='ie'] .sapMNLI-Footer .sapMBtnInner {
 .sapUiSizeCompact .sapMNLI-Footer > .sapMBtn {
   margin-left: 0.75rem;
 }
+/* Styles for calculating text size
+  ========================================================================== */
 .sapMNLI-TextWrapper {
   max-height: 2rem;
 }
@@ -4926,6 +4944,8 @@ html[data-sap-ui-browser*='ie'] .sapMNLI-Footer .sapMBtnInner {
 .sapMNLI-TextWrapper .sapMTextMaxLine {
   line-height: 1rem;
 }
+/* L Size Notification styles
+  ========================================================================== */
 .sapMNLI-LSize .sapMNLI-Header .sapMText {
   box-sizing: border-box;
   max-width: 60%;
@@ -6144,14 +6164,12 @@ html[data-sap-ui-os^="Android"] .sapMObjectNumberUnit {
 .sapUiTableCell .sapMObjStatusIcon .sapUiIcon,
 .sapMListTbl .sapMObjStatusText,
 .sapMListTbl .sapMObjStatusTitle,
-.sapMListTbl .sapMObjStatusIcon .sapUiIcon,
-.sapUiForm .sapMObjStatusIcon .sapUiIcon {
+.sapMListTbl .sapMObjStatusIcon .sapUiIcon {
   vertical-align: middle;
 }
 .sapUiForm .sapMObjStatusIcon,
 .sapUiForm .sapMObjStatusTitle,
 .sapUiForm .sapMObjStatusText {
-  overflow: hidden;
   display: inline-block;
   line-height: normal;
   -webkit-user-select: text;
@@ -6159,18 +6177,14 @@ html[data-sap-ui-os^="Android"] .sapMObjectNumberUnit {
   user-select: text;
 }
 /*
-	FIX for 1580155978.
+	FIX for 1580155978 and 1680267289.
 	Fiori design guidelines say that statuses should be specially styled for forms
 	and share looks with other text only controls.
 */
-.sapUiForm.sapUiFormEdit .sapMObjStatus > .sapMObjStatusIcon,
-.sapUiForm.sapUiFormEdit .sapMObjStatus > .sapMObjStatusTitle,
-.sapUiForm.sapUiFormEdit .sapMObjStatus > .sapMObjStatusText {
+.sapUiForm.sapUiFormEdit .sapMObjStatus {
   line-height: 3rem;
 }
-.sapUiSizeCompact .sapUiForm.sapUiFormEdit .sapMObjStatus > .sapMObjStatusIcon,
-.sapUiSizeCompact .sapUiForm.sapUiFormEdit .sapMObjStatus > .sapMObjStatusTitle,
-.sapUiSizeCompact .sapUiForm.sapUiFormEdit .sapMObjStatus > .sapMObjStatusText {
+.sapUiSizeCompact .sapUiForm.sapUiFormEdit .sapMObjStatus {
   line-height: 2rem;
 }
 /* =============================================================== */
@@ -6762,6 +6776,10 @@ html.sap-desktop .sapUiFioriObjectPage > section > .sapMPanel {
 }
 .sapMPanel.sapUiNoContentPadding > .sapMPanelContent {
   padding: 0;
+}
+/* workaround for drawing issue in IE - ensures that the content will be redrawn */
+html[data-sap-ui-animation='on'][data-sap-ui-browser^="ie"] .sapMPanelContent {
+  transform: translate(0, 0);
 }
 /* ================================================= */
 /* CSS for control sap.m/PlanningCalendar.control    */
@@ -10691,6 +10709,12 @@ html[data-sap-ui-browser^="ed"].sap-desktop .sapUiSizeCompact .sapMTokenIcon {
   margin-right: 0.375rem;
   line-height: normal;
 }
+.sapMTokenizer.sapMTokenizerReadonly .sapMToken {
+  padding: 0 0.375rem;
+}
+.sapMTokenizer.sapMTokenizerReadonly .sapMTokenIcon {
+  display: none;
+}
 .sapMTokenizerClip {
   position: absolute;
   top: 0;
@@ -11395,7 +11419,8 @@ html.sap-desktop .sapMTB.sapMListHdrTBar.sapMVSDFilterHeaderToolbar .sapMCb {
 html[data-sap-ui-animation='on'] .sapMWizardNextButton {
   transition: 0.4s linear;
 }
-html.sap-desktop .sapMWizard .sapMWizardNextButton {
+html.sap-desktop .sapMWizard .sapMWizardNextButton,
+html.sap-tablet .sapMWizard .sapMWizardNextButton {
   display: block;
 }
 html.sap-phone .sapMWizard .sapMWizardNextButton {
@@ -12103,8 +12128,9 @@ html.sap-desktop .sapMBtn:focus > .sapMFocusable:not(.sapMBtnActive) {
   top: 0;
   border-radius: 0;
 }
+/* dotted line appears blurry in IE and EDGE browsers. In these cases use dashed */
 .sapMBtn:focus .sapMBtnFocusDiv {
-  border: 2px dotted #ffffff;
+  border: 2px dashed #ffffff;
 }
 /* ---------------------------------------------------------------------*/
 /* Disabled and active states:                                          */
@@ -19418,9 +19444,7 @@ html[data-sap-ui-browser^="ie"].sap-desktop .sapMToken:focus .sapMTokenText:befo
 html[data-sap-ui-browser^="ed"].sap-desktop .sapMToken:focus .sapMTokenText:before {
   border: 1px dashed #ffffff;
 }
-.sapMTokenSelected,
-.sapMToken:focus {
-  color: #ffffff;
+.sapMTokenSelected {
   background: #0f5d94;
 }
 .sapMTokenSelected .sapMTokenIcon,
@@ -19429,9 +19453,6 @@ html[data-sap-ui-browser^="ed"].sap-desktop .sapMToken:focus .sapMTokenText:befo
 }
 .sapMTokenIcon {
   color: #ffffff;
-}
-.sapMToken.sapMTokenActive {
-  background: #7a5100;
 }
 .sapUiSizeCompact .sapMListTbl .sapMToken .sapUiIcon:not(.sapMLIBImgNav) {
   font-size: 0.75rem;

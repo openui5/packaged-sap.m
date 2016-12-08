@@ -48,7 +48,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/Device', './InputBase', 'sap/ui/mode
 	 * This could lead to a waiting time before a <code>DatePicker</code> is opened the first time. To prevent this, applications using the <code>DatePicker</code> should also load
 	 * the <code>sap.ui.unified</code> library.
 	 * @extends sap.m.InputBase
-	 * @version 1.40.12
+	 * @version 1.40.13
 	 *
 	 * @constructor
 	 * @public
@@ -783,7 +783,8 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/Device', './InputBase', 'sap/ui/mode
 		}
 
 		// compare with the old known value
-		if (oDate !== this.getDateValue()) {
+		if (this._lastValue !== sValue
+			|| (oDate && this.getDateValue() && oDate.getFullYear() !== this.getDateValue().getFullYear())) {
 			// remember the last value on change
 			this._lastValue = sValue;
 
@@ -1106,6 +1107,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/Device', './InputBase', 'sap/ui/mode
 				this._bValid = true;
 				if (this.getDomRef()) { // as control could be destroyed during update binding
 					this._$input.val(sValue);
+					this._lastValue = sValue;
 				}
 				this.setProperty("value", sValue, true); // no rerendering
 				this.fireChangeEvent(sValue, {valid: true});

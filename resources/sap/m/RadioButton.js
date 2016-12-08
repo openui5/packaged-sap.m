@@ -25,7 +25,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.40.12
+	 * @version 1.40.13
 	 *
 	 * @constructor
 	 * @public
@@ -374,7 +374,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 			this._oLabel.destroy();
 		}
 
-		if (iGroupNameIndex && iGroupNameIndex !== -1) {
+		if (iGroupNameIndex >= -1) {
 			aControlsInGroup.splice(iGroupNameIndex, 1);
 		}
 	};

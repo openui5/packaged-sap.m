@@ -26,7 +26,7 @@ sap.ui.define([
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.40.12
+	 * @version 1.40.13
 	 *
 	 * @constructor
 	 * @public
@@ -1564,7 +1564,21 @@ sap.ui.define([
 	};
 
 	NavContainer.prototype._isInsideAPopup = function () {
-		return this.getParent() instanceof sap.m.Popover;
+		var fnScanForPopup;
+
+		fnScanForPopup = function (oControl) {
+			if (!oControl) {
+				return false;
+			}
+
+			if (oControl.getMetadata().isInstanceOf("sap.ui.core.PopupInterface")) {
+				return true;
+			}
+
+			return fnScanForPopup(oControl.getParent());
+		};
+
+		return fnScanForPopup(this);
 	};
 
 	NavContainer.prototype.removePage = function (oPage) {
