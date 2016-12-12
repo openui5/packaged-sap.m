@@ -23,7 +23,7 @@ sap.ui.define(['jquery.sap.global', './ListItemBase', './library'],
 	 * @extends sap.m.ListItemBase
 	 *
 	 * @author SAP SE
-	 * @version 1.28.41
+	 * @version 1.28.42
 	 *
 	 * @constructor
 	 * @public
@@ -189,6 +189,26 @@ sap.ui.define(['jquery.sap.global', './ListItemBase', './library'],
 					(!this._oLinkControl || (oEvent.srcControl.getId() !== this._oLinkControl.getId())) &&                         // not sender link clicked
 					(!this._oLinkExpandCollapse || (oEvent.srcControl.getId() !== this._oLinkExpandCollapse.getId())))) {          // not expand/collapse link clicked
 				ListItemBase.prototype.ontap.apply(this, [oEvent]);
+			}
+		}
+	};
+
+	/**
+	 * The implementation of this method is a workaround for an issue in Jaws screenreader: when the alt text for the image is set, the other content of the list item is not read out.
+	 * Therefore the alt text is removed when the list item is focused.
+	 * When one of the inner elements (image or links) is focused, the alt text is set to space; otherwise the alt text would be read again with the link text.
+	 * The aria-label for the image holds the information for the image.
+	 *
+	 * @private
+	 * @param {jQuery.Event} oEvent - The focus event.
+	 */
+	FeedListItem.prototype.onfocusin = function(oEvent) {
+		if (this._oImageControl) {
+			var $icon = this.$("icon");
+			if (oEvent.target.id === this.getId()) {
+				$icon.removeAttr("alt");
+			} else {
+				$icon.attr("alt"," ");
 			}
 		}
 	};
