@@ -23,7 +23,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 *
 	 * NOTE: This control must be rendered as a full screen control in order to make the show/hide master area work properly.
 	 * @extends sap.ui.core.Control
-	 * @version 1.38.14
+	 * @version 1.38.15
 	 *
 	 * @constructor
 	 * @public
@@ -1858,6 +1858,9 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		}
 
 		oPage = this._getRealPage(oPage);
+		if (!oPage) {
+			return;
+		}
 
 		var oHeaderAggregation = SplitContainer._getHeaderButtonAggregation(oPage),
 			sHeaderAggregationName = oHeaderAggregation.sAggregationName,

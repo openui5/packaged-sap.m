@@ -3237,7 +3237,7 @@ span.sapMImg {
   font-weight: normal;
 }
 .sapMInputSuggestionTableHidden {
-  visibility: hidden;
+  display: none;
 }
 /* valueHelpOnly overwrites text cursor for input */
 .sapMInputVHO,
@@ -4501,6 +4501,7 @@ html[data-sap-ui-animation='on'] .sapMNavItem.sapMNavItemDooring {
   display: block;
   padding: 0 0 1rem;
   margin: 0 0.25rem 0.5rem;
+  overflow: hidden;
 }
 .sapMLIB.sapMNLB:first-of-type {
   margin-top: 0.125rem;
@@ -4669,6 +4670,7 @@ html[data-sap-ui-animation='on'] .sapMNavItem.sapMNavItemDooring {
   margin: 0;
   box-shadow: none;
   border-bottom: none;
+  border-radius: 0;
 }
 .sapMText.sapMNLG-Datetime {
   color: #d3d3d3;
@@ -4677,15 +4679,6 @@ html[data-sap-ui-animation='on'] .sapMNavItem.sapMNavItemDooring {
 }
 .sapMLIB.sapMNLG-Collapsed .sapMNLG-Body {
   display: none;
-}
-.sapMNLG-Body .sapMNLI {
-  border-radius: 0;
-}
-.sapMNLG-Body .sapMNLI .sapMNLI-Priority {
-  border-radius: 0;
-}
-.sapMNLG-Body > .sapMNLI .sapMNLB-Priority {
-  border-radius: 0;
 }
 .sapMNLG-Footer {
   border-top: 1px solid #d3d3d3;
@@ -4728,6 +4721,12 @@ html[data-sap-ui-browser*='ie'] .sapMNLG-Footer .sapMBtnInner {
   margin-right: 0.25rem;
   padding: 0;
 }
+.sapMNLG.sapMLIB.sapMNLGNoHdrFooter {
+  padding-top: 0;
+}
+/* ==========================================================================
+   NotificationListItem
+  ========================================================================== */
 .sapMNLI {
   padding: 1rem;
   position: relative;
@@ -4735,9 +4734,12 @@ html[data-sap-ui-browser*='ie'] .sapMNLG-Footer .sapMBtnInner {
 .sapMNLI:first-of-type {
   margin-top: 0.125rem;
 }
-.sapMNLI .sapMNLB-Priority {
-  border-radius: 0 0.1875rem 0.1875rem 0;
-}
+/* ==========================================================================
+   Priority styles
+  ========================================================================== */
+/* ==========================================================================
+   Header styles
+  ========================================================================== */
 .sapMNLI-Header {
   max-height: 2.5rem;
 }
@@ -4754,6 +4756,9 @@ html[data-sap-ui-browser*='ie'] .sapMNLG-Footer .sapMBtnInner {
 .sapMNLI-Header > .sapMText.sapMNLI-Unread {
   font-weight: bold;
 }
+/* ==========================================================================
+   Body styles
+  ========================================================================== */
 .sapMNLI-Body {
   display: -webkit-box;
   display: -webkit-flex;
@@ -4783,6 +4788,9 @@ html[data-sap-ui-browser*='ie'] .sapMNLG-Footer .sapMBtnInner {
 .sapMNLI-Description .sapMNLI-Text {
   color: #d3d3d3;
 }
+/* ==========================================================================
+   Footer styles
+  ========================================================================== */
 .sapMNLI-Footer {
   margin-bottom: -1rem;
   text-align: right;
@@ -4802,8 +4810,10 @@ html[data-sap-ui-browser*='ie'] .sapMNLI-Footer .sapMBtnInner {
 .sapMNLI-Footer .sapMNLI-CollapseButtonHide {
   display: none;
 }
+/* Compact mode
+  ========================================================================== */
 .sapUiSizeCompact .sapMNLI-Footer {
-  margin-bottom: -0.75rem;
+  margin-bottom: -1rem;
   box-sizing: border-box;
   max-height: 2.5rem;
   min-height: 0.75rem;
@@ -4814,6 +4824,11 @@ html[data-sap-ui-browser*='ie'] .sapMNLI-Footer .sapMBtnInner {
   margin-right: 0.25rem;
   padding: 0;
 }
+.sapUiSizeCompact .sapMNLI-Footer > .sapMBtn {
+  margin-right: 0.75rem;
+}
+/* Styles for calculating text size
+  ========================================================================== */
 .sapMNLI-TextWrapper {
   max-height: 2rem;
 }
@@ -4838,6 +4853,11 @@ html[data-sap-ui-browser*='ie'] .sapMNLI-Footer .sapMBtnInner {
 .sapMNLI-TitleWrapper--initial-overwrite .sapMTextLineClamp {
   -webkit-line-clamp: initial !important;
 }
+.sapMNLI-TextWrapper .sapMTextMaxLine {
+  line-height: 1rem;
+}
+/* L Size Notification styles
+  ========================================================================== */
 .sapMNLI-LSize .sapMNLI-Header .sapMText {
   box-sizing: border-box;
   max-width: 60%;
@@ -9285,7 +9305,8 @@ html[dir='rtl'].sap-phone .sapMSlt.sapMTSSlt {
   padding: 0;
   float: left;
 }
-.sapMTabStripSelectListItemCloseBtn .sapMBtnInner {
+html .sapMTabStripSelectListItemCloseBtn .sapMBtnInner {
+  display: block;
   height: 1.625rem;
   min-width: 1.625rem;
   width: 1.625rem;

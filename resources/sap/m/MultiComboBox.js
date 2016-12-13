@@ -19,7 +19,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './InputBase', './ComboBoxBase', '.
 	 * @extends sap.m.ComboBoxBase
 	 *
 	 * @author SAP SE
-	 * @version 1.38.14
+	 * @version 1.38.15
 	 *
 	 * @constructor
 	 * @public
@@ -674,10 +674,6 @@ sap.ui.define(['jquery.sap.global', './Bar', './InputBase', './ComboBoxBase', '.
 	MultiComboBox.prototype.onBeforeClose = function() {
 		// reset opener
 		this.bOpenedByKeyboardOrButton = false;
-
-		this.fireSelectionFinish({
-			selectedItems: this.getSelectedItems()
-		});
 	};
 
 	/**
@@ -691,6 +687,10 @@ sap.ui.define(['jquery.sap.global', './Bar', './InputBase', './ComboBoxBase', '.
 
 		// Show all items when the list will be opened next time
 		this.clearFilter();
+
+		this.fireSelectionFinish({
+			selectedItems: this.getSelectedItems()
+		});
 	};
 
 	/**
