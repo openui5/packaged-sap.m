@@ -21,7 +21,7 @@ sap.ui.define(["jquery.sap.global", "./library", "sap/ui/core/Control", "sap/ui/
 		 * @extends sap.ui.core.Control
 		 *
 		 * @author SAP SE
-		 * @version 1.40.13
+		 * @version 1.40.14
 		 *
 		 * @constructor
 		 * @public
@@ -400,7 +400,7 @@ sap.ui.define(["jquery.sap.global", "./library", "sap/ui/core/Control", "sap/ui/
 		};
 
 		Page.prototype._contentHasScroll = function () {
-			var $section = jQuery(this.getDomRef()).find("#" + this.getId() + "-cont");
+			var $section = jQuery.sap.byId(this.getId() + "-cont", this.getDomRef());
 			return $section[0].scrollHeight > $section.innerHeight();
 		};
 

@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.40.13
+	 * @version 1.40.14
 	 *
 	 * @constructor
 	 * @public
@@ -562,8 +562,10 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		var mKC = jQuery.sap.KeyCodes;
 		var mBrowser = sap.ui.Device.browser;
 
-		// mark the event as InputBase event
-		oEvent.setMark("inputBase");
+		// Prevents browser back to previous page in IE
+		if (!this.getEditable() && oEvent.keyCode == jQuery.sap.KeyCodes.BACKSPACE) {
+			oEvent.preventDefault();
+		}
 
 		if ((mBrowser.msie && mBrowser.version < 10) &&
 			(oEvent.which === mKC.DELETE || oEvent.which === mKC.BACKSPACE)) {
