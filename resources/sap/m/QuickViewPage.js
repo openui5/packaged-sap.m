@@ -37,7 +37,7 @@ sap.ui.define([
 			* @extends sap.ui.core.Control
 			*
 			* @author SAP SE
-			* @version 1.38.15
+			* @version 1.38.16
 			*
 			* @constructor
 			* @public
@@ -273,6 +273,18 @@ sap.ui.define([
 				var oPageTitleControl = this.getPageTitleControl();
 				if (oHeader && oPageTitleControl) {
 					oForm.addAriaLabelledBy(oPageTitleControl);
+				}
+
+				// destroy the old page content
+				var oPageContent = this._mPageContent;
+				if (oPageContent) {
+					if (oPageContent.form) {
+						oPageContent.form.destroy();
+					}
+
+					if (oPageContent.header) {
+						oPageContent.header.destroy();
+					}
 				}
 
 				this._mPageContent = {

@@ -2535,6 +2535,7 @@ html[data-sap-ui-animation='on'] .sapMFCL .sapMFCLColumn {
   left: 0px;
   bottom: 0px;
   border-radius: 0.25rem;
+  z-index: 2;
 }
 .sapMGenericTileLoading {
   height: 100%;
@@ -7043,8 +7044,8 @@ html.sap-tablet .sapMQuickViewPage > section {
 .sapMQuickViewPage .sapUiHLayout {
   margin-bottom: 2rem;
 }
-.sapMQuickViewCard .sapUiHLayout,
-.sapMQuickViewCard .sapUiVlt {
+.sapMQuickViewPage .sapUiHLayout,
+.sapMQuickViewPage .sapUiVlt {
   display: block;
 }
 .sapMQuickViewCard .sapUiHLayoutChildWrapper:only-child {
@@ -12158,6 +12159,13 @@ html[data-sap-ui-browser^="ie"].sap-desktop .sapMListTblRow:focus {
 .sapUiSizeCompact .sapMListTblRowTop > .sapMListTblCell > * {
   margin-top: .5rem;
   margin-bottom: .5rem;
+}
+/* ================================= */
+/* CSS for control sap.m/CustomTile  */
+/* High Contrast Black theme         */
+/* ================================= */
+.sapMCustomTile:focus {
+  outline: 2px dotted #ffffff;
 }
 /* ======================================== */
 /* CSS for control sap.m/DatePicker.control */
