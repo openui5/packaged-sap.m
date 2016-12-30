@@ -24,7 +24,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		 * @extends sap.ui.core.Control
 		 *
 		 * @author SAP SE
-		 * @version 1.42.6
+		 * @version 1.42.7
 		 *
 		 * @constructor
 		 * @public
@@ -383,6 +383,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		 */
 		TabContainer.prototype.destroyItems = function() {
 			this._getTabStrip().destroyItems();
+			this.setAssociation("selectedItem", null);
 
 			return this.destroyAggregation("items");
 		};

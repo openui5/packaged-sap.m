@@ -5,8 +5,8 @@
  */
 
 // Provides control sap.m.Button.
-sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/core/EnabledPropagator', 'sap/ui/core/IconPool'],
-	function(jQuery, library, Control, EnabledPropagator, IconPool) {
+sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/core/EnabledPropagator', 'sap/ui/core/IconPool', 'sap/ui/Device'],
+	function(jQuery, library, Control, EnabledPropagator, IconPool, Device) {
 	"use strict";
 
 	/**
@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.42.6
+	 * @version 1.42.7
 	 *
 	 * @constructor
 	 * @public
@@ -176,6 +176,15 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 			// set active button state
 			this._activeButton();
 		}
+
+		if (this.getEnabled() && this.getVisible()) {
+			// Safari doesn't set the focus to the clicked button tag but to the nearest parent DOM which is focusable
+			// This behavior has to be stopped by callling prevent default when the original event 'mousedown' is.
+			// The focus is set to the button in sap.m.Button.prototype.ontap function
+			if (Device.browser.safari && (oEvent.originalEvent && oEvent.originalEvent.type === "mousedown")) {
+				oEvent.preventDefault();
+			}
+		}
 	};
 
 	/**
@@ -221,7 +230,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		// fire tap event
 		if (this.getEnabled() && this.getVisible()) {
 			// note: on mobile, the press event should be fired after the focus is on the button
-			if ((oEvent.originalEvent && oEvent.originalEvent.type === "touchend") || sap.ui.Device.browser.safari ){
+			if ((oEvent.originalEvent && oEvent.originalEvent.type === "touchend") || Device.browser.safari ) {
 				this.focus();
 			}
 
@@ -325,7 +334,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @private
 	 */
 	Button.prototype._isHoverable = function() {
-		return this.getEnabled() && sap.ui.Device.system.desktop;
+		return this.getEnabled() && Device.system.desktop;
 	};
 
 	/**

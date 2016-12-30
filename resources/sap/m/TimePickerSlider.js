@@ -19,7 +19,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Control', './TimePickerSliderRe
 		 * @extends sap.ui.core.Control
 		 *
 		 * @author SAP SE
-		 * @version 1.42.6
+		 * @version 1.42.7
 		 *
 		 * @constructor
 		 * @private
@@ -147,7 +147,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Control', './TimePickerSliderRe
 			} else { //or select an element from the list
 				oScrElement = oEvent.srcElement || oEvent.originalTarget;
 
-				if (oScrElement.tagName.toLowerCase() === "li") {
+				if (oScrElement && oScrElement.tagName.toLowerCase() === "li") {
 					sItemText = jQuery(oScrElement).text();
 					sItemKey  = fnFindKeyByText.call(this, sItemText);
 
@@ -155,6 +155,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Control', './TimePickerSliderRe
 					this.setSelectedValue(sItemKey);
 				} else { //if no selection is happening, return the selected style which was removed ontouchstart
 					this._addSelectionStyle();
+					this.focus();
 				}
 			}
 		};

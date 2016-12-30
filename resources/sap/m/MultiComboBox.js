@@ -4,8 +4,8 @@
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
-sap.ui.define(['jquery.sap.global', './Bar', './InputBase', './ComboBoxBase', './Dialog', './MultiInput', './Input', './ToggleButton', './List', './MultiComboBoxRenderer', './Popover', './library', 'sap/ui/core/EnabledPropagator', 'sap/ui/core/IconPool', 'jquery.sap.xml'],
-	function(jQuery, Bar, InputBase, ComboBoxBase, Dialog, MultiInput, Input, ToggleButton, List, MultiComboBoxRenderer, Popover, library, EnabledPropagator, IconPool/* , jQuerySap */) {
+sap.ui.define(['jquery.sap.global', './Bar', './InputBase', './ComboBoxTextField', './ComboBoxBase', './Dialog', './MultiInput', './Input', './ToggleButton', './List', './MultiComboBoxRenderer', './Popover', './library', 'sap/ui/core/EnabledPropagator', 'sap/ui/core/IconPool', 'jquery.sap.xml'],
+	function(jQuery, Bar, InputBase, ComboBoxTextField, ComboBoxBase, Dialog, MultiInput, Input, ToggleButton, List, MultiComboBoxRenderer, Popover, library, EnabledPropagator, IconPool/* , jQuerySap */) {
 	"use strict";
 
 	/**
@@ -19,7 +19,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './InputBase', './ComboBoxBase', '.
 	 * @extends sap.m.ComboBoxBase
 	 *
 	 * @author SAP SE
-	 * @version 1.42.6
+	 * @version 1.42.7
 	 *
 	 * @constructor
 	 * @public
@@ -707,7 +707,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './InputBase', './ComboBoxBase', '.
 	 * This event handler will be called before the MultiComboBox's Pop-up is closed.
 	 *
 	 */
-	MultiComboBox.prototype.onBeforeClose = function() {
+	MultiComboBox.prototype.onBeforeClose = function () {
 		ComboBoxBase.prototype.onBeforeClose.apply(this, arguments);
 	};
 
@@ -1097,6 +1097,33 @@ sap.ui.define(['jquery.sap.global', './Bar', './InputBase', './ComboBoxBase', '.
 	 */
 	MultiComboBox.prototype._getTokenByItem = function(oItem) {
 		return oItem ? oItem.data(this.getRenderer().CSS_CLASS_COMBOBOXBASE + "Token") : null;
+	};
+
+
+	MultiComboBox.prototype.updateItems = function (sReason) {
+		var bKeyItemSync, aItems,
+			// Get selected keys should be requested at that point as it
+			// depends on getSelectedItems()- calls it internally
+			aKeys = this.getSelectedKeys();
+
+		var oUpdateItems = ComboBoxBase.prototype.updateItems.apply(this, arguments);
+
+		// It's important to request the selected items after the update,
+		// because the sync breaks there.
+		aItems = this.getSelectedItems();
+
+		// Check if selected keys and selected items are in sync
+		bKeyItemSync = (aItems.length === aKeys.length) && aItems.every(function (oItem) {
+				return oItem && oItem.getKey && aKeys.indexOf(oItem.getKey()) > -1;
+			});
+
+		// Synchronize if sync has been broken by the update
+		if (!bKeyItemSync) {
+			aItems = aKeys.map(this.getItemByKey, this);
+			this.setSelectedItems(aItems);
+		}
+
+		return oUpdateItems;
 	};
 
 	/**
@@ -1497,7 +1524,8 @@ sap.ui.define(['jquery.sap.global', './Bar', './InputBase', './ComboBoxBase', '.
 					fireFinishEvent: true, // Fire selectionFinish if token is deleted directly in input field
 					suppressInvalidate: true
 				});
-				this.focus();
+
+				!this.isPickerDialog() && this.focus();
 				this.fireChangeEvent("");
 			}
 		}
@@ -2363,7 +2391,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './InputBase', './ComboBoxBase', '.
 	};
 
 	MultiComboBox.prototype.init = function() {
-		InputBase.prototype.init.apply(this, arguments);
+		ComboBoxTextField.prototype.init.apply(this, arguments);
 
 		// initialize list
 		this.createList();

@@ -32,7 +32,7 @@ sap.ui.define(['jquery.sap.global', "sap/ui/core/Control", 'sap/ui/core/Renderer
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.42.6
+	 * @version 1.42.7
 	 *
 	 * @constructor
 	 * @public
@@ -535,7 +535,9 @@ sap.ui.define(['jquery.sap.global', "sap/ui/core/Control", 'sap/ui/core/Renderer
 	 * @private
 	 */
 	ObjectMarker.prototype._createCustomText = function () {
-		return new CustomText(this.getId() + "-text");
+		return new CustomText(this.getId() + "-text", {
+			textAlign: sap.ui.core.TextAlign.Initial
+		});
 	};
 
 	/****************************************** CUSTOM TEXT CONTROL ****************************************************/

@@ -22,7 +22,7 @@ sap.ui.define(['jquery.sap.global', './Dialog', './Popover', './library', 'sap/u
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.42.6
+	 * @version 1.42.7
 	 *
 	 * @constructor
 	 * @public
@@ -617,7 +617,10 @@ sap.ui.define(['jquery.sap.global', './Dialog', './Popover', './library', 'sap/u
 	 * @public
 	 */
 	ResponsivePopover.prototype.setBeginButton = function(oButton){
-		oButton.setType(sap.m.ButtonType.Transparent);
+		if (oButton) {
+			oButton.setType(sap.m.ButtonType.Transparent);
+		}
+
 		this._oControl.setBeginButton(oButton);
 		return this._setButton("begin", oButton);
 	};
@@ -629,7 +632,10 @@ sap.ui.define(['jquery.sap.global', './Dialog', './Popover', './library', 'sap/u
 	 * @public
 	 */
 	ResponsivePopover.prototype.setEndButton = function(oButton){
-		oButton.setType(sap.m.ButtonType.Transparent);
+		if (oButton) {
+			oButton.setType(sap.m.ButtonType.Transparent);
+		}
+
 		this._oControl.setEndButton(oButton);
 		return this._setButton("end", oButton);
 	};

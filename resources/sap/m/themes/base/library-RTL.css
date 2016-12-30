@@ -1736,6 +1736,13 @@ html[data-sap-ui-animation='off'] .sapMDialogBlockLayerAnimation {
   line-height: 0.8rem;
   padding: 0.6rem;
 }
+/* specific selector for the light facet filter text to use padding instead of margin,
+  otherwise the text gets cut off in Arabic because of the italic font
+*/
+.sapMFF > .sapMIBar.sapMTB.sapMTB-Info-CTX > .sapMText {
+  margin: 0;
+  padding: 0.5rem;
+}
 /* ============================================= */
 /* CSS for control sap.m/FacetFilterItem.control */
 /* ============================================= */
@@ -2088,7 +2095,8 @@ html.sap-phone .sapMFeedListItemText {
   display: -ms-inline-flexbox;
   display: inline-flex;
 }
-.sapMFlexBoxFit {
+.sapMFlexBoxFit,
+.sapMFlexBoxScroll {
   height: 100%;
 }
 /* Nested FlexBox should have auto-height because of the wrappers */
@@ -2359,17 +2367,17 @@ html.sap-phone .sapMFeedListItemText {
 }
 .sapMGTHdrTxt .sapMText {
   display: inline;
-  line-height: 1.25rem;
+  line-height: 1.375rem;
 }
 .sapMGTSubHdrTxt {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  line-height: 1.25rem;
+  line-height: 1.375rem;
 }
 .sapMGTHdrContent {
-  height: 3.625rem;
-  margin-top: 0.94rem;
+  height: 4rem;
+  margin-top: 0.625rem;
   margin-right: 0.94rem;
   margin-left: 0.94rem;
 }
@@ -2428,46 +2436,46 @@ html[dir=rtl] .sapMGenericTileFtrFldTxt {
 /* the following is needed for non-webkit browsers that don't support line-clamping */
 /* some places should be left for subheader when the subheader exists*/
 .sapMGT.sapMGTHeaderMode .sapMGTHdrTxt:nth-last-of-type(2) {
-  max-height: 5rem;
+  max-height: 5.48rem;
 }
 .sapMGT:not(.sapMGTHeaderMode) .sapMGTHdrTxt:nth-last-of-type(2) {
-  max-height: 2.5rem;
+  max-height: 2.74rem;
 }
 /* the max-height is calculated the same as webkit-line-clamping and supported to work when
 the screen size changes between small and large (e.g. mobile devices auto rotation) without rerendering*/
 html[data-sap-ui-browser*='ie'] .sapMGT.sapMGTHeaderMode .sapMGTHdrContent .sapMTextMaxLine,
 html[data-sap-ui-browser*='ed'] .sapMGT.sapMGTHeaderMode .sapMGTHdrContent .sapMTextMaxLine,
 html[data-sap-ui-browser*='ff'] .sapMGT.sapMGTHeaderMode .sapMGTHdrContent .sapMTextMaxLine {
-  max-height: 6.25rem !important;
+  max-height: 6.85rem !important;
 }
 html[data-sap-ui-browser*='ie'] .sapMGT:not(.sapMGTHeaderMode) .sapMGTHdrContent .sapMTextMaxLine,
 html[data-sap-ui-browser*='ed'] .sapMGT:not(.sapMGTHeaderMode) .sapMGTHdrContent .sapMTextMaxLine,
 html[data-sap-ui-browser*='ff'] .sapMGT:not(.sapMGTHeaderMode) .sapMGTHdrContent .sapMTextMaxLine {
-  max-height: 3.75rem !important;
+  max-height: 4.11rem !important;
 }
 /* BREAKPOINT FOR SMALL PHONES */
 @media screen and (max-width: 374px) {
   .sapMGTHdrTxt .sapMText {
-    line-height: 1.063rem;
+    line-height: 1.1875rem;
   }
   .sapMGTSubHdrTxt {
     line-height: 1.063rem;
   }
   .sapMGT.sapMGTHeaderMode .sapMGTHdrTxt:nth-last-of-type(2) {
-    max-height: 4.25rem;
+    max-height: 4.72rem;
   }
   .sapMGT:not(.sapMGTHeaderMode) .sapMGTHdrTxt:nth-last-of-type(2) {
-    max-height: 2.125rem;
+    max-height: 2.36rem;
   }
   html[data-sap-ui-browser*='ie'] .sapMGT.sapMGTHeaderMode > .sapMGTHdrContent .sapMTextMaxLine,
   html[data-sap-ui-browser*='ed'] .sapMGT.sapMGTHeaderMode > .sapMGTHdrContent .sapMTextMaxLine,
   html[data-sap-ui-browser*='ff'] .sapMGT.sapMGTHeaderMode > .sapMGTHdrContent .sapMTextMaxLine {
-    max-height: 5.3rem !important;
+    max-height: 5.9rem !important;
   }
   html[data-sap-ui-browser*='ie'] .sapMGT:not(.sapMGTHeaderMode) > .sapMGTHdrContent .sapMTextMaxLine,
   html[data-sap-ui-browser*='ed'] .sapMGT:not(.sapMGTHeaderMode) > .sapMGTHdrContent .sapMTextMaxLine,
   html[data-sap-ui-browser*='ff'] .sapMGT:not(.sapMGTHeaderMode) > .sapMGTHdrContent .sapMTextMaxLine {
-    max-height: 3.125rem !important;
+    max-height: 3.54rem !important;
   }
   .sapMGT.OneByOne {
     width: 9.25rem;
@@ -2478,8 +2486,8 @@ html[data-sap-ui-browser*='ff'] .sapMGT:not(.sapMGTHeaderMode) .sapMGTHdrContent
     height: 9.25rem;
   }
   .sapMGTHdrContent {
-    height: 3.125rem;
-    margin-top: 0.5625rem;
+    height: 3.375rem;
+    margin-top: 0.375rem;
     margin-right: 0.5625rem;
     margin-left: 0.5625rem;
   }
@@ -3259,7 +3267,7 @@ span.sapMImg {
   font-weight: normal;
 }
 .sapMInputSuggestionTableHidden {
-  visibility: hidden;
+  display: none;
 }
 /* valueHelpOnly overwrites text cursor for input */
 .sapMInputVHO,
@@ -4365,16 +4373,10 @@ html.sap-phone .sapMMultiInput .sapMToken:last-child {
   top: 0;
   left: 0;
 }
-.sapMMultiInputTextInput :not(.sapMMultiInputNotEditable) {
-  border-radius: 0;
-}
-.sapMMultiInputInputContainer {
+.sapMMultiInput .sapMMultiInputInputContainer {
   position: absolute;
   top: 0;
   left: 0;
-}
-.sapMMultiInputNotEditable .sapMMultiInputInputContainer {
-  visibility: collapse;
 }
 .sapMMultiInputShadowDiv {
   display: inline;
@@ -4383,7 +4385,10 @@ html.sap-phone .sapMMultiInput .sapMToken:last-child {
   top: 0;
   right: 0;
 }
-.sapMMultiInputMultiModeInputContainer {
+.sapMMultiInput.sapMInputBaseReadonly .sapMMultiInputInputContainer {
+  position: absolute;
+}
+.sapMMultiInputInputContainer.sapMMultiInputMultiModeInputContainer {
   position: static;
 }
 html.sap-desktop .sapMMultiInput.sapMFocus .sapMInputBaseInner:focus {
@@ -4680,7 +4685,7 @@ html[data-sap-ui-animation='on'] .sapMNavItem.sapMNavItemDooring {
   display: inline-block;
   outline: none;
   width: 20.5rem;
-  height: 3.375rem;
+  height: 3.5625rem;
 }
 .sapMNwCCTxt {
   overflow: hidden;
@@ -4693,7 +4698,7 @@ html[data-sap-ui-animation='on'] .sapMNavItem.sapMNavItemDooring {
 }
 .sapMNwCCTxt .sapMText {
   display: inline;
-  line-height: 1.063rem;
+  line-height: 1.1875rem;
 }
 .sapMNwCCTxt .sapMText.sapMPointer * {
   cursor: pointer;
@@ -4706,7 +4711,7 @@ html[data-sap-ui-animation='on'] .sapMNavItem.sapMNavItemDooring {
   font-weight: normal;
   max-width: 20.5rem;
   display: inline-block;
-  line-height: 1.063rem;
+  line-height: 1.1875rem;
 }
 /* BREAKPOINT FOR SMALL PHONES */
 @media screen and (max-width: 374px) {
@@ -4718,8 +4723,12 @@ html[data-sap-ui-animation='on'] .sapMNavItem.sapMNavItemDooring {
     max-width: 17.75rem;
     padding: 0;
   }
+  .sapMNwCCTxt .sapMText {
+    line-height: 1.063rem;
+  }
   .sapMNwCSbh {
     max-width: 17.75rem;
+    line-height: 1.063rem;
   }
 }
 /* ==========================================================================
@@ -4730,6 +4739,7 @@ html[data-sap-ui-animation='on'] .sapMNavItem.sapMNavItemDooring {
   display: block;
   padding: 0 0 1rem;
   margin: 0 0.25rem 0.5rem;
+  overflow: hidden;
 }
 .sapMLIB.sapMNLB:first-of-type {
   margin-top: 0.125rem;
@@ -4909,12 +4919,6 @@ html[data-sap-ui-animation='on'] .sapMNavItem.sapMNavItemDooring {
 .sapMLIB.sapMNLG-Collapsed .sapMNLG-Body {
   display: none;
 }
-.sapMNLG-Body .sapMNLI {
-  border-radius: 0;
-}
-.sapMNLG-Body > .sapMNLI .sapMNLB-Priority {
-  border-radius: 0;
-}
 .sapMNLG-Footer {
   border-top: 1px solid #d3d3d3;
   height: 3rem;
@@ -4953,9 +4957,12 @@ html[data-sap-ui-browser*='ie'] .sapMNLG-Footer .sapMBtnInner {
   margin-right: 0.25rem;
   padding: 0;
 }
-.sapMNLGNoHdrFooter {
-  padding-top: 0 !important;
+.sapMNLG.sapMLIB.sapMNLGNoHdrFooter {
+  padding-top: 0;
 }
+/* ==========================================================================
+   NotificationListItem
+  ========================================================================== */
 .sapMNLI {
   padding: 1rem;
   position: relative;
@@ -4964,9 +4971,12 @@ html[data-sap-ui-browser*='ie'] .sapMNLG-Footer .sapMBtnInner {
 .sapMNLI:first-of-type {
   margin-top: 0.125rem;
 }
-.sapMNLI .sapMNLB-Priority {
-  border-radius: 0 0.25rem 0.25rem 0;
-}
+/* ==========================================================================
+   Priority styles
+  ========================================================================== */
+/* ==========================================================================
+   Header styles
+  ========================================================================== */
 .sapMNLI-Header {
   max-height: 2.5rem;
 }
@@ -4983,6 +4993,9 @@ html[data-sap-ui-browser*='ie'] .sapMNLG-Footer .sapMBtnInner {
 .sapMNLI-Header > .sapMText.sapMNLI-Unread {
   font-weight: bold;
 }
+/* ==========================================================================
+   Body styles
+  ========================================================================== */
 .sapMNLI-Body {
   display: -webkit-box;
   display: -webkit-flex;
@@ -5012,6 +5025,9 @@ html[data-sap-ui-browser*='ie'] .sapMNLG-Footer .sapMBtnInner {
 .sapMNLI-Description .sapMNLI-Text {
   color: #d3d3d3;
 }
+/* ==========================================================================
+   Footer styles
+  ========================================================================== */
 .sapMNLI-Footer {
   margin-bottom: -1rem;
   text-align: right;
@@ -5031,6 +5047,8 @@ html[data-sap-ui-browser*='ie'] .sapMNLI-Footer .sapMBtnInner {
 .sapMNLI-Footer .sapMNLI-CollapseButtonHide {
   display: none;
 }
+/* Compact mode
+  ========================================================================== */
 .sapUiSizeCompact .sapMNLI-Footer {
   margin-bottom: -1rem;
   box-sizing: border-box;
@@ -5046,6 +5064,8 @@ html[data-sap-ui-browser*='ie'] .sapMNLI-Footer .sapMBtnInner {
 .sapUiSizeCompact .sapMNLI-Footer > .sapMBtn {
   margin-right: 0.75rem;
 }
+/* Styles for calculating text size
+  ========================================================================== */
 .sapMNLI-TextWrapper {
   max-height: 2rem;
 }
@@ -5075,6 +5095,8 @@ html[data-sap-ui-browser*='ie'] .sapMNLI-Footer .sapMBtnInner {
   line-height: 1rem;
   cursor: pointer;
 }
+/* L Size Notification styles
+  ========================================================================== */
 .sapMNLI-LSize .sapMNLI-Header .sapMText {
   box-sizing: border-box;
   max-width: 60%;
@@ -6314,14 +6336,12 @@ html[data-sap-ui-os^="Android"] .sapMObjectNumberUnit {
 .sapUiTableCell .sapMObjStatusIcon .sapUiIcon,
 .sapMListTbl .sapMObjStatusText,
 .sapMListTbl .sapMObjStatusTitle,
-.sapMListTbl .sapMObjStatusIcon .sapUiIcon,
-.sapUiForm .sapMObjStatusIcon .sapUiIcon {
+.sapMListTbl .sapMObjStatusIcon .sapUiIcon {
   vertical-align: middle;
 }
 .sapUiForm .sapMObjStatusIcon,
 .sapUiForm .sapMObjStatusTitle,
 .sapUiForm .sapMObjStatusText {
-  overflow: hidden;
   display: inline-block;
   line-height: normal;
   -webkit-user-select: text;
@@ -6329,18 +6349,14 @@ html[data-sap-ui-os^="Android"] .sapMObjectNumberUnit {
   user-select: text;
 }
 /*
-	FIX for 1580155978.
+	FIX for 1580155978 and 1680267289.
 	Fiori design guidelines say that statuses should be specially styled for forms
 	and share looks with other text only controls.
 */
-.sapUiForm.sapUiFormEdit .sapMObjStatus > .sapMObjStatusIcon,
-.sapUiForm.sapUiFormEdit .sapMObjStatus > .sapMObjStatusTitle,
-.sapUiForm.sapUiFormEdit .sapMObjStatus > .sapMObjStatusText {
+.sapUiForm.sapUiFormEdit .sapMObjStatus {
   line-height: 3rem;
 }
-.sapUiSizeCompact .sapUiForm.sapUiFormEdit .sapMObjStatus > .sapMObjStatusIcon,
-.sapUiSizeCompact .sapUiForm.sapUiFormEdit .sapMObjStatus > .sapMObjStatusTitle,
-.sapUiSizeCompact .sapUiForm.sapUiFormEdit .sapMObjStatus > .sapMObjStatusText {
+.sapUiSizeCompact .sapUiForm.sapUiFormEdit .sapMObjStatus {
   line-height: 2rem;
 }
 /* =============================================================== */
@@ -6932,6 +6948,10 @@ html.sap-desktop .sapUiFioriObjectPage > section > .sapMPanel {
 }
 .sapMPanel.sapUiNoContentPadding > .sapMPanelContent {
   padding: 0;
+}
+/* workaround for drawing issue in IE - ensures that the content will be redrawn */
+html[data-sap-ui-animation='on'][data-sap-ui-browser^="ie"] .sapMPanelContent {
+  transform: translate(0, 0);
 }
 /* ================================================= */
 /* CSS for control sap.m/PlanningCalendar.control    */
@@ -10044,11 +10064,11 @@ html.sap-phone .sapMTileContent {
   left: 0;
   right: 0;
   box-sizing: border-box;
-  height: 1rem;
-  bottom: 1rem;
+  height: 1.1875rem;
+  bottom: 0.625rem;
   margin-right: 0.9375rem;
   margin-left: 0.9375rem;
-  line-height: 1rem;
+  line-height: 1.1875rem;
 }
 html[dir=rtl] .sapMTileCntFtrTxt {
   text-align: left;
@@ -10109,15 +10129,15 @@ html[dir=rtl] .sapMTileCntFtrTxt {
     width: 9.25rem;
   }
   .sapMTileCntFtrTxt {
-    height: 0.938rem;
-    /*according to spec but doesn't sum up to max tile height of 9.25rem*/
-    bottom: 0.625rem;
+    height: 1.063rem;
+    line-height: 1.063rem;
+    bottom: 0.4375rem;
     margin-right: 0.5625rem;
     margin-left: 0.5625rem;
   }
   .sapMTileCntContent {
-    height: 3.438rem;
-    line-height: 3.438rem;
+    height: 3.563rem;
+    line-height: 3.563rem;
     margin-bottom: 0.25rem;
     margin-top: 0.25rem;
     padding-right: 0.5625rem;
@@ -10906,6 +10926,12 @@ html[data-sap-ui-browser^="ed"].sap-desktop .sapUiSizeCompact .sapMTokenIcon {
   margin-left: 0.375rem;
   line-height: normal;
 }
+.sapMTokenizer.sapMTokenizerReadonly .sapMToken {
+  padding: 0 0.375rem;
+}
+.sapMTokenizer.sapMTokenizerReadonly .sapMTokenIcon {
+  display: none;
+}
 .sapMTokenizerClip {
   position: absolute;
   top: 0;
@@ -11659,7 +11685,8 @@ html.sap-desktop .sapMTB.sapMListHdrTBar.sapMVSDFilterHeaderToolbar .sapMCb {
 html[data-sap-ui-animation='on'] .sapMWizardNextButton {
   transition: 0.4s linear;
 }
-html.sap-desktop .sapMWizard .sapMWizardNextButton {
+html.sap-desktop .sapMWizard .sapMWizardNextButton,
+html.sap-tablet .sapMWizard .sapMWizardNextButton {
   display: block;
 }
 html.sap-phone .sapMWizard .sapMWizardNextButton {

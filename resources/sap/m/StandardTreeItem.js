@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './TreeItemBase', './library', 'sap/ui/core/
 	 * @extends sap.m.TreeItemBase
 	 *
 	 * @author SAP SE
-	 * @version 1.42.6
+	 * @version 1.42.7
 	 *
 	 * @constructor
 	 * @public
