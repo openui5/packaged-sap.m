@@ -1,11 +1,11 @@
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2016 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2017 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
-sap.ui.define(['sap/m/PageAccessibleLandmarkInfo'],
-	function(PageAccessibleLandmarkInfo) {
+sap.ui.define(['sap/m/PageAccessibleLandmarkInfo', 'sap/ui/Device'],
+	function(PageAccessibleLandmarkInfo, Device) {
 	"use strict";
 
 
@@ -25,7 +25,6 @@ sap.ui.define(['sap/m/PageAccessibleLandmarkInfo'],
 		var oHeader = null,
 			oFooter = null,
 			oSubHeader = null,
-			sEnableScrolling = oPage.getEnableScrolling() ? " sapMPageScrollEnabled" : "",
 			bLightHeader  = this._isLightHeader(oPage);
 
 		if (oPage.getShowHeader()) {
@@ -93,21 +92,22 @@ sap.ui.define(['sap/m/PageAccessibleLandmarkInfo'],
 		// render child controls
 		oRm.write('<section id="' + oPage.getId() + '-cont"');
 		PageAccessibleLandmarkInfo._writeLandmarkInfo(oRm, oPage, "content");
-		oRm.write('>');
 
-		if (oPage._bUseScrollDiv) { // fallback to old rendering
-			oRm.write('<div id="' + oPage.getId() + '-scroll" class="sapMPageScroll' + sEnableScrolling + '">');
+		// The vertical scroll bar should be immediately available to avoid flickering
+		// and reduce size recalculations of embedded responsive controls that rely on
+		// the page content width. See ScrollEnablement.js: _setOverflow
+		if (oPage.getEnableScrolling()) {
+			oRm.addStyle("overflow-y", Device.os.ios || Device.os.blackberry ? "scroll" : "auto");
+			oRm.writeStyles();
 		}
+
+		oRm.write('>');
 
 		var aContent = oPage.getContent();
 		var l = aContent.length;
 
 		for (var i = 0; i < l; i++) {
 			oRm.renderControl(aContent[i]);
-		}
-
-		if (oPage._bUseScrollDiv) { // fallback to old rendering
-			oRm.write("</div>");
 		}
 
 		oRm.write("</section>");

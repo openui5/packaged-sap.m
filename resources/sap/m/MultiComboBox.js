@@ -1,6 +1,6 @@
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2016 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2017 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
@@ -19,7 +19,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './InputBase', './ComboBoxTextField
 	 * @extends sap.m.ComboBoxBase
 	 *
 	 * @author SAP SE
-	 * @version 1.42.7
+	 * @version 1.42.8
 	 *
 	 * @constructor
 	 * @public
@@ -343,7 +343,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './InputBase', './ComboBoxTextField
 	 */
 	MultiComboBox.prototype._handleItemTap = function(oEvent) {
 		if (oEvent.target.childElementCount === 0 || oEvent.target.childElementCount === 2) {
-
+			this._bCheckBoxClicked = false;
 			if (this.isOpen() && !this._isListInSuggestMode()) {
 				this.close();
 			}
@@ -410,15 +410,21 @@ sap.ui.define(['jquery.sap.global', './Bar', './InputBase', './ComboBoxTextField
 			this.fireChangeEvent(oNewSelectedItem.getText());
 			this.removeSelection(oParam);
 		}
-		this.setValue(this._sOldValue);
 
-		if (this.isOpen() && this.getPicker().oPopup.getOpenState() !== sap.ui.core.OpenState.CLOSING) {
-			// workaround: this is needed because the List fires the "selectionChange" event during the popover is closing.
-			// So clicking on list item description the focus should be replaced to input field. Otherwise the focus is set to
-			// oListItem.
+		if (this._bCheckBoxClicked) {
+			this.setValue(this._sOldValue);
+			if (this.isOpen() && this.getPicker().oPopup.getOpenState() !== sap.ui.core.OpenState.CLOSING) {
+				// workaround: this is needed because the List fires the "selectionChange" event during the popover is closing.
+				// So clicking on list item description the focus should be replaced to input field. Otherwise the focus is set to
+				// oListItem.
 
-			// Scrolls an item into the visual viewport
-			oListItem.focus();
+				// Scrolls an item into the visual viewport
+				oListItem.focus();
+			}
+		} else {
+			this._bCheckBoxClicked = true;
+			this.setValue("");
+			this.close();
 		}
 	};
 
@@ -2401,6 +2407,12 @@ sap.ui.define(['jquery.sap.global', './Bar', './InputBase', './ComboBoxTextField
 		 *
 		 */
 		this.bItemsUpdated = false;
+
+		/**
+		 * To detect whether a checkbox or an item body is clicked.
+		 *
+		 */
+		this._bCheckBoxClicked = true;
 
 		// determines if value of the combobox should be empty string after popup's close
 		this._bPreventValueRemove = false;
