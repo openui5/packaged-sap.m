@@ -1,6 +1,6 @@
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2016 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2017 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
@@ -22,14 +22,14 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/Device', 'sap/ui/base/DataType',
 	 * @namespace
 	 * @name sap.m
 	 * @author SAP SE
-	 * @version 1.44.3
+	 * @version 1.44.5
 	 * @public
 	 */
 
 	// delegate further initialization of this library to the Core
 	sap.ui.getCore().initLibrary({
 		name : "sap.m",
-		version: "1.44.3",
+		version: "1.44.5",
 		dependencies : ["sap.ui.core"],
 		types: [
 			"sap.m.BackgroundDesign",
@@ -49,6 +49,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/Device', 'sap/ui/base/DataType',
 			"sap.m.FlexRendertype",
 			"sap.m.FrameType",
 			"sap.m.GenericTileMode",
+			"sap.m.GenericTileScope",
 			"sap.m.HeaderLevel",
 			"sap.m.IBarHTMLTag",
 			"sap.m.IconTabFilterDesign",
@@ -58,6 +59,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/Device', 'sap/ui/base/DataType',
 			"sap.m.ValueCSSColor",
 			"sap.m.InputType",
 			"sap.m.LabelDesign",
+			"sap.m.LinkConversion",
 			"sap.m.ListGrowingDirection",
 			"sap.m.ListHeaderDesign",
 			"sap.m.ListKeyboardMode",
@@ -82,7 +84,8 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/Device', 'sap/ui/base/DataType',
 			"sap.m.SwipeDirection",
 			"sap.m.SwitchType",
 			"sap.m.ToolbarDesign",
-			"sap.m.VerticalPlacementType"
+			"sap.m.VerticalPlacementType",
+			"sap.m.semantic.SemanticRuleSetType"
 		],
 		interfaces: [
 			"sap.m.IBar",
@@ -960,6 +963,35 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/Device', 'sap/ui/base/DataType',
 		 */
 		Auto : "Auto"
 
+	};
+
+	/**
+	 * Enumeration for possible link-to-anchor conversion strategy.
+	 *
+	 * @enum {string}
+	 * @public
+	 * @since 1.44.5
+	 * @ui5-metamodel This enumeration also will be described in the UI5 (legacy) designtime metamodel
+	 */
+	sap.m.LinkConversion = {
+
+		/**
+		 * Default mode (no conversion).
+		 * @public
+		 */
+		None: "None",
+
+		/**
+		 * Valid links with protocols, such as http, https, ftp.
+		 * @public
+		 */
+		ProtocolOnly: "ProtocolOnly",
+
+		/**
+		 * Valid links with protocols, such as http, https, ftp and those starting with the string "www".
+		 * @public
+		 */
+		All: "All"
 	};
 
 	/**
@@ -2321,6 +2353,31 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/Device', 'sap/ui/base/DataType',
 		 * @public
 		 */
 		None : "None"
+
+	};
+
+
+	/**
+	 * Declares the type of semantic ruleset that will govern the styling and positioning of semantic content.
+	 *
+	 * @enum {string}
+	 * @public
+	 * @ui5-metamodel This enumeration also will be described in the UI5 (legacy) designtime metamodel
+	 * @since 1.44
+	 */
+	sap.m.semantic.SemanticRuleSetType = {
+
+		/**
+		 * The default ruleset type, for which the Share Menu is always in the footer of the page.
+		 * @public
+		 */
+		Classic : "Classic",
+
+		/**
+		 * Offers an optimized user experience, with displaying the Share Menu in the header, rather than the footer, for Fullscreen mode.
+		 * @public
+		 */
+		Optimized : "Optimized"
 
 	};
 

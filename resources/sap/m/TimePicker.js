@@ -1,6 +1,6 @@
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2016 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2017 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
@@ -77,7 +77,7 @@ sap.ui.define(['jquery.sap.global', './InputBase', './MaskInput', './MaskInputRu
 		 * @extends sap.m.MaskInput
 		 *
 		 * @author SAP SE
-		 * @version 1.44.3
+		 * @version 1.44.5
 		 *
 		 * @constructor
 		 * @public
@@ -544,6 +544,9 @@ sap.ui.define(['jquery.sap.global', './InputBase', './MaskInput', './MaskInputRu
 				sOutputValue;
 
 			sValue = this.validateProperty('value', sValue);
+
+			this._initMask();
+
 			MaskInput.prototype.setValue.call(this, sValue);
 			this._sLastChangeValue = sValue;
 			this._bValid = true;
@@ -668,14 +671,7 @@ sap.ui.define(['jquery.sap.global', './InputBase', './MaskInput', './MaskInputRu
 		 * @private
 		 */
 		TimePicker.prototype._getFormat = function () {
-			var sFormat,
-				oBinding = this.getBinding("value");
-
-			if (oBinding && oBinding.oType && (oBinding.oType instanceof TimeModel)) {
-				sFormat = oBinding.oType.getOutputPattern();
-			} else {
-				sFormat = this.getDisplayFormat();
-			}
+			var sFormat = this._getDisplayFormatPattern();
 
 			if (!sFormat) {
 				sFormat = TimeFormatStyles.Medium;
@@ -828,7 +824,7 @@ sap.ui.define(['jquery.sap.global', './InputBase', './MaskInput', './MaskInputRu
 				oSliders;
 
 			if (!oPicker) {
-				oPicker = this._createPicker(this.getDisplayFormat());
+				oPicker = this._createPicker(this._getDisplayFormatPattern());
 			}
 
 			oPicker.open();
@@ -910,7 +906,7 @@ sap.ui.define(['jquery.sap.global', './InputBase', './MaskInput', './MaskInputRu
 					})
 				],
 				contentHeight: TimePicker._PICKER_CONTENT_HEIGHT
-			}).addStyleClass("sapContrastPlus");
+			});
 
 			oPopover = oPicker.getAggregation("_popup");
 			// hide arrow in case of popover as dialog does not have an arrow
@@ -1176,6 +1172,9 @@ sap.ui.define(['jquery.sap.global', './InputBase', './MaskInput', './MaskInputRu
 		 * @private
 		 */
 		TimePicker.prototype._initMask = function() {
+			if (this._oTimeSemanticMaskHelper) {
+				this._oTimeSemanticMaskHelper.destroy();
+			}
 			this._oTimeSemanticMaskHelper = new TimeSemanticMaskHelper(this);
 		};
 
@@ -1198,7 +1197,7 @@ sap.ui.define(['jquery.sap.global', './InputBase', './MaskInput', './MaskInputRu
 		};
 
 		var TimeSemanticMaskHelper = function(oTimePicker) {
-			var sDisplayFormat = oTimePicker.getDisplayFormat(),
+			var sDisplayFormat = oTimePicker._getDisplayFormatPattern(),
 				sMask = sDisplayFormat,
 				sAllowedHourChars,
 				//Respect browser locale if no locale is explicitly set (BCP: 1670060658)
@@ -1516,6 +1515,16 @@ sap.ui.define(['jquery.sap.global', './InputBase', './MaskInput', './MaskInputRu
 
 			return oLocaleData.getTimePattern(TimeFormatStyles.Medium);
 		}
+
+		TimePicker.prototype._getDisplayFormatPattern = function() {
+			var oBinding = this.getBinding("value");
+
+			if (oBinding && oBinding.oType && (oBinding.oType instanceof TimeModel)) {
+				return oBinding.oType.getOutputPattern();
+			}
+
+			return this.getDisplayFormat();
+		};
 
 		/**
 		 * Fires when the input operation has finished and the value has changed.

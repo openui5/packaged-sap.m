@@ -1,6 +1,6 @@
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2016 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2017 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './TreeItemBase', './library', 'sap/ui/core/
 	 * @extends sap.m.TreeItemBase
 	 *
 	 * @author SAP SE
-	 * @version 1.44.3
+	 * @version 1.44.5
 	 *
 	 * @constructor
 	 * @public
@@ -66,6 +66,16 @@ sap.ui.define(['jquery.sap.global', './TreeItemBase', './library', 'sap/ui/core/
 		}, sap.m.Image).setParent(this, null, true).addStyleClass("sapMSTIIcon");
 
 		return this._oIconControl;
+	};
+
+	StandardTreeItem.prototype.getContentAnnouncement = function() {
+		var sAnnouncement = "",
+		oIconInfo = IconPool.getIconInfo(this.getIcon()) || {};
+
+		sAnnouncement += (oIconInfo.text || oIconInfo.name || "") + " ";
+		sAnnouncement += this.getTitle() + " ";
+
+		return sAnnouncement;
 	};
 
 	StandardTreeItem.prototype.exit = function() {

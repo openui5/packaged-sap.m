@@ -1,6 +1,6 @@
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2016 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2017 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
@@ -133,7 +133,7 @@ sap.ui.define(['jquery.sap.global', './FlexBoxStylingHelper'],
 
 			// ScrollContainer needs height:100% on the flex item
 			if (oItem instanceof sap.m.ScrollContainer) {
-				oRm.addClass("sapMFlexBoxFit");
+				oRm.addClass("sapMFlexBoxScroll");
 			}
 
 			// Hide invisible items, but leave them in the DOM
@@ -147,12 +147,12 @@ sap.ui.define(['jquery.sap.global', './FlexBoxStylingHelper'],
 
 		// If no layout data is set, create it so that an ID can be set on the wrapper
 		if (sWrapperTag && !oLayoutData) {
-			oItem.setLayoutData(new sap.m.FlexItemData());
+			oItem.setAggregation("layoutData", new sap.m.FlexItemData(), true);
 			oLayoutData = oItem.getLayoutData();
 		}
 
 		if (!(oLayoutData instanceof sap.m.FlexItemData)) {
-			jQuery.sap.log.warning("Layout data set on flex item is not of type sap.m.FlexItemData");
+			jQuery.sap.log.warning(oLayoutData + " set on " + oItem + " is not of type sap.m.FlexItemData");
 		} else {
 			// FlexItemData is an element not a control, so we need to write id and style class ourselves if a wrapper tag is used
 			if (sWrapperTag && oLayoutData.getId()) {

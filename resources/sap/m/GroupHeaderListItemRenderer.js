@@ -1,6 +1,6 @@
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2016 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2017 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
@@ -39,15 +39,6 @@ sap.ui.define(['jquery.sap.global', './ListItemBaseRenderer', 'sap/ui/core/Rende
 	// Returns aria accessibility role
 	GroupHeaderListItemRenderer.getAriaRole = function(oLI) {
 		return oLI.getTable() ? "" : "option";
-	};
-
-	// Returns the inner aria describedby ids for the accessibility
-	GroupHeaderListItemRenderer.getAriaDescribedBy = function(oLI) {
-		// announce group header first
-		var sDescribedBy = this.getAriaAnnouncement("group_header"),
-			sBaseDescribedBy = ListItemBaseRenderer.getAriaDescribedBy.call(this, oLI) || "";
-
-		return sDescribedBy + " " + sBaseDescribedBy;
 	};
 
 	/**

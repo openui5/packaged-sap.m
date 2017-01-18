@@ -1,6 +1,6 @@
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2016 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2017 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
@@ -54,7 +54,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Button', './InstanceManager', '.
 		* </ul>
 		*
 		* @author SAP SE
-		* @version 1.44.3
+		* @version 1.44.5
 		*
 		* @constructor
 		* @public
@@ -477,7 +477,8 @@ sap.ui.define(['jquery.sap.global', './Bar', './Button', './InstanceManager', '.
 				// Because it's already fired in the sap.m.Popover.prototype.close function.
 				// The event also should not be fired if the focus is still inside the Popup. This could occur when the
 				// autoclose mechanism is fired by the child Popup and is called throught the EventBus
-				if (bBeforeCloseFired !== true && (this.touchEnabled || !this._isFocusInsidePopup())) {
+				// Also when the Popup is being destroyed, its close method is called. We should not fire beforeClose event in that case.
+				if (bBeforeCloseFired !== true && (this.touchEnabled || !this._isFocusInsidePopup()) && this.isOpen()) {
 					that.fireBeforeClose({openBy: that._oOpenBy});
 				}
 
@@ -695,7 +696,9 @@ sap.ui.define(['jquery.sap.global', './Bar', './Button', './InstanceManager', '.
 					return this;
 				}
 
-				oPopup.setAutoCloseAreas([oParentDomRef]);
+				// Set the Control whose root DOM is oParentDomRef as autoclose area in Popup to let the Popup also be notified with rerendering.
+				// If no Control can be found, the DOM ref is given instead.
+				oPopup.setAutoCloseAreas([sap.ui.getCore().byId(oParentDomRef.id) || oParentDomRef]);
 				oPopup.setContent(this);
 				//if position has to be calculated wait until it is calculated with setting the position
 				if (iPlacePos <= 3) {

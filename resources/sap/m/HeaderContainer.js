@@ -1,6 +1,6 @@
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2016 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2017 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/Device', 'sap/ui/core/delegate/ScrollEnablement', 'sap/ui/core/delegate/ItemNavigation', 'sap/ui/core/Orientation', 'sap/ui/base/ManagedObject', 'sap/ui/core/Icon'],
@@ -45,7 +45,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @since 1.42.0
 	 *
 	 * @author SAP SE
-	 * @version 1.44.3
+	 * @version 1.44.5
 	 *
 	 * @public
 	 * @alias sap.m.HeaderContainer
@@ -206,6 +206,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 						this.addDelegate(this._oItemNavigation);
 						this._oItemNavigation.attachEvent(ItemNavigation.Events.BorderReached, this._handleBorderReached, this);
 						this._oItemNavigation.attachEvent(ItemNavigation.Events.AfterFocus, this._handleBorderReached, this);
+						this._oItemNavigation.attachEvent(ItemNavigation.Events.BeforeFocus, this._handleBeforeFocus, this);
 						if (Device.browser.msie || Device.browser.edge) {
 							this._oItemNavigation.attachEvent(ItemNavigation.Events.FocusAgain, this._handleFocusAgain, this);
 						}
@@ -264,6 +265,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	};
 
 	HeaderContainer.prototype.onsaptabprevious = function(oEvt) {
+		this.$().find(".sapMHdrCntrItemCntr").css("border-color", "");
 		var oFocusables = this.$().find(":focusable"); // all tabstops in the control
 		var iThis = oFocusables.index(oEvt.target); // focused element index
 		var oPrev = oFocusables.eq(iThis - 1).get(0); // previous tab stop element
@@ -544,6 +546,18 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 
 	HeaderContainer.prototype._handleFocusAgain = function(oEvt) {
 		oEvt.getParameter("event").preventDefault();
+	};
+
+	HeaderContainer.prototype._handleBeforeFocus = function(oEvt) {
+		var oOriginalEvent = oEvt.getParameter("event");
+		if (jQuery(oOriginalEvent.target).hasClass("sapMHdrCntrItemCntr") ||
+			jQuery(oOriginalEvent.target).hasClass("sapMScrollContScroll") ||
+			jQuery.sap.PseudoEvents.sapprevious.fnCheck(oOriginalEvent) ||
+			jQuery.sap.PseudoEvents.sapnext.fnCheck(oOriginalEvent) ) {
+			this.$().find(".sapMHdrCntrItemCntr").css("border-color", "");
+		} else {
+			this.$().find(".sapMHdrCntrItemCntr").css("border-color", "transparent");
+		}
 	};
 
 	/**

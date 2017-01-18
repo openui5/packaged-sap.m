@@ -1,6 +1,6 @@
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2016 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2017 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
@@ -24,6 +24,26 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/IconPool', 'sap/ui/core/theming
 		rm.writeInvisiblePlaceholderData(oLI);
 		rm.write(">");
 		this.closeItemTag(rm, oLI);
+	};
+
+	/**
+	 * Renders the highlight state.
+	 *
+	 * @param {sap.ui.core.RenderManager} rm The RenderManager that can be used for writing to the Render-Output-Buffer.
+	 * @param {sap.ui.core.Control} oLI An object representation of the control that is rendered.
+	 * @protected
+	 */
+	ListItemBaseRenderer.renderHighlight = function(rm, oLI) {
+		var sHighlight = oLI.getHighlight();
+		if (sHighlight == "None") {
+			return;
+		}
+
+		rm.write("<div");
+		rm.addClass("sapMLIBHighlight");
+		rm.addClass("sapMLIBHighlight" + sHighlight);
+		rm.writeClasses();
+		rm.write("></div>");
 	};
 
 	ListItemBaseRenderer.isModeMatched = function(sMode, iOrder) {
@@ -237,7 +257,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/IconPool', 'sap/ui/core/theming
 	 * @protected
 	 */
 	ListItemBaseRenderer.getAriaLabelledBy = function(oLI) {
-		if (oLI.getAriaLabelledBy().length) {
+		if (!oLI.getContentAnnouncement && oLI.getAriaLabelledBy().length) {
 			return oLI.getId();
 		}
 	};
@@ -250,6 +270,10 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/IconPool', 'sap/ui/core/theming
 	 * @protected
 	 */
 	ListItemBaseRenderer.getAriaDescribedBy = function(oLI) {
+		if (oLI.getContentAnnouncement) {
+			return "";
+		}
+
 		var aDescribedBy = [],
 			sType = oLI.getType(),
 			mType = sap.m.ListType;
@@ -338,6 +362,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/IconPool', 'sap/ui/core/theming
 	 * @protected
 	 */
 	ListItemBaseRenderer.renderContentFormer = function(rm, oLI) {
+		this.renderHighlight(rm, oLI);
 		this.renderMode(rm, oLI, -1);
 	};
 

@@ -2542,6 +2542,44 @@
 	// ------------------------------ //
 	// Scenarios - specification      //
 	// ------------------------------ //
+	// 
+	QUnit.test("Enter completely new value should refilter the picker", function(assert) {
+		var oMultiComboBox = new sap.m.MultiComboBox({
+			items: [
+				new sap.ui.core.Item({ text: "lest" }),
+				new sap.ui.core.Item({ text: "lest2" }),
+				new sap.ui.core.Item({ text: "test" })
+			]
+		});
+		var oFakeEvent = {
+			target: {
+				value: "l"
+			},
+			srcControl: oMultiComboBox
+		};
+
+		oMultiComboBox.placeAt("MultiComboBox-content");
+		oMultiComboBox.setValue("l");
+		sap.ui.getCore().applyChanges();
+		oMultiComboBox.open();
+		this.clock.tick(300);
+
+		oMultiComboBox.fireChange({ value: "l" });
+		oMultiComboBox.oninput(oFakeEvent);
+		sap.ui.getCore().applyChanges();
+
+		oFakeEvent.target.value = "t";
+		oMultiComboBox.fireChange({ value: "t" });
+		oMultiComboBox.oninput(oFakeEvent);
+		oMultiComboBox.setValue("t");
+		sap.ui.getCore().applyChanges();
+
+		assert.strictEqual(oMultiComboBox.getSelectableItems().length, 1, "1 item should be available");
+		assert.strictEqual(oMultiComboBox.getSelectableItems()[0].getText(), "test", "selectable item should be test");
+
+		oMultiComboBox.destroy();
+		this.clock.reset();
+	});
 
 	test("Scenario 'FIXED_CHAR': add invalid character.", function() {
 
@@ -3065,14 +3103,7 @@
 		// act
 		var oToken = jQuery.find(".sapMToken")[0];
 		var oTokenIcon = jQuery.find(".sapMTokenIcon")[0];
-		sap.ui.test.qunit.triggerTouchEvent("touchstart", oToken, {
-			target : oTokenIcon,
-			button : 0
-		});
-		sap.ui.test.qunit.triggerTouchEvent("touchend", oToken, {
-			target : oTokenIcon,
-			button : 0
-		});
+		sap.ui.test.qunit.triggerEvent("click", oTokenIcon);
 
 		// assertions
 		deepEqual(oMultiComboBox.getSelectedItems(), []);
@@ -4063,7 +4094,7 @@
 		});
 
 		// assertions
-		ok(oMultiComboBox.$().hasClass("sapMFocus"), 'The MultiComboBox has the CSS class "sapMFocus"');
+		ok(oMultiComboBox.$().hasClass("sapMMultiComboBoxFocus"), 'The MultiComboBox has the CSS class "sapMMultiComboBoxFocus"');
 
 		// cleanup
 		oMultiComboBox.destroy();
@@ -4091,7 +4122,7 @@
 		});
 
 		// assertions
-		ok(oMultiComboBox.$().hasClass("sapMFocus"), 'The MultiComboBox has the CSS class "sapMFocus"');
+		ok(oMultiComboBox.$().hasClass("sapMMultiComboBoxFocus"), 'The MultiComboBox has the CSS class "sapMMultiComboBoxFocus"');
 
 		// cleanup
 		oMultiComboBox.destroy();
@@ -4321,12 +4352,15 @@
 		// arrange
 		oMultiComboBox.placeAt("MultiComboBox-content");
 		sap.ui.getCore().applyChanges();
-		this.clock.tick(1000);
+		this.clock.tick(300);
 
 		oMultiComboBox.open();
+		this.clock.tick(1000);
+
 
 		oMultiComboBox.setSelectedItems([oItem]);
 		oMultiComboBox.getPicker().getCustomHeader().getContentRight()[0].firePress();
+		this.clock.tick(300);
 
 		strictEqual(oMultiComboBox.getSelectedItems().length, 0, "No items selected after cancel selection");
 
@@ -4365,6 +4399,160 @@
 		// cleanup
 		oMultiComboBox.destroy();
 		this.clock.reset();
+	});
+
+	QUnit.test("setSelection + Popover close race condition", function (assert) {
+		// system under test
+		this.stub(sap.ui.Device, "system", {
+			desktop: true,
+			phone: false,
+			tablet: true
+		});
+
+		var oItem = new sap.ui.core.Item({text: "Example"});
+		var oMCB = new sap.m.MultiComboBox({
+			items: [oItem]
+		}).placeAt("MultiComboBox-content");
+
+		var oSpyFireSelectionFinish = this.spy(oMCB, "fireSelectionFinish");
+		var oSpySetSelection = this.spy(oMCB, "setSelection");
+
+		sap.ui.getCore().applyChanges();
+
+		oMCB.open();
+		sap.ui.getCore().applyChanges();
+		this.clock.tick(500);
+
+		//Act
+		oMCB.close();
+		oMCB.setSelection({
+			fireChangeEvent: true,
+			id: oItem.getId(),
+			item: oItem,
+			key: "",
+			listItemUpdated: true,
+			suppressInvalidate: true
+		});
+
+		//Assert
+		assert.strictEqual(oSpySetSelection.callCount, 1, "setSelection executed");
+		assert.strictEqual(oSpyFireSelectionFinish.callCount, 0, "fireSelectionFinish not called yet");
+
+		//Act. Close the popover
+		this.clock.tick(500);
+
+		//Assert
+		assert.ok(oSpySetSelection.calledBefore(oSpyFireSelectionFinish), "setSelection should be called before fireSelectionFinish.");
+		assert.strictEqual(oSpySetSelection.callCount, 1, "setSelection executed last run.");
+		assert.strictEqual(oSpyFireSelectionFinish.callCount, 1, "fireSelectionFinish is called async after setSelection");
+		assert.ok(oSpyFireSelectionFinish.calledWithMatch({selectedItems: [oItem]}), "fireSelectionFinish should return an array within object containing the selected items.");
+
+		oMCB.destroy();
+	});
+
+	QUnit.test("Selecting an item should close the picker and clean the input", function(assert) {
+		var oFakeEvent = new sap.ui.base.Event,
+			oItem = new sap.ui.core.Item({
+				text: "test1"
+			}),
+			oMultiComboBox = new sap.m.MultiComboBox({
+				items: [
+					oItem,
+					new sap.ui.core.Item({
+						text: "a"
+					})
+				]
+			}),
+			oFakeInput = {
+				target: {
+					value: "t"
+				},
+				srcControl: oMultiComboBox
+			};
+
+		var oHandleTokensStub = sinon.stub(sap.ui.base.Event.prototype, "getParameter"),
+			oFocusinStub = sinon.stub(sap.m.MultiComboBox.prototype, "onfocusin");
+
+		oMultiComboBox.placeAt("MultiComboBox-content");
+		sap.ui.getCore().applyChanges();
+
+		oMultiComboBox.open();
+		this.clock.tick(300);
+
+		oMultiComboBox._sOldValue = "t";
+		oMultiComboBox._bCheckBoxClicked = false;
+		oMultiComboBox.setValue("t");
+		oMultiComboBox.fireChange({ value: "t" });
+		oMultiComboBox.oninput(oFakeInput);
+		sap.ui.getCore().applyChanges();
+
+		oHandleTokensStub.withArgs("listItem").returns(oMultiComboBox.getListItem(oItem));
+		oHandleTokensStub.withArgs("selected").returns(true);
+
+		oMultiComboBox._handleSelectionLiveChange(oFakeEvent);
+		sap.ui.getCore().applyChanges();
+		this.clock.tick(300);
+
+		assert.strictEqual(oMultiComboBox.isOpen(), false, "Picker should close after selection");
+		assert.strictEqual(oFocusinStub.called, true, "Focusin of the MCB should be called");
+		assert.strictEqual(oMultiComboBox.getValue(), "", "Value should be empty");
+
+		oFakeInput = null;
+		oMultiComboBox.destroy();
+		oHandleTokensStub.restore();
+		oFocusinStub.restore();
+	});
+
+	QUnit.test("Selecting an item checkbox should not close the picker", function(assert) {
+		var oFakeEvent = new sap.ui.base.Event,
+			oItem = new sap.ui.core.Item({
+				text: "test1"
+			}),
+			oMultiComboBox = new sap.m.MultiComboBox({
+				items: [
+					oItem,
+					new sap.ui.core.Item({
+						text: "a"
+					})
+				]
+			}),
+			oFakeInput = {
+				target: {
+					value: "t"
+				},
+				srcControl: oMultiComboBox
+			};
+
+		var oHandleTokensStub = sinon.stub(sap.ui.base.Event.prototype, "getParameter"),
+			oFocusinStub = sinon.stub(sap.m.MultiComboBox.prototype, "onfocusin");
+
+		oMultiComboBox.placeAt("MultiComboBox-content");
+		sap.ui.getCore().applyChanges();
+
+		oMultiComboBox.open();
+		this.clock.tick(300);
+
+		oMultiComboBox._sOldValue = "t";
+		oMultiComboBox._bCheckBoxClicked = true;
+		oMultiComboBox.setValue("t");
+		oMultiComboBox.fireChange({ value: "t" });
+		oMultiComboBox.oninput(oFakeInput);
+		sap.ui.getCore().applyChanges();
+
+		oHandleTokensStub.withArgs("listItem").returns(oMultiComboBox.getListItem(oItem));
+		oHandleTokensStub.withArgs("selected").returns(true);
+
+		oMultiComboBox._handleSelectionLiveChange(oFakeEvent);
+		sap.ui.getCore().applyChanges();
+		this.clock.tick(300);
+
+		assert.strictEqual(oMultiComboBox.isOpen(), true, "Picker should not close after selection");
+		assert.strictEqual(oMultiComboBox.getValue(), "t", "Value should be t");
+
+		oFakeInput = null;
+		oMultiComboBox.destroy();
+		oHandleTokensStub.restore();
+		oFocusinStub.restore();
 	});
 
 	module("Focus handling");
@@ -4426,6 +4614,38 @@
 
 		assert.ok(!oStub.called, "onfocusin of the MCB should not be triggered after dialog is opened");
 
+		oStub.restore();
+		oMultiComboBox.destroy();
+	});
+
+	QUnit.test('Endless focus loop should not be triggered when token is deleted on phone', function(assert) {
+		// system under test
+		this.stub(sap.ui.Device, "system", {
+			desktop: false,
+			phone: true,
+			tablet: false
+		});
+		var oItem = new sap.ui.core.Item({ text: "test" }),
+			oFakeEvent = new sap.ui.base.Event,
+			oMultiComboBox = new sap.m.MultiComboBox({
+				items: [oItem]
+			}).placeAt("MultiComboBox-content"),
+			oSpy = sinon.spy(sap.m.MultiComboBox.prototype, "focus"),
+			oHandleTokensStub = sinon.stub(sap.ui.base.Event.prototype, "getParameter");
+
+		oMultiComboBox.setSelectedItems([oItem]);
+		sap.ui.getCore().applyChanges();
+
+		oHandleTokensStub.withArgs("type").returns(sap.m.Tokenizer.TokenChangeType.Removed);
+		oHandleTokensStub.withArgs("token").returns(oMultiComboBox._oTokenizer.getTokens()[0]);
+		oMultiComboBox._handleTokenChange(oFakeEvent);
+		this.clock.tick(300);
+
+		assert.ok(!oSpy.called, "onfocusin of the MCB should not be triggered after a token is deleted");
+
+		oSpy.restore();
+		oFakeEvent.destroy();
+		oHandleTokensStub.restore();
 		oMultiComboBox.destroy();
 	});
 

@@ -1,6 +1,6 @@
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2016 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2017 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
@@ -61,8 +61,10 @@
 			oRm.addClass("sapMLnkDsbl");
 			oRm.writeAttribute("disabled", "true");
 			oRm.writeAttribute("tabIndex", "-1"); // still focusable by mouse click, but not in the tab chain
-		} else {
+		} else if (oControl.getText()) {
 			oRm.writeAttribute("tabIndex", "0");
+		} else {
+			oRm.writeAttribute("tabIndex", "-1");
 		}
 		if (oControl.getWrapping()) {
 			oRm.addClass("sapMLnkWrapping");

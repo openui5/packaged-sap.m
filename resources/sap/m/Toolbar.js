@@ -1,6 +1,6 @@
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2016 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2017 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
@@ -28,7 +28,7 @@ sap.ui.define(['jquery.sap.global', './BarInPageEnabler', './ToolbarLayoutData',
 	 * @implements sap.ui.core.Toolbar,sap.m.IBar
 	 *
 	 * @author SAP SE
-	 * @version 1.44.3
+	 * @version 1.44.5
 	 *
 	 * @constructor
 	 * @public
@@ -662,6 +662,27 @@ sap.ui.define(['jquery.sap.global', './BarInPageEnabler', './ToolbarLayoutData',
 	};
 
 	/**
+	 * Returns the first sap.m.Title control instance inside the toolbar for the accessibility
+	 *
+	 * @returns {sap.m.Title|undefined}
+	 * @since 1.44
+	 * @protected
+	 */
+	Toolbar.prototype.getTitleControl = function() {
+		if (!sap.m.Title) {
+			return;
+		}
+
+		var aContent = this.getContent();
+		for (var i = 0; i < aContent.length; i++) {
+			var oContent = aContent[i];
+			if (oContent instanceof sap.m.Title && oContent.getVisible()) {
+				return oContent;
+			}
+		}
+	};
+
+	/**
 	 * Returns the first sap.m.Title control id inside the toolbar for the accessibility
 	 *
 	 * @returns {String}
@@ -669,19 +690,8 @@ sap.ui.define(['jquery.sap.global', './BarInPageEnabler', './ToolbarLayoutData',
 	 * @protected
 	 */
 	Toolbar.prototype.getTitleId = function() {
-		if (!sap.m.Title) {
-			return "";
-		}
-
-		var aContent = this.getContent();
-		for (var i = 0; i < aContent.length; i++) {
-			var oContent = aContent[i];
-			if (oContent instanceof sap.m.Title) {
-				return oContent.getId();
-			}
-		}
-
-		return "";
+		var oTitle = this.getTitleControl();
+		return oTitle ? oTitle.getId() : "";
 	};
 
 	///////////////////////////

@@ -1,6 +1,6 @@
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2016 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2017 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
@@ -19,7 +19,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/base/Object', 'sap/ui/base/EventProv
 	 *
 	 *
 	 * @class text
-	 * @version 1.44.3
+	 * @version 1.44.5
 	 * @private
 	 * @since 1.38
 	 * @alias HeaderAdapter
@@ -160,7 +160,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/base/Object', 'sap/ui/base/EventProv
 
 		if (HeaderAdapter._isAdaptableHeader(this._oHeader)) {
 			var aBeginContent = this._oHeader.getContentLeft();
-			if (aBeginContent.length > 0 && isInstanceOf(aBeginContent[0], "sap/m/Button") &&
+			if (aBeginContent.length > 0 && isInstanceOf(aBeginContent[0], "sap/m/Button") && (aBeginContent[0].getVisible() === true) &&
 				(aBeginContent[0].getType() === "Back" || aBeginContent[0].getType() === "Up" || aBeginContent[0].getIcon() === "sap-icon://nav-back")) {
 				return aBeginContent[0];
 			}
@@ -189,7 +189,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/base/Object', 'sap/ui/base/EventProv
 	 * Constructor for a sap.m.Fiori20Adapter.
 	 *
 	 * @class text
-	 * @version 1.44.3
+	 * @version 1.44.5
 	 * @private
 	 * @since 1.38
 	 * @alias sap.m.Fiori20Adapter

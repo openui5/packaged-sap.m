@@ -1,14 +1,16 @@
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2016 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2017 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
 // Provides control sap.m.Input.
 sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List', './Popover',
-		'sap/ui/core/Item', './ColumnListItem', './StandardListItem', './Table', './Toolbar', './ToolbarSpacer', './library', 'sap/ui/core/IconPool', 'jquery.sap.strings'],
+		'sap/ui/core/Item', './ColumnListItem', './StandardListItem', './DisplayListItem', 'sap/ui/core/ListItem',
+		'./Table', './Toolbar', './ToolbarSpacer', './library', 'sap/ui/core/IconPool', 'jquery.sap.strings'],
 	function(jQuery, Bar, Dialog, InputBase, List, Popover,
-			Item, ColumnListItem, StandardListItem, Table, Toolbar, ToolbarSpacer, library, IconPool/* , jQuerySap */) {
+			Item, ColumnListItem, StandardListItem, DisplayListItem, ListItem,
+			Table, Toolbar, ToolbarSpacer, library, IconPool/* , jQuerySap */) {
 	"use strict";
 
 
@@ -16,15 +18,55 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 	/**
 	 * Constructor for a new Input.
 	 *
-	 * @param {string} [sId] id for the new control, generated automatically if no id is given
-	 * @param {object} [mSettings] initial settings for the new control
+	 * @param {string} [sId] ID for the new control, generated automatically if no ID is given
+	 * @param {object} [mSettings] Initial settings for the new control
 	 *
 	 * @class
-	 * Enables users to input data.
-	 * @extends sap.m.InputBase
+	 * <strong><em>Overview</em></strong>
+	 * <br /><br />
+	 * A text input field allows you to enter and edit text or numeric values in one line.
+	 * To easily enter a valid value, you can enable the autocomplete suggestion feature and the value help option.
+	 * <br><br>
+	 * <strong>Guidelines:</strong>
+	 * <ul>
+	 * <li> Always provide a meaningful label for any input field </li>
+	 * <li> Limit the length of the input field. This will visually emphasise the constraints for the field. </li>
+	 * <li> Do not use the <code>placeholder</code> property as a label.</li>
+	 * <li> Use the <code>description</code> property only for small fields with no placeholders (i.e. for currencies).</li>
+	 * </ul>
+	 * <strong><em>Structure</em></strong>
+	 * <br><br>
+	 * The controls inherits from {@link sap.m.InputBase} which controls the core properties like:
+	 * <ul>
+	 * <li> editable / read-only </li>
+	 * <li> enabled / disabled</li>
+	 * <li> placeholder</li>
+	 * <li> text direction</li>
+	 * <li> value states</li>
+	 * </ul>
+	 * To aid the user during input, you can enable value help (<code>showValueHelp</code>) or autocomplete (<code>showSuggestion</code>).
+	 * <strong>Value help</strong> will open a new dialog where you can refine your input.
+	 * <strong>Autocomplete</strong> has three types of suggestions:
+	 * <ul>
+	 * <li> Single value - a list of suggestions of type <code>sap.ui.core.Item</code> or <code>sap.ui.core.ListItem</code> </li>
+	 * <li> Two values - a list of two suggestions (ID and description) of type <code>sap.ui.core.Item</code> or <code>sap.ui.core.ListItem</code> </li>
+	 * <li> Tabular suggestions of type <code>sap.m.ColumnListItem</code> </li>
+	 * </ul>
+	 * The suggestions are stored in two aggregations <code>suggestionItems</code> (for single and double values) and <code>suggestionRows</code> (for tabular values).
 	 *
+	 * <br><br>
+	 * <strong><em>Usage</em></strong>
+	 * <br><br>
+	 * <strong>When to use:</strong>
+	 * Use the control for short inputs like emails, phones, passwords, fields for assisted value selection.
+	 *
+	 * <strong>When not to use:</strong>
+	 * Don't use the control for long texts, dates, designated search fields, fields for multiple selection.
+	 * <br><br>
+	 *
+	 * @extends sap.m.InputBase
 	 * @author SAP SE
-	 * @version 1.44.3
+	 * @version 1.44.5
 	 *
 	 * @constructor
 	 * @public
@@ -190,7 +232,6 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 			 */
 			liveChange : {
 				parameters : {
-
 					/**
 					 * The new value of the input.
 					 */
@@ -479,7 +520,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 	 *
 	 */
 	Input.prototype._onValueUpdated = function (newValue) {
-		if (newValue === this._sSelectedValue) {
+		if (this._bSelectingItem || newValue === this._sSelectedValue) {
 			return;
 		}
 
@@ -519,6 +560,8 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 			return;
 		}
 
+		this._bSelectingItem = true;
+
 		var iCount = this._iSetCount,
 			sNewValue;
 
@@ -542,14 +585,6 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 
 		this._sSelectedValue = sNewValue;
 
-		if (bInteractionChange && this._sSelectedSuggViaKeyboard !== sNewValue) {
-			this.fireLiveChange({
-				value: sNewValue,
-				// backwards compatibility
-				newValue: sNewValue
-			});
-		}
-
 		// update the input field
 		if (this._bUseDialog) {
 			this._oPopupInput.setValue(sNewValue);
@@ -569,6 +604,8 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 		if (!sap.ui.Device.support.touch) {
 			this._doSelect();
 		}
+
+		this._bSelectingItem = false;
 	};
 
 	/**
@@ -676,6 +713,8 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 			return;
 		}
 
+		this._bSelectingItem = true;
+
 		var oItem,
 			fSuggestionRowValidator = this.getSuggestionRowValidator();
 
@@ -720,14 +759,6 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 
 		this._sSelectedValue = sNewValue;
 
-		if (bInteractionChange && this._sSelectedSuggViaKeyboard !== sNewValue) {
-			this.fireLiveChange({
-				value: sNewValue,
-				// backwards compatibility
-				newValue: sNewValue
-			});
-		}
-
 		// update the input field
 		if (this._bUseDialog) {
 			this._oPopupInput.setValue(sNewValue);
@@ -746,6 +777,8 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 		if (!sap.ui.Device.support.touch) {
 			this._doSelect();
 		}
+
+		this._bSelectingItem = false;
 	};
 
 	/**
@@ -1081,7 +1114,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 			// for tabular suggestions we call a result filter function
 			sNewValue = this._getInputValue(this._fnRowResultFilter(aListItems[iSelectedIndex]));
 		} else {
-			var bListItem = (aItems[0] instanceof sap.ui.core.ListItem ? true : false);
+			var bListItem = (aItems[0] instanceof ListItem ? true : false);
 			if (bListItem) {
 				// for two value suggestions we use the item label
 				sNewValue = this._getInputValue(aListItems[iSelectedIndex].getLabel());
@@ -1093,12 +1126,6 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 
 		// setValue isn't used because here is too early to modify the lastValue of input
 		this._$input.val(sNewValue);
-
-		this.fireLiveChange({
-			value: sNewValue,
-			// backwards compatibility
-			newValue: sNewValue
-		});
 
 		// memorize the value set by calling jQuery.val, because browser doesn't fire a change event when the value is set programmatically.
 		this._sSelectedSuggViaKeyboard = sNewValue;
@@ -1627,11 +1654,6 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 					if (oInput instanceof sap.m.MultiInput && oInput._isMultiLineMode) {
 
 						oInput._showIndicator();
-
-						setTimeout(function() {
-							oInput._setContainerSizes();
-						}, 0);
-
 					}
 
 					// only destroy items in simple suggestion mode
@@ -1831,12 +1853,12 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 				}
 			} else {
 				// filter standard items
-				var bListItem = (aItems[0] instanceof sap.ui.core.ListItem ? true : false);
+				var bListItem = (aItems[0] instanceof ListItem ? true : false);
 				for (i = 0; i < aItems.length; i++) {
 					oItem = aItems[i];
 					if (!bFilter || oInput._fnFilter(sTypedChars, oItem)) {
 						if (bListItem) {
-							oListItem = new sap.m.DisplayListItem(oItem.getId() + "-dli");
+							oListItem = new DisplayListItem(oItem.getId() + "-dli");
 							oListItem.setLabel(oItem.getText());
 							oListItem.setValue(oItem.getAdditionalText());
 						} else {

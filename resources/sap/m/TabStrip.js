@@ -1,6 +1,6 @@
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2016 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2017 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Control', 'sap/ui/core/IconPool
 		 * space is exceeded, a horizontal scrollbar appears.
 		 *
 		 * @extends sap.ui.core.Control
-		 * @version 1.44.3
+		 * @version 1.44.5
 		 *
 		 * @constructor
 		 * @private
@@ -1191,6 +1191,17 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Control', 'sap/ui/core/IconPool
 				// Not needed anymore
 				this._oTouchStartX = null;
 			}
+		};
+
+		/**
+		 * Destroys all <code>TabStripItem</code> entities from the <code>items</code> aggregation of the <code>TabStrip</code>.
+		 *
+		 * @returns {sap.m.TabStrip} This instance for chaining
+		 * @override
+		 */
+		TabStrip.prototype.destroyItems = function() {
+			this.setAssociation("selectedItem", null);
+			return this.destroyAggregation("items");
 		};
 
 		return TabStrip;

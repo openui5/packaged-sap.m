@@ -1,6 +1,6 @@
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2016 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2017 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
@@ -44,15 +44,19 @@ sap.ui.define(['jquery.sap.global', './ListItemBaseRenderer', './ListRenderer', 
 		rm.write("</tr>");
 	};
 
+	// render type highlight always within a cell
+	ColumnListItemRenderer.renderHighlight = function(rm, oLI) {
+		rm.write('<td class="sapMListTblHighlightCell" aria-hidden="true">');
+
+		// let the list item base render the highlight
+		ListItemBaseRenderer.renderHighlight.apply(this, arguments);
+
+		rm.write('</td>');
+	};
+
 	// render type content always within a cell
 	ColumnListItemRenderer.renderType = function(rm, oLI) {
-		rm.write('<td class="sapMListTblNavCol"');
-
-		if (!oLI._needsTypeColumn()) {
-			rm.writeAttribute("aria-hidden", "true");
-		}
-
-		rm.write('>');
+		rm.write('<td class="sapMListTblNavCol" aria-hidden="true">');
 
 		// let the list item base render the type
 		ListItemBaseRenderer.renderType.apply(this, arguments);
@@ -62,7 +66,7 @@ sap.ui.define(['jquery.sap.global', './ListItemBaseRenderer', './ListRenderer', 
 
 	// wrap mode content with a cell
 	ColumnListItemRenderer.renderModeContent = function(rm, oLI) {
-		rm.write('<td class="sapMListTblSelCol">');
+		rm.write('<td class="sapMListTblSelCol" aria-hidden="true">');
 
 		// let the list item base render the mode control
 		ListItemBaseRenderer.renderModeContent.apply(this, arguments);
@@ -77,26 +81,6 @@ sap.ui.define(['jquery.sap.global', './ListItemBaseRenderer', './ListRenderer', 
 	// Returns aria accessibility role
 	ColumnListItemRenderer.getAriaRole = function(oLI) {
 		return "";
-	};
-
-	// Returns the inner aria labelledby ids for the accessibility
-	ColumnListItemRenderer.getAriaLabelledBy = function(oLI) {
-		var oTable = oLI.getTable(),
-			sAriaLabelledBy = ListItemBaseRenderer.getAriaLabelledBy.call(this, oLI) || "";
-
-		if (!oTable || !oTable.hasPopin()) {
-			return sAriaLabelledBy;
-		}
-
-		var sId = oLI.getId();
-		if (!sAriaLabelledBy) {
-			sAriaLabelledBy = sId;
-		} else if (sAriaLabelledBy.indexOf(sId) == -1) {
-			sAriaLabelledBy = sId + " " + sAriaLabelledBy;
-		}
-
-		// when table has pop-in let the screen readers announce it
-		return sAriaLabelledBy + " " + sId + "-sub";
 	};
 
 	/**
@@ -254,10 +238,12 @@ sap.ui.define(['jquery.sap.global', './ListItemBaseRenderer', './ListRenderer', 
 		rm.writeClasses();
 		rm.write(">");
 
+		this.renderHighlight(rm, oLI);
+
 		// cell
 		rm.write("<td");
 		rm.writeAttribute("id", oLI.getId() + "-subcell");
-		rm.writeAttribute("colspan", oTable.getColCount());
+		rm.writeAttribute("colspan", oTable.getColCount() - 1);
 		rm.write("><div class='sapMListTblSubCnt'>");
 
 		var aCells = oLI.getCells(),
@@ -324,15 +310,11 @@ sap.ui.define(['jquery.sap.global', './ListItemBaseRenderer', './ListRenderer', 
 
 	/**
 	 * Overwriting hook method of ListItemBase.
-	 * Does not render the classes for legacy outlines. Instead use the normal outlines in all cases.
 	 *
 	 * @param {sap.ui.core.RenderManager} rm RenderManager
 	 * @param {sap.m.ListItemBase} [oLI] List item
 	 */
 	ColumnListItemRenderer.addLegacyOutlineClass = function(rm, oLI) {
-		if (sap.ui.Device.browser.msie) {
-			rm.addClass("sapMLIBNativeOutline");
-		}
 	};
 
 	return ColumnListItemRenderer;

@@ -1,6 +1,6 @@
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2016 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2017 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
@@ -18,7 +18,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control','sap/m/Te
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.44.3
+	 * @version 1.44.5
 	 * @since 1.34
 	 *
 	 * @public
@@ -67,7 +67,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control','sap/m/Te
 				"scale" : {type : "string", group : "Misc", defaultValue : null},
 
 				/**
-				 * Updates the size of the chart. If not set then the default size is applied based on the device tile.
+				 * Updates the size of the control. If not set then the default size is applied based on the device tile.
 				 * @deprecated Since version 1.38.0. The NumericContent control has now a fixed size, depending on the used media (desktop, tablet or phone).
 				 */
 				"size" : {type : "sap.m.Size", group : "Misc", defaultValue : sap.m.Size.Auto},
@@ -88,7 +88,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control','sap/m/Te
 				"valueColor" : {type : "sap.m.ValueColor", group : "Misc", defaultValue : sap.m.ValueColor.Neutral},
 
 				/**
-				 * The width of the chart. If it is not set, the size of the control is defined by the size property.
+				 * The width of the control. If it is not set, the size of the control is defined by the 'size' property.
 				 */
 				"width" : {type : "sap.ui.core.CSSSize", group : "Misc", defaultValue : null},
 
@@ -245,7 +245,9 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control','sap/m/Te
 	 * @param {sap.ui.base.Event} oEvent which was fired
 	 */
 	NumericContent.prototype.ontap = function(oEvent) {
+		this.$().focus();
 		this.firePress();
+		oEvent.preventDefault();
 	};
 
 	/**

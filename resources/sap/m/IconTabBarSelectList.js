@@ -1,6 +1,6 @@
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2016 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2017 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
@@ -22,7 +22,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control',
 		 * @extends sap.ui.core.Control
 		 *
 		 * @author SAP SE
-		 * @version 1.44.3
+		 * @version 1.44.5
 		 *
 		 * @constructor
 		 * @private
@@ -174,6 +174,26 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control',
 
 		IconTabBarSelectList.prototype.onsapenter = IconTabBarSelectList.prototype.ontap;
 		IconTabBarSelectList.prototype.onsapspace = IconTabBarSelectList.prototype.ontap;
+
+		/**
+		 * Checks if only an icon should be rendered.
+		 * @private
+		 */
+		IconTabBarSelectList.prototype.checkIconOnly = function (items) {
+			var item,
+				length = items.length;
+
+			for (var i = 0; i < length; i++) {
+
+				item = items[i];
+
+				if (item.getText() || item.getCount()) {
+					return false;
+				}
+			}
+
+			return true;
+		};
 
 		return IconTabBarSelectList;
 

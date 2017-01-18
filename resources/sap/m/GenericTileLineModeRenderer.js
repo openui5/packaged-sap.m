@@ -1,6 +1,6 @@
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2016 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2017 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
@@ -84,7 +84,9 @@ sap.ui.define([ "sap/m/GenericTileRenderer", "sap/m/LoadState" ],
 
 		} else {
 			// cozy
-			this._renderFocusDiv(oRm, oControl);
+			if (oControl.getState() !== LoadState.Disabled) {
+				this._renderFocusDiv(oRm, oControl);
+			}
 
 			oRm.write("<div");
 			oRm.writeAttribute("id", oControl.getId() + "-touchArea");
@@ -105,7 +107,6 @@ sap.ui.define([ "sap/m/GenericTileRenderer", "sap/m/LoadState" ],
 			if (oControl.getSubheader()) {
 				this._renderSubheader(oRm, oControl);
 			}
-
 			oRm.write("</span>"); //.sapMGTLineModeHelpContainer
 
 			oRm.write("</div>"); //.sapMGTTouchArea

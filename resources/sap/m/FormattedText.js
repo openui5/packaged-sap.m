@@ -1,12 +1,12 @@
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2016 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2017 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
 // Provides control sap.m.FormattedText.
-sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control'],
-	function (jQuery, library, Control) {
+sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', './FormattedTextAnchorGenerator'],
+	function (jQuery, library, Control, FormattedTextAnchorGenerator) {
 		"use strict";
 
 
@@ -19,7 +19,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control'],
 		 * @class
 		 * The FormattedText control allows the usage of a limited set of tags for inline display of formatted text in HTML format.
 		 * @extends sap.ui.core.Control
-		 * @version 1.44.3
+		 * @version 1.44.5
 		 *
 		 * @constructor
 		 * @public
@@ -71,6 +71,23 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control'],
 					 * Optional width of the control in CSS units.
 					 */
 					width : {type : "sap.ui.core.CSSSize", group : "Appearance", defaultValue : null},
+
+					/**
+					 * Determines whether strings that appear to be links will be converted to HTML anchor tags,
+					 * and what are the criteria for recognizing them.
+					 * @since 1.44.5
+					 */
+					convertLinksToAnchorTags: {type: "sap.m.LinkConversion", group: "Behavior", defaultValue: sap.m.LinkConversion.None},
+
+					/**
+					 * Determines the <code>target</code> attribute of the generated HTML anchor tags.
+					 *
+					 * <b>Note:</b> Applicable only if <code>ConvertLinksToAnchorTags</code> property is used with a value other than <code>sap.m.LinkConversion.None</code>.
+					 * Options are the standard values for the <code>target</code> attribute of the HTML anchor tag:
+					 * <code>_self</code>, <code>_top</code>, <code>_blank</code>, <code>_parent</code>, <code>_search</code>.
+					 * @since 1.44.5
+					 */
+					convertedLinksDefaultTarget: {type: "string", group: "Behavior", defaultValue: "_blank"},
 
 					/**
 					 *  Optional height of the control in CSS units.
@@ -214,6 +231,18 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control'],
 			}
 		}
 
+		function sanitizeHTML(sText) {
+			return jQuery.sap._sanitizeHTML(sText, {
+				tagPolicy: fnPolicy,
+				uriRewriter: function (sUrl) {
+					// by default we use the URL whitelist to check the URLs
+					if (jQuery.sap.validateUrl(sUrl)) {
+						return sUrl;
+					}
+				}
+			});
+		}
+
 		// prohibit a new window from accessing window.opener.location
 		function openExternalLink (oEvent) {
 			var newWindow = window.open();
@@ -226,6 +255,19 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control'],
 			this.$().find('a[target="_blank"]').on("click", openExternalLink);
 		};
 
+		FormattedText.prototype._getDisplayHtml = function (){
+			var sText = this.getHtmlText(),
+				sAutoGenerateLinkTags = this.getConvertLinksToAnchorTags();
+
+			if (sAutoGenerateLinkTags === library.LinkConversion.None) {
+				return sText;
+			}
+
+			sText = FormattedTextAnchorGenerator.generateAnchors(sText, sAutoGenerateLinkTags, this.getConvertedLinksDefaultTarget());
+
+			return sanitizeHTML(sText);
+		};
+
 		/**
 		 * Defines the HTML text to be displayed.
 		 * @param {string} sText HTML text as a string
@@ -233,23 +275,9 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control'],
 		 * @public
 		 */
 		FormattedText.prototype.setHtmlText = function (sText) {
-			var sSanitizedText = "";
-
-			function uriRewriter (sUrl) {
-				// by default we use the URL whitelist to check the URL's
-				if (jQuery.sap.validateUrl(sUrl)) {
-					return sUrl;
-				}
-			}
-
-			// using the sanitizer that is already set to the encoder
-			sSanitizedText = jQuery.sap._sanitizeHTML(sText, {
-				tagPolicy: fnPolicy,
-				uriRewriter: uriRewriter
-			});
-
-			return this.setProperty("htmlText", sSanitizedText);
+			return this.setProperty("htmlText", sanitizeHTML(sText));
 		};
+
 
 		return FormattedText;
 

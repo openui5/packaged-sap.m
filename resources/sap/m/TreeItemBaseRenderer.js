@@ -1,6 +1,6 @@
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2016 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2017 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
@@ -31,10 +31,9 @@ sap.ui.define(['jquery.sap.global', './ListItemBaseRenderer', 'sap/ui/core/Rende
 	};
 
 	TreeItemBaseRenderer.renderContentFormer = function(rm, oLI) {
-		// render expand/collapse arrow
+		this.renderHighlight(rm, oLI);
 		this.renderExpander(rm, oLI);
-		ListItemBaseRenderer.renderContentFormer.call(this, rm, oLI);
-
+		this.renderMode(rm, oLI, -1);
 	};
 
 	TreeItemBaseRenderer.renderExpander = function(rm, oLI) {

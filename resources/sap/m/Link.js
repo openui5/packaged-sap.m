@@ -1,6 +1,6 @@
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2016 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2017 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
@@ -23,7 +23,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @implements sap.ui.core.IShrinkable
 	 *
 	 * @author SAP SE
-	 * @version 1.44.3
+	 * @version 1.44.5
 	 *
 	 * @constructor
 	 * @public
@@ -196,9 +196,15 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	/* override standard setters with direct DOM manipulation */
 
 	Link.prototype.setText = function(sText){
+		var $this = this.$();
 		this.setProperty("text", sText, true);
 		sText = this.getProperty("text");
-		this.$().text(sText);
+		$this.text(sText);
+		if (sText) {
+			$this.attr("tabindex", "0");
+		} else {
+			$this.attr("tabindex", "-1");
+		}
 		return this;
 	};
 
@@ -266,7 +272,11 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 			$this.toggleClass("sapMLnkDsbl", !bEnabled);
 			if (bEnabled) {
 				$this.attr("disabled", false);
-				$this.attr("tabindex", "0");
+				if (this.getText()) {
+					$this.attr("tabindex", "0");
+				} else {
+					$this.attr("tabindex", "-1");
+				}
 				$this.removeAttr("aria-disabled");
 				if (this.getHref()) {
 					$this.attr("href", this.getHref());
