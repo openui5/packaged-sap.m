@@ -1,6 +1,6 @@
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2016 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2017 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/D
 		 * @extends sap.ui.core.Control
 		 *
 		 * @author SAP SE
-		 * @version 1.40.14
+		 * @version 1.40.16
 		 *
 		 * @constructor
 		 * @public
@@ -128,6 +128,12 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/D
 				initialFocus: this._busyIndicator
 			}).addStyleClass('sapMBusyDialog');
 
+			// override the close method, so the BusyDialog won't get
+			// closed by the InstanceManager.closeAllDialogs method
+			this._oDialog.close = function () {
+
+			};
+
 			this._oDialog.addEventDelegate({
 				onBeforeRendering: function () {
 					var text = this.getText();
@@ -208,7 +214,9 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/D
 			//fire the close event with 'cancelPressed' = true/false depending on how the busyDialog is closed
 			this.fireClose({cancelPressed: isClosedFromUserInteraction || false});
 
-			this._oDialog.close();
+			// the instance "close" method is overridden,
+			// so call the prototype close method
+			Dialog.prototype.close.call(this._oDialog);
 
 			return this;
 		};

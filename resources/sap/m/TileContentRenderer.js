@@ -1,6 +1,6 @@
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2016 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2017 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
@@ -23,12 +23,17 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Renderer'],
 	TileContentRenderer.render = function(oRm, oControl) {
 
 		var sTooltip = oControl.getTooltip_AsString();
+		var sContentTypeClass = oControl._getContentType();
+		if (sContentTypeClass) {
+			sContentTypeClass = jQuery.sap.encodeCSS(sContentTypeClass);
+		}
+		var sFrameTypeClass = jQuery.sap.encodeCSS("sapMFrameType" + oControl.getFrameType());
 
 		oRm.write("<div");
 		oRm.writeControlData(oControl);
 		oRm.addClass("sapMTileCnt");
-		oRm.addClass(oControl._getContentType());
-		oRm.addClass("ft-" + oControl.getFrameType());
+		oRm.addClass(sContentTypeClass);
+		oRm.addClass(sFrameTypeClass);
 		if (sTooltip.trim()) { // trim check needed since IE11 renders white spaces
 			oRm.writeAttributeEscaped("title", sTooltip);
 		}

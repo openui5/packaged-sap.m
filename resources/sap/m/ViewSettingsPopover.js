@@ -1,6 +1,6 @@
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2016 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2017 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 // Provides control sap.m.ViewSettingsPopover.
@@ -36,7 +36,7 @@ sap.ui.define(["jquery.sap.global", "./ResponsivePopover", "./Button", "./Toolba
 		 * @extends sap.ui.core.Control
 		 *
 		 * @author SAP SE
-		 * @version 1.40.14
+		 * @version 1.40.16
 		 *
 		 * @constructor
 		 * @private
@@ -1763,9 +1763,9 @@ sap.ui.define(["jquery.sap.global", "./ResponsivePopover", "./Button", "./Toolba
 		// proxy several methods to the inner popover instance
 		["invalidate", "close", "isOpen", "addStyleClass", "removeStyleClass", "toggleStyleClass", "hasStyleClass", "setBindingContext", "getBindingContext", "getBinding", "getBindingInfo", "getBindingPath", "setBusy", "getBusy", "setBusyIndicatorDelay", "getBusyIndicatorDelay"].forEach(function(sName){
 			ViewSettingsPopover.prototype[sName] = function() {
-				if (this._getPopover()[sName]) {
-					var res = this._getPopover()[sName].apply(this._getPopover() ,arguments);
-					return res === this._getPopover() ? this : res;
+				if (this._popover && this._popover[sName]) {
+					var res = this._popover[sName].apply(this._popover ,arguments);
+					return res === this._popover ? this : res;
 				}
 			};
 		});

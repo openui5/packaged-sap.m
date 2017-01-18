@@ -1,6 +1,6 @@
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2016 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2017 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 sap.ui.define(['jquery.sap.global', './InputRenderer', 'sap/ui/core/Renderer'],
@@ -23,7 +23,7 @@ sap.ui.define(['jquery.sap.global', './InputRenderer', 'sap/ui/core/Renderer'],
 			oRm.addClass("sapMMultiInputMultiLine");
 		}
 
-		if (oControl.getTokens().length > 1) {
+		if (oControl.getTokens().length > 0) {
 			oRm.addClass("sapMMultiInputNoPlaceholder");
 		}
 	};

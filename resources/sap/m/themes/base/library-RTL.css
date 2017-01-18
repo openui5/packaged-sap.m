@@ -1,6 +1,6 @@
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2016 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2017 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 /* =========================== */
@@ -611,6 +611,9 @@ html[data-sap-ui-browser*='ie'] .sapMBtnContentWithIcon {
   /* This elements receives events when not panning in vertial direction */
   touch-action: pan-y;
   -ms-touch-action: pan-y;
+}
+.sapMCrsl:focus {
+  outline: none;
 }
 .sapMCrsl:focus .sapMCrslHud a {
   opacity: 0.3;
@@ -2549,6 +2552,7 @@ html[data-sap-ui-animation='on'] .sapMFCL .sapMFCLColumn {
   left: 0;
   right: 0;
   bottom: 0;
+  border-radius: 0.125rem;
 }
 .sapMGTFocusDiv {
   position: absolute;
@@ -2586,6 +2590,9 @@ html[dir=rtl] .sapMGenericTileFtrFldTxt {
 }
 .sapMGenericTileFtrFldIcn > .sapMGTFtrFldIcnMrk {
   vertical-align: bottom;
+}
+.sapMGT.sapMGTBackgroundImage {
+  border: none;
 }
 /* the following is needed for non-webkit browsers that don't support line-clamping */
 /* some places should be left for subheader when the subheader exists*/
@@ -5289,6 +5296,7 @@ html[dir=rtl] .sapMNCValueScr {
 .sapMObjectAttributeActive {
   pointer-events: none;
 }
+.sapMListTbl .sapMObjectAttributeActive .sapMText,
 .sapMObjectAttributeActive .sapMText {
   color: #000000;
   cursor: pointer;
@@ -5310,6 +5318,10 @@ html[dir=rtl] .sapMNCValueScr {
 }
 .sapMOH .sapMObjectAttributeText > .sapMText {
   vertical-align: bottom;
+}
+html[data-sap-ui-browser^="ie"] .sapMObjectAttributeDiv,
+html[data-sap-ui-browser^="ed"] .sapMObjectAttributeDiv {
+  padding: 0.25rem 0.25rem 0.25rem 0.25rem;
 }
 /* ============================================= */
 /* CSS for control sap.m/ObjectHeaderItem.control */
@@ -6533,8 +6545,7 @@ html.sap-phone .sapMOTAPopover {
 /* CSS for control sap.m/Page.control            */
 /* ============================================= */
 .sapMPage,
-.sapMPage > section,
-.sapMPageScroll {
+.sapMPage > section {
   width: 100%;
 }
 .sapMPage {
@@ -6551,14 +6562,6 @@ html.sap-phone .sapMOTAPopover {
   right: 0;
   left: 0;
   bottom: 0;
-}
-.sapMPageScroll:not(.sapMPageScrollEnabled) {
-  height: 100%;
-}
-.sapMPageScroll {
-  min-height: 100%;
-  overflow: hidden;
-  box-sizing: border-box;
 }
 /* Fix for a ToolBar set as headerContent */
 html[data-sap-ui-browser^="ff"].sap-desktop .sapMPage > .sapMBar.sapMPageHeader .sapMBarContainer {
@@ -6587,17 +6590,6 @@ html[data-sap-ui-browser^="ff"].sap-desktop .sapMPage > .sapMTitle {
     top: 0;
     bottom: 0;
   }
-}
-/*
-* workaround on the phone footer has to be fixed or the footer will not be shown
-* on tablet this breaks the split app
-*/
-html[data-sap-ui-os^="iOS7"][data-sap-ui-browser^="msf"]:not(.sap-tablet) .sapMPageWithFooter > section > .sapMPageScroll {
-  bottom: 3rem;
-}
-html[data-sap-ui-os^="iOS7"][data-sap-ui-browser^="msf"]:not(.sap-tablet) .sapUiSizeCompact.sapMPageWithFooter .sapMPageScroll,
-html[data-sap-ui-os^="iOS7"][data-sap-ui-browser^="msf"]:not(.sap-tablet) .sapUiSizeCompact .sapMPageWithFooter .sapMPageScroll {
-  bottom: 2.5rem;
 }
 /* ============================================= */
 /* CSS for displaying the Footer/Header controls at the correct position */
@@ -7635,6 +7627,15 @@ html.sap-phone .sapMQuickViewPage .sapUiHLayout {
 .sapMRbG .sapMRbHasLabel .sapMRbBOut {
   margin: 0.8125rem;
 }
+/* Read only */
+.sapMRbGRo .sapMRb .sapMRbBOut {
+  background-color: #959595;
+  border-color: #4f4f4f;
+}
+.sapMRbGRo .sapMRb.sapMRbSel .sapMRbBInn {
+  background-color: #000000;
+}
+/* Right to left */
 .sapMRbG[dir=rtl] .sapMRbB {
   left: 0;
 }
@@ -7931,6 +7932,25 @@ html[data-sap-ui-os^="iOS"] .sapMBar .sapMSegB {
 /* Android size compact fix */
 html[data-sap-ui-os^="Android"] .sapUiSizeCompact .sapMSegBBtn .sapUiIcon {
   line-height: 1.6rem;
+}
+/* IE ignores outline-offset. Use an overlay: */
+html[data-sap-ui-browser^="ie"].sap-desktop .sapMSegB .sapMSegBBtnFocusable.sapMSegBBtnSel:focus,
+html[data-sap-ui-browser^="ed"].sap-desktop .sapMSegB .sapMSegBBtnFocusable.sapMSegBBtnSel:focus {
+  outline: none;
+  position: relative;
+}
+html[data-sap-ui-browser^="ie"].sap-desktop .sapMSegB .sapMSegBBtnFocusable.sapMSegBBtnSel:focus:before,
+html[data-sap-ui-browser^="ed"].sap-desktop .sapMSegB .sapMSegBBtnFocusable.sapMSegBBtnSel:focus:before {
+  content: " ";
+  box-sizing: border-box;
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin-top: 1px;
+  margin-right: 1px;
+  width: calc(100% - 2px);
+  height: calc(100% - 2px);
+  pointer-events: none;
 }
 /* ====================================================== */
 /* CSS for control sap.m/Select.control                   */
@@ -9585,6 +9605,10 @@ html.sap-phone .sapMTabStrip .sapMTSTouchArea {
 html.sap-phone .sapMTabStrip .sapMSltWithArrow {
   visibility: visible;
 }
+html[data-sap-ui-browser^="ie"] .sapMTabStrip .sapMTSTabsContainer .sapMTSTabs .sapMTabStripItem:focus::before,
+html[data-sap-ui-browser^="ed"] .sapMTabStrip .sapMTSTabsContainer .sapMTSTabs .sapMTabStripItem:focus::before {
+  border-style: dashed;
+}
 /* ====================================================== */
 /* CSS for control sap.m.TabStripSelect.control           */
 /* ====================================================== */
@@ -9983,18 +10007,21 @@ html.sap-phone .sapMTileContent {
   box-sizing: border-box;
   position: relative;
 }
-.sapMTileCnt.ft-Auto {
+.sapMTileCnt.sapMFrameTypeAuto {
   height: 6.375rem;
   min-width: 10.875rem;
   max-width: 22.5rem;
 }
 /* TwoByOne size */
-.sapMTileCnt.ft-TwoByOne {
+.sapMTileCnt.sapMFrameTypeTwoByOne {
   height: 6.375rem;
   width: 22.375rem;
 }
+.sapMTileCnt.sapMFrameTypeTwoByOne.News {
+  width: 22.5rem;
+}
 /* OneByOne size */
-.sapMTileCnt.ft-OneByOne {
+.sapMTileCnt.sapMFrameTypeOneByOne {
   height: 6.375rem;
   width: 11rem;
 }
@@ -10059,16 +10086,19 @@ html[dir=rtl] .sapMTileCntFtrTxt {
 }
 /* BREAKPOINT FOR SMALL PHONES */
 @media screen and (max-width: 374px) {
-  .sapMTileCnt.ft-Auto {
+  .sapMTileCnt.sapMFrameTypeAuto {
     height: 5.5rem;
     min-width: 9.125rem;
     max-width: 19rem;
   }
-  .sapMTileCnt.ft-TwoByOne {
+  .sapMTileCnt.sapMFrameTypeTwoByOne {
     height: 5.5rem;
     width: 18.875rem;
   }
-  .sapMTileCnt.ft-OneByOne {
+  .sapMTileCnt.sapMFrameTypeTwoByOne.News {
+    width: 19rem;
+  }
+  .sapMTileCnt.sapMFrameTypeOneByOne {
     height: 5.5rem;
     width: 9.25rem;
   }
@@ -10822,6 +10852,7 @@ html[data-sap-ui-browser^="ed"].sap-desktop .sapMToken:focus .sapMTokenText:befo
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+  pointer-events: none;
   line-height: 1.625rem;
   max-width: calc(100% - 1.875rem);
   box-sizing: border-box;

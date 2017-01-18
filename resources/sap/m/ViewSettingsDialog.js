@@ -1,6 +1,6 @@
 /*!
 * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2016 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2017 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
 */
 
@@ -22,7 +22,7 @@ function(jQuery, library, Control, IconPool, Toolbar, CheckBox, SearchField, Lis
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.40.14
+	 * @version 1.40.16
 	 *
 	 * @constructor
 	 * @public
@@ -625,12 +625,13 @@ function(jQuery, library, Control, IconPool, Toolbar, CheckBox, SearchField, Lis
 		var sType = this._getListType(sAggregationName);
 		if (this.mToList[sType]) {
 			var oList = this._getList(sType);
-			var oRemovedListItems = oList.removeAllItems();
+			if (oList) { //we may not have any internal lists (e.g. no sortItems for this VSD instance)
+				var oRemovedListItems = oList.removeAllItems();
 
-			oRemovedListItems.forEach(function(oItem) {
-				oItem.destroy();
-			});
-
+				oRemovedListItems.forEach(function(oItem) {
+					oItem.destroy();
+				});
+			}
 			vRemovedObjects.forEach(function(oItem) {
 				this._detachItemPropertyChange(oItem);
 			}, this);

@@ -1,6 +1,6 @@
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2016 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2017 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
@@ -21,7 +21,7 @@ sap.ui.define(['jquery.sap.global', './Input', './Tokenizer', './Token', './libr
 	 * @extends sap.m.Input
 	 *
 	 * @author SAP SE
-	 * @version 1.40.14
+	 * @version 1.40.16
 	 *
 	 * @constructor
 	 * @public
@@ -729,15 +729,19 @@ sap.ui.define(['jquery.sap.global', './Input', './Tokenizer', './Token', './libr
 		setTimeout(function () {
 			if (aSeparatedText) {
 				if (this.fireEvent("_validateOnPaste", {texts: aSeparatedText}, true)) {
-					this.updateDomValue("");
+					var lastInvalidText = "";
 					for (i = 0; i < aSeparatedText.length; i++) {
 						if (aSeparatedText[i]) { // pasting from excel can produce empty strings in the array, we don't have to handle empty strings
 							var oToken = this._convertTextToToken(aSeparatedText[i]);
 							if (oToken) {
 								aValidTokens.push(oToken);
+							} else {
+								lastInvalidText = aSeparatedText[i];
 							}
 						}
 					}
+
+					this.updateDomValue(lastInvalidText);
 
 					for (i = 0; i < aValidTokens.length; i++) {
 						if (this._tokenizer._addUniqueToken(aValidTokens[i])) {
@@ -864,7 +868,9 @@ sap.ui.define(['jquery.sap.global', './Input', './Tokenizer', './Token', './libr
 	 * @private
 	 */
 	MultiInput.prototype.onsaphome = function (oEvent) {
-		Tokenizer.prototype.onsaphome.apply(this._tokenizer, arguments);
+		if (this._tokenizer._checkFocus()) {
+			Tokenizer.prototype.onsaphome.apply(this._tokenizer, arguments);
+		}
 	};
 
 	/**
@@ -875,9 +881,10 @@ sap.ui.define(['jquery.sap.global', './Input', './Tokenizer', './Token', './libr
 	 * @private
 	 */
 	MultiInput.prototype.onsapend = function (oEvent) {
-		Tokenizer.prototype.onsapend.apply(this._tokenizer, arguments);
-
-		oEvent.preventDefault();
+		if (this._tokenizer._checkFocus()) {
+			Tokenizer.prototype.onsapend.apply(this._tokenizer, arguments);
+			oEvent.preventDefault();
+		}
 	};
 
 	/**
@@ -1280,6 +1287,11 @@ sap.ui.define(['jquery.sap.global', './Input', './Tokenizer', './Token', './libr
 	MultiInput.prototype.destroyTokens = function () {
 		this._tokenizer.destroyTokens();
 		return this;
+	};
+
+	MultiInput.prototype.updateTokens = function () {
+		this.destroyTokens();
+		this.updateAggregation("tokens");
 	};
 
 	MultiInput.prototype.getAggregation = function (sAggregationName, oDefaultForCreation) {
