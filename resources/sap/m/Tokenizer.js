@@ -5,8 +5,8 @@
  */
 
 // Provides control sap.m.Tokenizer.
-sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/core/delegate/ScrollEnablement'],
-	function(jQuery, library, Control, ScrollEnablement) {
+sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/core/delegate/ScrollEnablement', 'sap/ui/Device'],
+	function(jQuery, library, Control, ScrollEnablement, Device) {
 	"use strict";
 
 
@@ -30,7 +30,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * The tokenizer can only be used as part of {@link sap.m.MultiComboBox MultiComboBox},{@link sap.m.MultiInput MultiInput} or {@link sap.ui.comp.valuehelpdialog.ValueHelpDialog ValueHelpDialog}
 	 *
 	 * @author SAP SE
-	 * @version 1.42.8
+	 * @version 1.42.9
 	 *
 	 * @constructor
 	 * @public
@@ -153,6 +153,8 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	Tokenizer.prototype.init = function() {
 		//if bScrollToEndIsActive === true, than tokenizer will keep last token visible
 		this._bScrollToEndIsActive = false;
+
+		this.bAllowTextSelection = false;
 
 		this._aTokenValidators = [];
 
@@ -1001,6 +1003,13 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 			type: Tokenizer.TokenUpdateType.Removed
 		});
 
+		var oParent = this.getParent();
+
+		if (oParent && oParent instanceof sap.m.MultiInput && !oParent._bUseDialog) {
+			// not set focus to MultiInput in phone mode
+			oParent.$('inner').focus();
+		}
+
 		this._doSelect();
 
 		return this;
@@ -1144,7 +1153,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		}
 
 		// simple select, neither ctrl nor shift key was pressed, deselects other tokens
-		this._oSelectionOrigin = false;
+		this._oSelectionOrigin = oTokenSource;
 
 		for (i = 0; i < aTokens.length; i++) {
 			oToken = aTokens[i];
@@ -1194,6 +1203,19 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 */
 	Tokenizer.prototype.onsapend = function(oEvent) {
 		this.scrollToEnd();
+	};
+
+	/**
+	 * Handles the touch start event on the control.
+	 *
+	 * @param {jQuery.Event} oEvent The event object.
+	 */
+	Tokenizer.prototype.ontouchstart = function(oEvent) {
+        // Workaround for chrome bug
+        // BCP: 1680011538
+		if (Device.browser.chrome && window.getSelection()) {
+			window.getSelection().removeAllRanges();
+		}
 	};
 
 	/**

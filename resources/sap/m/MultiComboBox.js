@@ -19,7 +19,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './InputBase', './ComboBoxTextField
 	 * @extends sap.m.ComboBoxBase
 	 *
 	 * @author SAP SE
-	 * @version 1.42.8
+	 * @version 1.42.9
 	 *
 	 * @constructor
 	 * @public
@@ -480,7 +480,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './InputBase', './ComboBoxTextField
 			return;
 		}
 
-		aItems = this._getItemsStartingText(sValue);
+		aItems = this._getItemsStartingText(sValue, true);
 		bVisibleItemFound = !!aItems.length;
 
 		// suppress invalid value
@@ -495,7 +495,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './InputBase', './ComboBoxTextField
 			return;
 		}
 
-		aItemsToCheck = this.getSelectableItems();
+		aItemsToCheck = this.getEnabledItems();
 		bResetFilter = this._sOldInput && this._sOldInput.length > sValue.length;
 
 		if (bResetFilter && (this.isPickerDialog() && this._getFilterSelectedButton().getPressed())){
@@ -1725,9 +1725,11 @@ sap.ui.define(['jquery.sap.global', './Bar', './InputBase', './ComboBoxTextField
 	 * @returns {sap.ui.core.Item[]}
 	 * @private
 	 */
-	MultiComboBox.prototype._getItemsStartingText = function(sText) {
-		var aItems = [];
-		this.getSelectableItems().forEach(function(oItem) {
+	MultiComboBox.prototype._getItemsStartingText = function(sText, bInput) {
+		var aItems = [],
+			selectableItems = bInput ? this.getEnabledItems() : this.getSelectableItems();
+
+		selectableItems.forEach(function(oItem) {
 
 			if (jQuery.sap.startsWithIgnoreCase(oItem.getText(), sText)) {
 				aItems.push(oItem);

@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', './Notif
          * @extends sap.m.NotificationListBase
          *
          * @author SAP SE
-         * @version 1.42.8
+         * @version 1.42.9
          *
          * @constructor
          * @public
