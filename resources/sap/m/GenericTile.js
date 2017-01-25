@@ -1,6 +1,6 @@
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2016 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2017 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
@@ -18,7 +18,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/T
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.38.16
+	 * @version 1.38.18
 	 * @since 1.34
 	 *
 	 * @public
@@ -33,7 +33,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/T
 				/**
 				 * The mode of the GenericTile.
 				 */
-				"mode" : {type: "sap.m.GenericTileMode", group : "Appearance", defaultValue : library.GenericTileMode.ContentMode},
+				"mode" : {type: "sap.m.GenericTileMode", group : "Appearance", defaultValue : sap.m.GenericTileMode.ContentMode},
 				/**
 				 * The header of the tile.
 				 */
@@ -54,7 +54,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/T
 				/**
 				 * The frame type: 1x1 or 2x1.
 				 */
-				"frameType" : {type : "sap.m.FrameType", group : "Misc", defaultValue : library.FrameType.OneByOne},
+				"frameType" : {type : "sap.m.FrameType", group : "Misc", defaultValue : sap.m.FrameType.OneByOne},
 				/**
 				 * The URI of the background image.
 				 */
@@ -76,7 +76,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/T
 				/**
 				 * The switchable view that depends on the tile type.
 				 */
-				"tileContent" : {type : "sap.m.TileContent", multiple : true},
+				"tileContent" : {type : "sap.m.TileContent", multiple : true, bindable : "bindable"},
 				/**
 				 * An icon or image to be displayed in the control.
 				 * This aggregation is deprecated since version 1.36.0, to display an icon or image use sap.m.TileContent control instead.
@@ -131,6 +131,38 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/T
 		this._oBusy = new HTML(this.getId() + "-overlay");
 		this._oBusy.addStyleClass("sapMGenericTileLoading");
 		this._oBusy.setBusyIndicatorDelay(0);
+
+		this._bThemeApplied = true;
+		if (!sap.ui.getCore().isInitialized()) {
+			this._bThemeApplied = false;
+			sap.ui.getCore().attachInit(this._handleCoreInitialized.bind(this));
+		} else {
+			this._handleCoreInitialized();
+		}
+	};
+
+	/**
+	 * Handler for the core's init event. In order for the tile to adjust its rendering to the current theme,
+	 * we attach a theme check in here when everything is properly initialized and loaded.
+	 *
+	 * @private
+	 */
+	GenericTile.prototype._handleCoreInitialized = function() {
+		this._bThemeApplied = sap.ui.getCore().isThemeApplied();
+		if (!this._bThemeApplied) {
+			sap.ui.getCore().attachThemeChanged(this._handleThemeApplied, this);
+		}
+	};
+
+	/**
+	 * The tile recalculates its title's max-height when line-height could be loaded from CSS.
+	 *
+	 * @private
+	 */
+	GenericTile.prototype._handleThemeApplied = function() {
+		this._bThemeApplied = true;
+		this._oTitle.clampHeight();
+		sap.ui.getCore().detachThemeChanged(this._handleThemeApplied, this);
 	};
 
 	GenericTile.prototype.onBeforeRendering = function() {

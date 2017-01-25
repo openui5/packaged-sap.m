@@ -1,6 +1,6 @@
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2016 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2017 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
@@ -23,7 +23,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 *
 	 * NOTE: This control must be rendered as a full screen control in order to make the show/hide master area work properly.
 	 * @extends sap.ui.core.Control
-	 * @version 1.38.16
+	 * @version 1.38.18
 	 *
 	 * @constructor
 	 * @public

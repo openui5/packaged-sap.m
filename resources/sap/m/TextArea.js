@@ -1,6 +1,6 @@
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2016 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2017 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
@@ -22,7 +22,7 @@ sap.ui.define(['jquery.sap.global', './InputBase', './library'],
 	 * @extends sap.m.InputBase
 	 *
 	 * @author SAP SE
-	 * @version 1.38.16
+	 * @version 1.38.18
 	 *
 	 * @constructor
 	 * @public
@@ -106,14 +106,16 @@ sap.ui.define(['jquery.sap.global', './InputBase', './library'],
 	// Attach listeners on after rendering and find iscroll
 	TextArea.prototype.onAfterRendering = function() {
 		InputBase.prototype.onAfterRendering.call(this);
+		var oTextArea = this.getFocusDomRef(),
+			fMaxHeight,
+			oStyle;
 
 		if (this.getGrowing()) {
 			// adjust textarea height
-			var oTextArea = this.getFocusDomRef();
 			if (this.getGrowingMaxLines() > 0) {
-				var oStyle = window.getComputedStyle(oTextArea),
-					fMaxHeight = parseFloat(oStyle.lineHeight) * this.getGrowingMaxLines() +
-								parseFloat(oStyle.paddingTop) + parseFloat(oStyle.borderTopWidth) + parseFloat(oStyle.borderBottomWidth);
+				oStyle = window.getComputedStyle(oTextArea);
+				fMaxHeight = parseFloat(oStyle.lineHeight) * this.getGrowingMaxLines() +
+						parseFloat(oStyle.paddingTop) + parseFloat(oStyle.borderTopWidth) + parseFloat(oStyle.borderBottomWidth);
 
 				// bottom padding is out of scrolling content in firefox
 				if (sap.ui.Device.browser.firefox) {
@@ -244,9 +246,10 @@ sap.ui.define(['jquery.sap.global', './InputBase', './library'],
 	};
 
 	TextArea.prototype._adjustHeight = function(oTextArea) {
-		oTextArea.style.height = sap.ui.Device.browser.firefox ? "0px" : "auto";
-		oTextArea.style.height = oTextArea.scrollHeight + oTextArea.offsetHeight - oTextArea.clientHeight - 1 + "px";
-		this._updateOverflow();
+		if (this.getValue()) {
+			oTextArea.style.height = oTextArea.scrollHeight + oTextArea.offsetHeight - oTextArea.clientHeight + "px";
+			this._updateOverflow();
+		}
 	};
 
 	TextArea.prototype._updateOverflow = function() {

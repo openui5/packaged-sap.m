@@ -1,6 +1,6 @@
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2016 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2017 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.38.16
+	 * @version 1.38.18
 	 *
 	 * @constructor
 	 * @public
@@ -246,6 +246,12 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		 * Indicates whether the <code>focusout</code> event is triggered due a rendering.
 		 */
 		this.bFocusoutDueRendering = false;
+
+		/**
+		 * Internal variable used to handle html input firing input events when value contains accented characters in IE10+
+         * @private
+         */
+		this._bIgnoreNextInputEventNonASCII = false;
 	};
 
 	/**
@@ -329,11 +335,11 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	InputBase.prototype.onfocusin = function(oEvent) {
 		// iE10+ fires the input event when an input field with a native placeholder is focused
 		this._bIgnoreNextInput = !this.bShowLabelAsPlaceholder &&
-									sap.ui.Device.browser.msie &&
-									sap.ui.Device.browser.version > 9 &&
-									!!this.getPlaceholder() &&
-									!this._getInputValue() &&
-									this._getInputElementTagName() === "INPUT"; // Make sure that we are applying this fix only for input html elements
+			sap.ui.Device.browser.msie &&
+			sap.ui.Device.browser.version > 9 &&
+			!!this.getPlaceholder() &&
+			!this._getInputValue() &&
+			this._getInputElementTagName() === "INPUT"; // Make sure that we are applying this fix only for input html elements
 		this.$().toggleClass("sapMFocus", true);
 
 		// open value state message popup when focus is in the input
@@ -415,6 +421,12 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 
 			// save the value on change
 			this.setValue(sValue);
+
+			if (oEvent) {
+			//IE10+ fires Input event when Non-ASCII characters are used. As this is a real change
+			// event shouldn't be ignored.
+				this._bIgnoreNextInputEventNonASCII = false;
+			}
 
 			// get the value back maybe formatted
 			sValue = this.getValue();
@@ -540,6 +552,13 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 			return;
 		}
 
+		//IE10+ fires the input event when attribute "value" is set with Non-ASCII characters
+		if (this._bIgnoreNextInputEventNonASCII && this.getValue() === this._lastValue) {
+			this._bIgnoreNextInputEventNonASCII = false;
+			oEvent.setMarked("invalid");
+			return;
+		}
+
 		// ie11 fires input event after rendering when value contains an accented character
 		// ie11 fires input event whenever placeholder attribute is changed
 		if (document.activeElement !== oEvent.target) {
@@ -569,9 +588,6 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		if (!this.getEditable() && oEvent.keyCode == jQuery.sap.KeyCodes.BACKSPACE) {
 			oEvent.preventDefault();
 		}
-
-		// mark the event as InputBase event
-		oEvent.setMark("inputBase");
 
 		if ((mBrowser.msie && mBrowser.version < 10) &&
 			(oEvent.which === mKC.DELETE || oEvent.which === mKC.BACKSPACE)) {
@@ -953,6 +969,11 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 
 		// update the dom value when necessary
 		this.updateDomValue(sValue);
+
+		//Ignore the input event which is raised by MS Internet Explorer when non-ASCII characters are typed in
+		if (sap.ui.Device.browser.msie && sap.ui.Device.browser.version > 9 && !/^[\x00-\x7F]*$/.test(sValue)){
+			this._bIgnoreNextInputEventNonASCII = true;
+		}
 
 		// check if we need to update the last value because
 		// when setProperty("value") called setValue is called again via binding

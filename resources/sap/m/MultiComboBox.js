@@ -1,11 +1,11 @@
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2016 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2017 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
-sap.ui.define(['jquery.sap.global', './Bar', './InputBase', './ComboBoxBase', './Dialog', './List', './MultiComboBoxRenderer', './Popover', './library', 'sap/ui/core/EnabledPropagator', 'sap/ui/core/IconPool', 'jquery.sap.xml'],
-	function(jQuery, Bar, InputBase, ComboBoxBase, Dialog, List, MultiComboBoxRenderer, Popover, library, EnabledPropagator, IconPool/* , jQuerySap */) {
+sap.ui.define(['jquery.sap.global', './Bar', './InputBase', './ComboBoxTextField', './ComboBoxBase', './Dialog', './MultiInput', './Input', './ToggleButton', './List', './MultiComboBoxRenderer', './Popover', './library', 'sap/ui/core/EnabledPropagator', 'sap/ui/core/IconPool', 'jquery.sap.xml'],
+	function(jQuery, Bar, InputBase, ComboBoxTextField, ComboBoxBase, Dialog, MultiInput, Input, ToggleButton, List, MultiComboBoxRenderer, Popover, library, EnabledPropagator, IconPool/* , jQuerySap */) {
 	"use strict";
 
 	/**
@@ -19,7 +19,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './InputBase', './ComboBoxBase', '.
 	 * @extends sap.m.ComboBoxBase
 	 *
 	 * @author SAP SE
-	 * @version 1.38.16
+	 * @version 1.38.18
 	 *
 	 * @constructor
 	 * @public
@@ -2320,7 +2320,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './InputBase', './ComboBoxBase', '.
 	};
 
 	MultiComboBox.prototype.init = function() {
-		InputBase.prototype.init.apply(this, arguments);
+		ComboBoxTextField.prototype.init.apply(this, arguments);
 
 		// initialize list
 		this.createList();

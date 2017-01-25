@@ -1,6 +1,6 @@
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2016 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2017 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
@@ -25,7 +25,7 @@ sap.ui.define(['jquery.sap.global', './InputBase', './MaskInput', './MaskInputRu
 		 * @extends sap.m.MaskInput
 		 *
 		 * @author SAP SE
-		 * @version 1.38.16
+		 * @version 1.38.18
 		 *
 		 * @constructor
 		 * @public
@@ -1080,6 +1080,9 @@ sap.ui.define(['jquery.sap.global', './InputBase', './MaskInput', './MaskInputRu
 		 * @private
 		 */
 		TimePicker.prototype._initMask = function() {
+			if (this._oTimeSemanticMaskHelper) {
+				this._oTimeSemanticMaskHelper.destroy();
+			}
 			this._oTimeSemanticMaskHelper = new TimeSemanticMaskHelper(this);
 		};
 

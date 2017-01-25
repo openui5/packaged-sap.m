@@ -1,6 +1,6 @@
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2016 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2017 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
@@ -18,12 +18,17 @@ sap.ui.define([], function () {
 	};
 
 	WizardRenderer.startWizard = function (oRm, oWizard) {
+		var sWizardLabelText = sap.ui.getCore().getLibraryResourceBundle("sap.m").getText("WIZARD_LABEL");
+
 		oRm.write("<article");
 		oRm.writeControlData(oWizard);
 		oRm.addClass("sapMWizard");
 		oRm.writeClasses();
 		oRm.addStyle("width", oWizard.getWidth());
 		oRm.addStyle("height", oWizard.getHeight());
+		oRm.writeAccessibilityState({
+			"label": sWizardLabelText
+		});
 		oRm.writeStyles();
 		oRm.write(">");
 	};

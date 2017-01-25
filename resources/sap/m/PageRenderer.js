@@ -1,11 +1,11 @@
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2016 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2017 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
-sap.ui.define(['sap/m/PageAccessibleLandmarkInfo'],
-	function(PageAccessibleLandmarkInfo) {
+sap.ui.define(['sap/m/PageAccessibleLandmarkInfo', 'sap/ui/Device'],
+	function(PageAccessibleLandmarkInfo, Device) {
 	"use strict";
 
 
@@ -87,6 +87,15 @@ sap.ui.define(['sap/m/PageAccessibleLandmarkInfo'],
 		// render child controls
 		oRm.write('<section id="' + oPage.getId() + '-cont"');
 		PageAccessibleLandmarkInfo._writeLandmarkInfo(oRm, oPage, "content");
+
+		// The vertical scroll bar should be immediately available to avoid flickering
+		// and reduce size recalculations of embedded responsive controls that rely on
+		// the page content width. See ScrollEnablement.js: _setOverflow
+		if (oPage.getEnableScrolling()) {
+			oRm.addStyle("overflow-y", Device.os.ios || Device.os.blackberry ? "scroll" : "auto");
+			oRm.writeStyles();
+		}
+
 		oRm.write('>');
 
 		if (oPage._bUseScrollDiv) { // fallback to old rendering

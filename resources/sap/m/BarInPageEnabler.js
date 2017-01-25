@@ -1,6 +1,6 @@
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2016 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2017 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
@@ -236,6 +236,17 @@ sap.ui.define(['sap/ui/base/Object', './PageAccessibleLandmarkInfo', 'sap/ui/cor
 	 */
 	BarInPageEnabler.addChildClassTo = function (oControl) {
 		oControl.addStyleClass("sapMBarChild");
+	};
+
+	/**
+	 * Termination of the BarInPageEnabler control
+	 * @private
+	 */
+	BarInPageEnabler.prototype.exit = function () {
+		if (this._sInternalAriaLabelId) {
+			this._sInternalAriaLabelId.destroy();
+			this._sInternalAriaLabelId = null;
+		}
 	};
 
 	return BarInPageEnabler;

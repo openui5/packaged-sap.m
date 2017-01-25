@@ -1,6 +1,6 @@
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2016 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2017 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
@@ -21,7 +21,7 @@ sap.ui.define(['jquery.sap.global', './InputBase', './MaskInputRule', 'sap/ui/co
 	 *
 	 * @author SAP SE
 	 * @extends sap.m.InputBase
-	 * @version 1.38.16
+	 * @version 1.38.18
 	 *
 	 * @constructor
 	 * @public
@@ -557,6 +557,7 @@ sap.ui.define(['jquery.sap.global', './InputBase', './MaskInputRule', 'sap/ui/co
 		var oSearchRuleResult = this._findRuleBySymbol(sSymbol, this.getRules());
 		if (oSearchRuleResult) {
 			this.removeAggregation('rules', oSearchRuleResult.oRule);
+			oSearchRuleResult.oRule.destroy();
 		}
 	};
 

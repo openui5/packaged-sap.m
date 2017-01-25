@@ -1,6 +1,6 @@
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2016 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2017 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
@@ -25,7 +25,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './InstanceManager', './Associative
 		 * @implements sap.ui.core.PopupInterface
 		 *
 		 * @author SAP SE
-		 * @version 1.38.16
+		 * @version 1.38.18
 		 *
 		 * @constructor
 		 * @public
@@ -428,8 +428,16 @@ sap.ui.define(['jquery.sap.global', './Bar', './InstanceManager', './Associative
 			// The focus will be change after the dialog is opened;
 			oPopup.setInitialFocusId(this.getId());
 
-			if (oPopup.isOpen()) {
-				return this;
+			var oPopupOpenState = oPopup.getOpenState();
+
+			switch (oPopupOpenState) {
+				case sap.ui.core.OpenState.OPEN:
+				case sap.ui.core.OpenState.OPENING:
+					return this;
+				case sap.ui.core.OpenState.CLOSING:
+					this._bOpenAfterClose = true;
+					break;
+				default:
 			}
 
 			//reset the close trigger
@@ -458,6 +466,8 @@ sap.ui.define(['jquery.sap.global', './Bar', './InstanceManager', './Associative
 		 * @ui5-metamodel This method also will be described in the UI5 (legacy) designtime metamodel
 		 */
 		Dialog.prototype.close = function () {
+			this._bOpenAfterClose = false;
+
 			this.$().removeClass('sapDialogDisableTransition');
 
 			this._deregisterResizeHandler();
@@ -532,6 +542,11 @@ sap.ui.define(['jquery.sap.global', './Bar', './InstanceManager', './Associative
 
 			InstanceManager.removeDialogInstance(this);
 			this.fireAfterClose({origin: this._oCloseTrigger});
+
+			if (this._bOpenAfterClose) {
+				this._bOpenAfterClose = false;
+				this.open();
+			}
 		};
 
 		/**
@@ -575,7 +590,9 @@ sap.ui.define(['jquery.sap.global', './Bar', './InstanceManager', './Associative
 		 * @private
 		 */
 		Dialog.prototype._openAnimation = function ($Ref, iRealDuration, fnOpened) {
-			$Ref.addClass("sapMDialogOpen");
+			// Without the timeout, Firefox won't fire the transitionend event
+			// because of display = "none" in the same call stack before.
+			jQuery.sap.delayedCall(0, this, function(){$Ref.addClass("sapMDialogOpen");});
 
 			if (isTheCurrentBrowserIENine) {
 				$Ref.fadeIn(200, fnOpened);
