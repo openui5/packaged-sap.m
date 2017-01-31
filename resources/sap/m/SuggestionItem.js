@@ -18,10 +18,10 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Item', 'sap/ui/cor
 	 * @class
 	 * Display suggestion list items.
 	 *
-	 * @extends sap.ui.core.Control
+	 * @extends sap.ui.core.Item
 	 *
 	 * @author SAP SE
-	 * @version 1.44.5
+	 * @version 1.44.6
 	 * @since 1.34
 	 *
 	 * @constructor

@@ -18,7 +18,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/G
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.44.5
+	 * @version 1.44.6
 	 * @since 1.34
 	 *
 	 * @public
@@ -210,7 +210,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/G
 	 * @param {jQuery.Event} oEvent Event object
 	 */
 	SlideTile.prototype.onfocusout = function (oEvent) {
-		if (this.getTiles().length > 1 && !this._isFocusInsideST()) {
+		if (this.getTiles().length > 1 && !this._isFocusInsideST() && this._bAnimationPause) {
 			this._startAnimation();
 			this._updatePausePlayIcon();
 		}

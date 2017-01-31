@@ -22,7 +22,7 @@ sap.ui.define(['jquery.sap.global', './Dialog', './Popover', './library', 'sap/u
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.44.5
+	 * @version 1.44.6
 	 *
 	 * @constructor
 	 * @public
@@ -460,16 +460,12 @@ sap.ui.define(['jquery.sap.global', './Dialog', './Popover', './library', 'sap/u
 	};
 
 	ActionSheet.prototype._addAriaHiddenTexts = function(oButton) {
-		var sButtonId = oButton.getId();
+		var sButtonId = oButton.getId(),
+			oInvisibleText;
 		if (sap.ui.getCore().getConfiguration().getAccessibility()) {
-			var oInvisibleText = new InvisibleText(sButtonId + "-actionSheetHiddenText");
+			oInvisibleText = new InvisibleText(sButtonId + "-actionSheetHiddenText");
 
 			this.addAggregation("_invisibleAriaTexts", oInvisibleText, false);
-
-			// Prevent duplicate self reference
-			if (oButton.getAriaLabelledBy().indexOf(sButtonId) === -1) {
-				oButton.addAriaLabelledBy(sButtonId);
-			}
 			oButton.addAriaLabelledBy(oInvisibleText.getId());
 		}
 	};

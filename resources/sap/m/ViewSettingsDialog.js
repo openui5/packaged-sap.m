@@ -63,7 +63,7 @@ function(jQuery, library, Control, IconPool, Toolbar, CheckBox, SearchField, Lis
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.44.5
+	 * @version 1.44.6
 	 *
 	 * @constructor
 	 * @public
@@ -507,17 +507,13 @@ function(jQuery, library, Control, IconPool, Toolbar, CheckBox, SearchField, Lis
 		return this;
 	};
 
-	/**
-	 * Invalidates the control (suppressed as there is no renderer).
-	 * @overwrite
-	 * @public
-	 */
 	ViewSettingsDialog.prototype.invalidate = function() {
+		// Invalidate call on ViewSettingsDialog is directly forwarded to the sap.m.Dialog
+		// since the ViewSettingsDialog has no renderer.
 		// CSN #80686/2014: only invalidate inner dialog if call does not come from inside
+		// BCP #1670394376
 		if (this._dialog && (!arguments[0] || arguments[0] && arguments[0].getId() !== this.getId() + "-dialog")) {
 			this._dialog.invalidate(arguments);
-		} else {
-			Control.prototype.invalidate.apply(this, arguments);
 		}
 	};
 
@@ -685,12 +681,13 @@ function(jQuery, library, Control, IconPool, Toolbar, CheckBox, SearchField, Lis
 		var sType = this._getListType(sAggregationName);
 		if (this.mToList[sType]) {
 			var oList = this._getList(sType);
-			var oRemovedListItems = oList.removeAllItems();
+			if (oList) { //we may not have any internal lists (e.g. no sortItems for this VSD instance)
+				var oRemovedListItems = oList.removeAllItems();
 
-			oRemovedListItems.forEach(function(oItem) {
-				oItem.destroy();
-			});
-
+				oRemovedListItems.forEach(function(oItem) {
+					oItem.destroy();
+				});
+			}
 			vRemovedObjects.forEach(function(oItem) {
 				this._detachItemPropertyChange(oItem);
 			}, this);

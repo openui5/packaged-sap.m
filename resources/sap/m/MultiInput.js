@@ -21,7 +21,7 @@ sap.ui.define(['jquery.sap.global', './Input', './Tokenizer', './Token', './libr
 	 * @extends sap.m.Input
 	 *
 	 * @author SAP SE
-	 * @version 1.44.5
+	 * @version 1.44.6
 	 *
 	 * @constructor
 	 * @public
@@ -868,7 +868,9 @@ sap.ui.define(['jquery.sap.global', './Input', './Tokenizer', './Token', './libr
 	 * @private
 	 */
 	MultiInput.prototype.onsaphome = function (oEvent) {
-		Tokenizer.prototype.onsaphome.apply(this._tokenizer, arguments);
+		if (this._tokenizer._checkFocus()) {
+			Tokenizer.prototype.onsaphome.apply(this._tokenizer, arguments);
+		}
 	};
 
 	/**
@@ -879,9 +881,10 @@ sap.ui.define(['jquery.sap.global', './Input', './Tokenizer', './Token', './libr
 	 * @private
 	 */
 	MultiInput.prototype.onsapend = function (oEvent) {
-		Tokenizer.prototype.onsapend.apply(this._tokenizer, arguments);
-
-		oEvent.preventDefault();
+		if (this._tokenizer._checkFocus()) {
+			Tokenizer.prototype.onsapend.apply(this._tokenizer, arguments);
+			oEvent.preventDefault();
+		}
 	};
 
 	/**
