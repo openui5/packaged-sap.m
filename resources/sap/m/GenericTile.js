@@ -18,7 +18,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/T
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.40.16
+	 * @version 1.40.17
 	 * @since 1.34
 	 *
 	 * @public
@@ -131,6 +131,38 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/T
 		this._oBusy = new HTML(this.getId() + "-overlay");
 		this._oBusy.addStyleClass("sapMGenericTileLoading");
 		this._oBusy.setBusyIndicatorDelay(0);
+
+		this._bThemeApplied = true;
+		if (!sap.ui.getCore().isInitialized()) {
+			this._bThemeApplied = false;
+			sap.ui.getCore().attachInit(this._handleCoreInitialized.bind(this));
+		} else {
+			this._handleCoreInitialized();
+		}
+	};
+
+	/**
+	 * Handler for the core's init event. In order for the tile to adjust its rendering to the current theme,
+	 * we attach a theme check in here when everything is properly initialized and loaded.
+	 *
+	 * @private
+	 */
+	GenericTile.prototype._handleCoreInitialized = function() {
+		this._bThemeApplied = sap.ui.getCore().isThemeApplied();
+		if (!this._bThemeApplied) {
+			sap.ui.getCore().attachThemeChanged(this._handleThemeApplied, this);
+		}
+	};
+
+	/**
+	 * The tile recalculates its title's max-height when line-height could be loaded from CSS.
+	 *
+	 * @private
+	 */
+	GenericTile.prototype._handleThemeApplied = function() {
+		this._bThemeApplied = true;
+		this._oTitle.clampHeight();
+		sap.ui.getCore().detachThemeChanged(this._handleThemeApplied, this);
 	};
 
 	GenericTile.prototype.onBeforeRendering = function() {
@@ -156,15 +188,6 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/T
 
 		// attaches handler this._removeTooltipFromControl to the event mouseleave and removes control's own tooltips (Truncated header text and MicroChart tooltip).
 		this.$().bind("mouseleave", this._removeTooltipFromControl.bind(this));
-
-		// Assign TileContent content again after rendering.
-		if (this.getMode() === library.GenericTileMode.HeaderMode && this._aTileContentContent) {
-			var aTileContent = this.getTileContent();
-			for (var i = 0; i < aTileContent.length; i++) {
-				aTileContent[i].setAggregation("content", this._aTileContentContent[i], true);
-			}
-			delete this._aTileContentContent;
-		}
 	};
 
 	GenericTile.prototype.exit = function() {
@@ -298,25 +321,14 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/T
 		} else {
 			this._oTitle.setMaxLines(5);
 		}
-		// Handles the tile content in a way that it is not rendered, but still existing and assigned
-		// if switching between HeaderMode or LineMode and ContentMode.
-		var aTileContent = this.getTileContent();
-		if (aTileContent.length > 0) {
-			this._aTileContentContent = [];
-			for (var i = 0; i < aTileContent.length; i++) {
-				if (aTileContent[i].getContent()) {
-					this._aTileContentContent[i] = aTileContent[i].removeAllAggregation("content", true);
-					// Parent needs to be set manually to null, because removeAllAggregation does not handle this.
-					this._aTileContentContent[i].setParent(null);
-				}
-			}
-		}
+
+		this._changeTileContentContentVisibility(false);
 	};
 
 	/**
 	 * Sets the ContentMode for GenericTile
 	 *
-	 * @param {boolean} bSubheader which indicates the existance of subheader
+	 * @param {boolean} bSubheader Indicates the existence of subheader
 	 */
 	GenericTile.prototype._applyContentMode = function (bSubheader) {
 		// when subheader is available, the header can have maximal 2 lines and the subheader can have 1 line
@@ -325,6 +337,27 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/T
 			this._oTitle.setMaxLines(2);
 		} else {
 			this._oTitle.setMaxLines(3);
+		}
+
+		this._changeTileContentContentVisibility(true);
+	};
+
+	/**
+	 * Changes the visibility of the TileContent's content
+	 *
+	 * @param {boolean} visible Determines if the content should be made visible or not
+	 * @private
+	 */
+	GenericTile.prototype._changeTileContentContentVisibility = function (visible) {
+		var aTileContent,
+			aTileContentContent;
+
+		aTileContent = this.getTileContent();
+		for (var i = 0; i < aTileContent.length; i++) {
+			aTileContentContent = aTileContent[i].getContent();
+			if (aTileContentContent) {
+				aTileContentContent.setProperty("visible", visible, true);
+			}
 		}
 	};
 	/**

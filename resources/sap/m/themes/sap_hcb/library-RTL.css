@@ -2559,7 +2559,7 @@ html[data-sap-ui-animation='on'] .sapMFCL .sapMFCLColumn {
   bottom: 0;
   border-radius: 0.125rem;
 }
-.sapMGTFocusDiv {
+.sapMGT .sapMGTFocusDiv {
   position: absolute;
   pointer-events: none;
   right: 0px;
@@ -2569,13 +2569,19 @@ html[data-sap-ui-animation='on'] .sapMFCL .sapMFCLColumn {
   border-radius: 0.25rem;
   z-index: 2;
 }
+.sapMGT.sapMGTBackgroundImage .sapMGTFocusDiv {
+  top: 1px;
+  left: 1px;
+  right: 1px;
+  bottom: 1px;
+}
 .sapMGenericTileLoading {
   height: 100%;
 }
 .sapMGenericTileFtrFld {
   right: 0.4375rem;
+  left: 0.4375rem;
   bottom: 0.4375rem;
-  display: table;
   position: absolute;
 }
 .sapMGenericTileFtrFldTxt {
@@ -3110,7 +3116,7 @@ html.sap-phone .sapMITBAll .sapMITBText {
   padding-left: 1rem;
 }
 .sapMITB .sapMITBItemNoCount.sapMITBFilter:last-child {
-  padding-left: 0;
+  padding-left: 0.8rem;
 }
 /* Tab Separator Item */
 .sapMITBSep {
@@ -3767,6 +3773,10 @@ html.sap-desktop .sapUiSizeCondensed .sapUiTableCell .sapMLnk:focus:not(.sapMLnk
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+}
+.sapMLIBFocusable:focus {
+  outline: 1px dotted #ffffff;
+  outline-offset: -1px;
 }
 .sapMLIB:not(.sapMLIBFocusable):focus,
 .sapMListTblSubRow:focus {
@@ -6852,6 +6862,10 @@ html[data-sap-ui-animation='on'] .sapMPageFloatingFooter .sapMPageFooterControlH
   left: 0.75rem;
   bottom: 0.75rem;
   right: 0.75rem;
+  border: 1px dotted #ffffff;
+}
+html[data-sap-ui-browser^="ie"].sap-desktop .sapMPanelExpandableIcon:focus::after {
+  border-style: dashed;
 }
 .sapMPanelExpandableIconExpanded {
   display: inline-block;
@@ -8409,7 +8423,7 @@ html.sap-tablet .sapMGTHvrOutln:active {
   top: 1px;
   left: 1px;
   bottom: 1px;
-  border-radius: 0.25rem;
+  border-radius: 0.125rem;
 }
 /* Bulleted indicator of multiple tiles*/
 .sapMSTBulleted {
@@ -8456,14 +8470,18 @@ html.sap-desktop .sapMST.sapMSTIconPressed .sapMSTIconClickTapArea:hover ~ .sapM
   opacity: 1.0;
 }
 .sapMST .sapMSTIconNestedArea {
-  left: 5.9%;
+  left: 1.35rem;
+  top: 1.2rem;
   z-index: 1;
   position: absolute;
-  top: 10.9%;
   outline: none;
 }
 .sapMST.sapMSTPauseIcon .sapMSTIconNestedArea {
-  left: 6.9%;
+  left: 1.55rem;
+}
+/* Play icon in RTL */
+html[dir="rtl"] .sapMST:not(.sapMSTPauseIcon) .sapMSTIconNestedArea {
+  left: 1.5rem;
 }
 .sapMSTIconNestedArea :active {
   outline: none;
@@ -8492,6 +8510,15 @@ html.sap-desktop .sapMST:not(:hover).sapMST:not(:focus) .sapMSTBulleted {
   }
   .sapMSTBulleted {
     bottom: 0.188rem;
+  }
+  .sapMST .sapMSTIconNestedArea {
+    left: 1.35rem;
+  }
+  .sapMSTPauseIcon .sapMST .sapMSTIconNestedArea {
+    left: 1.55rem;
+  }
+  html[dir="rtl"] .sapMST:not(.sapMSTPauseIcon) .sapMSTIconNestedArea {
+    left: 1.5rem;
   }
 }
 .sapMSB {
@@ -9282,6 +9309,10 @@ html.sap-phone .sapMSupport .sapMDialogScrollCont {
 .sapMListTbl .sapMLIB {
   display: table-row;
 }
+html[data-sap-ui-browser='ie11'] .sapMListTbl {
+  padding: 1px;
+  /* outline must be visible */
+}
 .sapMListTbl th:focus,
 .sapMListTbl td:focus {
   outline: none;
@@ -9887,6 +9918,10 @@ html.sap-phone .sapMTabStripSelectListItemCloseBtn .sapMBtnInner {
   word-wrap: break-word;
   /* works only if browser knows the width */
   cursor: text;
+}
+html[data-sap-ui-browser="sf10"] .sapUiVltCell .sapMText,
+html[data-sap-ui-browser="sf10"] .sapuiVltCell .sapMText {
+  display: block;
 }
 .sapMTextNoWrap,
 .sapMTextMaxLine {
@@ -12710,11 +12745,7 @@ html.sap-desktop .sapUiSizeCompact .sapUiSimpleForm .sapMCb:not(.sapMCbBgDis):fo
   font-size: 0.625rem;
   border-radius: 0;
 }
-html.sap-desktop .sapMListTblRow:focus {
-  outline: 0.125rem dotted #ffffff;
-  outline-offset: -0.1875rem;
-}
-html[data-sap-ui-browser^="ie"].sap-desktop .sapMListTblRow:focus {
+html[data-sap-ui-browser="ie11"] .sapMListTblRow:focus {
   outline-width: 3px;
 }
 .sapMListTblSubRow {
@@ -12773,11 +12804,6 @@ html[data-sap-ui-browser^="ie"].sap-desktop .sapMListTblRow:focus {
 /* separators */
 .sapMLIBShowSeparator > td {
   border-top: 1px solid #999999;
-}
-/* set overlapped borders transparent to make focus outline more distinct */
-.sapMLIBShowSeparator:focus > td,
-.sapMLIBShowSeparator:focus + .sapMLIBShowSeparator > td {
-  border-top-color: transparent;
 }
 .sapMListShowSeparatorsNone .sapMLIBShowSeparator > td,
 .sapMListShowSeparatorsInner .sapMLIBShowSeparator:first-child > td {
@@ -14809,8 +14835,8 @@ html.sap-desktop .sapMLIB-CTX:focus .sapMGrowingListTrigger {
   padding: 0 1rem 0 1rem;
 }
 .sapMLIBFocusable:focus {
-  outline: 0.125rem dotted #ffffff;
-  outline-offset: -0.125rem;
+  outline: 2px dotted #ffffff;
+  outline-offset: -2px;
 }
 .sapMLIBLegacyOutline:focus {
   outline: none;
@@ -18140,6 +18166,9 @@ html.sap-desktop .sapMSliderHandle:focus {
   box-shadow: 0rem 0rem 0rem 1px #ffffff;
   /* Usage of px as aligned with designers. */
 }
+.sapMSTFocusDiv {
+  border-radius: 0.25rem;
+}
 html.sap-desktop .sapMST:hover,
 html.sap-tablet .sapMSTHvr:active,
 html.sap-phone .sapMSTHvr:active {
@@ -18169,6 +18198,9 @@ html.sap-desktop .sapMST:focus:not([tabindex]) {
 }
 .sapMST .sapMSTIconClickTapArea:hover ~ .sapMSTIconDisplayArea {
   background-color: #7a5100;
+}
+.sapMST .sapMGT {
+  border-radius: 0px;
 }
 .sapMSB:focus .sapMSBInner::after {
   top: 0.25rem;
@@ -18689,6 +18721,10 @@ html[dir=rtl] .sapMSwtTrans > .sapMSwtInner {
   border-top: none;
 }
 /* table */
+html[data-sap-ui-browser='ie11'] .sapMListTbl {
+  padding: 2px 2px 0 2px;
+  /* outline must be visible */
+}
 .sapMListTblHeader,
 .sapMListTblFooter {
   background: #000000;

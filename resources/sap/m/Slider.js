@@ -19,7 +19,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		 * @extends sap.ui.core.Control
 		 *
 		 * @author SAP SE
-		 * @version 1.40.16
+		 * @version 1.40.17
 		 *
 		 * @constructor
 		 * @public
@@ -635,6 +635,10 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		 */
 		Slider.prototype.onsapincreasemodifiers = function(oEvent) {
 
+			if (oEvent.altKey) {
+				return;
+			}
+
 			// note: prevent document scrolling when arrow keys are pressed
 			oEvent.preventDefault();
 
@@ -676,6 +680,11 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		 * @param {jQuery.Event} oEvent The event object.
 		 */
 		Slider.prototype.onsapdecreasemodifiers = function(oEvent) {
+
+			// process the event if the target is not a composite control e.g.: a tooltip
+			if (oEvent.altKey) {
+				return;
+			}
 
 			// note: prevent document scrolling when arrow keys are pressed
 			oEvent.preventDefault();

@@ -99,7 +99,7 @@
 	border-radius: 0.125rem;
 }
 
-.sapMGTFocusDiv {
+.sapMGT .sapMGTFocusDiv {
 	position: absolute;
 	pointer-events: none;
 	left: 0px;
@@ -110,14 +110,21 @@
 	z-index: 2;
 }
 
+.sapMGT.sapMGTBackgroundImage .sapMGTFocusDiv {
+	top: 1px;
+	right: 1px;
+	left: 1px;
+	bottom: 1px;
+}
+
 .sapMGenericTileLoading {
 	height: 100%;
 }
 
 .sapMGenericTileFtrFld {
 	left: 0.4375rem;
+	right: 0.4375rem;
 	bottom: 0.4375rem;
-	display: table;
 	position: absolute;
 }
 

@@ -30,7 +30,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', './Token
 	 * Tokens can only be used with the Tokenizer as a container.
 	 *
 	 * @author SAP SE
-	 * @version 1.40.16
+	 * @version 1.40.17
 	 *
 	 * @constructor
 	 * @public
@@ -136,7 +136,9 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', './Token
 
 				// fire "delete" event before Tokenizer's _onTokenDelete because the Tokenizer will destroy the token
 				// and the token's delete handler will not be executed
-				that.fireDelete();
+				that.fireDelete({
+					token : that
+				});
 
 				if (oParent instanceof Tokenizer) {
 					oParent._onTokenDelete(that);
@@ -321,7 +323,9 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', './Token
 		}
 
 		if (this.getEditable()) {
-			this.fireDelete();
+			this.fireDelete({
+				token : this
+			});
 		}
 
 		oEvent.preventDefault();

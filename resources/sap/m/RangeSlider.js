@@ -19,7 +19,7 @@ sap.ui.define(["./Slider", "./Input", 'sap/ui/core/InvisibleText'],
          * @extends sap.m.Slider
          *
          * @author SAP SE
-         * @version 1.40.16
+         * @version 1.40.17
          *
          * @constructor
          * @public
@@ -778,7 +778,7 @@ sap.ui.define(["./Slider", "./Input", 'sap/ui/core/InvisibleText'],
          * @param {jQuery.Event} oEvent The event object.
          */
         RangeSlider.prototype.onsapincreasemodifiers = function (oEvent) {
-            if (["number", "text"].indexOf(oEvent.target.type) > -1) {
+            if (["number", "text"].indexOf(oEvent.target.type) > -1 || oEvent.altKey) {
                 return;
             }
 
@@ -836,7 +836,7 @@ sap.ui.define(["./Slider", "./Input", 'sap/ui/core/InvisibleText'],
          * @param {jQuery.Event} oEvent The event object.
          */
         RangeSlider.prototype.onsapdecreasemodifiers = function (oEvent) {
-            if (["number", "text"].indexOf(oEvent.target.type) > -1) {
+            if (["number", "text"].indexOf(oEvent.target.type) > -1 || oEvent.altKey) {
                 return;
             }
 

@@ -38,7 +38,7 @@ sap.ui.define([
 	 * @implements sap.ui.core.Toolbar,sap.m.IBar
 	 *
 	 * @author SAP SE
-	 * @version 1.40.16
+	 * @version 1.40.17
 	 *
 	 * @constructor
 	 * @public
