@@ -45,7 +45,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @since 1.42.0
 	 *
 	 * @author SAP SE
-	 * @version 1.44.6
+	 * @version 1.44.7
 	 *
 	 * @public
 	 * @alias sap.m.HeaderContainer
@@ -434,7 +434,9 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		var oBarHead = this._oScrollCntr.getDomRef(), oOldScrollBack;
 
 		if (oBarHead) {
-			var iScrollTop = Math.round(oBarHead.scrollTop);
+			// in Chrome the scrollTop and scrollLeft return decimal value (in IE and Firefox return integer)
+			// which results in one pixel smaller than actual value.
+			var iScrollTop = Math.ceil(oBarHead.scrollTop);
 
 			// check whether scrolling to the left is possible
 			var bScrollBack = false;
@@ -479,7 +481,9 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		var oBarHead = this._oScrollCntr.getDomRef();
 
 		if (oBarHead) {
-			var iScrollLeft = Math.floor(oBarHead.scrollLeft);
+			// in Chrome the scrollTop and scrollLeft return decimal value (in IE and Firefox return integer)
+			// which results in one pixel smaller than actual value.
+			var iScrollLeft = Math.ceil(oBarHead.scrollLeft);
 
 			// check whether scrolling to the left is possible
 			var bScrollBack = false;

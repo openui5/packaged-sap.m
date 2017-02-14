@@ -22,7 +22,7 @@ sap.ui.define(['jquery.sap.global', './InputBase', './library'],
 	 * @extends sap.m.InputBase
 	 *
 	 * @author SAP SE
-	 * @version 1.44.6
+	 * @version 1.44.7
 	 *
 	 * @constructor
 	 * @public
@@ -246,8 +246,9 @@ sap.ui.define(['jquery.sap.global', './InputBase', './library'],
 	};
 
 	TextArea.prototype._adjustHeight = function(oTextArea) {
-		if (this.getValue()) {
-			oTextArea.style.height = oTextArea.scrollHeight + oTextArea.offsetHeight - oTextArea.clientHeight + "px";
+		var sHeight = oTextArea.scrollHeight + oTextArea.offsetHeight - oTextArea.clientHeight + "px";
+		if (this.getValue() && parseInt(sHeight, 10) !== 0) {
+			oTextArea.style.height = sHeight;
 			this._updateOverflow();
 		}
 	};

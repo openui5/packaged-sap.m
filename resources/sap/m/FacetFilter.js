@@ -68,7 +68,7 @@ sap.ui.define(['jquery.sap.global', './NavContainer', './library', 'sap/ui/core/
 	 *
 	 * @extends sap.ui.core.Control
 	 * @implements sap.ui.core.IShrinkable
-	 * @version 1.44.6
+	 * @version 1.44.7
 	 *
 	 * @constructor
 	 * @public

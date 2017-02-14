@@ -21,7 +21,7 @@ sap.ui.define(['jquery.sap.global', './Input', './Tokenizer', './Token', './libr
 	 * @extends sap.m.Input
 	 *
 	 * @author SAP SE
-	 * @version 1.44.6
+	 * @version 1.44.7
 	 *
 	 * @constructor
 	 * @public
@@ -461,10 +461,8 @@ sap.ui.define(['jquery.sap.global', './Input', './Tokenizer', './Token', './libr
 			$Parent.css("overflow", "visible");
 		}
 
-		setTimeout(function () {
-			that._showAllTokens();
-			that._tokenizer.scrollToStart();
-		}, 0);
+		that._showAllTokens();
+		that._tokenizer.scrollToStart();
 	};
 
 	/**
@@ -503,7 +501,7 @@ sap.ui.define(['jquery.sap.global', './Input', './Tokenizer', './Token', './libr
 			return;
 		}
 
-		// on phone open a full screen dialog
+		// on phone close full screen dialog
 		if (this._bUseDialog) {
 			this._oSuggestionPopup.close();
 			this._tokenizer.setVisible(true);
@@ -522,6 +520,10 @@ sap.ui.define(['jquery.sap.global', './Input', './Tokenizer', './Token', './libr
 				var oParent = this.getParent();
 				oParent.$().css("overflow", this._originalOverflow);
 			}
+		}
+
+		if (this.getTokens().length > 1 && this._isMultiLineMode) {
+			this._showIndicator();
 		}
 	};
 
@@ -969,7 +971,10 @@ sap.ui.define(['jquery.sap.global', './Input', './Tokenizer', './Token', './libr
 			this._validateCurrentText(true);
 		}
 
-		if (!this._bUseDialog && this._isMultiLineMode && !this._bShowIndicator && this.getEditable()) {
+		if (!this._bUseDialog 								// not phone
+			&& this._isMultiLineMode						// multiLine is enabled
+			&& this.getDomRef("inner").style.opacity == "1"	// multiLine is open
+			&& this.getEditable()) {						// control is editable
 
 			if (bNewFocusIsInMultiInput || bNewFocusIsInSuggestionPopup) {
 				return;
