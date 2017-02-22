@@ -1,6 +1,6 @@
-<mvc:View controllerName="sap.ui.demo.cart.controller.Cart"
+<mvc:View
+	controllerName="sap.ui.demo.cart.controller.Cart"
 	xmlns="sap.m"
-	xmlns:core="sap.ui.core"
 	xmlns:mvc="sap.ui.core.mvc">
 	<Page
 		id="page"
@@ -85,11 +85,11 @@
 						<firstStatus>
 							<ObjectStatus
 								text="{
-									path : 'cartProducts>status',
+									path : 'cartProducts>Status',
 									formatter : '.formatter.statusText'
 								}"
 								state="{
-									path : 'cartProducts>status',
+									path : 'cartProducts>Status',
 									formatter : '.formatter.statusState'
 								}" />
 						</firstStatus>
@@ -133,11 +133,11 @@
 						<firstStatus>
 							<ObjectStatus
 								text="{
-									path : 'cartProducts>status',
+									path : 'cartProducts>Status',
 									formatter : '.formatter.statusText'
 								}"
 								state="{
-									path : 'cartProducts>status',
+									path : 'cartProducts>Status',
 									formatter : '.formatter.statusState'
 								}" />
 						</firstStatus>

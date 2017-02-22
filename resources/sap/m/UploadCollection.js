@@ -5,7 +5,7 @@
  */
 // Provides control sap.m.UploadCollection.
 sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sap/ui/core/Control', 'sap/ui/core/Icon', 'sap/m/Text', 'sap/m/List', 'sap/ui/unified/FileUploaderParameter', "sap/ui/unified/FileUploader", 'sap/ui/core/format/FileSizeFormat', 'sap/m/Link', 'sap/m/OverflowToolbar', './ObjectAttribute', './ObjectStatus', "./UploadCollectionItem", "sap/ui/core/HTML", "./BusyIndicator", "./CustomListItem", "sap/ui/core/ResizeHandler", "sap/ui/Device", "./CustomListItemRenderer", "sap/ui/core/HTMLRenderer", "./LinkRenderer", "./ObjectAttributeRenderer", "./ObjectStatusRenderer", "./ObjectMarkerRenderer", "./TextRenderer", "./DialogRenderer"],
-	function(jQuery, MessageBox, Dialog, Library, Control, Icon, Text, List, FileUploaderParamter, FileUploader, FileSizeFormat, Link, OverflowToolbar, ObjectAttribute, ObjectStatus, UploadCollectionItem, HTML, BusyIndicator, CustomListItem, ResizeHandler, Device) {
+	function(jQuery, MessageBox, Dialog, Library, Control, Icon, Text, List, FileUploaderParameter, FileUploader, FileSizeFormat, Link, OverflowToolbar, ObjectAttribute, ObjectStatus, UploadCollectionItem, HTML, BusyIndicator, CustomListItem, ResizeHandler, Device) {
 	"use strict";
 
 	/**
@@ -15,13 +15,13 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 	 * @param {object} [mSettings] initial settings for the new control
 	 *
 	 * @class
-	 * This control allows users to upload single or multiple files from their devices (desktop PC, tablet or phone) and attach them into the application.
+	 * This control allows you to upload single or multiple files from your devices (desktop, tablet or phone) and attach them to the application.
 	 *
-	 * The consumer is responsible for performing the consistency checks of the model during the upload of the file, e.g. the user is editing or deleting a file.
+	 * The consuming application needs to take into account that the consistency checks of the model during the upload of the file need to be performed, for example, if the user is editing or deleting a file.
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.46.2
+	 * @version 1.46.3
 	 *
 	 * @constructor
 	 * @public
@@ -96,6 +96,8 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 			 * Lets the user select multiple files from the same folder and then upload them.
 			 * Internet Explorer 8 and 9 do not support this property.
 			 * Please note that the various operating systems for mobile devices can react differently to the property so that fewer upload functions may be available in some cases.
+			 *
+			 * If multiple property is set to false, the control shows an error message if more than one file is chosen for drag & drop.
 			 */
 			multiple : {type : "boolean", group : "Behavior", defaultValue : false},
 
@@ -732,12 +734,20 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 			jQuery.sap.log.error("Not a valid API call. 'instantUpload' should be set to 'false'.");
 		}
 		var iFileUploadersCounter = this._aFileUploadersForPendingUpload.length;
+		// upload files that are selected through popup
 		for (var i = 0; i < iFileUploadersCounter; i++) {
 			this._iUploadStartCallCounter = 0;
-			this._aFileUploadersForPendingUpload[i].upload();
+			// if the FU comes from drag and drop (without files), ignore it
+			if (this._aFileUploadersForPendingUpload[i].getValue()) {
+				this._aFileUploadersForPendingUpload[i].upload();
+			}
 		}
+		// upload files that are pushed through drag and drop
 		if (this._aFilesFromDragAndDropForPendingUpload.length > 0) {
-			this._getFileUploader()._sendFilesFromDragAndDrop(this._aFilesFromDragAndDropForPendingUpload);
+			// upload the files that are saved in the array
+			this._oFileUploader._sendFilesFromDragAndDrop(this._aFilesFromDragAndDropForPendingUpload);
+			// clean up the array
+			this._aFilesFromDragAndDropForPendingUpload = [];
 		}
 	};
 
@@ -852,8 +862,18 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 	};
 
 	UploadCollection.prototype.removeAggregation = function(sAggregationName, vObject, bSuppressInvalidate) {
+		var oFileFromDragDrop, iIndexOfFile;
 		if (!this.getInstantUpload() && sAggregationName === "items" && vObject) {
-			this._aDeletedItemForPendingUpload.push(vObject);
+			oFileFromDragDrop = vObject._internalFileIdWithinDragDropArray;
+			// if the deleted file is from drag and drop, removes it from the drag and drop array
+			if (oFileFromDragDrop) {
+				iIndexOfFile = this._aFilesFromDragAndDropForPendingUpload.indexOf(oFileFromDragDrop);
+				if (iIndexOfFile !== -1) {
+					this._aFilesFromDragAndDropForPendingUpload.splice(iIndexOfFile, 1);
+				}
+			} else {
+				this._aDeletedItemForPendingUpload.push(vObject);
+			}
 		}
 		if (Control.prototype.removeAggregation) {
 			return Control.prototype.removeAggregation.apply(this, arguments);
@@ -1006,6 +1026,9 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 	 */
 	UploadCollection.prototype.exit = function() {
 		var i, iPendingUploadsNumber;
+		/* _unbindDragEnterLeave has to be called before setting $RootNode to null, because if $RootNode is null, the
+			unbind will only partially be performed as it depends on $RootNode */
+		this._unbindDragEnterLeave();
 		if (this._$RootNode) {
 			this._$RootNode = null;
 		}
@@ -1033,7 +1056,6 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 			this._aFileUploadersForPendingUpload = null;
 		}
 		this._deregisterSizeHandler();
-		this._unbindDragEnterLeave();
 	};
 
 	/* =========================================================== */
@@ -1055,6 +1077,7 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 			this._$RootNode.bind("dragenter", this._onDragEnterUIArea.bind(this));
 			this._$RootNode.bind("dragleave", this._onDragLeaveUIArea.bind(this));
 			this._$RootNode.bind("dragover", this._onDragOverUIArea.bind(this));
+			this._$RootNode.bind("drop", this._onDropOnUIArea.bind(this));
 		}
 		this._$DragDropArea = this.$("drag-drop-area");
 		this.$().bind("dragenter", this._onDragEnterUploadCollection.bind(this));
@@ -1073,14 +1096,15 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 			return;
 		}
 		if (this._$RootNode) {
-			this._$RootNode.unbind("dragenter", this._onDragEnterTheUIArea);
-			this._$RootNode.unbind("dragleave", this._onDragLeaveUIArea);
-			this._$RootNode.unbind("dragover", this._onDragOverUIArea);
+			this._$RootNode.unbind("dragenter");
+			this._$RootNode.unbind("dragleave");
+			this._$RootNode.unbind("dragover");
+			this._$RootNode.unbind("drop");
 		}
-		this.$().unbind("dragenter", this._onDragEnterUploadCollection);
-		this.$().unbind("dragleave", this._onDragLeaveUploadCollection);
-		this.$().unbind("dragover", this._onDragOverUploadCollection);
-		this.$().unbind("drop", this._onDropOnUploadCollection);
+		this.$().unbind("dragenter");
+		this.$().unbind("dragleave");
+		this.$().unbind("dragover");
+		this.$().unbind("drop");
 	};
 
 	/**
@@ -1089,9 +1113,12 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 	 * @private
 	 */
 	UploadCollection.prototype._onDragEnterUIArea = function(event) {
+		if (!this._checkForFiles(event)) {
+			return;
+		}
 		this._oLastEnterUIArea = event.target;
 		this._$DragDropArea.removeClass("sapMUCDragDropOverlayHide");
-		this._AdjustDragDropIcon();
+		this._adjustDragDropIcon();
 	};
 
 	/**
@@ -1100,6 +1127,10 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 	 * @private
 	 */
 	UploadCollection.prototype._onDragOverUIArea = function(event) {
+		event.preventDefault();
+		if (!this._checkForFiles(event)) {
+			return;
+		}
 		this._$DragDropArea.removeClass("sapMUCDragDropOverlayHide");
 	};
 
@@ -1115,14 +1146,26 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 	};
 
 	/**
+	 * Handler when file is dropped on UIArea.
+	 * @param {jQuery.Event} event which was fired
+	 * @private
+	 */
+	UploadCollection.prototype._onDropOnUIArea = function(event) {
+		this._$DragDropArea.addClass("sapMUCDragDropOverlayHide");
+	};
+
+	/**
 	 * Handler when file is dragged in UploadCollection drop enabled area.
 	 * @param {jQuery.Event} event which was fired
 	 * @private
 	 */
 	UploadCollection.prototype._onDragEnterUploadCollection = function(event) {
+		if (!this._checkForFiles(event)) {
+			return;
+		}
 		if (event.target === this._$DragDropArea[0]) {
 			this._$DragDropArea.addClass("sapMUCDropIndicator");
-			this._AdjustDragDropIcon();
+			this._adjustDragDropIcon();
 			this.getAggregation("_dragDropText").setText(this._oRb.getText("UPLOADCOLLECTION_DROP_FILE_INDICATOR"));
 		}
 	};
@@ -1143,9 +1186,28 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 	 */
 	UploadCollection.prototype._onDragLeaveUploadCollection = function(event) {
 		if (event.target === this._$DragDropArea[0]) {
-			this.$("drag-drop-area").removeClass("sapMUCDropIndicator");
+			this._$DragDropArea.removeClass("sapMUCDropIndicator");
 			this.getAggregation("_dragDropText").setText(this._oRb.getText("UPLOADCOLLECTION_DRAG_FILE_INDICATOR"));
 		}
+	};
+
+	/**
+	 * Checks if at least one element in the data that are to be transferred while dragging is a File.
+	 * @param event
+	 * @returns {boolean}
+	 * @private
+	 */
+	UploadCollection.prototype._checkForFiles = function(event) {
+		var aTypes = event.originalEvent.dataTransfer.types;
+		if (aTypes) {
+			for (var i = 0; i < aTypes.length; i++) {
+				if (aTypes[i] === "Files") {
+					return true;
+				}
+			}
+		}
+
+		return false;
 	};
 
 	/**
@@ -1154,18 +1216,41 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 	 * @private
 	 */
 	UploadCollection.prototype._onDropOnUploadCollection = function(event) {
+		if (!this._checkForFiles(event)) {
+			// In Firefox the drop event leads to the opening of an invalid URL. Therefore we need to prevent this behaviour
+			event.preventDefault();
+			return;
+		}
 		if (event.target === this._$DragDropArea[0]) {
 			event.preventDefault();
+			this._$DragDropArea.removeClass("sapMUCDropIndicator");
 			this._$DragDropArea.addClass("sapMUCDragDropOverlayHide");
+			this.getAggregation("_dragDropText").setText(this._oRb.getText("UPLOADCOLLECTION_DRAG_FILE_INDICATOR"));
 			var aFiles = event.originalEvent.dataTransfer.files;
-			var oFileUploader = this._getFileUploader();
+			// multiple files are not allowed to drop when multiple is false
+			if (aFiles.length > 1 && !this.getMultiple()) {
+				var sMessage = this._oRb.getText("UPLOADCOLLECTION_MULTIPLE_FALSE");
+				MessageBox.error(sMessage);
+				return;
+			}
+			// files are not allowed to drop if they do not comply the FileUploader's restrictions
+			if (!this._oFileUploader._areFilesAllowed(aFiles)) {
+				return;
+			}
 			if (!this.getInstantUpload()) {
-				oFileUploader.fireChange({
+				for (var i = 0; i < aFiles.length; i++) {
+					this._oFileUploader.fireChange({
+						files: [aFiles[i]],
+						fromDragDrop: true
+					});
+					this._aFilesFromDragAndDropForPendingUpload.push(aFiles[i]);
+				}
+			} else {
+				// fire the _onchange event so that the UC item could be created
+				this._oFileUploader.fireChange({
 					files: aFiles
 				});
-				this._aFilesFromDragAndDropForPendingUpload = this._aFilesFromDragAndDropForPendingUpload.concat(Array.prototype.slice.call(aFiles));
-			} else {
-				oFileUploader._sendFilesFromDragAndDrop(aFiles);
+				this._oFileUploader._sendFilesFromDragAndDrop(aFiles);
 			}
 		}
 	};
@@ -1175,7 +1260,7 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 	 *
 	 * @private
 	 */
-	UploadCollection.prototype._AdjustDragDropIcon = function() {
+	UploadCollection.prototype._adjustDragDropIcon = function() {
 		// Icon is displayed when the drag enabled area more than 10rem(160px)
 		if (this._$DragDropArea[0].offsetHeight < 160) {
 			this.getAggregation("_dragDropIcon").$().hide();
@@ -2343,6 +2428,11 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 					oItem = new Library.UploadCollectionItem({
 						fileName: oEvent.getParameter("files")[i].name
 					});
+					// attach the File object to the UC item, so that
+					// the item can be identified if it comes from drag and drop
+					if (oEvent.getParameter("fromDragDrop")) {
+						oItem._internalFileIdWithinDragDropArray = oEvent.getParameter("files")[i];
+					}
 					oItem._status = sStatus;
 					oItem._internalFileIndexWithinFileUploader = i + 1;
 					oItem._requestIdName = sRequestValue;

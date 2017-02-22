@@ -1,17 +1,17 @@
 sap.ui.define([
-	'sap/ui/core/mvc/Controller',
+	'sap/ui/demo/cart/controller/BaseController',
 	'sap/ui/demo/cart/model/formatter',
 	'sap/ui/Device',
 	'sap/ui/model/Filter',
 	'sap/ui/model/FilterOperator'
-], function (Controller,
+], function (BaseController,
 			 formatter,
 			 Device,
 			 Filter,
 			 FilterOperator) {
 	"use strict";
 
-	return Controller.extend("sap.ui.demo.cart.controller.Category", {
+	return BaseController.extend("sap.ui.demo.cart.controller.Category", {
 		formatter : formatter,
 
 		onInit: function () {
@@ -56,10 +56,18 @@ sap.ui.define([
 			});
 		},
 
+		/**
+		 * Event handler to determine which list item is selected
+		 * @param {sap.ui.base.Event} oEvent the list select event
+		 */
 		onProductListSelect : function (oEvent) {
 			this._showProduct(oEvent);
 		},
 
+		/**
+		 * Event handler to determine which sap.m.ObjectListItem is pressed
+		 * @param {sap.ui.base.Event} oEvent the sap.m.ObjectListItem press event
+		 */
 		onProductListItemPress : function (oEvent) {
 			this._showProduct(oEvent);
 		},
@@ -77,18 +85,28 @@ sap.ui.define([
 			this._router.navTo("product", {id: sCategoryId, productId: sProductId}, !Device.system.phone);
 		},
 
+		/**
+		 * Navigation back to home view
+		 */
 		onNavButtonPress : function () {
 			this.getOwnerComponent().myNavBack();
 		},
 
+		/**
+		 * Navigation to cart view
+		 */
 		onCartButtonPress :  function () {
 			this._router.navTo("cart");
 		},
 
+		/**
+		 * Event handler to determine if the sap.m.ToggleButton is pressed or not
+		 * @param {sap.ui.base.Event} oEvent sap.m.ToggleButton press event
+		 */
 		onAvailabilityFilterToggle : function (oEvent) {
 			var oList = this.getView().byId("productList");
 			var oBinding = oList.getBinding("items");
-			var oStatusFilter = new Filter("status", FilterOperator.EQ, "A");
+			var oStatusFilter = new Filter("Status", FilterOperator.EQ, "A");
 
 			if(oEvent.getParameter("pressed")) {
 				oBinding.filter([oStatusFilter]);

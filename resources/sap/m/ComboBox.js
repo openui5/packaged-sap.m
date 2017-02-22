@@ -4,8 +4,8 @@
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
-sap.ui.define(['jquery.sap.global', './ComboBoxTextField', './ComboBoxBase', './ComboBoxRenderer', './Popover', './SelectList', './Dialog', './Toolbar', './Button', './library', 'sap/ui/Device'],
-	function(jQuery, ComboBoxTextField, ComboBoxBase, ComboBoxRenderer, Popover, SelectList, Dialog, Toolbar, Button, library, Device) {
+sap.ui.define(['jquery.sap.global', './ComboBoxTextField', './ComboBoxBase', './ComboBoxRenderer', './Popover', './SelectList', './Dialog', './Toolbar', './Button', './library'],
+	function(jQuery, ComboBoxTextField, ComboBoxBase, ComboBoxRenderer, Popover, SelectList, Dialog, Toolbar, Button, library) {
 		"use strict";
 
 		/**
@@ -45,7 +45,7 @@ sap.ui.define(['jquery.sap.global', './ComboBoxTextField', './ComboBoxBase', './
 		 * </ul>
 		 *
 		 * @author SAP SE
-		 * @version 1.46.2
+		 * @version 1.46.3
 		 *
 		 * @constructor
 		 * @extends sap.m.ComboBoxBase
@@ -112,6 +112,36 @@ sap.ui.define(['jquery.sap.global', './ComboBoxTextField', './ComboBoxBase', './
 					}
 				},
 				events: {
+
+					/**
+					 * This event is fired when the value in the text input field is changed in combination with one of
+					 * the following actions:
+					 *
+					 * <ul>
+					 * 	<li>The focus leaves the text input field</li>
+					 * 	<li>The <i>Enter</i> key is pressed</li>
+					 * </ul>
+					 *
+					 * In addition, this event is also fired when an item in the list is selected.
+					 */
+					change: {
+						parameters: {
+
+							/**
+							 * The new <code>value</code> of the <code>control</code>
+							 */
+							value: {
+								type: "string"
+							},
+
+							/**
+							 * Indicates whether the change event was caused by selecting an item in the list
+							 */
+							itemPressed: {
+								type: "boolean"
+							}
+						}
+					},
 
 					/**
 					 * This event is fired when the user types something that matches with an item in the list;
@@ -293,11 +323,12 @@ sap.ui.define(['jquery.sap.global', './ComboBoxTextField', './ComboBoxBase', './
 				placement: sap.m.PlacementType.VerticalPreferredBottom,
 				offsetX: 0,
 				offsetY: 0,
-				initialFocus: this,
 				bounce: false,
 				showArrow: false,
 				ariaLabelledBy: this.getPickerInvisibleTextId() || undefined
 			});
+
+			oPicker.setInitialFocus(this.isPlatformTablet() ? oPicker : this);
 
 			oPicker.open = function() {
 				return this.openBy(that);
@@ -594,14 +625,15 @@ sap.ui.define(['jquery.sap.global', './ComboBoxTextField', './ComboBoxBase', './
 		 * @param {sap.ui.base.Event} oControlEvent
 		 */
 		ComboBox.prototype.onSelectionChange = function(oControlEvent) {
-			var oItem = oControlEvent.getParameter("selectedItem");
+			var oItem = oControlEvent.getParameter("selectedItem"),
+				mParam = this.getChangeEventParams();
 
 			this.setSelection(oItem);
 			this.fireSelectionChange({
 				selectedItem: this.getSelectedItem()
 			});
-
-			this.onChange();
+			mParam.itemPressed = true;
+			this.onChange(null, mParam);
 		};
 
 		/**
@@ -1018,7 +1050,7 @@ sap.ui.define(['jquery.sap.global', './ComboBoxTextField', './ComboBoxBase', './
 				// avoid the text-editing mode popup to be open on mobile,
 				// text-editing mode disturbs the usability experience (it blocks the UI in some devices)
 				// note: This occurs only in some specific mobile devices
-				if (bDropdownPickerType) {
+				if (bDropdownPickerType && !this.isPlatformTablet()) {
 
 					// force the focus to stay in the input field
 					this.focus();
@@ -1059,7 +1091,7 @@ sap.ui.define(['jquery.sap.global', './ComboBoxTextField', './ComboBoxBase', './
 		 */
 		ComboBox.prototype.onsapfocusleave = function(oEvent) {
 			var bTablet, oPicker,
-				oRelatedControl, oFocusDomRef, bNotCombi,
+				oRelatedControl, oFocusDomRef,
 				oControl = oEvent.srcControl,
 				oItem = oControl.getSelectedItem();
 
@@ -1079,8 +1111,7 @@ sap.ui.define(['jquery.sap.global', './ComboBoxTextField', './ComboBoxBase', './
 				return;
 			}
 
-			bNotCombi = !Device.system.combi;
-			bTablet = Device.system.tablet && bNotCombi;
+			bTablet = this.isPlatformTablet();
 			oRelatedControl = sap.ui.getCore().byId(oEvent.relatedControlId);
 			oFocusDomRef = oRelatedControl && oRelatedControl.getFocusDomRef();
 
@@ -1272,6 +1303,12 @@ sap.ui.define(['jquery.sap.global', './ComboBoxTextField', './ComboBoxBase', './
 		 */
 		ComboBox.prototype.getDefaultSelectedItem = function() {
 			return null;
+		};
+
+		ComboBox.prototype.getChangeEventParams = function() {
+			return {
+				itemPressed: false
+			};
 		};
 
 		/*

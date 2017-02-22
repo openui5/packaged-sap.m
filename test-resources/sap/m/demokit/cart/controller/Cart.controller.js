@@ -1,26 +1,28 @@
 sap.ui.define([
-	'sap/ui/core/mvc/Controller',
+	'sap/ui/demo/cart/controller/BaseController',
 	'sap/ui/model/json/JSONModel',
 	'sap/ui/Device',
 	'sap/ui/demo/cart/model/formatter',
 	'sap/m/MessageBox',
 	'sap/m/MessageToast',
 	'sap/m/Dialog',
-	'sap/m/Button'
+	'sap/m/Button',
+	'sap/ui/core/routing/History'
 ], function (
-	Controller,
+	BaseController,
 	JSONModel,
 	Device,
 	formatter,
 	MessageBox,
 	MessageToast,
 	Dialog,
-	Button) {
+	Button,
+	History) {
 	var sCartModelName = "cartProducts";
 	var sSavedForLaterEntries = "savedForLaterEntries";
 	var sCartEntries = "cartEntries";
 
-	return Controller.extend("sap.ui.demo.cart.controller.Cart", {
+	return BaseController.extend("sap.ui.demo.cart.controller.Cart", {
 		formatter: formatter,
 
 		onInit: function () {
@@ -43,6 +45,18 @@ sap.ui.define([
 		},
 
 		_routePatternMatched: function () {
+			// show welcome page if cart is loaded from URL
+			var oHistory = History.getInstance();
+			if (!oHistory.getPreviousHash() && !sap.ui.Device.system.phone) {
+				this.getRouter().getTarget("welcome").display();
+			}
+			var oCartModel = this.getModel("cartProducts");
+			var oCartEntries = oCartModel.getProperty("/cartEntries");
+			//enables the proceed and edit buttons if the cart has entries
+			if (!jQuery.isEmptyObject(oCartEntries)) {
+				oCartModel.setProperty("/showProceedButton", true);
+				oCartModel.setProperty("/showEditButton", true);
+			}
 			//set selection of list back
 			var oEntryList = this.getView().byId("entryList");
 			oEntryList.removeSelections();

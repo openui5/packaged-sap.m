@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.46.2
+	 * @version 1.46.3
 	 *
 	 * @constructor
 	 * @public
@@ -370,6 +370,17 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		return this.bFocusoutDueRendering;
 	};
 
+	/*
+	 * Gets the change event additional parameters.
+	 *
+	 * @returns {object} A map object with the parameters
+	 * @protected
+	 * @since 1.48
+	 */
+	InputBase.prototype.getChangeEventParams = function() {
+		return {};
+	};
+
 	/**
 	 * Handle when input is tapped.
 	 *
@@ -392,9 +403,12 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 *
 	 * @protected
 	 * @param {object} oEvent
+	 * @param {object} [mParameters] Additional event parameters to be passed in to the change event handler if the
+	 * value has changed
 	 * @returns {true|undefined} true when change event is fired
 	 */
-	InputBase.prototype.onChange = function(oEvent) {
+	InputBase.prototype.onChange = function(oEvent, mParameters) {
+		mParameters = mParameters || this.getChangeEventParams();
 
 		// check the control is editable or not
 		if (!this.getEditable() || !this.getEnabled()) {
@@ -424,7 +438,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 			this._lastValue = sValue;
 
 			// fire change event
-			this.fireChangeEvent(sValue);
+			this.fireChangeEvent(sValue, mParameters);
 
 			// inform change detection
 			return true;
@@ -724,6 +738,11 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 
 		// respect to max length
 		sValue = this._getInputValue(sValue);
+
+		//Ignore the input event which is raised by MS Internet Explorer when non-ASCII characters are typed in
+		if (sap.ui.Device.browser.msie && sap.ui.Device.browser.version > 9 && !/^[\x00-\x7F]*$/.test(sValue)){
+			this._bIgnoreNextInput = true;
+		}
 
 		// update the DOM value when necessary
 		// otherwise cursor can goto end of text unnecessarily

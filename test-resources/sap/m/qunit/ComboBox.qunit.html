@@ -7324,7 +7324,7 @@
 				items: [
 					new sap.ui.core.Item({
 						key: "0",
-						text: "item 0 is selected",
+						text: "item 0 is selected"
 					}),
 
 					new sap.ui.core.Item({
@@ -10267,7 +10267,7 @@
 						key: "DK",
 						text: "Denmark",
 						additionalText: "DK"
-					}),
+					})
 				]
 			});
 
@@ -10316,7 +10316,7 @@
 						key: "DK",
 						text: "Denmark",
 						additionalText: "DK"
-					}),
+					})
 				]
 			});
 
@@ -10372,6 +10372,39 @@
 
 			// cleanup
 			oComboBox.destroy();
+		});
+
+		QUnit.test('onSelectionChange should pass in the "itemPressed" parameter to the change event handle', function(assert) {
+
+			// system under test
+			var oItem;
+			var oComboBox = new sap.m.ComboBox({
+				items: [
+					oItem = new sap.ui.core.ListItem({
+						text: "lorem ipsum"
+					})
+				]
+			});
+
+			// arrange
+			oComboBox.placeAt("content");
+			sap.ui.getCore().applyChanges();
+			oComboBox.focus();
+			var fnFireChangeSpy = this.spy(oComboBox, "fireChange");
+			oComboBox.updateDomValue("change the value");
+			var oControlEvent = new sap.ui.base.Event("selectionChange", oComboBox.getList(), {
+				selectedItem: oItem
+			});
+
+			// act
+			oComboBox.onSelectionChange(oControlEvent);
+
+			// assert
+			assert.strictEqual(fnFireChangeSpy.args[0][0].itemPressed, true);
+
+			// cleanup
+			oComboBox.destroy();
+			oControlEvent.destroy();
 		});
 
 		QUnit.module("onPropertyChange");
@@ -10630,6 +10663,47 @@
 			assert.ok(jQuery.sap.containsOrEquals(oCB.getDomRef(), document.activeElement), "Focus is still inside the ComboBox after open and close");
 
 			oCB.destroy();
+		});
+
+		QUnit.module("Tablet focus handling");
+
+		QUnit.test("it should focus the picker", function(assert) {
+			this.stub(sap.ui.Device, "system", {
+				desktop: false,
+				tablet: true,
+				phone: false
+			});
+
+			var oComboBox = new sap.m.ComboBox(),
+				oComboBoxPicker = oComboBox.getPicker();
+
+			assert.equal(oComboBoxPicker.getInitialFocus(), oComboBoxPicker.getId(), "Initial focus should be set to the picker");
+
+			oComboBox.destroy();
+		});
+
+		QUnit.test("it should not set the focus to the input", function(assert) {
+			this.stub(sap.ui.Device, "system", {
+				desktop: false,
+				tablet: true,
+				phone: false
+			});
+
+			var oComboBox = new sap.m.ComboBox(),
+				oComboBoxPicker = oComboBox.getPicker(),
+				oFakeEvent = null,
+				oFocusinStub = this.stub(oComboBox, "focus");
+
+			oComboBox.placeAt("content");
+			sap.ui.getCore().applyChanges();
+
+			oFakeEvent = { target: oComboBox.getDomRef("arrow") }
+
+			oComboBox.onfocusin(oFakeEvent);
+
+			assert.strictEqual(oFocusinStub.callCount, 0, "Focus should not be called");
+
+			oComboBox.destroy();
 		});
 		</script>
 	</head>

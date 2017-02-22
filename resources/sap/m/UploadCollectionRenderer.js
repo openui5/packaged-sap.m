@@ -27,8 +27,8 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Renderer', 'sap/m/ListRenderer'
 		oRm.addClass("sapMUC");
 		oRm.writeClasses();
 		oRm.write(">");
-		ListRenderer.render.call(this, oRm, oControl._oList);
 		this.renderDragDropOverlay(oRm, oControl);
+		ListRenderer.render.call(this, oRm, oControl._oList);
 		oRm.write("</div>");
 	};
 
@@ -51,13 +51,15 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Renderer', 'sap/m/ListRenderer'
 		oRm.writeEscaped(oUploadCollection.getNoDataText());
 		oRm.write("</div>");
 
-		oRm.write("<div");
-		oRm.writeAttribute("id", oUploadCollection.getId() + "-no-data-description");
-		oRm.addClass("sapMUCNoDataDescription");
-		oRm.writeClasses();
-		oRm.write(">");
-		oRm.writeEscaped(oUploadCollection.getNoDataDescription());
-		oRm.write("</div>");
+		if (oUploadCollection.getUploadEnabled()) {
+			oRm.write("<div");
+			oRm.writeAttribute("id", oUploadCollection.getId() + "-no-data-description");
+			oRm.addClass("sapMUCNoDataDescription");
+			oRm.writeClasses();
+			oRm.write(">");
+			oRm.writeEscaped(oUploadCollection.getNoDataDescription());
+			oRm.write("</div>");
+		}
 		oRm.write("</div>");
 	};
 

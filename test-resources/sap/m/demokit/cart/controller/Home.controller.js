@@ -1,15 +1,15 @@
 sap.ui.define([
-	'sap/ui/core/mvc/Controller',
+	'sap/ui/demo/cart/controller/BaseController',
 	'sap/ui/demo/cart/model/formatter',
 	'sap/ui/model/Filter',
 	'sap/ui/model/FilterOperator'
-], function (Controller,
+], function (BaseController,
 			 formatter,
 			 Filter,
 			 FilterOperator) {
 	"use strict";
 
-	return Controller.extend("sap.ui.demo.cart.controller.Home", {
+	return BaseController.extend("sap.ui.demo.cart.controller.Home", {
 		formatter : formatter,
 
 		onInit: function () {
@@ -94,6 +94,10 @@ sap.ui.define([
 			var oModel = oBindContext.getModel();
 			var sId = oModel.getData(oBindContext.getPath()).ProductId;
 			this._router.navTo("cartProduct", {productId: sId}, !sap.ui.Device.system.phone);
+		},
+
+		onNavButtonPress : function () {
+			this.getOwnerComponent().myNavBack();
 		},
 
 		onCartButtonPress: function () {

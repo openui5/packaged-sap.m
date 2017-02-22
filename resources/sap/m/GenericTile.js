@@ -19,7 +19,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/T
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.46.2
+	 * @version 1.46.3
 	 * @since 1.34
 	 *
 	 * @public
@@ -171,7 +171,6 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/T
 		this._oWarningIcon.addStyleClass("sapMGTFtrFldIcnMrk");
 
 		this._oBusy = new HTML(this.getId() + "-overlay");
-		this._oBusy.addStyleClass("sapMGenericTileLoading");
 		this._oBusy.setBusyIndicatorDelay(0);
 
 		this._bTilePress = true;

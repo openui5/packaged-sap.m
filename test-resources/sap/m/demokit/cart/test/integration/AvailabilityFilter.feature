@@ -1,4 +1,4 @@
-Feature: Open the Light Box for a picture
+Feature: Set the availability filter
 
   Background:
     Given I start my App

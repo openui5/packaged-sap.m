@@ -18,7 +18,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/G
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.46.2
+	 * @version 1.46.3
 	 * @since 1.34
 	 *
 	 * @public
@@ -379,12 +379,17 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/G
 			var oWrapperFrom = this.$("wrapper-" + this._iPreviousTile);
 			oWrapperFrom.stop();
 		}
+		this._bAnimationPause = true;
 		if (this._iCurrAnimationTime > this.getDisplayTime()) {
 			this._scrollToNextTile(true); //Completes the animation and stops
-		} else if (needInvalidate) {
-			this.invalidate();
+		} else {
+			if (this.getTiles()[this._iCurrentTile]) {
+				this._setAriaDescriptor();
+			}
+			if (needInvalidate) {
+				this.invalidate();
+			}
 		}
-		this._bAnimationPause = true;
 	};
 
 	/**
@@ -519,11 +524,24 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/G
 	 * @private
 	 */
 	SlideTile.prototype._setAriaDescriptor = function() {
-		var sToggleSliding = this._oRb.getText("SLIDETILE_TOGGLE_SLIDING"),
-			sText = this.getTiles()[this._iCurrentTile]._getAriaText().replace(/\s/g, " "); //Tile's ARIA text
-		if (this.getTiles().length > 1) {
-			sText = sText + "\n" + sToggleSliding;
+		var sText, sScope, aTiles, oCurrentTile;
+
+		sScope = this.getScope();
+		aTiles = this.getTiles();
+		oCurrentTile = aTiles[this._iCurrentTile];
+		sText = oCurrentTile._getAriaText().replace(/\s/g, " ");// Gets Tile's ARIA text and collapses whitespaces
+
+		if (sScope === library.GenericTileScope.Actions) {
+			sText = this._oRb.getText("GENERICTILE_ACTIONS_ARIA_TEXT") + "\n" + sText;
+		} else if (aTiles.length > 1 && sScope === library.GenericTileScope.Display) {
+			sText += "\n" + this._oRb.getText("SLIDETILE_MULTIPLE_CONTENT") + "\n" +
+				this._oRb.getText("SLIDETILE_TOGGLE_SLIDING");
+			if (this._bAnimationPause) {
+				sText += "\n" + this._oRb.getText("SLIDETILE_SCROLL_BACK") + "\n" +
+					this._oRb.getText("SLIDETILE_SCROLL_FORWARD");
+			}
 		}
+		sText += "\n" + this._oRb.getText("SLIDETILE_ACTIVATE");
 		this.$().attr("aria-label", sText);
 	};
 
