@@ -38,7 +38,7 @@ sap.ui.define([
 	 * @implements sap.ui.core.Toolbar,sap.m.IBar
 	 *
 	 * @author SAP SE
-	 * @version 1.44.7
+	 * @version 1.44.8
 	 *
 	 * @constructor
 	 * @public
@@ -672,6 +672,8 @@ sap.ui.define([
 		};
 
 		this._bNestedInAPopover = fnScanForPopup(this);
+
+		return this._bNestedInAPopover;
 	};
 
 	/**

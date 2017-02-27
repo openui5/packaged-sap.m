@@ -24,7 +24,7 @@ sap.ui.define(['jquery.sap.global', './ListItemBase', './library'],
 	 * @extends sap.m.ListItemBase
 	 *
 	 * @author SAP SE
-	 * @version 1.44.7
+	 * @version 1.44.8
 	 *
 	 * @constructor
 	 * @public
@@ -45,10 +45,10 @@ sap.ui.define(['jquery.sap.global', './ListItemBase', './library'],
 		designTime: true
 	}});
 
-	CustomListItem.prototype.getAccessibilityInfo = function() {
-		var oAccInfo = ListItemBase.prototype.getAccessibilityInfo.call(this);
-		oAccInfo.children = this.getContent();
-		return oAccInfo;
+	CustomListItem.prototype.getContentAnnouncement = function() {
+		return this.getContent().map(function(oContent) {
+			return ListItemBase.getAccessibilityText(oContent);
+		}).join(" ").trim();
 	};
 
 	return CustomListItem;
