@@ -21,7 +21,7 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.46.3
+	 * @version 1.46.4
 	 *
 	 * @constructor
 	 * @public
@@ -1571,20 +1571,15 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 			}
 
 			oFileName = sap.ui.getCore().byId(sItemId + "-ta_filenameHL");
-			if (!oFileName) {
-				oFileName = new sap.m.Link(sItemId + "-ta_filenameHL", {
-					enabled : bEnabled,
-					press : function(oEvent) {
-						this._triggerLink(oEvent, that);
-					}.bind(this)
-				}).addStyleClass("sapMUCFileName");
-				oFileName.setModel(oItem.getModel());
-				oFileName.setText(sFileNameLong);
-			} else {
-					oFileName.setModel(oItem.getModel());
-					oFileName.setText(sFileNameLong);
-					oFileName.setEnabled(bEnabled);
+			if (oFileName) {
+				oFileName.destroy();
 			}
+			oFileName = new sap.m.Link(sItemId + "-ta_filenameHL", {
+				enabled : bEnabled,
+				press : [that, this._triggerLink, this]
+			}).addStyleClass("sapMUCFileName");
+			oFileName.setModel(oItem.getModel());
+			oFileName.setText(sFileNameLong);
 			return oFileName;
 		} else {
 			oFile = that._splitFilename(sFileNameLong);
@@ -2036,6 +2031,8 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 					// new
 					item : oItemToBeDeleted
 				});
+				// do not save the item after the item is deleted in instant mode
+				this._oItemForDelete = null;
 			} else {
 				if (this.aItems.length === 1) {
 					this.sFocusId = this._oFileUploader.$().find(":button")[0].id;

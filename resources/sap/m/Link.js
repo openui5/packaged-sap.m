@@ -5,8 +5,8 @@
  */
 
 // Provides control sap.m.Link.
-sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/core/InvisibleText', 'sap/ui/core/EnabledPropagator', 'sap/ui/core/LabelEnablement'],
-	function(jQuery, library, Control, InvisibleText, EnabledPropagator, LabelEnablement) {
+sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/core/InvisibleText', 'sap/ui/core/EnabledPropagator'],
+	function(jQuery, library, Control, InvisibleText, EnabledPropagator) {
 	"use strict";
 
 
@@ -23,7 +23,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @implements sap.ui.core.IShrinkable
 	 *
 	 * @author SAP SE
-	 * @version 1.46.3
+	 * @version 1.46.4
 	 *
 	 * @constructor
 	 * @public
@@ -114,8 +114,6 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		}
 	}});
 
-
-
 	EnabledPropagator.call(Link.prototype); // inherit "disabled" state from parent controls
 
 	/**
@@ -123,13 +121,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 *
 	 * @private
 	 */
-	Link.prototype.onBeforeRendering = function() {
-		// add/remove self reference for aria-labelledby  to fix reading issues
-		this.removeAssociation("ariaLabelledBy", this.getId(), true);
-		if (this.getAriaLabelledBy().length > 0 || LabelEnablement.getReferencingLabels(this).length > 0) {
-			this.addAssociation("ariaLabelledBy", this.getId(), true);
-		}
-	};
+	Link.prototype.onBeforeRendering = function() {};
 
 	/**
 	 * Triggers link activation when space key is pressed on the focused control.

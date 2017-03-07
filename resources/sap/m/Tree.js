@@ -23,7 +23,7 @@ sap.ui.define(['jquery.sap.global', './ListBase', './TreeItemBase', './library',
 	 * @extends sap.m.ListBase
 	 *
 	 * @author SAP SE
-	 * @version 1.46.3
+	 * @version 1.46.4
 	 *
 	 * @constructor
 	 * @public
@@ -34,6 +34,11 @@ sap.ui.define(['jquery.sap.global', './ListBase', './TreeItemBase', './library',
 	var Tree = ListBase.extend("sap.m.Tree", { metadata : {
 		library : "sap.m"
 	}});
+
+	Tree.prototype.init = function() {
+		ListBase.prototype.init.apply(this, arguments);
+		this.setEnableBusyIndicator(false);
+	};
 
 	Tree.prototype.isTreeBinding = function(sName) {
 		return (sName == "items");
@@ -61,7 +66,11 @@ sap.ui.define(['jquery.sap.global', './ListBase', './TreeItemBase', './library',
 		return oBinding;
 	};
 
-	Tree.prototype.updateItems = function(sReason) {
+	Tree.prototype.updateAggregation = function(sName) {
+		if (sName != "items") {
+			return ListBase.prototype.updateAggregation.apply(this, arguments);
+		}
+
 		// Reuse the ListBinding from ManagedObject.updataAggregation
 		var oBindingInfo = this.getBindingInfo("items"),
 			oBinding = this.getBinding("items"),
@@ -127,28 +136,65 @@ sap.ui.define(['jquery.sap.global', './ListBase', './TreeItemBase', './library',
 		}
 	};
 
+	/**
+	 * The <code>growing</code> property is not supported for control <code>Tree</code>.
+	 * @public
+	 * @deprecated
+	 */
 	Tree.prototype.setGrowing = function() {
 		jQuery.sap.log.error("Growing feature of " + this + " is not supported!");
 		return this;
 	};
 
+	/**
+	 * The <code>growingThreshold</code> property is not supported for control <code>Tree</code>.
+	 * @public
+	 * @deprecated
+	 */
 	Tree.prototype.setGrowingThreshold = function() {
 		jQuery.sap.log.error("GrowingThreshold of " + this + " is not supported!");
 		return this;
 	};
 
+	/**
+	 * The <code>growingTriggerText</code> property is not supported for control <code>Tree</code>.
+	 * @public
+	 * @deprecated
+	 */
 	Tree.prototype.setGrowingTriggerText = function() {
 		jQuery.sap.log.error("GrowingTriggerText of " + this + " is not supported!");
 		return this;
 	};
 
+	/**
+	 * The <code>growingScrollToLoad</code> property is not supported for control <code>Tree</code>.
+	 * @public
+	 * @deprecated
+	 */
 	Tree.prototype.setGrowingScrollToLoad = function() {
 		jQuery.sap.log.error("GrowingScrollToLoad of " + this + " is not supported!");
 		return this;
 	};
 
+	/**
+	 * The <code>growingDirection</code> property is not supported for control <code>Tree</code>.
+	 * @public
+	 * @deprecated
+	 */
 	Tree.prototype.setGrowingDirection = function() {
 		jQuery.sap.log.error("GrowingDirection of " + this + " is not supported!");
+		return this;
+	};
+
+	/**
+	 * The <code>enableBusyIndicator</code> property is not supported for control <code>Tree</code>.
+	 * @public
+	 * @deprecated
+	 */
+	Tree.prototype.setEnableBusyIndicator = function(bEnable) {
+		if (bEnable) {
+			jQuery.sap.log.error("enableBusyIndicator property is not supported for control " + this);
+		}
 		return this;
 	};
 

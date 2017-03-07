@@ -5,8 +5,8 @@
  */
 
 // Provides control sap.m.ListBase.
-sap.ui.define(['jquery.sap.global', './GroupHeaderListItem', './library', 'sap/ui/core/Control', 'sap/ui/core/delegate/ItemNavigation', 'sap/ui/core/InvisibleText'],
-	function(jQuery, GroupHeaderListItem, library, Control, ItemNavigation, InvisibleText) {
+sap.ui.define(['jquery.sap.global', './GroupHeaderListItem', './ListItemBase', './library', 'sap/ui/core/Control', 'sap/ui/core/delegate/ItemNavigation', 'sap/ui/core/InvisibleText'],
+	function(jQuery, GroupHeaderListItem, ListItemBase, library, Control, ItemNavigation, InvisibleText) {
 	"use strict";
 
 
@@ -24,7 +24,7 @@ sap.ui.define(['jquery.sap.global', './GroupHeaderListItem', './library', 'sap/u
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.46.3
+	 * @version 1.46.4
 	 *
 	 * @constructor
 	 * @public
@@ -1481,16 +1481,19 @@ sap.ui.define(['jquery.sap.global', './GroupHeaderListItem', './library', 'sap/u
 	};
 
 	ListBase.prototype.getAccessibilityDescription = function() {
-		var sDescription = "",
-			oHeaderTBar = this.getHeaderToolbar();
+		var sDescription = this.getAriaLabelledBy().map(function(sAriaLabelledBy) {
+			var oAriaLabelledBy = sap.ui.getCore().byId(sAriaLabelledBy);
+			return ListItemBase.getAccessibilityText(oAriaLabelledBy);
+		}).join(" ");
 
+		var oHeaderTBar = this.getHeaderToolbar();
 		if (oHeaderTBar) {
 			var oTitle = oHeaderTBar.getTitleControl();
 			if (oTitle) {
-				sDescription = oTitle.getText() + " ";
+				sDescription += oTitle.getText() + " ";
 			}
 		} else {
-			sDescription = this.getHeaderText() + " ";
+			sDescription += this.getHeaderText() + " ";
 		}
 
 		sDescription += this.getAccessibilityType() + " ";

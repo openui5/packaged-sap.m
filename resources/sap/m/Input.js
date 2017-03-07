@@ -66,7 +66,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 	 *
 	 * @extends sap.m.InputBase
 	 * @author SAP SE
-	 * @version 1.46.3
+	 * @version 1.46.4
 	 *
 	 * @constructor
 	 * @public
@@ -1909,7 +1909,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 					}
 				}
 
-				this._oSuggestionTable.invalidate();
+				oInput._oSuggestionTable.invalidate();
 			} else {
 				// filter standard items
 				var bListItem = (aItems[0] instanceof ListItem ? true : false);

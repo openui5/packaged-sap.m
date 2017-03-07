@@ -36,7 +36,7 @@ sap.ui.define(["jquery.sap.global", "./ResponsivePopover", "./Button", "./Toolba
 		 * @extends sap.ui.core.Control
 		 *
 		 * @author SAP SE
-		 * @version 1.46.3
+		 * @version 1.46.4
 		 *
 		 * @constructor
 		 * @private
@@ -1252,6 +1252,9 @@ sap.ui.define(["jquery.sap.global", "./ResponsivePopover", "./Button", "./Toolba
 					break;
 				case 'filterItems':
 					oList = this._getFilterList();
+					break;
+				case 'filterDetailItems':
+					oList = this._getFilterDetailList();
 					break;
 			}
 

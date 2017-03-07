@@ -53,6 +53,10 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Renderer'],
 	 * @param {sap.ui.core.Control} oControl an object representation of the control whose content should be rendered
 	 */
 	TileContentRenderer._renderContent = function(oRm, oControl) {
+		if (!oControl._bRenderContent) {
+			return;
+		}
+
 		var oContent = oControl.getContent();
 		if (oContent) {
 			oRm.write("<div");
@@ -80,6 +84,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Renderer'],
 		if (!oControl._bRenderFooter) {
 			return;
 		}
+
 		var sTooltip = oControl.getTooltip_AsString();
 		var sFooterTxt = oControl._getFooterText(oRm, oControl);
 		// footer text div

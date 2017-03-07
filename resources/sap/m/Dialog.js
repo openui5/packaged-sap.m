@@ -28,7 +28,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './InstanceManager', './Associative
 		 * @implements sap.ui.core.PopupInterface
 		 *
 		 * @author SAP SE
-		 * @version 1.46.3
+		 * @version 1.46.4
 		 *
 		 * @constructor
 		 * @public
@@ -265,7 +265,8 @@ sap.ui.define(['jquery.sap.global', './Bar', './InstanceManager', './Associative
 							origin: {type: "sap.m.Button"}
 						}
 					}
-				}
+				},
+				designTime : true
 			}
 		});
 
