@@ -24,7 +24,7 @@ sap.ui.define([
 		 * @extends sap.ui.core.Control
 		 *
 		 * @author SAP SE
-		 * @version 1.44.8
+		 * @version 1.44.9
 		 *
 		 * @constructor
 		 * @public
@@ -866,7 +866,7 @@ sap.ui.define([
 				stepOffset = currentStepDOM.offsetTop,
 				stepChangeThreshold = 100;
 
-			if (scrollTop + stepChangeThreshold >= stepOffset + stepHeight) {
+			if (scrollTop + stepChangeThreshold >= stepOffset + stepHeight && progressNavigator._isActiveStep(progressNavigator._currentStep + 1)) {
 				progressNavigator.nextStep(true);
 			}
 

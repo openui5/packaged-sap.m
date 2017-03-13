@@ -68,7 +68,7 @@ sap.ui.define(['jquery.sap.global', './NavContainer', './library', 'sap/ui/core/
 	 *
 	 * @extends sap.ui.core.Control
 	 * @implements sap.ui.core.IShrinkable
-	 * @version 1.44.8
+	 * @version 1.44.9
 	 *
 	 * @constructor
 	 * @public
@@ -1511,6 +1511,10 @@ oPopover.setContentWidth("30%");
 		var oModel = new sap.ui.model.json.JSONModel({
 			items: aFacetFilterLists
 		});
+
+		if (aFacetFilterLists.length > 100) {
+			oModel.setSizeLimit(aFacetFilterLists.length);
+		}
 
 		// Set up FacetFilterList press handler on each list item
 		// every time they are created (such as after facet list filtering).
