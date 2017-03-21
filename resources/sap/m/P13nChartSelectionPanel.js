@@ -19,7 +19,7 @@ sap.ui.define([
 	 *        dimensions and measures for table personalization.
 	 * @extends sap.m.P13nSelectionPanel
 	 * @author SAP SE
-	 * @version 1.46.4
+	 * @version 1.46.5
 	 * @constructor
 	 * @private
 	 * @since 1.46.0
@@ -523,7 +523,8 @@ sap.ui.define([
 								text: oAvailableRoleType.text
 							});
 						}
-					}
+					},
+					change: jQuery.proxy(that.notifyChange, that)
 				})
 			],
 			visible: "{visible}",

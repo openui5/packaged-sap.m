@@ -56,7 +56,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Control', 'sap/ui/core/LocaleDa
 	 * {@link sap.m.PlanningCalendarView PlanningCalendarView}'s properties.
 	 *
 	 * @extends sap.ui.core.Control
-	 * @version 1.46.4
+	 * @version 1.46.5
 	 *
 	 * @constructor
 	 * @public
@@ -817,8 +817,6 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Control', 'sap/ui/core/LocaleDa
 			if (oOldStartDate.getTime() !== this.getStartDate().getTime()) {
 				this.fireStartDateChange();
 			}
-		} else {
-			this._updateTodayButtonState(); //"Today" button should be handled (in this case always enabled)
 		}
 
 		var oStartDate = this.getStartDate();
@@ -958,6 +956,8 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Control', 'sap/ui/core/LocaleDa
 				this.setStartDate(oSelectedDate);
 			}
 		}
+
+		this._updateTodayButtonState();
 
 		return this;
 
@@ -1684,7 +1684,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Control', 'sap/ui/core/LocaleDa
 					this.setStartDate(oEvtSelectedStartDate);
 				}
 				this._setRowsStartDate(oFocusedDate);
-				this._oOneMonthInterval.getAggregation('month')[0].focusDate(oFocusedDate);
+				this._oOneMonthInterval.getAggregation('month')[0]._focusDate(CalendarUtils._createUniversalUTCDate(oFocusedDate), true);
 			} else if (this._isNextMonth(oEvtSelectedStartDate)) {
 				this._oOneMonthInterval._handleNext();
 				return;
@@ -1740,7 +1740,13 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Control', 'sap/ui/core/LocaleDa
 			|| oDate.getFullYear() > this.getStartDate().getFullYear();
 	};
 
+	PlanningCalendar.prototype._applyContextualSettings = function () {
+		return Control.prototype._applyContextualSettings.call(this, {contextualWidth: this.$().width()});
+	};
+
 	function _handleResize(oEvent, bNoRowResize){
+
+		this._applyContextualSettings();
 
 		if (oEvent.size.width <= 0) {
 			// only if visible at all

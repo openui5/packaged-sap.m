@@ -151,7 +151,8 @@ sap.ui.define(['jquery.sap.global', './ListItemBaseRenderer', 'sap/ui/core/Rende
 			rm.writeClasses();
 			rm.write(">");
 
-			if (oObjectNumberAggregation) {
+			if (oObjectNumberAggregation && oObjectNumberAggregation.getNumber()) {
+				oObjectNumberAggregation.setTextDirection(oLI.getNumberTextDirection());
 				rm.renderControl(oObjectNumberAggregation);
 			}
 

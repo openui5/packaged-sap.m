@@ -21,7 +21,7 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.46.4
+	 * @version 1.46.5
 	 *
 	 * @constructor
 	 * @public
@@ -528,7 +528,9 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 		this._requestIdValue = 0;
 		this._iFUCounter = 0; // it is necessary to count FileUploader instances in case of 'instantUpload' = false
 
-		this._oList = new List(this.getId() + "-list");
+		this._oList = new List(this.getId() + "-list", {
+			selectionChange : [this._handleSelectionChange, this]
+		});
 		this.setAggregation("_list", this._oList, true);
 		this._oList.addStyleClass("sapMUCList");
 		this.setAggregation("_noDataIcon", new Icon(this.getId() + "-no-data-icon", {
@@ -1886,8 +1888,6 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 				oItem.attachEvent("selected", that._handleItemSetSelected, that);
 			}
 		});
-		// Handles Upload Collection selection change event
-		that._oList.attachSelectionChange(that._handleSelectionChange, that);
 	};
 
 	/**
@@ -2189,10 +2189,7 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 			sNewFileName = oEditbox.value.replace(/^\s+/,"");
 		}
 
-		//prepare the Id of the UI element which will get the focus
-		var aSrcIdElements = oEvent.srcControl ? oEvent.srcControl.getId().split("-") : oEvent.oSource.getId().split("-");
-		aSrcIdElements = aSrcIdElements.slice(0, 5);
-		oContext.sFocusId = aSrcIdElements.join("-") + "-cli";
+		oContext.sFocusId = sSourceId + "-cli";
 
 		if (!sNewFileName || sNewFileName.length === 0) {
 			if (oEditbox !== null) {

@@ -23,7 +23,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.46.4
+	 * @version 1.46.5
 	 *
 	 * @constructor
 	 * @public
@@ -91,10 +91,10 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		if (!isValidPercentValue(fPercentValue)) {
 			fPercentValue = 0;
 			jQuery.sap.log.warning(this + ": percentValue (" + fPercentValue + ") is not correct! Setting the default percentValue:0.");
-			fPercentDiff = this.getPercentValue() - fPercentValue;
 		}
 
 		if (this.getPercentValue() !== fPercentValue) {
+			fPercentDiff = this.getPercentValue() - fPercentValue;
 			this.setProperty("percentValue", fPercentValue, true);
 
 			if (!$progressIndicator.length) {

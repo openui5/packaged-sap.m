@@ -1463,6 +1463,20 @@
 			strictEqual(_dateMatchesVisibleRangeSpy.callCount, 1, "'_dateMatchesVisibleRangeSpy()' was called once");
 		});
 
+		test("today button enabled state is updated when the view is changed", function() {
+			//arrange
+			this.sut.setViewKey(sap.ui.unified.CalendarIntervalType.Day);
+			this.sut.setStartDate(new Date());
+			var oEnabledSpy = this.spy(this.sut._oTodayButton, 'setEnabled');
+
+			//act
+			this.sut.setViewKey(sap.ui.unified.CalendarIntervalType.OneMonth);
+
+			//assert
+			strictEqual(oEnabledSpy.called, true, 'today button state is updated');
+			strictEqual(oEnabledSpy.lastCall.args[0], false, 'today button state is updated correctly');
+		});
+
 		test("'_dateMatchesVisibleRange()' has correct output" , function () {
 			//prepare
 			var sViewKey = this.sut.getViewKey(),
@@ -1538,6 +1552,32 @@
 				fnDone();
 			}, 0);
 
+		});
+
+
+		test("keyboard navigation HOME & END for 1 Month view", function() {
+			_switchToView(sap.ui.unified.CalendarIntervalType.OneMonth, this.oPC2);
+			this.oPC2.setStartDate(this.o1Sep2016MidOfWeek);
+			this.oPC2.rerender();
+			var sMonthIdPrefix = this.oPC2.getId() + "-OneMonthInt--Month0-";
+
+			jQuery("#" +  sMonthIdPrefix + "20160901").focus();
+			equal(document.activeElement.id, sMonthIdPrefix + "20160901", "1st of September focused");
+
+			qutils.triggerKeydown(sMonthIdPrefix + "20160901", "END");
+			sap.ui.getCore().applyChanges();
+			equal(document.activeElement.id,  sMonthIdPrefix + "20160930", "30 of September focused");
+
+			qutils.triggerKeydown(sMonthIdPrefix + "20160930", "HOME");
+			sap.ui.getCore().applyChanges();
+			equal(document.activeElement.id, sMonthIdPrefix + "20160901", "1st of September focused");
+
+			jQuery("#" +  sMonthIdPrefix + "20160910").focus();
+			equal(document.activeElement.id, sMonthIdPrefix + "20160910", "10th of September focused");
+
+			qutils.triggerKeydown(sMonthIdPrefix + "20160910", "END");
+			sap.ui.getCore().applyChanges();
+			equal(document.activeElement.id,  sMonthIdPrefix + "20160930", "30 of September focused");
 		});
 
 		test("When start date is defined the planning calendar should shift to the first day of the week that includes the start date ", function() {

@@ -45,7 +45,7 @@ sap.ui.define([
 		 * On mobile devices the steps in the StepNavigator are grouped together and overlap. Tapping on them will show a popover to select the step to navigate to.
 		 * @extends sap.ui.core.Control
 		 * @author SAP SE
-		 * @version 1.46.4
+		 * @version 1.46.5
 		 *
 		 * @constructor
 		 * @public
@@ -887,7 +887,7 @@ sap.ui.define([
 				stepOffset = currentStepDOM.offsetTop,
 				stepChangeThreshold = 100;
 
-			if (scrollTop + stepChangeThreshold >= stepOffset + stepHeight) {
+			if (scrollTop + stepChangeThreshold >= stepOffset + stepHeight && progressNavigator._isActiveStep(progressNavigator._currentStep + 1)) {
 				progressNavigator.nextStep(true);
 			}
 

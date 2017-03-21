@@ -22,7 +22,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.46.4
+	 * @version 1.46.5
 	 *
 	 * @constructor
 	 * @public
@@ -106,15 +106,16 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	}});
 
 	ListItemBase.getAccessibilityText = function(oControl, bDetectEmpty) {
-		if (!oControl || !oControl.bOutput) {
+		if (!oControl || !oControl.bOutput || !oControl.getVisible || !oControl.getVisible()) {
 			return "";
 		}
 
 		var oAccInfo;
-		if (!oControl.getAccessibilityInfo) {
-			oAccInfo = this.getDefaultAccessibilityInfo(oControl.getDomRef());
-		} else if (oControl.getVisible && oControl.getVisible()) {
+		if (oControl.getAccessibilityInfo) {
 			oAccInfo = oControl.getAccessibilityInfo();
+		}
+		if (!oAccInfo || !oControl.getAccessibilityInfo) {
+			oAccInfo = this.getDefaultAccessibilityInfo(oControl.getDomRef());
 		}
 
 		oAccInfo = jQuery.extend({
