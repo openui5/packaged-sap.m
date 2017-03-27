@@ -53,7 +53,7 @@ sap.ui.define(["jquery.sap.global", "./ResponsivePopover", "./Button", "./Toolba
 		 * On mobile phones, the message popover is automatically shown in full screen mode.
 		 * <br><br>
 		 * @author SAP SE
-		 * @version 1.44.9
+		 * @version 1.44.10
 		 *
 		 * @constructor
 		 * @public
@@ -1167,9 +1167,12 @@ sap.ui.define(["jquery.sap.global", "./ResponsivePopover", "./Button", "./Toolba
 		 * @private
 		 */
 		MessagePopover.prototype._expandMsgPopover = function () {
-			var sHeight = this._oPopover.getContentWidth();
+			var sDomHeight,
+				sHeight = this._oPopover.getContentWidth();
+
 			if (this.getInitiallyExpanded()) {
-				sHeight = this._oPopover.$("cont").css("height") || sHeight;
+				sDomHeight = this._oPopover.$("cont").css("height");
+				sHeight = parseFloat(sDomHeight) ? sDomHeight : sHeight;
 			}
 
 			this._oPopover

@@ -24,7 +24,7 @@ sap.ui.define(['jquery.sap.global', './GroupHeaderListItem', './ListItemBase', '
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.44.9
+	 * @version 1.44.10
 	 *
 	 * @constructor
 	 * @public
@@ -387,6 +387,9 @@ sap.ui.define(['jquery.sap.global', './GroupHeaderListItem', './ListItemBase', '
 			}
 		}
 	}});
+
+	// announce acc states at the initial focus
+	ListBase.prototype.iAnnounceDetails = 1;
 
 	ListBase.getInvisibleText = function() {
 		return this.oInvisibleText || (this.oInvisibleText = new InvisibleText().toStatic());
@@ -1529,7 +1532,7 @@ sap.ui.define(['jquery.sap.global', './GroupHeaderListItem', './ListItemBase', '
 		}
 
 		return {
-			setSize : iSetSize,
+			setSize: iSetSize,
 			posInset: iPosInset
 		};
 	};

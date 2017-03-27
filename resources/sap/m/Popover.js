@@ -54,7 +54,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Button', './InstanceManager', '.
 		* </ul>
 		*
 		* @author SAP SE
-		* @version 1.44.9
+		* @version 1.44.10
 		*
 		* @constructor
 		* @public
@@ -696,10 +696,13 @@ sap.ui.define(['jquery.sap.global', './Bar', './Button', './InstanceManager', '.
 					return this;
 				}
 
-				// Set the Control whose root DOM is oParentDomRef as autoclose area in Popup to let the Popup also be notified with rerendering.
-				// If no Control can be found, the DOM ref is given instead.
-				oPopup.setAutoCloseAreas([sap.ui.getCore().byId(oParentDomRef.id) || oParentDomRef]);
+				// Set the oControl as autoclosearea regardless what the
+				// oParentDomRef is because clicking on the openBy control again
+				// should keep the popover open.
+				oPopup.setAutoCloseAreas([oControl]);
+
 				oPopup.setContent(this);
+
 				//if position has to be calculated wait until it is calculated with setting the position
 				if (iPlacePos <= 3) {
 					oPopup.setPosition(this._myPositions[iPlacePos], this._atPositions[iPlacePos], oParentDomRef, this._calcOffset(this._offsets[iPlacePos]), "fit");
@@ -1613,7 +1616,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Button', './InstanceManager', '.
 			//make sure iMaxContentHeight is NEVER less than 0
 			iMaxContentHeight = Math.max(iMaxContentHeight, 0);
 
-			oCSS["max-width"] = iMaxContentWidth + "px";
+			oCSS["max-width"] = iMaxContentWidth;
 			// When Popover can fit into the current screen size, don't set the height on the content div.
 			// This can fix the flashing scroll bar problem when content size gets bigger after it's opened.
 			// When position: absolute is used on the scroller div, the height has to be kept otherwise content div has 0 height.
@@ -1635,7 +1638,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Button', './InstanceManager', '.
 		 * @private
 		 */
 		Popover.prototype._getMaxContentWidth = function (oPosParams) {
-			return oPosParams._fDocumentWidth - oPosParams._fMarginLeft - oPosParams._fMarginRight - oPosParams._fPopoverBorderLeft - oPosParams._fPopoverBorderRight;
+			return oPosParams._fDocumentWidth - oPosParams._fMarginLeft - oPosParams._fMarginRight - oPosParams._fPopoverBorderLeft - oPosParams._fPopoverBorderRight  + "px";
 		};
 
 		/**

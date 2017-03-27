@@ -751,6 +751,31 @@
 			oPopover.destroy();
 		});
 
+		test("Popover opened by a button, set focus to button shouldn't close the popover", function() {
+			var oButtonInPopover = new sap.m.Button();
+			var oButton = new sap.m.Button();
+			var oPopover = new sap.m.Popover({
+				content: oButtonInPopover
+			});
+
+			oButton.placeAt("content");
+			sap.ui.getCore().applyChanges();
+
+			oPopover.openBy(oButton);
+			this.clock.tick(500);
+
+			ok(oPopover.isOpen(), "Popover is open");
+			ok(jQuery.sap.containsOrEquals(oButtonInPopover.getDomRef(), document.activeElement), "focus is set to the button in popover");
+
+			oButton.focus();
+			this.clock.tick(500);
+
+			ok(oPopover.isOpen(), "Popover is still open");
+
+			oPopover.destroy();
+			oButton.destroy();
+		});
+
 		test("Autoclose after invalidate", function () {
 			var oSystem = {
 				desktop: true,
@@ -1489,7 +1514,7 @@
 				_fPopoverBorderRight: 10
 			});
 
-			equal(iMaxContentWidth, 460, "Popover maxContentWidth should be equal to the documentWidth minus left and right margins and borders");
+			equal(iMaxContentWidth, "460px", "Popover maxContentWidth should be equal to the documentWidth minus left and right margins and borders");
 
 			oPopover.destroy();
 		});
@@ -1521,7 +1546,7 @@
 					stubPopoverMaxContentHeight = sinon.stub(oPopover, "_getMaxContentHeight").returns(400),
 					stubjQueryHeight = sinon.stub(jQuery.fn, "height").returns(300),
 					oExpectedDimensions = {
-						"max-width": "500px",
+						"max-width": 500,
 						"max-height": "400px",
 						"height": ""
 					};
@@ -1546,7 +1571,7 @@
 					stubPopoverMaxContentHeight = sinon.stub(oPopover, "_getMaxContentHeight").returns(400),
 					stubjQueryHeight = sinon.stub(jQuery.fn, "height").returns(300),
 					oExpectedDimensions = {
-						"max-width": "400px",
+						"max-width": 400,
 						"height": "300px"
 					};
 

@@ -5,8 +5,8 @@
  */
 
 // Provides control sap.m.MultiInput.
-sap.ui.define(['jquery.sap.global', './Input', './Tokenizer', './Token', './library'],
-	function (jQuery, Input, Tokenizer, Token, library) {
+sap.ui.define(['jquery.sap.global', './Input', './Tokenizer', './Token', './library', 'sap/ui/core/EnabledPropagator'],
+	function (jQuery, Input, Tokenizer, Token, library, EnabledPropagator) {
 		"use strict";
 
 
@@ -21,7 +21,7 @@ sap.ui.define(['jquery.sap.global', './Input', './Tokenizer', './Token', './libr
 	 * @extends sap.m.Input
 	 *
 	 * @author SAP SE
-	 * @version 1.44.9
+	 * @version 1.44.10
 	 *
 	 * @constructor
 	 * @public
@@ -130,6 +130,8 @@ sap.ui.define(['jquery.sap.global', './Input', './Tokenizer', './Token', './libr
 			}
 		}
 	});
+
+	EnabledPropagator.apply(MultiInput.prototype, [true]);
 
 	var oRb = sap.ui.getCore().getLibraryResourceBundle("sap.m");
 
@@ -759,7 +761,10 @@ sap.ui.define(['jquery.sap.global', './Input', './Tokenizer', './Token', './libr
 						});
 					}
 				}
-				this.cancelPendingSuggest();
+
+				if (aAddedTokens.length) {
+					this.cancelPendingSuggest();
+				}
 			}
 		}.bind(this), 0);
 

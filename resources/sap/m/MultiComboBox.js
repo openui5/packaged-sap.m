@@ -19,7 +19,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './InputBase', './ComboBoxTextField
 	 * @extends sap.m.ComboBoxBase
 	 *
 	 * @author SAP SE
-	 * @version 1.44.9
+	 * @version 1.44.10
 	 *
 	 * @constructor
 	 * @public
@@ -903,9 +903,6 @@ sap.ui.define(['jquery.sap.global', './Bar', './InputBase', './ComboBoxTextField
 			return;
 		}
 
-		this.addAssociation("selectedItems", mOptions.item, mOptions.suppressInvalidate);
-		var aSelectedKeys = this.getKeys(this.getSelectedItems());
-		this.setProperty("selectedKeys", aSelectedKeys, mOptions.suppressInvalidate);
 
 		if (!mOptions.listItemUpdated && this.getListItem(mOptions.item)) {
 			// set the selected item in the List
@@ -925,12 +922,17 @@ sap.ui.define(['jquery.sap.global', './Bar', './InputBase', './ComboBoxTextField
 		this.$().toggleClass("sapMMultiComboBoxHasToken", this._hasTokens());
 		this.setValue('');
 
+		this.addAssociation("selectedItems", mOptions.item, mOptions.suppressInvalidate);
+		var aSelectedKeys = this.getKeys(this.getSelectedItems());
+		this.setProperty("selectedKeys", aSelectedKeys, mOptions.suppressInvalidate);
+
 		if (mOptions.fireChangeEvent) {
 			this.fireSelectionChange({
 				changedItem: mOptions.item,
 				selected: true
 			});
 		}
+
 
 		if (mOptions.fireFinishEvent) {
 

@@ -24,7 +24,7 @@ sap.ui.define(['jquery.sap.global', './ListBase', './ListItemBase', './library']
 	 * @extends sap.m.ListBase
 	 *
 	 * @author SAP SE
-	 * @version 1.44.9
+	 * @version 1.44.10
 	 *
 	 * @constructor
 	 * @public
@@ -72,7 +72,7 @@ sap.ui.define(['jquery.sap.global', './ListBase', './ListItemBase', './library']
 	Table.prototype.sNavItemClass = "sapMListTblRow";
 
 	// announce all details at the initial focus
-	Table.prototype.bAnnounceDetails = 2;
+	Table.prototype.iAnnounceDetails = 2;
 
 	Table.prototype.init = function() {
 		this._iItemNeedsColumn = 0;
