@@ -19,7 +19,7 @@ sap.ui.define(["./Slider", "./Input", 'sap/ui/core/InvisibleText'],
          * @extends sap.m.Slider
          *
          * @author SAP SE
-         * @version 1.38.19
+         * @version 1.38.20
          *
          * @constructor
          * @public
@@ -130,7 +130,8 @@ sap.ui.define(["./Slider", "./Input", 'sap/ui/core/InvisibleText'],
             this._validateProperties();
 
             //TODO: find a better way to determine this
-            this._iLongestRangeTextWidth = ((aAbsRange[iRangeIndex].toString()).length + 1) * CHARACTER_WIDTH_PX;
+            this._iLongestRangeTextWidth = ((aAbsRange[iRangeIndex].toString()).length
+                + this.getDecimalPrecisionOfNumber(this.getStep()) + 1) * CHARACTER_WIDTH_PX;
 
             this._mHandleTooltip = {
                 start: {
@@ -144,6 +145,8 @@ sap.ui.define(["./Slider", "./Input", 'sap/ui/core/InvisibleText'],
                     label: oEndLabel
                 }
             };
+
+	        this._iDecimalPrecision = this.getDecimalPrecisionOfNumber(this.getStep());
         };
 
         RangeSlider.prototype.onAfterRendering = function () {
@@ -362,17 +365,18 @@ sap.ui.define(["./Slider", "./Input", 'sap/ui/core/InvisibleText'],
         /**
          * Updates the handle's tooltip value
          * @param {Object} oTooltip The tooltip object.
-         * @param {int} iNewValue The new value
+         * @param {float} fNewValue The new value
          * @private
          */
-        RangeSlider.prototype._updateTooltipContent = function (oTooltip, iNewValue) {
-            var bInputTooltips = this.getInputsAsTooltips();
+        RangeSlider.prototype._updateTooltipContent = function (oTooltip, fNewValue) {
+            var bInputTooltips = this.getInputsAsTooltips(),
+                sNewValue = this.toFixed(fNewValue, this._iDecimalPrecision);
 
             if (!bInputTooltips) {
-                oTooltip.text(iNewValue);
-            } else if (bInputTooltips && oTooltip.getValue() !== iNewValue) {
-                oTooltip.setValue(iNewValue);
-                oTooltip.$("inner").attr("value", iNewValue);
+                oTooltip.text(sNewValue);
+            } else if (bInputTooltips && oTooltip.getValue() !== sNewValue) {
+                oTooltip.setValue(sNewValue);
+                oTooltip.$("inner").attr("value", sNewValue);
             }
         };
 

@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @class
 	 * Tokenizer displays multiple tokens
 	 * @extends sap.ui.core.Control
-	 * @version 1.38.19
+	 * @version 1.38.20
 	 *
 	 * @constructor
 	 * @public
@@ -178,6 +178,9 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 *          nWidth - the new width in pixels
 	 */
 	Tokenizer.prototype.setPixelWidth = function(nWidth){
+		if (nWidth < 0) {
+			return;
+		}
 
 		this._truncateLastToken(nWidth);
 

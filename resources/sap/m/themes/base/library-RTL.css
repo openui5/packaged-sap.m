@@ -6089,6 +6089,9 @@ html[data-sap-ui-os^="Android"] .sapMObjectNumberUnit {
 /* ============================================= */
 /* CSS for control sap.m/ObjectStatus.control */
 /* ============================================= */
+.sapMObjStatus {
+  display: inline-block;
+}
 .sapMObjStatusIcon > .sapUiIcon {
   font-size: 1rem;
 }
