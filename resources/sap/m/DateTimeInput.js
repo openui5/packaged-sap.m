@@ -23,7 +23,7 @@ sap.ui.define(['jquery.sap.global', './InputBase', './InstanceManager', './libra
 	 * @extends sap.m.InputBase
 	 *
 	 * @author SAP SE
-	 * @version 1.28.44
+	 * @version 1.28.45
 	 *
 	 * @constructor
 	 * @public
@@ -639,7 +639,12 @@ sap.ui.define(['jquery.sap.global', './InputBase', './InstanceManager', './libra
 							$dialog.on('keydown.dw', fnHandleBtnKeyDown);
 
 							if (oSettings.display == "bubble") {
-								document.addEventListener(oDevice.support.touch ? "touchstart" : "mousedown", fnAutoCloseProxy, true);
+								if (oDevice.support.touch) {// detect if the device support touches and attach the event listener
+									document.addEventListener("touchstart", fnAutoCloseProxy, true);
+								}
+								if (oDevice.system.desktop) {// we are not using support.pointer because in 1.28 the Device js returns wrong information for it (e.g. returns false)
+									document.addEventListener("mousedown", fnAutoCloseProxy, true);
+								}
 							}
 							if (oDevice.system.desktop) {
 								// Amend keyboard navigation: see sap.m.Dialog.onfocusin for
@@ -702,7 +707,13 @@ sap.ui.define(['jquery.sap.global', './InputBase', './InstanceManager', './libra
 							InstanceManager.removeDialogInstance(that);
 							$(window).off("resize.sapMDTICustom", fnHandleResize);
 							if (oSettings.display == "bubble") {
-								document.removeEventListener(oDevice.support.touch ? "touchstart" : "mousedown", fnAutoCloseProxy, true);
+								if (oDevice.support.touch) {// remove listener
+									document.removeEventListener("touchstart", fnAutoCloseProxy, true);
+								}
+								if (oDevice.system.desktop) {// we are not using support.pointer because in 1.28 the Device js returns wrong information for it (e.g. returns false)
+									// remove listener
+									document.removeEventListener("mousedown", fnAutoCloseProxy, true);
+								}
 							}
 
 							// clean up listeners
