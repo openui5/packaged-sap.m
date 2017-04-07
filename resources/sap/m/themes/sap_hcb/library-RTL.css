@@ -2575,9 +2575,6 @@ html[data-sap-ui-animation='on'] .sapMFCL .sapMFCLColumn {
   right: 1px;
   bottom: 1px;
 }
-.sapMGenericTileLoading {
-  height: 100%;
-}
 .sapMGenericTileFtrFld {
   right: 0.4375rem;
   left: 0.4375rem;
@@ -4220,6 +4217,10 @@ li.sapMMultiComboBoxItem .sapMCbBg {
   flex-grow: 1;
   flex-shrink: 10000;
   position: relative;
+}
+/* Workaround for missing disabled state of sap.m.Tokenizer */
+.sapMMultiInput.sapMInputBaseDisabled {
+  pointer-events: none;
 }
 .sapMMultiInput .sapMInputBaseInner {
   border: 0;

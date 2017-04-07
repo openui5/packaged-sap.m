@@ -19,7 +19,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control'],
 		 * @class
 		 * The FormattedText control allows the usage of a limited set of tags for inline display of formatted text in HTML format.
 		 * @extends sap.ui.core.Control
-		 * @version 1.40.17
+		 * @version 1.40.18
 		 *
 		 * @constructor
 		 * @public
@@ -96,7 +96,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control'],
 		// rules for the allowed tags
 		_renderingRules.ELEMENTS = {
 			// Text Module Tags
-			'a' : {cssClass: 'sapMLink'},
+			'a' : {cssClass: 'sapMLnk'},
 			'abbr': 1,
 			'blockquote': 1,
 			'br': 1,
