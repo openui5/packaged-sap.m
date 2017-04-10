@@ -19,7 +19,7 @@ sap.ui.define(['jquery.sap.global', './Dialog', './Popover', './SelectList', './
 		 * @extends sap.ui.core.Control
 		 *
 		 * @author SAP SE
-		 * @version 1.44.10
+		 * @version 1.44.11
 		 *
 		 * @constructor
 		 * @public
@@ -2199,7 +2199,7 @@ sap.ui.define(['jquery.sap.global', './Dialog', './Popover', './SelectList', './
 			this.setValue("");
 
 			if (this._isShadowListRequired()) {
-				this.$().children(".sapMSelectListItemBase").remove();
+				this.$().find(".sapMSelectListItemBase").remove();
 			}
 
 			for (var i = 0; i < aItems.length; i++) {
@@ -2225,7 +2225,7 @@ sap.ui.define(['jquery.sap.global', './Dialog', './Popover', './SelectList', './
 			this.setValue("");
 
 			if (this._isShadowListRequired()) {
-				this.$().children(".sapMSelectListItemBase").remove();
+				this.$().find(".sapMSelectListItemBase").remove();
 			}
 
 			return this;

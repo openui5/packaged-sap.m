@@ -66,7 +66,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 	 *
 	 * @extends sap.m.InputBase
 	 * @author SAP SE
-	 * @version 1.44.10
+	 * @version 1.44.11
 	 *
 	 * @constructor
 	 * @public
@@ -444,8 +444,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 
 		if (this._oList && this._oSuggestionPopup) {
 			if (this.getMaxSuggestionWidth()) {
-				this._oSuggestionPopup.$('cont').css('max-width', this.getMaxSuggestionWidth());
-				this._oSuggestionPopup._maxWidth = this.getMaxSuggestionWidth();
+				this._oSuggestionPopup.setContentWidth(this.getMaxSuggestionWidth());
 			} else {
 				this._oSuggestionPopup.setContentWidth((this.$().outerWidth()) + "px");
 			}
@@ -1674,12 +1673,6 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 					oInput._triggerSuggest(sValue);
 					refreshListItems(oInput);
 				}));
-
-			if (oInput._oSuggestionPopup instanceof Popover) {
-				oInput._oSuggestionPopup._getMaxContentWidth = function(oPosParams) {
-					return oInput.getMaxSuggestionWidth() || (oPosParams._fDocumentWidth - oPosParams._fMarginLeft - oPosParams._fMarginRight - oPosParams._fPopoverBorderLeft - oPosParams._fPopoverBorderRight + "px");
-				};
-			}
 
 			oInput._oSuggestionPopup.addStyleClass("sapMInputSuggestionPopup");
 

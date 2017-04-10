@@ -714,6 +714,8 @@
     "sapMTitleColor": "#000000",
     "sapMTitleFontFamily": "Arial, Helvetica, sans-serif",
     "sapMTitleFontWeight": "normal",
+    "_sap_m_Token_TokenPadding": "0.5rem",
+    "_sap_m_Token_TokenSize": "2rem",
     "navHeight": "4rem",
     "listHeight": "2rem",
     "stepWidth": "2rem",
