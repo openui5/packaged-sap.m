@@ -19,7 +19,7 @@ sap.ui.define([
 	 *        dimensions and measures for table personalization.
 	 * @extends sap.m.P13nSelectionPanel
 	 * @author SAP SE
-	 * @version 1.46.5
+	 * @version 1.46.6
 	 * @constructor
 	 * @private
 	 * @since 1.46.0
@@ -315,6 +315,33 @@ sap.ui.define([
 	};
 
 	// ----------------------- Private Methods -----------------------------------------
+
+	/**
+	 * @private
+	 */
+	P13nChartSelectionPanel.prototype._syncPanel2Model = function() {
+		var oModel = this._getInternalModel();
+		var oData = oModel.getData();
+
+		// Synchronize selectionItems and items
+		this.getSelectionItems().forEach(function(oSelectionItem) {
+			var oModelItem = this._getModelItemByColumnKey(oSelectionItem.getColumnKey());
+			if (!oModelItem || this._isSelectionItemEqualToModelItem(oSelectionItem, oModelItem)) {
+				return;
+			}
+
+			// Take over selectionItem data
+			oModelItem.persistentIndex = oSelectionItem.getIndex();
+			oModelItem.persistentSelected = oSelectionItem.getSelected();
+            oModelItem.role = oSelectionItem.getRole();
+			// 1. Sort the table items only by persistentIndex
+			this._sortModelItemsByPersistentIndex(oData.items);
+			// 2. Re-Index only the tableIndex
+			this._updateModelItemsTableIndex(oData);
+			this._updateCounts(oData);
+		}, this);
+		oModel.refresh();
+	};
 
 	/**
 	 * @private

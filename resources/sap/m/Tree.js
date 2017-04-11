@@ -23,7 +23,7 @@ sap.ui.define(['jquery.sap.global', './ListBase', './TreeItemBase', './library',
 	 * @extends sap.m.ListBase
 	 *
 	 * @author SAP SE
-	 * @version 1.46.5
+	 * @version 1.46.6
 	 *
 	 * @constructor
 	 * @public
@@ -227,6 +227,20 @@ sap.ui.define(['jquery.sap.global', './ListBase', './TreeItemBase', './library',
 
 	Tree.prototype.getAccessibilityType = function() {
 		return sap.ui.getCore().getLibraryResourceBundle("sap.m").getText("ACC_CTR_TYPE_TREE");
+	};
+
+	Tree.prototype.getAccessbilityPosition = function(oItem) {
+		var iSetSize = 0,
+			iPosInset = 0,
+			oNodeContext = oItem.getItemNodeContext();
+
+		iSetSize = oNodeContext.parent.children.length;
+		iPosInset = oNodeContext.positionInParent + 1;
+
+		return {
+			setSize: iSetSize,
+			posInset: iPosInset
+		};
 	};
 
 	return Tree;

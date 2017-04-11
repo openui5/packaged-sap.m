@@ -30,6 +30,10 @@
 }
 
 /* active */
+.sapMLIBActive.sapMLIB.sapMALI {
+	background: transparent;
+}
+
 .sapMLIBActive.sapMLIB.sapMALI > .sapMLIBContent {
 	background: @sapUiButtonActiveBackground;
 }
@@ -46,6 +50,10 @@ html[data-sap-ui-browser^="ie"] .sapMList .sapMLIB.sapMALI:focus > .sapMLIBConte
 	border-width: 0.125rem;
 	border-style: dotted;
 	border-radius: 0;
+}
+/* content has the focus outline not the item */
+.sapMLIBLegacyOutline.sapMALI:focus::before {
+	border: none;
 }
 
 /* ------------------------------ */

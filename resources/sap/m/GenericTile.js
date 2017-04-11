@@ -19,7 +19,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/T
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.46.5
+	 * @version 1.46.6
 	 * @since 1.34
 	 *
 	 * @public
@@ -317,7 +317,11 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/T
 			this.$().parent().addClass("sapMGTLineModeContainer");
 			this._updateHoverStyle(true); //force update
 
-			this._sParentResizeListenerId = ResizeHandler.register(this.getParent(), this._handleResize.bind(this));
+			if (this.getParent() instanceof  Control) {
+				this._sParentResizeListenerId = ResizeHandler.register(this.getParent(), this._handleResize.bind(this));
+			} else {
+				this._sParentResizeListenerId = ResizeHandler.register(this.$().parent(), this._handleResize.bind(this));
+			}
 		}
 
 		// triggers update of all adjacent GenericTile LineMode siblings

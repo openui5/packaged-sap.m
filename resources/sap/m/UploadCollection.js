@@ -21,7 +21,7 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.46.5
+	 * @version 1.46.6
 	 *
 	 * @constructor
 	 * @public
@@ -1074,18 +1074,34 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 		if (!this._bDragDropEnabled) {
 			return;
 		}
-		if (this.getUIArea()) {
-			this._$RootNode = jQuery(this.getUIArea().getRootNode());
-			this._$RootNode.bind("dragenter", this._onDragEnterUIArea.bind(this));
-			this._$RootNode.bind("dragleave", this._onDragLeaveUIArea.bind(this));
-			this._$RootNode.bind("dragover", this._onDragOverUIArea.bind(this));
-			this._$RootNode.bind("drop", this._onDropOnUIArea.bind(this));
+
+		// handlers need to be saved intermediately in order to unbind successfully
+		if (!this._oDragDropHandler) {
+			this._oDragDropHandler = {
+				dragEnterUIArea: this._onDragEnterUIArea.bind(this),
+				dragLeaveUIArea: this._onDragLeaveUIArea.bind(this),
+				dragOverUIArea: this._onDragOverUIArea.bind(this),
+				dropOnUIArea: this._onDropOnUIArea.bind(this),
+				dragEnterUploadCollection: this._onDragEnterUploadCollection.bind(this),
+				dragLeaveUploadCollection: this._onDragLeaveUploadCollection.bind(this),
+				dragOverUploadCollection: this._onDragOverUploadCollection.bind(this),
+				dropOnUploadCollection: this._onDropOnUploadCollection.bind(this)
+			};
 		}
+
+		// bind events on body element
+		this._$RootNode = jQuery(document.body);
+		this._$RootNode.bind("dragenter", this._oDragDropHandler.dragEnterUIArea);
+		this._$RootNode.bind("dragleave", this._oDragDropHandler.dragLeaveUIArea);
+		this._$RootNode.bind("dragover", this._oDragDropHandler.dragOverUIArea);
+		this._$RootNode.bind("drop", this._oDragDropHandler.dropOnUIArea);
+
+		// bind events on UploadCollection
 		this._$DragDropArea = this.$("drag-drop-area");
-		this.$().bind("dragenter", this._onDragEnterUploadCollection.bind(this));
-		this.$().bind("dragleave", this._onDragLeaveUploadCollection.bind(this));
-		this.$().bind("dragover", this._onDragOverUploadCollection.bind(this));
-		this.$().bind("drop", this._onDropOnUploadCollection.bind(this));
+		this.$().bind("dragenter", this._oDragDropHandler.dragEnterUploadCollection);
+		this.$().bind("dragleave", this._oDragDropHandler.dragLeaveUploadCollection);
+		this.$().bind("dragover", this._oDragDropHandler.dragOverUploadCollection);
+		this.$().bind("drop", this._oDragDropHandler.dropOnUploadCollection);
 	};
 
 	/**
@@ -1094,19 +1110,19 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 	 * @private
 	 */
 	UploadCollection.prototype._unbindDragEnterLeave = function() {
-		if (!this._bDragDropEnabled) {
+		if (!this._bDragDropEnabled && !this._oDragDropHandler) {
 			return;
 		}
 		if (this._$RootNode) {
-			this._$RootNode.unbind("dragenter");
-			this._$RootNode.unbind("dragleave");
-			this._$RootNode.unbind("dragover");
-			this._$RootNode.unbind("drop");
+			this._$RootNode.unbind("dragenter", this._oDragDropHandler.dragEnterUIArea);
+			this._$RootNode.unbind("dragleave", this._oDragDropHandler.dragLeaveUIArea);
+			this._$RootNode.unbind("dragover", this._oDragDropHandler.dragOverUIArea);
+			this._$RootNode.unbind("drop", this._oDragDropHandler.dropOnUIArea);
 		}
-		this.$().unbind("dragenter");
-		this.$().unbind("dragleave");
-		this.$().unbind("dragover");
-		this.$().unbind("drop");
+		this.$().unbind("dragenter", this._oDragDropHandler.dragEnterUploadCollection);
+		this.$().unbind("dragleave", this._oDragDropHandler.dragLeaveUploadCollection);
+		this.$().unbind("dragover", this._oDragDropHandler.dragOverUploadCollection);
+		this.$().unbind("drop", this._oDragDropHandler.dropOnUploadCollection);
 	};
 
 	/**
@@ -1804,7 +1820,7 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 	 * @private
 	 */
 	UploadCollection.prototype._createDeleteButton = function(sItemId, sButton, oItem, sErrorState, that) {
-		var bEnabled, oDeleteButton, bButtonVisible;
+		var bEnabled, oDeleteButton;
 
 		bEnabled = oItem.getEnableDelete();
 		if (sErrorState === "Error"){
@@ -1812,36 +1828,31 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 		}
 
 		oDeleteButton = sap.ui.getCore().byId(sItemId + "-" + sButton);
-		if (!oDeleteButton) {
-			oDeleteButton = new sap.m.Button({
-				id : sItemId + "-" + sButton,
-				icon : "sap-icon://sys-cancel",
-				type : sap.m.ButtonType.Standard,
-				enabled : bEnabled,
-				tooltip : this._oRb.getText("UPLOADCOLLECTION_TERMINATEBUTTON_TEXT"),
-				visible : oItem.getVisibleDelete()
-			}).addStyleClass("sapMUCDeleteBtn");
-			if (sButton === "deleteButton") {
-				oDeleteButton.setTooltip(this._oRb.getText("UPLOADCOLLECTION_DELETEBUTTON_TEXT"));
-				oDeleteButton.attachPress(function(oEvent) {
-					this._handleDelete(oEvent, that);
-				}.bind(that));
-			} else if (sButton === "terminateButton") {
-				if (!this.getTerminationEnabled()) {
-					oDeleteButton.setVisible(false);
-				}
-				oDeleteButton.attachPress(function(oEvent) {
-					this._handleTerminate.bind(this)(oEvent, oItem);
-				}.bind(that));
-			}
-		} else { // delete button exists already
-			oDeleteButton.setEnabled(bEnabled);
-			bButtonVisible = oItem.getVisibleDelete();
-			if (sButton === "terminateButton") {
-				bButtonVisible = bButtonVisible && this.getTerminationEnabled();
-			}
-			oDeleteButton.setVisible(bButtonVisible);
+		if (oDeleteButton) {
+			oDeleteButton.destroy();
 		}
+		oDeleteButton = new sap.m.Button({
+			id : sItemId + "-" + sButton,
+			icon : "sap-icon://sys-cancel",
+			type : sap.m.ButtonType.Standard,
+			enabled : bEnabled,
+			tooltip : this._oRb.getText("UPLOADCOLLECTION_TERMINATEBUTTON_TEXT"),
+			visible : oItem.getVisibleDelete()
+		}).addStyleClass("sapMUCDeleteBtn");
+		if (sButton === "deleteButton") {
+			oDeleteButton.setTooltip(this._oRb.getText("UPLOADCOLLECTION_DELETEBUTTON_TEXT"));
+			oDeleteButton.attachPress(function(oEvent) {
+				this._handleDelete(oEvent, that);
+			}.bind(that));
+		} else if (sButton === "terminateButton") {
+			if (!this.getTerminationEnabled()) {
+				oDeleteButton.setVisible(false);
+			}
+			oDeleteButton.attachPress(function(oEvent) {
+				this._handleTerminate.bind(this)(oEvent, oItem);
+			}.bind(that));
+		}
+
 		return oDeleteButton;
 	};
 

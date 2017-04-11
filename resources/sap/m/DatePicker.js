@@ -84,7 +84,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/Device', './InputBase', 'sap/ui/mode
 	 * the close event), or select Cancel.
 	 *
 	 * @extends sap.m.InputBase
-	 * @version 1.46.5
+	 * @version 1.46.6
 	 *
 	 * @constructor
 	 * @public
@@ -1019,7 +1019,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/Device', './InputBase', 'sap/ui/mode
 			this._oPopup.setAutoClose(true);
 			this._oPopup.setDurations(0, 0); // no animations
 			this._oPopup.attachOpened(_handleOpened, this);
-			//			this._oPopup.attachClosed(_handleClosed, this);
+			this._oPopup.attachClosed(_handleClosed, this);
 		}
 
 	};
@@ -1299,6 +1299,13 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/Device', './InputBase', 'sap/ui/mode
 
 		this._renderedDays = this._oCalendar.$("-Month0-days").find(".sapUiCalItem").length;
 
+		this.$("inner").attr("aria-owns", this.getId() + "-cal");
+		this.$("inner").attr("aria-expanded", true);
+
+	}
+
+	function _handleClosed(oEvent) {
+		this.$("inner").attr("aria-expanded", false);
 	}
 
 	function _resizeCalendar(oEvent){

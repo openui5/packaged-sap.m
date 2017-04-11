@@ -87,7 +87,7 @@ sap.ui.define(['jquery.sap.global', './DatePicker', 'sap/ui/model/type/Date', '.
 	 * mobile devices, it opens in full screen.
 	 *
 	 * @extends sap.m.DatePicker
-	 * @version 1.46.5
+	 * @version 1.46.6
 	 *
 	 * @constructor
 	 * @public
@@ -566,14 +566,14 @@ sap.ui.define(['jquery.sap.global', './DatePicker', 'sap/ui/model/type/Date', '.
 	}
 
 	function _handleAfterOpen(oEvent){
-
+		this.$("inner").attr("aria-expanded", true);
 		this._oCalendar.focus();
 		this._oSliders._onOrientationChanged();
 
 	}
 
 	function _handleAfterClose(oEvent){
-
+		this.$("inner").attr("aria-expanded", false);
 	}
 
 	function _getTimePattern(){
