@@ -21,7 +21,7 @@ sap.ui.define(['jquery.sap.global', './InputBase', './MaskInputRule', 'sap/ui/co
 	 *
 	 * @author SAP SE
 	 * @extends sap.m.InputBase
-	 * @version 1.44.11
+	 * @version 1.44.12
 	 *
 	 * @constructor
 	 * @public
@@ -616,6 +616,12 @@ sap.ui.define(['jquery.sap.global', './InputBase', './MaskInputRule', 'sap/ui/co
 	 * @private
 	 */
 	MaskInput.prototype._setCursorPosition = function (iPos) {
+		if (sap.ui.Device.browser.webkit && iPos < 0) {
+			/* For webkit browsers version >=58.0, negative value position the carret at the end of the string.
+			/* In previous versions the outcome was the same as if position is 0 => at the beginning of the string.
+			 */
+			iPos = 0;
+		}
 		return jQuery(this.getFocusDomRef()).cursorPos(iPos);
 	};
 

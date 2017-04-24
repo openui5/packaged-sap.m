@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', 'sap/m/semantic/Segment', 'sap/ui/base/Metad
 	 * Constructor for a sap.m.semantic.SegmentedContainer.
 	 *
 	 * @class text
-	 * @version 1.44.11
+	 * @version 1.44.12
 	 * @private
 	 * @since 1.30.0
 	 * @alias sap.m.semantic.SegmentedContainer

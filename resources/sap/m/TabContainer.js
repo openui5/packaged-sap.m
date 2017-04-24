@@ -24,7 +24,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		 * @extends sap.ui.core.Control
 		 *
 		 * @author SAP SE
-		 * @version 1.44.11
+		 * @version 1.44.12
 		 *
 		 * @constructor
 		 * @public
@@ -285,12 +285,18 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		 * @private
 		 */
 		TabContainer.prototype._moveToNextItem = function (bSetAsSelected) {
+			if (!this._getTabStrip()._oItemNavigation) {
+				return;
+			}
+
 			var iItemsCount = this.getItems().length,
 					iCurrentFocusedIndex = this._getTabStrip()._oItemNavigation.getFocusedIndex(),
 					iNextIndex = iItemsCount === iCurrentFocusedIndex ? --iCurrentFocusedIndex : iCurrentFocusedIndex,
 					oNextItem = this.getItems()[iNextIndex],
 					fnFocusCallback = function () {
-						this._getTabStrip()._oItemNavigation.focusItem(iNextIndex);
+						if (this._getTabStrip()._oItemNavigation) {
+							this._getTabStrip()._oItemNavigation.focusItem(iNextIndex);
+						}
 					};
 
 			// Selection (causes invalidation)

@@ -54,7 +54,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Button', './InstanceManager', '.
 		* </ul>
 		*
 		* @author SAP SE
-		* @version 1.44.11
+		* @version 1.44.12
 		*
 		* @constructor
 		* @public

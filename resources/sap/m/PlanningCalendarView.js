@@ -21,7 +21,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Element', './StandardListItem',
 	 * The <code>PlanningCalendarView</code> defines the type of the intervals (hours, days, months)
 	 * and how many intervals are displayed.
 	 * @extends sap.ui.core.Element
-	 * @version 1.44.11
+	 * @version 1.44.12
 	 *
 	 * @constructor
 	 * @public

@@ -224,6 +224,42 @@
 						key: "myValueFilter",
 						text: "Empty Filter"
 					}));
+
+					oVsdInst.addFilterItem(new sap.m.ViewSettingsFilterItem({
+						key: "myNameFilter2",
+						text: "Name with no multiselect",
+						multiSelect: false,
+						items: [
+							new sap.m.ViewSettingsItem({
+								key: "name21",
+								text: "Headphone"
+							}),
+							new sap.m.ViewSettingsItem({
+								key: "name22",
+								text: "Mousepad"
+							}),
+							new sap.m.ViewSettingsItem({
+								key: "name23",
+								text: "Monitor"
+							}),
+							new sap.m.ViewSettingsItem({
+								key: "name24",
+								text: "Backpack"
+							}),
+							new sap.m.ViewSettingsItem({
+								key: "name25",
+								text: "Printer"
+							}),
+							new sap.m.ViewSettingsItem({
+								key: "name26",
+								text: "Optic Mouse"
+							}),
+							new sap.m.ViewSettingsItem({
+								key: "name27",
+								text: "Dock Station"
+							})
+						]
+					}));
 				},
 
 				addPresetFilterItems: function(oVsdInst) {
@@ -1475,6 +1511,28 @@
 			}, 1000);
 		});
 
+		QUnit.test("Query filter search field works correctly when the FilterItem has multiSelect set to false", function (assert) {
+			var done = assert.async(),
+					that = this;
+
+			this.oVSD.setSelectedFilterKeys(this.oFilterState);
+
+			this.oVSD.open();
+
+			jQuery.sap.delayedCall(0, this.oVSD._navContainer, "to", [this.oVSD.getId() + '-page2', "show"]);
+			this.oVSD._switchToPage(3, this.oVSD.getFilterItems()[5]); // name2 details page
+
+			setTimeout(function() {
+				var oSearchField = that.oVSD._filterSearchField,
+						aFilteredItems;
+
+				//Assert
+				assert.ok(oSearchField, "There is a search field when multiSelect is set to false");
+
+				done();
+			}, 1000);
+		});
+
 		test("StringFilter", function() {
 			var fnStringFilter = this.oVSD._getStringFilter();
 
@@ -2503,11 +2561,11 @@
 				this.oVSD.bindAggregation("groupItems", "/groupData", template2);
 				this.oVSD.bindAggregation("filterItems", "/filterData", template3);
 			},
-			clickOnItem: function (sItemId) {
-				jQuery("#" + sItemId).focus().trigger("touchstart").trigger("mousedown").trigger("mouseup").trigger("touchend");
+			focusItem: function (sItemId) {
+				jQuery("#" + sItemId).focus();
 			},
 			checkItemFocus: function (sItemId) {
-				strictEqual(jQuery("#" + sItemId).is(":focus"), true, "The proper item is focused");
+				assert.strictEqual(document.activeElement.id, sItemId, "The proper item is focused");
 			}
 		});
 
@@ -2521,7 +2579,8 @@
 			oListItem = this.oVSD._getListItem("sort", aSortItems[1]);
 
 			setTimeout(function () {
-				this.clickOnItem(oListItem.getId());
+				this.focusItem(oListItem.getId());
+				this.oVSD._dialog.rerender();
 				this.checkItemFocus(oListItem.getId());
 				done();
 			}.bind(this), 500);
@@ -2537,7 +2596,8 @@
 			sItemToSelect = aSortItems[1].getId();
 
 			setTimeout(function () {
-				this.clickOnItem(sItemToSelect + "-list-item");
+				this.focusItem(sItemToSelect + "-list-item");
+				this.oVSD._dialog.rerender();
 				this.checkItemFocus(sItemToSelect + "-list-item");
 				done();
 			}.bind(this), 500);

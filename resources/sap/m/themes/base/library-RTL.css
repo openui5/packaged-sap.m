@@ -1428,15 +1428,6 @@ html.sap-desktop .sapMDialog {
   /* visibility need to be used instead of display none, because some control inside dialog may need to do calculation */
   visibility: hidden;
 }
-.sapMDialogSliding {
-  transition-duration: 0.3s;
-  -moz-transition-duration: 0.3s;
-  -webkit-transition-duration: 0.3s;
-  /* The style without prefix needs to be put to the end because Firefox browser recognize the 'transition-property' but can't interpret the value 'transform' and it needs '-webkit-transform' instead */
-  -moz-transition-property: -webkit-transform;
-  -webkit-transition-property: -webkit-transform;
-  transition-property: transform;
-}
 .sapMDialogBlockLayer {
   opacity: 0.6;
 }
@@ -1725,7 +1716,6 @@ html.sap-desktop .sapMDialog {
   z-index: 2;
 }
 html[data-sap-ui-animation='off'] .sapMDialog,
-html[data-sap-ui-animation='off'] .sapMDialogSliding,
 html[data-sap-ui-animation='off'] .sapMDialogBlockLayerAnimation {
   transition: none;
 }
@@ -4412,6 +4402,10 @@ html[dir=rtl][data-sap-ui-browser^=ed] .sapUiFormResLayout .sapUiRFLRow:first-ch
   font-family: Arial, Helvetica, sans-serif;
   color: #333333;
 }
+.sapMIBar-CTX.sapMTB-Info-CTX .sapMLabel {
+  color: #333333;
+  text-shadow: none;
+}
 .sapMTB-Info-CTX .sapMLabel.sapMLabelTBHeader {
   text-shadow: none;
 }
@@ -4424,6 +4418,10 @@ html[dir=rtl] .sapMTB-Info-CTX .sapMLabel {
   font-weight: normal;
   font-family: Arial, Helvetica, sans-serif;
   color: #000000;
+}
+.sapMIBar-CTX.sapMTB-Transparent-CTX .sapMLabel {
+  color: #000000;
+  text-shadow: none;
 }
 /* ================================ */
 /* SMALL,  MEDIUM and LARGE DEVICES */
@@ -11868,12 +11866,20 @@ html[data-sap-ui-browser="sf10"] .sapuiVltCell .sapMText {
   font-family: Arial, Helvetica, sans-serif;
   color: #333333;
 }
+.sapMIBar-CTX.sapMTB-Info-CTX .sapMText {
+  color: #333333;
+  text-shadow: none;
+}
 /* Transparent Toolbar Context*/
 .sapMTB-Transparent-CTX .sapMText {
   font-weight: normal;
   font-family: Arial, Helvetica, sans-serif;
   text-shadow: 0 1px 0 #ffffff;
   color: #000000;
+}
+.sapMIBar-CTX.sapMTB-Transparent-CTX .sapMText {
+  color: #000000;
+  text-shadow: none;
 }
 /* Compact size */
 .sapUiSizeCompact .sapUiFormEdit .sapMText {
