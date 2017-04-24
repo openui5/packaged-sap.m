@@ -21,7 +21,7 @@ sap.ui.define(['jquery.sap.global', './Input', './Token', './library'],
 	 * @extends sap.m.Input
 	 *
 	 * @author SAP SE
-	 * @version 1.38.20
+	 * @version 1.38.21
 	 *
 	 * @constructor
 	 * @public
@@ -415,6 +415,12 @@ sap.ui.define(['jquery.sap.global', './Input', './Token', './library'],
 				that._validateCurrentText();
 				that._setValueInvisible();
 			};
+		}
+	};
+
+	MultiInput.prototype.onmousedown = function (e) {
+		if (e.target == this.getDomRef('border')) {
+			e.preventDefault();
 		}
 	};
 
@@ -1389,12 +1395,16 @@ sap.ui.define(['jquery.sap.global', './Input', './Token', './library'],
 
 		this.detachSuggestionItemSelected(this._onSuggestionItemSelected, this);
 		this.detachLiveChange(this._onLiveChange, this);
+		this._tokenizer.detachTokenChange(this._onTokenChange, this);
 
 		oClone = Input.prototype.clone.apply(this, arguments);
 
 		oTokenizerClone = this._tokenizer.clone();
 		oClone._tokenizer = oTokenizerClone;
 		oClone.setAggregation("tokenizer", oTokenizerClone, true);
+
+		this._tokenizer.attachTokenChange(this._onTokenChange, this);
+		oClone._tokenizer.attachTokenChange(oClone._onTokenChange, oClone);
 
 		this.attachSuggestionItemSelected(this._onSuggestionItemSelected, this);
 		this.attachLiveChange(this._onLiveChange, this);

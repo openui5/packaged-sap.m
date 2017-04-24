@@ -47,7 +47,7 @@ sap.ui.define(['jquery.sap.global', './DatePicker', 'sap/ui/model/type/Date', '.
 	 * the <code>sap.ui.unified</code> library.
 	 *
 	 * @extends sap.m.DatePicker
-	 * @version 1.38.20
+	 * @version 1.38.21
 	 *
 	 * @constructor
 	 * @public
@@ -526,14 +526,14 @@ sap.ui.define(['jquery.sap.global', './DatePicker', 'sap/ui/model/type/Date', '.
 	}
 
 	function _handleAfterOpen(oEvent){
-
+		this.$("inner").attr("aria-expanded", true);
 		this._oCalendar.focus();
 		this._oSliders._onOrientationChanged();
 
 	}
 
 	function _handleAfterClose(oEvent){
-
+		this.$("inner").attr("aria-expanded", false);
 	}
 
 	function _getTimePattern(){
