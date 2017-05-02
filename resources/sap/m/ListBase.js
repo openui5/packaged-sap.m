@@ -24,7 +24,7 @@ sap.ui.define(['jquery.sap.global', './GroupHeaderListItem', './ListItemBase', '
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.46.6
+	 * @version 1.46.7
 	 *
 	 * @constructor
 	 * @public
@@ -842,11 +842,11 @@ sap.ui.define(['jquery.sap.global', './GroupHeaderListItem', './ListItemBase', '
 		return this._aSelectedPaths.slice(0);
 	};
 
-	/* Determines is whether all selectable items are selected or not
+	/* Determines whether all selectable items are selected or not
 	 * @protected
 	 */
 	ListBase.prototype.isAllSelectableSelected = function() {
-		if (!this.getMode() != sap.m.ListMode.MultiSelect) {
+		if (this.getMode() != sap.m.ListMode.MultiSelect) {
 			return false;
 		}
 

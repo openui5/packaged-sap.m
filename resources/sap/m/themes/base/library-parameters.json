@@ -727,6 +727,8 @@
     "sapMSwitch-ONPOSITION": "-32",
     "sapMSwitch-OFFPOSITION": "0",
     "sapMSwitch-TRANSITIONTIME": "175",
+    "_sap_m_Token_TokenPadding": "0.5rem",
+    "_sap_m_Token_TokenSize": "2rem",
     "navHeight": "4rem",
     "listHeight": "2rem",
     "stepWidth": "2rem",

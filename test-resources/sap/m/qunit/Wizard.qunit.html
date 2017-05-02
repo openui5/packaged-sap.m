@@ -104,6 +104,25 @@
 			assert.strictEqual(text, sText, "Default text of finish button should be equal to '" + sText + "'");
 		});
 
+		QUnit.test("goToStep should be applied on id, containing with special symbols (::)", function (assert) {
+			var oWizard = new sap.m.Wizard({
+				id: "wizard::complex::id",
+				steps: [ new sap.m.WizardStep(), new sap.m.WizardStep(), new sap.m.WizardStep() ]
+			});
+			var oSpy = sinon.spy(oWizard, "goToStep");
+
+			oWizard._getNextStep();
+			oWizard._getNextStep();
+			oWizard.placeAt("qunit-fixture");
+
+			sap.ui.getCore().applyChanges();
+			oWizard.goToStep(oWizard.getSteps()[0]);
+
+			assert.ok(oSpy.returned(oWizard), "goToStep is executed");
+
+			oWizard.destroy();
+		});
+
 		QUnit.test("setFinishLabel() should change the finish button text", function (assert) {
 			this.oWizard.setFinishButtonText("changed_finish");
 			this.oWizard.nextStep();
@@ -397,6 +416,33 @@
 					that.step1.setNextStep(that.step4);
 					that.oWizard.nextStep();
 				}, "Should raise an error.");
+		});
+
+		QUnit.test("Wizard should render the steps in correct order", function (assert) {
+			var s4 = new sap.m.WizardStep({id: "wizStep4"}),
+				s2 = new sap.m.WizardStep({id: "wizStep2", nextStep: s4}),
+				s3 = new sap.m.WizardStep({id: "wizStep3", subsequentSteps: [s2, s4]}),
+				s1 = new sap.m.WizardStep({id: "wizStep1", subsequentSteps: [s2, s3]});
+
+			var oWiz = new sap.m.Wizard({
+				enableBranching: true,
+				steps: [s1, s4, s2, s3]
+			});
+
+			oWiz.placeAt("qunit-fixture");
+			sap.ui.getCore().applyChanges();
+
+			var sectionWrapper = oWiz.$().find(".sapMWizardStepContainer")[0],
+				aChildren = Array.prototype.slice.call(sectionWrapper.children),
+				s2DomRefIndex = aChildren.indexOf(s2.getDomRef()),
+				s3DomRefIndex = aChildren.indexOf(s3.getDomRef()),
+				s4DomRefIndex = aChildren.indexOf(s4.getDomRef());
+
+			assert.ok(s3DomRefIndex < s2DomRefIndex, "Step3 should be rendered before Step2");
+			assert.ok(s2DomRefIndex < s4DomRefIndex, "Step2 should be rendered before Step4");
+			assert.ok(s3DomRefIndex < s4DomRefIndex, "Step3 should be rendered before Step4");
+
+			oWiz.destroy();
 		});
 
 		QUnit.test("Wizard should log an error if next step is outside the wizard", function (assert) {

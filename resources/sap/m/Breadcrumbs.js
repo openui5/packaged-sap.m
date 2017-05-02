@@ -31,7 +31,7 @@ sap.ui.define([
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.46.6
+	 * @version 1.46.7
 	 *
 	 * @constructor
 	 * @public
@@ -479,6 +479,12 @@ sap.ui.define([
 		});
 
 		this.addDelegate(oItemNavigation);
+		oItemNavigation.setDisabledModifiers({
+			sapnext : ["alt"],
+			sapprevious : ["alt"],
+			saphome : ["alt"],
+			sapend : ["alt"]
+		});
 		oItemNavigation.setCycling(false);
 		oItemNavigation.setPageSize(Breadcrumbs.PAGEUP_AND_PAGEDOWN_JUMP_SIZE);
 		oItemNavigation.setRootDomRef(this.getDomRef());
