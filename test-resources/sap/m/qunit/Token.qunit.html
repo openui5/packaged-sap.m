@@ -1,0 +1,119 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+<title>Test Page for sap.m.Token</title>
+<script src="../shared-config.js"></script>
+<script id="sap-ui-bootstrap"
+		data-sap-ui-noConflict="true"
+		data-sap-ui-libs="sap.m" src="../../../../resources/sap-ui-core.js">
+</script>
+
+<link rel="stylesheet" href="../../../../resources/sap/ui/thirdparty/qunit.css" type="text/css" media="screen">
+<script src="../../../../resources/sap/ui/thirdparty/qunit.js"></script>
+<script src="../../../../resources/sap/ui/qunit/qunit-junit.js"></script>
+
+<script src="../../../../resources/sap/ui/qunit/QUnitUtils.js"></script>
+<script src="../../../../resources/sap/ui/thirdparty/sinon.js"></script>
+<script src="../../../../resources/sap/ui/thirdparty/sinon-qunit.js"></script>
+
+<script>
+	var token1;
+	var key = "testKey";
+	var text = "testText";
+
+	var oToken = new sap.m.Token("t1");
+	oToken.placeAt("content");
+
+	QUnit.module("Basic", {
+		beforeEach : function() {
+			token1 = sap.ui.getCore().getControl("t1");
+		},
+		afterEach : function() {
+			token1 = null;
+		}
+	});
+
+	// test property accessor methods
+	QUnit.test("setter / getter Key", function(assert) {
+		token1.setKey(key);
+		assert.equal(token1.getKey(), key, "Input value is "+key);
+	});
+
+	QUnit.test("setter / getter Text", function(assert) {
+		token1.setText(text);
+		assert.equal(token1.getText(), text, "Input value is "+text);
+	});
+
+	QUnit.test("setter / getter editable", function(assert) {
+		var isEditable = true;
+		assert.equal(token1.getEditable(), isEditable, "Token is editable");
+
+		isEditable = false;
+		token1.setEditable(isEditable);
+		assert.equal(token1.getEditable(), isEditable, "Token is not editable");
+
+		isEditable = true;
+		token1.setEditable(isEditable);
+		assert.equal(token1.getEditable(), isEditable, "Token is editable");
+	});
+
+	QUnit.test("setter / getter isSelected", function(assert) {
+		var isSelected = false;
+		assert.equal(token1.getSelected(), isSelected, "Token is not selected");
+
+		isSelected = true;
+		token1.setSelected(isSelected);
+		assert.equal(token1.getSelected(), isSelected, "Token is selected");
+
+		isSelected = false;
+		token1.setSelected(isSelected);
+		assert.equal(token1.getSelected(), isSelected, "Token is not selected");
+	});
+
+	QUnit.test("show / hide delete icon depending on isEditable", function(assert) {
+		var isEditable = true;
+		token1.setEditable(isEditable);
+		assert.equal(token1.$().children().length, 2, "Token contains icon");
+
+		isEditable = false;
+		token1.setEditable(isEditable);
+		sap.ui.getCore().applyChanges();
+		assert.equal(token1.$().children().length, 1, "Token does not show delete icon");
+
+	});
+
+	QUnit.test("select/deselect token", function(assert) {
+		token1.setSelected(false);
+		sap.ui.test.qunit.triggerEvent("tap", token1.getDomRef());
+		assert.ok(token1.$().hasClass("sapMTokenSelected"), "token is selected");
+
+		sap.ui.test.qunit.triggerEvent("tap", token1.getDomRef());
+		assert.ok(token1.$().hasClass("sapMTokenSelected"), "token is selected");
+	});
+
+	QUnit.test("setter / getter textDirection", function(assert) {
+		token1.setTextDirection(sap.ui.core.TextDirection.RTL);
+		assert.equal(token1.getTextDirection(), sap.ui.core.TextDirection.RTL, "Input value is "+sap.ui.core.TextDirection.RTL);
+	});
+
+	QUnit.test("Token has attribute dir", function(assert) {
+		token1.setTextDirection(sap.ui.core.TextDirection.RTL);
+		sap.ui.getCore().applyChanges();
+
+		assert.equal(token1.$().children(0).attr("dir"), 'rtl', "Token has attribute dir equal to rtl");
+	});
+</script>
+
+</head>
+<body>
+	<h1 id="qunit-header">QUnit page for sap.m.Token</h1>
+	<h2 id="qunit-banner"></h2>
+	<h2 id="qunit-userAgent"></h2>
+	<div id="qunit-testrunner-toolbar"></div>
+	<div id="qunit-fixture">test markup, will be hidden</div>
+	<ol id="qunit-tests"></ol>
+	<div id="content"></div>
+</body>
+</html>
