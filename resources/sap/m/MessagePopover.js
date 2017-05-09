@@ -53,7 +53,7 @@ sap.ui.define(["jquery.sap.global", "./ResponsivePopover", "./Button", "./Toolba
 		 * On mobile phones, the message popover is automatically shown in full screen mode.
 		 * <br><br>
 		 * @author SAP SE
-		 * @version 1.44.12
+		 * @version 1.44.13
 		 *
 		 * @constructor
 		 * @public

@@ -4406,6 +4406,8 @@ html[dir=rtl][data-sap-ui-browser^=ed] .sapUiFormResLayout .sapUiRFLRow:first-ch
   font-size: 0.875rem;
   font-family: Arial, Helvetica, sans-serif;
   color: #ffffff;
+  padding-left: 0.125rem;
+  /* prevents truncation of the last letter */
 }
 .sapMIBar-CTX.sapMTB-Info-CTX .sapMLabel {
   color: #ffffff;
@@ -8355,6 +8357,10 @@ html.sap-desktop .sapUiFioriObjectPage > section > .sapMPanel {
 html[data-sap-ui-animation='on'][data-sap-ui-browser^="ie"] .sapMPanelContent {
   transform: translate(0, 0);
 }
+/* workaround for drawing issue in Edge - ensures that the content will be redrawn */
+html[data-sap-ui-animation='on'][data-sap-ui-browser^="ed"] .sapMPanelContent {
+  transform: translate(0, 0);
+}
 /* ================================================= */
 /* CSS for control sap.m/PlanningCalendar.control    */
 /* ================================================= */
@@ -10494,6 +10500,11 @@ html[data-sap-ui-browser^="ie9"] .sapMSplitContainerHideMode > .sapMSplitContain
   -webkit-transition: all 300ms;
   -moz-transform: translate3d(330px, 0, 0);
   -moz-transition: all 300ms;
+}
+.sapMSplitContainerPortrait.sapMSplitContainerShowHide > .sapMSplitContainerMasterHidden.sapMSplitContainerNoTransition,
+.sapMSplitContainerHideMode > .sapMSplitContainerMasterHidden.sapMSplitContainerNoTransition {
+  transition: none;
+  -webkit-transition: none;
 }
 .sapMSplitContainerPortrait.sapMSplitContainerStretchCompress > .sapMSplitContainerMaster {
   width: 320px !important;
