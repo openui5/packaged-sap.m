@@ -22,7 +22,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * a specific object. The object header title is the key identifier of the object and
 	 * additional text and icons can be used to further distinguish it from other objects.
 	 * @extends sap.ui.core.Control
-	 * @version 1.46.7
+	 * @version 1.46.8
 	 *
 	 * @constructor
 	 * @public
@@ -804,7 +804,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 					domRef : jQuery.sap.domById(sSourceId)
 				});
 			}
-		} else if (this.getIconActive() && jQuery(oEvent.target).hasClass('sapMOHIcon')){
+		} else if (this.getIconActive() && jQuery(oEvent.target).is('.sapMOHIcon,.sapMOHRIcon')){
 			if (oEvent.type === "sapspace") {
 				oEvent.preventDefault();
 			}

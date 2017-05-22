@@ -56,7 +56,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Control', 'sap/ui/core/LocaleDa
 	 * {@link sap.m.PlanningCalendarView PlanningCalendarView}'s properties.
 	 *
 	 * @extends sap.ui.core.Control
-	 * @version 1.46.7
+	 * @version 1.46.8
 	 *
 	 * @constructor
 	 * @public
@@ -328,6 +328,10 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Control', 'sap/ui/core/LocaleDa
 		oClass: CalendarOneMonthInterval
 	};
 
+
+	//Defines the minimum screen width for the appointments column (it is a popin column)
+	var APP_COLUMN_MIN_SCREEN_WIDTH = sap.m.ScreenSize.Desktop;
+
 	var CalendarHeader = sap.ui.core.Control.extend("CalendarHeader", {
 
 		metadata : {
@@ -413,7 +417,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Control', 'sap/ui/core/LocaleDa
 				new sap.m.Column({
 					width: "80%",
 					styleClass: "sapMPlanCalAppRow",
-					minScreenWidth: sap.m.ScreenSize.Desktop,
+					minScreenWidth: APP_COLUMN_MIN_SCREEN_WIDTH,
 					demandPopin: true
 				})
 			],
@@ -1028,6 +1032,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Control', 'sap/ui/core/LocaleDa
 
 		var oTable = this.getAggregation("table");
 		oTable.getColumns()[0].setVisible(bShowRowHeaders);
+		this._toggleAppointmentsColumnPopinState(bShowRowHeaders);
 
 		this.$().toggleClass("sapMPlanCalNoHead", !bShowRowHeaders);
 		_positionSelectAllCheckBox.call(this);
@@ -1869,6 +1874,19 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Control', 'sap/ui/core/LocaleDa
 			oRow = aRows[i];
 			oRow.getCalendarRow().setStartDate(oDate);
 		}
+	};
+
+	/**
+	 * Enables/disables the popin nature of a the appointments column.
+	 * @param {boolean} popinEnabled
+	 * @private
+	 */
+	PlanningCalendar.prototype._toggleAppointmentsColumnPopinState = function(popinEnabled) {
+		var oTable = this.getAggregation("table"),
+			oAppointmentsCol = oTable.getColumns()[1];
+
+		oAppointmentsCol.setDemandPopin(popinEnabled);
+		oAppointmentsCol.setMinScreenWidth(popinEnabled ? APP_COLUMN_MIN_SCREEN_WIDTH : "");
 	};
 
 	function _handleTableSelectionChange(oEvent) {
