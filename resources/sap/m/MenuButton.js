@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', './Butto
 		 * @extends sap.ui.core.Control
 		 *
 		 * @author SAP SE
-		 * @version 1.44.13
+		 * @version 1.44.14
 		 *
 		 * @constructor
 		 * @public
@@ -188,7 +188,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', './Butto
 		};
 
 		/**
-		 * Sets the <code>buttonМode</code> of the control.
+		 * Sets the <code>buttonMode</code> of the control.
 		 * @param {sap.m.MenuButtonMode} sMode The new button mode
 		 * @returns {sap.m.MenuButton} This instance
 		 * @public

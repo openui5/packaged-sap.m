@@ -16,7 +16,7 @@ sap.ui.define([
 	 * @param {object} [mSettings] initial settings for the new control
 	 * @class Type for <code>columnsItems</code> aggregation in P13nDimMeasurePanel control.
 	 * @extends sap.ui.core.Item
-	 * @version 1.44.13
+	 * @version 1.44.14
 	 * @constructor
 	 * @author SAP SE
 	 * @public

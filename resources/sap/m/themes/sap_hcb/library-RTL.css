@@ -1262,6 +1262,16 @@ html.sapUiMedia-Std-Phone .sapUiSizeCompact .sapMDateTimePopupCont.sapMTimePicke
 html.sap-phone .sapMDateTimePopupCont.sapMTimePickerDropDown .sapMTimePickerContainer {
   height: calc(100% - 3.5rem);
 }
+html.sap-phone .sapMDateTimePopupCont {
+  background-color: #000000;
+}
+html.sap-phone .sapMDateTimePopupCont .sapUiCalContent > .sapUiCalMonthPicker,
+html.sap-phone .sapMDateTimePopupCont .sapUiCalContent > .sapUiCalYearPicker {
+  width: 100%;
+  box-sizing: border-box;
+  right: 0;
+  margin: 0;
+}
 /* ============================================= */
 /* CSS for control sap.m/Dialog.control          */
 /* ============================================= */
@@ -6643,6 +6653,7 @@ html[dir=rtl] .sapMNCValueScr {
 .sapMObjectAttributeDiv .sapMObjectAttributeTitle,
 .sapMObjectAttributeDiv .sapMObjectAttributeText {
   font-size: .875rem;
+  color: #ffffff;
 }
 .sapMObjectAttributeActive {
   pointer-events: none;
@@ -7726,6 +7737,7 @@ html[data-sap-ui-os^="Android"] .sapMObjectNumberUnit {
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
+  display: block;
 }
 .sapUiTableCell .sapMObjStatusText,
 .sapUiTableCell .sapMObjStatusTitle,
@@ -10882,26 +10894,26 @@ html.sap-phone .sapMStdTileNumM {
 html.sap-phone .sapMStdTileNumS {
   font-size: 1rem;
 }
-/* ============================================= */
-/* CSS for control sap.m/StepInput.control */
-/* ============================================= */
+/* ================================ */
+/* CSS for control sap.m/StepInput  */
+/* Base theme                       */
+/* ================================ */
 .sapMStepInput {
   display: inline-block;
   width: 100%;
   position: relative;
   outline: none;
 }
-.sapMStepInput .sapMStepInputBtnWrapper {
-  margin: 0 0.0625rem;
+.sapMStepInput .sapMStepInputBtn {
   outline: none;
   position: absolute;
   z-index: 1;
-  top: 0;
+  color: #ffffff;
 }
-.sapMStepInput .sapMStepInputBtnWrapper.sapMStepInputBtnDecrease {
+.sapMStepInput .sapMStepInputBtn.sapMStepInputBtnDecrease {
   right: 0;
 }
-.sapMStepInput .sapMStepInputBtnWrapper.sapMStepInputBtnIncrease {
+.sapMStepInput .sapMStepInputBtn.sapMStepInputBtnIncrease {
   left: 0;
 }
 .sapMStepInput-CTX .sapMInput .sapMInputBaseInner:not(.sapMInputBaseReadonlyInner) {
@@ -10910,48 +10922,64 @@ html.sap-phone .sapMStdTileNumS {
   box-sizing: border-box;
   padding: 0 2.75rem;
 }
-.sapMStepInput-CTX .sapMInputBaseWidthPadding {
-  padding: 0;
-}
-.sapMStepInput-CTX .sapMBtn {
-  padding: 0;
-  height: 100%;
-}
-.sapMStepInput-CTX .sapMBtn .sapMBtnInner {
-  min-width: 0;
-  border-radius: 0;
+.sapMStepInput-CTX .sapUiIcon {
+  height: 2.375rem;
   width: 2.375rem;
+  line-height: 2.375rem;
+  margin-top: 0.3125rem;
 }
-.sapMStepInput-CTX .sapMBtn .sapMBtnInner .sapMBtnIcon {
-  font-size: 1rem;
+.sapMStepInput-CTX .sapUiIcon:hover {
+  background-color: #7a5100;
+}
+.sapMStepInput-CTX .sapUiIcon:active {
+  background-color: #7a5100;
+  color: #ffffff;
+}
+.sapMStepInput-CTX .sapMStepInputIconDisabled {
+  opacity: 0.5;
+  pointer-events: none;
 }
 .sapMStepInput-CTX.sapMStepInputError .sapMInput .sapMInputBaseInner,
 .sapMStepInput-CTX.sapMStepInputWarning .sapMInput .sapMInputBaseInner {
   padding: 0 2.5rem;
 }
-.sapMStepInput-CTX.sapMStepInputError .sapMBtn .sapMBtnInner,
-.sapMStepInput-CTX.sapMStepInputWarning .sapMBtn .sapMBtnInner {
+.sapMStepInput-CTX.sapMStepInputError .sapUiIcon,
+.sapMStepInput-CTX.sapMStepInputWarning .sapUiIcon {
   width: 2.25rem;
 }
+.sapMStepInput-CTX:focus .sapMInputDivWrapper:not(.sapMInputBaseReadonlyInner):not(.sapMInputBaseStateInner):not(.sapMStepInputReadOnly)::before {
+  content: "";
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  left: 2px;
+  bottom: 2px;
+  border: 1px dotted #ffffff;
+  pointer-events: none;
+}
 .sapUiSizeCompact .sapMStepInput-CTX .sapMInput .sapMInputBaseInner:not(.sapMInputBaseReadonlyInner) {
-  padding: 0 1.75rem;
+  padding: 0 1.875rem;
 }
-.sapUiSizeCompact .sapMStepInput-CTX .sapMInputBaseWidthPadding {
-  padding: 0;
-}
-.sapUiSizeCompact .sapMStepInput-CTX .sapMBtn .sapMBtnInner {
+.sapUiSizeCompact .sapMStepInput-CTX .sapUiIcon.sapMStepInputBtn {
+  height: 1.5rem;
   width: 1.5rem;
-}
-.sapUiSizeCompact .sapMStepInput-CTX .sapMBtn .sapMBtnInner .sapMBtnIcon {
-  margin: 0;
+  line-height: 1.5rem;
+  margin-top: 0.25rem;
   font-size: 0.875rem;
+}
+.sapUiSizeCompact .sapMStepInput-CTX .sapUiIcon.sapMStepInputBtn:hover {
+  background-color: #7a5100;
+}
+.sapUiSizeCompact .sapMStepInput-CTX .sapUiIcon.sapMStepInputBtn:active {
+  background-color: #7a5100;
+  color: #ffffff;
 }
 .sapUiSizeCompact .sapMStepInput-CTX.sapMStepInputError .sapMInput .sapMInputBaseInner,
 .sapUiSizeCompact .sapMStepInput-CTX.sapMStepInputWarning .sapMInput .sapMInputBaseInner {
   padding: 0 1.625rem;
 }
-.sapUiSizeCompact .sapMStepInput-CTX.sapMStepInputError .sapMBtn .sapMBtnInner,
-.sapUiSizeCompact .sapMStepInput-CTX.sapMStepInputWarning .sapMBtn .sapMBtnInner {
+.sapUiSizeCompact .sapMStepInput-CTX.sapMStepInputError .sapUiIcon,
+.sapUiSizeCompact .sapMStepInput-CTX.sapMStepInputWarning .sapUiIcon {
   width: 1.375rem;
 }
 .sapMSuggestionItemIcon {

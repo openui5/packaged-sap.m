@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @class
 	 * The ObjectIdentifier is a display control that enables the user to easily identify a specific object. The ObjectIdentifier title is the key identifier of the object and additional text and icons can be used to further distinguish it from other objects.
 	 * @extends sap.ui.core.Control
-	 * @version 1.44.13
+	 * @version 1.44.14
 	 *
 	 * @constructor
 	 * @public
@@ -252,7 +252,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 					text: this.getProperty("title")
 				});
 			}
-			this.setAggregation("_titleControl", oTitleControl);
+			this.setAggregation("_titleControl", oTitleControl, true);
 		} else {
 			// Update the title control if necessary
 			bIsTitleActive = this.getProperty("titleActive");
@@ -264,13 +264,13 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 					//Add a custom hidden role "ObjectIdentifier" with hidden text
 					ariaLabelledBy: this._oAriaCustomRole
 				});
-				this.setAggregation("_titleControl", oTitleControl);
+				this.setAggregation("_titleControl", oTitleControl, true);
 			} else if (!bIsTitleActive && oTitleControl instanceof sap.m.Link) {
 				this.destroyAggregation("_titleControl", true);
 				oTitleControl = new sap.m.Text({
 					text: this.getProperty("title")
 				});
-				this.setAggregation("_titleControl", oTitleControl);
+				this.setAggregation("_titleControl", oTitleControl, true);
 			}
 		}
 
