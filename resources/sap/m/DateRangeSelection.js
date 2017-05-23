@@ -47,7 +47,7 @@ sap.ui.define(['jquery.sap.global', './DatePicker', './library'],
 	 * the <code>sap.ui.unified</code> library.
 	 *
 	 * @extends sap.m.DatePicker
-	 * @version 1.38.21
+	 * @version 1.38.22
 	 *
 	 * @constructor
 	 * @public
@@ -469,7 +469,10 @@ sap.ui.define(['jquery.sap.global', './DatePicker', './library'],
 		//If we have version of control with delimiter, then sValue should consist of two dates delimited with delimiter,
 		//hence we have to split the value to these dates
 		var sDelimiter = _getDelimiter.call(this);
-		if ((sDelimiter && sDelimiter !== "") && sValue) {
+		sValue = sValue.trim();
+		if (sDelimiter && sValue) {
+			sValue = _trim(sValue, [sDelimiter, " "]);
+
 			aDates = sValue.split(sDelimiter);
 			if (aDates.length === 2) {
 				// if delimiter only appears once in value (not part of date pattern) remove " " to be more flexible for input
@@ -482,7 +485,8 @@ sap.ui.define(['jquery.sap.global', './DatePicker', './library'],
 			} else {
 				aDates = sValue.split(" " + sDelimiter + " ");// Delimiter appears more than once -> try with separators
 			}
-			if (aDates.length < 2) {
+
+			if (sValue.indexOf(sDelimiter) === -1) {
 				// no delimiter found -> maybe only " " is used
 				var aDates2 = sValue.split(" ");
 				if (aDates2.length === 2) {
@@ -815,6 +819,51 @@ sap.ui.define(['jquery.sap.global', './DatePicker', './library'],
 
 		return oFormat;
 
+	}
+
+	function _endsWith(sValue, sEndStr) {
+		return sValue && sEndStr && sValue.lastIndexOf(sEndStr) === sValue.length - sEndStr.length;
+	}
+
+	function _startsWith(sValue, sStartStr) {
+		return sValue && sStartStr && sValue.indexOf(sStartStr) === 0;
+	}
+
+	/**
+	 * Trims all occurrences of the given string values from both ends of the specified string.
+	 * @param {string} sValue The value to be trimmed
+	 * @param {string[]} aParams All values to be removed
+	 * @returns {string} The trimmed value
+	 * @private
+	 */
+	function _trim(sValue, aParams) {
+		var i = 0,
+			aTrims = aParams;
+
+		if (!aTrims) {
+			aTrims = [" "];
+		}
+
+		while (i < aTrims.length) {
+			if (_endsWith(sValue, aTrims[i])) {
+				sValue = sValue.substring(0, sValue.length - aTrims[i].length);
+				i = 0;
+				continue;
+			}
+			i++;
+		}
+
+		i = 0;
+		while (i < aTrims.length) {
+			if (_startsWith(sValue, aTrims[i])) {
+				sValue = sValue.substring(aTrims[i].length);
+				i = 0;
+				continue;
+			}
+			i++;
+		}
+
+		return sValue;
 	}
 
 	//	to overwrite JS doc
