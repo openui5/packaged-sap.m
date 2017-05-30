@@ -23,7 +23,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Item'],
 	 * @extends sap.ui.core.Item
 	 *
 	 * @author SAP SE
-	 * @version 1.48.0
+	 * @version 1.48.1
 	 *
 	 * @constructor
 	 * @public
@@ -65,6 +65,10 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Item'],
 		}
 	}});
 
+	ViewSettingsItem.prototype.setSelected = function(bValue) {
+		ViewSettingsItem.prototype.setProperty.call(this, "selected", bValue, true);
+		return this;
+	};
 
 	/**
 	 * Overriding of the setProperty method in order to fire an event.

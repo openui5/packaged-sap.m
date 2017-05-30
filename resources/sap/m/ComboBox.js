@@ -45,7 +45,7 @@ sap.ui.define(['jquery.sap.global', './ComboBoxTextField', './ComboBoxBase', './
 		 * </ul>
 		 *
 		 * @author SAP SE
-		 * @version 1.48.0
+		 * @version 1.48.1
 		 *
 		 * @constructor
 		 * @extends sap.m.ComboBoxBase
@@ -335,9 +335,24 @@ sap.ui.define(['jquery.sap.global', './ComboBoxTextField', './ComboBoxBase', './
 		 * @since 1.48
 		 */
 		ComboBox.prototype._boldItemRef = function (sItemText, oRegex, sValue) {
-			var sTextReplacement = "<b>" + sItemText.slice(0, sValue.length) + "</b>";
+			var sResult;
 
-			return sItemText.replace(oRegex, sTextReplacement);
+			var sTextReplacement = "<b>" + jQuery.sap.encodeHTML(sItemText.slice(0, sValue.length)) + "</b>";
+
+			// parts should always be max of two because regex is not defined as global
+			// see above method
+			var aParts = sItemText.split(oRegex);
+
+			if (aParts.length === 1) {
+				// no match found, return value as it is
+				sResult = jQuery.sap.encodeHTML(sItemText);
+			} else {
+				sResult = aParts.map(function (sPart) {
+					return jQuery.sap.encodeHTML(sPart);
+				}).join(sTextReplacement);
+			}
+
+			return sResult;
 		};
 
 		/**
@@ -697,8 +712,9 @@ sap.ui.define(['jquery.sap.global', './ComboBoxTextField', './ComboBoxBase', './
 		 */
 		ComboBox.prototype.onItemPress = function(oControlEvent) {
 			var oItem = oControlEvent.getParameter("item");
+			var sText = oItem.getText();
 
-			this.updateDomValue(oItem.getText());
+			this.updateDomValue(sText);
 
 			this.close();
 

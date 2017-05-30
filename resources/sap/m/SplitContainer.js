@@ -25,7 +25,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 *
 	 * NOTE: This control must be rendered as a full screen control in order to make the show/hide master area work properly.
 	 * @extends sap.ui.core.Control
-	 * @version 1.48.0
+	 * @version 1.48.1
 	 *
 	 * @constructor
 	 * @public
@@ -593,6 +593,11 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		if (sap.ui.Device.os.windows && sap.ui.Device.browser.internet_explorer) { // not for windows_phone
 			this._oMasterNav.$().append('<iframe class="sapMSplitContainerMasterBlindLayer" src="about:blank"></iframe>');
 		}
+
+		// "sapMSplitContainerNoTransition" prevents initial flickering, after that it needs to be removed
+		jQuery.sap.delayedCall(0, this, function () {
+			this._oMasterNav.removeStyleClass("sapMSplitContainerNoTransition");
+		});
 	};
 	/**************************************************************
 	* END - Life Cycle Methods

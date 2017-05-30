@@ -25,7 +25,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.48.0
+	 * @version 1.48.1
 	 *
 	 * @constructor
 	 * @public
@@ -183,8 +183,6 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 				}
 			});
 
-			this.addDependent(this._oSelectList);
-
 			this._oSelectList._iconTabHeader = this;
 		}
 
@@ -227,6 +225,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 			if (sap.ui.Device.system.phone) {
 				this._oPopover._oControl.addButton(this._createPopoverCloseButton());
 			}
+			this.addDependent(this._oPopover);
 		}
 
 		var oSelectList = this._getSelectList();
@@ -800,6 +799,12 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 
 		// Return the original value from removeAggregation
 		return oItem;
+	};
+
+	IconTabHeader.prototype.updateAggregation = function() {
+		this.oSelectedItem = null;
+
+		return Control.prototype.updateAggregation.apply(this, arguments);
 	};
 
 	IconTabHeader.prototype.removeAggregation = function (sAggregationName, oObject, bSuppressInvalidate) {

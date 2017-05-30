@@ -30,7 +30,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', './Token
 	 * Tokens can only be used with the Tokenizer as a container.
 	 *
 	 * @author SAP SE
-	 * @version 1.48.0
+	 * @version 1.48.1
 	 *
 	 * @constructor
 	 * @public
@@ -279,6 +279,9 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', './Token
 	 * @private
 	 */
 	Token.prototype.ontap = function(oEvent) {
+		if (oEvent.target.id == this._deleteIcon.getId()){
+			return;
+		}
 		this._onTokenPress(oEvent);
 	};
 

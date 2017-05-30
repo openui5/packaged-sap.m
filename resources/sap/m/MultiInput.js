@@ -60,7 +60,7 @@ sap.ui.define(['jquery.sap.global', './Input', './Tokenizer', './Token', './libr
 	* @extends sap.m.Input
 	*
 	* @author SAP SE
-	* @version 1.48.0
+	* @version 1.48.1
 	*
 	* @constructor
 	* @public
@@ -1099,7 +1099,7 @@ sap.ui.define(['jquery.sap.global', './Input', './Tokenizer', './Token', './libr
 	 */
 	MultiInput.prototype.onfocusin = function (oEvent) {
 
-		if (this.getEditable() && this.getEnableMultiLineMode()) {
+		if (this.getEditable() && this.getEnableMultiLineMode() && (!oEvent.target.classList.contains("sapMInputValHelp") && !oEvent.target.classList.contains("sapMInputValHelpInner"))) {
 			this.openMultiLine();
 		}
 

@@ -19,7 +19,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/B
 	 * <b><i>Note:<i></b>It is protected and should ony be used within the framework itself.
 	 *
 	 * @author SAP SE
-	 * @version 1.48.0
+	 * @version 1.48.1
 	 *
 	 * @extends sap.ui.core.Control
 	 * @constructor
@@ -28,80 +28,92 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/B
 	 * @ui5-metamodel This control/element also will be described in the UI5 (legacy) designtime metamodel
 	 * @alias sap.m.SelectionDetails
 	 */
-	var SelectionDetails = Control.extend("sap.m.SelectionDetails", /** @lends sap.m.SelectionDetails.prototype */ { metadata : {
-		library : "sap.m",
-		defaultAggregation : "items",
-		aggregations : {
+	var SelectionDetails = Control.extend("sap.m.SelectionDetails", /** @lends sap.m.SelectionDetails.prototype */ { metadata: {
+		library: "sap.m",
+		defaultAggregation: "items",
+		aggregations: {
 			/**
 			 * Contains {@link sap.m.SelectionDetailsItem items} that are displayed on the first page.
 			 */
-			"items" : {type : "sap.m.SelectionDetailsItem", multiple : true,  bindable : "bindable"},
+			"items": {type: "sap.m.SelectionDetailsItem", multiple: true, bindable: "bindable"},
 
 			/**
 			 * Contains custom actions shown in the responsive toolbar below items on the first page.
 			 */
-			"actions" : {type : "sap.ui.core.Item", multiple : true},
+			"actions": {type: "sap.ui.core.Item", multiple: true},
 
 			/**
 			 * Contains actions that are rendered as a dedicated {@link sap.m.StandardListItem item}.
 			 * In case an action group is pressed, a navigation should be triggered via <code>navTo</code> method.
 			 * A maximum of 5 actionGroups is displayed inside the popover, though more can be added to the aggregation.
 			 */
-			"actionGroups" : {type : "sap.ui.core.Item", multiple : true},
+			"actionGroups": {type: "sap.ui.core.Item", multiple: true},
 
 			/**
 			 * Hidden aggregation that contains the popover.
 			 */
-			"_popover": {type : "sap.m.ResponsivePopover", multiple : false, visibility : "hidden"},
+			"_popover": {type: "sap.m.ResponsivePopover", multiple: false, visibility: "hidden"},
 
 			/**
 			 * Hidden aggregation that contains the button.
 			 */
-			"_button": {type : "sap.m.Button", multiple : false, visibility : "hidden"}
+			"_button": {type: "sap.m.Button", multiple: false, visibility: "hidden"}
 		},
-		events : {
+		events: {
 			/**
 			 * Event is triggered before the popover is open.
 			 */
-			beforeOpen : {},
+			beforeOpen: {},
 
 			/**
 			 * Event is triggered before the popover is closed.
 			 */
-			beforeClose : {},
+			beforeClose: {},
 
 			/**
 			 * Event is triggered after a list item of {@link sap.m.SelectionDetailsItem} is pressed.
 			 */
-			navigate : {
-				parameters : {
+			navigate: {
+				parameters: {
 					/**
-					 * The item on which the action has been pressed
+					 * The item on which the action has been pressed.
+					 * Can be null in case a navigation was done without item context, e.g. action press.
 					 */
-					item : {type : "sap.m.SelectionDetailsItem"}
+					item: {type: "sap.m.SelectionDetailsItem"},
+
+					/**
+					 * Direction of the triggered navigation, possible values are "to" and "back".
+					 */
+					direction: {type: "string"},
+					/**
+					 * The content of the currently viewed page that was previously added via {@link sap.m.SelectionDetails#navTo}.
+					 * This contains the content of the page before the navigation was triggered.
+					 * Can be null in case of first event triggering.
+					 */
+					content: {type: "sap.ui.core.Control"}
 				}
 			},
 
 			/**
 			 * Event is triggered when a custom action is pressed.
 			 */
-			actionPress : {
-				parameters : {
+			actionPress: {
+				parameters: {
 
 					/**
 					 * The action that has to be processed once the action has been pressed
 					 */
-					action : {type : "sap.ui.core.Item"},
+					action: {type: "sap.ui.core.Item"},
 
 					/**
 					 * If the action is pressed on one of the {@link sap.m.SelectionDetailsItem items}, the parameter contains a reference to the pressed {@link sap.m.SelectionDetailsItem item}. If a custom action or action group of the SelectionDetails popover is pressed, this parameter refers to all {@link sap.m.SelectionDetailsItem items}
 					 */
-					items : {type : "sap.m.SelectionDetailsItem"},
+					items: {type: "sap.m.SelectionDetailsItem"},
 
 					/**
 					 * The action level of action buttons. The available levels are Item, List and Group
 					 */
-					level : {type :"sap.m.SelectionDetailsActionLevel"}
+					level: {type: "sap.m.SelectionDetailsActionLevel"}
 				}
 			}
 		}
@@ -113,6 +125,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/B
 	 * @private
 	 */
 	SelectionDetails._MAX_ACTIONGROUPS = 5; // This number is also implemented as a rule within the sap.ui.support namespace.
+	SelectionDetails._POPOVER_MAX_HEIGHT = 500;
 
 	/* =========================================================== */
 	/* Lifecycle methods                                           */
@@ -120,18 +133,18 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/B
 	SelectionDetails.prototype.init = function() {
 		this._oRb = sap.ui.getCore().getLibraryResourceBundle("sap.m");
 		this.setAggregation("_button", new Button({
-			id : this.getId() + "-button",
-			type : library.ButtonType.Transparent,
-			press : [this._onToolbarButtonPress, this]
+			id: this.getId() + "-button",
+			type: library.ButtonType.Transparent,
+			press: [this._onToolbarButtonPress, this]
 		}), true);
 		this._oItemFactory = null;
 	};
 
-	SelectionDetails.prototype.onBeforeRendering = function () {
+	SelectionDetails.prototype.onBeforeRendering = function() {
 		this._updateButton();
 	};
 
-	SelectionDetails.prototype.exit = function () {
+	SelectionDetails.prototype.exit = function() {
 		this.detachSelectionHandler();
 		this._oItemFactory = null;
 		this._oChangeHandler = null;
@@ -200,6 +213,21 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/B
 		return this;
 	};
 
+	/* =========================================================== */
+	/* Protected API methods                                       */
+	/* =========================================================== */
+	/**
+	 * Sets the popover to modal or non-modal based on the given parameter. This only takes effect on desktop or tablet.
+	 * Please see the documentation {@link sap.m.ResponsivePopover#modal}.
+	 * @param {boolean} modal New value for property modal of the internally used popover.
+	 * @returns {sap.m.SelectionDetails} To ensure method chaining, return the SelectionDetails.
+	 * @protected
+	 */
+	SelectionDetails.prototype.setPopoverModal = function(modal) {
+		this._getPopover().setModal(modal);
+		return this;
+	};
+
 	/**
 	 * Handles the wrapping of the content and the toolbar creation for the new page.
 	 *
@@ -213,16 +241,9 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/B
 	 * @private
 	 */
 	SelectionDetails.prototype._handleNavLazy = function(pageTitle, content, Page, Toolbar, ToolbarSpacer, Title, Button) {
-		var sPageId = this.getId() + "-page-for-" + content.getId();
+		var sPageId = this.getId() + "-page-for-" + content.getId() + "-uid-" + jQuery.sap.uid();
 
-		// Navigate to the page directly when the page already exists in the NavContainer
-		var aPages = this._oNavContainer.getPages();
-		for (var i = 0; i < aPages.length; i++) {
-			if (sPageId === aPages[i].getId()) {
-				this._oNavContainer.to(sPageId);
-				return;
-			}
-		}
+		this._setPopoverHeight(SelectionDetails._POPOVER_MAX_HEIGHT);
 
 		var oPage = new Page(sPageId, {
 			customHeader: this._getPageToolbar(Toolbar, ToolbarSpacer, Title, true, pageTitle),
@@ -254,7 +275,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/B
 		if (showBackButton) {
 			var oBackButton = new Button({
 				icon: "sap-icon://nav-back",
-				press: this._oNavContainer.back.bind(this._oNavContainer)
+				press: this._onBackButtonPress.bind(this)
 			});
 			oToolbar.addAggregation("content", oBackButton, true);
 		}
@@ -274,6 +295,75 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/B
 		}
 
 		return oToolbar;
+	};
+
+	/**
+	 * Animate the height css property of the internal popover to the given height with a fixed duration and standard easing.
+	 * This does not change the contentHeight property of the popover.
+	 * @param {int} height The popover height in pixels.
+	 * @private
+	 */
+	SelectionDetails.prototype._setPopoverHeight = function(height) {
+		if (!Device.system.phone) {
+			var oPopover = this._getPopover(),
+				$PopoverContent = oPopover.$("cont"),
+				iMaxHeight = this._getMaxPopoverHeight();
+
+			height = Math.min(SelectionDetails._POPOVER_MAX_HEIGHT, height);
+			oPopover._oControl._deregisterContentResizeHandler();
+
+			$PopoverContent.animate({
+				"height": Math.min(height, iMaxHeight)
+			}, sap.ui.getCore().getConfiguration().getAnimation() ? 100 : 0, function() {
+				oPopover.setProperty("contentHeight", height + "px", true);
+				oPopover._oControl._registerContentResizeHandler();
+			});
+		}
+	};
+
+	/**
+	 * Calculates the maximum height of the popover used for height animations.
+	 * @returns {int} The maximum height of the popover in pixels
+	 * @private
+	 */
+	SelectionDetails.prototype._getMaxPopoverHeight = function() {
+		var oResponsivePopover = this._getPopover(),
+			$ResponsivePopover = oResponsivePopover.$(),
+			iOffsetTop,
+			iViewportHeight,
+			oPopover;
+
+		if (!$ResponsivePopover.length) {
+			return 0;
+		}
+
+		iOffsetTop = $ResponsivePopover.offset().top;
+		iViewportHeight = Device.resize.height;
+		oPopover = oResponsivePopover._oControl;
+
+		oPopover._adaptPositionParams();
+		return iViewportHeight - iOffsetTop - oPopover._marginBottom;
+	};
+
+	/**
+	 * Handles the backward navigation and popover animation.
+	 * @private
+	 */
+	SelectionDetails.prototype._onBackButtonPress = function() {
+		var oContent = this._oNavContainer.getCurrentPage().getContent()[0];
+		this._oNavContainer.attachEventOnce("afterNavigate", function () {
+			this.fireNavigate({
+				item: this._oItemForNavigation,
+				direction: "back",
+				content: oContent
+			});
+		}, this);
+		this._oNavContainer.back();
+
+		// Once NavContainer's history returned to the initial page, the popover's size has to be reset
+		if (this._oNavContainer.getCurrentPage() === this._oInitialPage) {
+			this._setPopoverHeight(this._getInitialPageHeight());
+		}
 	};
 
 	/**
@@ -340,7 +430,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/B
 	 * Updates the button text and sets the button to enabled or disabled depending on the amount of items or selections made.
 	 * @private
 	 */
-	SelectionDetails.prototype._updateButton = function () {
+	SelectionDetails.prototype._updateButton = function() {
 		var sText, iCount, oButton = this.getAggregation("_button");
 		if (this._oSelectionData && this._oSelectionData.length >= 0) {
 			iCount = this._oSelectionData.length;
@@ -386,9 +476,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/B
 	 * @param {function} Title The constructor of sap.m.Title
 	 * @private
 	 */
-	SelectionDetails.prototype._handlePressLazy =
-		function(NavContainer, ResponsivePopover, Page, Toolbar, OverflowToolbar, ToolbarSpacer, Button, List, StandardListItem, FixFlex, ScrollContainer, Title) {
-
+	SelectionDetails.prototype._handlePressLazy = function(NavContainer, ResponsivePopover, Page, Toolbar, OverflowToolbar, ToolbarSpacer, Button, List, StandardListItem, FixFlex, ScrollContainer, Title) {
 		var oPopover = this._getPopover(NavContainer, ResponsivePopover, Toolbar, ToolbarSpacer, Page, List, FixFlex, ScrollContainer, Title);
 
 		if (this._oItemFactory) {
@@ -410,9 +498,9 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/B
 	};
 
 	/**
-	 * Calls the registered factory function for each entry in <code>this._oSelectionData</code>.
+	 * Calls the registered factory function for each entry in this._oSelectionData.
 	 * Before the factory is called, the 'beforeUpdate' event is triggered.
-	 * After the factory is called for all entries in <code>this._oSelectionData</code>, the 'afterUpdate' event is triggered.
+	 * After the factory is called for all entries in this._oSelectionData, the 'afterUpdate' event is triggered.
 	 * @private
 	 */
 	SelectionDetails.prototype._callFactory = function() {
@@ -497,9 +585,11 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/B
 				placement: library.PlacementType.Bottom,
 				showHeader: false,
 				contentWidth: "25rem",
-				contentHeight: "31.25rem",
+				contentHeight: "500px",
 				beforeClose: this.fireBeforeClose.bind(this)
 			}).addStyleClass("sapMSD");
+
+			oPopover.setProperty = this._setPopoverProperty;
 
 			//build popover contents
 			oPage = this._getInitialPage(Page, Toolbar, ToolbarSpacer, Title);
@@ -519,10 +609,68 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/B
 			oNavContainer.addPage(oPage);
 			oPopover.addAggregation("content", oNavContainer, true);
 
+			if (!Device.system.phone) {
+				oPopover.addEventDelegate({
+					onAfterRendering: this._updatePopoverContentHeight.bind(this)
+				});
+			}
+
 			this.setAggregation("_popover", oPopover, true);
 		}
 
 		return oPopover;
+	};
+
+	/**
+	 * Overwrite a property's value on the control and its inner control if it has the same name.
+	 * @param {string} propertyName The name of the property.
+	 * @returns {sap.m.ResponsivePopover} this to allow method chaining
+	 * @private
+	 */
+	SelectionDetails.prototype._setPopoverProperty = function(propertyName, value) {
+		var oProperty = this._oControl.getMetadata().getProperty(propertyName);
+		if (oProperty && propertyName === "modal" && this._oControl.setModal) {
+			this._oControl.setModal(value);
+		} else {
+			this._oControl.setProperty.apply(this._oControl, arguments);
+		}
+		return Control.prototype.setProperty.apply(this, arguments);
+	};
+
+	/**
+	 * Adds an event delegate to the popover instance in order to minimize white space inside its contents.
+	 * @private
+	 * @static
+	 */
+	SelectionDetails.prototype._updatePopoverContentHeight = function() {
+		var iContentHeight = this._getInitialPageHeight(),
+			oPopover = this._getPopover();
+
+		if (Device.browser.edge && this._oMainList.getDomRef() && this._oMainList.getDomRef().getBoundingClientRect().height === 0) {
+			// Force rendering if for some reason the main list has not been rendered in MS Edge
+			oPopover.setContentHeight(SelectionDetails._POPOVER_MAX_HEIGHT + "px");
+			return;
+		}
+
+		if (this._oNavContainer.getCurrentPage() === this._oInitialPage && iContentHeight < SelectionDetails._POPOVER_MAX_HEIGHT) {
+			oPopover.setProperty("contentHeight", iContentHeight + "px", true);
+		} else {
+			oPopover.setProperty("contentHeight", SelectionDetails._POPOVER_MAX_HEIGHT + "px", true);
+		}
+	};
+
+	/**
+	 * Calculates the sum of all heights of the given instances.
+	 * @returns {int} The height of all given instances in pixels
+	 * @private
+	 */
+	SelectionDetails.prototype._getInitialPageHeight = function() {
+		var oFooter = this._oInitialPage && this._oInitialPage.getFooter(),
+			iListHeight = this._oMainList.$().outerHeight(),
+			iActionGroupsHeight = this._oActionGroupList.$().outerHeight(),
+			iToolbarHeight = oFooter && oFooter.$().outerHeight() || 0;
+
+		return iListHeight + iActionGroupsHeight + iToolbarHeight;
 	};
 
 	/**
@@ -674,23 +822,25 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/B
 	 * @private
 	 */
 	SelectionDetails.prototype._onNavigate = function(oEvent) {
+		this._oItemForNavigation = oEvent.getSource();
 		this.fireNavigate({
-			item: oEvent.getSource()
+			item: oEvent.getSource(),
+			direction: "to"
 		});
 	};
 
 	/**
 	 * Handles the selection change event. The event parameters need to follow this structure:
-	 * <code>
 	 * data: [
-	 * {
-	 * data: [{}],
-	 * displayData: [{}]
-	 * }
-	 * ]</code>
+	 *     {
+	 *          data: [ {} ],
+	 *          displayData: [ {} ]
+	 *     }
+	 * ]
 	 * @param {sap.ui.base.Event} oEvent Event object of selection change listener object
+	 * @private
 	 */
-	SelectionDetails.prototype._handleSelectionChange = function (oEvent) {
+	SelectionDetails.prototype._handleSelectionChange = function(oEvent) {
 		var oEventParams = oEvent.getParameter("data");
 		if (jQuery.type(oEventParams) === "array") {
 			this._oSelectionData = oEventParams;
@@ -753,7 +903,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/B
 	 * @protected
 	 * @returns {sap.m.SelectionDetails} this to allow method chaining
 	 */
-	SelectionDetails.prototype.detachSelectionHandler = function () {
+	SelectionDetails.prototype.detachSelectionHandler = function() {
 		if (this._oChangeHandler) {
 			this._oChangeHandler.listener.detachEvent(this._oChangeHandler.eventId, this._handleSelectionChange, this);
 			this._oChangeHandler = null;

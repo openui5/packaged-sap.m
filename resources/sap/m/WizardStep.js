@@ -28,7 +28,7 @@ sap.ui.define(["./library", "sap/ui/core/Control"],
 	 * <li>If the execution needs to branch after a given step, you should set all possible next steps in the <code>subsequentSteps</code> aggregation.
 	 * @extends sap.ui.core.Control
 	 * @author SAP SE
-	 * @version 1.48.0
+	 * @version 1.48.1
 	 *
 	 * @constructor
 	 * @public
@@ -107,6 +107,19 @@ sap.ui.define(["./library", "sap/ui/core/Control"],
 			parent.validateStep(this);
 		} else {
 			parent.invalidateStep(this);
+		}
+
+		return this;
+	};
+
+	WizardStep.prototype.setNextStep = function (value) {
+		this.setAssociation("nextStep", value, true);
+
+		var parent = this._getWizardParent();
+
+		if (parent !== null) {
+			parent._checkCircularReference(this._getNextStepReference());
+			parent._updateProgressNavigator();
 		}
 
 		return this;

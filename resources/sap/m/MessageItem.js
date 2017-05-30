@@ -28,7 +28,7 @@ sap.ui.define(["jquery.sap.global", "./library", "sap/ui/core/Item"],
 		 *
 		 * @extends sap.ui.core.Item
 		 * @author SAP SE
-		 * @version 1.48.0
+		 * @version 1.48.1
 		 *
 		 * @constructor
 		 * @public
@@ -84,7 +84,6 @@ sap.ui.define(["jquery.sap.global", "./library", "sap/ui/core/Item"],
 				},
 				defaultAggregation: "link",
 				aggregations: {
-
 					/**
 					 * Adds an sap.m.Link control which will be displayed at the end of the description of a message.
 					 */
@@ -115,7 +114,21 @@ sap.ui.define(["jquery.sap.global", "./library", "sap/ui/core/Item"],
 				oParent._oLists && oParent._oLists[sType] && oParent._oLists[sType].getItems && oParent._oLists[sType].getItems().forEach(fnUpdateProperty.bind(this, sPropertyName));
 			}
 
+			if (typeof this._updatePropertiesFn === "function") {
+				this._updatePropertiesFn();
+			}
+
 			return Item.prototype.setProperty.apply(this, arguments);
+		};
+
+		/**
+		 * Custom function which will be fired upon updating any property in the MessageItem
+		 *
+		 * @param {function} customFn The custom function to be executed
+		 * @private
+		 */
+		MessageItem.prototype._updateProperties = function (customFn) {
+			this._updatePropertiesFn = customFn;
 		};
 
 		MessageItem.prototype.setDescription = function(sDescription) {

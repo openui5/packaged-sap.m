@@ -23,7 +23,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @implements sap.ui.core.IFormContent
 	 *
 	 * @author SAP SE
-	 * @version 1.48.0
+	 * @version 1.48.1
 	 *
 	 * @constructor
 	 * @public
@@ -728,11 +728,6 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 
 		oButton.firePress();
 		this.setSelectedButton(sButtonId);
-		this.fireSelect({
-			button: oButton,
-			id: sButtonId,
-			key: sNewKey
-		});
 	};
 
 	SegmentedButton.prototype._forwardChangeEvent = function () {

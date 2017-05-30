@@ -52,17 +52,25 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Control', 'sap/ui/core/LocaleDa
 	 * {@link sap.m.PlanningCalendarRow PlanningCalendarRow}.</li>
 	 * </ul>
 	 *
+	 * Since 1.48 the empty space in the cell that is below an appointment can be removed by adding
+	 * the <code>sapUiCalendarAppFitVertically</code> CSS class to the <code>PlanningCalendar</code>.
+	 * Please note that it should be used only for a <code>PlanningCalendar</code> with one appointment per day
+	 * for a row that doesn't have interval headers set.
+	 *
+	 * Since 1.44 alternating row colors can be suppressed by adding the <code>sapMPlanCalSuppressAlternatingRowColors</code>
+	 * CSS class to the <code>PlanningCalendar</code>.
+	 *
 	 * <h3>Responsive behavior</h3>
 	 *
 	 * You can define the number of displayed intervals based on the size of the <code>PlanningCalendar</code> using the
 	 * {@link sap.m.PlanningCalendarView PlanningCalendarView}'s properties.
 	 *
 	 * @extends sap.ui.core.Control
-	 * @version 1.48.0
+	 * @version 1.48.1
 	 *
 	 * @constructor
 	 * @public
-	 * @since 1.34.0
+	 * @since 1.34
 	 * @alias sap.m.PlanningCalendar
 	 * @ui5-metamodel This control/element also will be described in the UI5 (legacy) designtime metamodel
 	 */
@@ -1422,16 +1430,16 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Control', 'sap/ui/core/LocaleDa
 		this._bDateRangeChanged = true;
 		// forward to PlanningCalendarRow
 		if (oSpecialDate && oSpecialDate.getType() === sap.ui.unified.CalendarDayType.NonWorking) {
-			this.getAggregation("rows").forEach(function (оPCRow){
-				if (оPCRow.getAggregation("_nonWorkingDates")) {
-					aRemovableNonWorkingDate = оPCRow.getAggregation("_nonWorkingDates").filter(function(oNonWorkingDate) {
+			this.getAggregation("rows").forEach(function (oPCRow){
+				if (oPCRow.getAggregation("_nonWorkingDates")) {
+					aRemovableNonWorkingDate = oPCRow.getAggregation("_nonWorkingDates").filter(function(oNonWorkingDate) {
 						return oNonWorkingDate.data(PlanningCalendarRow.PC_FOREIGN_KEY_NAME) === oSpecialDate.getId();
 					});
 					if (aRemovableNonWorkingDate.length) {
 						jQuery.sap.assert(aRemovableNonWorkingDate.length == 1, "Inconsistency between PlanningCalendar " +
 							"special date instance and PlanningCalendar nonWorkingDates instance. For PC instance " +
 							"there are more than one(" + aRemovableNonWorkingDate.length + ") nonWorkingDates in PlanningCalendarRow ");
-						оPCRow.removeAggregation("_nonWorkingDates", aRemovableNonWorkingDate[0]);
+						oPCRow.removeAggregation("_nonWorkingDates", aRemovableNonWorkingDate[0]);
 					}
 				}
 			});
