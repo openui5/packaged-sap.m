@@ -6110,6 +6110,7 @@ html[data-sap-ui-os^="Android"] .sapMObjectNumberUnit {
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
+  display: block;
 }
 .sapUiTableCell .sapMObjStatusText,
 .sapUiTableCell .sapMObjStatusTitle,
