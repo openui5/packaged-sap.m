@@ -22,7 +22,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Element', 'sap/ui/
 	 * @extends sap.ui.core.Element
 	 *
 	 * @author SAP SE
-	 * @version 1.48.1
+	 * @version 1.48.2
 	 *
 	 * @constructor
 	 * @public
@@ -144,6 +144,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Element', 'sap/ui/
 
 	Column.prototype._clearMedia = function() {
 		if (this._media && this._minWidth) {
+			this._detachMediaContainerWidthChange(this._notifyResize, this, this.getId());
 			sap.ui.Device.media.removeRangeSet(this.getId());
 			this._media = null;
 		}

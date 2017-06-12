@@ -45,7 +45,7 @@ sap.ui.define(['jquery.sap.global', './ComboBoxTextField', './ComboBoxBase', './
 		 * </ul>
 		 *
 		 * @author SAP SE
-		 * @version 1.48.1
+		 * @version 1.48.2
 		 *
 		 * @constructor
 		 * @extends sap.m.ComboBoxBase
@@ -317,7 +317,7 @@ sap.ui.define(['jquery.sap.global', './ComboBoxTextField', './ComboBoxBase', './
 
 				oItemTextRef.innerHTML = this._boldItemRef(oItem.getText(), oRegex, sValue);
 
-				if (oItemAdditionalTextRef) {
+				if (oItemAdditionalTextRef && oItem.getAdditionalText) {
 					oItemAdditionalTextRef.innerHTML = this._boldItemRef(oItem.getAdditionalText(), oRegex, sValue);
 				}
 			}, this);

@@ -25,7 +25,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Element', './ListItemBase', './
 	 * @extends sap.m.ListItemBase
 	 *
 	 * @author SAP SE
-	 * @version 1.48.1
+	 * @version 1.48.2
 	 *
 	 * @constructor
 	 * @public
@@ -67,6 +67,9 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Element', './ListItemBase', './
 			}
 		}
 	});
+
+	// defines tag name
+	ColumnListItem.prototype.TagName = "tr";
 
 	ColumnListItem.prototype.init = function() {
 		ListItemBase.prototype.init.call(this);
