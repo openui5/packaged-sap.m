@@ -66,7 +66,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 	 *
 	 * @extends sap.m.InputBase
 	 * @author SAP SE
-	 * @version 1.46.8
+	 * @version 1.46.9
 	 *
 	 * @constructor
 	 * @public
@@ -1061,10 +1061,13 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 		if (!this.getEnabled() || !this.getEditable()) {
 			return;
 		}
-		if (!this._oSuggestionPopup || !this._oSuggestionPopup.isOpen()) {
+		if (sDir !== "up" && sDir !== "down") {
 			return;
 		}
-		if (sDir !== "up" && sDir !== "down") {
+
+		oEvent.setMarked();
+
+		if (!this._oSuggestionPopup || !this._oSuggestionPopup.isOpen()) {
 			return;
 		}
 
@@ -1345,15 +1348,21 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 
 		if (sValue.length >= this.getStartSuggestion()) {
 			this._iSuggestDelay = jQuery.sap.delayedCall(300, this, function(){
-				this._bBindingUpdated = false;
-				this.fireSuggest({
-					suggestValue: sValue
-				});
-				// if binding is updated during suggest event, the list items don't need to be refreshed here
-				// because they will be refreshed in updateItems function.
-				// This solves the popup blinking problem
-				if (!this._bBindingUpdated) {
-					this._refreshItemsDelayed();
+
+				if (this._sPrevSuggValue !== sValue) {
+
+					this._bBindingUpdated = false;
+					this.fireSuggest({
+						suggestValue: sValue
+					});
+					// if binding is updated during suggest event, the list items don't need to be refreshed here
+					// because they will be refreshed in updateItems function.
+					// This solves the popup blinking problem
+					if (!this._bBindingUpdated) {
+						this._refreshItemsDelayed();
+					}
+
+					this._sPrevSuggValue = sValue;
 				}
 			});
 		} else if (this._bUseDialog) {
@@ -1364,8 +1373,14 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 				this._oList.destroyItems();
 			}
 		} else if (this._oSuggestionPopup && this._oSuggestionPopup.isOpen()) {
-			this._iPopupListSelectedIndex = -1;
-			this._closeSuggestionPopup();
+
+			jQuery.sap.delayedCall(0, this, function () {
+				var sNewValue = this._$input.val() || '';
+				if (sNewValue < this.getStartSuggestion()) {
+					this._iPopupListSelectedIndex = -1;
+					this._closeSuggestionPopup();
+				}
+			});
 		}
 	};
 
@@ -1605,6 +1620,8 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 				this.$("SuggDescr").text(""); // initialize suggestion ARIA text
 				this.$("inner").removeAttr("aria-haspopup");
 				this.$("inner").removeAttr("aria-activedescendant");
+
+				this._sPrevSuggValue = null;
 			}
 
 		};
@@ -2076,6 +2093,8 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 			this._triggerSuggest(this.getValue());
 		}
 		this._bPopupHasFocus = undefined;
+
+		this._sPrevSuggValue = null;
 	};
 
 	/**

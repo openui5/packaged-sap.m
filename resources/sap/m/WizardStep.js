@@ -28,7 +28,7 @@ sap.ui.define(["./library", "sap/ui/core/Control"],
 	 * <li>If the execution needs to branch after a given step, you should set all possible next steps in the <code>subsequentSteps</code> aggregation.
 	 * @extends sap.ui.core.Control
 	 * @author SAP SE
-	 * @version 1.46.8
+	 * @version 1.46.9
 	 *
 	 * @constructor
 	 * @public
@@ -141,7 +141,7 @@ sap.ui.define(["./library", "sap/ui/core/Control"],
 		}
 
 		if (this.getSubsequentSteps().length === 1) {
-			return sap.ui.getCore().byId(this.getSubsequentSteps[0]);
+			return sap.ui.getCore().byId(this.getSubsequentSteps()[0]);
 		}
 
 		return null;

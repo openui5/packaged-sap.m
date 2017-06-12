@@ -63,9 +63,7 @@ sap.ui.define([], function () {
 				oButton.addStyleClass(sClass);
 			});
 
-			if (bDisableButton) {
-				oButton.addStyleClass("sapMStepInputIconDisabled");
-			}
+			bDisableButton ? oButton.addStyleClass("sapMStepInputIconDisabled") : oButton.removeStyleClass("sapMStepInputIconDisabled");
 			oRm.renderControl(oButton);
 		};
 
