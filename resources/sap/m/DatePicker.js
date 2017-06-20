@@ -5,8 +5,8 @@
  */
 
 // Provides control sap.m.DatePicker.
-sap.ui.define(['jquery.sap.global', 'sap/ui/Device', './InputBase', 'sap/ui/model/type/Date', 'sap/ui/core/date/UniversalDate', './library'],
-	function(jQuery, Device, InputBase, Date1, UniversalDate, library) {
+sap.ui.define(['jquery.sap.global', 'sap/ui/Device', './InputBase', 'sap/ui/model/type/Date', 'sap/ui/model/odata/type/ODataType', 'sap/ui/core/date/UniversalDate', './library'],
+	function(jQuery, Device, InputBase, Date1, ODataType, UniversalDate, library) {
 	"use strict";
 
 
@@ -48,7 +48,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/Device', './InputBase', 'sap/ui/mode
 	 * This could lead to a waiting time before a <code>DatePicker</code> is opened the first time. To prevent this, applications using the <code>DatePicker</code> should also load
 	 * the <code>sap.ui.unified</code> library.
 	 * @extends sap.m.InputBase
-	 * @version 1.44.14
+	 * @version 1.44.15
 	 *
 	 * @constructor
 	 * @public
@@ -882,13 +882,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/Device', './InputBase', 'sap/ui/mode
 		var sPlaceholder = this.getPlaceholder();
 
 		if (!sPlaceholder) {
-			var oBinding = this.getBinding("value");
-
-			if (oBinding && oBinding.oType && (oBinding.oType instanceof Date1)) {
-				sPlaceholder = oBinding.oType.getOutputPattern();
-			} else {
-				sPlaceholder = this.getDisplayFormat();
-			}
+			sPlaceholder = this._getDisplayFormatPattern();
 
 			if (!sPlaceholder) {
 				sPlaceholder = "medium";
@@ -922,8 +916,10 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/Device', './InputBase', 'sap/ui/mode
 		var sCalendarType;
 		var oBinding = this.getBinding("value");
 
-		if (oBinding && oBinding.oType && (oBinding.oType instanceof Date1)) {
+		if (oBinding && oBinding.oType && oBinding.oType.oOutputFormat) {
 			sCalendarType = oBinding.oType.oOutputFormat.oFormatOptions.calendarType;
+		} else if (oBinding && oBinding.oType && oBinding.oType.oFormat) {
+			sCalendarType = oBinding.oType.oFormat.oFormatOptions.calendarType;
 		}
 
 		if (!sCalendarType) {
@@ -1132,6 +1128,25 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/Device', './InputBase', 'sap/ui/mode
 
 	};
 
+	DatePicker.prototype._getDisplayFormatPattern = function() {
+		return this._getBoundValueTypePattern() || this.getDisplayFormat();
+	};
+
+	DatePicker.prototype._getBoundValueTypePattern = function() {
+		var oBinding = this.getBinding("value"),
+			oBindingType = oBinding && oBinding.getType && oBinding.getType();
+
+		if (oBindingType instanceof Date1) {
+			return oBindingType.getOutputPattern();
+		}
+
+		if (oBindingType instanceof ODataType && oBindingType.oFormat) {
+			return oBindingType.oFormat.oFormatOptions.pattern;
+		}
+
+		return undefined;
+	};
+
 	function _cancel(oEvent) {
 
 		if (this._oPopup && this._oPopup.isOpen()) {
@@ -1153,9 +1168,12 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/Device', './InputBase', 'sap/ui/mode
 			var sCalendarType;
 			var oBinding = this.getBinding("value");
 
-			if (oBinding && oBinding.oType && (oBinding.oType instanceof Date1)) {
+			if (oBinding && oBinding.oType && oBinding.oType.oOutputFormat) {
 				sCalendarType = oBinding.oType.oOutputFormat.oFormatOptions.calendarType;
+			} else if (oBinding && oBinding.oType && oBinding.oType.oFormat) {
+				sCalendarType = oBinding.oType.oFormat.oFormatOptions.calendarType;
 			}
+
 			if (!sCalendarType) {
 				sCalendarType = this.getDisplayFormatType();
 			}
@@ -1236,14 +1254,13 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/Device', './InputBase', 'sap/ui/mode
 
 	function _getFormatter(bDisplayFormat) {
 
-		var sPattern = "";
+		var sPattern = this._getBoundValueTypePattern();
 		var bRelative = false; // if true strings like "Tomorrow" are parsed fine
 		var oFormat;
 		var oBinding = this.getBinding("value");
 		var sCalendarType;
 
-		if (oBinding && oBinding.oType && (oBinding.oType instanceof Date1)) {
-			sPattern = oBinding.oType.getOutputPattern();
+		if (oBinding && oBinding.oType && oBinding.oType.oOutputFormat) {
 			bRelative = !!oBinding.oType.oOutputFormat.oFormatOptions.relative;
 			sCalendarType = oBinding.oType.oOutputFormat.oFormatOptions.calendarType;
 		}

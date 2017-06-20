@@ -21,7 +21,7 @@ sap.ui.define(["jquery.sap.global", "sap/ui/core/Icon", "./Input", "./InputRende
 		 * @implements sap.ui.core.IFormContent
 		 *
 		 * @author SAP SE
-		 * @version 1.44.14
+		 * @version 1.44.15
 		 *
 		 * @constructor
 		 * @public
@@ -58,6 +58,23 @@ sap.ui.define(["jquery.sap.global", "sap/ui/core/Icon", "./Input", "./InputRende
 					 * Determines the value of the <code>StepInput</code> and can be set initially from the app developer.
 					 */
 					value: {type: "float", group: "Data", defaultValue: 0},
+					/**
+					 * Defines the name of the control for the purposes of form submission.
+					 * @since 1.44.15
+					 */
+					name: { type: "string", group: "Misc", defaultValue: null },
+					/**
+					 * Defines a short hint intended to aid the user with data entry when the control has no value.
+					 * @since 1.44.15
+					 */
+					placeholder: { type: "string", group: "Misc", defaultValue: null },
+					/**
+					 * Indicates that user input is required. This property is only needed for accessibility purposes when a single relationship between
+					 * the field and a label (see aggregation <code>labelFor</code> of <code>sap.m.Label</code>) cannot be established
+					 * (e.g. one label should label multiple fields).
+					 * @since 1.44.15
+					 */
+					required : {type : "boolean", group : "Misc", defaultValue : false},
 					/**
 					 * Defines the width of the control.
 					 */
@@ -159,6 +176,12 @@ sap.ui.define(["jquery.sap.global", "sap/ui/core/Icon", "./Input", "./InputRende
 			"value": "aria-valuenow"
 		};
 
+		/**
+		 * Property names which when set are directly forwarded to inner input <code>setProperty</code> method
+		 * @type {Array.<string>}
+		 */
+		var aForwardableProps = ["enabled", "editable", "name", "placeholder", "required"];
+
 		//Accessibility behaviour of the Input needs to be extended
 		var NumericInputRenderer = sap.ui.core.Renderer.extend(InputRenderer);
 
@@ -256,7 +279,7 @@ sap.ui.define(["jquery.sap.global", "sap/ui/core/Icon", "./Input", "./InputRende
 		StepInput.prototype.setProperty = function (sPropertyName, oValue, bSuppressInvalidate) {
 			this._writeAccessibilityState(sPropertyName, oValue);
 
-			if (["enabled", "editable"].indexOf(sPropertyName) > -1) {
+			if (aForwardableProps.indexOf(sPropertyName) > -1) {
 				this._getInput().setProperty(sPropertyName, oValue, bSuppressInvalidate);
 			}
 
@@ -350,6 +373,16 @@ sap.ui.define(["jquery.sap.global", "sap/ui/core/Icon", "./Input", "./InputRende
 			}
 
 			return this.setProperty("displayValuePrecision", vValuePrecision, bSuppressInvalidate);
+		};
+
+		/**
+		 * Sets a new tooltip for this object.
+		 * @link sap.ui.core.Element#setTooltip
+		 * @param sTooltip {string|sap.ui.core.TooltipBase}
+		 */
+		StepInput.prototype.setTooltip = function (sTooltip) {
+			//We need to call the special logic implemented in InputBase.prototype.setTooltip
+			this._getInput().setTooltip(sTooltip);
 		};
 
 		/**
