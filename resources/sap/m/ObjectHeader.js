@@ -22,7 +22,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * a specific object. The object header title is the key identifier of the object and
 	 * additional text and icons can be used to further distinguish it from other objects.
 	 * @extends sap.ui.core.Control
-	 * @version 1.48.2
+	 * @version 1.48.3
 	 *
 	 * @constructor
 	 * @public
@@ -87,6 +87,11 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 			 * displayed if the image for the icon is not available, or cannot be displayed.
 			 */
 			iconAlt : {type : "string", group : "Accessibility", defaultValue : null},
+
+			/**
+			 * Determines the tooltip text of the <code>ObjectHeader</code> icon.
+			 */
+			iconTooltip : {type : "string", group : "Accessibility", defaultValue : null},
 
 			/**
 			 * By default, this is set to <code>true</code> but then one or more requests are sent trying to get
@@ -970,6 +975,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		var mProperties = jQuery.extend(
 			{
 				src : this.getIcon(),
+				tooltip: this.getIconTooltip(),
 				alt: this.getIconAlt(),
 				useIconTooltip : false,
 				densityAware : this.getIconDensityAware()

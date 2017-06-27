@@ -75,7 +75,7 @@ sap.ui.define(['jquery.sap.global', './NavContainer', './library', 'sap/ui/core/
 	 *
 	 * @extends sap.ui.core.Control
 	 * @implements sap.ui.core.IShrinkable
-	 * @version 1.48.2
+	 * @version 1.48.3
 	 *
 	 * @constructor
 	 * @public
@@ -1916,6 +1916,7 @@ oPopover.setContentWidth("30%");
 			oSummaryBar.addContent(new sap.m.ToolbarSpacer({width: ""})); // Push the reset button to the end of the toolbar
 			var oButton = this._createResetButton();
 			oSummaryBar.addContent(oButton);
+			oButton.addStyleClass("sapUiSizeCompact");
 			oButton.addStyleClass("sapMFFRefresh");
 			oButton.addStyleClass("sapMFFBtnHoverable");
 		}

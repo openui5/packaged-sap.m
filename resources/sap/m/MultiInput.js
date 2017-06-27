@@ -60,7 +60,7 @@ sap.ui.define(['jquery.sap.global', './Input', './Tokenizer', './Token', './libr
 	* @extends sap.m.Input
 	*
 	* @author SAP SE
-	* @version 1.48.2
+	* @version 1.48.3
 	*
 	* @constructor
 	* @public
@@ -482,6 +482,7 @@ sap.ui.define(['jquery.sap.global', './Input', './Tokenizer', './Token', './libr
 	MultiInput.prototype.onmousedown = function (e) {
 		if (e.target == this.getDomRef('border')) {
 			e.preventDefault();
+			e.stopPropagation();
 		}
 	};
 

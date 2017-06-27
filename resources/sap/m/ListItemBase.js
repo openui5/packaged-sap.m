@@ -22,7 +22,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.48.2
+	 * @version 1.48.3
 	 *
 	 * @constructor
 	 * @public
@@ -307,7 +307,8 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		var aOutput = [],
 			mType = sap.m.ListType,
 			sType = this.getType(),
-			sHighlight = this.getHighlight();
+			sHighlight = this.getHighlight(),
+			sTooltip = this.getTooltip_AsString();
 
 		if (this.getSelected()) {
 			aOutput.push(oBundle.getText("LIST_ITEM_SELECTED"));
@@ -338,6 +339,10 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 
 		if (this.getContentAnnouncement) {
 			aOutput.push((this.getContentAnnouncement(oBundle) || "").trim());
+		}
+
+		if (sTooltip) {
+			aOutput.push(sTooltip);
 		}
 
 		return aOutput.join(" ");

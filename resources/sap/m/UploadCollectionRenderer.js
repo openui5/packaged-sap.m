@@ -3,8 +3,8 @@
  * (c) Copyright 2009-2017 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
 */
-sap.ui.define(['jquery.sap.global', 'sap/ui/core/Renderer', 'sap/m/ListRenderer'],
-	function(jQuery, Renderer, ListRenderer) {
+sap.ui.define(['jquery.sap.global', 'sap/ui/core/Renderer', 'sap/m/ListRenderer', './ListItemBaseRenderer'],
+	function(jQuery, Renderer, ListRenderer, ListItemBaseRenderer) {
 	"use strict";
 
 
@@ -36,11 +36,15 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Renderer', 'sap/m/ListRenderer'
 		// If noDataText or noDataDescription property are set by user, the user's text will be rendered.
 		// If it is not set, the default no data text or description from resource bundle will be rendered.
 		var oUploadCollection = oControl.getParent();
-		oRm.write("<div");
-		oRm.writeAttribute("id", oUploadCollection.getId() + "-no-data-page");
-		oRm.addClass("sapMUCNoDataPage");
+		oRm.write("<li");
+		oRm.writeAttribute("tabindex", 0);
+		oRm.writeAttribute("id", oUploadCollection._oList.getId("nodata"));
+		oRm.addClass("sapMLIB sapMUCNoDataPage");
+		ListItemBaseRenderer.addFocusableClasses.call(ListItemBaseRenderer, oRm);
 		oRm.writeClasses();
+		oRm.writeAttribute("id", oUploadCollection.getId() + "-no-data-page");
 		oRm.write(">");
+
 		oRm.renderControl(oUploadCollection.getAggregation("_noDataIcon"));
 
 		oRm.write("<div");
@@ -60,7 +64,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Renderer', 'sap/m/ListRenderer'
 			oRm.writeEscaped(oUploadCollection.getNoDataDescription());
 			oRm.write("</div>");
 		}
-		oRm.write("</div>");
+		oRm.write("</li>");
 	};
 
 	UploadCollectionRenderer.renderDragDropOverlay = function(oRm, oControl) {

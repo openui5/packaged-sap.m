@@ -66,7 +66,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 	 *
 	 * @extends sap.m.InputBase
 	 * @author SAP SE
-	 * @version 1.48.2
+	 * @version 1.48.3
 	 *
 	 * @constructor
 	 * @public
@@ -1085,14 +1085,29 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 		return oItem.getVisible() && (this._hasTabularSuggestions() || oItem.getType() !== sap.m.ListType.Inactive);
 	};
 
+	// helper method for distinguish between incremental and non incremental types of input
+	Input.prototype._isIncrementalType = function () {
+		var sTypeOfInput = this.getType();
+		if (sTypeOfInput === "Number" || sTypeOfInput === "Date" ||
+			sTypeOfInput === "Datetime" || sTypeOfInput === "Month" ||
+			sTypeOfInput === "Time" || sTypeOfInput === "Week") {
+			return true;
+		}
+		return false;
+	};
+
 	Input.prototype._onsaparrowkey = function(oEvent, sDir, iItems) {
 		if (!this.getEnabled() || !this.getEditable()) {
 			return;
 		}
-		if (!this._oSuggestionPopup || !this._oSuggestionPopup.isOpen()) {
+		if (sDir !== "up" && sDir !== "down") {
 			return;
 		}
-		if (sDir !== "up" && sDir !== "down") {
+		if (this._isIncrementalType()){
+			oEvent.setMarked();
+		}
+
+		if (!this._oSuggestionPopup || !this._oSuggestionPopup.isOpen()) {
 			return;
 		}
 

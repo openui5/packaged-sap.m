@@ -24,7 +24,7 @@ sap.ui.define(['jquery.sap.global', './ListBase', './ListItemBase', './library']
 	 * @extends sap.m.ListBase
 	 *
 	 * @author SAP SE
-	 * @version 1.48.2
+	 * @version 1.48.3
 	 *
 	 * @constructor
 	 * @public
@@ -337,6 +337,13 @@ sap.ui.define(['jquery.sap.global', './ListBase', './ListItemBase', './library']
 		this._colCount = aVisibleColumns.length + 2 + !!sap.m.ListBaseRenderer.ModeOrder[this.getMode()];
 		this.$("tblBody").find(".sapMGHLICell").attr("colspan", this.getColSpan());
 		this.$("nodata-text").attr("colspan", this.getColCount());
+
+		// force IE to repaint in fixed layout mode
+		if (sap.ui.Device.browser.msie && this.getFixedLayout()) {
+			var oTableStyle = this.getTableDomRef().style;
+			oTableStyle.listStyleType = "circle";
+			window.setTimeout(function() { oTableStyle.listStyleType = "none"; }, 0);
+		}
 
 		// remove or show column header row(thead) according to column visibility value
 		if (!bColVisible && bHeaderVisible) {

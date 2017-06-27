@@ -607,6 +607,40 @@
 		assert.ok(oEventSpySetMarked.callCount === 0, "The method is skipped and the event went to the global KH");
 	});
 
+	QUnit.module("Events");
+
+	QUnit.test("liveChange trigger should be fired only when the range is actually changed.", function (assert) {
+		//Setup
+		var aRange = [12, 38],
+			fnLiveChange = this.spy(function (oEvent) {
+				var aRangeParam = oEvent.getParameter("range");
+				assert.deepEqual(aRangeParam, aRange, "Range should be properly set");
+			}),
+			oRangeSlider = new sap.m.RangeSlider({range: aRange, min: 0, max: 100, liveChange: fnLiveChange}).placeAt(DOM_RENDER_LOCATION);
+
+		assert.expect(5);
+
+		//Act
+		oRangeSlider._triggerLiveChange();
+		//Assert
+		assert.ok(fnLiveChange.calledOnce, "liveChange listener should be called once.");
+
+		//Act
+		oRangeSlider._triggerLiveChange();
+		//Assert
+		assert.ok(fnLiveChange.calledOnce, "liveChange listener should still be called once.");
+
+		//Act
+		aRange = [20, 30];
+		oRangeSlider.setRange(aRange);
+		oRangeSlider._triggerLiveChange();
+		//Assert
+		assert.ok(fnLiveChange.calledTwice, "liveChange listener should be called once again when the range is changed.");
+
+		//Cleanup
+		oRangeSlider.destroy();
+	});
+
 	QUnit.module("Overwritten methods");
 
 	QUnit.test("getRange", function (assert) {
@@ -881,6 +915,59 @@
 		oRangeSlider = null;
 		oModel.destroy();
 		oModel = null;
+	});
+
+	QUnit.test("Range can be changed with progress bar when the current range is 1 step lower that max number of steps", function (assert) {
+
+		var clock = sinon.useFakeTimers(),
+			oRangeSlider = new sap.m.RangeSlider({
+			enableTickmarks: true,
+			range: [0,9],
+			min: 0,
+			max: 10
+		});
+
+		oRangeSlider.placeAt(DOM_RENDER_LOCATION);
+
+		sap.ui.getCore().applyChanges();
+
+		var oEvent = {
+			target: oRangeSlider.getDomRef("progress"),
+			preventDefault: function () {
+			},
+			stopPropagation: function () {
+			},
+			setMarked: function () {
+			},
+			isMarked: function () {
+				return false;
+			},
+			originalEvent: {
+				type: "mousemove"
+			},
+			type: "mousemove",
+			targetTouches: [
+				{
+					clientX: 305,
+					pageX: 305
+				}
+			]
+		};
+
+		var oHandle1 = oRangeSlider.getDomRef("handle1"),
+			oHandle2 = oRangeSlider.getDomRef("handle2");
+
+		clock.tick(10);
+
+		oRangeSlider._ontouchmove(9, [0, 9], [oHandle1, oHandle2], oEvent);
+
+		sap.ui.getCore().applyChanges();
+
+		//assert
+		assert.deepEqual(oRangeSlider.getRange(), [1, 10], "Range should be equal to [1, 10]");
+
+		oRangeSlider.destroy();
+		oRangeSlider = null;
 	});
 }());
 

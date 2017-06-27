@@ -21,7 +21,7 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.48.2
+	 * @version 1.48.3
 	 *
 	 * @constructor
 	 * @public
@@ -2782,12 +2782,13 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 	UploadCollection.prototype._getFileUploader = function() {
 		var that = this, bUploadOnChange = this.getInstantUpload();
 		if (!bUploadOnChange || !this._oFileUploader) { // In case of instantUpload = false always create a new FU instance. In case of instantUpload = true only create a new FU instance if no FU instance exists yet
-			var bSendXHR = (Device.browser.msie && Device.browser.version <= 9) ? false : true;
+			var bSendXHR = (Device.browser.msie && Device.browser.version <= 9) ? false : true,
+				sTooltip = this.getInstantUpload() ? this._oRb.getText("UPLOADCOLLECTION_UPLOAD") : this._oRb.getText("UPLOADCOLLECTION_ADD");
 			this._iFUCounter = this._iFUCounter + 1; // counter for FileUploader instances
 			this._oFileUploader = new sap.ui.unified.FileUploader(this.getId() + "-" + this._iFUCounter + "-uploader",{
 				buttonOnly : true,
-				buttonText: " ", // Suppresses title of the button in FileUploader
-				tooltip: this.getInstantUpload() ? this._oRb.getText("UPLOADCOLLECTION_UPLOAD") : this._oRb.getText("UPLOADCOLLECTION_ADD"),
+				buttonText: sTooltip,
+				tooltip: sTooltip,
 				iconOnly : true,
 				enabled : this.getUploadEnabled(),
 				fileType : this.getFileType(),
