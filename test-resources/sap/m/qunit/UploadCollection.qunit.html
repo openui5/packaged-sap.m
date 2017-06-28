@@ -351,7 +351,9 @@
 		//Act
 		sap.ui.getCore().applyChanges();
 		//Assert
-		assert.ok(oSpy.calledOnce, "no data rendering in upload collection is called");
+		assert.equal(oSpy.callCount, 1, "no data rendering in upload collection was called once");
+		assert.ok(this.oUploadCollection._oList.$("nodata").hasClass("sapMLIB"), "The nodata area contains class sapMLIB");
+		assert.ok(this.oUploadCollection._oList.$("nodata").hasClass("sapMUCNoDataPage"), "The nodata area contains class sapMUCNoDataPage");
 		oSpy.restore();
 	});
 
@@ -525,6 +527,7 @@
 	QUnit.test("Set tooltip of FileUploader", function(assert) {
 		var sText = this.oUploadCollection._oRb.getText("UPLOADCOLLECTION_UPLOAD");
 		assert.strictEqual(this.oUploadCollection._oFileUploader.getTooltip(), sText, "Correct tooltip of FileUploader");
+		assert.strictEqual(this.oUploadCollection._oFileUploader.getButtonText(), sText, "Correct tooltip of FileUploader");
 	});
 
 	QUnit.test("Determine icon from filename", function(assert) {

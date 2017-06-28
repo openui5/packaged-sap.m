@@ -87,7 +87,7 @@ sap.ui.define(['jquery.sap.global', './DatePicker', 'sap/ui/model/type/Date', '.
 	 * mobile devices, it opens in full screen.
 	 *
 	 * @extends sap.m.DatePicker
-	 * @version 1.46.9
+	 * @version 1.46.10
 	 *
 	 * @constructor
 	 * @public
@@ -232,7 +232,6 @@ sap.ui.define(['jquery.sap.global', './DatePicker', 'sap/ui/model/type/Date', '.
 			if (sKey == "Cal") {
 				oCalendar.$().css("display", "");
 				oSliders.$().css("display", "none");
-				oCalendar.focus();
 			} else {
 				oCalendar.$().css("display", "none");
 				oSliders.$().css("display", "");

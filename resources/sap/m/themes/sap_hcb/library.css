@@ -2658,6 +2658,12 @@ html.sap-desktop .sapMFFRefresh .sapMBtnTransparent > .sapMBtnIcon,
 html.sap-phone .sapMFFRefresh .sapMBtnTransparent > .sapMBtnIcon {
   color: #ffffff;
 }
+html.sap-desktop .sapMFFRefresh.sapMBtn:focus > .sapMFocusable {
+  outline-color: #ffffff;
+}
+html.sap-desktop .sapMFF > .sapMTB-Info-CTX.sapMTB > .sapMFFRefresh.sapMBtn:focus .sapMBtnFocusDiv {
+  border-color: #ffffff;
+}
 .sapMFF .sapMTB-Info-CTX.sapMTB > .sapMBtn:active {
   background-color: #7a5100;
 }
@@ -7624,6 +7630,7 @@ html.sap-desktop li.sapMMultiComboBoxItemRangeSelection {
 }
 .sapMMultiInput .sapMTokenizer {
   min-width: 4rem;
+  max-width: 100%;
 }
 .sapMMultiInput .sapMTokenizer.sapMTokenizerEmpty {
   min-width: 0;
@@ -9166,6 +9173,11 @@ html.sap-phone .sapMOHTitleDiv.sapMOHNumberWrap {
   display: inline-block;
   position: relative;
 }
+html.sap-phone .sapMOHTitle .sapMText,
+.sapUiMedia-Std-Phone .sapMOHTitle .sapMText,
+html .sapUiContainer-Narrow .sapMOHTitle .sapMText {
+  word-break: break-all;
+}
 .sapMText.sapMOHTitle {
   position: relative;
 }
@@ -9473,6 +9485,11 @@ html[data-sap-ui-browser^="ie"] .sapMOHRTitleIcon > .sapMOHRTitle {
 }
 .sapMOHRTitleTextWrappable {
   white-space: normal;
+}
+html.sap-phone .sapMOHRTitleTextWrappable,
+.sapUiMedia-Std-Phone .sapMOHRTitleTextWrappable,
+html .sapUiContainer-Narrow .sapMOHRTitleTextWrappable {
+  word-break: break-all;
 }
 .sapMOHRTitleText {
   margin-top: 0.4rem;
@@ -10024,6 +10041,11 @@ html.sap-desktop .sapMOHRTitleArrow .sapUiIcon:hover {
   font-size: 1.125rem;
   font-weight: normal;
   line-height: 1.5rem;
+}
+html.sap-phone .sapMText.sapMObjLTitle,
+.sapUiMedia-Std-Phone .sapMText.sapMObjLTitle,
+html .sapUiContainer-Narrow .sapMText.sapMObjLTitle {
+  word-break: break-all;
 }
 /*Object header title must break words, otherwise it may be to wide if used within
   a layout control with fixed width. */
@@ -17552,10 +17574,10 @@ html.sap-desktop .sapMToken.sapMTokenSelected:hover {
 .sapUiSizeCompact .sapMListTbl .sapMToken .sapUiIcon:not(.sapMLIBImgNav) {
   font-size: 0.75rem;
 }
-html[data-sap-ui-browser^="sf"] .sapMTokenText {
+html[data-sap-ui-browser*="sf"] .sapMTokenText {
   max-width: calc(100% + 1px -  2rem);
 }
-html[data-sap-ui-browser^="sf"] .sapUiSizeCompact .sapMTokenText {
+html[data-sap-ui-browser*="sf"] .sapUiSizeCompact .sapMTokenText {
   max-width: calc(100% + 1px -  1.25rem);
 }
 /* ================================ */
@@ -17993,6 +18015,7 @@ html[data-sap-ui-browser^="ed"].sap-desktop .sapMTokenizer:focus:before {
   padding: 1rem;
   text-align: center;
   background: #000000;
+  display: block;
 }
 .sapMUCNoDataPage .sapUiIcon {
   color: rgba(255, 255, 255, 0.5);
@@ -20742,6 +20765,14 @@ html.sap-desktop .sapMSlt:not(.sapMSltIconOnly):not(.sapMSltDisabled):focus,
 .sapMSltHoverable:not(.sapMSltIconOnly):hover {
   border-color: #ffffff;
 }
+.sapMSltPicker .sapMSelectListItemBaseSelected {
+  outline: 0.125rem dotted #ffffff;
+  outline-offset: -0.188rem;
+}
+html[data-sap-ui-browser^="ie"].sap-desktop .sapMSltPicker .sapMSelectListItemBaseSelected::before,
+html[data-sap-ui-browser^="ed"].sap-desktop .sapMSltPicker .sapMSelectListItemBaseSelected::before {
+  border: 0.125rem dashed #ffffff;
+}
 /* FIX: IE and Edge do not support css outline-offset */
 html[data-sap-ui-browser^="ie"].sap-desktop .sapMSlt:focus:not(.sapMSltPressed),
 html[data-sap-ui-browser^="ed"].sap-desktop .sapMSlt:focus:not(.sapMSltPressed) {
@@ -20861,8 +20892,6 @@ html.sap-desktop .sapMSltIconOnly:hover:not(.sapMSltPressed):not(.sapMTSSlt) {
 /* selected */
 .sapMSelectListItemBaseSelected {
   background: #0f5d94;
-  outline: 0.125rem dotted #ffffff;
-  outline-offset: -0.188rem;
 }
 /* disabled */
 .sapMSelectListItemBaseDisabled {
@@ -20875,8 +20904,8 @@ html.sap-desktop li.sapMSelectListItemBase:focus {
   outline-offset: -0.188rem;
 }
 /* FIX: IE and Edge do not support css outline-offset */
-html[data-sap-ui-browser^="ie"].sap-desktop li.sapMSelectListItemBase.sapMSelectListItemBaseSelected::before,
-html[data-sap-ui-browser^="ed"].sap-desktop li.sapMSelectListItemBase.sapMSelectListItemBaseSelected::before {
+html[data-sap-ui-browser^="ie"].sap-desktop .sapMSelectListItemBase:focus::before,
+html[data-sap-ui-browser^="ed"].sap-desktop .sapMSelectListItemBase:focus::before {
   border: 0.125rem dashed #ffffff;
 }
 /* ============================ */
