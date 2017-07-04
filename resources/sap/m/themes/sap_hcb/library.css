@@ -3012,7 +3012,6 @@ html[data-sap-ui-browser*='ie'] .sapMFeedIn .sapMBtnInner {
   visibility: hidden;
 }
 .sapMFeedListItem .sapMFeedListItemTextText a,
-.sapMFeedListItem .sapMFeedListItemTextText span,
 .sapMFeedListItem .sapMFeedListItemTextName a {
   font-family: Arial, Helvetica, sans-serif;
   font-weight: bold;
@@ -3208,7 +3207,6 @@ html.sap-desktop .sapMFeedListItem .sapMLnk:focus {
   color: #ffffff;
 }
 .sapMFeedListItem .sapMFeedListItemTextText a,
-.sapMFeedListItem .sapMFeedListItemTextText span,
 .sapMFeedListItem .sapMFeedListItemTextName a {
   font-size: 0.875rem;
   color: #ffffff;

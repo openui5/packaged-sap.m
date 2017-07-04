@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', "sap/m/semantic/SemanticConfiguration", "sap
 	 * @abstract
 	 *
 	 * @author SAP SE
-	 * @version 1.46.10
+	 * @version 1.46.11
 	 *
 	 * @constructor
 	 * @public
