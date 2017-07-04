@@ -19,7 +19,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control'],
 		 * @class
 		 * The FormattedText control allows the usage of a limited set of tags for inline display of formatted text in HTML format.
 		 * @extends sap.ui.core.Control
-		 * @version 1.38.23
+		 * @version 1.38.24
 		 *
 		 * @constructor
 		 * @public

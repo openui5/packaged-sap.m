@@ -23,7 +23,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Button', './InstanceManager', '.
 		 * @implements sap.ui.core.PopupInterface
 		 *
 		 * @author SAP SE
-		 * @version 1.38.23
+		 * @version 1.38.24
 		 *
 		 * @constructor
 		 * @public
@@ -284,10 +284,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Button', './InstanceManager', '.
 			this._marginBottom = 10;
 
 			this._$window = jQuery(window);
-			this._initialWindowDimensions = {
-				width: this._$window.width(),
-				height: this._$window.height()
-			};
+			this._initialWindowDimensions = {};
 
 			this.oPopup = new Popup();
 			this.oPopup.setShadow(true);
@@ -462,6 +459,13 @@ sap.ui.define(['jquery.sap.global', './Bar', './Button', './InstanceManager', '.
 		 */
 		Popover.prototype.onBeforeRendering = function () {
 			var oNavContent, oPageContent;
+
+			if (!this._initialWindowDimensions.width || !this._initialWindowDimensions.height) {
+				this._initialWindowDimensions = {
+					width: this._$window.width(),
+					height: this._$window.height()
+				};
+			}
 
 			// When scrolling isn't set manually and content has scrolling, disable scrolling automatically
 			if (!this._bVScrollingEnabled && !this._bHScrollingEnabled && this._hasSingleScrollableContent()) {

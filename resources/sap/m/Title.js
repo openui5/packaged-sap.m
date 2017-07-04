@@ -21,7 +21,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Control', 'sap/ui/Device', './l
 	 * @implements sap.ui.core.IShrinkable
 	 *
 	 * @author SAP SE
-	 * @version 1.38.23
+	 * @version 1.38.24
 	 * @since 1.27.0
 	 *
 	 * @constructor

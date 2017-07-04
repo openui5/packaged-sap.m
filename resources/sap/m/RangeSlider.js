@@ -19,7 +19,7 @@ sap.ui.define(["./Slider", "./Input", 'sap/ui/core/InvisibleText'],
          * @extends sap.m.Slider
          *
          * @author SAP SE
-         * @version 1.38.23
+         * @version 1.38.24
          *
          * @constructor
          * @public
@@ -653,8 +653,24 @@ sap.ui.define(["./Slider", "./Input", 'sap/ui/core/InvisibleText'],
                 this._updateHandle(oHandle, aInitialRange[this._getIndexOfHandle(oHandle)] + fOffset);
             }, this);
 
-            this.fireLiveChange({range: this.getRange()});
+	        this._triggerLiveChange();
         };
+
+	    RangeSlider.prototype._triggerLiveChange = function () {
+		    var bFireLiveChange,
+			    aRange = this.getRange();
+
+		    this._liveChangeLastValue = this._liveChangeLastValue || [];
+
+		    bFireLiveChange = aRange.some(function (fValue, index) {
+			    return fValue !== this._liveChangeLastValue[index];
+		    }, this);
+
+		    if (bFireLiveChange) {
+			    this._liveChangeLastValue = aRange.slice(); //Save a copy, not a reference
+			    this.fireLiveChange({range: aRange});
+		    }
+	    };
 
         /**
          * Handle the touchend event happening on the slider.
