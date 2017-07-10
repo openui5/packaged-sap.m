@@ -3032,7 +3032,6 @@ html[data-sap-ui-browser^="ff"] .sapUiSizeCompact .sapMFeedIn .sapMInputBase.sap
   visibility: hidden;
 }
 .sapMFeedListItem .sapMFeedListItemTextText a,
-.sapMFeedListItem .sapMFeedListItemTextText span,
 .sapMFeedListItem .sapMFeedListItemTextName a {
   font-family: Arial, Helvetica, sans-serif;
   font-weight: bold;
@@ -3228,7 +3227,6 @@ html.sap-desktop .sapMFeedListItem .sapMLnk:focus {
   color: #ffffff;
 }
 .sapMFeedListItem .sapMFeedListItemTextText a,
-.sapMFeedListItem .sapMFeedListItemTextText span,
 .sapMFeedListItem .sapMFeedListItemTextName a {
   font-size: 0.875rem;
   color: #ffffff;
@@ -4246,6 +4244,12 @@ html[data-sap-ui-browser*='ff'] .sapMGT:not(.sapMGTHeaderMode) .sapMGTHdrContent
 .sapMHdrCntrBtnCntr.Horizontal.sapMHdrCntrRight {
   left: 0.25rem;
 }
+.sapUiSizeCompact .sapMHdrCntrBtnCntr.Horizontal.sapMHdrCntrLeft {
+  right: 0rem;
+}
+.sapUiSizeCompact .sapMHdrCntrBtnCntr.Horizontal.sapMHdrCntrRight {
+  left: 0rem;
+}
 html.sap-phone .sapMHdrCntrBtnCntr.Horizontal,
 html.sap-tablet:not(.sap-desktop) .sapMHdrCntrBtnCntr.Horizontal {
   width: 1.5rem;
@@ -4289,6 +4293,7 @@ html.sap-tablet:not(.sap-desktop) .sapMHdrCntrBtnCntr.Vertical.sapMHdrCntrRight 
   min-width: 1.375rem;
 }
 .sapUiSizeCompact .sapMHdrCntrBtnCntr.Horizontal > .sapMHdrCntrBtn {
+  left: 0.25rem;
   margin-top: -1rem;
 }
 html.sap-phone .sapMHdrCntrBtnCntr.Horizontal > .sapMHdrCntrBtn,
@@ -11105,7 +11110,7 @@ html.sap-desktop .sapUiFioriObjectPage > section > .sapMPanel {
 }
 /* workaround for drawing issue in IE - ensures that the content will be redrawn */
 html[data-sap-ui-animation='on'][data-sap-ui-browser^="ie"] .sapMPanelContent {
-  transform: translate(0, 0);
+  transform: translate3d(0, 0, 0);
 }
 /* workaround for drawing issue in Edge - ensures that the content will be redrawn */
 html[data-sap-ui-animation='on'][data-sap-ui-browser^="ed"] .sapMPanelContent {

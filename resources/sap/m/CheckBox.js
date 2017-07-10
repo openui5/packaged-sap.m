@@ -27,7 +27,7 @@ sap.ui.define(['jquery.sap.global',
 	 * @implements sap.ui.core.IFormContent
 	 *
 	 * @author SAP SE
-	 * @version 1.48.3
+	 * @version 1.48.4
 	 *
 	 * @constructor
 	 * @public
@@ -328,6 +328,13 @@ sap.ui.define(['jquery.sap.global',
 			enabled: this.getEnabled(),
 			editable: this.getEditable()
 		};
+	};
+
+	/*
+	 * Checkbox without label must not be stretched in Form.
+	 */
+	CheckBox.prototype.getFormDoNotAdjustWidth = function() {
+		return this.getText() ? false : true;
 	};
 
 	return CheckBox;

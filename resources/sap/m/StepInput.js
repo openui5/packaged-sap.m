@@ -21,7 +21,7 @@ sap.ui.define(["jquery.sap.global", "sap/ui/core/Icon", "./Input", "./InputRende
 		 * @implements sap.ui.core.IFormContent
 		 *
 		 * @author SAP SE
-		 * @version 1.48.3
+		 * @version 1.48.4
 		 *
 		 * @constructor
 		 * @public
@@ -148,8 +148,8 @@ sap.ui.define(["jquery.sap.global", "sap/ui/core/Icon", "./Input", "./InputRende
 			constructor : function (vId, mSettings) {
 				Control.prototype.constructor.apply(this, arguments);
 				if (this.getEditable()) {
-					this._createDecrementButton();
-					this._createIncrementButton();
+					this._getOrCreateDecrementButton();
+					this._getOrCreateIncrementButton();
 				}
 
 				if (typeof vId !== "string"){
