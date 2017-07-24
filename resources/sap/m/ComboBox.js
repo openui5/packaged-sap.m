@@ -45,7 +45,7 @@ sap.ui.define(['jquery.sap.global', './ComboBoxTextField', './ComboBoxBase', './
 		 * </ul>
 		 *
 		 * @author SAP SE
-		 * @version 1.46.11
+		 * @version 1.46.12
 		 *
 		 * @constructor
 		 * @extends sap.m.ComboBoxBase
@@ -1590,13 +1590,11 @@ sap.ui.define(['jquery.sap.global', './ComboBoxTextField', './ComboBoxBase', './
 		ComboBox.prototype.updateItems = function () {
 			var vResult,
 				oSelectedItem = this.getSelectedItem(), //Get selected item before model update
-				sSelectedKey = this.getSelectedKey(); //Get selected key before model update
-
-			vResult = ComboBoxBase.prototype.updateItems.apply(this, arguments); //Update
+				vResult = ComboBoxBase.prototype.updateItems.apply(this, arguments); //Update
 
 			//Debounce & emulate onBeforeRendering- all setters are done
 			jQuery.sap.clearDelayedCall(this._debounceItemsUpdate);
-			this._debounceItemsUpdate = jQuery.sap.delayedCall(0, this, "_syncItemsSelection", [sSelectedKey, oSelectedItem]);
+			this._debounceItemsUpdate = jQuery.sap.delayedCall(0, this, "_syncItemsSelection", [oSelectedItem]);
 
 			return vResult;
 		};
@@ -1608,8 +1606,9 @@ sap.ui.define(['jquery.sap.global', './ComboBoxTextField', './ComboBoxBase', './
 		 * @param oSelectedItem
 		 * @private
 		 */
-		ComboBox.prototype._syncItemsSelection = function (sSelectedKey, oSelectedItem) {
-			var bHasMatchingElement, aNewItems;
+		ComboBox.prototype._syncItemsSelection = function (oSelectedItem) {
+			var bHasMatchingElement, aNewItems,
+				sSelectedKey  = this.getSelectedKey();
 
 			// The method should be executed only when there's previous selection
 			// and that previous selection differs from the current one.
