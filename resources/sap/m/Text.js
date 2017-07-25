@@ -23,7 +23,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control'],
 	 * @implements sap.ui.core.IShrinkable
 	 *
 	 * @author SAP SE
-	 * @version 1.44.17
+	 * @version 1.44.18
 	 *
 	 * @constructor
 	 * @public
@@ -66,7 +66,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control'],
 			/**
 			 * Limits the number of lines for wrapping texts.
 			 *
-			 * Note: The multi-line overflow indicator depends on the browser line clamping support. For such browsers, this will be shown as ellipsis, for the other browsers the overflow will just be hidden.
+			 * <b>Note:</b> In multi-line text the overflow will be hidden (ellipsis won't be shown).
 			 * @since 1.13.2
 			 */
 			maxLines : {type : "int", group : "Appearance", defaultValue : null}

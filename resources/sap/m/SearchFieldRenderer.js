@@ -51,10 +51,6 @@ sap.ui.define(['jquery.sap.global'],
 		}
 
 		rm.writeClasses();
-		var sTooltip = oSF.getTooltip_AsString();
-		if (sTooltip) {
-			rm.writeAttributeEscaped("title", sTooltip);
-		}
 		rm.write(">");
 
 			// 1. Input type="search".
@@ -85,6 +81,11 @@ sap.ui.define(['jquery.sap.global'],
 
 			rm.write('<input type="search" autocorrect="off" autocomplete="off"');
 			rm.writeAttribute("id", oSF.getId() + "-I");
+
+			var sTooltip = oSF.getTooltip_AsString();
+			if (sTooltip) {
+				rm.writeAttributeEscaped("title", sTooltip);
+			}
 
 			rm.addClass("sapMSFI");
 

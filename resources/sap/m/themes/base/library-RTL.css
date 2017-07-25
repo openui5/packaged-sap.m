@@ -1592,10 +1592,9 @@ html.sap-desktop .sapMDialog {
 .sapUiSizeCompact.sapMDialog > .sapMDialogTitle,
 .sapUiSizeCompact .sapMDialog > .sapMDialogTitle {
   height: 2.5rem;
-}
-.sapUiSizeCompact.sapMDialog > .sapMDialogTitle .sapMBarPH,
-.sapUiSizeCompact .sapMDialog > .sapMDialogTitle .sapMBarPH {
-  line-height: 2.5rem;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+  box-sizing: border-box;
 }
 .sapUiSizeCompact.sapMDialog > .sapMDialogSection,
 .sapUiSizeCompact .sapMDialog > .sapMDialogSection {
@@ -13410,11 +13409,6 @@ html[data-sap-ui-browser="ie9"] .sapMUCItemImage {
 .sapMUCObjectMarkerContainer {
   display: inline-block;
   position: absolute;
-}
-/*focus for the file name */
-.sapMUCItem .sapMUCTextContainer > .sapMUCFileName.sapMLnk:focus {
-  outline: 1px dotted;
-  outline-offset: 0.0625rem;
 }
 /*positioning of the Progress label */
 .sapMLabel.sapMUCProgress {
