@@ -21,7 +21,7 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.38.24
+	 * @version 1.38.25
 	 *
 	 * @constructor
 	 * @public
@@ -874,19 +874,17 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 					}
 				} else if (this.sFocusId) {
 					//set focus on line item after status = Edit
-					sap.m.UploadCollection.prototype._setFocus2LineItem(this.sFocusId);
+					sap.m.UploadCollection.prototype._setFocusToLineItem(this.sFocusId);
 					this.sFocusId = null;
 				} else if (this.sDeletedItemId) {
 					//set focus on line item after an item was deleted
-					sap.m.UploadCollection.prototype._setFocusAfterDeletion(this.sDeletedItemId, that);
+					this._setFocusAfterDeletion();
 				}
 			}
-		} else {
-			if (this.sFocusId) {
-				//set focus after removal of file from upload list
-				sap.m.UploadCollection.prototype._setFocus2LineItem(this.sFocusId);
-				this.sFocusId = null;
-			}
+		} else if (this.sFocusId) {
+			//set focus after removal of file from upload list
+			this._setFocusToLineItem(this.sFocusId);
+			this.sFocusId = null;
 		}
 	};
 
@@ -1273,18 +1271,18 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 		if (sThumbnailUrl) {
 			oItemIcon = new sap.m.Image(sItemId + "-ia_imageHL", {
 				src : sap.m.UploadCollection.prototype._getThumbnail(sThumbnailUrl, sFileNameLong),
-				decorative : false,
-				alt: this._getAriaLabelForPicture(oItem)
+				decorative : false
 			}).addStyleClass("sapMUCItemImage");
+			oItemIcon.setAlt(this._getAriaLabelForPicture(oItem)); //Set the alt property directly to avoid some additional logic in the icon's constructor
 		} else {
 			sThumbnail = sap.m.UploadCollection.prototype._getThumbnail(undefined, sFileNameLong);
 			var sStyleClass;
 			oItemIcon = new sap.ui.core.Icon(sItemId + "-ia_iconHL", {
 				src : sThumbnail,
 				decorative : false,
-				useIconTooltip : false,
-				alt: this._getAriaLabelForPicture(oItem)
+				useIconTooltip : false
 			});
+			oItemIcon.setAlt(this._getAriaLabelForPicture(oItem)); //Set the alt property directly to avoid some additional logic in the icon's constructor
 			//Sets the right style class depending on the icon/placeholder status (clickable or not)
 			if (this.sErrorState !== "Error" && jQuery.trim(oItem.getProperty("url"))) {
 				sStyleClass = "sapMUCItemIcon";
@@ -2539,44 +2537,35 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 	// helpers
 	// ================================================================================
 	/**
-	 * @description Set the focus after the list item was deleted.
-	 * @param {Object} DeletedItemId ListItem id which was deleted
-	 * @param {Object} oContext Context of the ListItem which was deleted
-	 * @returns {void}
+	 *  Set the focus after the list item was deleted.
 	 * @private
 	 */
-	UploadCollection.prototype._setFocusAfterDeletion = function(DeletedItemId, oContext) {
-		if (!DeletedItemId) {
-			return;
-		}
-		var iLength = oContext.aItems.length;
-		var sLineId = null;
+	UploadCollection.prototype._setFocusAfterDeletion = function() {
+		var iLength = this.aItems.length;
+		var sLineId;
 
-		if (iLength === 0){
-			var oFileUploader = jQuery.sap.byId(oContext._oFileUploader.sId);
-			var oFocusObj = oFileUploader.find(":button");
-			jQuery.sap.focus(oFocusObj);
+		if (iLength === 0) {
+			this._oFileUploader.focus();
 		} else {
-			var iLineNumber = DeletedItemId.split("-").pop();
+			var iLineNumber = this.sDeletedItemId.split("-").pop();
 			//Deleted item is not the last one of the list
 			if ((iLength - 1) >= iLineNumber) {
-				sLineId = DeletedItemId + "-cli";
+				sLineId = this.sDeletedItemId + "-cli";
 			} else {
-				sLineId = oContext.aItems.pop().sId + "-cli";
+				sLineId = this.aItems.pop().sId + "-cli";
 			}
-			sap.m.UploadCollection.prototype._setFocus2LineItem(sLineId);
-			this.sDeletedItemId = null;
+			this._setFocusToLineItem(sLineId);
 		}
+		this.sDeletedItemId = null;
 	};
 
 	/**
-	 * @description Set the focus to the list item.
-	 * @param {string} sFocusId ListItem which should get the focus
-	 * @returns {void}
+	 *  Set the focus to the list item.
+	 * @param {string} itemId ListItem which should get the focus
 	 * @private
 	 */
-	UploadCollection.prototype._setFocus2LineItem = function(sFocusId) {
-		jQuery.sap.byId(sFocusId).focus();
+	UploadCollection.prototype._setFocusToLineItem = function(itemId) {
+		jQuery.sap.byId(itemId).focus();
 	};
 
 	/**

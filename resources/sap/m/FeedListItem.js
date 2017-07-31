@@ -23,7 +23,7 @@ sap.ui.define(['jquery.sap.global', './ListItemBase', './library'],
 	 * @extends sap.m.ListItemBase
 	 *
 	 * @author SAP SE
-	 * @version 1.38.24
+	 * @version 1.38.25
 	 *
 	 * @constructor
 	 * @public
@@ -225,7 +225,7 @@ sap.ui.define(['jquery.sap.global', './ListItemBase', './library'],
 		var sImgId = this.getId() + '-icon';
 		var mProperties = {
 			src : sIconSrc,
-			alt : this.getSender(),
+			alt : encodeURI(this.getSender()),
 			densityAware : this.getIconDensityAware(),
 			decorative : false,
 			useIconTooltip : false };

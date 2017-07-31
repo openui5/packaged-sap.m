@@ -377,6 +377,81 @@
 		sap.ui.getCore().applyChanges();
 	});
 
+	QUnit.module("Internal Methods", {
+		beforeEach : function() {
+			this.oSpySetProperty = sinon.spy(sap.ui.base.ManagedObject.prototype, "setProperty");
+			this.oSpyApplySettings = sinon.spy(sap.ui.base.ManagedObject.prototype, "applySettings");
+			this.oItem = new sap.m.UploadCollectionItem({
+				fileName: "anyFileName"
+			});
+			this.oUploadCollection = new sap.m.UploadCollection("uploadCollection",{
+				items: this.oItem
+			});
+			this.oUploadCollection.placeAt("qunit-fixture");
+			sap.ui.getCore().applyChanges();
+		},
+		afterEach: function() {
+			this.oSpySetProperty.restore();
+			this.oSpyApplySettings.restore();
+			if(this.oIcon) {
+				this.oIcon.destroy();
+				this.oIcon = null;
+			}
+			this.oUploadCollection.destroy();
+			this.oUploadCollection = null;
+		}
+	});
+
+	QUnit.test("Check if _createIcon returns an Image", function(assert) {
+		//Act
+		this.oItem.setThumbnailUrl("sap-icon://document");
+		this.oIcon = this.oUploadCollection._createIcon(this.oItem, "item", this.oItem.getFileName(), this);
+		//Assert
+		assert.ok(this.oIcon.sId.indexOf("-ia_imageHL") > -1, "_createIcon returned an image");
+	});
+
+	QUnit.test("Function _createIcon uses ManagedObject's setter for alt property if an icon is created", function(assert) {
+		//Act
+		this.oIcon = this.oUploadCollection._createIcon(this.oItem, "item", this.oItem.getFileName(), this);
+		//Assert
+		assert.ok(this.oSpySetProperty.calledWith("alt", "anyFileName"), "Setter for alt property called with correct parameters");
+	});
+
+	QUnit.test("Function _createIcon doesn't set alt property during ManagedObject's create method if an icon is created", function(assert) {
+		//Arrange
+		var oSettings = {
+			src: "sap-icon://document",
+			decorative: false,
+			useIconTooltip: false
+		};
+		//Act
+		this.oIcon = this.oUploadCollection._createIcon(this.oItem, "item", this.oItem.getFileName(), this);
+		//Assert
+		assert.ok(this.oSpyApplySettings.calledWith(oSettings), "Alt property is not set in ManagedObject's constructor");
+	});
+
+	QUnit.test("Function _createIcon uses ManagedObject's setter for alt property if an image is created", function(assert) {
+		//Arrange
+		this.oItem.setThumbnailUrl("anyFolder/myThumbnailFile.jpg");
+		//Act
+		this.oIcon = this.oUploadCollection._createIcon(this.oItem, "item", this.oItem.getFileName(), this);
+		//Assert
+		assert.ok(this.oSpySetProperty.calledWith("alt", "anyFileName"), "Setter for alt property called with correct parameters");
+	});
+
+	QUnit.test("Function _createIcon doesn't set alt property during ManagedObject's create method if an image is created", function(assert) {
+		//Arrange
+		this.oItem.setThumbnailUrl("anyFolder/myThumbnailFile.jpg");
+		var oSettings = {
+			src: "anyFolder/myThumbnailFile.jpg",
+			decorative: false
+		};
+		//Act
+		this.oIcon = this.oUploadCollection._createIcon(this.oItem, "item", this.oItem.getFileName(), this);
+		//Assert
+		assert.ok(this.oSpyApplySettings.calledWith(oSettings), "Alt property is not set in ManagedObject's constructor");
+	});
+
 	QUnit.module("List API Methods", {
 		beforeEach : function() {
 			this.oUploadCollection = new sap.m.UploadCollection("uploadCollection", {
@@ -637,6 +712,37 @@
 		assert.equal(stub.returns().toString(), "downloadItem", "Download returns the right method.");
 	});
 
+	QUnit.module("Focus after item deletion", {
+		beforeEach: function() {
+			this.oUploadCollection = new sap.m.UploadCollection("uploadCollection", {
+				items: {
+					path: "/items",
+					template: oItemTemplate
+				}
+			});
+			this.oUploadCollection.placeAt("qunit-fixture");
+			sap.ui.getCore().applyChanges();
+		},
+		afterEach: function() {
+			this.oUploadCollection.destroy();
+			this.oUploadCollection = null;
+		}
+	});
+
+	QUnit.test("Focus is only set once after delete", function(assert) {
+		//Arrange
+		var oSpy = sinon.spy(this.oUploadCollection, "_setFocusAfterDeletion");
+		this.oUploadCollection.sDeletedItemId = "someId";
+
+		//Act
+		this.oUploadCollection.rerender();
+		this.oUploadCollection.rerender();
+
+		//Assert
+		assert.equal(this.oUploadCollection.sDeletedItemId, null, "Member sDeletedItemId has been reset.");
+		assert.equal(oSpy.callCount, 1, "Focus has been set after deletion.");
+	});
+
 	/* --------------------------------------- */
 	/* Test for upload progress rendering      */
 	/* --------------------------------------- */
@@ -650,13 +756,13 @@
 			});
 			// stub UploadCollection's attributes
 			this.oUploadCollection._headerParamConst.requestIdName = "1";
-			this.oUploadCollection._getRequestId = function () {
+			this.oUploadCollection._getRequestId = function() {
 				return "1"
 			};
 			this.oUploadCollection.placeAt("qunit-fixture");
 			sap.ui.getCore().applyChanges();
 		},
-		afterEach : function() {
+		afterEach: function() {
 			this.oUploadCollection.destroy();
 			this.oUploadCollection = null;
 		}
@@ -1236,7 +1342,6 @@
 
 	QUnit.module("Display tests", {
 		beforeEach : function() {
-			this.fnTriggerLink = sap.m.UploadCollection.prototype._triggerLink;
 			this.oUploadCollection = new sap.m.UploadCollection({
 				items : {
 					path : "/items",
@@ -1249,16 +1354,12 @@
 		afterEach : function() {
 			this.oUploadCollection.destroy();
 			this.oUploadCollection = null;
-			sap.m.UploadCollection.prototype._triggerLink = this.fnTriggerLink;
 		}
 	});
 
 	QUnit.test("Display", function(assert) {
-		sap.m.UploadCollection.prototype._triggerLink = function(oEvent, oContext) {
-			assert.ok(true, "Link is triggered");
-		};
 		assert.expect(8); // verifies the event handler was executed
-		//check status = "display"
+		var oSpy = sinon.spy(sap.m.UploadCollection.prototype, "_triggerLink");
 		var iLength = this.oUploadCollection.aItems.length;
 		for (var i = 0; i < iLength; i++) {
 			assert.equal( this.oUploadCollection.aItems[i]._status, "display", "Status of item " + i + " is correct");
@@ -1271,11 +1372,16 @@
 		assert.equal(oDeleteButton.getEnabled(), true, "Delete button is enabled");
 		assert.equal(oFileName.getEnabled(), true, "File name is enabled");
 
-		qutils.triggerEvent((jQuery.support.touch ? "tap" : "click"), this.oUploadCollection.aItems[1].sId + "-ia_iconHL");
+		qutils.triggerEvent(sap.ui.Device.system.desktop ? "click" : "tap", this.oUploadCollection.aItems[1].sId + "-ia_iconHL");
 		sap.ui.getCore().applyChanges();
 		// No Event should be triggered, because there is no url provided at aItems[0] --> no change at expect(8)!
-		qutils.triggerEvent((jQuery.support.touch ? "tap" : "click"), this.oUploadCollection.aItems[0].sId + "-ia_iconHL");
+		qutils.triggerEvent(sap.ui.Device.system.desktop ? "click" : "tap", this.oUploadCollection.aItems[0].sId + "-ia_iconHL");
 		sap.ui.getCore().applyChanges();
+
+		assert.equal(oSpy.callCount, 1, "Link has been triggered.");
+
+		//Cleanup
+		oSpy.restore();
 	});
 
 	QUnit.module("Properties", {
