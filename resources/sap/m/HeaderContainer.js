@@ -45,7 +45,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @since 1.44.0
 	 *
 	 * @author SAP SE
-	 * @version 1.48.4
+	 * @version 1.48.5
 	 *
 	 * @public
 	 * @alias sap.m.HeaderContainer
@@ -392,7 +392,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		if (!this._bRtl) {
 			iScrollLeft = oDomRef.scrollLeft;
 			iScrollWidth = oDomRef.scrollWidth;
-			iClientWidth = oDomRef.clientWidth + Device.browser.msie ? 1 : 0;
+			iClientWidth = oDomRef.clientWidth + (Device.browser.msie ? 1 : 0);
 			iScrollTarget = iScrollLeft + delta;
 			iPaddingWidth = parseFloat(this.$("scroll-area").css("padding-left"));
 

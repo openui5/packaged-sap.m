@@ -821,5 +821,6 @@
     "sapMeOverlapCalendarType07": "#ff9191",
     "sapMeOverlapCalendarIndicator": "#ed884a",
     "sapMeCalendarLegendIconCollapse": "collapse",
-    "sapMeCalendarLegendIconExpand": "expand"
+    "sapMeCalendarLegendIconExpand": "expand",
+    "_sap_m_TileContent_NewsFooterTextColor": "#ffffff"
 }

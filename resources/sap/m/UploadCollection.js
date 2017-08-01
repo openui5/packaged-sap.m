@@ -21,7 +21,7 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.48.4
+	 * @version 1.48.5
 	 *
 	 * @constructor
 	 * @public
@@ -1014,19 +1014,17 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 					}
 				} else if (this.sFocusId) {
 					//set focus on line item after status = Edit
-					sap.m.UploadCollection.prototype._setFocus2LineItem(this.sFocusId);
+					sap.m.UploadCollection.prototype._setFocusToLineItem(this.sFocusId);
 					this.sFocusId = null;
 				} else if (this.sDeletedItemId) {
 					//set focus on line item after an item was deleted
-					sap.m.UploadCollection.prototype._setFocusAfterDeletion(this.sDeletedItemId, that);
+					this._setFocusAfterDeletion();
 				}
 			}
-		} else {
-			if (this.sFocusId) {
-				//set focus after removal of file from upload list
-				sap.m.UploadCollection.prototype._setFocus2LineItem(this.sFocusId);
-				this.sFocusId = null;
-			}
+		} else if (this.sFocusId) {
+			//set focus after removal of file from upload list
+			this._setFocusToLineItem(this.sFocusId);
+			this.sFocusId = null;
 		}
 	};
 
@@ -1705,18 +1703,18 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 		if (sThumbnailUrl) {
 			oItemIcon = new sap.m.Image(sItemId + "-ia_imageHL", {
 				src : sap.m.UploadCollection.prototype._getThumbnail(sThumbnailUrl, sFileNameLong),
-				decorative : false,
-				alt: this._getAriaLabelForPicture(oItem)
+				decorative : false
 			}).addStyleClass("sapMUCItemImage");
+			oItemIcon.setAlt(this._getAriaLabelForPicture(oItem)); //Set the alt property directly to avoid some additional logic in the icon's constructor
 		} else {
 			sThumbnail = sap.m.UploadCollection.prototype._getThumbnail(undefined, sFileNameLong);
 			var sStyleClass;
 			oItemIcon = new sap.ui.core.Icon(sItemId + "-ia_iconHL", {
 				src : sThumbnail,
 				decorative : false,
-				useIconTooltip : false,
-				alt: this._getAriaLabelForPicture(oItem)
+				useIconTooltip : false
 			});
+			oItemIcon.setAlt(this._getAriaLabelForPicture(oItem)); //Set the alt property directly to avoid some additional logic in the icon's constructor
 			//Sets the right style class depending on the icon/placeholder status (clickable or not)
 			if (this.sErrorState !== "Error" && jQuery.trim(oItem.getProperty("url"))) {
 				sStyleClass = "sapMUCItemIcon";
@@ -2195,23 +2193,26 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 	};
 
 	/**
-	 * @description Handling of 'click' of the list (items + header)
+	 * Handling of 'click' of the list (items + header)
 	 * @param {object} oEvent Event of the 'click'
 	 * @param {object} oContext Context of the list item where 'click' was triggered
-	 * @param {string} sSourceId List item id/identifier were the click was triggered
+	 * @param {string} sSourceId List item id/identifier where the click was triggered
 	 * @private
 	 */
 	UploadCollection.prototype._handleClick = function(oEvent, oContext, sSourceId) {
-		// if the target of the click event is an editButton, than this case has already been processed
+		// If the target of the click event is an editButton, then this case has already been processed
 		// in the _handleEdit (in particular, by executing the _handleOk function).
-		// Therefore only the remaining cases of click event targets are handled.
-		if (oEvent.target.id.lastIndexOf("editButton") < 0) {
-			if (oEvent.target.id.lastIndexOf("cancelButton") > 0) {
+		// Therefore, only the remaining cases of click event targets are handled.
+		var $Button = jQuery(oEvent.target).closest("button");
+		var sId = "";
+		if ($Button.length) {
+			sId = $Button.prop("id");
+		}
+		if (sId.lastIndexOf("editButton") === -1) {
+			if (sId.lastIndexOf("cancelButton") !== -1) {
 				sap.m.UploadCollection.prototype._handleCancel(oEvent, oContext, sSourceId);
-			} else if (oEvent.target.id.lastIndexOf("ia_imageHL") < 0 &&
-								 oEvent.target.id.lastIndexOf("ia_iconHL") < 0 &&
-								 oEvent.target.id.lastIndexOf("deleteButton") < 0 &&
-								 oEvent.target.id.lastIndexOf("ta_editFileName-inner") < 0) {
+			} else if (oEvent.target.id.lastIndexOf("ia_imageHL") < 0 && oEvent.target.id.lastIndexOf("ia_iconHL") < 0 &&
+				oEvent.target.id.lastIndexOf("deleteButton") < 0 && oEvent.target.id.lastIndexOf("ta_editFileName-inner") < 0) {
 				if (oEvent.target.id.lastIndexOf("cli") > 0) {
 					oContext.sFocusId = oEvent.target.id;
 				}
@@ -3012,49 +3013,40 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 		oEvent.setMarked();
 	};
 
-	// ================================================================================
-	// helpers
-	// ================================================================================
-	/**
-	 * @description Set the focus after the list item was deleted.
-	 * @param {Object} DeletedItemId ListItem id which was deleted
-	 * @param {Object} oContext Context of the ListItem which was deleted
-	 * @returns {void}
-	 * @private
-	 */
-	UploadCollection.prototype._setFocusAfterDeletion = function(DeletedItemId, oContext) {
-		if (!DeletedItemId) {
-			return;
-		}
-		var iLength = oContext.aItems.length;
-		var sLineId = null;
+		// ================================================================================
+		// helpers
+		// ================================================================================
+		/**
+		 *  Set the focus after the list item was deleted.
+		 * @private
+		 */
+		UploadCollection.prototype._setFocusAfterDeletion = function() {
+			var iLength = this.aItems.length;
+			var sLineId ;
 
-		if (iLength === 0){
-			var oFileUploader = jQuery.sap.byId(oContext._oFileUploader.sId);
-			var oFocusObj = oFileUploader.find(":button");
-			jQuery.sap.focus(oFocusObj);
-		} else {
-			var iLineNumber = DeletedItemId.split("-").pop();
-			//Deleted item is not the last one of the list
-			if ((iLength - 1) >= iLineNumber) {
-				sLineId = DeletedItemId + "-cli";
+			if (iLength === 0){
+				this._oFileUploader.focus();
 			} else {
-				sLineId = oContext.aItems.pop().sId + "-cli";
+				var iLineNumber = this.sDeletedItemId.split("-").pop();
+				//Deleted item is not the last one of the list
+				if ((iLength - 1) >= iLineNumber) {
+					sLineId = this.sDeletedItemId + "-cli";
+				} else {
+					sLineId = this.aItems.pop().sId + "-cli";
+				}
+				this._setFocusToLineItem(sLineId);
+				}this.sDeletedItemId = null;
 			}
-			sap.m.UploadCollection.prototype._setFocus2LineItem(sLineId);
-			this.sDeletedItemId = null;
-		}
-	};
+		;
 
-	/**
-	 * @description Set the focus to the list item.
-	 * @param {string} sFocusId ListItem which should get the focus
-	 * @returns {void}
-	 * @private
-	 */
-	UploadCollection.prototype._setFocus2LineItem = function(sFocusId) {
-		jQuery.sap.byId(sFocusId).focus();
-	};
+		/**
+		 *  Set the focus to the list item.
+		 * @param {string} itemId ListItem which should get the focus
+		 * @private
+		 */
+		UploadCollection.prototype._setFocusToLineItem = function(itemId) {
+			jQuery.sap.byId(itemId).focus();
+		};
 
 	/**
 	 * @description Handle of keyboard activity ENTER.

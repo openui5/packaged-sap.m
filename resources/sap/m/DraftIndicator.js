@@ -18,7 +18,7 @@ sap.ui.define(["sap/ui/core/Control", "sap/m/Label"], function(Control, Label) {
 	 * @abstract
 	 *
 	 * @author SAP SE
-	 * @version 1.48.4
+	 * @version 1.48.5
 	 *
 	 * @constructor
 	 * @public
