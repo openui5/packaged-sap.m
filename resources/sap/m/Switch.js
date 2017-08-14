@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		 * @extends sap.ui.core.Control
 		 *
 		 * @author SAP SE
-		 * @version 1.44.18
+		 * @version 1.44.19
 		 *
 		 * @constructor
 		 * @public
@@ -41,7 +41,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 				 * Custom text for the "ON" state.
 				 *
 				 * "ON" translated to the current language is the default value.
-				 * Beware that the given text will be cut off after three characters.
+				 * Beware that the given text will be cut off if available space is exceeded.
 				 */
 				customTextOn: { type: "string", group: "Misc", defaultValue: "" },
 
@@ -49,7 +49,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 				 * Custom text for the "OFF" state.
 				 *
 				 * "OFF" translated to the current language is the default value.
-				 * Beware that the given text will be cut off after three characters.
+				 * Beware that the given text will be cut off if available space is exceeded.
 				 */
 				customTextOff: { type: "string", group: "Misc", defaultValue: "" },
 

@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './ComboBoxTextField', './ComboBoxBase', './
 		 * @extends sap.m.ComboBoxBase
 		 *
 		 * @author SAP SE
-		 * @version 1.44.18
+		 * @version 1.44.19
 		 *
 		 * @constructor
 		 * @public

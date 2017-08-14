@@ -36,7 +36,7 @@ sap.ui.define(["jquery.sap.global", "./library", "sap/ui/core/Control", "sap/ui/
 		 * <b>Note:</b> All accessibility information for the different areas and their corresponding ARIA roles is set in the aggregation <code>landmarkInfo</code> of type {@link sap.m.PageAccessibleLandmarkInfo}
 		 *
 		 * @author SAP SE
-		 * @version 1.44.18
+		 * @version 1.44.19
 		 *
 		 * @constructor
 		 * @public

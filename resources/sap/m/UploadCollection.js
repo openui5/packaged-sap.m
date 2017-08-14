@@ -21,7 +21,7 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.44.18
+	 * @version 1.44.19
 	 *
 	 * @constructor
 	 * @public
@@ -1375,18 +1375,18 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 		if (sThumbnailUrl) {
 			oItemIcon = new sap.m.Image(sItemId + "-ia_imageHL", {
 				src : sap.m.UploadCollection.prototype._getThumbnail(sThumbnailUrl, sFileNameLong),
-				decorative : false,
-				alt: this._getAriaLabelForPicture(oItem)
+				decorative : false
 			}).addStyleClass("sapMUCItemImage");
+			oItemIcon.setAlt(this._getAriaLabelForPicture(oItem)); //Set the alt property directly to avoid some additional logic in the icon's constructor
 		} else {
 			sThumbnail = sap.m.UploadCollection.prototype._getThumbnail(undefined, sFileNameLong);
 			var sStyleClass;
 			oItemIcon = new sap.ui.core.Icon(sItemId + "-ia_iconHL", {
 				src : sThumbnail,
 				decorative : false,
-				useIconTooltip : false,
-				alt: this._getAriaLabelForPicture(oItem)
+				useIconTooltip : false
 			});
+			oItemIcon.setAlt(this._getAriaLabelForPicture(oItem)); //Set the alt property directly to avoid some additional logic in the icon's constructor
 			//Sets the right style class depending on the icon/placeholder status (clickable or not)
 			if (this.sErrorState !== "Error" && jQuery.trim(oItem.getProperty("url"))) {
 				sStyleClass = "sapMUCItemIcon";
@@ -2672,11 +2672,12 @@ sap.ui.define(['jquery.sap.global', './MessageBox', './Dialog', './library', 'sa
 			this._oFileUploader.focus();
 		} else {
 			var iLineNumber = this.sDeletedItemId.split("-").pop();
-			//Deleted item is not the last one of the list
-			if ((iLength - 1) >= iLineNumber) {
+			// If the bottommost item has been deleted, its predecessor receives focus.
+			// If any other item has been deleted, its successor receives focus.
+			if (iLineNumber <= iLength - 1)  {
 				sLineId = this.sDeletedItemId + "-cli";
 			} else {
-				sLineId = this.aItems.pop().sId + "-cli";
+				sLineId = this.aItems[this.aItems.length - 1].sId + "-cli";
 			}
 			this._setFocusToLineItem(sLineId);
 		}
