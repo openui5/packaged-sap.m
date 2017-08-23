@@ -18,7 +18,7 @@ sap.ui.define(['jquery.sap.global', './FlexBoxStylingHelper', './library', 'sap/
 	 * @class
 	 * Holds layout data for a FlexBox|HBox|VBox
 	 * @extends sap.ui.core.LayoutData
-	 * @version 1.48.5
+	 * @version 1.48.6
 	 *
 	 * @constructor
 	 * @public

@@ -15209,7 +15209,6 @@ html[dir=rtl] .sapMSwtTrans > .sapMSwtInner {
   display: block;
   white-space: nowrap;
   text-decoration: none;
-  text-overflow: ellipsis;
   overflow: hidden;
   width: 1.875rem;
   padding: 0 0.1875rem;
@@ -15227,6 +15226,10 @@ html[dir=rtl] .sapMSwtTrans > .sapMSwtInner {
 }
 .sapMSwtLabelOff {
   float: right;
+}
+.sapMSwt.sapMSwtDefault.sapMSwtOff .sapMSwtTextOn .sapMSwtLabel,
+.sapMSwt.sapMSwtDefault.sapMSwtOn .sapMSwtTextOff .sapMSwtLabel {
+  width: 1.6rem;
 }
 /* ------------------------------ */
 /* Switch handler                 */

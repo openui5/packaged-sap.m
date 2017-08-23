@@ -22,7 +22,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.48.5
+	 * @version 1.48.6
 	 *
 	 * @constructor
 	 * @public
@@ -876,7 +876,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	ListItemBase.prototype._activeHandling = function($This) {
 		$This.toggleClass("sapMLIBActive", this._active);
 
-		if (this.isActionable()) {
+		if (sap.ui.Device.system.Desktop && this.isActionable()) {
 			$This.toggleClass("sapMLIBHoverable", !this._active);
 		}
 	};

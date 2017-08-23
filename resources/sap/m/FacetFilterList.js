@@ -34,7 +34,7 @@ sap.ui.define(['jquery.sap.global', './List', './library'],
 	 * be closed.
 	 *
 	 * @extends sap.m.List
-	 * @version 1.48.5
+	 * @version 1.48.6
 	 *
 	 * @constructor
 	 * @public
