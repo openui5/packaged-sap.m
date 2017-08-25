@@ -16,11 +16,11 @@ sap.ui.define([ 'jquery.sap.global', './library', 'sap/ui/core/Element', 'sap/m/
 		 * @param {object} [mSettings] initial settings for the new control
 		 *
 		 * @class
-		 * Items provide information about the uploaded files.
+		 * Defines a structure of the element of the 'items' aggregation.
 		 * @extends sap.ui.core.Element
 		 *
 		 * @author SAP SE
-		 * @version 1.50.0
+		 * @version 1.50.1
 		 *
 		 * @constructor
 		 * @public

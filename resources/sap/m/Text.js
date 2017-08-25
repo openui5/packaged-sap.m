@@ -23,7 +23,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control'],
 	 * @implements sap.ui.core.IShrinkable, sap.ui.core.IFormContent
 	 *
 	 * @author SAP SE
-	 * @version 1.50.0
+	 * @version 1.50.1
 	 *
 	 * @constructor
 	 * @public
@@ -86,7 +86,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control'],
 	 * @protected
 	 * @type {number}
 	 */
-	Text.prototype.normalLineHeight = 1.4;
+	Text.prototype.normalLineHeight = 1.2;
 
 	/**
 	 * Determines per instance whether line height should be cached or not.

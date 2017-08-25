@@ -19,7 +19,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Control', './TimePickerSlidersR
 		 * @extends sap.ui.core.Control
 		 *
 		 * @author SAP SE
-		 * @version 1.50.0
+		 * @version 1.50.1
 		 *
 		 * @constructor
 		 * @private
@@ -83,7 +83,6 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Control', './TimePickerSlidersR
 		 * @public
 		 */
 		TimePickerSliders.prototype.init = function () {
-			//ToDo: //ToDo: This is inconsistent with the parent locale (if set). Add 'localeID' property to this control which will read its parent 'localeID' property
 			var oLocale = sap.ui.getCore().getConfiguration().getFormatSettings().getFormatLocale(),
 				aPeriods = sap.ui.core.LocaleData.getInstance(oLocale).getDayPeriods("abbreviated");
 

@@ -3599,6 +3599,7 @@ html.sap-desktop .sapMGT:focus:not([tabindex]) {
 }
 .sapMGTOverlay {
   background-color: #000000;
+  border-radius: 0.125rem;
 }
 .sapMGT.sapMGTScopeActions .sapMTileCntContent {
   position: relative;
@@ -11225,6 +11226,10 @@ html[data-sap-ui-browser^="ie"].sap-desktop .sapMPlanCal .sapUiCalRow:not(.sapUi
 .sapMPlanCal > .sapMList .sapMListTblCell.sapMPlanCalAppRow {
   padding: 0;
 }
+.sapMPlanCal > .sapMList .sapMListTblCell.sapMPlanCalRowHead .sapUiCalendarRow,
+.sapMPlanCal > .sapMList .sapMListTblCell.sapMPlanCalAppRow .sapUiCalendarRow {
+  padding-top: 0.25rem;
+}
 /* Responsiveness */
 .sapMPlanCal > .sapMList > table > tbody > tr > td > .sapMListTblSubCnt,
 .sapMPlanCal > .sapMList > table > tbody > .sapMListTblSubRow > td {
@@ -11302,6 +11307,21 @@ html[data-sap-ui-browser^="ie"].sap-desktop .sapMPlanCal .sapUiCalRow:not(.sapUi
 }
 .sapMPlanCal .sapUiCalDateInt .sapUiCalHeadB1 {
   width: 12.5rem;
+}
+/* ============================================= */
+/* CSS for control sap.m/PlanningCalendarLegend  */
+/* Base theme                                    */
+/* ============================================= */
+.sapMPlanCalLegend.sapUiUnifiedLegend hr {
+  border-color: #ffffff;
+}
+.sapMPlanCalLegend .sapUiUnifiedLegendSquareColor.sapMPlanCalLegendAppCircle {
+  border-radius: 1rem;
+}
+.sapMPlanCalLegendHeader {
+  color: #ffffff;
+  font-size: 0.875rem;
+  padding-top: 0.5rem;
 }
 /* ============================== */
 /* CSS for control sap.m/Popover  */
@@ -14218,7 +14238,7 @@ html.sap-desktop .sapMShellHeaderText {
 html.sap-desktop .sapMSTWrapper > .sapMGT:hover,
 html.sap-phone .sapMGTHvrOutln:active,
 html.sap-tablet .sapMGTHvrOutln:active {
-  box-shadow: none;
+  box-shadow: none !important;
 }
 .sapMST.OneByOne {
   width: 11rem;
@@ -14229,7 +14249,7 @@ html.sap-tablet .sapMGTHvrOutln:active {
   height: 11rem;
 }
 .sapMST .sapMGT {
-  border: none;
+  border: 0.125rem;
 }
 .sapMSTFocusDiv {
   position: absolute;
@@ -16098,7 +16118,7 @@ html[data-sap-ui-browser^="ed"] .sapMTabStrip .sapMTSTabsContainer .sapMTSTabs .
   cursor: text;
   font-size: 0.875rem;
   font-family: Arial, Helvetica, sans-serif;
-  line-height: 1.4rem;
+  line-height: normal;
   color: #ffffff;
 }
 html[data-sap-ui-browser="sf10"] .sapUiVltCell .sapMText,

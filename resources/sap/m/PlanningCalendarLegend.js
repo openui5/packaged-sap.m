@@ -22,7 +22,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Control', 'sap/ui/unified/Calen
 		 * @extends sap.ui.core.Control
 		 *
 		 * @author SAP SE
-		 * @version 1.50.0
+		 * @version 1.50.1
 		 *
 		 * @constructor
 		 * @public
@@ -64,6 +64,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Control', 'sap/ui/unified/Calen
 		PlanningCalendarLegend.prototype.init = function () {
 			CalendarLegend.prototype.init.call(this);
 			this.setProperty("columnWidth", PlanningCalendarLegend._COLUMN_WIDTH_DEFAULT);
+			this.addStyleClass("sapMPlanCalLegend");
 		};
 
 		/* Overrides the setter in order to alter the default value.
