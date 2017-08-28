@@ -8802,8 +8802,11 @@ html.sap-phone .sapMSupport .sapMDialogScrollCont {
 .sapMSwtLabel {
   white-space: nowrap;
   text-decoration: none;
-  text-overflow: ellipsis;
   overflow: hidden;
+}
+.sapMSwt.sapMSwtDefault.sapMSwtOff .sapMSwtTextOn .sapMSwtLabel,
+.sapMSwt.sapMSwtDefault.sapMSwtOn .sapMSwtTextOff .sapMSwtLabel {
+  width: 1.6rem;
 }
 /* ------------------------------ */
 /* Switch handler                 */

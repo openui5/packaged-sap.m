@@ -19,7 +19,7 @@ sap.ui.define(["./Slider", "./Input", 'sap/ui/core/InvisibleText'],
          * @extends sap.m.Slider
          *
          * @author SAP SE
-         * @version 1.38.25
+         * @version 1.38.27
          *
          * @constructor
          * @public
@@ -431,7 +431,7 @@ sap.ui.define(["./Slider", "./Input", 'sap/ui/core/InvisibleText'],
         RangeSlider.prototype._handleInputChange = function (oInput, oEvent) {
             var oHandle, oActiveTooltip,
                 bTooltipsInitialPositionTouched = this._mHandleTooltip.bTooltipsSwapped,
-                newValue = parseInt(oEvent.getParameter("value"), 10);
+                newValue = Number(oEvent.getParameter("value"));
 
             if (isNaN(newValue) || newValue < this.getMin() || newValue > this.getMax()) {
                 oInput.setValueState("Error");
