@@ -75,7 +75,7 @@ sap.ui.define(['jquery.sap.global', './NavContainer', './library', 'sap/ui/core/
 	 *
 	 * @extends sap.ui.core.Control
 	 * @implements sap.ui.core.IShrinkable
-	 * @version 1.48.6
+	 * @version 1.48.7
 	 *
 	 * @constructor
 	 * @public
@@ -190,7 +190,7 @@ sap.ui.define(['jquery.sap.global', './NavContainer', './library', 'sap/ui/core/
 	// How many pixels to scroll with every overflow arrow click
 	FacetFilter.SCROLL_STEP = 264;
 
-	/**
+	/*
 	 * Loads the appropriate type of FacetFilter according to device.
 	 * @param {object} oType Type of FacetFilter to render depending on device
 	 * @returns {sap.m.FacetFilter} this for chaining
@@ -221,7 +221,7 @@ sap.ui.define(['jquery.sap.global', './NavContainer', './library', 'sap/ui/core/
 		return this;
 	};
 
-	/**
+	/*
 	 * Sets whether or not to display Reset button to reset values.
 	 * @param {boolean} bVal Boolean to set Reset button to true or false
 	 * @returns {sap.m.FacetFilter} this for chaining
@@ -247,7 +247,7 @@ sap.ui.define(['jquery.sap.global', './NavContainer', './library', 'sap/ui/core/
 		return this;
 	};
 
-	/**
+	/*
 	 * Sets whether or not to display summary bar.
 	 * @param {boolean} bVal Boolean to set summary bar to <code>true</code> or <code>false</code>
 	 * @returns {sap.m.FacetFilter} this for chaining
@@ -272,7 +272,7 @@ sap.ui.define(['jquery.sap.global', './NavContainer', './library', 'sap/ui/core/
 		return this;
 	};
 
-	/**
+	/*
 	 * Sets whether or not to display live search bar.
 	 * @param {boolean} bVal Boolean to set live search bar to <code>true</code> or <code>false</code>
 	 */
@@ -298,7 +298,7 @@ sap.ui.define(['jquery.sap.global', './NavContainer', './library', 'sap/ui/core/
 		return this;
 	};
 
-	/**
+	/*
 	 * Gets the FacetFilterLists necessary to load.
 	 * @returns {sap.m.FacetFilterList} List that is specified.
 	 */
@@ -317,7 +317,7 @@ sap.ui.define(['jquery.sap.global', './NavContainer', './library', 'sap/ui/core/
 		return aLists;
 	};
 
-	/**
+	/*
 	 * Removes the specified FacetFilterList by cleaning up facet buttons.
 	 * Removes facet icons for the given FacetFilterList.
 	 * @param {object} vObject List that is to be removed

@@ -79,7 +79,7 @@ sap.ui.define(['jquery.sap.global', './InputBase', './MaskInput', './MaskInputRu
 		 * @extends sap.m.MaskInput
 		 *
 		 * @author SAP SE
-		 * @version 1.48.6
+		 * @version 1.48.7
 		 *
 		 * @constructor
 		 * @public
@@ -443,7 +443,7 @@ sap.ui.define(['jquery.sap.global', './InputBase', './MaskInput', './MaskInputRu
 			return this.setProperty("secondsStep", iStep, true);
 		};
 
-		/**
+		/*
 		 * Sets the title label inside the picker.
 		 *
 		 * @param {string} sTitle A title

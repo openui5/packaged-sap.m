@@ -22,7 +22,7 @@ sap.ui.define(['./Popover', './PopoverRenderer', './OverflowToolbarAssociativePo
 	 * @extends sap.ui.core.Popover
 	 *
 	 * @author SAP SE
-	 * @version 1.48.6
+	 * @version 1.48.7
 	 *
 	 * @constructor
 	 * @private

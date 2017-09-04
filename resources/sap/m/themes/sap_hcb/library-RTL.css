@@ -3609,6 +3609,7 @@ html.sap-desktop .sapMGT:focus:not([tabindex]) {
 }
 .sapMGTOverlay {
   background-color: #000000;
+  border-radius: 0.125rem;
 }
 .sapMGT.sapMGTScopeActions .sapMTileCntContent {
   position: relative;
@@ -5564,9 +5565,6 @@ html.sap-desktop .sapMInputVH:not(.sapMInputBaseReadonly) .sapMInputValHelp > .s
 .sapMILI-CTX .sapMInputBaseReadonlyInner .sapMInputBaseInner {
   text-align: right;
   background: transparent;
-}
-html[dir=rtl] .sapMInputBase .sapMInputValHelp {
-  transform: translateZ(0);
 }
 .sapMILI-CTX .sapMInputBasePlaceholder {
   text-align: right;
@@ -12668,6 +12666,12 @@ html[data-sap-ui-browser*='ie'] .sapMRISelector {
   background: transparent;
   padding: 0.25rem 0;
 }
+.sapUiUfdShellHead .sapMSF {
+  padding: 0;
+}
+.sapUiSizeCompact .sapUiUfdShellHead .sapMSF {
+  padding: 0.25rem 0;
+}
 html.sap-desktop .sapMFocus > .sapMSFF::before {
   border: 1px dotted #ffffff;
   position: absolute;
@@ -12891,9 +12895,6 @@ input.sapMSFI[type="search"]:focus {
 .sapUiSizeCompact .sapMSF > .sapMSFF > .sapMSFPlaceholder {
   right: 0.5rem;
   height: 1.5rem;
-}
-html[dir=rtl] .sapMSF .sapMSFB {
-  transform: translateZ(0);
 }
 html[data-sap-ui-browser^="ie"].sap-desktop .sapMFocus > .sapMSFF::before,
 html[data-sap-ui-browser^="ed"].sap-desktop .sapMFocus > .sapMSFF::before {
@@ -14171,7 +14172,7 @@ html.sap-desktop .sapMShellHeaderText {
 html.sap-desktop .sapMSTWrapper > .sapMGT:hover,
 html.sap-phone .sapMGTHvrOutln:active,
 html.sap-tablet .sapMGTHvrOutln:active {
-  box-shadow: none;
+  box-shadow: none !important;
 }
 .sapMST.OneByOne {
   width: 11rem;
@@ -14182,7 +14183,7 @@ html.sap-tablet .sapMGTHvrOutln:active {
   height: 11rem;
 }
 .sapMST .sapMGT {
-  border: none;
+  border: 0.125rem;
 }
 .sapMSTFocusDiv {
   position: absolute;

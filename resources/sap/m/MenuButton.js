@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', './Butto
 		 * @extends sap.ui.core.Control
 		 *
 		 * @author SAP SE
-		 * @version 1.48.6
+		 * @version 1.48.7
 		 *
 		 * @constructor
 		 * @public
@@ -418,7 +418,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', './Butto
 			return Control.prototype.setTooltip.apply(this, arguments);
 		};
 
-		/**
+		/*
 		 * Override setter because the parent control has placed custom logic in it and all changes need to be propagated
 		 * to the internal button aggregation.
 		 * @param {string} sValue
@@ -430,7 +430,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', './Butto
 			return this;
 		};
 
-		/**
+		/*
 		 * Override setter because the parent control has placed custom logic in it and all changes need to be propagated
 		 * to the internal button aggregation.
 		 * @param {string} sValue`
@@ -442,7 +442,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', './Butto
 			return this;
 		};
 
-		/**
+		/*
 		 * Override setter because the parent control has placed custom logic in it and all changes need to be propagated
 		 * to the internal button aggregation.
 		 * @param {string} vValue

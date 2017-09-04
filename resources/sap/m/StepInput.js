@@ -21,7 +21,7 @@ sap.ui.define(["jquery.sap.global", "sap/ui/core/Icon", "./Input", "./InputRende
 		 * @implements sap.ui.core.IFormContent
 		 *
 		 * @author SAP SE
-		 * @version 1.48.6
+		 * @version 1.48.7
 		 *
 		 * @constructor
 		 * @public
@@ -291,7 +291,7 @@ sap.ui.define(["jquery.sap.global", "sap/ui/core/Icon", "./Input", "./InputRende
 			return Control.prototype.setProperty.call(this, sPropertyName, oValue, bSuppressInvalidate);
 		};
 
-		/**
+		/*
 		 * Sets the min value.
 		 *
 		 * @param {float} min
@@ -317,7 +317,7 @@ sap.ui.define(["jquery.sap.global", "sap/ui/core/Icon", "./Input", "./InputRende
 			return oResult;
 		};
 
-		/**
+		/*
 		 * Sets the max value.
 		 *
 		 * @param {float} max
@@ -359,7 +359,7 @@ sap.ui.define(["jquery.sap.global", "sap/ui/core/Icon", "./Input", "./InputRende
 			return false;
 		};
 
-		/**
+		/*
 		 * Sets the <code>displayValuePrecision</code>.
 		 *
 		 * @param {number} number
@@ -559,11 +559,11 @@ sap.ui.define(["jquery.sap.global", "sap/ui/core/Icon", "./Input", "./InputRende
 			}
 		};
 
-		/**
-		* Sets the <code>value</code> by doing some rendering optimizations in case the first rendering was completed.
-		* Otherwise the value is set in onBeforeRendering, where we have all needed parameters for obtaining correct value.
-		*
-		*/
+		/*
+		 * Sets the <code>value</code> by doing some rendering optimizations in case the first rendering was completed.
+		 * Otherwise the value is set in onBeforeRendering, where we have all needed parameters for obtaining correct value.
+		 *
+		 */
 		StepInput.prototype.setValue = function (oValue) {
 			if (oValue == undefined) {
 				oValue = 0;
@@ -868,7 +868,7 @@ sap.ui.define(["jquery.sap.global", "sap/ui/core/Icon", "./Input", "./InputRende
 			return (iDigitsValueL > iDigitsStepL) ? iDigitsValueL : iDigitsStepL;
 		};
 
-		/**
+		/*
 		 * Handles the value state of the control.
 		 *
 		 * @param  {string} valueState
@@ -930,7 +930,7 @@ sap.ui.define(["jquery.sap.global", "sap/ui/core/Icon", "./Input", "./InputRende
 			return this._getInput().getValueStateText();
 		};
 
-		/**
+		/*
 		 * Sets the editable property.
 		 *
 		 * @params {boolean} editable - Indicates if the value is editable

@@ -19,7 +19,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Control', './TimePickerSlidersR
 		 * @extends sap.ui.core.Control
 		 *
 		 * @author SAP SE
-		 * @version 1.48.6
+		 * @version 1.48.7
 		 *
 		 * @constructor
 		 * @private
@@ -117,6 +117,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Control', './TimePickerSlidersR
 		 *
 		 * @param {string} sId The ID of the TimePicker control that owns this sliders
 		 * @returns {sap.m.TimePickerSliders} this instance, used for chaining
+		 * @public
 		 */
 		TimePickerSliders.prototype.setInvokedBy = function(sId) {
 			var oLocale,
