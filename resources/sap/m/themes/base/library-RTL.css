@@ -6682,10 +6682,6 @@ html[dir=rtl] .sapMNCValueScr {
 .sapMOH .sapMObjectAttributeText > .sapMText {
   vertical-align: bottom;
 }
-html[data-sap-ui-browser^="ie"] .sapMObjectAttributeDiv,
-html[data-sap-ui-browser^="ed"] .sapMObjectAttributeDiv {
-  padding: 0.125rem 0.125rem 0.125rem 0.125rem;
-}
 /* ============================================= */
 /* CSS for control sap.m/ObjectHeaderItem.control */
 /* ============================================= */

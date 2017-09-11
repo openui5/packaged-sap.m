@@ -19,7 +19,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './InputBase', './ComboBoxTextField
 	 * @extends sap.m.ComboBoxBase
 	 *
 	 * @author SAP SE
-	 * @version 1.44.19
+	 * @version 1.44.20
 	 *
 	 * @constructor
 	 * @public
@@ -304,7 +304,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './InputBase', './ComboBoxTextField
 		}
 
 		if (oPicker && oFocusDomRef) {
-			if (jQuery.sap.equal(oPicker.getFocusDomRef(), oFocusDomRef) && !bTablet ) {
+			if (jQuery.sap.equal(oPicker.getFocusDomRef(), oFocusDomRef) && !bTablet && !this.isPickerDialog()) {
 				// force the focus to stay in the MultiComboBox field when scrollbar
 				// is moving
 				this.focus();

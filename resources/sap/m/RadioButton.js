@@ -25,7 +25,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.44.19
+	 * @version 1.44.20
 	 *
 	 * @constructor
 	 * @public
@@ -296,7 +296,13 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 
 		var oNextItem = this._getNextFocusItem(sPosition);
 		oNextItem.focus();
-		bSelect && oNextItem.setSelected(true);
+		if (bSelect && !oNextItem.getSelected()) {
+			oNextItem.setSelected(true);
+
+			setTimeout(function() {
+				oNextItem.fireSelect({selected: true});
+			}, 0);
+		}
 	};
 
 	/**

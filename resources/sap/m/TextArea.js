@@ -22,7 +22,7 @@ sap.ui.define(['jquery.sap.global', './InputBase', './library'],
 	 * @extends sap.m.InputBase
 	 *
 	 * @author SAP SE
-	 * @version 1.44.19
+	 * @version 1.44.20
 	 *
 	 * @constructor
 	 * @public
@@ -186,6 +186,15 @@ sap.ui.define(['jquery.sap.global', './InputBase', './library'],
 	TextArea.prototype.getValue = function() {
 		var oTextArea = this.getFocusDomRef();
 		return oTextArea ? oTextArea.value : this.getProperty("value");
+	};
+
+	TextArea.prototype.setValue = function (sValue) {
+		InputBase.prototype.setValue.call(this, sValue);
+		var oTextArea = this.getFocusDomRef();
+		if (this.getGrowing()) {
+			this._adjustHeight(oTextArea);
+		}
+		return this;
 	};
 
 	// mark the event that it is handled by the textarea
