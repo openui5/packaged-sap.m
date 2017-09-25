@@ -22,7 +22,7 @@ sap.ui.define(['jquery.sap.global', './InputBase', './Text', "sap/ui/core/Resize
 	 * @extends sap.m.InputBase
 	 *
 	 * @author SAP SE
-	 * @version 1.48.8
+	 * @version 1.48.9
 	 *
 	 * @constructor
 	 * @public
@@ -371,7 +371,13 @@ sap.ui.define(['jquery.sap.global', './InputBase', './Text', "sap/ui/core/Resize
 
 	TextArea.prototype._adjustHeight = function() {
 		var oTextAreaRef = this.getFocusDomRef(),
-			fHeight = oTextAreaRef.scrollHeight + oTextAreaRef.offsetHeight - oTextAreaRef.clientHeight;
+			fHeight;
+
+		if (!oTextAreaRef) {
+			return;
+		}
+
+		fHeight = oTextAreaRef.scrollHeight + oTextAreaRef.offsetHeight - oTextAreaRef.clientHeight;
 
 		if (this.getValue() && fHeight !== 0) {
 			oTextAreaRef.style.height = fHeight + "px";

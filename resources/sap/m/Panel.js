@@ -50,7 +50,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.48.8
+	 * @version 1.48.9
 	 *
 	 * @constructor
 	 * @public
@@ -315,7 +315,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 			press: function () {
 				that.setExpanded(!that.getExpanded());
 			}
-		}).addStyleClass("sapMPanelExpandableIcon");
+		}).addStyleClass("sapMPanelExpandableIcon sapUiIconNoOutline");
 	};
 
 	Panel.prototype._getIcon = function () {
@@ -323,7 +323,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	};
 
 	Panel.prototype._setContentHeight = function () {
-		var iAdjustedContentHeight,
+		var sAdjustedContentHeight,
 		thisDomRef = this.getDomRef(),
 		oPanelContent = thisDomRef && thisDomRef.querySelector(".sapMPanelContent");
 
@@ -333,8 +333,8 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 
 		// 'offsetTop' measures the vertical space occupied by siblings before this one
 		// Earlier each previous sibling's height was calculated separately and then all height values were summed up
-		iAdjustedContentHeight = thisDomRef.clientHeight - oPanelContent.offsetTop;
-		oPanelContent.style.height = iAdjustedContentHeight + 'px';
+		sAdjustedContentHeight =  'calc(' + this.getHeight() + ' - ' + oPanelContent.offsetTop + 'px)';
+		oPanelContent.style.height = sAdjustedContentHeight;
 	};
 
 	Panel.prototype._toggleExpandCollapse = function () {

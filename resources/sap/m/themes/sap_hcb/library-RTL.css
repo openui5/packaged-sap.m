@@ -1608,6 +1608,9 @@ html[data-sap-ui-animation='off'] .sapMCrslInner {
 .sapMCb:not(.sapMCbBgDis).sapMCbHasLabel:focus:before {
   pointer-events: none;
 }
+html[dir="rtl"] .sapMCb {
+  text-align: right;
+}
 .sapMCb .sapMLabel {
   cursor: default;
 }
@@ -19321,13 +19324,6 @@ html.sap-desktop .sapUiSizeCompact .sapMCb:not(.sapMCbBgDis).sapMCbHasLabel:focu
 html.sap-desktop .sapUiSizeCompact .sapUiSimpleForm .sapMCb:not(.sapMCbBgDis):focus:before {
   right: 0;
 }
-/* ===================================== */
-/* CSS for control sap.m/ColumnListItem  */
-/* High Contrast Black theme             */
-/* ===================================== */
-html[data-sap-ui-browser="ie11"] .sapMListTblRow:focus {
-  outline-width: 3px;
-}
 /* ================================= */
 /* CSS for control sap.m/CustomTile  */
 /* High Contrast Black theme         */
@@ -19949,6 +19945,9 @@ html.sap-desktop .sapMLIB-CTX:focus .sapMGrowingListTrigger {
 /* CSS for control sap.m/ListItemBase  */
 /* High Contrast Black theme           */
 /* =================================== */
+html[data-sap-ui-browser='ie11'] .sapMLIBFocusable:focus {
+  outline-width: 3px;
+}
 .sapMLIBFocusable:focus {
   outline: 0.125rem dotted #ffffff;
   outline-offset: -0.125rem;

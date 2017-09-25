@@ -24,7 +24,7 @@ sap.ui.define(["jquery.sap.global", "sap/ui/core/Element", 'sap/ui/base/Interfac
 	 * @extends sap.ui.core.Element
 	 *
 	 * @author SAP SE
-	 * @version 1.48.8
+	 * @version 1.48.9
 	 *
 	 * @constructor
 	 * @protected
@@ -44,8 +44,9 @@ sap.ui.define(["jquery.sap.global", "sap/ui/core/Element", 'sap/ui/base/Interfac
 
 				/**
 				 * The value of the line, for example the value of the currently selected measure.
+				 * Expected type is a string or a plain object, including date and time properties of type string.
 				 */
-				value: { type: "string", group: "Data" },
+				value: { type: "any", group: "Data" },
 
 				/**
 				 * The display value of the line. If this property is set, it overrides the value property and is displayed as is.
@@ -60,6 +61,28 @@ sap.ui.define(["jquery.sap.global", "sap/ui/core/Element", 'sap/ui/base/Interfac
 			}
 		}
 	});
+
+	/**
+	 * Returns the value to be displayed in the line.
+	 *
+	 * @private
+	 * @returns {string} The value text.
+	 */
+	SelectionDetailsItemLine.prototype._getValueToRender = function() {
+		var sValue = "",
+			oValue = this.getValue();
+		if (jQuery.type(oValue) === "string") {
+			sValue = oValue;
+		} else if (jQuery.isPlainObject(oValue)) {
+			if (oValue.day && oValue.day.length > 0) {
+				sValue = oValue.day;
+			}
+			if (oValue.time && oValue.time.length > 0) {
+				sValue = (sValue.length > 0) ? oValue.time + " " + sValue : oValue.time;
+			}
+		}
+		return sValue;
+	};
 
 	return SelectionDetailsItemLine;
 });
