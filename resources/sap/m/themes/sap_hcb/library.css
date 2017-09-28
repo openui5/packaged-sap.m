@@ -5981,6 +5981,12 @@ html[dir=rtl][data-sap-ui-browser^=ed] .sapUiFormResLayout .sapUiRFLRow:first-ch
 .sapUiFormLblColon .sapUiFormElementLbl > .sapMLabel:after {
   content: ":";
 }
+/* wrapping label's text */
+.sapUiFormLblColon .sapUiFormElementLbl > .sapMLabel.sapMLabelWrapped {
+  white-space: pre-line;
+  text-overflow: clip;
+  word-wrap: break-word;
+}
 .sapUiFormLblColon .sapUiFormElementLbl > .sapMLabel:lang(fr):after {
   content: " :";
 }
@@ -12731,6 +12737,12 @@ html[data-sap-ui-browser*='ie'] .sapMRISelector {
   min-width: 7rem;
   height: 3rem;
   background: transparent;
+  padding: 0.25rem 0;
+}
+.sapUiUfdShellHead .sapMSF {
+  padding: 0;
+}
+.sapUiSizeCompact .sapUiUfdShellHead .sapMSF {
   padding: 0.25rem 0;
 }
 html.sap-desktop .sapMFocus > .sapMSFF::before {

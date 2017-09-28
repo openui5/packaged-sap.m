@@ -26,7 +26,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.50.1
+	 * @version 1.50.2
 	 *
 	 * @constructor
 	 * @public
@@ -110,7 +110,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	}});
 
 	ListItemBase.getAccessibilityText = function(oControl, bDetectEmpty) {
-		if (!oControl || !oControl.bOutput || !oControl.getVisible || !oControl.getVisible()) {
+		if (!oControl || !oControl.getVisible || !oControl.getVisible()) {
 			return "";
 		}
 

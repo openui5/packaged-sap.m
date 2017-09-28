@@ -45,7 +45,7 @@ sap.ui.define([
 		 * On mobile devices the steps in the StepNavigator are grouped together and overlap. Tapping on them will show a popover to select the step to navigate to.
 		 * @extends sap.ui.core.Control
 		 * @author SAP SE
-		 * @version 1.50.1
+		 * @version 1.50.2
 		 *
 		 * @constructor
 		 * @public
@@ -343,7 +343,7 @@ sap.ui.define([
 
 			this._updateNextButtonState();
 			this._setNextButtonPosition();
-			this._restoreInitialValidatedState(index);
+			this._restoreInitialValidatedState(progressNavigatorIndex);
 			this._stepPath[index]._markAsLast();
 
 			for (var i = progressNavigatorIndex; i < steps.length; i++) {

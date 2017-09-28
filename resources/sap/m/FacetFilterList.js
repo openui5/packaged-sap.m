@@ -34,7 +34,7 @@ sap.ui.define(['jquery.sap.global', './List', './library'],
 	 * be closed.
 	 *
 	 * @extends sap.m.List
-	 * @version 1.50.1
+	 * @version 1.50.2
 	 *
 	 * @constructor
 	 * @public
@@ -136,7 +136,7 @@ sap.ui.define(['jquery.sap.global', './List', './library'],
 		}
 	}});
 
-	/**
+	/*
 	 * Sets the title property.
 	 * @param {string} sTitle New value for property title
 	 * @returns {sap.m.FacetFilterList} <code>this</code> to allow method chaining
@@ -149,7 +149,7 @@ sap.ui.define(['jquery.sap.global', './List', './library'],
 		return this;
 	};
 
-	/**
+	/*
 	 * Sets the multiSelect property (default value is <code>true</code>).
 	 * @param {boolean}	bVal New value for property multiSelect
 	 * @returns {sap.m.FacetFilterList}	this to allow method chaining
@@ -676,10 +676,10 @@ sap.ui.define(['jquery.sap.global', './List', './library'],
 	};
 
 	FacetFilterList.prototype._itemKeyExists = function(sKey) {
-		var aItems = this.getItems(),
+		var aItemKeys = this._getAllItemKeys(),
 			i;
-		for (i = 0; i < aItems.length; i++) {
-			if (aItems[i].getKey() === sKey) {
+		for (i = 0; i < aItemKeys.length; i++) {
+			if (aItemKeys[i] === sKey) {
 				return true;
 			}
 		}
@@ -791,6 +791,30 @@ sap.ui.define(['jquery.sap.global', './List', './library'],
 
 	FacetFilterList.prototype._preserveOriginalActiveState = function () {
 		this._bOriginalActiveState = this.getActive();
+	};
+
+	/*
+	 * Returns all keys of the FacetFilterList items.
+	 * If aggregation items is bound keys will be get from the binding
+	 * otherwise the keys will be get from items aggregation
+	 * @private
+	 */
+	FacetFilterList.prototype._getAllItemKeys = function() {
+		var oBinding = this.getBinding("items");
+
+		if (oBinding && oBinding.oList) {
+			return oBinding.oList.map(this._getBindingItemKeyOrText);
+		}
+
+		return this.getItems(true).map(this._getFacetFilterItemKeyOrText);
+	};
+
+	FacetFilterList.prototype._getBindingItemKeyOrText = function (item) {
+		return item.key || item.text;
+	};
+
+	FacetFilterList.prototype._getFacetFilterItemKeyOrText = function (item) {
+		return item.getKey() || item.getText();
 	};
 
 	return FacetFilterList;

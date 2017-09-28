@@ -19,7 +19,7 @@ sap.ui.define([
 	 *        dimensions and measures for table personalization.
 	 * @extends sap.m.P13nPanel
 	 * @author SAP SE
-	 * @version 1.50.1
+	 * @version 1.50.2
 	 * @constructor
 	 * @public
 	 * @since 1.34.0
@@ -603,7 +603,7 @@ sap.ui.define([
 					text: "{text}"
 				})
 			},
-			change: jQuery.proxy(this._onChartTypeChange, this),
+            selectionChange: jQuery.proxy(this._onChartTypeChange, this),
 			layoutData: new sap.m.OverflowToolbarLayoutData({
 				moveToOverflow: false,
 				stayInOverflow: false

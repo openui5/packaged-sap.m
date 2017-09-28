@@ -79,7 +79,7 @@ sap.ui.define(['jquery.sap.global', './InputBase', './DateTimeField', './MaskInp
 		 * @extends sap.m.DateTimeField
 		 *
 		 * @author SAP SE
-		 * @version 1.50.1
+		 * @version 1.50.2
 		 *
 		 * @constructor
 		 * @public
@@ -449,7 +449,7 @@ sap.ui.define(['jquery.sap.global', './InputBase', './DateTimeField', './MaskInp
 			return this.setProperty("secondsStep", step, true);
 		};
 
-		/**
+		/*
 		 * Sets the title label inside the picker.
 		 *
 		 * @param {string} title A title
