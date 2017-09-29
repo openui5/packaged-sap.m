@@ -127,42 +127,44 @@
 		});
 
 		QUnit.test("Label wrapping", function(assert) {
-			var $l1 = l1.$(),
-				$l2 = l2.$();
-
-			assert.strictEqual(l1.getWrapping(), true, "Has to be set to true.");
-			assert.strictEqual(l2.getWrapping(), true, "Has to be set to true.");
-
-			assert.ok($l1.hasClass("sapMLabelWrapped"), true, "Has the appropriate class set.");
-			assert.ok($l2.hasClass("sapMLabelWrapped"), true, "Has the appropriate class set.");
-
-			l1.setWrapping(false);
-			l2.setWrapping(false);
 
 			assert.strictEqual(l1.getWrapping(), false, "Has to be set to false.");
 			assert.strictEqual(l2.getWrapping(), false, "Has to be set to false.");
 
-			assert.ok($l1.hasClass("sapMLabelWrapped"), false, "Doesn't need to have class set.");
-			assert.ok($l2.hasClass("sapMLabelWrapped"), false, "Doesn't need to have class set.");
+			assert.strictEqual(l1.$().hasClass("sapMLabelWrapped"), false, "Doesn't have a class set.");
+			assert.strictEqual(l2.$().hasClass("sapMLabelWrapped"), false, "Doesn't have a class set.");
 
-			//reset values
 			l1.setWrapping(true);
 			l2.setWrapping(true);
+			sap.ui.getCore().applyChanges();
 
 			assert.strictEqual(l1.getWrapping(), true, "Has to be set to true.");
 			assert.strictEqual(l2.getWrapping(), true, "Has to be set to true.");
 
-			assert.ok($l1.hasClass("sapMLabelWrapped"), true, "Has the appropriate class set.");
-			assert.ok($l2.hasClass("sapMLabelWrapped"), true, "Has the appropriate class set.");
+			assert.strictEqual(l1.$().hasClass("sapMLabelWrapped"), true, "Has the appropriate class set.");
+			assert.strictEqual(l2.$().hasClass("sapMLabelWrapped"), true, "Has the appropriate class set.");
 
+			//reset values
+			l1.setWrapping(false);
 			l2.setWrapping(false);
+			sap.ui.getCore().applyChanges();
 
+			assert.strictEqual(l1.getWrapping(), false, "Has to be set to false.");
 			assert.strictEqual(l2.getWrapping(), false, "Has to be set to false.");
 
-			assert.ok($l2.hasClass("sapMLabelWrapped"), false, "Doesn't need to have class set.");
+			assert.strictEqual(l1.$().hasClass("sapMLabelWrapped"), false, "Doesn't have a class set.");
+			assert.strictEqual(l2.$().hasClass("sapMLabelWrapped"), false, "Doesn't have a class set.");
+
+			l2.setWrapping(true);
+			sap.ui.getCore().applyChanges();
+
+			assert.strictEqual(l2.getWrapping(), true, "Has to be set to true.");
+
+			assert.strictEqual(l2.$().hasClass("sapMLabelWrapped"), true, "Has the appropriate class set.");
 
 			//reset value
-			l2.setWrapping(true);
+			l2.setWrapping(false);
+			sap.ui.getCore().applyChanges();
 		})
 
 		QUnit.module("tooltip");
@@ -252,20 +254,56 @@
 
 		});
 
-		QUnit.module("Accessibility");
+		QUnit.module("Accessibility", {
+		    beforeEach: function() {
+		        this.label = new sap.m.Label({text: "Label"});
+		        this.label.placeAt("qunit-fixture");
+		        sap.ui.getCore().applyChanges();
+		    },
+		    afterEach: function() {
+		        this.label.destroy();
+		        this.label = null;
+		    }
+		});
 
 		QUnit.test("getAccessibilityInfo", function(assert) {
-			var oControl = new sap.m.Label({text: "Text"});
-			assert.ok(!!oControl.getAccessibilityInfo, "Label has a getAccessibilityInfo function");
-			var oInfo = oControl.getAccessibilityInfo();
+			assert.ok(!!this.label.getAccessibilityInfo, "Label has a getAccessibilityInfo function");
+			var oInfo = this.label.getAccessibilityInfo();
 			assert.ok(!!oInfo, "getAccessibilityInfo returns a info object");
 			assert.strictEqual(oInfo.role, undefined, "AriaRole");
 			assert.strictEqual(oInfo.type, undefined, "Type");
-			assert.strictEqual(oInfo.description, "Text", "Description");
+			assert.strictEqual(oInfo.description, "Label", "Description");
 			assert.strictEqual(oInfo.focusable, undefined, "Focusable");
 			assert.strictEqual(oInfo.enabled, undefined, "Enabled");
 			assert.strictEqual(oInfo.editable, undefined, "Editable");
-			oControl.destroy();
+		});
+
+		QUnit.test("Label rendering when no labelFor association is set", function (assert) {
+			assert.strictEqual(this.label.getDomRef() instanceof HTMLSpanElement, true, "Should be rendered as a span element");
+		});
+
+		QUnit.test("Label rendering when labelFor association is set", function (assert) {
+			var oInput = new sap.m.Input().placeAt("qunit-fixture");
+			sap.ui.getCore().applyChanges();
+			this.label.setLabelFor(oInput);
+			sap.ui.getCore().applyChanges();
+
+			assert.strictEqual(this.label.getDomRef() instanceof HTMLLabelElement, true, "Should be rendered as a label element");
+
+			oInput.destroy();
+		});
+
+		QUnit.test("Label rendering when labelFor association is set to non-labelable control", function (assert) {
+			var oLink = new sap.m.Link({text: "text"}).placeAt("qunit-fixture");
+
+			sap.ui.getCore().applyChanges();
+
+			this.label.setLabelFor(oLink);
+
+			assert.strictEqual(this.label.getDomRef() instanceof HTMLSpanElement, true,
+					"Should be rendered as a span element when the labelFor points to a non-labelable control");
+
+			oLink.destroy();
 		});
 
 		QUnit.module("DisplayOnly mode", {

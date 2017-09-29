@@ -55,7 +55,7 @@ sap.ui.define(['jquery.sap.global', './InputBase', './Text', "sap/ui/core/Resize
 	 * @extends sap.m.InputBase
 	 *
 	 * @author SAP SE
-	 * @version 1.50.2
+	 * @version 1.50.3
 	 *
 	 * @constructor
 	 * @public
@@ -309,6 +309,9 @@ sap.ui.define(['jquery.sap.global', './InputBase', './Text', "sap/ui/core/Resize
 	TextArea.prototype.setValue = function (sValue) {
 		InputBase.prototype.setValue.call(this, sValue);
 		this._handleShowExceededText();
+		if (this.getGrowing()) {
+			this._adjustHeight();
+		}
 		return this;
 	};
 
@@ -359,7 +362,7 @@ sap.ui.define(['jquery.sap.global', './InputBase', './Text', "sap/ui/core/Resize
 
 		// handle growing
 		if (this.getGrowing()) {
-			this._adjustHeight(oTextAreaRef);
+			this._adjustHeight();
 		}
 
 		this.fireLiveChange({
@@ -395,7 +398,13 @@ sap.ui.define(['jquery.sap.global', './InputBase', './Text', "sap/ui/core/Resize
 
 	TextArea.prototype._adjustHeight = function() {
 		var oTextAreaRef = this.getFocusDomRef(),
-			fHeight = oTextAreaRef.scrollHeight + oTextAreaRef.offsetHeight - oTextAreaRef.clientHeight;
+			fHeight;
+
+		if (!oTextAreaRef) {
+			return;
+		}
+
+		fHeight = oTextAreaRef.scrollHeight + oTextAreaRef.offsetHeight - oTextAreaRef.clientHeight;
 
 		if (this.getValue() && fHeight !== 0) {
 			oTextAreaRef.style.height = fHeight + "px";

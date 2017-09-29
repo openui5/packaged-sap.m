@@ -87,7 +87,7 @@ sap.ui.define([
 	 * @implements sap.ui.core.Toolbar,sap.m.IBar
 	 *
 	 * @author SAP SE
-	 * @version 1.50.2
+	 * @version 1.50.3
 	 *
 	 * @constructor
 	 * @public
@@ -200,6 +200,14 @@ sap.ui.define([
 
 
 	OverflowToolbar.prototype._doLayout = function () {
+		var oCore = sap.ui.getCore();
+
+		// If the theme is not applied, control widths should not be measured and cached
+		if (!oCore.isThemeApplied()) {
+			jQuery.sap.log.debug("OverflowToolbar: theme not applied yet, skipping calculations", this);
+			return;
+		}
+
 		var iWidth = this.$().width();
 
 		// Stop listening for control changes while calculating the layout to avoid an infinite loop scenario

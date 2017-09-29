@@ -1618,6 +1618,9 @@ html[data-sap-ui-animation='off'] .sapMCrslInner {
 .sapMCb:not(.sapMCbBgDis).sapMCbHasLabel:focus:before {
   pointer-events: none;
 }
+html[dir="rtl"] .sapMCb {
+  text-align: right;
+}
 .sapMCb .sapMLabel {
   cursor: default;
 }
@@ -5556,9 +5559,6 @@ html.sap-desktop .sapMInputVH:not(.sapMInputBaseReadonly) .sapMInputValHelp > .s
   text-align: right;
   background: transparent;
 }
-html[dir=rtl] .sapMInputBase .sapMInputValHelp {
-  transform: translateZ(0);
-}
 .sapMILI-CTX .sapMInputBasePlaceholder {
   text-align: right;
 }
@@ -5981,11 +5981,11 @@ html[dir=rtl][data-sap-ui-browser^=ed] .sapUiFormResLayout .sapUiRFLRow:first-ch
 .sapUiFormLblColon .sapUiFormElementLbl > .sapMLabel:after {
   content: ":";
 }
-/* wrapping label's text */
-.sapUiFormLblColon .sapUiFormElementLbl > .sapMLabel.sapMLabelWrapped {
+/* Wrapping of the Label's text */
+.sapMLabel.sapMLabelWrapped {
   white-space: pre-line;
-  text-overflow: clip;
-  word-wrap: break-word;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .sapUiFormLblColon .sapUiFormElementLbl > .sapMLabel:lang(fr):after {
   content: " :";
@@ -9058,12 +9058,8 @@ html.sap-desktop .sapMObjectAttributeActive:focus {
 .sapUxAPObjectPageHeaderContentItem .sapMObjectAttributeText {
   line-height: normal;
 }
-html[data-sap-ui-browser^='ie'] .sapMObjectAttributeDiv,
-html[data-sap-ui-browser^='ie'] .sapMObjectAttributeDiv {
-  padding: 0.25rem 0.25rem 0.25rem 0.25rem;
-}
-html[data-sap-ui-browser^='ie'] .sapMObjectAttributeActive:focus .sapMObjectAttributeText,
-html[data-sap-ui-browser^='ie'] .sapMObjectAttributeActive:focus .sapMObjectAttributeText {
+html[data-sap-ui-browser^='ie'] .sapMObjectAttributeActive:focus .sapMObjectAttributeText::after,
+html[data-sap-ui-browser^='ie'] .sapMObjectAttributeActive:focus .sapMObjectAttributeText::after {
   outline-style: dashed;
 }
 /*=========================================== */
@@ -9143,10 +9139,6 @@ html[data-sap-ui-browser^='ie'] .sapMObjectAttributeActive:focus .sapMObjectAttr
 .sapMOH .sapMObjectAttributeActive .sapMObjectAttributeText:hover,
 .sapMOH .sapMObjectAttributeActive:focus .sapMObjectAttributeText {
   text-decoration: none;
-}
-html[data-sap-ui-browser^="ie"] .sapMObjectAttributeDiv,
-html[data-sap-ui-browser^="ed"] .sapMObjectAttributeDiv {
-  padding: 0.125rem 0.125rem 0.125rem 0.125rem;
 }
 /* =================================== */
 /* CSS for control sap.m/ObjectHeader  */
@@ -12969,9 +12961,6 @@ input.sapMSFI[type="search"]:focus {
   right: 0.5rem;
   height: 1.5rem;
 }
-html[dir=rtl] .sapMSF .sapMSFB {
-  transform: translateZ(0);
-}
 html[data-sap-ui-browser^="ie"].sap-desktop .sapMFocus > .sapMSFF::before,
 html[data-sap-ui-browser^="ed"].sap-desktop .sapMFocus > .sapMSFF::before {
   border: 1px dashed #ffffff;
@@ -15764,6 +15753,7 @@ html[data-sap-ui-browser='ie11'] .sapMListTblHighlightCell > .sapMLIBHighlight {
 /* reset height of cells when no header is defined */
 .sapMListTblHeaderNone > .sapMListTblCell {
   height: 0;
+  padding: 0;
 }
 /* ======================================= */
 /* CSS for control sap.m/TablePersoDialog  */
@@ -18947,13 +18937,6 @@ html.sap-desktop .sapUiSizeCompact .sapMCb:not(.sapMCbBgDis).sapMCbHasLabel:focu
 html.sap-desktop .sapUiSizeCompact .sapUiSimpleForm .sapMCb:not(.sapMCbBgDis):focus:before {
   right: 0;
 }
-/* ===================================== */
-/* CSS for control sap.m/ColumnListItem  */
-/* High Contrast Black theme             */
-/* ===================================== */
-html[data-sap-ui-browser="ie11"] .sapMListTblRow:focus {
-  outline-width: 3px;
-}
 /* ================================= */
 /* CSS for control sap.m/CustomTile  */
 /* High Contrast Black theme         */
@@ -19575,6 +19558,9 @@ html.sap-desktop .sapMLIB-CTX:focus .sapMGrowingListTrigger {
 /* CSS for control sap.m/ListItemBase  */
 /* High Contrast Black theme           */
 /* =================================== */
+html[data-sap-ui-browser='ie11'] .sapMLIBFocusable:focus {
+  outline-width: 3px;
+}
 .sapMLIBFocusable:focus {
   outline: 0.125rem dotted #ffffff;
   outline-offset: -0.125rem;
@@ -19824,19 +19810,11 @@ html[data-sap-ui-browser^="ed"] .sapMObjectAttributeActive:focus > .sapMText {
 .sapMOHR .sapMObjectAttributeActive .sapMObjectAttributeText {
   text-decoration: underline;
 }
-.sapMOHR .sapMObjectAttributeActive:focus .sapMObjectAttributeText {
-  outline: 0.125rem dotted #ffffff;
-  outline-offset: -0.125rem;
-}
 /*=========================================== */
 /* Custom design for Static Object Header     */
 /*=========================================== */
 .sapMOH .sapMObjectAttributeActive .sapMObjectAttributeText {
   text-decoration: underline;
-}
-.sapMOH .sapMObjectAttributeActive:focus .sapMObjectAttributeText {
-  outline: 0.125rem dotted #ffffff;
-  outline-offset: -0.125rem;
 }
 /* =================================== */
 /* CSS for control sap.m/ObjectHeader  */

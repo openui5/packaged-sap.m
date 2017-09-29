@@ -22,7 +22,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * a specific object. The object header title is the key identifier of the object and
 	 * additional text and icons can be used to further distinguish it from other objects.
 	 * @extends sap.ui.core.Control
-	 * @version 1.50.2
+	 * @version 1.50.3
 	 *
 	 * @constructor
 	 * @public
@@ -1121,7 +1121,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @returns {boolean} If there is bottom content
 	 */
 	ObjectHeader.prototype._hasBottomContent = function() {
-		return (this._hasAttributes() || this._hasStatus() || this.getShowMarkers());
+		return (this._hasAttributes() || this._hasStatus() || this._hasMarkers());
 	};
 
 	/**
@@ -1168,6 +1168,18 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 			}
 		}
 		return bHasStatus;
+	};
+
+	/**
+	 * @private
+	 * @returns {boolean} If there are markers
+	 */
+	ObjectHeader.prototype._hasMarkers = function() {
+		var aMarkers = this.getMarkers(),
+			bHasOldMarkers = this.getShowMarkers() && (this.getMarkFavorite() || this.getMarkFlagged()),
+			bHasMаrkers = aMarkers && aMarkers.length;
+
+		return (bHasOldMarkers || bHasMаrkers);
 	};
 
 	/**

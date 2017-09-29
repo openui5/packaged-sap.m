@@ -79,7 +79,7 @@ sap.ui.define(['jquery.sap.global', './InputBase', './DateTimeField', './MaskInp
 		 * @extends sap.m.DateTimeField
 		 *
 		 * @author SAP SE
-		 * @version 1.50.2
+		 * @version 1.50.3
 		 *
 		 * @constructor
 		 * @public

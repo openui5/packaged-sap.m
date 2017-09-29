@@ -14,7 +14,7 @@ sap.ui.define([
 	 * Applies mask support for input controls.
 	 * It should should be applied to the prototype of a <code>sap.m.InputBase</code>.
 	 *
-	 * @version 1.50.2
+	 * @version 1.50.3
 	 * @private
 	 * @mixin
 	 * @alias sap.m.MaskEnabler
@@ -573,15 +573,12 @@ sap.ui.define([
 
 		/**
 		 * Places the cursor on a given position (zero based).
-		 * @param {int} iPos The position the cursor to be placed on
+		 * @param {int} iPos The position the cursor to be placed on. If negative value is given, 0 is considered.
 		 * @returns {sap.ui.MaskEnabler} <code>this</code> to allow method chaining
 		 * @private
 		 */
 		this._setCursorPosition = function (iPos) {
-			if (sap.ui.Device.browser.webkit && iPos < 0) {
-				/* For webkit browsers version >=58.0, negative value position the carret at the end of the string.
-				 /* In previous versions the outcome was the same as if position is 0 => at the beginning of the string.
-				 */
+			if (iPos < 0) {
 				iPos = 0;
 			}
 			return jQuery(this.getFocusDomRef()).cursorPos(iPos);
