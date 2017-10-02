@@ -87,7 +87,7 @@ sap.ui.define(['jquery.sap.global', './DatePicker', 'sap/ui/model/type/Date', '.
 	 * mobile devices, it opens in full screen.
 	 *
 	 * @extends sap.m.DatePicker
-	 * @version 1.44.20
+	 * @version 1.44.21
 	 *
 	 * @constructor
 	 * @public
