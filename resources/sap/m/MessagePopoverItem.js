@@ -19,7 +19,7 @@ sap.ui.define(["jquery.sap.global", "./library", "./MessageItem"],
 		 * @extends sap.ui.core.Item
 		 *
 		 * @author SAP SE
-		 * @version 1.48.9
+		 * @version 1.48.10
 		 *
 		 * @constructor
 		 * @public

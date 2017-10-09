@@ -34,7 +34,7 @@ sap.ui.define(['jquery.sap.global', './List', './library'],
 	 * be closed.
 	 *
 	 * @extends sap.m.List
-	 * @version 1.48.9
+	 * @version 1.48.10
 	 *
 	 * @constructor
 	 * @public
@@ -705,6 +705,17 @@ sap.ui.define(['jquery.sap.global', './List', './library'],
 		bActive = this._getOriginalActiveState() || bSelected;
 		this.setActive(bActive);
 		jQuery.sap.delayedCall(0, this, this._updateSelectAllCheckBox);
+	};
+
+	/**
+	 * @private
+	 */
+	FacetFilterList.prototype.onItemTextChange = function(oItem, sNewValue) {
+		var sKeyName = oItem.getKey();
+
+		if (this._oSelectedKeys[sKeyName] && sNewValue) {
+			this._oSelectedKeys[sKeyName] = sNewValue;
+		}
 	};
 
 	/**

@@ -77,7 +77,7 @@ sap.ui.define([
 	 * @implements sap.ui.core.Toolbar,sap.m.IBar
 	 *
 	 * @author SAP SE
-	 * @version 1.48.9
+	 * @version 1.48.10
 	 *
 	 * @constructor
 	 * @public
@@ -523,6 +523,9 @@ sap.ui.define([
 	 * @private
 	 */
 	OverflowToolbar.prototype._resetAndInvalidateToolbar = function (bHardReset) {
+		if (this._bIsBeingDestroyed) {
+			return;
+		}
 
 		this._resetToolbar();
 
