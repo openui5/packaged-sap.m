@@ -30,7 +30,7 @@ sap.ui.define(['jquery.sap.global', './Button', './Dialog', './InputListItem', '
 	 * @class Table Personalization Dialog
 	 * @extends sap.ui.base.ManagedObject
 	 * @author SAP
-	 * @version 1.38.28
+	 * @version 1.38.29
 	 * @alias sap.m.TablePersoDialog
 	 */
 	var TablePersoDialog = ManagedObject.extend("sap.m.TablePersoDialog", /** @lends sap.m.TablePersoDialog */

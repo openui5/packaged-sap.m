@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @class
 	 * Status information that can be either text with a value state, or an icon.
 	 * @extends sap.ui.core.Control
-	 * @version 1.38.28
+	 * @version 1.38.29
 	 *
 	 * @constructor
 	 * @public

@@ -7676,6 +7676,9 @@ html[data-sap-ui-browser^="ed"].sap-desktop .sapMFooter-CTX .sapMSegBBtnFocusabl
   vertical-align: top;
   outline: none;
 }
+.sapMSlt.sapMSltMinWidth {
+  min-width: 5.125rem;
+}
 /* ------------------------------ */
 /* Select Label                   */
 /* ------------------------------ */
