@@ -50,7 +50,7 @@ sap.ui.define([ "jquery.sap.global", "./ResponsivePopover", "./Button", "./Toolb
 		 * @extends sap.ui.core.Control
 		 *
 		 * @author SAP SE
-		 * @version 1.50.3
+		 * @version 1.50.4
 		 *
 		 * @constructor
 		 * @public
@@ -681,6 +681,16 @@ sap.ui.define([ "jquery.sap.global", "./ResponsivePopover", "./Button", "./Toolb
 
 		MessagePopover.prototype.getHeaderButton = function () {
 			return this._oMessageView.getHeaderButton();
+		};
+
+		MessagePopover.prototype.setModel = function(oModel, sName) {
+			/* When a model is set to the MessagePopover it is propagated to all its aggregation
+				Unfortunately the MessageView is not an aggregation of the MessagePopover (due to some rendering issues)
+				Furthermore the MessageView is actually child of a ResponsivePopover
+				Therefore once the developer set a model to the MessagePopover we need to forward it to the internal MessageView */
+			this._oMessageView.setModel(oModel, sName);
+
+			return Control.prototype.setModel.apply(this, arguments);
 		};
 
 		["invalidate", "addStyleClass", "removeStyleClass", "toggleStyleClass", "hasStyleClass", "getBusyIndicatorDelay",

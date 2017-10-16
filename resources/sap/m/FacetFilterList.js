@@ -34,7 +34,7 @@ sap.ui.define(['jquery.sap.global', './List', './library'],
 	 * be closed.
 	 *
 	 * @extends sap.m.List
-	 * @version 1.50.3
+	 * @version 1.50.4
 	 *
 	 * @constructor
 	 * @public
@@ -413,11 +413,17 @@ sap.ui.define(['jquery.sap.global', './List', './library'],
 			var sUpdateReason = oEvent.getParameter("reason");
 			sUpdateReason = sUpdateReason ? sUpdateReason.toLowerCase() : sUpdateReason;
 
-			if (sUpdateReason !== sap.ui.model.ChangeReason.Filter.toLowerCase()) {
+			if (sUpdateReason !== "growing" && sUpdateReason !== sap.ui.model.ChangeReason.Filter.toLowerCase()) {
+				this._oSelectedKeys = {};
+				this._getNonGroupItems().forEach(function(item) {
+					if (item.getSelected()) {
+						this._addSelectedKey(item.getKey(), item.getText());
+					}
+				}, this);
+			} else if (sUpdateReason === "growing") {
 				this._selectItemsByKeys();
 			}
 
-			this._cleanSelectedKeys();
 			this._updateFacetFilterButtonText();
 		});
 
@@ -675,26 +681,6 @@ sap.ui.define(['jquery.sap.global', './List', './library'],
 		return !!(this._oSelectedKeys[oItem && (oItem.getKey() || oItem.getText())]);
 	};
 
-	FacetFilterList.prototype._itemKeyExists = function(sKey) {
-		var aItemKeys = this._getAllItemKeys(),
-			i;
-		for (i = 0; i < aItemKeys.length; i++) {
-			if (aItemKeys[i] === sKey) {
-				return true;
-			}
-		}
-
-		return false;
-	};
-
-	FacetFilterList.prototype._cleanSelectedKeys = function() {
-		for (var oKey in this._oSelectedKeys) {
-			if (!this._itemKeyExists(oKey)) {
-				delete this._oSelectedKeys[oKey];
-			}
-		}
-	};
-
 	FacetFilterList.prototype._updateFacetFilterButtonText = function() {
 		if (this.getParent() && this.getParent()._setButtonText) {
 			this.getParent()._setButtonText(this);
@@ -734,6 +720,17 @@ sap.ui.define(['jquery.sap.global', './List', './library'],
 		bActive = this._getOriginalActiveState() || bSelected;
 		this.setActive(bActive);
 		jQuery.sap.delayedCall(0, this, this._updateSelectAllCheckBox);
+	};
+
+	/**
+	 * @private
+	 */
+	FacetFilterList.prototype.onItemTextChange = function(oItem, sNewValue) {
+		var sKeyName = oItem.getKey();
+
+		if (this._oSelectedKeys[sKeyName] && sNewValue) {
+			this._oSelectedKeys[sKeyName] = sNewValue;
+		}
 	};
 
 	/**
@@ -791,30 +788,6 @@ sap.ui.define(['jquery.sap.global', './List', './library'],
 
 	FacetFilterList.prototype._preserveOriginalActiveState = function () {
 		this._bOriginalActiveState = this.getActive();
-	};
-
-	/*
-	 * Returns all keys of the FacetFilterList items.
-	 * If aggregation items is bound keys will be get from the binding
-	 * otherwise the keys will be get from items aggregation
-	 * @private
-	 */
-	FacetFilterList.prototype._getAllItemKeys = function() {
-		var oBinding = this.getBinding("items");
-
-		if (oBinding && oBinding.oList) {
-			return oBinding.oList.map(this._getBindingItemKeyOrText);
-		}
-
-		return this.getItems(true).map(this._getFacetFilterItemKeyOrText);
-	};
-
-	FacetFilterList.prototype._getBindingItemKeyOrText = function (item) {
-		return item.key || item.text;
-	};
-
-	FacetFilterList.prototype._getFacetFilterItemKeyOrText = function (item) {
-		return item.getKey() || item.getText();
 	};
 
 	return FacetFilterList;

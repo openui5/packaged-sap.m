@@ -3730,6 +3730,58 @@
 			destroyFF(oFF);
 		});
 
+		// BCP: 1770321721
+		QUnit.test("Update FacetFilterList selectedKeys cache when text of bound item is changed.", function (assert) {
+			var done = assert.async(),
+				oModel = new sap.ui.model.json.JSONModel({
+					values: [{
+						text : "Val1",
+						key : "1"
+					}, {
+						text : "Val2",
+						key : "2"
+					}]
+				}),
+				oFF = new sap.m.FacetFilter(),
+				oFFL = new sap.m.FacetFilterList({
+					title : "List"
+				});
+
+			oFF.addList(oFFL);
+			oFF.placeAt("content");
+			oFFL.setModel(oModel);
+
+			oFFL.bindAggregation("items", {
+				path : "/values",
+				template : new sap.m.FacetFilterItem({
+					text : "{text}",
+					key : "{key}"
+				})
+			});
+
+			oFFL.getItems()[0].setSelected(true);
+
+			assert.equal(oFF._getSelectedItemsText(oFFL).length, 1, "Only one item is selected");
+			assert.equal(oFF._getSelectedItemsText(oFFL)[0], "Val1"), "Text of the selected item is Val1";
+
+			oModel.setProperty("/values", [{
+				text : "NewVal1",
+				key : "1"
+			}, {
+				text : "Val2",
+				key : "2"
+			}]);
+
+			oFFL.getItems()[0].setSelected(true);
+
+			oFFL.attachUpdateFinished(function () {
+				assert.equal(oFF._getSelectedItemsText(oFFL).length, 1, "Only one item is selected");
+				assert.equal(oFF._getSelectedItemsText(oFFL)[0], "NewVal1", "Text of the selected item is NewVal1");
+				destroyFF(oFF);
+				done();
+			});
+		});
+
 		QUnit.test("'All' checkbox to be unchecked when items are preselected and model is assigned later", function(assert) {
 			var done = assert.async();
 			var oFF = oSCHelper.createFFWithBinding();
@@ -4095,9 +4147,63 @@
 			});
 		});
 
+		//BCP: 1770254364
+		QUnit.test("Update on a model remembers selection properly", function(assert) {
+			//arrange
+			var done = assert.async(),
+				data = [{
+					key : "key1",
+					text: "text1",
+					selected: false
+				},{
+					key : "key2",
+					text : "text2",
+					selected : true
+				}],
+				newData = [{
+					key : "key1",
+					text: "text1",
+					selected: false
+				},{
+					key : "key2",
+					text : "text2",
+					selected : false
+				}],
+				oFF = new sap.m.FacetFilter(),
+				oFFList = new sap.m.FacetFilterList({
+					title: "test",
+					key: "test"
+				}),
+				oModel= new sap.ui.model.json.JSONModel(data);
+
+			oFFList.bindItems("/", new sap.m.FacetFilterItem({
+				key : '{key}',
+				text : '{text}',
+				selected : '{selected}'
+			}));
+			oFF.addList(oFFList);
+			oFFList.setModel(oModel);
+
+			oFF.placeAt('content');
+			sap.ui.getCore().applyChanges();
+
+			//act
+			oModel.setData(newData);
+			oModel.updateBindings();
+
+			//this event handler is attached second, so it asserts after the original event handler has done the job (applied the fix)
+			oFFList.attachUpdateFinished(function() {
+				//assert
+				assert.equal(oFF._getButtonForList(oFFList).getText(), "test", "button has the correct title after update items binding");
+				assert.equal(oFFList.getSelectedKeys()["key2"], null, "key2 is not selected");
+				oFF.destroy();
+				done();
+			});
+		});
+
 		QUnit.test("Keep selected items when updatedFinished event is fired (eg. when Growing)", function(assert) {
 			var done = assert.async(),
-				aSelectedKeys = [],
+				aSelectedKeys,
 				aSelectedItems = [],
 				aItemsData = [{key: "1", text: "Val1"},{key: "2", text: "Val2"},{key: "3", text: "Val3"}],
 				oFF = new sap.m.FacetFilter(),
@@ -4131,11 +4237,7 @@
 			assert.equal(aSelectedItems[0].getKey(), "1", "First item key should be correct");
 			assert.equal(aSelectedItems[1].getKey(), "3", "Second item key should be correct");
 
-			oFFL.fireUpdateFinished({
-				reason : "Growing",
-				actual : 3,
-				total : 3
-			});
+			oFFL._oGrowingDelegate.requestNewPage();
 
 			oFFL.attachUpdateFinished(function() {
 				//assert

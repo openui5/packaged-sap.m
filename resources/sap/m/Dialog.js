@@ -67,7 +67,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './InstanceManager', './Associative
 		*
 		* @implements sap.ui.core.PopupInterface
 		* @author SAP SE
-		* @version 1.50.3
+		* @version 1.50.4
 		*
 		* @constructor
 		* @public
@@ -930,6 +930,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './InstanceManager', './Associative
 			if (!this._header) {
 				// set parent of header to detect changes on title
 				this._header = new Bar(this.getId() + "-header").addStyleClass("sapMDialogTitle");
+				this._header._setRootAccessibilityRole("heading");
 				this.setAggregation("_header", this._header, false);
 			}
 		};
@@ -1718,6 +1719,27 @@ sap.ui.define(['jquery.sap.global', './Bar', './InstanceManager', './Associative
 					}
 				};
 
+				function mouseUpHandler() {
+					var $dialog = that.$(),
+						$dialogContent = that.$('cont'),
+						dialogHeight,
+						dialogBordersHeight;
+
+					$w.off("mouseup mousemove");
+
+					if (bResize) {
+						that._$dialog.removeClass('sapMDialogResizing');
+
+						// Take the height from the styles attribute of the DOM element not from the calculated height.
+						// max-height is taken into account if we use calculated height and a wrong value is set for the dialog content's height.
+						// If no value is set for the height style fall back to calculated height.
+						// * Calculated height is the value taken by $dialog.height().
+						dialogHeight = parseInt($dialog[0].style.height, 10) || parseInt($dialog.height(), 10);
+						dialogBordersHeight = parseInt($dialog.css("border-top-width"), 10) + parseInt($dialog.css("border-bottom-width"), 10);
+						$dialogContent.height(dialogHeight + dialogBordersHeight);
+					}
+				}
+
 				if ((isHeaderClicked(e.target) && this.getDraggable()) || bResize) {
 					that._bDisableRepositioning = true;
 
@@ -1740,6 +1762,12 @@ sap.ui.define(['jquery.sap.global', './Bar', './InstanceManager', './Associative
 
 				if (isHeaderClicked(e.target) && this.getDraggable()) {
 					$w.on("mousemove", function (event) {
+
+						if (event.buttons === 0) {
+							mouseUpHandler();
+							return;
+						}
+
 						fnMouseMoveHandler(function () {
 							that._bDisableRepositioning = true;
 
@@ -1802,26 +1830,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './InstanceManager', './Associative
 					return;
 				}
 
-				$w.on("mouseup", function () {
-					var $dialog = that.$(),
-						$dialogContent = that.$('cont'),
-						dialogHeight,
-						dialogBordersHeight;
-
-					$w.off("mouseup mousemove");
-
-					if (bResize) {
-						that._$dialog.removeClass('sapMDialogResizing');
-
-						// Take the height from the styles attribute of the DOM element not from the calculated height.
-						// max-height is taken into account if we use calculated height and a wrong value is set for the dialog content's height.
-						// If no value is set for the height style fall back to calculated height.
-						// * Calculated height is the value taken by $dialog.height().
-						dialogHeight = parseInt($dialog[0].style.height, 10) || parseInt($dialog.height(), 10);
-						dialogBordersHeight = parseInt($dialog.css("border-top-width"), 10) + parseInt($dialog.css("border-bottom-width"), 10);
-						$dialogContent.height(dialogHeight + dialogBordersHeight);
-					}
-				});
+				$w.on("mouseup", mouseUpHandler);
 
 				e.preventDefault();
 				e.stopPropagation();

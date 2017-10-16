@@ -53,7 +53,7 @@ sap.ui.define([
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.50.3
+	 * @version 1.50.4
 	 *
 	 * @constructor
 	 * @public
@@ -2165,7 +2165,9 @@ sap.ui.define([
 				this._oItemForDelete = null;
 			} else {
 				if (this.aItems.length === 1) {
-					this.sFocusId = this._oFileUploader.$().find(":button")[0].id;
+					if (!this.getUploadButtonInvisible()) {
+						this.sFocusId = this._oFileUploader.$().find(":button")[0].id;
+					}
 				} else if (this._oItemForDelete._iLineNumber < this.aItems.length - 1) {
 					this.sFocusId = this.aItems[this._oItemForDelete._iLineNumber + 1].getId() + "-cli";
 				} else {

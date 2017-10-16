@@ -21,7 +21,7 @@ function (library, Control, ResizeHandler, ItemNavigation, Device, jQuery) {
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.50.3
+	 * @version 1.50.4
 	 *
 	 * @constructor
 	 * @private
@@ -648,6 +648,7 @@ function (library, Control, ResizeHandler, ItemNavigation, Device, jQuery) {
 				enabled: this._activeStep >= (i + 1),
 				press: function (stepNumber) {
 					this._moveToStep(stepNumber);
+					this.fireStepChanged({	current: stepNumber});
 				}.bind(this, i + 1)
 			}));
 		}

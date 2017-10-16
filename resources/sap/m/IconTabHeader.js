@@ -25,7 +25,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.50.3
+	 * @version 1.50.4
 	 *
 	 * @constructor
 	 * @public
@@ -658,6 +658,27 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 			}
 		}
 		return this;
+	};
+
+	/**
+	 * Returns all the visible tab filters.
+	 *
+	 * @private
+	 */
+	IconTabHeader.prototype.getVisibleTabFilters = function() {
+		var aItems = this.getTabFilters(),
+			aVisibleItems = [],
+			oItem;
+
+		for (var i = 0; i < aItems.length; i++) {
+			oItem = aItems[i];
+
+			if (oItem.getVisible()) {
+				aVisibleItems.push(oItem);
+			}
+		}
+
+		return aVisibleItems;
 	};
 
 	/**
