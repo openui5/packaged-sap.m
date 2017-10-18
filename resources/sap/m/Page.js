@@ -5,10 +5,13 @@
  */
 
 // Provides control sap.m.Page.
-sap.ui.define(["jquery.sap.global", "./library", "sap/ui/core/Control", "sap/ui/core/delegate/ScrollEnablement", "sap/m/Title", "sap/m/Button", "sap/m/Bar"],
-	function (jQuery, library, Control, ScrollEnablement, Title, Button, Bar) {
+sap.ui.define(["jquery.sap.global", "./library", "sap/ui/core/Control", "sap/ui/core/delegate/ScrollEnablement", "sap/m/Title", "sap/m/Button", "sap/m/Bar", "sap/ui/core/AccessibleLandmarkRole"],
+	function (jQuery, library, Control, ScrollEnablement, Title, Button, Bar, AccessibleLandmarkRole) {
 		"use strict";
 
+		var DIV = "div";
+		var HEADER = "header";
+		var FOOTER = "footer";
 
 		/**
 		 * Constructor for a new Page.
@@ -36,7 +39,7 @@ sap.ui.define(["jquery.sap.global", "./library", "sap/ui/core/Control", "sap/ui/
 		 * <b>Note:</b> All accessibility information for the different areas and their corresponding ARIA roles is set in the aggregation <code>landmarkInfo</code> of type {@link sap.m.PageAccessibleLandmarkInfo}
 		 *
 		 * @author SAP SE
-		 * @version 1.44.21
+		 * @version 1.44.22
 		 *
 		 * @constructor
 		 * @public
@@ -521,6 +524,78 @@ sap.ui.define(["jquery.sap.global", "./library", "sap/ui/core/Control", "sap/ui/
 		Page.prototype.getScrollDelegate = function () {
 			return this._oScroller;
 		};
+
+		/**
+		 * Formats <code>PageAccessibleLandmarkInfo</code> role and label of the provided <code>Page</code> part.
+		 *
+		 * @param {sap.m.PageAccessibleLandmarkInfo} oLandmarkInfo Page LandmarkInfo
+		 * @param {string} sPartName part of the page
+		 * @returns {object}
+		 * @private
+		 */
+		Page.prototype._formatLandmarkInfo = function (oLandmarkInfo, sPartName) {
+			if (oLandmarkInfo) {
+				var sRole = oLandmarkInfo["get" + sPartName + "Role"]() || "",
+					sLabel = oLandmarkInfo["get" + sPartName + "Label"]() || "";
+
+				if (sRole === AccessibleLandmarkRole.None) {
+					sRole = '';
+				}
+
+				return {
+					role: sRole.toLowerCase(),
+					label: sLabel
+				};
+			}
+
+			return {};
+		};
+
+		/**
+		 * Returns HTML tag of the page header.
+		 *
+		 * @param {sap.m.PageAccessibleLandmarkInfo} oLandmarkInfo Page LandmarkInfo
+		 * @returns {string}
+		 * @private
+		 */
+		Page.prototype._getHeaderTag = function (oLandmarkInfo) {
+			if (oLandmarkInfo && oLandmarkInfo.getHeaderRole() !== AccessibleLandmarkRole.None) {
+				return DIV;
+			}
+
+			return HEADER;
+		};
+
+		/**
+		 * Returns HTML tag of the page sub-header.
+		 *
+		 * @param {sap.m.PageAccessibleLandmarkInfo} oLandmarkInfo Page LandmarkInfo
+		 * @returns {string}
+		 * @private
+		 */
+		Page.prototype._getSubHeaderTag = function (oLandmarkInfo) {
+			if (oLandmarkInfo && oLandmarkInfo.getSubHeaderRole() !== AccessibleLandmarkRole.None) {
+				return DIV;
+			}
+
+			return HEADER;
+		};
+
+		/**
+		 * Returns HTML tag of the page footer.
+		 *
+		 * @param {sap.m.PageAccessibleLandmarkInfo} oLandmarkInfo Page LandmarkInfo
+		 * @returns {string}
+		 * @private
+		 */
+		Page.prototype._getFooterTag = function (oLandmarkInfo) {
+			if (oLandmarkInfo && oLandmarkInfo.getFooterRole() !== AccessibleLandmarkRole.None) {
+				return DIV;
+			}
+
+			return FOOTER;
+		};
+
 
 		//*** API Methods ***
 

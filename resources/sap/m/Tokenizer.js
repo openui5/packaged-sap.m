@@ -30,7 +30,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * The tokenizer can only be used as part of {@link sap.m.MultiComboBox MultiComboBox},{@link sap.m.MultiInput MultiInput} or {@link sap.ui.comp.valuehelpdialog.ValueHelpDialog ValueHelpDialog}
 	 *
 	 * @author SAP SE
-	 * @version 1.44.21
+	 * @version 1.44.22
 	 *
 	 * @constructor
 	 * @public
@@ -926,7 +926,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 
 	Tokenizer.prototype.setTokens = function(aTokens) {
 		var oldTokens = this.getTokens();
-		this.destroyTokens();
+		this.removeAllTokens(false);
 
 		var i;
 		for (i = 0; i < aTokens.length; i++) {

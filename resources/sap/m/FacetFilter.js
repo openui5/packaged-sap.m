@@ -5,8 +5,8 @@
 */
 
 // Provides control sap.m.FacetFilter.
-sap.ui.define(['jquery.sap.global', './NavContainer', './library', 'sap/ui/core/Control', 'sap/ui/core/IconPool', 'sap/ui/core/delegate/ItemNavigation'],
-	function(jQuery, NavContainer, library, Control, IconPool, ItemNavigation) {
+sap.ui.define(['jquery.sap.global', './NavContainer', './library', 'sap/ui/core/Control', 'sap/ui/core/IconPool', 'sap/ui/core/delegate/ItemNavigation', 'sap/ui/core/InvisibleText'],
+	function(jQuery, NavContainer, library, Control, IconPool, ItemNavigation, InvisibleText) {
 	"use strict";
 
 
@@ -68,7 +68,7 @@ sap.ui.define(['jquery.sap.global', './NavContainer', './library', 'sap/ui/core/
 	 *
 	 * @extends sap.ui.core.Control
 	 * @implements sap.ui.core.IShrinkable
-	 * @version 1.44.21
+	 * @version 1.44.22
 	 *
 	 * @constructor
 	 * @public
@@ -385,6 +385,8 @@ sap.ui.define(['jquery.sap.global', './NavContainer', './library', 'sap/ui/core/
 		// to find a button for a list.
 		this._buttons = {};
 
+		this._aOwnedLabels = [];
+
 		// Remove icon map used to quickly get the remove icon for a given list. This avoids having to iterate through the removeIcon aggregation
 		// to find an icon for a list.
 		this._removeFacetIcons = {};
@@ -423,12 +425,23 @@ sap.ui.define(['jquery.sap.global', './NavContainer', './library', 'sap/ui/core/
 	 * @private
 	 */
 	FacetFilter.prototype.exit = function() {
+		var oCtrl;
 
 		sap.ui.getCore().detachIntervalTimer(this._checkOverflow, this);
 
 		if (this.oItemNavigation) {
 			this.removeDelegate(this.oItemNavigation);
 			this.oItemNavigation.destroy();
+		}
+
+		if (this._aOwnedLabels) {
+			this._aOwnedLabels.forEach(function (sId) {
+				oCtrl = sap.ui.getCore().byId(sId);
+				if (oCtrl) {
+					oCtrl.destroy();
+				}
+			});
+			this._aOwnedLabels = null;
 		}
 	};
 
@@ -1762,6 +1775,14 @@ oPopover.setContentWidth("30%");
 				}
 			});
 
+			var sFacetFilterText = sap.ui.getCore().getLibraryResourceBundle("sap.m").getText("FACETFILTER_ARIA_FACET_FILTER"),
+				sInvisibleLabelId = new InvisibleText({text: sFacetFilterText}).toStatic().getId();
+
+			this._aOwnedLabels.push(sInvisibleLabelId);
+
+			oSummaryBar._setRootAccessibilityRole("button");
+			oSummaryBar._sInternalAriaLabelId = sInvisibleLabelId;
+
 			this.setAggregation("summaryBar", oSummaryBar);
 		}
 		return oSummaryBar;
@@ -2095,6 +2116,12 @@ oPopover.setContentWidth("30%");
 
 		var that = this;
 		var fnTouchStart = function(evt) {
+			var sType = that.getType();
+
+			// If FacetFilter type is Light do nothing on touch start (we do not have header to be scrolled)
+			if (sType === sap.m.FacetFilterType.Light) {
+				return;
+			}
 
 			evt.preventDefault();
 
@@ -2110,6 +2137,12 @@ oPopover.setContentWidth("30%");
 		};
 
 		var fnTouchMove = function(evt) {
+			var sType = that.getType();
+
+			// If FacetFilter type is Light do nothing on touch move (we do not have header to be scrolled)
+			if (sType === sap.m.FacetFilterType.Light) {
+				return;
+			}
 
 			var dx = evt.touches[0].pageX - that.startTouchX;
 
@@ -2130,6 +2163,12 @@ oPopover.setContentWidth("30%");
 		};
 
 		var fnTouchEnd = function(evt) {
+			var sType = that.getType();
+
+			// If FacetFilter type is Light do nothing on touch end (we do not have header to be scrolled)
+			if (sType === sap.m.FacetFilterType.Light) {
+				return;
+			}
 
 			if (that._bTouchNotMoved === false) { // swiping ends now
 				evt.preventDefault();
