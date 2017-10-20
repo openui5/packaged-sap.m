@@ -22,7 +22,7 @@ sap.ui.define(['jquery.sap.global', './List', './library'],
 	 * @extends sap.m.List
 	 *
 	 * @author SAP SE
-	 * @version 1.44.22
+	 * @version 1.44.23
 	 *
 	 * @constructor
 	 * @public

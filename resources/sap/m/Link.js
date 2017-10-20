@@ -23,7 +23,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @implements sap.ui.core.IShrinkable
 	 *
 	 * @author SAP SE
-	 * @version 1.44.22
+	 * @version 1.44.23
 	 *
 	 * @constructor
 	 * @public
@@ -204,7 +204,11 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		this.setProperty("href", sUri, true);
 		if (this.getEnabled()) {
 			sUri = this.getProperty("href");
-			this.$().attr("href", sUri);
+			if (!sUri) {
+				this.$().removeAttr("href");
+			} else {
+				this.$().attr("href", sUri);
+			}
 		}
 		return this;
 	};
@@ -277,7 +281,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 				$this.attr("disabled", true);
 				$this.attr("tabindex", "-1");
 				$this.attr("aria-disabled", true);
-				$this.attr("href", "#");
+				$this.removeAttr("href");
 			}
 		}
 		return this;

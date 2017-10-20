@@ -4692,6 +4692,9 @@ html[dir=rtl][data-sap-ui-browser^=ed] .sapUiRespGridMedia-Std-LargeDesktop.sapU
   font-family: Arial, Helvetica, sans-serif;
   font-size: 0.875rem;
 }
+.sapMLnk:not(.sapMLnkDsbl) {
+  cursor: pointer;
+}
 .sapMLnk:active {
   background-color: transparent;
   /* required for IE10 */
