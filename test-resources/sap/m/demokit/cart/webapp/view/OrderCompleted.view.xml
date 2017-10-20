@@ -1,0 +1,24 @@
+<mvc:View
+	controllerName="sap.ui.demo.cart.controller.OrderCompleted"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns="sap.m">
+	<Page
+		id="orderCompletedPage"
+		title="{i18n>orderCompletedTitle}"
+		class="sapUiContentPadding">
+		<content>
+			<FormattedText htmlText="{i18n>orderCompletedText}" />
+		</content>
+		<footer>
+			<Bar>
+				<contentRight>
+					<Button
+						id="returnToShopButton"
+						type="Emphasized"
+						text="{i18n>returnToShopButtonText}"
+						press="onReturnToShopButtonPress" />
+				</contentRight>
+			</Bar>
+		</footer>
+	</Page>
+</mvc:View>
