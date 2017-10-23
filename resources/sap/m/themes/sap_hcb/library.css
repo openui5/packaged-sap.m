@@ -5644,6 +5644,9 @@ html[data-sap-ui-browser^="sf"] .sapMInputBaseInner::selection,
 html[data-sap-ui-browser^="cr"] .sapMInputBaseInner::selection {
   background: rgba(15, 93, 148, 0.99);
 }
+html[data-sap-ui-browser^="ed"] .sapMInputBaseInner {
+  line-height: 0;
+}
 .sapMInputBaseWarningInner {
   background: #000000;
   border-color: #ffffff;
@@ -11011,29 +11014,14 @@ html.sap-desktop .sapUiFioriObjectPage > section {
 }
 .sapMPanelExpandableIcon {
   position: absolute;
-  width: 3rem;
-  line-height: 3rem;
+  width: 1.5rem;
+  line-height: 1.5rem;
   font-size: 1rem;
+  margin: 0 0.75rem;
   top: 50%;
   -webkit-transform: translateY(-50%);
   transform: translateY(-50%);
   color: #ffffff;
-}
-.sapMPanelExpandableIcon:focus {
-  outline: none;
-}
-.sapMPanelExpandableIcon:focus::after {
-  content: "";
-  position: absolute;
-  pointer-events: none;
-  top: 0.75rem;
-  right: 0.75rem;
-  bottom: 0.75rem;
-  left: 0.75rem;
-  border: 1px dotted #ffffff;
-}
-html[data-sap-ui-browser^="ie"].sap-desktop .sapMPanelExpandableIcon:focus::after {
-  border-style: dashed;
 }
 .sapMPanelExpandableIconExpanded {
   display: inline-block;

@@ -25,7 +25,7 @@ sap.ui.define(['jquery.sap.global', './FlexBoxStylingHelper', './FlexItemData', 
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.48.10
+	 * @version 1.48.11
 	 *
 	 * @constructor
 	 * @public

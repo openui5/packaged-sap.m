@@ -50,7 +50,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.48.10
+	 * @version 1.48.11
 	 *
 	 * @constructor
 	 * @public
@@ -315,7 +315,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 			press: function () {
 				that.setExpanded(!that.getExpanded());
 			}
-		}).addStyleClass("sapMPanelExpandableIcon sapUiIconNoOutline");
+		}).addStyleClass("sapMPanelExpandableIcon");
 	};
 
 	Panel.prototype._getIcon = function () {
