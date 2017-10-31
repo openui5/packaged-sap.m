@@ -75,7 +75,7 @@ sap.ui.define(['jquery.sap.global', './NavContainer', './library', 'sap/ui/core/
 	 *
 	 * @extends sap.ui.core.Control
 	 * @implements sap.ui.core.IShrinkable
-	 * @version 1.50.4
+	 * @version 1.50.5
 	 *
 	 * @constructor
 	 * @public
@@ -2128,6 +2128,12 @@ sap.ui.define(['jquery.sap.global', './NavContainer', './library', 'sap/ui/core/
 
 		var that = this;
 		var fnTouchStart = function(evt) {
+			var sType = that.getType();
+
+			// If FacetFilter type is Light do nothing on touch start (we do not have header to be scrolled)
+			if (sType === sap.m.FacetFilterType.Light) {
+				return;
+			}
 
 			evt.preventDefault();
 
@@ -2143,6 +2149,12 @@ sap.ui.define(['jquery.sap.global', './NavContainer', './library', 'sap/ui/core/
 		};
 
 		var fnTouchMove = function(evt) {
+			var sType = that.getType();
+
+			// If FacetFilter type is Light do nothing on touch move (we do not have header to be scrolled)
+			if (sType === sap.m.FacetFilterType.Light) {
+				return;
+			}
 
 			var dx = evt.touches[0].pageX - that.startTouchX;
 
@@ -2163,6 +2175,12 @@ sap.ui.define(['jquery.sap.global', './NavContainer', './library', 'sap/ui/core/
 		};
 
 		var fnTouchEnd = function(evt) {
+			var sType = that.getType();
+
+			// If FacetFilter type is Light do nothing on touch end (we do not have header to be scrolled)
+			if (sType === sap.m.FacetFilterType.Light) {
+				return;
+			}
 
 			if (that._bTouchNotMoved === false) { // swiping ends now
 				evt.preventDefault();

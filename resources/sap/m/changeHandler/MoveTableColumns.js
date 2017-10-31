@@ -14,7 +14,7 @@ sap.ui.define([
 	 *
 	 * @alias sap.m.changeHandler.MoveTableColumns
 	 * @author SAP SE
-	 * @version 1.50.4
+	 * @version 1.50.5
 	 * @experimental Since 1.48
 	 */
 	var MoveTableColumns = {};
@@ -63,7 +63,7 @@ sap.ui.define([
 
 				var oMovedCell = aCells[iSourceIndex];
 				oModifier.removeAggregation(oRow, CELLS_AGGREGATION_NAME, oMovedCell);
-				oModifier.insertAggregation(oRow, CELLS_AGGREGATION_NAME, oMovedCell, iTargetIndex);
+				oModifier.insertAggregation(oRow, CELLS_AGGREGATION_NAME, oMovedCell, iTargetIndex, oView);
 			},
 			moveColumns = function (iSourceIndex, iTargetIndex) {
 				oModifier.getAggregation(oTable, ITEMS_AGGREGATION_NAME).forEach(function (oItem) {
@@ -109,7 +109,7 @@ sap.ui.define([
 
 			// move children in `columns` aggregation
 			oModifier.removeAggregation(oTable, COLUMNS_AGGREGATION_NAME, oMovedElement);
-			oModifier.insertAggregation(oTable, COLUMNS_AGGREGATION_NAME, oMovedElement, iTargetIndex);
+			oModifier.insertAggregation(oTable, COLUMNS_AGGREGATION_NAME, oMovedElement, iTargetIndex, oView);
 
 			// move children in `items` aggregation (actual content)
 			var oTemplate = oModifier.getBindingTemplate(oTable, ITEMS_AGGREGATION_NAME);

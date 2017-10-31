@@ -23,7 +23,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.50.4
+	 * @version 1.50.5
 	 *
 	 * @constructor
 	 * @public
@@ -118,6 +118,10 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 
 			fAnimationDuration = bUseAnimations ? Math.abs(fPercentDiff) * 20 : 0;
 			$progressBar = this.$("bar");
+			// Stop currently running animation and start new one.
+			// In case of multiple setPercentValue calls all animations will run and it will take some time until the last value is animated,
+			// which is the one, actually valuable.
+			$progressBar.stop();
 			$progressBar.animate({
 				"flex-basis" : fPercentValue + "%"
 			}, fAnimationDuration, "linear", function() {
