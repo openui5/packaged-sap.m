@@ -11198,6 +11198,9 @@ html[data-sap-ui-animation='on'][data-sap-ui-browser^="ed"] .sapMPanelContent {
   padding-left: 0;
   padding-bottom: 0;
 }
+html[data-sap-ui-browser^="ie"].sap-desktop .sapMPlanCal .sapUiCalRow:not(.sapUiCalNoNameLine) > .sapUiCalItems {
+  display: block;
+}
 .sapMPlanCal > .sapMList > .sapMListInfoTBar > .sapUiCalInt > .sapUiCalContent > .sapUiCalContentOver {
   bottom: 0;
 }
