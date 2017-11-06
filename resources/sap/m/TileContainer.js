@@ -22,7 +22,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.48.12
+	 * @version 1.48.13
 	 *
 	 * @constructor
 	 * @public
@@ -453,9 +453,15 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 					return bRtl ? (iCurrentPage === iCount - 1) : (iCurrentPage === 0);
 				},
 				oldCurrentPageIsLast: function() {
+					if (isNaN(iOldCurrentPage)) {
+						return;
+					}
 					return bRtl ? (iOldCurrentPage === 0) : (iOldCurrentPage === iOldCount - 1);
 				},
 				oldCurrentPageIsFirst: function() {
+					if (isNaN(iOldCurrentPage)) {
+						return;
+					}
 					return bRtl ? (iOldCurrentPage === iOldCount - 1) : (iOldCurrentPage === 0);
 				},
 				/*Is the 'currentPage is last' has changed. Example - it wasn't last before, but now it is and vice versa*/
@@ -1092,6 +1098,11 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 
 		aVisibleTiles = aVisibleTiles || this._getVisibleTiles();
 		iIndex = this._indexOfVisibleTile(aAllTiles[iIndex]);//find tile's index amongst visible tiles
+
+		if (!!iIndex && iIndex >= 0) {
+			this._renderTilesInTheSamePage(iIndex, aVisibleTiles);
+		}
+
 		this._applyPageStartIndex(iIndex, aVisibleTiles);
 
 		this._oPagesInfo.setCurrentPage(Math.floor(this._iCurrentTileStartIndex / this._iMaxTiles));
