@@ -42,7 +42,7 @@ sap.ui.define(['jquery.sap.global', './List', './library', 'sap/ui/model/ChangeR
 	 * be closed.
 	 *
 	 * @extends sap.m.List
-	 * @version 1.52.0
+	 * @version 1.52.1
 	 *
 	 * @constructor
 	 * @public
@@ -428,7 +428,9 @@ sap.ui.define(['jquery.sap.global', './List', './library', 'sap/ui/model/ChangeR
 						this._addSelectedKey(item.getKey(), item.getText());
 					}
 				}, this);
-			} else if (sUpdateReason === "growing") {
+			}
+
+			if (sUpdateReason !== ChangeReason.Filter.toLowerCase()) {
 				this._selectItemsByKeys();
 			}
 

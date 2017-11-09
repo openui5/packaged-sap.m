@@ -3156,19 +3156,20 @@ html.sap-desktop .sapMFeedListItemHasFigure {
   line-height: 1.4;
   font-family: Arial, Helvetica, sans-serif;
   font-weight: bold;
+  font-size: 0.875rem;
+  color: #333333;
 }
-html[dir=rtl] .sapMFeedListItemTextName {
-  /* 	In rtl mode, this will be converted to 'float: right;' which
-		is the correct value
-	*/
-  float: left;
+html.sap-desktop .sapMFeedListItemTextName,
+html.sap-tablet .sapMFeedListItemTextName {
   margin-right: 0.3rem;
 }
+html[dir=rtl] .sapMFeedListItemTextName {
+  /* In rtl mode, this will be converted to 'float: right;' which is the correct value */
+  float: left;
+}
 html[dir=rtl].sap-phone .sapMFeedListItemTextName {
-  /* 	Overwrite rtl values for phones
-	*/
+  /* 	Overwrite rtl values for phones */
   float: none;
-  margin-right: 0;
 }
 .sapMFeedListItemFooter {
   margin-top: 0.375rem;
@@ -3190,6 +3191,9 @@ html[dir=rtl].sap-phone .sapMFeedListItemTextName {
 }
 .sapMFeedListItemTitleDiv > .sapMLIBContent {
   flex-basis: auto;
+}
+html[data-sap-ui-browser^="ie"] .sapMFeedListItemTitleDiv > .sapMLIBContent {
+  width: 100%;
 }
 /* phone adoption */
 html.sap-phone .sapMFeedListItemHeader {
@@ -3275,10 +3279,6 @@ html.sap-desktop .sapMFeedListItem .sapMLnk:focus {
 .sapMLIBActive .sapMFeedListItem span.sapMFeedListItemImageInactive {
   color: #000000;
 }
-.sapMFeedListItemTextName {
-  font-size: 0.875rem;
-  color: #333333;
-}
 .sapMFeedListItemFooter {
   font-size: 0.75rem;
   color: #000000;
@@ -3360,15 +3360,28 @@ html.sap-phone .sapMFeedListItemTimestamp {
 .sapMFeedListItemActionButton {
   float: right;
   position: relative;
-  margin-top: -0.75rem;
-  margin-right: -0.5rem;
+  margin: -0.75rem -0.5rem 0.5rem 0.5rem;
 }
 .sapUiSizeCompact .sapMFeedListItemActionButton {
   margin-top: -0.6875rem;
 }
 html.sap-phone .sapMFeedListItem .sapMFeedListItemActionButton {
-  margin-left: 0.75rem;
-  margin-bottom: 0.25rem;
+  margin: -0.1875rem 0px 0px 0.75rem;
+}
+.sapMFeedListItemActionButton + .sapMFeedListItemText .sapMFeedListItemTextName,
+.sapMFeedListItemActionButton + .sapMFeedListItemHeader .sapMFeedListItemTextName {
+  max-width: calc(100% - 2.8rem);
+  /* 2.5rem width of button in cozy mode + 0.3rem margin-right */
+  display: inline-block;
+}
+.sapUiSizeCompact .sapMFeedListItemActionButton + .sapMFeedListItemText .sapMFeedListItemTextName,
+.sapUiSizeCompact .sapMFeedListItemActionButton + .sapMFeedListItemHeader .sapMFeedListItemTextName {
+  max-width: calc(100% - 2.3rem);
+  /* 2rem width of button in compact mode */
+}
+html.sap-phone .sapMFeedListItemActionButton + .sapMFeedListItemText .sapMFeedListItemTextName,
+html.sap-phone .sapMFeedListItemActionButton + .sapMFeedListItemHeader .sapMFeedListItemTextName {
+  max-width: 100%;
 }
 /* ============================== */
 /* CSS for control sap.m/FlexBox  */
@@ -4627,16 +4640,6 @@ html.sap-phone .sapMITB .sapMITBHead {
   vertical-align: top;
   padding: 0;
 }
-.sapMITBScrollContainer {
-  display: block;
-  margin: 0 1.75rem;
-  /* the same padding as on the sapMITBHead is needed
-	to correct the scrolling calculations*/
-  padding: 0 1px;
-}
-.sapMITHOverflowList .sapMITBScrollContainer {
-  margin: 0 4.25rem 0 1.75rem;
-}
 html.sap-phone .sapMITBScrollContainer {
   margin: 0 1rem;
   padding: 0;
@@ -4995,28 +4998,6 @@ html.sap-phone .sapMITBSepLine {
   top: 1rem;
   color: #000000;
 }
-.sapMITBArrowScrollLeft {
-  left: 0.25rem;
-  padding: 1rem 0.4rem;
-}
-.sapMITBArrowScrollRight {
-  padding: 1rem 0.4rem;
-  right: 0.25rem;
-}
-.sapMITHOverflowList .sapMITBArrowScrollRight {
-  right: 2.75rem;
-}
-.sapMITBArrowScrollLeftTextOnly {
-  left: 0.25rem;
-  padding: 1.0625rem 0.4rem;
-}
-.sapMITBArrowScrollRightTextOnly {
-  padding: 1.0625rem 0.4rem;
-  right: 0.25rem;
-}
-.sapMITHOverflowList .sapMITBArrowScrollRightTextOnly {
-  right: 2.75rem;
-}
 html.sap-phone .sapMITBArrowScrollLeft {
   left: 0.25rem;
   padding: 1rem 0;
@@ -5069,20 +5050,9 @@ html.sap-desktop .sapMITBItem.sapMITBAll {
 .sapMITH {
   position: relative;
 }
-.sapMITH .sapMBtn {
-  position: absolute;
-  top: 1rem;
-  right: 0;
-  visibility: hidden;
-  padding-right: 0.25rem;
-  outline: none;
-}
 html.sap-phone .sapMITH .sapMBtn.sapMBtnTextOnly,
 .sapMITH .sapMBtn.sapMBtnInline {
   top: 1rem;
-}
-.sapMITH .sapMBtn.sapMBtnTextOnly {
-  top: 1.25rem;
 }
 .sapMITH .sapMBtn.sapMBtnNoText {
   top: 1rem;
@@ -5105,112 +5075,153 @@ html.sap-phone .sapMITH .sapMBtn.sapMBtnTextOnly,
 html.sap-phone .sapUiSizeCompact .sapMITH .sapMBtn.sapMBtnTextOnly {
   top: 1.25rem;
 }
-/* overrides responsive settings */
-@media (max-width: 599px) {
-  .sapMITB.sapUiNoContentPadding .sapMITBHead,
-  .sapMITB.sapUiResponsiveContentPadding .sapMITBHead {
-    margin: 1rem 1rem 0 0;
-  }
-  .sapMITB.sapUiNoContentPadding .sapMITBScrollContainer,
-  .sapMITB.sapUiResponsiveContentPadding .sapMITBScrollContainer {
-    margin: 0 1rem;
-  }
-  .sapMITB.sapUiNoContentPadding .sapMITHOverflowList .sapMITBScrollContainer,
-  .sapMITB.sapUiResponsiveContentPadding .sapMITHOverflowList .sapMITBScrollContainer {
-    margin: 0 4rem 0 1rem;
-  }
-  .sapMITB.sapUiNoContentPadding .sapMITBArrowScrollLeft,
-  .sapMITB.sapUiResponsiveContentPadding .sapMITBArrowScrollLeft {
-    left: 0.25rem;
-    padding: 1rem 0;
-  }
-  .sapMITB.sapUiNoContentPadding .sapMITBArrowScrollRight,
-  .sapMITB.sapUiResponsiveContentPadding .sapMITBArrowScrollRight {
-    padding: 1rem 0;
-    right: 0.25rem;
-  }
-  .sapMITB.sapUiNoContentPadding .sapMITHOverflowList .sapMITBArrowScrollRight,
-  .sapMITB.sapUiResponsiveContentPadding .sapMITHOverflowList .sapMITBArrowScrollRight {
-    right: 3.25rem;
-  }
-  .sapMITB.sapUiNoContentPadding .sapMITBArrowScrollLeftTextOnly,
-  .sapMITB.sapUiResponsiveContentPadding .sapMITBArrowScrollLeftTextOnly {
-    left: 0.25rem;
-    padding: 0.75rem 0;
-  }
-  .sapMITB.sapUiNoContentPadding .sapMITBArrowScrollRightTextOnly,
-  .sapMITB.sapUiResponsiveContentPadding .sapMITBArrowScrollRightTextOnly {
-    padding: 0.75rem 0;
-    right: 0.25rem;
-  }
-  .sapMITB.sapUiNoContentPadding .sapMITHOverflowList .sapMITBArrowScrollRightTextOnly,
-  .sapMITB.sapUiResponsiveContentPadding .sapMITHOverflowList .sapMITBArrowScrollRightTextOnly {
-    right: 3.25rem;
-  }
-  .sapMITB.sapUiNoContentPadding .sapMITBArrowScrollLeftTextOnly.sapMITBArrowScrollLeftInLine,
-  .sapMITB.sapUiResponsiveContentPadding .sapMITBArrowScrollLeftTextOnly.sapMITBArrowScrollLeftInLine,
-  .sapMITB.sapUiNoContentPadding .sapMITBArrowScrollRightTextOnly.sapMITBArrowScrollRightInLine,
-  .sapMITB.sapUiResponsiveContentPadding .sapMITBArrowScrollRightTextOnly.sapMITBArrowScrollRightInLine {
-    padding: 1.0625rem 0;
-  }
-  .sapMITB.sapUiNoContentPadding .sapMITH .sapMBtn.sapMBtnTextOnly,
-  .sapMITB.sapUiResponsiveContentPadding .sapMITH .sapMBtn.sapMBtnTextOnly {
-    top: 1.125rem;
-  }
+.sapMITH .sapMBtn {
+  position: absolute;
+  top: 1rem;
+  right: 0;
+  visibility: hidden;
+  padding-right: 0.25rem;
+  outline: none;
 }
-@media (min-width: 1024px) {
-  .sapMSplitContainerDetail .sapMITB.sapUiResponsiveContentPadding > .sapMITBContainerContent > .sapMITBContent {
-    padding: 1rem 2rem;
-  }
-  .sapMITH .sapMBtn {
-    padding-right: 0.5rem;
-  }
-  .sapMITB.sapUiNoContentPadding .sapMITBScrollContainer,
-  .sapMITB.sapUiResponsiveContentPadding .sapMITBScrollContainer {
-    margin: 0 2.75rem;
-  }
-  .sapMITB.sapUiNoContentPadding .sapMITHOverflowList .sapMITBScrollContainer,
-  .sapMITB.sapUiResponsiveContentPadding .sapMITHOverflowList .sapMITBScrollContainer {
-    margin: 0 5rem 0 2.75rem;
-  }
-  .sapMITB.sapUiNoContentPadding .sapMITBArrowScrollLeft,
-  .sapMITB.sapUiResponsiveContentPadding .sapMITBArrowScrollLeft {
-    left: 1.25rem;
-    padding: 1rem 0;
-  }
-  .sapMITB.sapUiNoContentPadding .sapMITBArrowScrollRight,
-  .sapMITB.sapUiResponsiveContentPadding .sapMITBArrowScrollRight {
-    padding: 1rem 0;
-    right: 1.25rem;
-  }
-  .sapMITB.sapUiNoContentPadding .sapMITHOverflowList .sapMITBArrowScrollRight,
-  .sapMITB.sapUiResponsiveContentPadding .sapMITHOverflowList .sapMITBArrowScrollRight {
-    right: 3.25rem;
-  }
-  .sapMITB.sapUiNoContentPadding .sapMITBArrowScrollLeftTextOnly,
-  .sapMITB.sapUiResponsiveContentPadding .sapMITBArrowScrollLeftTextOnly {
-    left: 1.25rem;
-    padding: 0.75rem 0;
-  }
-  .sapMITB.sapUiNoContentPadding .sapMITBArrowScrollRightTextOnly,
-  .sapMITB.sapUiResponsiveContentPadding .sapMITBArrowScrollRightTextOnly {
-    padding: 0.75rem 0;
-    right: 1.25rem;
-  }
-  .sapMITB.sapUiNoContentPadding .sapMITHOverflowList .sapMITBArrowScrollRightTextOnly,
-  .sapMITB.sapUiResponsiveContentPadding .sapMITHOverflowList .sapMITBArrowScrollRightTextOnly {
-    right: 3.50rem;
-  }
-  .sapMITB.sapUiNoContentPadding .sapMITBArrowScrollLeftTextOnly.sapMITBArrowScrollLeftInLine,
-  .sapMITB.sapUiResponsiveContentPadding .sapMITBArrowScrollLeftTextOnly.sapMITBArrowScrollLeftInLine,
-  .sapMITB.sapUiNoContentPadding .sapMITBArrowScrollRightTextOnly.sapMITBArrowScrollRightInLine,
-  .sapMITB.sapUiResponsiveContentPadding .sapMITBArrowScrollRightTextOnly.sapMITBArrowScrollRightInLine {
-    padding: 1.0625rem 0;
-  }
-  .sapMITB.sapUiNoContentPadding .sapMITH .sapMBtn.sapMBtnTextOnly,
-  .sapMITB.sapUiResponsiveContentPadding .sapMITH .sapMBtn.sapMBtnTextOnly {
-    top: 1.125rem;
-  }
+.sapMITBScrollContainer {
+  display: block;
+  margin: 0 1.75rem;
+  /* the same padding as on the sapMITBHead is needed
+	to correct the scrolling calculations*/
+  padding: 0 1px;
+}
+html .sapMITH .sapMBtn,
+html:not(.sapUiMedia-Std-Phone) .sapMSplitContainer:not(.sapMSplitContainerHideMode) .sapMITB .sapMITH .sapMBtn {
+  padding-right: 0.25rem;
+}
+html .sapMITBScrollContainer,
+html:not(.sapUiMedia-Std-Phone) .sapMSplitContainer:not(.sapMSplitContainerHideMode) .sapMITB .sapMITBScrollContainer {
+  margin: 0 1.75rem;
+}
+html .sapMITHOverflowList .sapMITBScrollContainer,
+html:not(.sapUiMedia-Std-Phone) .sapMSplitContainer:not(.sapMSplitContainerHideMode) .sapMITB .sapMITHOverflowList .sapMITBScrollContainer {
+  margin: 0 4.25rem 0 1.75rem;
+}
+html .sapMITBArrowScrollLeft,
+html:not(.sapUiMedia-Std-Phone) .sapMSplitContainer:not(.sapMSplitContainerHideMode) .sapMITB .sapMITBArrowScrollLeft {
+  left: 0.25rem;
+  padding: 1rem 0.4rem;
+}
+html .sapMITBArrowScrollRight,
+html:not(.sapUiMedia-Std-Phone) .sapMSplitContainer:not(.sapMSplitContainerHideMode) .sapMITB .sapMITBArrowScrollRight {
+  padding: 1rem 0.4rem;
+  right: 0.25rem;
+}
+html .sapMITHOverflowList .sapMITBArrowScrollRight,
+html:not(.sapUiMedia-Std-Phone) .sapMSplitContainer:not(.sapMSplitContainerHideMode) .sapMITB .sapMITHOverflowList .sapMITBArrowScrollRight {
+  right: 2.75rem;
+}
+html .sapMITBArrowScrollLeftTextOnly,
+html:not(.sapUiMedia-Std-Phone) .sapMSplitContainer:not(.sapMSplitContainerHideMode) .sapMITB .sapMITBArrowScrollLeftTextOnly {
+  left: 0.25rem;
+  padding: 1.0625rem 0.4rem;
+}
+html .sapMITBArrowScrollRightTextOnly,
+html:not(.sapUiMedia-Std-Phone) .sapMSplitContainer:not(.sapMSplitContainerHideMode) .sapMITB .sapMITBArrowScrollRightTextOnly {
+  padding: 1.0625rem 0.4rem;
+  right: 0.25rem;
+}
+html .sapMITHOverflowList .sapMITBArrowScrollRightTextOnly,
+html:not(.sapUiMedia-Std-Phone) .sapMSplitContainer:not(.sapMSplitContainerHideMode) .sapMITB .sapMITHOverflowList .sapMITBArrowScrollRightTextOnly {
+  right: 2.75rem;
+}
+html .sapMITH .sapMBtn.sapMBtnTextOnly,
+html:not(.sapUiMedia-Std-Phone) .sapMSplitContainer:not(.sapMSplitContainerHideMode) .sapMITB .sapMITH .sapMBtn.sapMBtnTextOnly {
+  top: 1.25rem;
+}
+/* overrides responsive settings */
+.sapUiMedia-Std-Phone .sapMITB.sapUiNoContentPadding .sapMITBHead,
+.sapUiMedia-Std-Phone .sapMITB.sapUiResponsiveContentPadding .sapMITBHead {
+  margin: 1rem 1rem 0 0;
+}
+.sapUiMedia-Std-Phone .sapMITB.sapUiNoContentPadding .sapMITBScrollContainer,
+.sapUiMedia-Std-Phone .sapMITB.sapUiResponsiveContentPadding .sapMITBScrollContainer {
+  margin: 0 1rem;
+}
+.sapUiMedia-Std-Phone .sapMITB.sapUiNoContentPadding .sapMITHOverflowList .sapMITBScrollContainer,
+.sapUiMedia-Std-Phone .sapMITB.sapUiResponsiveContentPadding .sapMITHOverflowList .sapMITBScrollContainer {
+  margin: 0 4rem 0 1rem;
+}
+.sapUiMedia-Std-Phone .sapMITB.sapUiNoContentPadding .sapMITBArrowScrollLeft,
+.sapUiMedia-Std-Phone .sapMITB.sapUiResponsiveContentPadding .sapMITBArrowScrollLeft {
+  left: 0.25rem;
+  padding: 1rem 0;
+}
+.sapUiMedia-Std-Phone .sapMITB.sapUiNoContentPadding .sapMITBArrowScrollRight,
+.sapUiMedia-Std-Phone .sapMITB.sapUiResponsiveContentPadding .sapMITBArrowScrollRight {
+  padding: 1rem 0;
+  right: 0.25rem;
+}
+.sapUiMedia-Std-Phone .sapMITB.sapUiNoContentPadding .sapMITHOverflowList .sapMITBArrowScrollRight,
+.sapUiMedia-Std-Phone .sapMITB.sapUiResponsiveContentPadding .sapMITHOverflowList .sapMITBArrowScrollRight {
+  right: 3.25rem;
+}
+.sapUiMedia-Std-Phone .sapMITB.sapUiNoContentPadding .sapMITBArrowScrollLeftTextOnly,
+.sapUiMedia-Std-Phone .sapMITB.sapUiResponsiveContentPadding .sapMITBArrowScrollLeftTextOnly {
+  left: 0.25rem;
+  padding: 0.75rem 0;
+}
+.sapUiMedia-Std-Phone .sapMITB.sapUiNoContentPadding .sapMITBArrowScrollRightTextOnly,
+.sapUiMedia-Std-Phone .sapMITB.sapUiResponsiveContentPadding .sapMITBArrowScrollRightTextOnly {
+  padding: 0.75rem 0;
+  right: 0.25rem;
+}
+.sapUiMedia-Std-Phone .sapMITB.sapUiNoContentPadding .sapMITHOverflowList .sapMITBArrowScrollRightTextOnly,
+.sapUiMedia-Std-Phone .sapMITB.sapUiResponsiveContentPadding .sapMITHOverflowList .sapMITBArrowScrollRightTextOnly {
+  right: 3.25rem;
+}
+.sapUiMedia-Std-Phone .sapMITB.sapUiNoContentPadding .sapMITBArrowScrollLeftTextOnly.sapMITBArrowScrollLeftInLine,
+.sapUiMedia-Std-Phone .sapMITB.sapUiResponsiveContentPadding .sapMITBArrowScrollLeftTextOnly.sapMITBArrowScrollLeftInLine,
+.sapUiMedia-Std-Phone .sapMITB.sapUiNoContentPadding .sapMITBArrowScrollRightTextOnly.sapMITBArrowScrollRightInLine,
+.sapUiMedia-Std-Phone .sapMITB.sapUiResponsiveContentPadding .sapMITBArrowScrollRightTextOnly.sapMITBArrowScrollRightInLine {
+  padding: 1.0625rem 0;
+}
+.sapUiMedia-Std-Phone .sapMITB.sapUiNoContentPadding .sapMITH .sapMBtn.sapMBtnTextOnly,
+.sapUiMedia-Std-Phone .sapMITB.sapUiResponsiveContentPadding .sapMITH .sapMBtn.sapMBtnTextOnly {
+  top: 1.125rem;
+}
+.sapUiMedia-Std-Desktop .sapMITB.sapUiResponsiveContentPadding .sapMITH .sapMBtn {
+  padding-right: 0.5rem;
+}
+.sapUiMedia-Std-Desktop .sapMITB.sapUiResponsiveContentPadding .sapMITBScrollContainer {
+  margin: 0 2.75rem;
+}
+.sapUiMedia-Std-Desktop .sapMITB.sapUiResponsiveContentPadding .sapMITHOverflowList .sapMITBScrollContainer {
+  margin: 0 5rem 0 2.75rem;
+}
+.sapUiMedia-Std-Desktop .sapMITB.sapUiResponsiveContentPadding .sapMITBArrowScrollLeft {
+  left: 1.25rem;
+  padding: 1rem 0;
+}
+.sapUiMedia-Std-Desktop .sapMITB.sapUiResponsiveContentPadding .sapMITBArrowScrollRight {
+  padding: 1rem 0;
+  right: 1.25rem;
+}
+.sapUiMedia-Std-Desktop .sapMITB.sapUiResponsiveContentPadding .sapMITHOverflowList .sapMITBArrowScrollRight {
+  right: 3.25rem;
+}
+.sapUiMedia-Std-Desktop .sapMITB.sapUiResponsiveContentPadding .sapMITBArrowScrollLeftTextOnly {
+  left: 1.25rem;
+  padding: 0.75rem 0;
+}
+.sapUiMedia-Std-Desktop .sapMITB.sapUiResponsiveContentPadding .sapMITBArrowScrollRightTextOnly {
+  padding: 0.75rem 0;
+  right: 1.25rem;
+}
+.sapUiMedia-Std-Desktop .sapMITB.sapUiResponsiveContentPadding .sapMITHOverflowList .sapMITBArrowScrollRightTextOnly {
+  right: 3.50rem;
+}
+.sapUiMedia-Std-Desktop .sapMITB.sapUiResponsiveContentPadding .sapMITBArrowScrollLeftTextOnly.sapMITBArrowScrollLeftInLine,
+.sapUiMedia-Std-Desktop .sapMITB.sapUiResponsiveContentPadding .sapMITBArrowScrollRightTextOnly.sapMITBArrowScrollRightInLine {
+  padding: 1.0625rem 0;
+}
+.sapUiMedia-Std-Desktop .sapMITB.sapUiResponsiveContentPadding .sapMITH .sapMBtn.sapMBtnTextOnly {
+  top: 1.125rem;
 }
 /* =========================================== */
 /* CSS for control sap.m/IconTabBarSelectList  */

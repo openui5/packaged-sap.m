@@ -32,7 +32,7 @@ sap.ui.define(['./library', 'sap/ui/core/Control', 'sap/ui/core/ValueStateSuppor
 	 * Status information that can be either text with a value state, or an icon.
 	 * @extends sap.ui.core.Control
 	 * @implements sap.ui.core.IFormContent
-	 * @version 1.52.0
+	 * @version 1.52.1
 	 *
 	 * @constructor
 	 * @public

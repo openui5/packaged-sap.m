@@ -27,7 +27,7 @@ sap.ui.define(['./ListItemBase', './library', 'sap/ui/core/library'],
 	 * @extends sap.m.ListItemBase
 	 *
 	 * @author SAP SE
-	 * @version 1.52.0
+	 * @version 1.52.1
 	 *
 	 * @constructor
 	 * @public
