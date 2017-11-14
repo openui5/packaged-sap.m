@@ -26,7 +26,7 @@ sap.ui.define(['jquery.sap.global', './Button', './library', 'sap/ui/core/Enable
 	 * @extends sap.m.Button
 	 *
 	 * @author SAP SE
-	 * @version 1.50.5
+	 * @version 1.50.6
 	 *
 	 * @constructor
 	 * @public

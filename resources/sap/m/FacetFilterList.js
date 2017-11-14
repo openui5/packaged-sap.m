@@ -34,7 +34,7 @@ sap.ui.define(['jquery.sap.global', './List', './library'],
 	 * be closed.
 	 *
 	 * @extends sap.m.List
-	 * @version 1.50.5
+	 * @version 1.50.6
 	 *
 	 * @constructor
 	 * @public
@@ -699,6 +699,8 @@ sap.ui.define(['jquery.sap.global', './List', './library'],
 		this._getNonGroupItems().forEach(function (oItem){
 			oItem.setSelected(this._isItemSelected(oItem));
 		}, this);
+
+		this._updateFacetFilterButtonText();
 	};
 
 	/**

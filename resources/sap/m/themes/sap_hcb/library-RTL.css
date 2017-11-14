@@ -9255,6 +9255,8 @@ html.sap-phone .sapMOHTitleDiv.sapMOHNumberWrap {
 html.sap-phone .sapMOHTitle .sapMText,
 .sapUiMedia-Std-Phone .sapMOHTitle .sapMText,
 html .sapUiContainer-Narrow .sapMOHTitle .sapMText {
+  display: table-cell;
+  word-wrap: break-word;
   word-break: break-all;
 }
 .sapMText.sapMOHTitle {
@@ -9568,6 +9570,8 @@ html[data-sap-ui-browser^="ie"] .sapMOHRTitleIcon > .sapMOHRTitle {
 html.sap-phone .sapMOHRTitleTextWrappable,
 .sapUiMedia-Std-Phone .sapMOHRTitleTextWrappable,
 html .sapUiContainer-Narrow .sapMOHRTitleTextWrappable {
+  display: table-cell;
+  word-wrap: break-word;
   word-break: break-all;
 }
 .sapMOHRTitleText {
@@ -10880,7 +10884,6 @@ html[data-sap-ui-animation='on'] .sapMPageFloatingFooter .sapMPageFooterControlH
 }
 @keyframes bounceShow {
   0% {
-    -webkit-transform: translateY(100%);
     transform: translateY(100%);
     opacity: 0;
   }
@@ -10902,12 +10905,10 @@ html[data-sap-ui-animation='on'] .sapMPageFloatingFooter .sapMPageFooterControlH
 }
 @keyframes bounceHide {
   0% {
-    -webkit-transform: translateY(-5%);
     transform: translateY(-5%);
     opacity: 0.9;
   }
   100% {
-    -webkit-transform: translateY(100%);
     transform: translateY(100%);
     opacity: 0;
   }
@@ -16708,6 +16709,44 @@ html[data-sap-ui-browser^="ff"] .sapMTC.sapMTCEditable .sapMTile .sapMTCRemove {
 .sapMTC.sapMTCEditable .sapMTCRemove::before {
   content: "\e03e";
 }
+/* use dir-specific rules to prevent mirroring in dir=rtl mode */
+.sapMTC .sapMTCEdgeRight,
+html[dir=rtl] .sapMTC .sapMTCEdgeLeft {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 2.5rem;
+  height: 100%;
+  border-left: 0.125rem solid rgba(224, 149, 0, 0.6);
+  opacity: 0.01;
+  background: -webkit-gradient(linear, right top, left top, color-stop(0%, rgba(255, 255, 255, 0)), color-stop(76%, #ffffff), color-stop(100%, #ffffff));
+  /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(right, rgba(255, 255, 255, 0) 0%, #ffffff 76%, #ffffff 100%);
+  /* Chrome10+,Safari5.1+ */
+  background: linear-gradient(to left, rgba(255, 255, 255, 0) 0%, #ffffff 76%, #ffffff 100%);
+  /* W3C */
+}
+/* use dir-specific rules to prevent mirroring in dir=rtl mode */
+.sapMTC .sapMTCEdgeLeft,
+html[dir=rtl] .sapMTC .sapMTCEdgeRight {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 2.5rem;
+  height: 100%;
+  border-right: 0.125rem solid rgba(224, 149, 0, 0.6);
+  opacity: 0.01;
+  background: -webkit-gradient(linear, right top, left top, color-stop(0%, #ffffff), color-stop(24%, #ffffff), color-stop(100%, rgba(255, 255, 255, 0)));
+  /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(right, #ffffff 0%, #ffffff 24%, rgba(255, 255, 255, 0) 100%);
+  /* Chrome10+,Safari5.1+ */
+  background: linear-gradient(to left, #ffffff 0%, #ffffff 24%, rgba(255, 255, 255, 0) 100%);
+  /* W3C */
+}
+html.sap-phone .sapMTC .sapMTCEdgeLeft,
+html.sap-phone .sapMTC .sapMTCEdgeRight {
+  width: 1.25rem;
+}
 /* ================================= */
 /* CSS for control sap.m/TimePicker  */
 /* Base theme                        */
@@ -19550,6 +19589,10 @@ html.sap-desktop .sapMGrowingList > .sapMCLI {
 }
 html.sap-desktop .sapMGrowingList .sapMCLI.sapMLIB.sapMLIB-CTX:focus {
   outline: none;
+}
+/* avoid double focus borders in IE */
+html.sap-desktop .sapMGrowingList .sapMLIBLegacyOutline:focus::before {
+  border: none;
 }
 html.sap-desktop .sapMLIB-CTX:focus .sapMGrowingListTrigger {
   border: 0.125rem dotted #ffffff;
