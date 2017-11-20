@@ -23,7 +23,7 @@ sap.ui.define(['jquery.sap.global', './ListBase', './TreeItemBase', './library',
 	 * @extends sap.m.ListBase
 	 *
 	 * @author SAP SE
-	 * @version 1.48.13
+	 * @version 1.48.14
 	 *
 	 * @constructor
 	 * @public
@@ -102,8 +102,8 @@ sap.ui.define(['jquery.sap.global', './ListBase', './TreeItemBase', './library',
 			}
 		}
 
-		// Get all nodes.
-		aContexts = oBinding.getContexts(0, Number.MAX_SAFE_INTEGER);
+		// Context length will be filled by model.
+		aContexts = oBinding.getContexts(0);
 
 		// If factory function is used without extended change detection, destroy aggregation
 		if (!oBindingInfo.template) {

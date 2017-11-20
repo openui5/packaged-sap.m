@@ -9235,6 +9235,8 @@ html.sap-phone .sapMOHTitleDiv.sapMOHNumberWrap {
 html.sap-phone .sapMOHTitle .sapMText,
 .sapUiMedia-Std-Phone .sapMOHTitle .sapMText,
 html .sapUiContainer-Narrow .sapMOHTitle .sapMText {
+  display: table-cell;
+  word-wrap: break-word;
   word-break: break-all;
 }
 .sapMText.sapMOHTitle {
@@ -9548,6 +9550,8 @@ html[data-sap-ui-browser^="ie"] .sapMOHRTitleIcon > .sapMOHRTitle {
 html.sap-phone .sapMOHRTitleTextWrappable,
 .sapUiMedia-Std-Phone .sapMOHRTitleTextWrappable,
 html .sapUiContainer-Narrow .sapMOHRTitleTextWrappable {
+  display: table-cell;
+  word-wrap: break-word;
   word-break: break-all;
 }
 .sapMOHRTitleText {
@@ -10695,6 +10699,9 @@ html.sap-desktop .sapMP13nColumnsPanel .sapMLIBSelected:not(.sapMLIBActive):not(
 }
 .sapMPage > section.sapMPageEnableScrolling {
   overflow-y: auto;
+}
+.sapMPage > section.sapMPageEnableScrolling .sapMPage > section {
+  overflow-y: visible;
 }
 html[data-sap-ui-os^="bb"] .sapMPage > section.sapMPageEnableScrolling,
 html[data-sap-ui-os^="iOS"] .sapMPage > section.sapMPageEnableScrolling {
@@ -19974,6 +19981,10 @@ html.sap-desktop .sapMGrowingList > .sapMCLI {
 }
 html.sap-desktop .sapMGrowingList .sapMCLI.sapMLIB.sapMLIB-CTX:focus {
   outline: none;
+}
+/* avoid double focus borders in IE */
+html.sap-desktop .sapMGrowingList .sapMLIBLegacyOutline:focus::before {
+  border: none;
 }
 html.sap-desktop .sapMLIB-CTX:focus .sapMGrowingListTrigger {
   border: 0.125rem dotted #ffffff;

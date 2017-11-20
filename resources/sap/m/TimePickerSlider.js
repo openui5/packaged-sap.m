@@ -19,7 +19,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Control', './TimePickerSliderRe
 		 * @extends sap.ui.core.Control
 		 *
 		 * @author SAP SE
-		 * @version 1.48.13
+		 * @version 1.48.14
 		 *
 		 * @constructor
 		 * @private
@@ -686,7 +686,10 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Control', './TimePickerSliderRe
 					$Container.animate({ scrollTop: iSnapScrollTop}, SCROLL_ANIMATION_DURATION, 'linear', function() {
 						$Container.clearQueue();
 						that._animatingSnap = false;
-						that._scrollerSnapped(that._iSelectedIndex);
+						//make sure the DOM is still visible
+						if ($Container.css("visibility") === "visible") {
+							that._scrollerSnapped(that._iSelectedIndex);
+						}
 					});
 				}
 			}, frameFrequencyMs);
@@ -1033,7 +1036,10 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Control', './TimePickerSliderRe
 			$Slider.animate({ scrollTop: iSnapScrollTop}, SCROLL_ANIMATION_DURATION, 'linear', function() {
 				$Slider.clearQueue();
 				oThat._animatingSnap = false;
-				oThat._scrollerSnapped(iSelIndex);
+				//make sure the DOM is still visible
+				if ($Slider.css("visibility") === "visible") {
+					oThat._scrollerSnapped(iSelIndex);
+				}
 			});
 		};
 

@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './Dialog', './ComboBoxTextField', './Toolba
 		 * @abstract
 		 *
 		 * @author SAP SE
-		 * @version 1.48.13
+		 * @version 1.48.14
 		 *
 		 * @constructor
 		 * @public

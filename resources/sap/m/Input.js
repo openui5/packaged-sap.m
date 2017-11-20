@@ -7,10 +7,10 @@
 // Provides control sap.m.Input.
 sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List', './Popover',
 		'sap/ui/core/Item', './ColumnListItem', './StandardListItem', './DisplayListItem', 'sap/ui/core/ListItem',
-		'./Table', './Toolbar', './ToolbarSpacer', './library', 'sap/ui/core/IconPool', 'sap/ui/core/InvisibleText'],
+		'./Table', './Toolbar', './ToolbarSpacer', './library', 'sap/ui/core/IconPool', 'sap/ui/core/InvisibleText', 'sap/ui/core/Control'],
 	function(jQuery, Bar, Dialog, InputBase, List, Popover,
 			Item, ColumnListItem, StandardListItem, DisplayListItem, ListItem,
-			Table, Toolbar, ToolbarSpacer, library, IconPool, InvisibleText) {
+			Table, Toolbar, ToolbarSpacer, library, IconPool, InvisibleText, Control) {
 	"use strict";
 
 
@@ -66,7 +66,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 	 *
 	 * @extends sap.m.InputBase
 	 * @author SAP SE
-	 * @version 1.48.13
+	 * @version 1.48.14
 	 *
 	 * @constructor
 	 * @public
@@ -497,10 +497,15 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 	 * Resizes the popup to the input width and makes sure that the input is never bigger as the popup
 	 * @private
 	 */
-	Input.prototype._resizePopup = function() {
+	Input.prototype._resizePopup = function(bForceResize) {
 		var that = this;
 
-		if (this._oList && this._oSuggestionPopup) {
+		if (bForceResize) {
+			this._shouldResizePopup = true;
+		}
+
+		if (this._oList && this._oSuggestionPopup && this._shouldResizePopup) {
+
 			if (this.getMaxSuggestionWidth()) {
 				this._oSuggestionPopup.setContentWidth(this.getMaxSuggestionWidth());
 			} else {
@@ -542,6 +547,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 				}
 
 				if (this.getShowSuggestion() && this._oSuggestionPopup && oEvent.target.id != this.getId() + "-vhi") {
+					this._resizePopup(true);
 					this._oSuggestionPopup.open();
 				}
 			}, this));
@@ -1375,10 +1381,23 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 	};
 
 	Input.prototype.updateSuggestionItems = function() {
+		this._bSuspendInvalidate = true;
 		this.updateAggregation("suggestionItems");
 		this._bShouldRefreshListItems = true;
 		this._refreshItemsDelayed();
+		this._bSuspendInvalidate = false;
 		return this;
+	};
+
+	/**
+	 * Invalidates the control.
+	 * @override
+	 * @protected
+	 */
+	Input.prototype.invalidate = function() {
+		if (!this._bSuspendInvalidate) {
+			Control.prototype.invalidate.apply(this, arguments);
+		}
 	};
 
 	Input.prototype.cancelPendingSuggest = function() {
@@ -1728,6 +1747,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 					} else {
 						oInput._oList.destroyItems();
 					}
+					oInput._shouldResizePopup = false;
 				}).attachBeforeOpen(function() {
 					oInput._sBeforeSuggest = oInput.getValue();
 				}))
@@ -2026,7 +2046,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 
 					if (!oPopup.isOpen() && !oInput._sOpenTimer && (this.getValue().length >= this.getStartSuggestion())) {
 						oInput._sOpenTimer = setTimeout(function() {
-							oInput._resizePopup();
+							oInput._resizePopup(true);
 							oInput._sOpenTimer = null;
 							oPopup.open();
 						}, 0);
