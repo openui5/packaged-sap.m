@@ -49,7 +49,7 @@ sap.ui.define(["jquery.sap.global", "./ResponsivePopover", "./Button", "./Toolba
 		 * @extends sap.ui.core.Control
 		 *
 		 * @author SAP SE
-		 * @version 1.52.1
+		 * @version 1.52.2
 		 *
 		 * @constructor
 		 * @public
@@ -278,10 +278,11 @@ sap.ui.define(["jquery.sap.global", "./ResponsivePopover", "./Button", "./Toolba
 
 			this._oMessageView.addEventDelegate({
 				onBeforeRendering: function () {
-					var bShowHeader = !that.getInitiallyExpanded() || that.getHeaderButton();
+					var bSegmentedButtonVisibleInMV = that._oMessageView._oSegmentedButton.getVisible(),
+						bShowHeader = !that.getInitiallyExpanded() || bSegmentedButtonVisibleInMV;
 
 					that._oMessageView._oSegmentedButton.setVisible(bShowHeader);
-					that._oMessageView._listPage.setShowHeader(bShowHeader);
+					that._oMessageView._listPage.setShowHeader(true);
 				}
 			});
 
@@ -339,6 +340,12 @@ sap.ui.define(["jquery.sap.global", "./ResponsivePopover", "./Button", "./Toolba
 					this['set' + capitalize(sFuncName)](DEFAULT_ASYNC_HANDLERS[sFuncName]);
 				}
 			}, this);
+		};
+
+		MessagePopover.prototype.onBeforeRendering = function () {
+			if (this.getDependents().indexOf(this._oPopover) === -1) {
+				this.addDependent(this._oPopover);
+			}
 		};
 
 		/**

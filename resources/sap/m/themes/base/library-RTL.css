@@ -2482,16 +2482,19 @@ html[data-sap-ui-animation='off'] .sapMDialogBlockLayerAnimation {
 .sapMDialog > .sapMDialogSection {
   background: #ffffff;
 }
-.sapMDialogWarning > header.sapMDialogTitle .sapUiIcon {
+.sapMDialogWarning > header.sapMDialogTitle .sapMDialogIcon.sapUiIcon {
   color: #e78c07;
 }
 .sapMDialogWarning > header.sapMBar:last-of-type {
   box-shadow: inset 0 -0.125rem #ffff00;
 }
+.sapMDialogError > header.sapMDialogTitle .sapMDialogIcon.sapUiIcon {
+  color: #bb0000;
+}
 .sapMDialogError > header.sapMBar:last-of-type {
   box-shadow: inset 0 -0.125rem #ff0000;
 }
-.sapMDialogSuccess > header.sapMDialogTitle .sapUiIcon {
+.sapMDialogSuccess > header.sapMDialogTitle .sapMDialogIcon.sapUiIcon {
   color: #2b7d2b;
 }
 .sapMDialogSuccess > header.sapMBar:last-of-type {
@@ -9409,6 +9412,8 @@ html.sap-phone .sapMOHTitleDiv.sapMOHNumberWrap {
 html.sap-phone .sapMOHTitle .sapMText,
 .sapUiMedia-Std-Phone .sapMOHTitle .sapMText,
 html .sapUiContainer-Narrow .sapMOHTitle .sapMText {
+  display: table-cell;
+  word-wrap: break-word;
   word-break: break-all;
 }
 .sapMText.sapMOHTitle {
@@ -9727,6 +9732,8 @@ html[data-sap-ui-browser^="ie"] .sapMOHRTitleIcon > .sapMOHRTitle {
 html.sap-phone .sapMOHRTitleTextWrappable,
 .sapUiMedia-Std-Phone .sapMOHRTitleTextWrappable,
 html .sapUiContainer-Narrow .sapMOHRTitleTextWrappable {
+  display: table-cell;
+  word-wrap: break-word;
   word-break: break-all;
 }
 .sapMOHRTitleText {
@@ -11113,7 +11120,6 @@ html[data-sap-ui-animation='on'] .sapMPageFloatingFooter .sapMPageFooterControlH
 }
 @keyframes bounceShow {
   0% {
-    -webkit-transform: translateY(100%);
     transform: translateY(100%);
     opacity: 0;
   }
@@ -11135,12 +11141,10 @@ html[data-sap-ui-animation='on'] .sapMPageFloatingFooter .sapMPageFooterControlH
 }
 @keyframes bounceHide {
   0% {
-    -webkit-transform: translateY(-5%);
     transform: translateY(-5%);
     opacity: 0.9;
   }
   100% {
-    -webkit-transform: translateY(100%);
     transform: translateY(100%);
     opacity: 0;
   }
@@ -12788,7 +12792,7 @@ html[data-sap-ui-browser*='ie'] .sapMRISelector {
 .sapMRIUnsel {
   position: relative;
   float: left;
-  color: #999999;
+  color: #a5a5a5;
   word-wrap: normal;
   white-space: nowrap;
 }
@@ -12809,6 +12813,9 @@ html[data-sap-ui-browser*='ie'] .sapMRISelector {
 .sapMRIIconHov,
 .sapMRIIconReadOnly {
   font-family: SAP-icons;
+}
+.sapMListTblCell > .sapMRI {
+  margin: 0;
 }
 .sapUiSizeCondensed .sapUiTableCell > .sapMRI {
   box-sizing: content-box;
@@ -12920,9 +12927,6 @@ html[data-sap-ui-browser*='ie'] .sapMRISelector {
 }
 .sapMRI.sapMRIDisplayOnly .sapMRIIconSel {
   color: #000000;
-}
-.sapMRI.sapMRIDisplayOnly .sapMRIIconUnsel {
-  color: #999999;
 }
 /* ====================================== */
 /* CSS for control sap.m/ScrollContainer  */
@@ -16025,7 +16029,8 @@ html[data-sap-ui-browser='ie11'] .sapMListTblHighlightCell > .sapMLIBHighlight {
 /* reset height of cells when no header is defined */
 .sapMListTblHeaderNone > .sapMListTblCell {
   height: 0;
-  padding: 0;
+  padding-top: 0;
+  padding-bottom: 0;
 }
 /* ======================================= */
 /* CSS for control sap.m/TablePersoDialog  */

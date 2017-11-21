@@ -69,7 +69,7 @@ sap.ui.define(["jquery.sap.global", "sap/ui/core/Icon", "./Input", "./InputRende
 		 * @implements sap.ui.core.IFormContent
 		 *
 		 * @author SAP SE
-		 * @version 1.52.1
+		 * @version 1.52.2
 		 *
 		 * @constructor
 		 * @public
@@ -559,7 +559,7 @@ sap.ui.define(["jquery.sap.global", "sap/ui/core/Icon", "./Input", "./InputRende
 				bMinIsNumber = this._isNumericLike(min);
 
 			if (this._getDecrementButton()) {
-				if (bMinIsNumber && min < value) {
+				if (bMinIsNumber && min < value && this.getEnabled()) {
 					this._getDecrementButton().$().removeClass("sapMStepInputIconDisabled");
 				}
 				if (bMinIsNumber && value <= min) {
@@ -567,7 +567,7 @@ sap.ui.define(["jquery.sap.global", "sap/ui/core/Icon", "./Input", "./InputRende
 				}
 			}
 			if (this._getIncrementButton()) {
-				if (bMaxIsNumber && value < max) {
+				if (bMaxIsNumber && value < max && this.getEnabled()) {
 					this._getIncrementButton().$().removeClass("sapMStepInputIconDisabled");
 				}
 				if (bMaxIsNumber && value >= max) {

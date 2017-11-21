@@ -50,7 +50,7 @@ sap.ui.define(['jquery.sap.global', './GroupHeaderListItem', './ListItemBase', '
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.52.1
+	 * @version 1.52.2
 	 *
 	 * @constructor
 	 * @public
@@ -1109,6 +1109,7 @@ sap.ui.define(['jquery.sap.global', './GroupHeaderListItem', './ListItemBase', '
 
 	// fire updateFinished event delayed to make sure rendering phase is done
 	ListBase.prototype._fireUpdateFinished = function(oInfo) {
+		this._hideBusyIndicator();
 		jQuery.sap.delayedCall(0, this, function() {
 			this._bItemNavigationInvalidated = true;
 			this.fireUpdateFinished({

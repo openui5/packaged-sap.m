@@ -71,7 +71,7 @@ function(jQuery, library, Control, IconPool, Toolbar, CheckBox, SearchField, Lis
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.52.1
+	 * @version 1.52.2
 	 *
 	 * @constructor
 	 * @public
@@ -797,6 +797,7 @@ function(jQuery, library, Control, IconPool, Toolbar, CheckBox, SearchField, Lis
 						this._updateSelectAllCheckBoxState();
 					}
 				}
+				this._updateFilterCounters(); //selected item has changed, so counters must be updated
 			} else {
 				// call _initFilterContent and _initFilterItems methods, where "Filter" might be also "Group"
 				if (typeof this['_init' + sType + 'Content'] === 'function') {

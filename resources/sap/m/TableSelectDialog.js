@@ -55,7 +55,7 @@ sap.ui.define(['./Button', './Dialog', './SearchField', './Table', './library', 
 	 * </ul>
 	 * @extends sap.ui.core.Control
 	 * @author SAP SE
-	 * @version 1.52.1
+	 * @version 1.52.2
 	 *
 	 * @constructor
 	 * @public
@@ -423,6 +423,8 @@ sap.ui.define(['./Button', './Dialog', './SearchField', './Table', './library', 
 
 		// reset internal variables
 		this._bFirstRequest = true;
+
+		this._sSearchFieldValue = "";
 
 		// set search field value
 		this._oSearchField.setValue(sSearchValue);

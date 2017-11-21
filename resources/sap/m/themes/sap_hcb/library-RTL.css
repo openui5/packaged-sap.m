@@ -2487,16 +2487,19 @@ html[data-sap-ui-animation='off'] .sapMDialogBlockLayerAnimation {
 .sapMDialog > .sapMDialogSection {
   background: #000000;
 }
-.sapMDialogWarning > header.sapMDialogTitle .sapUiIcon {
+.sapMDialogWarning > header.sapMDialogTitle .sapMDialogIcon.sapUiIcon {
   color: #ffab1d;
 }
 .sapMDialogWarning > header.sapMBar:last-of-type {
   box-shadow: inset 0 -0.125rem #ffab1d;
 }
+.sapMDialogError > header.sapMDialogTitle .sapMDialogIcon.sapUiIcon {
+  color: #ff5e5e;
+}
 .sapMDialogError > header.sapMBar:last-of-type {
   box-shadow: inset 0 -0.125rem #ff5e5e;
 }
-.sapMDialogSuccess > header.sapMDialogTitle .sapUiIcon {
+.sapMDialogSuccess > header.sapMDialogTitle .sapMDialogIcon.sapUiIcon {
   color: #99cc99;
 }
 .sapMDialogSuccess > header.sapMBar:last-of-type {
@@ -9414,6 +9417,8 @@ html.sap-phone .sapMOHTitleDiv.sapMOHNumberWrap {
 html.sap-phone .sapMOHTitle .sapMText,
 .sapUiMedia-Std-Phone .sapMOHTitle .sapMText,
 html .sapUiContainer-Narrow .sapMOHTitle .sapMText {
+  display: table-cell;
+  word-wrap: break-word;
   word-break: break-all;
 }
 .sapMText.sapMOHTitle {
@@ -9732,6 +9737,8 @@ html[data-sap-ui-browser^="ie"] .sapMOHRTitleIcon > .sapMOHRTitle {
 html.sap-phone .sapMOHRTitleTextWrappable,
 .sapUiMedia-Std-Phone .sapMOHRTitleTextWrappable,
 html .sapUiContainer-Narrow .sapMOHRTitleTextWrappable {
+  display: table-cell;
+  word-wrap: break-word;
   word-break: break-all;
 }
 .sapMOHRTitleText {
@@ -11118,7 +11125,6 @@ html[data-sap-ui-animation='on'] .sapMPageFloatingFooter .sapMPageFooterControlH
 }
 @keyframes bounceShow {
   0% {
-    -webkit-transform: translateY(100%);
     transform: translateY(100%);
     opacity: 0;
   }
@@ -11140,12 +11146,10 @@ html[data-sap-ui-animation='on'] .sapMPageFloatingFooter .sapMPageFooterControlH
 }
 @keyframes bounceHide {
   0% {
-    -webkit-transform: translateY(-5%);
     transform: translateY(-5%);
     opacity: 0.9;
   }
   100% {
-    -webkit-transform: translateY(100%);
     transform: translateY(100%);
     opacity: 0;
   }
@@ -12815,6 +12819,9 @@ html[data-sap-ui-browser*='ie'] .sapMRISelector {
 .sapMRIIconReadOnly {
   font-family: SAP-icons;
 }
+.sapMListTblCell > .sapMRI {
+  margin: 0;
+}
 .sapUiSizeCondensed .sapUiTableCell > .sapMRI {
   box-sizing: content-box;
   padding: 0;
@@ -12925,9 +12932,6 @@ html[data-sap-ui-browser*='ie'] .sapMRISelector {
 }
 .sapMRI.sapMRIDisplayOnly .sapMRIIconSel {
   color: #ffffff;
-}
-.sapMRI.sapMRIDisplayOnly .sapMRIIconUnsel {
-  color: #000000;
 }
 /* ====================================== */
 /* CSS for control sap.m/ScrollContainer  */
@@ -16030,7 +16034,8 @@ html[data-sap-ui-browser='ie11'] .sapMListTblHighlightCell > .sapMLIBHighlight {
 /* reset height of cells when no header is defined */
 .sapMListTblHeaderNone > .sapMListTblCell {
   height: 0;
-  padding: 0;
+  padding-top: 0;
+  padding-bottom: 0;
 }
 /* ======================================= */
 /* CSS for control sap.m/TablePersoDialog  */
@@ -19897,6 +19902,10 @@ html.sap-desktop .sapMGrowingList > .sapMCLI {
 }
 html.sap-desktop .sapMGrowingList .sapMCLI.sapMLIB.sapMLIB-CTX:focus {
   outline: none;
+}
+/* avoid double focus borders in IE */
+html.sap-desktop .sapMGrowingList .sapMLIBLegacyOutline:focus::before {
+  border: none;
 }
 html.sap-desktop .sapMLIB-CTX:focus .sapMGrowingListTrigger {
   border: 0.125rem dotted #ffffff;

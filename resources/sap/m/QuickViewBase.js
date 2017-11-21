@@ -6,7 +6,7 @@
 
 // Provides control sap.m.QuickViewBase.
 sap.ui.define([
-	'jquery.sap.global', './library', 'sap/ui/core/Control', 'jquery.sap.dom', 'jquery.sap.keycodes'],
+	'jquery.sap.global', './library', 'sap/ui/core/Control', 'jquery.sap.dom'],
 	function(jQuery, library, Control) {
 	"use strict";
 
@@ -22,7 +22,7 @@ sap.ui.define([
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.52.1
+	 * @version 1.52.2
 	 *
 	 * @constructor
 	 * @public

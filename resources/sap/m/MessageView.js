@@ -73,7 +73,7 @@ sap.ui.define([
 	 * As part of the messaging concept, MessageView provides a way to centrally manage messages and show them to the user without additional work for the developer.
 	 * <br><br>
 	 * @author SAP SE
-	 * @version 1.52.1
+	 * @version 1.52.2
 	 *
 	 * @constructor
 	 * @public
@@ -248,7 +248,10 @@ sap.ui.define([
 	 * @private
 	 */
 	MessageView.prototype.init = function () {
+
 		var that = this;
+
+		this._bHasHeaderButton = false;
 
 		this._oResourceBundle = sap.ui.getCore().getLibraryResourceBundle("sap.m");
 
@@ -277,15 +280,16 @@ sap.ui.define([
 			this._fillLists(aItems);
 		}
 
-		this._clearSegmentedButton();
-		this._fillSegmentedButton();
-		this._fnFilterList(this._getCurrentMessageTypeFilter() || "all");
-
 		var headerButton = this.getHeaderButton();
 
 		if (headerButton) {
+			this._bHasHeaderButton = true;
 			this._oListHeader.insertContent(headerButton, 2);
 		}
+
+		this._clearSegmentedButton();
+		this._fillSegmentedButton();
+		this._fnFilterList(this._getCurrentMessageTypeFilter() || "all");
 
 		if (aItems.length === 1 && this._oLists.all.getItems()[0].getType()  === ListType.Navigation) {
 
@@ -759,12 +763,13 @@ sap.ui.define([
 
 		// If there is only the always-present 'all' button and a single group button
 		// no need for a segmented button
+
 		var bSegmentedButtonVisible = this._oSegmentedButton.getButtons().length > 2;
 		this._oSegmentedButton.setVisible(bSegmentedButtonVisible);
 
-		// If SegmentedButton shoud not be visible,
+		// If SegmentedButton should not be visible,
 		// and there is no custom button - hide the initial page's header
-		var bListPageHeaderVisible = bSegmentedButtonVisible || !!this.getHeaderButton();
+		var bListPageHeaderVisible = bSegmentedButtonVisible || this._bHasHeaderButton;
 		this._listPage.setShowHeader(bListPageHeaderVisible);
 
 		return this;

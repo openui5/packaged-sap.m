@@ -23,7 +23,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Element', './StandardListItem',
 	 * This element holds the data of one row in the @link sap.m.PlanningCalendar}. Once the header information (e.g. person information)
 	 * is assigned, the appointments are assigned.
 	 * @extends sap.ui.core.Element
-	 * @version 1.52.1
+	 * @version 1.52.2
 	 *
 	 * @constructor
 	 * @public
@@ -166,8 +166,9 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Element', './StandardListItem',
 	/* ToDo - Consider if the PlanningCalendarRow can extend the CalendarRow */
 	var CalendarRowInPCRenderer = Renderer.extend(CalendarRowRenderer);
 
-	/* Create internal version of CalendarRow so it's renderer returns the appointment legend items(<appointmentsItems>)
-	* instead of the generic legend <items> */
+	/* Returns AppointmentItems or Items depends on the Legend type:
+		sap.m.PlanningCalendarLegend or sap.ui.unified.CalendarLegend
+	 */
 	CalendarRowInPCRenderer.getLegendItems = function (oCalRow) {
 		var aTypes = [],
 			oLegend,
@@ -176,7 +177,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Element', './StandardListItem',
 		if (sLegendId) {
 			oLegend = sap.ui.getCore().byId(sLegendId);
 			if (oLegend) {
-				aTypes = oLegend.getAppointmentItems();
+				aTypes = oLegend.getAppointmentItems ? oLegend.getAppointmentItems() : oLegend.getItems();
 			} else {
 				jQuery.sap.log.error("PlanningCalendarLegend with id '" + sLegendId + "' does not exist!", oCalRow);
 			}
