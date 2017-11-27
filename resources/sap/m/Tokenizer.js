@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @class
 	 * Tokenizer displays multiple tokens
 	 * @extends sap.ui.core.Control
-	 * @version 1.38.30
+	 * @version 1.38.31
 	 *
 	 * @constructor
 	 * @public
@@ -227,6 +227,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 			lastToken.attachSelect(fSelectHandler);
 		} else {
 		  // last token is completely visible
+			lastToken.removeStyleClass("sapMTokenTruncate");
 			lastToken.detachSelect(fSelectHandler);
 		}
 
