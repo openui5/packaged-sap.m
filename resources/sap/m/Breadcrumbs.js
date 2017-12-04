@@ -31,7 +31,7 @@ sap.ui.define([
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.48.14
+	 * @version 1.48.15
 	 *
 	 * @constructor
 	 * @public
@@ -469,6 +469,10 @@ sap.ui.define([
 			iSelectedDomIndex = -1,
 			aItemsToNavigate = this._getItemsToNavigate(),
 			aNavigationDomRefs = [];
+
+		if (aItemsToNavigate.length === 0) {
+			return;
+		}
 
 		aItemsToNavigate.forEach(function (oItem, iIndex) {
 			if (iIndex === 0) {
