@@ -75,7 +75,7 @@ sap.ui.define(['jquery.sap.global', './NavContainer', './library', 'sap/ui/core/
 	 *
 	 * @extends sap.ui.core.Control
 	 * @implements sap.ui.core.IShrinkable
-	 * @version 1.50.6
+	 * @version 1.50.7
 	 *
 	 * @constructor
 	 * @public
@@ -2081,16 +2081,21 @@ sap.ui.define(['jquery.sap.global', './NavContainer', './library', 'sap/ui/core/
 		var sTargetId = oEvent.target.id;
 
 		if (sTargetId) {
-			var sId = this.getId();
+			var sId = this.getId(),
+				oTarget = oEvent.target;
 
 			// Prevent IE from firing beforeunload event -> see CSN 4378288 2012
 			oEvent.preventDefault();
 
 			if (sTargetId == sId + "-arrowScrollLeft") {
 				// scroll back/left button
+				oTarget.tabIndex = -1;
+				oTarget.focus();
 				this._scroll(-FacetFilter.SCROLL_STEP, 500);
 			} else if (sTargetId == sId + "-arrowScrollRight") {
 				// scroll forward/right button
+				oTarget.tabIndex = -1;
+				oTarget.focus();
 				this._scroll(FacetFilter.SCROLL_STEP, 500);
 			}
 		}
