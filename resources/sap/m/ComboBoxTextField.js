@@ -19,7 +19,7 @@ sap.ui.define(['jquery.sap.global', './InputBase', './library', 'sap/ui/core/Inv
 		 * @extends sap.m.InputBase
 		 *
 		 * @author SAP SE
-		 * @version 1.44.24
+		 * @version 1.44.25
 		 *
 		 * @constructor
 		 * @public

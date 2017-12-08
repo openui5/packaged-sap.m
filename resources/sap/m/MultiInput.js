@@ -21,7 +21,7 @@ sap.ui.define(['jquery.sap.global', './Input', './Tokenizer', './Token', './libr
 	 * @extends sap.m.Input
 	 *
 	 * @author SAP SE
-	 * @version 1.44.24
+	 * @version 1.44.25
 	 *
 	 * @constructor
 	 * @public
@@ -915,6 +915,9 @@ sap.ui.define(['jquery.sap.global', './Input', './Tokenizer', './Token', './libr
 	 *          oEvent
 	 */
 	MultiInput.prototype.onsapenter = function (oEvent) {
+		if (Input.prototype.onsapenter) {
+			Input.prototype.onsapenter.apply(this, arguments);
+		}
 
 		var bValidateFreeText = true;
 
@@ -928,10 +931,6 @@ sap.ui.define(['jquery.sap.global', './Input', './Tokenizer', './Token', './libr
 
 		if (bValidateFreeText) {
 			this._validateCurrentText();
-		}
-
-		if (Input.prototype.onsapenter) {
-			Input.prototype.onsapenter.apply(this, arguments);
 		}
 
 		this.focus();

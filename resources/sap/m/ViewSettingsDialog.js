@@ -63,7 +63,7 @@ function(jQuery, library, Control, IconPool, Toolbar, CheckBox, SearchField, Lis
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.44.24
+	 * @version 1.44.25
 	 *
 	 * @constructor
 	 * @public
@@ -1048,6 +1048,8 @@ function(jQuery, library, Control, IconPool, Toolbar, CheckBox, SearchField, Lis
 			contentPage : this._vContentPage,
 			contentItem : this._oContentItem ? this._oContentItem.clone() : null
 		};
+
+		this.addDependent(this._oPreviousState.contentItem);
 
 		//focus the first focusable item in current page's content
 		if (sap.ui.Device.system.desktop) {

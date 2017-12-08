@@ -4791,7 +4791,6 @@ html.sap-desktop .sapMLnk:focus:not(.sapMLnkDsbl) {
   touch-action: pan-y;
   -ms-touch-action: pan-y;
 }
-.sapMList:focus,
 .sapMListUl:focus {
   outline: none;
 }
@@ -8162,8 +8161,6 @@ html[data-sap-ui-animation='on'] .sapMPageFloatingFooter .sapMPageFooterControlH
 @-webkit-keyframes bounceShow {
   0% {
     -webkit-transform: translateY(100%);
-    -moz-transform: translateY(100%);
-    -o-transform: translateY(100%);
     transform: translateY(100%);
     opacity: 0;
   }
@@ -8171,23 +8168,8 @@ html[data-sap-ui-animation='on'] .sapMPageFloatingFooter .sapMPageFooterControlH
     opacity: 0.9;
   }
 }
-@-moz-keyframes bounceShow {
-  0% {
-    -webkit-transform: translateY(100%);
-    -moz-transform: translateY(100%);
-    -o-transform: translateY(100%);
-    transform: translateY(100%);
-    opacity: 0.9;
-  }
-  100% {
-    opacity: 1;
-  }
-}
 @keyframes bounceShow {
   0% {
-    -webkit-transform: translateY(100%);
-    -moz-transform: translateY(100%);
-    -o-transform: translateY(100%);
     transform: translateY(100%);
     opacity: 0;
   }
@@ -8198,47 +8180,21 @@ html[data-sap-ui-animation='on'] .sapMPageFloatingFooter .sapMPageFooterControlH
 @-webkit-keyframes bounceHide {
   0% {
     -webkit-transform: translateY(-5%);
-    -moz-transform: translateY(-5%);
-    -o-transform: translateY(-5%);
     transform: translateY(-5%);
     opacity: 1;
   }
   100% {
     -webkit-transform: translateY(100%);
-    -moz-transform: translateY(100%);
-    -o-transform: translateY(100%);
     transform: translateY(100%);
     opacity: 0;
   }
 }
-@-moz-keyframes bounceHide {
-  0% {
-    -webkit-transform: translateY(-5%);
-    -moz-transform: translateY(-5%);
-    -o-transform: translateY(-5%);
-    transform: translateY(-5%);
-    opacity: 0.9;
-  }
-  100% {
-    -webkit-transform: translateY(100%);
-    -moz-transform: translateY(100%);
-    -o-transform: translateY(100%);
-    transform: translateY(100%);
-    opacity: 0.9;
-  }
-}
 @keyframes bounceHide {
   0% {
-    -webkit-transform: translateY(-5%);
-    -moz-transform: translateY(-5%);
-    -o-transform: translateY(-5%);
     transform: translateY(-5%);
     opacity: 0.9;
   }
   100% {
-    -webkit-transform: translateY(100%);
-    -moz-transform: translateY(100%);
-    -o-transform: translateY(100%);
     transform: translateY(100%);
     opacity: 0;
   }
