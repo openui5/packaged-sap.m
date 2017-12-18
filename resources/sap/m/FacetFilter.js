@@ -98,7 +98,7 @@ sap.ui.define(['jquery.sap.global', './NavContainer', './library', 'sap/ui/core/
 	 *
 	 * @extends sap.ui.core.Control
 	 * @implements sap.ui.core.IShrinkable
-	 * @version 1.52.2
+	 * @version 1.52.3
 	 *
 	 * @constructor
 	 * @public
@@ -1452,6 +1452,7 @@ sap.ui.define(['jquery.sap.global', './NavContainer', './library', 'sap/ui/core/
 						var oList = that._restoreListFromDisplayContainer(oFilterItemsPage);
 						oList._updateActiveState();
 						oList._fireListCloseEvent();
+						oList._search("");
 					}
 
 					// Destroy the nav container and all it contains so that the dialog content is initialized new each
@@ -1688,6 +1689,7 @@ sap.ui.define(['jquery.sap.global', './NavContainer', './library', 'sap/ui/core/
 
 		oList._updateActiveState();
 		oList._fireListCloseEvent();
+		oList._search("");
 		this._selectedFacetItem.setCounter(oList.getAllCount());
 		oNavContainer.backToTop();
 	};
@@ -2104,16 +2106,21 @@ sap.ui.define(['jquery.sap.global', './NavContainer', './library', 'sap/ui/core/
 		var sTargetId = oEvent.target.id;
 
 		if (sTargetId) {
-			var sId = this.getId();
+			var sId = this.getId(),
+				oTarget = oEvent.target;
 
 			// Prevent IE from firing beforeunload event -> see CSN 4378288 2012
 			oEvent.preventDefault();
 
 			if (sTargetId == sId + "-arrowScrollLeft") {
 				// scroll back/left button
+				oTarget.tabIndex = -1;
+				oTarget.focus();
 				this._scroll(-FacetFilter.SCROLL_STEP, 500);
 			} else if (sTargetId == sId + "-arrowScrollRight") {
 				// scroll forward/right button
+				oTarget.tabIndex = -1;
+				oTarget.focus();
 				this._scroll(FacetFilter.SCROLL_STEP, 500);
 			}
 		}

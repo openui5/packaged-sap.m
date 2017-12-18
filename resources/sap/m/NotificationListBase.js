@@ -41,7 +41,7 @@ sap.ui.define(['./library', 'sap/ui/core/Control', './ListItemBase', './Text',
          * @extends sap.m.ListItemBase
          *
          * @author SAP SE
-         * @version 1.52.2
+         * @version 1.52.3
          *
          * @constructor
          * @public
@@ -257,7 +257,7 @@ sap.ui.define(['./library', 'sap/ui/core/Control', './ListItemBase', './Text',
             if (parent && parent instanceof Element) {
                 var delegate = {
                     onAfterRendering: function() {
-                        parent.getDomRef().focus();
+                        parent.focus();
                         parent.removeEventDelegate(delegate);
                     }
                 };

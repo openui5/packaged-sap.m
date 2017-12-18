@@ -35,7 +35,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'jquery.
 	 * @implements sap.ui.core.IFormContent
 	 *
 	 * @author SAP SE
-	 * @version 1.52.2
+	 * @version 1.52.3
 	 *
 	 * @constructor
 	 * @public

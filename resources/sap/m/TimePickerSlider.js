@@ -19,7 +19,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Control', './TimePickerSliderRe
 		 * @extends sap.ui.core.Control
 		 *
 		 * @author SAP SE
-		 * @version 1.52.2
+		 * @version 1.52.3
 		 *
 		 * @constructor
 		 * @private

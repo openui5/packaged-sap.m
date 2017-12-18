@@ -86,7 +86,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 	 *
 	 * @extends sap.m.InputBase
 	 * @author SAP SE
-	 * @version 1.52.2
+	 * @version 1.52.3
 	 *
 	 * @constructor
 	 * @public
@@ -536,10 +536,15 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 	 * @name sap.m.Input._resizePopup
 	 * @private
 	 */
-	Input.prototype._resizePopup = function() {
+	Input.prototype._resizePopup = function(bForceResize) {
 		var that = this;
 
-		if (this._oList && this._oSuggestionPopup) {
+		if (bForceResize) {
+			this._shouldResizePopup = true;
+		}
+
+		if (this._oList && this._oSuggestionPopup && this._shouldResizePopup) {
+
 			if (this.getMaxSuggestionWidth()) {
 				this._oSuggestionPopup.setContentWidth(this.getMaxSuggestionWidth());
 			} else {
@@ -562,8 +567,22 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 	 * @public
 	 */
 	Input.prototype.onBeforeRendering = function() {
+		var sSelectedKey = this.getSelectedKey();
 		InputBase.prototype.onBeforeRendering.call(this);
+
 		this._deregisterEvents();
+
+		if (sSelectedKey) {
+			this.setSelectedKey(sSelectedKey);
+		}
+
+		if (this.getShowSuggestion()) {
+			if (this.getShowTableSuggestionValueHelp()) {
+				this._addShowMoreButton();
+			} else {
+				this._removeShowMoreButton();
+			}
+		}
 	};
 
 	/**
@@ -578,7 +597,6 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 		InputBase.prototype.onAfterRendering.call(this);
 
 		if (!this._bFullScreen) {
-			this._resizePopup();
 			this._sPopupResizeHandler = ResizeHandler.register(this.getDomRef(), function() {
 				that._resizePopup();
 			});
@@ -593,6 +611,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 				}
 
 				if (this.getShowSuggestion() && this._oSuggestionPopup && oEvent.target.id != this.getId() + "-vhi") {
+					this._resizePopup(true);
 					this._oSuggestionPopup.open();
 				}
 			}, this));
@@ -719,8 +738,9 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 			this._oPopupInput._doSelect();
 		} else {
 			// call _getInputValue to apply the maxLength to the typed value
-			this.setDOMValue(this._getInputValue(sNewValue));
-			this.onChange();
+			sNewValue = this._getInputValue(sNewValue);
+			this.setDOMValue(sNewValue);
+			this.onChange(null, null, sNewValue);
 		}
 
 		this._iPopupListSelectedIndex = -1;
@@ -793,7 +813,12 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 		}
 
 		var oItem = this.getSuggestionItemByKey(sKey);
-		this.setSelectionItem(oItem);
+
+		if (oItem) {
+			this.setSelectionItem(oItem);
+		} else {
+			this.setProperty("selectedKey", sKey, true);
+		}
 
 		return this;
 	};
@@ -892,8 +917,9 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 			this._oPopupInput._doSelect();
 		} else {
 			// call _getInputValue to apply the maxLength to the typed value
-			this.setDOMValue(this._getInputValue(sNewValue));
-			this.onChange();
+			sNewValue = this._getInputValue(sNewValue);
+			this.setDOMValue(sNewValue);
+			this.onChange(null, null, sNewValue);
 		}
 		this._iPopupListSelectedIndex = -1;
 
@@ -1596,13 +1622,26 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 	 * @return {sap.m.Input} this Input instance for chaining.
 	 */
 	Input.prototype.updateSuggestionItems = function() {
+		this._bSuspendInvalidate = true;
 		this.updateAggregation("suggestionItems");
 		this._bShouldRefreshListItems = true;
 		this._refreshItemsDelayed();
+		this._bSuspendInvalidate = false;
 		return this;
 	};
 
 	/**
+	 * Invalidates the control.
+	 * @override
+	 * @protected
+	 */
+	Input.prototype.invalidate = function() {
+		if (!this._bSuspendInvalidate) {
+			Control.prototype.invalidate.apply(this, arguments);
+		}
+	};
+
+		/**
 	 * Cancels any pending suggestions.
 	 *
 	 * @name sap.m.Input.cancelPendingSuggest
@@ -2052,6 +2091,24 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 		};
 
 		/**
+		 * Forwards aggregations with the name of items or columns to the internal table.
+		 *
+		 * @overwrite
+		 * @name sap.m.Input.unbindAggregation
+		 * @method
+		 * @public
+		 * @param {string} sAggregationName the name for the binding
+		 * @returns {sap.m.Input} this pointer for chaining
+		 */
+		Input.prototype.unbindAggregation = function() {
+			var args = Array.prototype.slice.call(arguments);
+
+			// propagate the unbind aggregation function to list
+			this._callMethodInManagedObject.apply(this, ["unbindAggregation"].concat(args));
+			return this;
+		};
+
+		/**
 		 * Initialize suggestion popup with lazy loading.
 		 *
 		 * @name sap.m.Input._lazyInitializeSuggestionPopup
@@ -2077,6 +2134,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 				this._bShouldRefreshListItems = false;
 				this.cancelPendingSuggest();
 				this._oSuggestionPopup.close();
+
 				// Ensure the valueStateMessage is opened after the suggestion popup is closed.
 				// Only do this for desktop (not required for mobile) when the focus is on the input.
 				if (!this._bUseDialog && this.$().hasClass("sapMInputFocused")) {
@@ -2150,6 +2208,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 					} else {
 						oInput._oList.destroyItems();
 					}
+					oInput._shouldResizePopup = false;
 				}).attachBeforeOpen(function() {
 					oInput._sBeforeSuggest = oInput.getValue();
 				}))
@@ -2478,7 +2537,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 
 					if (!oPopup.isOpen() && !oInput._sOpenTimer && (this.getValue().length >= this.getStartSuggestion())) {
 						oInput._sOpenTimer = setTimeout(function() {
-							oInput._resizePopup();
+							oInput._resizePopup(true);
 							oInput._sOpenTimer = null;
 							oPopup.open();
 						}, 0);
@@ -2691,6 +2750,11 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 	 * @returns {sap.m.Table} Suggestion table.
 	 */
 	Input.prototype._getSuggestionsTable = function() {
+
+		if (this._bIsBeingDestroyed) {
+			return;
+		}
+
 		var that = this;
 
 		if (!this._oSuggestionTable) {
@@ -2747,7 +2811,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 		}
 	};
 
-	/* =========================================================== */
+		/* =========================================================== */
 	/*           begin: forward aggregation methods to table       */
 	/* =========================================================== */
 
@@ -2768,10 +2832,16 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 		if (sAggregationName === "suggestionColumns") {
 			// apply to the internal table (columns)
 			oSuggestionsTable = this._getSuggestionsTable();
+			if (!oSuggestionsTable) {
+				return null;
+			}
 			return oSuggestionsTable[sFunctionName].apply(oSuggestionsTable, ["columns"].concat(aArgs.slice(2)));
 		} else if (sAggregationName === "suggestionRows") {
 			// apply to the internal table (rows = table items)
 			oSuggestionsTable = this._getSuggestionsTable();
+			if (!oSuggestionsTable) {
+				return null;
+			}
 			return oSuggestionsTable[sFunctionName].apply(oSuggestionsTable, ["items"].concat(aArgs.slice(2)));
 		} else {
 			// apply to this control

@@ -90,7 +90,7 @@ sap.ui.define(['jquery.sap.global', './DatePicker', 'sap/ui/model/type/Date', '.
 	 * mobile devices, it opens in full screen.
 	 *
 	 * @extends sap.m.DatePicker
-	 * @version 1.52.2
+	 * @version 1.52.3
 	 *
 	 * @constructor
 	 * @public
@@ -570,7 +570,20 @@ sap.ui.define(['jquery.sap.global', './DatePicker', 'sap/ui/model/type/Date', '.
 	}
 
 	function _handleBeforeOpen(oEvent){
+		var oInput;
 
+		if (Device.browser.msie || Device.browser.edge) {
+			//For IE & Edge, any selection of the underlying input must be removed before opening the picker popup,
+			//otherwise the input will receive focus via TAB during the picker is opened. The selection is restored back
+			//when the popup is closed
+			oInput = this._$input.get(0);
+			this._oInputSelBeforePopupOpen = {
+				iStart: oInput.selectionStart,
+				iEnd: oInput.selectionEnd
+			};
+			oInput.selectionStart = 0;
+			oInput.selectionEnd = 0;
+		}
 	}
 
 	function _handleAfterOpen(oEvent){
@@ -581,7 +594,15 @@ sap.ui.define(['jquery.sap.global', './DatePicker', 'sap/ui/model/type/Date', '.
 	}
 
 	function _handleAfterClose(oEvent){
+		var oInput;
 		this.$("inner").attr("aria-expanded", false);
+
+		if (Device.browser.msie || Device.browser.edge) {
+			oInput = this._$input.get(0);
+			//The selection is restored back due to issue with IE & Edge. See _handleBeforeOpen
+			oInput.selectionStart = this._oInputSelBeforePopupOpen.iStart;
+			oInput.selectionEnd = this._oInputSelBeforePopupOpen.iEnd;
+		}
 	}
 
 	function _getTimePattern(){

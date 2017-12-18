@@ -2467,5 +2467,123 @@
         "references": []
       }
     ]
+  },
+  "1.48.15": {
+    "date": "December 2017",
+    "notes": [
+      {
+        "id": "792a7bc87f5517a615b312ec1a6add491b0f36e7",
+        "type": "FIX",
+        "text": " sap.m.BreadCrumbs: Fixed keyboard handling for hidden items",
+        "references": []
+      },
+      {
+        "id": "83b3053e08b735665d7b9ecde4a09478c4840b22",
+        "type": "FIX",
+        "text": " sap.m.Dialog: Drag and resize are now working correctly",
+        "references": []
+      },
+      {
+        "id": "898f9cbb7398cbd8b63fda0717faf643e357675c",
+        "type": "FIX",
+        "text": " sap.m.FacetFilter: Scroll of the items work with arrows",
+        "references": []
+      },
+      {
+        "id": "019a0f66ead273a40eb4025a715fde8b57307c8b",
+        "type": "FIX",
+        "text": " sap.m.GenericTile : Update Arial Label on Generic Tile content change on using TAB key navigation.",
+        "references": []
+      },
+      {
+        "id": "9b05a89a305d4440e59c585253e8dac46796f320",
+        "type": "FIX",
+        "text": " sap.m.ObjectHeader: removed href attribute if property href is not set",
+        "references": []
+      },
+      {
+        "id": "b3f1a2531e07bd0af63986c8908250ac7f111390",
+        "type": "FIX",
+        "text": " sap.m.Popover: Show scrollbar when overflowing and out of visible area.",
+        "references": []
+      },
+      {
+        "id": "474a44c1f0fa36c63f9bfe0a5321ced4f2881b2f",
+        "type": "FIX",
+        "text": " sap.ui.unified.Calendar: Focus handling corrected",
+        "references": []
+      }
+    ]
+  },
+  "1.48.16": {
+    "date": "December 2017",
+    "notes": [
+      {
+        "id": "f01e3506a286c5bba7f21322562aafda88651336",
+        "type": "FIX",
+        "text": " sap.m.BarInPageEnabler: remove extra aria-labelledby attribute",
+        "references": []
+      },
+      {
+        "id": "0f5cde88281a33ee630d8bfbd38684d98a6d6c0e",
+        "type": "FIX",
+        "text": " sap.m.Button: fire press event on keydown for \u0027enter\u0027 and keyup for \u0027space\u0027",
+        "references": []
+      },
+      {
+        "id": "74cae05c7837a3681af3baaef2b980a373c5464c",
+        "type": "FIX",
+        "text": " sap.m.Input: showTableSuggestionValueHelp now works correctly on IE",
+        "references": []
+      },
+      {
+        "id": "aba1d57a06658428a656b41f6439d0f7e3addd30",
+        "type": "FIX",
+        "text": " sap.m.ObjectAttribute: ObjectAttribute with customContent now omit active property",
+        "references": []
+      },
+      {
+        "id": "6347c4eb4c1bead36f386d7890d70dacc9f5001f",
+        "type": "FIX",
+        "text": " sap.m.Panel: Blurred text in IE",
+        "references": []
+      },
+      {
+        "id": "193d402c6ff5b8b19215a589c9aa2d28ce124520",
+        "type": "FIX",
+        "text": " sap.m.Popover: Updated: Show scrollbar when overflowing and out of visible area.",
+        "references": []
+      },
+      {
+        "id": "44518907b5dc1e427eb221abcff45a2ac5cbbad7",
+        "type": "FIX",
+        "text": " sap.m.SearchField: \u0027search\u0027 event is now correctly fired",
+        "references": []
+      },
+      {
+        "id": "5a24492494dc40877c96f14be02df586e264f908",
+        "type": "FIX",
+        "text": " sap.m.StepInput - wrong calculation when value precision is changed.",
+        "references": []
+      },
+      {
+        "id": "3df1ebf42566546302e2fe36c6c4ade395d0b8a8",
+        "type": "FIX",
+        "text": " sap.m.TabContainer: fix removeItem with 0 as a parameter",
+        "references": []
+      },
+      {
+        "id": "0d1960e214c417847b91735a377b36e1d530f5ed",
+        "type": "FIX",
+        "text": " sap.m.TileContainer - works if initial width/height is 0.",
+        "references": []
+      },
+      {
+        "id": "dcb3d74bd92350e2e700cb70b3de2606da0cd671",
+        "type": "FIX",
+        "text": " sap.m.Token/Tokenizer: Not editable token text width in Safari",
+        "references": []
+      }
+    ]
   }
 }

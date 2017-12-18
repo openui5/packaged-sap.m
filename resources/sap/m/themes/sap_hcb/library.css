@@ -6574,7 +6574,6 @@ html.sap-desktop .sapMLnk:focus:not(.sapMLnkDsbl) {
   touch-action: pan-y;
   -ms-touch-action: pan-y;
 }
-.sapMList:focus,
 .sapMListUl:focus {
   outline: none;
 }
@@ -10957,6 +10956,9 @@ html.sap-desktop .sapMP13nColumnsPanel .sapMLIBSelected:not(.sapMLIBActive):not(
 .sapMPage > section.sapMPageEnableScrolling {
   overflow-y: auto;
 }
+.sapMPage > section.sapMPageEnableScrolling .sapMPage > section {
+  overflow-y: visible;
+}
 html[data-sap-ui-os^="bb"] .sapMPage > section.sapMPageEnableScrolling,
 html[data-sap-ui-os^="iOS"] .sapMPage > section.sapMPageEnableScrolling {
   overflow-y: scroll;
@@ -11359,7 +11361,7 @@ html.sap-desktop .sapUiFioriObjectPage > section > .sapMPanel {
 }
 /* workaround for drawing issue in IE - ensures that the content will be redrawn */
 html[data-sap-ui-animation='on'][data-sap-ui-browser^="ie"] .sapMPanelContent {
-  transform: translate3d(0, 0, 0);
+  transform: translate2d(0, 0);
 }
 /* workaround for drawing issue in Edge - ensures that the content will be redrawn */
 html[data-sap-ui-animation='on'][data-sap-ui-browser^="ed"] .sapMPanelContent {
@@ -15898,9 +15900,6 @@ html[data-sap-ui-browser='ie11'] .sapMListTblHighlightCell > .sapMLIBHighlight {
 .sapMListTblNavCol,
 .sapMListTblSelCol {
   padding: 0;
-}
-.sapMListTblNavCol > .sapMLIBImgNav {
-  display: block;
 }
 .sapMListTblUnreadCol {
   display: none;
