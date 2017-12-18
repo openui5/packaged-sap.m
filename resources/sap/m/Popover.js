@@ -55,7 +55,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Button', './InstanceManager', '.
 		* @extends sap.ui.core.Control
 		* @implements sap.ui.core.PopupInterface
 		* @author SAP SE
-		* @version 1.48.15
+		* @version 1.48.16
 		*
 		* @public
 		* @alias sap.m.Popover
@@ -1484,6 +1484,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Button', './InstanceManager', '.
 
 			oPosParams._fArrowHeight = $arrow.outerHeight(true);
 			oPosParams._fWidth = Popover.outerWidth($popover[0]);
+			oPosParams._fWidthInner = oPosParams._$scrollArea ? (oPosParams._$scrollArea.width() || 0) : 0;
 			oPosParams._fHeight = Popover.outerHeight($popover[0]);
 			oPosParams._fHeaderHeight = oPosParams._$header.length > 0 ? oPosParams._$header.outerHeight(true) : 0;
 			oPosParams._fSubHeaderHeight = oPosParams._$subHeader.length > 0 ? oPosParams._$subHeader.outerHeight(true) : 0;
@@ -1562,8 +1563,9 @@ sap.ui.define(['jquery.sap.global', './Bar', './Button', './InstanceManager', '.
 				bExceedVertical = (oPosParams._fDocumentHeight - oPosParams._fMarginTop - oPosParams._fMarginBottom) < oPosParams._fHeight,
 				bOverLeft = oPosParams._fOffset.left < oPosParams._fMarginLeft,
 				//Include Scrollbar's width in these calculations
-				fScrollbarSize = (this.getVerticalScrolling() ? jQuery.sap.scrollbarSize().width : 0),
-				bOverRight = iPosToRightBorder < oPosParams._fMarginRight + fScrollbarSize,
+				fScrollbarSize = this.getVerticalScrolling() && (oPosParams._fWidth !== oPosParams._fWidthInner) ?
+					jQuery.sap.scrollbarSize().width : 0,
+				bOverRight = iPosToRightBorder < (oPosParams._fMarginRight + fScrollbarSize),
 				bOverTop = oPosParams._fOffset.top < oPosParams._fMarginTop,
 				bOverBottom = iPosToBottomBorder < oPosParams._fMarginBottom,
 				bRtl = sap.ui.getCore().getConfiguration().getRTL();

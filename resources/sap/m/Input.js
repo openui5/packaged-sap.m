@@ -66,7 +66,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 	 *
 	 * @extends sap.m.InputBase
 	 * @author SAP SE
-	 * @version 1.48.15
+	 * @version 1.48.16
 	 *
 	 * @constructor
 	 * @public
@@ -524,9 +524,19 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 	Input.prototype.onBeforeRendering = function() {
 		var sSelectedKey = this.getSelectedKey();
 		InputBase.prototype.onBeforeRendering.call(this);
+
 		this._deregisterEvents();
+
 		if (sSelectedKey) {
 			this.setSelectedKey(sSelectedKey);
+		}
+
+		if (this.getShowSuggestion()) {
+			if (this.getShowTableSuggestionValueHelp()) {
+				this._addShowMoreButton();
+			} else {
+				this._removeShowMoreButton();
+			}
 		}
 	};
 
@@ -1683,6 +1693,23 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 
 			// propagate the bind aggregation function to list
 			this._callMethodInManagedObject.apply(this, ["bindAggregation"].concat(args));
+			return this;
+		};
+
+		/**
+		 * Forwards aggregations with the name of items or columns to the internal table.
+		 *
+		 * @overwrite
+		 * @name sap.m.Input.unbindAggregation
+		 * @method
+		 * @public
+		 * @param {string} sAggregationName the name for the binding
+		 * @returns {sap.m.Input} this pointer for chaining
+		 */
+		Input.prototype.unbindAggregation = function() {
+			var args = Array.prototype.slice.call(arguments);
+			// propagate the unbind aggregation function to list
+			this._callMethodInManagedObject.apply(this, ["unbindAggregation"].concat(args));
 			return this;
 		};
 
