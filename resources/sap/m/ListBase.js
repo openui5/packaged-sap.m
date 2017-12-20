@@ -24,7 +24,7 @@ sap.ui.define(['jquery.sap.global', './GroupHeaderListItem', './ListItemBase', '
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.50.7
+	 * @version 1.50.8
 	 *
 	 * @constructor
 	 * @public
@@ -1566,14 +1566,12 @@ sap.ui.define(['jquery.sap.global', './GroupHeaderListItem', './ListItemBase', '
 
 		sDescription += this.getAccessibilityType() + " ";
 		sDescription += this.getAccessibilityStates() + " ";
-		sDescription += this.getFooterText();
-
-		return sDescription.trim();
+		return sDescription;
 	};
 
 	ListBase.prototype.getAccessibilityInfo = function() {
 		return {
-			description: this.getAccessibilityDescription(),
+			description: this.getAccessibilityDescription().trim(),
 			focusable: true
 		};
 	};

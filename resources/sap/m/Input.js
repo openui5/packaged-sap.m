@@ -66,7 +66,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 	 *
 	 * @extends sap.m.InputBase
 	 * @author SAP SE
-	 * @version 1.50.7
+	 * @version 1.50.8
 	 *
 	 * @constructor
 	 * @public
@@ -524,9 +524,19 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 	Input.prototype.onBeforeRendering = function() {
 		var sSelectedKey = this.getSelectedKey();
 		InputBase.prototype.onBeforeRendering.call(this);
+
 		this._deregisterEvents();
+
 		if (sSelectedKey) {
 			this.setSelectedKey(sSelectedKey);
+		}
+
+		if (this.getShowSuggestion()) {
+			if (this.getShowTableSuggestionValueHelp()) {
+				this._addShowMoreButton();
+			} else {
+				this._removeShowMoreButton();
+			}
 		}
 	};
 
@@ -1689,6 +1699,23 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 			return this;
 		};
 
+		/**
+		 * Forwards aggregations with the name of items or columns to the internal table.
+		 *
+		 * @overwrite
+		 * @name sap.m.Input.unbindAggregation
+		 * @method
+		 * @public
+		 * @param {string} sAggregationName the name for the binding
+		 * @returns {sap.m.Input} this pointer for chaining
+		 */
+		Input.prototype.unbindAggregation = function() {
+			var args = Array.prototype.slice.call(arguments);
+			// propagate the unbind aggregation function to list
+			this._callMethodInManagedObject.apply(this, ["unbindAggregation"].concat(args));
+			return this;
+		};
+
 		Input.prototype._lazyInitializeSuggestionPopup = function() {
 			if (!this._oSuggestionPopup) {
 				createSuggestionPopup(this);
@@ -2215,6 +2242,11 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 
 	/* lazy loading of the suggestions table */
 	Input.prototype._getSuggestionsTable = function() {
+
+		if (this._bIsBeingDestroyed) {
+			return;
+		}
+
 		var that = this;
 
 		if (!this._oSuggestionTable) {
@@ -2284,10 +2316,16 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 		if (sAggregationName === "suggestionColumns") {
 			// apply to the internal table (columns)
 			oSuggestionsTable = this._getSuggestionsTable();
+			if (!oSuggestionsTable) {
+				return null;
+			}
 			return oSuggestionsTable[sFunctionName].apply(oSuggestionsTable, ["columns"].concat(aArgs.slice(2)));
 		} else if (sAggregationName === "suggestionRows") {
 			// apply to the internal table (rows = table items)
 			oSuggestionsTable = this._getSuggestionsTable();
+			if (!oSuggestionsTable) {
+				return null;
+			}
 			return oSuggestionsTable[sFunctionName].apply(oSuggestionsTable, ["items"].concat(aArgs.slice(2)));
 		} else {
 			// apply to this control
