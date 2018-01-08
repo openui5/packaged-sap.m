@@ -1,6 +1,6 @@
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2017 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2018 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
@@ -36,9 +36,8 @@ sap.ui.define(['sap/m/PageAccessibleLandmarkInfo', 'sap/ui/Device'],
 			oSubHeader = oPage.getSubHeader();
 		}
 
-		if (oPage.getShowFooter()) {
-			oFooter = oPage.getFooter();
-		}
+		oFooter = oPage.getFooter();
+
 		oRm.write("<div");
 		oRm.writeControlData(oPage);
 		oRm.addClass("sapMPage");
@@ -62,7 +61,7 @@ sap.ui.define(['sap/m/PageAccessibleLandmarkInfo', 'sap/ui/Device'],
 			oRm.addClass("sapMPageBusyCoversAll");
 		}
 
-		if (oPage.getFloatingFooter() && oPage.getShowFooter()) {
+		if (oPage.getFloatingFooter()) {
 			oRm.addClass("sapMPageFloatingFooter");
 		}
 
