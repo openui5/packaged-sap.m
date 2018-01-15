@@ -1,6 +1,6 @@
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2017 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2018 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
@@ -31,26 +31,6 @@ sap.ui.define(['sap/ui/base/Object', 'sap/ui/core/InvisibleText', 'sap/m/library
 	};
 
 	var IBAR_CSS_CLASS = "sapMIBar";
-
-	var _mInvisibleTexts = {},
-		oBundle = sap.ui.getCore().getLibraryResourceBundle("sap.m");
-
-	/**
-	 * Creates (if not already created) and returns an invisible text element for screen reader support.
-	 * @param {string} sType - the type of the control we want to get a label for
-	 * @param {string} sText - the text to be used
-	 * @private
-	 */
-	var _ensureInvisibleText = function(sType, sText) {
-
-		if (typeof _mInvisibleTexts[sType] === "undefined") {
-			_mInvisibleTexts[sType] = new InvisibleText({
-				text: sText
-			}).toStatic().getId();
-		}
-
-		return _mInvisibleTexts[sType];
-	};
 
 	/**
 	 * @class Helper Class for implementing the IBar interface. Should be created once per IBar instance.
@@ -174,10 +154,6 @@ sap.ui.define(['sap/ui/base/Object', 'sap/ui/core/InvisibleText', 'sap/m/library
 				this.addStyleClass(IBAR_CSS_CLASS + "-CTX");
 			}
 
-			if (oOptions.internalAriaLabel) {
-				this._sInternalAriaLabelId = _ensureInvisibleText(oOptions.tag, oBundle.getText(oOptions.internalAriaLabel));
-			}
-
 			if (this.isContextSensitive()) {
 				this.addStyleClass(oOptions.contextClass);
 			}
@@ -252,12 +228,6 @@ sap.ui.define(['sap/ui/base/Object', 'sap/ui/core/InvisibleText', 'sap/m/library
 			oRM.write("<" + sTag);
 			oRM.addClass(IBAR_CSS_CLASS);
 
-			if (oControl._sInternalAriaLabelId) {
-				oRM.writeAccessibilityState(oControl, {
-					"labelledby": {value: oControl._sInternalAriaLabelId, append: true}
-				});
-			}
-
 			if (this.shouldAddIBarContext(oControl)) {
 				oRM.addClass(IBAR_CSS_CLASS + "-CTX");
 			}
@@ -301,17 +271,6 @@ sap.ui.define(['sap/ui/base/Object', 'sap/ui/core/InvisibleText', 'sap/m/library
 	 */
 	BarInPageEnabler.addChildClassTo = function (oControl) {
 		oControl.addStyleClass("sapMBarChild");
-	};
-
-	/**
-	 * Termination of the BarInPageEnabler control
-	 * @private
-	 */
-	BarInPageEnabler.prototype.exit = function () {
-		if (this._sInternalAriaLabelId) {
-			this._sInternalAriaLabelId.destroy();
-			this._sInternalAriaLabelId = null;
-		}
 	};
 
 	return BarInPageEnabler;

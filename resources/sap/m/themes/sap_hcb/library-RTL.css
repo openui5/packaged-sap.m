@@ -1,11 +1,11 @@
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2017 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2018 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2017 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2018 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 /* =========================== */
@@ -689,6 +689,9 @@ html[dir='rtl'] .sapMBsyIndIcon {
 .sapMBtn .sapMBtnInner,
 .sapMBtn .sapMBtnContent {
   display: block;
+}
+.sapMBtn .sapMBtnContent:focus {
+  outline: none;
 }
 /* --------------------- */
 /* Inner area            */
@@ -9324,6 +9327,9 @@ html[data-sap-ui-browser^='ie'] .sapMObjectAttributeActive:focus .sapMObjectAttr
 .sapMOH {
   padding: 3rem;
 }
+.sapMOH .sapMOHTitleActive:focus {
+  outline: none;
+}
 html.sap-tablet.sapUiMedia-Std-Tablet .sapMOH {
   padding: 2rem;
 }
@@ -10554,6 +10560,7 @@ html[data-sap-ui-browser^="ed"] .sapMObjLAttrDiv > .sapMObjectAttributeActive.sa
   text-overflow: ellipsis;
   word-wrap: normal;
   color: #ffffff;
+  font-size: 0.875rem;
 }
 .sapMObjectNumberText {
   display: inline-block;
@@ -10623,8 +10630,8 @@ html[data-sap-ui-os^="Android"] .sapMObjectNumberUnit {
 .sapMObjStatus > .sapMObjStatusTitle {
   color: #ffffff;
 }
-.sapMObjStatusNone > .sapMObjStatusText,
-.sapMObjStatusNone > .sapMObjStatusIcon {
+.sapMObjStatusNone .sapMObjStatusText,
+.sapMObjStatusNone .sapMObjStatusIcon {
   color: #ffffff;
 }
 .sapMObjStatusError > .sapMObjStatusText,
@@ -10682,6 +10689,19 @@ html[data-sap-ui-os^="Android"] .sapMObjectNumberUnit {
 }
 .sapUiSizeCompact .sapUiForm.sapUiFormEdit .sapMObjStatus {
   line-height: 2rem;
+}
+/*
+	FIX for 2715207
+	Fiori design guidelines say that statuses should be specially styled for ObjectPage
+	and share looks with other text only controls.
+*/
+.sapUxAPObjectPageContainer .sapMObjStatusNone .sapMObjStatusText,
+.sapUxAPObjectPageHeaderContentItem.sapMObjStatusNone .sapMObjStatusText,
+.sapUxAPObjectPageHeaderContentItem .sapMObjStatusNone .sapMObjStatusText,
+.sapUxAPObjectPageContainer .sapMObjStatusNone .sapMObjStatusIcon,
+.sapUxAPObjectPageHeaderContentItem.sapMObjStatusNone .sapMObjStatusIcon,
+.sapUxAPObjectPageHeaderContentItem .sapMObjStatusNone .sapMObjStatusIcon {
+  color: #ffffff;
 }
 /* ============================================= */
 /* FIX: CSS 0120061532 0001316230 2014 */
@@ -13241,13 +13261,13 @@ html[data-sap-ui-browser^="ed"].sap-desktop .sapMFocus > .sapMSFF::before {
 .sapMSegB {
   margin: 0;
   /*To override the native browser margin*/
-  padding: 0;
+  padding: 0.250rem 0;
   -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
   border: none;
   white-space: nowrap;
   display: inline-block;
   box-sizing: border-box;
-  height: 2.5rem;
+  height: 3rem;
   vertical-align: top;
   position: relative;
 }
@@ -13256,6 +13276,7 @@ html[data-sap-ui-browser^="ed"].sap-desktop .sapMFocus > .sapMSFF::before {
   text-overflow: ellipsis;
   overflow: hidden;
   -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+  text-align: center;
   cursor: pointer;
   vertical-align: text-bottom;
   box-sizing: border-box;
@@ -13265,7 +13286,6 @@ html[data-sap-ui-browser^="ed"].sap-desktop .sapMFocus > .sapMSFF::before {
   line-height: 2.375rem;
   padding-right: 0.75rem;
   padding-left: 0.75rem;
-  text-align: center;
   text-shadow: none;
   color: #ffffff;
   border: 1px solid #ffffff;
@@ -13279,8 +13299,6 @@ html[data-sap-ui-browser^="ed"].sap-desktop .sapMFocus > .sapMSFF::before {
   margin-left: 0;
 }
 .sapMBar .sapMSegB {
-  margin-top: 0.250rem;
-  margin-bottom: 0.250rem;
   margin-right: 0.250rem;
 }
 html.sap-desktop .sapMSegBBtnFocusable:hover {
@@ -13381,7 +13399,8 @@ html[data-sap-ui-os^="iOS"] .sapMBar .sapMSegB {
 }
 /* Compact size */
 .sapUiSizeCompact .sapMSegB {
-  height: 1.625rem;
+  height: 2rem;
+  padding: 0.1875rem 0;
 }
 .sapUiSizeCompact .sapMSegB img {
   line-height: 1.5rem;
@@ -13423,10 +13442,6 @@ html[data-sap-ui-os^="iOS"] .sapMBar .sapMSegB {
 }
 .sapUiSizeCompact .sapMSegB.sapMSegBIcons .sapMSegBBtnMixed img {
   padding: 0;
-}
-.sapUiSizeCompact .sapMBar .sapMSegB {
-  margin-top: 0.1875rem;
-  margin-bottom: 0.1875rem;
 }
 /* Android size compact fix */
 html[data-sap-ui-os^="Android"] .sapUiSizeCompact .sapMSegBBtn .sapUiIcon {
@@ -16104,6 +16119,7 @@ html[data-sap-ui-browser='ie11'] .sapMListTblHighlightCell > .sapMLIBHighlight {
 /* ============================================= */
 .sapMTabStrip {
   position: relative;
+  height: 3rem;
   background: #000000;
   box-shadow: inset 0 -0.125rem #ffffff, 0 0.125rem 0 0 #000000;
   box-sizing: border-box;
@@ -16637,6 +16653,7 @@ html.sap-phone .sapMTileContent {
 }
 .sapMTile:focus {
   outline: 1px dotted #ffffff;
+  position: relative;
 }
 .sapMTile .sapMTileDrag {
   opacity: 0.6;
@@ -17097,6 +17114,7 @@ html.sap-phone .sapMTC .sapMTCEdgeRight {
   box-sizing: border-box;
   padding: 1rem;
   text-align: center;
+  position: relative;
 }
 .sapMTimePickerDropDown .sapMTimePickerContainer:before {
   content: '';
@@ -17826,6 +17844,10 @@ html[data-sap-ui-browser*="sf"] .sapMTokenText {
 html[data-sap-ui-browser*="sf"] .sapUiSizeCompact .sapMTokenText {
   max-width: calc(100% + 1px -  1.25rem);
 }
+html[data-sap-ui-browser*="sf"] .sapMTokenReadOnly .sapMTokenText,
+html[data-sap-ui-browser*="sf"] .sapUiSizeCompact .sapMTokenReadOnly .sapMTokenText {
+  max-width: 100%;
+}
 /* ================================ */
 /* CSS for control sap.m/Tokenizer  */
 /* Base theme                       */
@@ -17908,6 +17930,10 @@ html.sap-desktop .sapMTokenizer:focus {
 }
 html[data-sap-ui-browser^="sf"] .sapMTokenizerScrollContainer {
   width: calc(100% + 1px);
+}
+html[data-sap-ui-browser^="sf"] .sapMTokenizerReadonly .sapMTokenText,
+html[data-sap-ui-browser^="sf"] .sapUiSizeCompact .sapMTokenizerReadonly .sapMTokenText {
+  max-width: 100%;
 }
 html[data-sap-ui-browser^="ie"].sap-desktop .sapMTokenizer:focus,
 html[data-sap-ui-browser^="ed"].sap-desktop .sapMTokenizer:focus {
@@ -21476,6 +21502,7 @@ html[data-sap-ui-browser^='ed'] .sapMListTbl {
 .sapMCustomTile:focus .sapMTile {
   border: 1px dotted transparent;
   border-radius: 0;
+  position: relative;
 }
 .sapMTile:focus::before,
 .sapMTile:hover::before,

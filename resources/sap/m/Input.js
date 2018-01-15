@@ -1,6 +1,6 @@
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2017 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2018 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
@@ -86,7 +86,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 	 *
 	 * @extends sap.m.InputBase
 	 * @author SAP SE
-	 * @version 1.52.3
+	 * @version 1.52.4
 	 *
 	 * @constructor
 	 * @public
@@ -732,16 +732,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 
 		this._sSelectedValue = sNewValue;
 
-		// update the input field
-		if (this._bUseDialog) {
-			this._oPopupInput.setValue(sNewValue);
-			this._oPopupInput._doSelect();
-		} else {
-			// call _getInputValue to apply the maxLength to the typed value
-			sNewValue = this._getInputValue(sNewValue);
-			this.setDOMValue(sNewValue);
-			this.onChange(null, null, sNewValue);
-		}
+		this.updateInputField(sNewValue);
 
 		this._iPopupListSelectedIndex = -1;
 
@@ -905,22 +896,14 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 			if (oItem) {
 				sNewValue = this._getDisplayText(oItem);
 			} else {
-				sNewValue = this._fnRowResultFilter(oListItem);
+				sNewValue = this._fnRowResultFilter ? this._fnRowResultFilter(oListItem) : Input._DEFAULTRESULT_TABULAR(oListItem);
 			}
 		}
 
 		this._sSelectedValue = sNewValue;
 
-		// update the input field
-		if (this._bUseDialog) {
-			this._oPopupInput.setValue(sNewValue);
-			this._oPopupInput._doSelect();
-		} else {
-			// call _getInputValue to apply the maxLength to the typed value
-			sNewValue = this._getInputValue(sNewValue);
-			this.setDOMValue(sNewValue);
-			this.onChange(null, null, sNewValue);
-		}
+		this.updateInputField(sNewValue);
+
 		this._iPopupListSelectedIndex = -1;
 
 		if (!(this._bUseDialog && this instanceof sap.m.MultiInput && this._isMultiLineMode)) {
@@ -1082,6 +1065,8 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 	 * @ui5-metamodel This method also will be described in the UI5 (legacy) designtime metamodel
 	 */
 	Input.prototype.setRowResultFunction = function(fnFilter) {
+		var sSelectedRow;
+
 		// reset to default function when calling with null or undefined
 		if (fnFilter === null || fnFilter === undefined) {
 			this._fnRowResultFilter = Input._DEFAULTRESULT_TABULAR;
@@ -1090,6 +1075,12 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 		// set custom function
 		jQuery.sap.assert(typeof (fnFilter) === "function", "Input.setRowResultFunction: first argument fnFilter must be a function on " + this);
 		this._fnRowResultFilter = fnFilter;
+
+		sSelectedRow = this.getSelectedRow();
+		if (sSelectedRow) {
+			this.setSelectedRow(sSelectedRow);
+		}
+
 		return this;
 	};
 
@@ -3054,6 +3045,8 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 			});
 		}
 
+		oInputClone.setRowResultFunction(this._fnRowResultFilter);
+
 		return oInputClone;
 	};
 
@@ -3095,6 +3088,23 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 	 */
 	Input.prototype.getDOMValue = function() {
 		return this._$input.val();
+	};
+
+	/**
+	 * Updates the inner input field.
+	 *
+	 * @protected
+	 */
+	Input.prototype.updateInputField = function(sNewValue) {
+		if (this._bUseDialog) {
+			this._oPopupInput.setValue(sNewValue);
+			this._oPopupInput._doSelect();
+		} else {
+			// call _getInputValue to apply the maxLength to the typed value
+			sNewValue = this._getInputValue(sNewValue);
+			this.setDOMValue(sNewValue);
+			this.onChange(null, null, sNewValue);
+		}
 	};
 
 	/**

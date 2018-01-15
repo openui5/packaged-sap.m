@@ -1,6 +1,6 @@
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2017 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2018 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
@@ -163,7 +163,7 @@ sap.ui.define([],
 				oRm.write("<span");
 				oRm.addClass(SliderRenderer.CSS_CLASS + "HandleTooltip");
 				oRm.addStyle("width", oSlider._iLongestRangeTextWidth + "px");
-				oRm.writeAttribute("id", oSlider.getId() + "-Tooltip");
+				oRm.writeAttribute("id", oSlider.getId() + "-LeftTooltip");
 
 				oRm.writeClasses();
 				oRm.writeStyles();
