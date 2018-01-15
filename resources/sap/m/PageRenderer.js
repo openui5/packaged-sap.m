@@ -1,6 +1,6 @@
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2017 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2018 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
@@ -119,8 +119,8 @@ sap.ui.define(['sap/m/PageAccessibleLandmarkInfo', 'sap/ui/Device'],
 		// and reduce size recalculations of embedded responsive controls that rely on
 		// the page content width. See ScrollEnablement.js: _setOverflow
 		if (oPage.getEnableScrolling()) {
-			oRm.addStyle("overflow-y", Device.os.ios || Device.os.blackberry ? "scroll" : "auto");
-			oRm.writeStyles();
+			oRm.addClass("sapMPageEnableScrolling");
+			oRm.writeClasses();
 		}
 
 		oRm.write('>');

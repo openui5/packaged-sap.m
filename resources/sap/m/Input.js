@@ -1,6 +1,6 @@
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2017 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2018 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
@@ -66,7 +66,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 	 *
 	 * @extends sap.m.InputBase
 	 * @author SAP SE
-	 * @version 1.44.25
+	 * @version 1.44.26
 	 *
 	 * @constructor
 	 * @public
@@ -2043,6 +2043,11 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 
 	/* lazy loading of the suggestions table */
 	Input.prototype._getSuggestionsTable = function() {
+
+		if (this._bIsBeingDestroyed) {
+			return;
+		}
+
 		var that = this;
 
 		if (!this._oSuggestionTable) {
@@ -2107,10 +2112,16 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 		if (sAggregationName === "suggestionColumns") {
 			// apply to the internal table (columns)
 			oSuggestionsTable = this._getSuggestionsTable();
+			if (!oSuggestionsTable) {
+				return null;
+			}
 			return oSuggestionsTable[sFunctionName].apply(oSuggestionsTable, ["columns"].concat(aArgs.slice(2)));
 		} else if (sAggregationName === "suggestionRows") {
 			// apply to the internal table (rows = table items)
 			oSuggestionsTable = this._getSuggestionsTable();
+			if (!oSuggestionsTable) {
+				return null;
+			}
 			return oSuggestionsTable[sFunctionName].apply(oSuggestionsTable, ["items"].concat(aArgs.slice(2)));
 		} else {
 			// apply to this control

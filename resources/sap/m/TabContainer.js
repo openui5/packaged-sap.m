@@ -1,6 +1,6 @@
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2017 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2018 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
@@ -24,7 +24,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		 * @extends sap.ui.core.Control
 		 *
 		 * @author SAP SE
-		 * @version 1.44.25
+		 * @version 1.44.26
 		 *
 		 * @constructor
 		 * @public
@@ -300,7 +300,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 					};
 
 			// Selection (causes invalidation)
-			if (bSetAsSelected) {
+			if (bSetAsSelected && oNextItem) {
 				this.setSelectedItem(oNextItem);
 				// Notify the subscriber
 				this.fireItemSelect({item: oNextItem});
@@ -319,14 +319,14 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		TabContainer.prototype.removeItem = function(vItem) {
 			var bIsSelected;
 
-			if (!vItem) {
+			if (typeof vItem === "undefined" || vItem === null) {
 				return null;
 			}
 
-			// The selection flag of the removed item
-			bIsSelected = vItem.getId() === this.getSelectedItem();
 			//Remove the corresponding TabContainerItem
 			vItem = this.removeAggregation("items", vItem);
+			// The selection flag of the removed item
+			bIsSelected = vItem.getId() === this.getSelectedItem();
 			this._getTabStrip().removeItem(this._toTabStripItem(vItem));
 			// Perform selection switch
 			this._moveToNextItem(bIsSelected);
