@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './TreeItemBase', './library', 'sap/ui/core/
 	 * @extends sap.m.TreeItemBase
 	 *
 	 * @author SAP SE
-	 * @version 1.48.17
+	 * @version 1.48.18
 	 *
 	 * @constructor
 	 * @public
@@ -81,6 +81,19 @@ sap.ui.define(['jquery.sap.global', './TreeItemBase', './library', 'sap/ui/core/
 	StandardTreeItem.prototype.exit = function() {
 		TreeItemBase.prototype.exit.apply(this, arguments);
 		this.destroyControls(["Icon"]);
+	};
+
+	sap.m.StandardTreeItem.prototype.setIcon = function(sIcon) {
+		var sOldIcon = this.getIcon();
+		this.setProperty("icon", sIcon);
+
+		// destroy the internal control if it is changed from Icon to Image or Image to Icon
+		if (this._oIconControl && (!sIcon || sap.ui.core.IconPool.isIconURI(sIcon) != sap.ui.core.IconPool.isIconURI(sOldIcon))) {
+			this._oIconControl.destroy("KeepDom");
+			this._oIconControl = undefined;
+		}
+
+		return this;
 	};
 
 	return StandardTreeItem;

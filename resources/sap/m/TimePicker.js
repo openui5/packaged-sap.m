@@ -79,7 +79,7 @@ sap.ui.define(['jquery.sap.global', './InputBase', './MaskInput', './MaskInputRu
 		 * @extends sap.m.MaskInput
 		 *
 		 * @author SAP SE
-		 * @version 1.48.17
+		 * @version 1.48.18
 		 *
 		 * @constructor
 		 * @public

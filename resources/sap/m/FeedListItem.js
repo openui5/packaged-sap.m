@@ -22,7 +22,7 @@ sap.ui.define(['jquery.sap.global', './ListItemBase', './library', './FormattedT
 	 * @extends sap.m.ListItemBase
 	 *
 	 * @author SAP SE
-	 * @version 1.48.17
+	 * @version 1.48.18
 	 *
 	 * @constructor
 	 * @public
