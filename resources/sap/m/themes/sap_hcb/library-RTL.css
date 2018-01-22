@@ -1,11 +1,11 @@
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2017 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2018 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2017 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2018 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 /* =========================== */
@@ -5150,6 +5150,9 @@ html[data-sap-ui-browser^="ed"] .sapMObjectAttributeDiv {
 .sapMOH {
   margin: 1rem;
   padding: 1rem;
+}
+.sapMOH .sapMOHTitleActive:focus {
+  outline: none;
 }
 html.sap-phone .sapMOH {
   padding: 1rem 0;

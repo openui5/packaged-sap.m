@@ -1,6 +1,6 @@
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2017 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2018 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
@@ -47,7 +47,7 @@ sap.ui.define(['jquery.sap.global', './DatePicker', 'sap/ui/model/type/Date', '.
 	 * the <code>sap.ui.unified</code> library.
 	 *
 	 * @extends sap.m.DatePicker
-	 * @version 1.38.31
+	 * @version 1.38.32
 	 *
 	 * @constructor
 	 * @public
@@ -192,7 +192,6 @@ sap.ui.define(['jquery.sap.global', './DatePicker', 'sap/ui/model/type/Date', '.
 			if (sKey == "Cal") {
 				oCalendar.$().css("display", "");
 				oSliders.$().css("display", "none");
-				oCalendar.focus();
 			} else {
 				oCalendar.$().css("display", "none");
 				oSliders.$().css("display", "");
