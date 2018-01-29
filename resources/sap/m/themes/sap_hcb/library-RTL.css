@@ -690,9 +690,6 @@ html[dir='rtl'] .sapMBsyIndIcon {
 .sapMBtn .sapMBtnContent {
   display: block;
 }
-.sapMBtn .sapMBtnContent:focus {
-  outline: none;
-}
 /* --------------------- */
 /* Inner area            */
 /* --------------------- */
@@ -7940,6 +7937,8 @@ html.sap-tablet .sapMMultiInputMultiModeBorder .sapMInputBaseInner {
   display: inline-block;
   font-size: 0.875rem;
   line-height: 2.375rem;
+  width: 100%;
+  overflow: hidden;
 }
 .sapMMultiInputMultiModeBorder .sapMInputBaseInner {
   border: 1px;

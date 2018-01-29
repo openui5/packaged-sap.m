@@ -43,7 +43,7 @@ sap.ui.define(['./ListItemBaseRenderer', 'sap/ui/core/Renderer', 'sap/ui/core/li
 			var sLabelId = oLI.getId() + "-label",
 				sLabelDir = oLI.getLabelTextDirection();
 
-			rm.write('<label id="' + sLabelId + '" class="sapMILILabel"');
+			rm.write('<span id="' + sLabelId + '" class="sapMILILabel"');
 
 			if (sLabelDir !== TextDirection.Inherit) {
 				rm.writeAttribute("dir", sLabelDir.toLowerCase());
@@ -51,7 +51,7 @@ sap.ui.define(['./ListItemBaseRenderer', 'sap/ui/core/Renderer', 'sap/ui/core/li
 
 			rm.write('>');
 			rm.writeEscaped(sLabel);
-			rm.write('</label>');
+			rm.write('</span>');
 		}
 
 		// List item input content

@@ -30,7 +30,7 @@ sap.ui.define(['./library', 'sap/ui/core/Control', 'sap/ui/core/EnabledPropagato
 	 * @implements sap.ui.core.IFormContent
 	 *
 	 * @author SAP SE
-	 * @version 1.52.4
+	 * @version 1.52.5
 	 *
 	 * @constructor
 	 * @public
@@ -170,6 +170,7 @@ sap.ui.define(['./library', 'sap/ui/core/Control', 'sap/ui/core/EnabledPropagato
 		this.removeButton = function (sButton) {
 			SegmentedButton.prototype.removeButton.call(this, sButton);
 			this.setSelectedButton(this.getButtons()[0]);
+			this._fireChangeEvent();
 		};
 	};
 
@@ -443,6 +444,7 @@ sap.ui.define(['./library', 'sap/ui/core/Control', 'sap/ui/core/EnabledPropagato
 				processButton(oButton, this);
 				this.addAggregation('buttons', oButton);
 				this._syncSelect();
+				this._fireChangeEvent();
 				return this;
 			}
 		};
@@ -452,6 +454,7 @@ sap.ui.define(['./library', 'sap/ui/core/Control', 'sap/ui/core/EnabledPropagato
 				processButton(oButton, this);
 				this.insertAggregation('buttons', oButton, iIndex);
 				this._syncSelect();
+				this._fireChangeEvent();
 				return this;
 			}
 		};
@@ -462,7 +465,7 @@ sap.ui.define(['./library', 'sap/ui/core/Control', 'sap/ui/core/EnabledPropagato
 			});
 
 			oButton.attachEvent("_change", oParent._syncSelect, oParent);
-			oButton.attachEvent("_change", oParent._forwardChangeEvent, oParent);
+			oButton.attachEvent("_change", oParent._fireChangeEvent, oParent);
 
 			var fnOriginalSetEnabled = sap.m.Button.prototype.setEnabled;
 			oButton.setEnabled = function (bEnabled) {
@@ -542,7 +545,7 @@ sap.ui.define(['./library', 'sap/ui/core/Control', 'sap/ui/core/EnabledPropagato
 		if (oRemovedButton) {
 			delete oRemovedButton.setEnabled;
 			oRemovedButton.detachEvent("_change", this._syncSelect, this);
-			oRemovedButton.detachEvent("_change", this._forwardChangeEvent, this);
+			oRemovedButton.detachEvent("_change", this._fireChangeEvent, this);
 			this._syncSelect();
 		}
 	};
@@ -556,7 +559,7 @@ sap.ui.define(['./library', 'sap/ui/core/Control', 'sap/ui/core/EnabledPropagato
 					delete oButton.setEnabled;
 					this.removeAggregation("buttons", oButton);
 					oButton.detachEvent("_change", this._syncSelect, this);
-					oButton.detachEvent("_change", this._forwardChangeEvent, this);
+					oButton.detachEvent("_change", this._fireChangeEvent, this);
 				}
 
 			}
@@ -567,26 +570,24 @@ sap.ui.define(['./library', 'sap/ui/core/Control', 'sap/ui/core/EnabledPropagato
 	/**
 	 * Adds item to <code>items</code> aggregation.
 	 * @param {sap.m.SegmentedButtonItem} oItem The item to be added
-	 * @param {boolean} [bSuppressInvalidate=false] If <code>true</code> the control invalidation will be suppressed
 	 * @public
 	 * @override
 	 */
-	SegmentedButton.prototype.addItem = function (oItem, bSuppressInvalidate) {
-		this.addAggregation("items", oItem, bSuppressInvalidate);
+	SegmentedButton.prototype.addItem = function (oItem) {
+		this.addAggregation("items", oItem);
 		this.addButton(oItem.oButton);
 	};
 
 	/**
 	 * Removes an item from <code>items</code> aggregation.
 	 * @param {sap.m.SegmentedButtonItem} oItem The item to be removed
-	 * @param {boolean} [bSuppressInvalidate=false] If <code>true</code> the control invalidation will be suppressed
 	 * @public
 	 * @override
 	 */
-	SegmentedButton.prototype.removeItem = function (oItem, bSuppressInvalidate) {
+	SegmentedButton.prototype.removeItem = function (oItem) {
 		if (oItem !== null && oItem !== undefined) {
-			this.removeAggregation("buttons", oItem.oButton, true);
-			this.removeAggregation("items", oItem, bSuppressInvalidate);
+			this.removeAggregation("items", oItem);
+			this.removeButton(oItem.oButton);//since this fires a "_change" event, it must be placed after public items are removed
 		}
 		// Reset selected button if the removed button is the currently selected one
 		if (oItem && oItem instanceof sap.m.SegmentedButtonItem && this.getSelectedButton() === oItem.oButton.getId()) {
@@ -602,12 +603,11 @@ sap.ui.define(['./library', 'sap/ui/core/Control', 'sap/ui/core/EnabledPropagato
 	 * Inserts item into <code>items</code> aggregation.
 	 * @param {sap.m.SegmentedButtonItem} oItem The item to be inserted
 	 * @param {int} iIndex index the item should be inserted at
-	 * @param {boolean} [bSuppressInvalidate=false] If <code>true</code> the control invalidation will be suppressed
 	 * @public
 	 * @override
 	 */
-	SegmentedButton.prototype.insertItem = function (oItem, iIndex, bSuppressInvalidate) {
-		this.insertAggregation("items", oItem, iIndex, bSuppressInvalidate);
+	SegmentedButton.prototype.insertItem = function (oItem, iIndex) {
+		this.insertAggregation("items", oItem, iIndex);
 		this.insertButton(oItem.oButton, iIndex);
 	};
 
@@ -806,7 +806,7 @@ sap.ui.define(['./library', 'sap/ui/core/Control', 'sap/ui/core/EnabledPropagato
 		this.setSelectedButton(sButtonId);
 	};
 
-	SegmentedButton.prototype._forwardChangeEvent = function () {
+	SegmentedButton.prototype._fireChangeEvent = function () {
 		this.fireEvent("_change");
 	};
 

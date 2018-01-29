@@ -86,7 +86,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 	 *
 	 * @extends sap.m.InputBase
 	 * @author SAP SE
-	 * @version 1.52.4
+	 * @version 1.52.5
 	 *
 	 * @constructor
 	 * @public
@@ -2578,7 +2578,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 			newText = '';
 
 		if (!Input._wordStartsWithValue(text, value)) {
-			return text;
+			return jQuery.sap.encodeHTML(text);
 		}
 
 		var index = lowerText.indexOf(value);
@@ -2589,12 +2589,12 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 		}
 
 		if (index > -1) {
-			newText += text.substring(0, index);
+			newText += jQuery.sap.encodeHTML(text.substring(0, index));
 			subString = text.substring(index, index + count);
-			newText += '<span class="sapMInputHighlight">' + subString + '</span>';
-			newText += text.substring(index + count);
+			newText += '<span class="sapMInputHighlight">' + jQuery.sap.encodeHTML(subString) + '</span>';
+			newText += jQuery.sap.encodeHTML(text.substring(index + count));
 		} else {
-			newText = text;
+			newText = jQuery.sap.encodeHTML(text);
 		}
 
 		return newText;
@@ -3096,7 +3096,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 	 * @protected
 	 */
 	Input.prototype.updateInputField = function(sNewValue) {
-		if (this._bUseDialog) {
+		if (this._oSuggestionPopup && this._oSuggestionPopup.isOpen() && this._bUseDialog) {
 			this._oPopupInput.setValue(sNewValue);
 			this._oPopupInput._doSelect();
 		} else {

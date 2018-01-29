@@ -71,7 +71,7 @@ function(jQuery, library, Control, IconPool, Toolbar, CheckBox, SearchField, Lis
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.52.4
+	 * @version 1.52.5
 	 *
 	 * @constructor
 	 * @public
@@ -149,6 +149,7 @@ function(jQuery, library, Control, IconPool, Toolbar, CheckBox, SearchField, Lis
 
 			/**
 			 * The group item that is selected. It can be set by either passing a key or the item itself to the function setSelectedGroupItem.
+			 * By default 'None' is selected. You can restore back to 'None' by setting this association to empty value.
 			 */
 			selectedGroupItem : {type : "sap.m.ViewSettingsItem", multiple : false},
 
@@ -966,6 +967,11 @@ function(jQuery, library, Control, IconPool, Toolbar, CheckBox, SearchField, Lis
 				"Could not set selected group item. Item is not found: '" + vItemOrKey + "'"
 			);
 
+		// if no Item is found and the key is empty set the default "None" item as selected
+		// BCP: 1780536754
+		if (!oItem && !vItemOrKey) {
+			oItem = this._oGroupingNoneItem;
+		}
 		//change selected item only if it is found among the group items
 		if (validateViewSettingsItem(oItem)) {
 			// set selected = true for this item & selected = false for all others items
@@ -1764,7 +1770,7 @@ function(jQuery, library, Control, IconPool, Toolbar, CheckBox, SearchField, Lis
 		for (var i = 0; i < aSubFilters.length; i++) {
 			// use name if there is no key defined
 			oListItem = new StandardListItem({
-				title : aSubFilters[i].getText(),
+				title : ManagedObject.escapeSettingsValue(aSubFilters[i].getText()),
 				type : ListType.Active,
 				selected : aSubFilters[i].getSelected()
 			}).data("item", aSubFilters[i]);
@@ -1844,7 +1850,7 @@ function(jQuery, library, Control, IconPool, Toolbar, CheckBox, SearchField, Lis
 			aGroupItems.forEach(function (oItem) {
 				oListItem = new StandardListItem({
 					id: oItem.getId() + LIST_ITEM_SUFFIX,
-					title: oItem.getText(),
+					title: ManagedObject.escapeSettingsValue(oItem.getText()),
 					type: ListType.Active,
 					selected: oItem.getSelected()
 				}).data("item", oItem);
@@ -1947,7 +1953,7 @@ function(jQuery, library, Control, IconPool, Toolbar, CheckBox, SearchField, Lis
 			aPresetFilterItems.forEach(function(oItem) {
 				oListItem = new StandardListItem({
 					id: oItem.getId() + LIST_ITEM_SUFFIX,
-					title: oItem.getText(),
+					title: ManagedObject.escapeSettingsValue(oItem.getText()),
 					type: ListType.Active,
 					selected: oItem.getSelected()
 				}).data("item", oItem);
@@ -1971,7 +1977,7 @@ function(jQuery, library, Control, IconPool, Toolbar, CheckBox, SearchField, Lis
 				oListItem = new StandardListItem(
 					{
 						id: oItem.getId() + LIST_ITEM_SUFFIX,
-						title : oItem.getText(),
+						title : ManagedObject.escapeSettingsValue(oItem.getText()),
 						type : ListType.Active,
 						press : (function(oItem) {
 							return function(oEvent) {
