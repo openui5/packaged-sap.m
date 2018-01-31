@@ -1,6 +1,6 @@
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2017 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2018 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
@@ -77,8 +77,10 @@ sap.ui.define(['jquery.sap.global'],
 			mAccProps["describedby"] = {value: sTextId, append: true};
 		}
 
-		if (oButton.getAriaLabelledBy() && oButton.getAriaLabelledBy().length > 0) {
-			mAccProps["labelledby"] = {value: oButton.getId(), append: true };
+		// add reference only to the text content of the button
+		// so it can be read otherwise it causes the issue reported in BCP: 1680223321
+		if (sText && oButton.getAriaLabelledBy() && oButton.getAriaLabelledBy().length > 0) {
+			mAccProps["labelledby"] = {value: oButton.getId() + "-content", append: true };
 		}
 
 		//descendants (e.g. ToggleButton) callback
@@ -193,7 +195,7 @@ sap.ui.define(['jquery.sap.global'],
 
 		// write button text
 		if (sText) {
-			oRm.write("<span");
+			oRm.write("<span ");
 			oRm.addClass("sapMBtnContent");
 			// check if textDirection property is not set to default "Inherit" and add "dir" attribute
 			if (sTextDir !== sap.ui.core.TextDirection.Inherit) {

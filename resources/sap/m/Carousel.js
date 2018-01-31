@@ -1,15 +1,16 @@
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2017 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2018 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
 // Provides control sap.m.Carousel.
-sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/thirdparty/mobify-carousel'],
-	function(jQuery, library, Control, mobifycarousel) {
+sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/thirdparty/mobify-carousel', 'sap/ui/core/library'],
+	function(jQuery, library, Control, mobifycarousel, coreLibrary) {
 	"use strict";
 
-
+	//shortcut for sap.ui.core.BusyIndicatorSize
+	var BusyIndicatorSize = coreLibrary.BusyIndicatorSize;
 
 	/**
 	 * Constructor for a new Carousel.
@@ -57,7 +58,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.50.8
+	 * @version 1.50.9
 	 *
 	 * @constructor
 	 * @public
@@ -100,13 +101,6 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 			 * Since 1.18.7 pages are no longer loaded or unloaded. Therefore busy indicator is not necessary any longer.
 			 */
 			showBusyIndicator : {type : "boolean", group : "Appearance", defaultValue : true, deprecated: true},
-
-			/**
-			 * Size of the busy indicators which can be displayed in the carousel.
-			 * @deprecated Since version 1.18.7.
-			 * Since 1.18.7 pages are no longer loaded or unloaded. Therefore busy indicator is not necessary any longer.
-			 */
-			busyIndicatorSize : {type : "sap.ui.core.CSSSize", group : "Dimension", defaultValue : '6em', deprecated: true},
 
 			/**
 			 * Defines where the carousel's arrows are placed. Default is <code>sap.m.CarouselArrowsPlacement.Content</code> used to
@@ -1113,27 +1107,17 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	};
 
 	/*
-	 * API method to set the carousel's busy indicator size.
-	 * This property has been deprecated since 1.18.7. Does nothing and returns the carousel reference.
+	 * @see sap.ui.core.Control#setBusyIndicatorSize
+	 * Original property was depracated so we removed it, but made it failsafe
+	 * by mapping a 'wrong' input value to the new enum.
 	 *
-	 * @deprecated
 	 * @public
 	 */
-	Carousel.prototype.setBusyIndicatorSize = function() {
-		jQuery.sap.log.warning("sap.m.Carousel: Deprecated function 'setBusyIndicatorSize' called. Does nothing.");
-		return this;
-	};
-
-	/*
-	 * API method to retrieve the carousel's busy indicator size.
-	 * This property has been deprecated since 1.18.6. Always returns an empty string.
-	 *
-	 * @deprecated
-	 * @public
-	 */
-	Carousel.prototype.getBusyIndicatorSize = function() {
-		jQuery.sap.log.warning("sap.m.Carousel: Deprecated function 'getBusyIndicatorSize' called. Does nothing.");
-		return "";
+	Carousel.prototype.setBusyIndicatorSize = function(sSize) {
+		if (!(sSize in BusyIndicatorSize)) {
+			sSize = BusyIndicatorSize.Medium;
+		}
+		return Control.prototype.setBusyIndicatorSize.call(this, sSize);
 	};
 
 	return Carousel;

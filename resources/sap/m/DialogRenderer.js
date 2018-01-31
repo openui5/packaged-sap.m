@@ -1,6 +1,6 @@
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2017 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2018 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 sap.ui.define(['jquery.sap.global', './BarRenderer'],
@@ -36,14 +36,6 @@ sap.ui.define(['jquery.sap.global', './BarRenderer'],
 				bResizable = oControl.getResizable(),
 				bDraggable = oControl.getDraggable(),
 				oValueStateText = oControl.getAggregation("_valueState");
-
-			if (oHeader) {
-				oHeader.applyTagAndContextClassFor("header");
-			}
-
-			if (oSubHeader) {
-				oSubHeader.applyTagAndContextClassFor("subheader");
-			}
 
 			// write the HTML into the render manager
 			// the initial size of the dialog have to be 0, because if there is a large dialog content the initial size can be larger than the html's height (scroller)
@@ -156,12 +148,23 @@ sap.ui.define(['jquery.sap.global', './BarRenderer'],
 			}
 
 			if (oHeader) {
+				oHeader._applyContextClassFor("header");
+				oRm.write("<header");
+				oRm.addClass("sapMDialogTitle");
+				oRm.writeClasses();
+				oRm.write(">");
 				oRm.renderControl(oHeader);
+				oRm.write("</header>");
 			}
 
 			if (oSubHeader) {
-				oSubHeader.addStyleClass("sapMDialogSubHeader");
+				oSubHeader._applyContextClassFor("subheader");
+				oRm.write("<header");
+				oRm.addClass("sapMDialogSubHeader");
+				oRm.writeClasses();
+				oRm.write(">");
 				oRm.renderControl(oSubHeader);
+				oRm.write("</header>");
 			}
 
 			if (oValueStateText) {
@@ -189,7 +192,13 @@ sap.ui.define(['jquery.sap.global', './BarRenderer'],
 			oRm.write("</section>");
 
 			if (!(noToolbarAndNobuttons || emptyToolbarAndNoButtons)) {
+				oRm.write("<footer");
+				oRm.addClass("sapMDialogFooter");
+				oRm.writeClasses();
+				oRm.write(">");
+				oControl._oToolbar._applyContextClassFor("footer");
 				oRm.renderControl(oControl._oToolbar);
+				oRm.write("</footer>");
 			}
 
 			if (sap.ui.Device.system.desktop) {

@@ -1,6 +1,6 @@
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2017 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2018 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
@@ -22,7 +22,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', './Butto
 		 * @implements sap.ui.core.IContextMenu
 		 *
 		 * @author SAP SE
-		 * @version 1.50.8
+		 * @version 1.50.9
 		 *
 		 * @constructor
 		 * @public
@@ -615,8 +615,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', './Butto
 
 		Menu.prototype._removeVisualItem = function(oItem, oParentItem) {
 			var oVisualItem = sap.ui.getCore().byId(oItem._getVisualControl()),
-				vMenuOrList,
-				oPage;
+				vMenuOrList;
 
 			if (oVisualItem) {
 				vMenuOrList = oVisualItem.getParent();
@@ -627,10 +626,6 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', './Butto
 
 					//if this is the last item in the page, remove the page
 					if (vMenuOrList.getItems().length === 0) {
-						oPage = sap.ui.getCore().byId(oItem._getVisualParent());
-						this._getNavContainer().removePage(oPage);
-						oPage.destroy();
-
 						// now we need to update its parent list item - no to render its arrow and reset its visual child ref
 						if (oParentItem) {
 							oParentItem._setVisualChild(null);

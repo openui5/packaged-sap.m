@@ -1,6 +1,6 @@
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2017 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2018 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
@@ -26,7 +26,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Item',
 	 * @implements sap.m.IconTab
 	 *
 	 * @author SAP SE
-	 * @version 1.50.8
+	 * @version 1.50.9
 	 *
 	 * @constructor
 	 * @public
@@ -151,20 +151,28 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Item',
 
 	IconTabFilter.prototype.invalidate = function() {
 		var oIconTabHeader = this.getParent(),
-			oIconTabBar;
+			oIconTabBar,
+			oObjectHeader;
 
-		// invalidate the whole IconTabBar or the ObjectHeader
-		if (oIconTabHeader instanceof sap.m.IconTabHeader &&
-			oIconTabHeader.getParent() instanceof sap.m.IconTabBar) {
-			oIconTabBar = oIconTabHeader.getParent();
+		// invalidate the correct parent - IconTabHeader, IconTabBar or ObjectHeader
+		if (!oIconTabHeader) {
+			return;
+		}
 
-			if (oIconTabBar.getParent() instanceof sap.m.ObjectHeader) {
-				// invalidate the object header to re-render IconTabBar content and header
-				var oObjectHeader = oIconTabBar.getParent();
-				oObjectHeader.invalidate();
-			} else {
-				oIconTabBar.invalidate();
-			}
+		oIconTabBar = oIconTabHeader.getParent();
+
+		if (!(oIconTabBar instanceof sap.m.IconTabBar)) {
+			oIconTabHeader.invalidate();
+			return;
+		}
+
+		oObjectHeader = oIconTabBar.getParent();
+
+		if (oObjectHeader instanceof sap.m.ObjectHeader) {
+			// invalidate the object header to re-render IconTabBar content and header
+			oObjectHeader.invalidate();
+		} else {
+			oIconTabBar.invalidate();
 		}
 	};
 
@@ -173,7 +181,6 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Item',
 		// invalidate only the IconTabHeader if a property change
 		// doesn't affect the IconTabBar content
 		switch (sPropertyName) {
-			case 'visible':
 			case 'enabled':
 			case 'textDirection':
 			case 'text':

@@ -1,6 +1,6 @@
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2017 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2018 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
@@ -94,7 +94,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/Device', './DatePicker', './library'
 	 * compact mode and provides a touch-friendly size in cozy mode.
 	 *
 	 * @extends sap.m.DatePicker
-	 * @version 1.50.8
+	 * @version 1.50.9
 	 *
 	 * @constructor
 	 * @public
@@ -375,7 +375,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/Device', './DatePicker', './library'
 	 */
 	DateRangeSelection.prototype.setDateValue = function(oDateValue) {
 
-		if (oDateValue && !(oDateValue instanceof Date)) {
+		if (this._isValidDate(oDateValue)) {
 			throw new Error("Date must be a JavaScript date object; " + this);
 		}
 
@@ -421,7 +421,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/Device', './DatePicker', './library'
 
 	DateRangeSelection.prototype.setSecondDateValue = function(oSecondDateValue) {
 
-		if (oSecondDateValue && !(oSecondDateValue instanceof Date)) {
+		if (this._isValidDate(oSecondDateValue)) {
 			throw new Error("Date must be a JavaScript date object; " + this);
 		}
 
