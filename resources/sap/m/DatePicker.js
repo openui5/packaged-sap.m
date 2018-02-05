@@ -84,7 +84,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/Device', './InputBase', 'sap/ui/mode
 	 * the close event), or select Cancel.
 	 *
 	 * @extends sap.m.InputBase
-	 * @version 1.48.18
+	 * @version 1.48.19
 	 *
 	 * @constructor
 	 * @public
@@ -525,7 +525,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/Device', './InputBase', 'sap/ui/mode
 
 	DatePicker.prototype.setMinDate = function(oDate) {
 
-		if (oDate && !(oDate instanceof Date)) {
+		if (this._isValidDate(oDate)) {
 			throw new Error("Date must be a JavaScript date object; " + this);
 		}
 
@@ -563,7 +563,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/Device', './InputBase', 'sap/ui/mode
 
 	DatePicker.prototype.setMaxDate = function(oDate) {
 
-		if (oDate && !(oDate instanceof Date)) {
+		if (this._isValidDate(oDate)) {
 			throw new Error("Date must be a JavaScript date object; " + this);
 		}
 
@@ -1230,6 +1230,16 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/Device', './InputBase', 'sap/ui/mode
 
 		return oDate;
 
+	};
+
+	// Cross frame check for a date should be performed here otherwise setDateValue would fail in OPA tests
+	// because Date object in the test is different than the Date object in the application (due to the iframe).
+	// We can use jQuery.type or this method:
+	// function isValidDate (date) {
+	//	return date && Object.prototype.toString.call(date) === "[object Date]" && !isNaN(date);
+	//}
+	DatePicker.prototype._isValidDate = function (oDate) {
+		return oDate && jQuery.type(oDate) !== "date";
 	};
 
 	function _cancel(oEvent) {

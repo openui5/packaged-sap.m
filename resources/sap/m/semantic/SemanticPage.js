@@ -37,7 +37,7 @@ function (jQuery, SegmentedContainer, SemanticConfiguration, Button, Title, Acti
 	 * @abstract
 	 *
 	 * @author SAP SE
-	 * @version 1.48.18
+	 * @version 1.48.19
 	 *
 	 * @constructor
 	 * @public

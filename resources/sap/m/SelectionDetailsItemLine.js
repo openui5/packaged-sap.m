@@ -24,7 +24,7 @@ sap.ui.define(["jquery.sap.global", "sap/ui/core/Element", 'sap/ui/base/Interfac
 	 * @extends sap.ui.core.Element
 	 *
 	 * @author SAP SE
-	 * @version 1.48.18
+	 * @version 1.48.19
 	 *
 	 * @constructor
 	 * @protected
