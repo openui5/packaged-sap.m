@@ -19,7 +19,7 @@ sap.ui.define(['jquery.sap.global', './Dialog', './Popover', './SelectList', './
 		 * @extends sap.ui.core.Control
 		 *
 		 * @author SAP SE
-		 * @version 1.44.26
+		 * @version 1.44.27
 		 *
 		 * @constructor
 		 * @public
@@ -2077,6 +2077,12 @@ sap.ui.define(['jquery.sap.global', './Dialog', './Popover', './SelectList', './
 				oDomRef.setAttribute("aria-invalid", true);
 			} else {
 				oDomRef.removeAttribute("aria-invalid");
+			}
+
+			if (this.shouldValueStateMessageBeOpened() && document.activeElement === oDomRef) {
+				this.openValueStateMessage();
+			} else {
+				this.closeValueStateMessage();
 			}
 
 			this.updateValueStateClasses(sValueState, sOldValueState);
