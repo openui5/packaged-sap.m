@@ -70,7 +70,7 @@ sap.ui.define(['./Button', './Dialog', './List', './SearchField', './library', '
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.52.5
+	 * @version 1.52.6
 	 *
 	 * @constructor
 	 * @public

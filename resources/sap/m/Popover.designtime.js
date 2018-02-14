@@ -27,10 +27,10 @@ sap.ui.define([],
 					domRef: ":sap-domref > .sapMPopoverFooter"
 				},
 				beginButton: {
-					domRef: ":sap-domref > header.sapMPopoverHeader > .sapMBarLeft"
+					domRef: ":sap-domref > header.sapMPopoverHeader .sapMBarLeft"
 				},
 				endButton: {
-					domRef: ":sap-domref > header.sapMPopoverHeader > .sapMBarRight"
+					domRef: ":sap-domref > header.sapMPopoverHeader .sapMBarRight"
 				}
 			}
 		};

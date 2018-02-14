@@ -93,7 +93,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/Device', './InputBase', './DateTimeF
 	 * the close event), or select Cancel.
 	 *
 	 * @extends sap.m.DateTimeField
-	 * @version 1.52.5
+	 * @version 1.52.6
 	 *
 	 * @constructor
 	 * @public
@@ -459,7 +459,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/Device', './InputBase', './DateTimeF
 
 	DatePicker.prototype.setMinDate = function(oDate) {
 
-		if (oDate && !(oDate instanceof Date)) {
+		if (this._isValidDate(oDate)) {
 			throw new Error("Date must be a JavaScript date object; " + this);
 		}
 
@@ -498,7 +498,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/Device', './InputBase', './DateTimeF
 
 	DatePicker.prototype.setMaxDate = function(oDate) {
 
-		if (oDate && !(oDate instanceof Date)) {
+		if (this._isValidDate(oDate)) {
 			throw new Error("Date must be a JavaScript date object; " + this);
 		}
 
