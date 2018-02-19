@@ -38,7 +38,7 @@ sap.ui.define(["sap/ui/core/Control", 'sap/ui/core/Renderer', "sap/ui/Device", "
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.52.6
+	 * @version 1.52.7
 	 *
 	 * @constructor
 	 * @public

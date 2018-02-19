@@ -47,7 +47,7 @@ sap.ui.define([
 		 * On mobile devices the steps in the StepNavigator are grouped together and overlap. Tapping on them will show a popover to select the step to navigate to.
 		 * @extends sap.ui.core.Control
 		 * @author SAP SE
-		 * @version 1.52.6
+		 * @version 1.52.7
 		 *
 		 * @constructor
 		 * @public

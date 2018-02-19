@@ -53,7 +53,7 @@ sap.ui.define(['./library', 'sap/ui/core/Control', 'sap/ui/core/InvisibleText', 
 	 * @implements sap.ui.core.IShrinkable, sap.ui.core.IFormContent
 	 *
 	 * @author SAP SE
-	 * @version 1.52.6
+	 * @version 1.52.7
 	 *
 	 * @constructor
 	 * @public

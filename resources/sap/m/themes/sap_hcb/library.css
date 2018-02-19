@@ -3627,7 +3627,7 @@ html.sap-phone .sapMFeedListItemActionButton + .sapMFeedListItemHeader .sapMFeed
   box-sizing: border-box;
   background-position: 0px;
   background: #000000;
-  border: 1px solid transparent;
+  border: 1px solid #ffffff;
   box-shadow: 0 0 0 1px #ffffff;
   vertical-align: top;
 }
@@ -13289,6 +13289,9 @@ html[data-sap-ui-browser^="ed"].sap-desktop .sapMFocus > .sapMSFF::before {
   height: 3rem;
   vertical-align: top;
   position: relative;
+}
+.sapMSegB:focus {
+  outline: none;
 }
 .sapMSegB .sapMSegBBtn {
   list-style: none;

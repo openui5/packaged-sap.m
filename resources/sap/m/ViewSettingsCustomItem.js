@@ -22,7 +22,7 @@ sap.ui.define(['./ViewSettingsItem', 'sap/ui/base/ManagedObject', './library'],
 	 * @extends sap.m.ViewSettingsItem
 	 *
 	 * @author SAP SE
-	 * @version 1.52.6
+	 * @version 1.52.7
 	 *
 	 * @constructor
 	 * @public
