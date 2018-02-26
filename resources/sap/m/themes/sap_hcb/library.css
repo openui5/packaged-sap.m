@@ -1793,6 +1793,10 @@ html[data-sap-ui-animation='off'] .sapMDialogBlockLayerAnimation {
   width: 100%;
   height: 100%;
 }
+/* Allow MessagePage to be positioned inside ObjectPage */
+.sapUxAPBlockContainer .sapMMessagePageInner {
+  position: initial;
+}
 /* MessagePage inner controls styles*/
 .sapMMessagePage > .sapMPage > section > .sapMText,
 .sapMMessagePage > .sapMPage > section > .sapMLnk {
@@ -11980,7 +11984,6 @@ html[data-sap-ui-browser="sf10"] .sapuiVltCell .sapMText {
 }
 .sapUiSizeCompact .sapMInputBase.sapMTextArea > .sapMTextAreaInner {
   padding: 0.1875rem 0.5rem;
-  height: auto;
 }
 .sapUiSizeCompact .sapMInputBase.sapMTextArea.sapMInputBaseState > .sapMTextAreaInner {
   padding: 0.125rem 0.4375rem;

@@ -17,7 +17,7 @@ sap.ui.define([
 	 * @param {object} [mSettings] initial settings for the new control
 	 * @class Type for <code>sortItems</code> aggregation in P13nSortPanel control.
 	 * @extends sap.ui.core.Item
-	 * @version 1.44.27
+	 * @version 1.44.28
 	 * @constructor
 	 * @public
 	 * @alias sap.m.P13nSortItem
