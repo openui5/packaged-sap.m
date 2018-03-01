@@ -1,6 +1,6 @@
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2017 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2018 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
@@ -18,7 +18,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Element'], functio
 	 *
 	 * @class tbd (should enable panels of personalization to have a constistent view of the 'columns' of the table)
 	 * @extends sap.ui.core.Item
-	 * @version 1.28.50
+	 * @version 1.28.51
 	 *
 	 * @constructor
 	 * @public
