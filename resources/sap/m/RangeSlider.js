@@ -19,7 +19,7 @@ sap.ui.define(["./Slider", "./Input", 'sap/ui/core/InvisibleText'],
          * @extends sap.m.Slider
          *
          * @author SAP SE
-         * @version 1.38.32
+         * @version 1.38.33
          *
          * @constructor
          * @public

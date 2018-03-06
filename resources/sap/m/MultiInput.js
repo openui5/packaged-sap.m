@@ -5,8 +5,8 @@
  */
 
 // Provides control sap.m.MultiInput.
-sap.ui.define(['jquery.sap.global', './Input', './Token', './library'],
-	function (jQuery, Input, Token, library) {
+sap.ui.define(['jquery.sap.global', './Input', './Token', './library', 'sap/ui/core/EnabledPropagator'],
+	function (jQuery, Input, Token, library, EnabledPropagator) {
 		"use strict";
 
 
@@ -21,7 +21,7 @@ sap.ui.define(['jquery.sap.global', './Input', './Token', './library'],
 	 * @extends sap.m.Input
 	 *
 	 * @author SAP SE
-	 * @version 1.38.32
+	 * @version 1.38.33
 	 *
 	 * @constructor
 	 * @public
@@ -104,6 +104,8 @@ sap.ui.define(['jquery.sap.global', './Input', './Token', './library'],
 			}
 		}
 	});
+
+	EnabledPropagator.apply(MultiInput.prototype, [true]);
 
 	var oRb = sap.ui.getCore().getLibraryResourceBundle("sap.m");
 
