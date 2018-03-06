@@ -25,7 +25,7 @@ sap.ui.define(['sap/ui/unified/CalendarLegend', './library', 'sap/ui/unified/lib
 		 * @extends sap.ui.core.Control
 		 *
 		 * @author SAP SE
-		 * @version 1.52.7
+		 * @version 1.52.8
 		 *
 		 * @constructor
 		 * @public

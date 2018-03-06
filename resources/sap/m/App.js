@@ -36,7 +36,7 @@ sap.ui.define(['jquery.sap.global', './NavContainer', './library'],
 	 * @extends sap.m.NavContainer
 	 *
 	 * @author SAP SE
-	 * @version 1.52.7
+	 * @version 1.52.8
 	 *
 	 * @constructor
 	 * @public

@@ -61,7 +61,7 @@ sap.ui.define(['jquery.sap.global', './Input', './Tokenizer', './Token', './libr
 	* @extends sap.m.Input
 	*
 	* @author SAP SE
-	* @version 1.52.7
+	* @version 1.52.8
 	*
 	* @constructor
 	* @public
