@@ -39,7 +39,7 @@ sap.ui.define(["jquery.sap.global", "./library", "sap/ui/core/Control", "sap/ui/
 		 * <b>Note:</b> All accessibility information for the different areas and their corresponding ARIA roles is set in the aggregation <code>landmarkInfo</code> of type {@link sap.m.PageAccessibleLandmarkInfo}
 		 *
 		 * @author SAP SE
-		 * @version 1.44.28
+		 * @version 1.44.29
 		 *
 		 * @constructor
 		 * @public
@@ -278,7 +278,6 @@ sap.ui.define(["jquery.sap.global", "./library", "sap/ui/core/Control", "sap/ui/
 			var bWasNull = !this._headerTitle;
 
 			this._headerTitle = this._headerTitle || new Title(this.getId() + "-title", {
-					text: sTitle,
 					level: this.getTitleLevel()
 				});
 			this._headerTitle.setText(sTitle);
