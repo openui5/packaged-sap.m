@@ -125,7 +125,7 @@ sap.ui.define([
 	 *
 	 * @extends sap.ui.core.Control
 	 * @implements sap.ui.core.IShrinkable
-	 * @version 1.54.1
+	 * @version 1.54.2
 	 *
 	 * @constructor
 	 * @public
@@ -428,7 +428,6 @@ sap.ui.define([
 		this._pageSize = 5;
 		this._addDelegateFlag = false;
 		this._invalidateFlag = false;
-		this._closePopoverFlag = false;
 		this._lastCategoryFocusIndex = 0;
 		this._aDomRefs = null;
 		this._previousTarget = null;
@@ -572,6 +571,7 @@ sap.ui.define([
 			}
 		}
 		// After each rendering the delegate needs to be initialized as well.
+		this.oItemNavigation.setRootDomRef(oFocusRef);
 
 		//set the array of dom nodes representing the items.
 		this.oItemNavigation.setItemDomRefs(aDomRefs);
@@ -659,14 +659,6 @@ sap.ui.define([
 			this.focus();
 			this._invalidateFlag = false;
 		}
-
-	//keep entering tab and expect the focus will return to reset or add button instead of list category
-		if ( this._closePopoverFlag == true) {
-			this.oItemNavigation.setFocusedIndex(-1);
-			this.focus();
-			this._closePopoverFlag = false;
-		}
-
 	};
 
 	/**
@@ -940,7 +932,6 @@ sap.ui.define([
 				afterClose: function(oEvent) {
 
 					that._addDelegateFlag = true;
-					that._closePopoverFlag = true;
 
 
 					// The facet button will not be removed when the remove icon is pressed if we don't delay hiding the icon in ie 9.

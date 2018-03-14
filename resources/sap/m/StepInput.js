@@ -100,7 +100,7 @@ function(
 		 * @implements sap.ui.core.IFormContent
 		 *
 		 * @author SAP SE
-		 * @version 1.54.1
+		 * @version 1.54.2
 		 *
 		 * @constructor
 		 * @public
@@ -913,6 +913,8 @@ function(
 		StepInput.prototype.onsappageup = function (oEvent) {
 			this._applyValue(this._calculateNewValue(this.getLargerStep(), true).displayValue);
 			this._verifyValue();
+			// prevent document scrolling when page up key is pressed
+			oEvent.preventDefault();
 		};
 
 		/**
@@ -923,6 +925,8 @@ function(
 		StepInput.prototype.onsappagedown = function (oEvent) {
 			this._applyValue(this._calculateNewValue(this.getLargerStep(), false).displayValue);
 			this._verifyValue();
+			// prevent document scrolling when page down key is pressed
+			oEvent.preventDefault();
 		};
 
 		/**

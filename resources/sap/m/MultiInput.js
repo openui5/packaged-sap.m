@@ -80,7 +80,7 @@ function(
 	* @extends sap.m.Input
 	*
 	* @author SAP SE
-	* @version 1.54.1
+	* @version 1.54.2
 	*
 	* @constructor
 	* @public
@@ -810,7 +810,7 @@ function(
 					this.updateDomValue(lastInvalidText);
 
 					for (i = 0; i < aValidTokens.length; i++) {
-						if (this._tokenizer._addUniqueToken(aValidTokens[i], undefined, true)) {
+						if (this._tokenizer._addUniqueToken(aValidTokens[i])) {
 							aAddedTokens.push(aValidTokens[i]);
 						}
 					}

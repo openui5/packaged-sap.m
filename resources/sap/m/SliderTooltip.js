@@ -39,7 +39,7 @@ function(
 		 * @implements sap.m.IScale
 		 *
 		 * @author SAP SE
-		 * @version 1.54.1
+		 * @version 1.54.2
 		 *
 		 * @constructor
 		 * @private

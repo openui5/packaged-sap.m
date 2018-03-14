@@ -932,6 +932,9 @@ span.sapMBtnInner.sapMBtnAccept {
   border-color: #ffffff;
   color: #ffffff;
 }
+span.sapMBtnInner.sapMBtnAccept .sapUiIcon {
+  color: #ffffff;
+}
 :not(.sapMBtnDisabled):not(.sapMSBActive) > span.sapMBtnInner.sapMBtnAccept:not(.sapMBtnActive):not(.sapMToggleBtnPressed) > .sapMBtnIcon {
   color: #ffffff;
 }
@@ -949,6 +952,9 @@ span.sapMBtnInner.sapMBtnReject {
   background-image: none;
   background-color: #000000;
   border-color: #ffffff;
+  color: #ffffff;
+}
+span.sapMBtnInner.sapMBtnReject .sapUiIcon {
   color: #ffffff;
 }
 :not(.sapMBtnDisabled):not(.sapMSBActive) > span.sapMBtnInner.sapMBtnReject:not(.sapMBtnActive):not(.sapMToggleBtnPressed) > .sapMBtnIcon {
@@ -970,6 +976,9 @@ span.sapMBtnInner.sapMBtnEmphasized {
   border-color: #ffffff;
   color: #ffffff;
   text-shadow: 0 0 0.125rem #000000;
+}
+span.sapMBtnInner.sapMBtnEmphasized .sapUiIcon {
+  color: #ffffff;
 }
 :not(.sapMBtnDisabled) > span.sapMBtnInner.sapMBtnEmphasized > .sapMBtnIcon {
   color: #ffffff;
@@ -7675,6 +7684,11 @@ html.sap-phone .sapMListInsetBG > .sapMListSwp {
 }
 /* end cozy */
 /* compact */
+.sapUiSizeCompact .sapMMenuLIArrowRightIcon {
+  width: 2rem;
+  height: 2rem;
+  line-height: 2rem;
+}
 /* end compact */
 /* end desktop and tablet */
 /* ================================= */
