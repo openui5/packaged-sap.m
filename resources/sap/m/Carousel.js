@@ -12,7 +12,7 @@ sap.ui.define([
 	'sap/ui/Device',
 	'sap/ui/core/ResizeHandler',
 	'sap/ui/core/library',
-	"./CarouselRenderer",
+	'./CarouselRenderer',
 	'sap/ui/thirdparty/mobify-carousel',
 	'sap/ui/core/IconPool',
 	'jquery.sap.keycodes'
@@ -23,8 +23,9 @@ function(
 	Control,
 	Device,
 	ResizeHandler,
-	coreLibrary
-	/*,CarouselRenderer, mobifycarousel, IconPool (indirect dependency, kept for compatibility with tests, to be fixed in ImageHelper) */
+	coreLibrary,
+	CarouselRenderer
+	/*, mobifycarousel, IconPool (indirect dependency, kept for compatibility with tests, to be fixed in ImageHelper) */
 ) {
 	"use strict";
 
@@ -88,7 +89,7 @@ function(
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.54.0
+	 * @version 1.54.1
 	 *
 	 * @constructor
 	 * @public

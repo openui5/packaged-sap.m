@@ -4,8 +4,13 @@
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
-sap.ui.define(["./library", "sap/ui/core/Control", "jquery.sap.global"],
-	function (library, Control, jQuery) {
+sap.ui.define([
+	"./library",
+	"sap/ui/core/Control",
+	"jquery.sap.global",
+	"./WizardStepRenderer"
+],
+	function(library, Control, jQuery, WizardStepRenderer) {
 
 	"use strict";
 
@@ -28,7 +33,7 @@ sap.ui.define(["./library", "sap/ui/core/Control", "jquery.sap.global"],
 	 * <li>If the execution needs to branch after a given step, you should set all possible next steps in the <code>subsequentSteps</code> aggregation.
 	 * @extends sap.ui.core.Control
 	 * @author SAP SE
-	 * @version 1.54.0
+	 * @version 1.54.1
 	 *
 	 * @constructor
 	 * @public

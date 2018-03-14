@@ -5,8 +5,38 @@
 */
 
 // Provides control sap.m.ViewSettingsDialog.
-sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/core/IconPool', './Toolbar', './CheckBox', './SearchField', './List', './StandardListItem', 'sap/ui/base/ManagedObject', 'sap/ui/base/EventProvider', 'sap/ui/Device', 'sap/ui/core/InvisibleText'],
-function(jQuery, library, Control, IconPool, Toolbar, CheckBox, SearchField, List, StandardListItem, ManagedObject, EventProvider, Device, InvisibleText) {
+sap.ui.define([
+	'jquery.sap.global',
+	'./library',
+	'sap/ui/core/Control',
+	'sap/ui/core/IconPool',
+	'./Toolbar',
+	'./CheckBox',
+	'./SearchField',
+	'./List',
+	'./StandardListItem',
+	'sap/ui/base/ManagedObject',
+	'sap/ui/base/EventProvider',
+	'sap/ui/Device',
+	'sap/ui/core/InvisibleText',
+	'./ViewSettingsDialogRenderer'
+],
+function(
+	jQuery,
+	library,
+	Control,
+	IconPool,
+	Toolbar,
+	CheckBox,
+	SearchField,
+	List,
+	StandardListItem,
+	ManagedObject,
+	EventProvider,
+	Device,
+	InvisibleText,
+	ViewSettingsDialogRenderer
+) {
 	"use strict";
 
 	// shortcut for sap.m.ListMode
@@ -71,7 +101,7 @@ function(jQuery, library, Control, IconPool, Toolbar, CheckBox, SearchField, Lis
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.54.0
+	 * @version 1.54.1
 	 *
 	 * @constructor
 	 * @public

@@ -5,13 +5,34 @@
  */
 
 // Provides control sap.m.MessagePopover.
-sap.ui.define(["jquery.sap.global", "./ResponsivePopover", "./Button", "./Toolbar", "./Bar",
-		"sap/ui/core/Control", "sap/ui/core/IconPool",
-		"./semantic/SemanticPage", "./Popover", "./MessageView", "sap/ui/Device"],
-	function (jQuery, ResponsivePopover, Button, Toolbar, Bar,
-			  Control, IconPool,
-			  SemanticPage, Popover,
-			  MessageView, Device) {
+sap.ui.define([
+	"jquery.sap.global",
+	"./ResponsivePopover",
+	"./Button",
+	"./Toolbar",
+	"./Bar",
+	"sap/ui/core/Control",
+	"sap/ui/core/IconPool",
+	"./semantic/SemanticPage",
+	"./Popover",
+	"./MessageView",
+	"sap/ui/Device",
+	"./MessagePopoverRenderer"
+],
+function(
+	jQuery,
+	ResponsivePopover,
+	Button,
+	Toolbar,
+	Bar,
+	Control,
+	IconPool,
+	SemanticPage,
+	Popover,
+	MessageView,
+	Device,
+	MessagePopoverRenderer
+	) {
 		"use strict";
 
 		/**
@@ -51,7 +72,7 @@ sap.ui.define(["jquery.sap.global", "./ResponsivePopover", "./Button", "./Toolba
 		 * @extends sap.ui.core.Control
 		 *
 		 * @author SAP SE
-		 * @version 1.54.0
+		 * @version 1.54.1
 		 *
 		 * @constructor
 		 * @public

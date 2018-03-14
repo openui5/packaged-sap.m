@@ -5,13 +5,21 @@
 */
 
 sap.ui.define([
-		'jquery.sap.global',
-		'./library',
-		'./SliderUtilities',
-		'sap/ui/core/Control',
-		'sap/ui/core/Popup'
-	],
-	function (jQuery, Library, SliderUtilities, Control, Popup) {
+	'jquery.sap.global',
+	'./library',
+	'./SliderUtilities',
+	'sap/ui/core/Control',
+	'sap/ui/core/Popup',
+	'./SliderTooltipContainerRenderer'
+],
+function(
+	jQuery,
+	Library,
+	SliderUtilities,
+	Control,
+	Popup,
+	SliderTooltipContainerRenderer
+	) {
 		"use strict";
 
 		/**
@@ -27,7 +35,7 @@ sap.ui.define([
 		 * @extends sap.ui.core.Control
 		 *
 		 * @author SAP SE
-		 * @version 1.54.0
+		 * @version 1.54.1
 		 *
 		 * @constructor
 		 * @private

@@ -4,8 +4,26 @@
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 // Provides control sap.m.SelectionDetails.
-sap.ui.define([ 'jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/Button', 'sap/ui/base/Interface', 'sap/ui/Device', 'sap/ui/core/library' ],
-	function(jQuery, library, Control, Button, Interface, Device, CoreLibrary) {
+sap.ui.define([
+	'jquery.sap.global',
+	'./library',
+	'sap/ui/core/Control',
+	'sap/m/Button',
+	'sap/ui/base/Interface',
+	'sap/ui/Device',
+	'sap/ui/core/library',
+	'./SelectionDetailsRenderer'
+],
+function(
+	jQuery,
+	library,
+	Control,
+	Button,
+	Interface,
+	Device,
+	CoreLibrary,
+	SelectionDetailsRenderer
+	) {
 	"use strict";
 
 	/**
@@ -19,7 +37,7 @@ sap.ui.define([ 'jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/
 	 * <b><i>Note:</i></b>It is protected and should only be used within the framework itself.
 	 *
 	 * @author SAP SE
-	 * @version 1.54.0
+	 * @version 1.54.1
 	 *
 	 * @extends sap.ui.core.Control
 	 * @constructor

@@ -5,8 +5,33 @@
  */
 
 // Provides control sap.m.StepInput.
-sap.ui.define(["jquery.sap.global", "sap/ui/core/Icon", "./Input", "./InputRenderer", "sap/ui/core/Control", "sap/ui/core/IconPool", 'sap/ui/Device', "sap/ui/core/library", "sap/ui/core/Renderer", "sap/m/library", "jquery.sap.keycodes"],
-	function (jQuery, Icon, Input, InputRenderer, Control, IconPool, Device, coreLibrary, Renderer, library) {
+sap.ui.define([
+	"jquery.sap.global",
+	"sap/ui/core/Icon",
+	"./Input",
+	"./InputRenderer",
+	"sap/ui/core/Control",
+	"sap/ui/core/IconPool",
+	'sap/ui/Device',
+	"sap/ui/core/library",
+	"sap/ui/core/Renderer",
+	"sap/m/library",
+	"./StepInputRenderer",
+	"jquery.sap.keycodes"
+],
+function(
+	jQuery,
+	Icon,
+	Input,
+	InputRenderer,
+	Control,
+	IconPool,
+	Device,
+	coreLibrary,
+	Renderer,
+	library,
+	StepInputRenderer
+	) {
 		"use strict";
 
 		// shortcut for sap.m.InputType
@@ -75,7 +100,7 @@ sap.ui.define(["jquery.sap.global", "sap/ui/core/Icon", "./Input", "./InputRende
 		 * @implements sap.ui.core.IFormContent
 		 *
 		 * @author SAP SE
-		 * @version 1.54.0
+		 * @version 1.54.1
 		 *
 		 * @constructor
 		 * @public

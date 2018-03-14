@@ -4,8 +4,31 @@
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
-sap.ui.define(['jquery.sap.global', './library', './NotificationListBase', 'sap/ui/core/InvisibleText', './ListItemBase', 'sap/ui/core/IconPool', 'sap/ui/core/library', 'sap/ui/Device', 'sap/m/Button', 'jquery.sap.keycodes'],
-	function(jQuery, library, NotificationListBase, InvisibleText, ListItemBase, IconPool, coreLibrary, Device, Button) {
+sap.ui.define([
+	'jquery.sap.global',
+	'./library',
+	'./NotificationListBase',
+	'sap/ui/core/InvisibleText',
+	'./ListItemBase',
+	'sap/ui/core/IconPool',
+	'sap/ui/core/library',
+	'sap/ui/Device',
+	'sap/m/Button',
+	'./NotificationListGroupRenderer',
+	'jquery.sap.keycodes'
+],
+function(
+	jQuery,
+	library,
+	NotificationListBase,
+	InvisibleText,
+	ListItemBase,
+	IconPool,
+	coreLibrary,
+	Device,
+	Button,
+	NotificationListGroupRenderer
+	) {
 	'use strict';
 
 	// shortcut for sap.ui.core.Priority
@@ -32,7 +55,7 @@ sap.ui.define(['jquery.sap.global', './library', './NotificationListBase', 'sap/
 	 * @extends sap.m.NotificationListBase
 	 *
 	 * @author SAP SE
-	 * @version 1.54.0
+	 * @version 1.54.1
 	 *
 	 * @constructor
 	 * @public

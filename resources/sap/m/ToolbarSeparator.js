@@ -5,8 +5,8 @@
  */
 
 // Provides control sap.m.ToolbarSeparator.
-sap.ui.define(['./library', 'sap/ui/core/Control'],
-	function(library, Control) {
+sap.ui.define(['./library', 'sap/ui/core/Control', './ToolbarSeparatorRenderer'],
+	function(library, Control, ToolbarSeparatorRenderer) {
 	"use strict";
 
 
@@ -23,7 +23,7 @@ sap.ui.define(['./library', 'sap/ui/core/Control'],
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.54.0
+	 * @version 1.54.1
 	 *
 	 * @constructor
 	 * @public

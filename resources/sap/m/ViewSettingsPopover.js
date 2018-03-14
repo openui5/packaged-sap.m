@@ -4,12 +4,47 @@
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 // Provides control sap.m.ViewSettingsPopover.
-sap.ui.define(["jquery.sap.global", "./ResponsivePopover", "./Button", "./Toolbar", "./ToolbarSpacer", "./Bar", "./List",
-		"./StandardListItem", "./library", "sap/ui/core/Control", "sap/ui/core/IconPool",
-		"./SegmentedButton", "./Page", "./NavContainer", "./ViewSettingsItem", "sap/ui/base/ManagedObject", "sap/ui/Device", "sap/ui/core/InvisibleText"],
-
-	function (jQuery, ResponsivePopover, Button, Toolbar, ToolbarSpacer, Bar, List, StandardListItem, library, Control,
-			  IconPool, SegmentedButton, Page, NavContainer, ViewSettingsItem, ManagedObject, Device, InvisibleText) {
+sap.ui.define([
+	"jquery.sap.global",
+	"./ResponsivePopover",
+	"./Button",
+	"./Toolbar",
+	"./ToolbarSpacer",
+	"./Bar",
+	"./List",
+	"./StandardListItem",
+	"./library",
+	"sap/ui/core/Control",
+	"sap/ui/core/IconPool",
+	"./SegmentedButton",
+	"./Page",
+	"./NavContainer",
+	"./ViewSettingsItem",
+	"sap/ui/base/ManagedObject",
+	"sap/ui/Device",
+	"sap/ui/core/InvisibleText",
+	"./ViewSettingsPopoverRenderer"
+], function(
+	jQuery,
+	ResponsivePopover,
+	Button,
+	Toolbar,
+	ToolbarSpacer,
+	Bar,
+	List,
+	StandardListItem,
+	library,
+	Control,
+	IconPool,
+	SegmentedButton,
+	Page,
+	NavContainer,
+	ViewSettingsItem,
+	ManagedObject,
+	Device,
+	InvisibleText,
+	ViewSettingsPopoverRenderer
+	) {
 		"use strict";
 
 		// shortcut for sap.m.VerticalPlacementType
@@ -48,7 +83,7 @@ sap.ui.define(["jquery.sap.global", "./ResponsivePopover", "./Button", "./Toolba
 		 * @extends sap.ui.core.Control
 		 *
 		 * @author SAP SE
-		 * @version 1.54.0
+		 * @version 1.54.1
 		 *
 		 * @constructor
 		 * @private

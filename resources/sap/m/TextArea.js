@@ -5,8 +5,26 @@
  */
 
 // Provides control sap.m.TextArea.
-sap.ui.define(['jquery.sap.global', './InputBase', './Text', 'sap/ui/core/ResizeHandler', './library', 'sap/ui/core/library', 'sap/ui/Device'],
-	function(jQuery, InputBase, Text, ResizeHandler, library, coreLibrary, Device) {
+sap.ui.define([
+	'jquery.sap.global',
+	'./InputBase',
+	'./Text',
+	'sap/ui/core/ResizeHandler',
+	'./library',
+	'sap/ui/core/library',
+	'sap/ui/Device',
+	'./TextAreaRenderer'
+],
+function(
+	jQuery,
+	InputBase,
+	Text,
+	ResizeHandler,
+	library,
+	coreLibrary,
+	Device,
+	TextAreaRenderer
+	) {
 	"use strict";
 
 
@@ -60,7 +78,7 @@ sap.ui.define(['jquery.sap.global', './InputBase', './Text', 'sap/ui/core/Resize
 	 * @extends sap.m.InputBase
 	 *
 	 * @author SAP SE
-	 * @version 1.54.0
+	 * @version 1.54.1
 	 *
 	 * @constructor
 	 * @public

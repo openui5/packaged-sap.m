@@ -6,8 +6,11 @@
 
 // Provides control sap.m.CustomTreeItem.
 sap.ui.define([
-	'./TreeItemBase', './ListItemBase', './library'
-], function(TreeItemBase, ListItemBase, library) {
+	'./TreeItemBase',
+	'./ListItemBase',
+	'./library',
+	"./CustomTreeItemRenderer"
+], function(TreeItemBase, ListItemBase, library, CustomTreeItemRenderer) {
 	"use strict";
 
 	/**
@@ -20,7 +23,7 @@ sap.ui.define([
 	 *        <code>Table, Form</code> etc, should not be aggregated as content.
 	 * @extends sap.m.TreeItemBase
 	 * @author SAP SE
-	 * @version 1.54.0
+	 * @version 1.54.1
 	 * @constructor
 	 * @public
 	 * @since 1.48.0

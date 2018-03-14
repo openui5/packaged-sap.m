@@ -4,8 +4,41 @@
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
-sap.ui.define(['jquery.sap.global', './Dialog', './ComboBoxTextField', './Toolbar', './Button', './Bar', './Text', './Title', 'sap/ui/core/InvisibleText', 'sap/ui/core/IconPool', 'sap/ui/core/ValueStateSupport', './library', 'sap/ui/Device', 'sap/ui/core/library', 'jquery.sap.keycodes'],
-	function(jQuery, Dialog, ComboBoxTextField, Toolbar, Button, Bar, Text, Title, InvisibleText, IconPool, ValueStateSupport, library, Device, coreLibrary) {
+sap.ui.define([
+	'jquery.sap.global',
+	'./Dialog',
+	'./ComboBoxTextField',
+	'./Toolbar',
+	'./Button',
+	'./Bar',
+	'./Text',
+	'./Title',
+	'sap/ui/core/InvisibleText',
+	'sap/ui/core/IconPool',
+	'sap/ui/core/ValueStateSupport',
+	'./library',
+	'sap/ui/Device',
+	'sap/ui/core/library',
+	'./ComboBoxBaseRenderer',
+	'jquery.sap.keycodes'
+],
+	function(
+	jQuery,
+	Dialog,
+	ComboBoxTextField,
+	Toolbar,
+	Button,
+	Bar,
+	Text,
+	Title,
+	InvisibleText,
+	IconPool,
+	ValueStateSupport,
+	library,
+	Device,
+	coreLibrary,
+	ComboBoxBaseRenderer
+	) {
 		"use strict";
 
 		// shortcut for sap.m.PlacementType
@@ -26,7 +59,7 @@ sap.ui.define(['jquery.sap.global', './Dialog', './ComboBoxTextField', './Toolba
 		 * @abstract
 		 *
 		 * @author SAP SE
-		 * @version 1.54.0
+		 * @version 1.54.1
 		 *
 		 * @constructor
 		 * @public

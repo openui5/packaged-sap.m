@@ -5,9 +5,24 @@
  */
 
 sap.ui.define([
-		"jquery.sap.global", "./library", "sap/ui/core/Control", "sap/ui/core/delegate/ScrollEnablement",
-		"./WizardProgressNavigator", "./Button", "sap/ui/Device"],
-	function (jQuery, library, Control, ScrollEnablement, WizardProgressNavigator, Button, Device) {
+	"jquery.sap.global",
+	"./library",
+	"sap/ui/core/Control",
+	"sap/ui/core/delegate/ScrollEnablement",
+	"./WizardProgressNavigator",
+	"./Button",
+	"sap/ui/Device",
+	"./WizardRenderer"
+], function(
+	jQuery,
+	library,
+	Control,
+	ScrollEnablement,
+	WizardProgressNavigator,
+	Button,
+	Device,
+	WizardRenderer
+	) {
 		"use strict";
 
 		// shortcut for sap.m.ButtonType
@@ -47,7 +62,7 @@ sap.ui.define([
 		 * On mobile devices the steps in the StepNavigator are grouped together and overlap. Tapping on them will show a popover to select the step to navigate to.
 		 * @extends sap.ui.core.Control
 		 * @author SAP SE
-		 * @version 1.54.0
+		 * @version 1.54.1
 		 *
 		 * @constructor
 		 * @public

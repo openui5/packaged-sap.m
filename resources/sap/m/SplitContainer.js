@@ -5,10 +5,32 @@
  */
 
 // Provides control sap.m.SplitContainer.
-sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/core/IconPool',
-	'sap/m/semantic/SemanticPage', 'sap/ui/core/InvisibleText', 'sap/ui/Device', 'sap/ui/base/ManagedObject', 'sap/m/NavContainer', 'sap/m/Popover'],
-	function(jQuery, library, Control, IconPool,
-		SemanticPage, InvisibleText, Device, ManagedObject, NavContainer, Popover) {
+sap.ui.define([
+	'jquery.sap.global',
+	'./library',
+	'sap/ui/core/Control',
+	'sap/ui/core/IconPool',
+	'sap/m/semantic/SemanticPage',
+	'sap/ui/core/InvisibleText',
+	'sap/ui/Device',
+	'sap/ui/base/ManagedObject',
+	'sap/m/NavContainer',
+	'sap/m/Popover',
+	'./SplitContainerRenderer'
+],
+function(
+	jQuery,
+	library,
+	Control,
+	IconPool,
+	SemanticPage,
+	InvisibleText,
+	Device,
+	ManagedObject,
+	NavContainer,
+	Popover,
+	SplitContainerRenderer
+	) {
 	"use strict";
 
 
@@ -36,7 +58,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 *
 	 * NOTE: This control must be rendered as a full screen control in order to make the show/hide master area work properly.
 	 * @extends sap.ui.core.Control
-	 * @version 1.54.0
+	 * @version 1.54.1
 	 *
 	 * @constructor
 	 * @public

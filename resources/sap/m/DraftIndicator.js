@@ -4,7 +4,13 @@
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
-sap.ui.define(["sap/ui/core/Control", "sap/m/Label", "sap/m/library", "jquery.sap.global"], function(Control, Label, library, jQuery) {
+sap.ui.define([
+	"sap/ui/core/Control",
+	"sap/m/Label",
+	"sap/m/library",
+	"jquery.sap.global",
+	"./DraftIndicatorRenderer"
+], function(Control, Label, library, jQuery, DraftIndicatorRenderer) {
 	"use strict";
 
 	// shortcut for sap.m.DraftIndicatorState
@@ -21,7 +27,7 @@ sap.ui.define(["sap/ui/core/Control", "sap/m/Label", "sap/m/library", "jquery.sa
 	 * @abstract
 	 *
 	 * @author SAP SE
-	 * @version 1.54.0
+	 * @version 1.54.1
 	 *
 	 * @constructor
 	 * @public

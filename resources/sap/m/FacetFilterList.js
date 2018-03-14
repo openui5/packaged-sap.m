@@ -5,8 +5,15 @@
  */
 
 // Provides control sap.m.FacetFilterList.
-sap.ui.define(['jquery.sap.global', './List', './library', 'sap/ui/model/ChangeReason', 'sap/ui/model/Filter'],
-	function(jQuery, List, library, ChangeReason, Filter) {
+sap.ui.define([
+	'jquery.sap.global',
+	'./List',
+	'./library',
+	'sap/ui/model/ChangeReason',
+	'sap/ui/model/Filter',
+	'./FacetFilterListRenderer'
+],
+	function(jQuery, List, library, ChangeReason, Filter, FacetFilterListRenderer) {
 	"use strict";
 
 
@@ -42,7 +49,7 @@ sap.ui.define(['jquery.sap.global', './List', './library', 'sap/ui/model/ChangeR
 	 * be closed.
 	 *
 	 * @extends sap.m.List
-	 * @version 1.54.0
+	 * @version 1.54.1
 	 *
 	 * @constructor
 	 * @public

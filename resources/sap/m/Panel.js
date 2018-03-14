@@ -5,8 +5,13 @@
  */
 
 // Provides control sap.m.Panel.
-sap.ui.define(['./library', 'sap/ui/core/Control', 'sap/ui/core/IconPool'],
-	function(library, Control, IconPool) {
+sap.ui.define([
+	'./library',
+	'sap/ui/core/Control',
+	'sap/ui/core/IconPool',
+	'./PanelRenderer'
+],
+	function(library, Control, IconPool, PanelRenderer) {
 	"use strict";
 
 	// shortcut for sap.m.PanelAccessibleRole
@@ -56,7 +61,7 @@ sap.ui.define(['./library', 'sap/ui/core/Control', 'sap/ui/core/IconPool'],
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.54.0
+	 * @version 1.54.1
 	 *
 	 * @constructor
 	 * @public

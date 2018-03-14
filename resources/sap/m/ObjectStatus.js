@@ -5,8 +5,14 @@
  */
 
 // Provides control sap.m.ObjectStatus.
-sap.ui.define(['./library', 'sap/ui/core/Control', 'sap/ui/core/ValueStateSupport', 'sap/ui/core/library'],
-	function(library, Control, ValueStateSupport, coreLibrary) {
+sap.ui.define([
+	'./library',
+	'sap/ui/core/Control',
+	'sap/ui/core/ValueStateSupport',
+	'sap/ui/core/library',
+	'./ObjectStatusRenderer'
+],
+	function(library, Control, ValueStateSupport, coreLibrary, ObjectStatusRenderer) {
 	"use strict";
 
 
@@ -32,7 +38,7 @@ sap.ui.define(['./library', 'sap/ui/core/Control', 'sap/ui/core/ValueStateSuppor
 	 * Status information that can be either text with a value state, or an icon.
 	 * @extends sap.ui.core.Control
 	 * @implements sap.ui.core.IFormContent
-	 * @version 1.54.0
+	 * @version 1.54.1
 	 *
 	 * @constructor
 	 * @public

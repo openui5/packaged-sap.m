@@ -5,8 +5,8 @@
  */
 
 // Provides control sap.m.CustomListItem.
-sap.ui.define(['./ListItemBase', './library'],
-	function(ListItemBase, library) {
+sap.ui.define(['./ListItemBase', './library', './CustomListItemRenderer'],
+	function(ListItemBase, library, CustomListItemRenderer) {
 	"use strict";
 
 
@@ -24,7 +24,7 @@ sap.ui.define(['./ListItemBase', './library'],
 	 * @extends sap.m.ListItemBase
 	 *
 	 * @author SAP SE
-	 * @version 1.54.0
+	 * @version 1.54.1
 	 *
 	 * @constructor
 	 * @public

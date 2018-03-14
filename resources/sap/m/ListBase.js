@@ -5,8 +5,33 @@
  */
 
 // Provides control sap.m.ListBase.
-sap.ui.define(['jquery.sap.global', './GroupHeaderListItem', './ListItemBase', './library', 'sap/ui/core/Control', 'sap/ui/core/delegate/ItemNavigation', 'sap/ui/core/InvisibleText', 'sap/ui/core/LabelEnablement', 'sap/ui/Device', 'sap/m/GrowingEnablement', 'jquery.sap.keycodes'],
-	function (jQuery, GroupHeaderListItem, ListItemBase, library, Control, ItemNavigation, InvisibleText, LabelEnablement, Device, GrowingEnablement) {
+sap.ui.define([
+	'jquery.sap.global',
+	'./GroupHeaderListItem',
+	'./ListItemBase',
+	'./library',
+	'sap/ui/core/Control',
+	'sap/ui/core/delegate/ItemNavigation',
+	'sap/ui/core/InvisibleText',
+	'sap/ui/core/LabelEnablement',
+	'sap/ui/Device',
+	'sap/m/GrowingEnablement',
+	'./ListBaseRenderer',
+	'jquery.sap.keycodes'
+],
+function(
+	jQuery,
+	GroupHeaderListItem,
+	ListItemBase,
+	library,
+	Control,
+	ItemNavigation,
+	InvisibleText,
+	LabelEnablement,
+	Device,
+	GrowingEnablement,
+	ListBaseRenderer
+) {
 	"use strict";
 
 
@@ -50,7 +75,7 @@ sap.ui.define(['jquery.sap.global', './GroupHeaderListItem', './ListItemBase', '
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.54.0
+	 * @version 1.54.1
 	 *
 	 * @constructor
 	 * @public

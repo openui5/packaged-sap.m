@@ -5,8 +5,14 @@
  */
 
 // Provides control sap.m.ObjectNumber.
-sap.ui.define(['./library', 'sap/ui/core/Control', 'sap/ui/core/Renderer', 'sap/ui/core/library'],
-	function(library, Control, Renderer, coreLibrary) {
+sap.ui.define([
+	'./library',
+	'sap/ui/core/Control',
+	'sap/ui/core/Renderer',
+	'sap/ui/core/library',
+	'./ObjectNumberRenderer'
+],
+	function(library, Control, Renderer, coreLibrary, ObjectNumberRenderer) {
 	"use strict";
 
 
@@ -31,7 +37,7 @@ sap.ui.define(['./library', 'sap/ui/core/Control', 'sap/ui/core/Renderer', 'sap/
 	 * colors to provide additional meaning about the object to the user.
 	 * @extends sap.ui.core.Control
 	 * @implements sap.ui.core.IFormContent
-	 * @version 1.54.0
+	 * @version 1.54.1
 	 *
 	 * @constructor
 	 * @public
@@ -63,7 +69,7 @@ sap.ui.define(['./library', 'sap/ui/core/Control', 'sap/ui/core/Renderer', 'sap/
 			emphasized : {type : "boolean", group : "Appearance", defaultValue : true},
 
 			/**
-			 * Determines the object number's value state. Setting this state will cause the number to be rendered in state-specific colors (only blue-crystal theme).
+			 * Determines the object number's value state. Setting this state will cause the number to be rendered in state-specific colors.
 			 */
 			state : {type : "sap.ui.core.ValueState", group : "Misc", defaultValue : ValueState.None},
 
@@ -109,14 +115,23 @@ sap.ui.define(['./library', 'sap/ui/core/Control', 'sap/ui/core/Renderer', 'sap/
 	 * @returns {sap.m.ObjectNumber} this pointer for chaining
 	 */
 	ObjectNumber.prototype.setState = function(sState) {
-		//remove the current value state css class
-		this.$().removeClass(this._sCSSPrefixObjNumberStatus + this.getState());
+		// no rerendering only when the current and new state are different from ValueState.None
+		// otherwise we have to rerender the control so we can have invisible text rendered and aria-labelledby set correctly
+		if (this.getState() !== ValueState.None && sState !== ValueState.None) {
+			//remove the current value state css class
+			this.$().removeClass(this._sCSSPrefixObjNumberStatus + this.getState());
 
-		//do suppress rerendering
-		this.setProperty("state", sState, true);
+			//do suppress rerendering
+			this.setProperty("state", sState, true);
 
-		//now set the new css state class
-		this.$().addClass(this._sCSSPrefixObjNumberStatus + this.getState());
+			//now set the new css state class
+			this.$().addClass(this._sCSSPrefixObjNumberStatus + this.getState());
+
+			// update ARIA text
+			this._updateACCState();
+		} else {
+			this.setProperty("state", sState, false);
+		}
 
 		return this;
 	};
@@ -138,6 +153,34 @@ sap.ui.define(['./library', 'sap/ui/core/Control', 'sap/ui/core/Renderer', 'sap/
 		sAlignVal = sAlignVal || sAlign;
 		this.$().css("text-align", sAlign);
 		return this;
+	};
+
+	// updates inner html of the span which contains the state text read by the screen reader
+	ObjectNumber.prototype._updateACCState = function() {
+
+		return this.$("state").text(this._getStateText());
+
+	};
+
+	// returns translated text for the state
+	ObjectNumber.prototype._getStateText = function() {
+
+		var sARIAStateText,
+			oRB = sap.ui.getCore().getLibraryResourceBundle("sap.m");
+
+			switch (this.getState()) {
+				case ValueState.Error:
+					sARIAStateText = oRB.getText("OBJECTNUMBER_ARIA_VALUE_STATE_ERROR");
+					break;
+				case ValueState.Warning:
+					sARIAStateText = oRB.getText("OBJECTNUMBER_ARIA_VALUE_STATE_WARNING");
+					break;
+				case ValueState.Success:
+					sARIAStateText = oRB.getText("OBJECTNUMBER_ARIA_VALUE_STATE_SUCCESS");
+					break;
+			}
+
+		return sARIAStateText;
 	};
 
 	return ObjectNumber;

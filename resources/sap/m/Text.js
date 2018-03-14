@@ -5,8 +5,14 @@
  */
 
 // Provides control sap.m.Text
-sap.ui.define(['./library', 'sap/ui/core/Control', 'sap/ui/core/library', 'sap/ui/Device'],
-	function(library, Control, coreLibrary, Device) {
+sap.ui.define([
+	'./library',
+	'sap/ui/core/Control',
+	'sap/ui/core/library',
+	'sap/ui/Device',
+	'./TextRenderer'
+],
+	function(library, Control, coreLibrary, Device, TextRenderer) {
 	"use strict";
 
 	// shortcut for sap.ui.core.TextAlign
@@ -29,7 +35,7 @@ sap.ui.define(['./library', 'sap/ui/core/Control', 'sap/ui/core/library', 'sap/u
 	 * @implements sap.ui.core.IShrinkable, sap.ui.core.IFormContent
 	 *
 	 * @author SAP SE
-	 * @version 1.54.0
+	 * @version 1.54.1
 	 *
 	 * @constructor
 	 * @public

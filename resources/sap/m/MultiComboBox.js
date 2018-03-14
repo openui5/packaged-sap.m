@@ -4,8 +4,42 @@
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
-sap.ui.define(['jquery.sap.global', './InputBase', './ComboBoxTextField', './ComboBoxBase', './Input', './ToggleButton', './List', './Popover', './library', 'sap/ui/core/EnabledPropagator', 'sap/ui/core/IconPool', 'sap/ui/core/library', 'sap/ui/Device', 'sap/ui/core/Item', 'jquery.sap.xml', 'jquery.sap.keycodes'],
-	function(jQuery, InputBase, ComboBoxTextField, ComboBoxBase, Input, ToggleButton, List, Popover, library, EnabledPropagator, IconPool/* , jQuerySap */, coreLibrary, Device, Item) {
+sap.ui.define([
+	'jquery.sap.global',
+	'./InputBase',
+	'./ComboBoxTextField',
+	'./ComboBoxBase',
+	'./Input',
+	'./ToggleButton',
+	'./List',
+	'./Popover',
+	'./library',
+	'sap/ui/core/EnabledPropagator',
+	'sap/ui/core/IconPool',
+	'sap/ui/core/library',
+	'sap/ui/Device',
+	'sap/ui/core/Item',
+	'./MultiComboBoxRenderer',
+	'jquery.sap.xml',
+	'jquery.sap.keycodes'
+],
+function(
+	jQuery,
+	InputBase,
+	ComboBoxTextField,
+	ComboBoxBase,
+	Input,
+	ToggleButton,
+	List,
+	Popover,
+	library,
+	EnabledPropagator,
+	IconPool/* , jQuerySap */,
+	coreLibrary,
+	Device,
+	Item,
+	MultiComboBoxRenderer
+	) {
 	"use strict";
 
 	// shortcut for sap.m.ListType
@@ -31,7 +65,7 @@ sap.ui.define(['jquery.sap.global', './InputBase', './ComboBoxTextField', './Com
 	 * @extends sap.m.ComboBoxBase
 	 *
 	 * @author SAP SE
-	 * @version 1.54.0
+	 * @version 1.54.1
 	 *
 	 * @constructor
 	 * @public

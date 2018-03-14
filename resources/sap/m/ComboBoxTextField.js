@@ -4,8 +4,22 @@
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
-sap.ui.define(['./InputBase', './library', 'sap/ui/core/InvisibleText', 'sap/ui/core/library', 'sap/ui/Device'],
-	function(InputBase, library, InvisibleText, coreLibrary, Device) {
+sap.ui.define([
+	'./InputBase',
+	'./library',
+	'sap/ui/core/InvisibleText',
+	'sap/ui/core/library',
+	'sap/ui/Device',
+	"./ComboBoxTextFieldRenderer"
+],
+	function(
+		InputBase,
+		library,
+		InvisibleText,
+		coreLibrary,
+		Device,
+		ComboBoxTextFieldRenderer
+	) {
 		"use strict";
 
 		// shortcut for sap.ui.core.ValueState
@@ -22,7 +36,7 @@ sap.ui.define(['./InputBase', './library', 'sap/ui/core/InvisibleText', 'sap/ui/
 		 * @extends sap.m.InputBase
 		 *
 		 * @author SAP SE
-		 * @version 1.54.0
+		 * @version 1.54.1
 		 *
 		 * @constructor
 		 * @public

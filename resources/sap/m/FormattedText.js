@@ -5,8 +5,20 @@
  */
 
 // Provides control sap.m.FormattedText.
-sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', './FormattedTextAnchorGenerator'],
-	function (jQuery, library, Control, FormattedTextAnchorGenerator) {
+sap.ui.define([
+	'jquery.sap.global',
+	'./library',
+	'sap/ui/core/Control',
+	'./FormattedTextAnchorGenerator',
+	'./FormattedTextRenderer'
+],
+function(
+	jQuery,
+	library,
+	Control,
+	FormattedTextAnchorGenerator,
+	FormattedTextRenderer
+	) {
 		"use strict";
 
 
@@ -23,7 +35,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', './Forma
 		 * @class
 		 * The FormattedText control allows the usage of a limited set of tags for inline display of formatted text in HTML format.
 		 * @extends sap.ui.core.Control
-		 * @version 1.54.0
+		 * @version 1.54.1
 		 *
 		 * @constructor
 		 * @public

@@ -5,8 +5,15 @@
  */
 
 // Provides control sap.m.Tile.
-sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/InvisibleText', 'sap/ui/core/Control', 'sap/ui/Device'],
-	function(jQuery, library, InvisibleText, Control, Device) {
+sap.ui.define([
+	'jquery.sap.global',
+	'./library',
+	'sap/ui/core/InvisibleText',
+	'sap/ui/core/Control',
+	'sap/ui/Device',
+	'./TileRenderer'
+],
+	function(jQuery, library, InvisibleText, Control, Device, TileRenderer) {
 	"use strict";
 
 
@@ -28,7 +35,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/InvisibleText', 's
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.54.0
+	 * @version 1.54.1
 	 *
 	 * @constructor
 	 * @public

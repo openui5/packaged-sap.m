@@ -5,8 +5,14 @@
  */
 
 // Provides control sap.m.StandardListItem.
-sap.ui.define(['./ListItemBase', './library', 'sap/ui/core/IconPool', 'sap/ui/core/library'],
-	function(ListItemBase, library, IconPool, coreLibrary) {
+sap.ui.define([
+	'./ListItemBase',
+	'./library',
+	'sap/ui/core/IconPool',
+	'sap/ui/core/library',
+	'./StandardListItemRenderer'
+],
+	function(ListItemBase, library, IconPool, coreLibrary, StandardListItemRenderer) {
 	"use strict";
 
 
@@ -30,7 +36,7 @@ sap.ui.define(['./ListItemBase', './library', 'sap/ui/core/IconPool', 'sap/ui/co
 	 * @extends sap.m.ListItemBase
 	 *
 	 * @author SAP SE
-	 * @version 1.54.0
+	 * @version 1.54.1
 	 *
 	 * @constructor
 	 * @public

@@ -5,8 +5,35 @@
 */
 
 // Provides control sap.m.FacetFilter.
-sap.ui.define(['jquery.sap.global', './NavContainer', './library', 'sap/ui/core/Control', 'sap/ui/core/IconPool', 'sap/ui/core/delegate/ItemNavigation', 'sap/ui/core/InvisibleText', 'sap/ui/Device', 'sap/ui/base/ManagedObject', 'sap/ui/core/Icon', 'sap/ui/model/Filter', 'jquery.sap.keycodes'],
-	function(jQuery, NavContainer, library, Control, IconPool, ItemNavigation, InvisibleText, Device, ManagedObject, Icon, Filter) {
+sap.ui.define([
+	'jquery.sap.global',
+	'./NavContainer',
+	'./library',
+	'sap/ui/core/Control',
+	'sap/ui/core/IconPool',
+	'sap/ui/core/delegate/ItemNavigation',
+	'sap/ui/core/InvisibleText',
+	'sap/ui/Device',
+	'sap/ui/base/ManagedObject',
+	'sap/ui/core/Icon',
+	'sap/ui/model/Filter',
+	'./FacetFilterRenderer',
+	'jquery.sap.keycodes'
+],
+	function(
+	jQuery,
+	NavContainer,
+	library,
+	Control,
+	IconPool,
+	ItemNavigation,
+	InvisibleText,
+	Device,
+	ManagedObject,
+	Icon,
+	Filter,
+	FacetFilterRenderer
+	) {
 	"use strict";
 
 
@@ -98,7 +125,7 @@ sap.ui.define(['jquery.sap.global', './NavContainer', './library', 'sap/ui/core/
 	 *
 	 * @extends sap.ui.core.Control
 	 * @implements sap.ui.core.IShrinkable
-	 * @version 1.54.0
+	 * @version 1.54.1
 	 *
 	 * @constructor
 	 * @public

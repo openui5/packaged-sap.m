@@ -22,7 +22,7 @@ sap.ui.define([
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.54.0
+	 * @version 1.54.1
 	 *
 	 * @constructor
 	 * @public
@@ -299,7 +299,7 @@ sap.ui.define([
 				oQuickViewPage.setNavContext(mNavContext);
 
 				var oPage = this._createPage(oQuickViewPage);
-				this._oNavContainer.addPage(oPage);
+				this._oNavContainer.addAggregation('pages', oPage, true);
 			}
 		};
 

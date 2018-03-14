@@ -3,9 +3,7 @@
  * (c) Copyright 2009-2018 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
-sap.ui.define([
-	'sap/ui/core/Control', 'sap/ui/core/Icon'
-], function(Control, Icon) {
+sap.ui.define(['sap/ui/core/Control', 'sap/ui/core/Icon', './ColumnHeaderRenderer'], function(Control, Icon, ColumnHeaderRenderer) {
 	"use strict";
 
 	/**
@@ -18,7 +16,7 @@ sap.ui.define([
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.54.0
+	 * @version 1.54.1
 	 *
 	 * @constructor
 	 * @since 1.52

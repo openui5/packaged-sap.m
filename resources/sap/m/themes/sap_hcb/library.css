@@ -2502,7 +2502,7 @@ html.sap-tablet .sapMDialog,
 html.sap-desktop .sapMDialog {
   min-width: 20rem;
 }
-.sapMDialog .sapMBar {
+.sapMDialog .sapMIBar {
   position: relative;
   width: auto;
 }
@@ -2714,8 +2714,8 @@ html.sap-desktop .sapMDialog {
   height: 2.5rem;
   top: 2.5rem;
 }
-.sapUiSizeCompact.sapMDialog header.sapMDialogSubHeader .sapMBar,
-.sapUiSizeCompact .sapMDialog header.sapMDialogSubHeader .sapMBar {
+.sapUiSizeCompact.sapMDialog header.sapMDialogSubHeader .sapMIBar,
+.sapUiSizeCompact .sapMDialog header.sapMDialogSubHeader .sapMIBar {
   height: 2.5rem;
 }
 .sapUiSizeCompact.sapMDialog > header.sapMDialogTitle .sapMBarMiddle > .sapMBarPH > .sapMImg.sapMDialog > header.sapMDialogTitle .sapMBarMiddle > .sapMBarPH > .sapMImg,
@@ -2841,19 +2841,19 @@ html[data-sap-ui-animation='off'] .sapMDialogBlockLayerAnimation {
 .sapMDialogWarning > header.sapMDialogTitle .sapMDialogIcon.sapUiIcon {
   color: #ffab1d;
 }
-.sapMDialogWarning > header:last-of-type .sapMBar.sapMIBar {
+.sapMDialogWarning > header:last-of-type .sapMIBar.sapMIBar {
   box-shadow: inset 0 -0.125rem #ffab1d;
 }
 .sapMDialogError > header.sapMDialogTitle .sapMDialogIcon.sapUiIcon {
   color: #ff5e5e;
 }
-.sapMDialogError > header:last-of-type .sapMBar.sapMIBar {
+.sapMDialogError > header:last-of-type .sapMIBar.sapMIBar {
   box-shadow: inset 0 -0.125rem #ff5e5e;
 }
 .sapMDialogSuccess > header.sapMDialogTitle .sapMDialogIcon.sapUiIcon {
   color: #99cc99;
 }
-.sapMDialogSuccess > header:last-of-type .sapMBar.sapMIBar {
+.sapMDialogSuccess > header:last-of-type .sapMIBar.sapMIBar {
   box-shadow: inset 0 -0.125rem #99cc99;
 }
 /* ====================================== */
@@ -13687,6 +13687,9 @@ html[data-sap-ui-browser^="ed"].sap-desktop .sapMFocus > .sapMSFF::before {
   vertical-align: top;
   position: relative;
 }
+.sapMSegB:focus {
+  outline: none;
+}
 .sapMSegB .sapMSegBBtn {
   list-style: none;
   text-overflow: ellipsis;
@@ -16656,7 +16659,6 @@ html[data-sap-ui-browser^='cr'] .sapMListTblStickyColHdr > .sapMTableTH {
 }
 .sapMTabStrip .sapMTSLeftOverflowButtons {
   position: absolute;
-  background: linear-gradient(90deg, #000000 0%, #000000 75%, rgba(0, 0, 0, 0) 100%);
   margin-left: 0.25rem;
   visibility: hidden;
   width: 3rem;
@@ -16672,7 +16674,6 @@ html[data-sap-ui-browser^='cr'] .sapMListTblStickyColHdr > .sapMTableTH {
   left: 0;
   right: 0;
   bottom: -2px;
-  background: linear-gradient(90deg, #ffffff 0%, #ffffff 75%, rgba(255, 255, 255, 0) 100%);
 }
 .sapMTabStrip .sapMTSTabsContainer {
   height: 100%;
@@ -16739,7 +16740,6 @@ html[data-sap-ui-browser^='cr'] .sapMListTblStickyColHdr > .sapMTableTH {
 }
 .sapMTabStrip .sapMTSRightOverflowButtons {
   position: absolute;
-  background: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, #000000 25%, #000000 100%);
   right: 5.5rem;
   visibility: hidden;
   width: 3rem;
@@ -16758,7 +16758,6 @@ html[data-sap-ui-browser^='cr'] .sapMListTblStickyColHdr > .sapMTableTH {
   left: 0;
   right: 0;
   bottom: -2px;
-  background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, #ffffff 25%, #ffffff 100%);
 }
 .sapMTabStrip .sapMTSTouchArea {
   height: 100%;
@@ -16812,6 +16811,22 @@ html[data-sap-ui-animation='on'] .sapMTabStrip .sapMTSTabsContainer .sapMTSTabs 
 html[data-sap-ui-browser^="ie"] .sapMTabStrip .sapMTSTabsContainer .sapMTSTabs .sapMTabStripItem:focus::before,
 html[data-sap-ui-browser^="ed"] .sapMTabStrip .sapMTSTabsContainer .sapMTSTabs .sapMTabStripItem:focus::before {
   border-style: dashed;
+}
+html[dir=ltr] .sapMTabStrip .sapMTSLeftOverflowButtons,
+html[dir=rtl] .sapMTabStrip .sapMTSRightOverflowButtons {
+  background: linear-gradient(90deg, #000000 0%, #000000 75%, rgba(0, 0, 0, 0) 100%);
+}
+html[dir=ltr] .sapMTabStrip .sapMTSLeftOverflowButtons::after,
+html[dir=rtl] .sapMTabStrip .sapMTSRightOverflowButtons::after {
+  background: linear-gradient(90deg, #ffffff 0%, #ffffff 75%, rgba(255, 255, 255, 0) 100%);
+}
+html[dir=ltr] .sapMTabStrip .sapMTSRightOverflowButtons,
+html[dir=rtl] .sapMTabStrip .sapMTSLeftOverflowButtons {
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, #000000 25%, #000000 100%);
+}
+html[dir=ltr] .sapMTabStrip .sapMTSRightOverflowButtons::after,
+html[dir=rtl] .sapMTabStrip .sapMTSLeftOverflowButtons::after {
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, #ffffff 25%, #ffffff 100%);
 }
 /* ============================================= */
 /* Form factor cozy                              */

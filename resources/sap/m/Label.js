@@ -5,8 +5,22 @@
  */
 
 // Provides control sap.m.Label
-sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/core/LabelEnablement', "sap/m/OverflowToolbar", "sap/m/OverflowToolbarLayoutData", 'sap/ui/core/library'],
-	function(jQuery, library, Control, LabelEnablement, OverflowToolbar, OverflowToolbarLayoutData, coreLibrary) {
+sap.ui.define([
+	'jquery.sap.global',
+	'./library',
+	'sap/ui/core/Control',
+	'sap/ui/core/LabelEnablement',
+	'sap/ui/core/library',
+	'./LabelRenderer'
+],
+function(
+	jQuery,
+	library,
+	Control,
+	LabelEnablement,
+	coreLibrary,
+	LabelRenderer
+	) {
 	"use strict";
 
 	// shortcut for sap.ui.core.TextDirection
@@ -50,7 +64,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @implements sap.ui.core.Label, sap.ui.core.IShrinkable
 	 *
 	 * @author SAP SE
-	 * @version 1.54.0
+	 * @version 1.54.1
 	 *
 	 * @constructor
 	 * @public
@@ -192,7 +206,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		function getOwnGroup(oControl) {
 			var oLayoutData = oControl && oControl.getLayoutData();
 
-			if (oLayoutData && oLayoutData instanceof OverflowToolbarLayoutData) {
+			if (isInstanceOf(oLayoutData, "sap/m/OverflowToolbarLayoutData")) {
 				return oLayoutData.getGroup();
 			}
 		}
@@ -206,7 +220,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 				sLabelledControlGroupId;
 
 			oToolbar = oLabel.getParent();
-			if (!oToolbar || !(oToolbar instanceof OverflowToolbar)) {
+			if (!isInstanceOf(oToolbar, "sap/m/OverflowToolbar")) {
 				return;
 			}
 
@@ -234,6 +248,15 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 
 	// enrich Label functionality
 	LabelEnablement.enrich(Label.prototype);
+
+	// utility function to check if an object is an instance of a class
+	// without forcing the loading of the module that defines the class
+	function isInstanceOf (oObject, sModule) {
+		if (oObject && sModule) {
+			var fnClass = sap.ui.require(sModule); // will return the fnClass only if the module is already loaded
+			return (typeof fnClass === 'function')  && (oObject instanceof fnClass);
+		}
+	}
 
 	return Label;
 

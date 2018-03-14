@@ -6,43 +6,43 @@
 
 // Provides control sap.m.Dialog.
 sap.ui.define([
-		'jquery.sap.global',
-		'./Bar',
-		'./InstanceManager',
-		'./AssociativeOverflowToolbar',
-		'./ToolbarSpacer',
-		'./library',
-		'sap/ui/core/Control',
-		'sap/ui/core/IconPool',
-		'sap/ui/core/Popup',
-		'sap/ui/core/delegate/ScrollEnablement',
-		'sap/ui/core/RenderManager',
-		'sap/ui/core/InvisibleText',
-		'sap/ui/core/ResizeHandler',
-		'sap/ui/Device',
-		'sap/ui/base/ManagedObject',
-		'sap/ui/core/library',
-		"./DialogRenderer",
-		'jquery.sap.mobile'
+	'jquery.sap.global',
+	'./Bar',
+	'./InstanceManager',
+	'./AssociativeOverflowToolbar',
+	'./ToolbarSpacer',
+	'./library',
+	'sap/ui/core/Control',
+	'sap/ui/core/IconPool',
+	'sap/ui/core/Popup',
+	'sap/ui/core/delegate/ScrollEnablement',
+	'sap/ui/core/RenderManager',
+	'sap/ui/core/InvisibleText',
+	'sap/ui/core/ResizeHandler',
+	'sap/ui/Device',
+	'sap/ui/base/ManagedObject',
+	'sap/ui/core/library',
+	'./DialogRenderer',
+	'jquery.sap.mobile'
 	],
-	function(
-		jQuery,
-		Bar,
-		InstanceManager,
-		AssociativeOverflowToolbar,
-		ToolbarSpacer,
-		library,
-		Control,
-		IconPool,
-		Popup,
-		ScrollEnablement,
-		RenderManager,
-		InvisibleText,
-		ResizeHandler,
-		Device,
-		ManagedObject,
-		coreLibrary,
-		DialogRenderer
+function(
+	jQuery,
+	Bar,
+	InstanceManager,
+	AssociativeOverflowToolbar,
+	ToolbarSpacer,
+	library,
+	Control,
+	IconPool,
+	Popup,
+	ScrollEnablement,
+	RenderManager,
+	InvisibleText,
+	ResizeHandler,
+	Device,
+	ManagedObject,
+	coreLibrary,
+	DialogRenderer
 	) {
 		"use strict";
 
@@ -107,7 +107,7 @@ sap.ui.define([
 		*
 		* @implements sap.ui.core.PopupInterface
 		* @author SAP SE
-		* @version 1.54.0
+		* @version 1.54.1
 		*
 		* @constructor
 		* @public

@@ -5,8 +5,27 @@
  */
 
 // Provides control sap.m.MultiInput.
-sap.ui.define(['jquery.sap.global', './Input', './Tokenizer', './Token', './library', 'sap/ui/core/EnabledPropagator', 'sap/ui/Device', 'jquery.sap.keycodes'],
-	function (jQuery, Input, Tokenizer, Token, library, EnabledPropagator, Device) {
+sap.ui.define([
+	'jquery.sap.global',
+	'./Input',
+	'./Tokenizer',
+	'./Token',
+	'./library',
+	'sap/ui/core/EnabledPropagator',
+	'sap/ui/Device',
+	'./MultiInputRenderer',
+	'jquery.sap.keycodes'
+],
+function(
+	jQuery,
+	Input,
+	Tokenizer,
+	Token,
+	library,
+	EnabledPropagator,
+	Device,
+	MultiInputRenderer
+	) {
 		"use strict";
 
 
@@ -61,7 +80,7 @@ sap.ui.define(['jquery.sap.global', './Input', './Tokenizer', './Token', './libr
 	* @extends sap.m.Input
 	*
 	* @author SAP SE
-	* @version 1.54.0
+	* @version 1.54.1
 	*
 	* @constructor
 	* @public

@@ -5,8 +5,17 @@
  */
 
 // Provides control sap.m.Token.
-sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', './Tokenizer', 'sap/ui/core/library', 'sap/ui/core/Icon', 'jquery.sap.keycodes'],
-	function(jQuery, library, Control, Tokenizer, coreLibrary, Icon) {
+sap.ui.define([
+	'jquery.sap.global',
+	'./library',
+	'sap/ui/core/Control',
+	'./Tokenizer',
+	'sap/ui/core/library',
+	'sap/ui/core/Icon',
+	'./TokenRenderer',
+	'jquery.sap.keycodes'
+],
+	function(jQuery, library, Control, Tokenizer, coreLibrary, Icon, TokenRenderer) {
 	"use strict";
 
 
@@ -35,7 +44,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', './Token
 	 * Tokens can only be used with the Tokenizer as a container.
 	 *
 	 * @author SAP SE
-	 * @version 1.54.0
+	 * @version 1.54.1
 	 *
 	 * @constructor
 	 * @public

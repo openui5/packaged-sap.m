@@ -5,8 +5,26 @@
  */
 
 // Provides control sap.m.Link.
-sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/core/InvisibleText', 'sap/ui/core/EnabledPropagator', 'sap/ui/core/library', 'sap/ui/Device'],
-	function(jQuery, library, Control, InvisibleText, EnabledPropagator, coreLibrary, Device) {
+sap.ui.define([
+	'jquery.sap.global',
+	'./library',
+	'sap/ui/core/Control',
+	'sap/ui/core/InvisibleText',
+	'sap/ui/core/EnabledPropagator',
+	'sap/ui/core/library',
+	'sap/ui/Device',
+	'./LinkRenderer'
+],
+function(
+	jQuery,
+	library,
+	Control,
+	InvisibleText,
+	EnabledPropagator,
+	coreLibrary,
+	Device,
+	LinkRenderer
+	) {
 	"use strict";
 
 
@@ -53,7 +71,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @implements sap.ui.core.IShrinkable, sap.ui.core.IFormContent
 	 *
 	 * @author SAP SE
-	 * @version 1.54.0
+	 * @version 1.54.1
 	 *
 	 * @constructor
 	 * @public

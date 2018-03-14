@@ -5,8 +5,24 @@
  */
 
 // Provides control sap.m.DateRangeSelection.
-sap.ui.define(['jquery.sap.global', 'sap/ui/Device', './DatePicker', './library', 'sap/ui/core/LocaleData', 'sap/ui/core/format/DateFormat'],
-	function(jQuery, Device, DatePicker, library, LocaleData, DateFormat) {
+sap.ui.define([
+	'jquery.sap.global',
+	'sap/ui/Device',
+	'./DatePicker',
+	'./library',
+	'sap/ui/core/LocaleData',
+	'sap/ui/core/format/DateFormat',
+	'./DateRangeSelectionRenderer'
+],
+	function(
+	jQuery,
+	Device,
+	DatePicker,
+	library,
+	LocaleData,
+	DateFormat,
+	DateRangeSelectionRenderer
+	) {
 	"use strict";
 
 	/**
@@ -94,8 +110,8 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/Device', './DatePicker', './library'
 	 * compact mode and provides a touch-friendly size in cozy mode.
 	 *
 	 * @extends sap.m.DatePicker
-	 * @version 1.54.0
-	 * @version 1.54.0
+	 * @version 1.54.1
+	 * @version 1.54.1
 	 *
 	 * @constructor
 	 * @public
@@ -132,7 +148,8 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/Device', './DatePicker', './library'
 			 * @deprecated since version 1.22.0, replaced by <code>secondDateValue</code> property
 			 */
 			to : {type : "object", group : "Misc", defaultValue : null, deprecated: true}
-		}
+		},
+		designtime: "sap/m/designtime/DateRangeSelection.designtime"
 	}});
 
 	/**

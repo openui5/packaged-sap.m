@@ -4,8 +4,22 @@
  * (c) Copyright 2009-2018 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
-sap.ui.define(["jquery.sap.global", "./Slider", "./SliderTooltip", "./SliderUtilities" ,"sap/ui/core/InvisibleText"],
-    function (jQuery, Slider, SliderTooltip, SliderUtilities, InvisibleText) {
+sap.ui.define([
+    "jquery.sap.global",
+    "./Slider",
+    "./SliderTooltip",
+    "./SliderUtilities",
+    "sap/ui/core/InvisibleText",
+    "./RangeSliderRenderer"
+],
+    function(
+    jQuery,
+    Slider,
+    SliderTooltip,
+    SliderUtilities,
+    InvisibleText,
+    RangeSliderRenderer
+    ) {
         "use strict";
 
         /**
@@ -34,7 +48,7 @@ sap.ui.define(["jquery.sap.global", "./Slider", "./SliderTooltip", "./SliderUtil
          * @extends sap.m.Slider
          *
          * @author SAP SE
-         * @version 1.54.0
+         * @version 1.54.1
          *
          * @constructor
          * @public

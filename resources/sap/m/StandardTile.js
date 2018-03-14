@@ -5,8 +5,15 @@
  */
 
 // Provides control sap.m.StandardTile.
-sap.ui.define(['./Tile', './library', 'sap/ui/core/IconPool', 'sap/ui/core/library', 'sap/ui/Device'],
-	function(Tile, library, IconPool, coreLibrary, Device) {
+sap.ui.define([
+	'./Tile',
+	'./library',
+	'sap/ui/core/IconPool',
+	'sap/ui/core/library',
+	'sap/ui/Device',
+	'./StandardTileRenderer'
+],
+	function(Tile, library, IconPool, coreLibrary, Device, StandardTileRenderer) {
 	"use strict";
 
 
@@ -33,7 +40,7 @@ sap.ui.define(['./Tile', './library', 'sap/ui/core/IconPool', 'sap/ui/core/libra
 	 * @extends sap.m.Tile
 	 *
 	 * @author SAP SE
-	 * @version 1.54.0
+	 * @version 1.54.1
 	 *
 	 * @constructor
 	 * @public

@@ -5,8 +5,26 @@
  */
 
 // Provides control sap.m.SegmentedButton.
-sap.ui.define(['./library', 'sap/ui/core/Control', 'sap/ui/core/EnabledPropagator', 'sap/ui/core/delegate/ItemNavigation', 'sap/ui/core/ResizeHandler', 'sap/ui/core/Item', 'sap/ui/core/IconPool'],
-	function(library, Control, EnabledPropagator, ItemNavigation, ResizeHandler, Item, IconPool) {
+sap.ui.define([
+	'./library',
+	'sap/ui/core/Control',
+	'sap/ui/core/EnabledPropagator',
+	'sap/ui/core/delegate/ItemNavigation',
+	'sap/ui/core/ResizeHandler',
+	'sap/ui/core/Item',
+	'sap/ui/core/IconPool',
+	'./SegmentedButtonRenderer'
+],
+function(
+	library,
+	Control,
+	EnabledPropagator,
+	ItemNavigation,
+	ResizeHandler,
+	Item,
+	IconPool,
+	SegmentedButtonRenderer
+	) {
 	"use strict";
 
 
@@ -30,7 +48,7 @@ sap.ui.define(['./library', 'sap/ui/core/Control', 'sap/ui/core/EnabledPropagato
 	 * @implements sap.ui.core.IFormContent
 	 *
 	 * @author SAP SE
-	 * @version 1.54.0
+	 * @version 1.54.1
 	 *
 	 * @constructor
 	 * @public

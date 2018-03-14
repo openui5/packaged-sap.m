@@ -5,8 +5,14 @@
  */
 
 // Provides control sap.m.IconTabBar.
-sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/base/ManagedObject'],
-	function(jQuery, library, Control, ManagedObject) {
+sap.ui.define([
+	'jquery.sap.global',
+	'./library',
+	'sap/ui/core/Control',
+	'sap/ui/base/ManagedObject',
+	'./IconTabBarRenderer'
+],
+	function(jQuery, library, Control, ManagedObject, IconTabBarRenderer) {
 	"use strict";
 
 
@@ -80,7 +86,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @implements sap.m.ObjectHeaderContainer
 	 *
 	 * @author SAP SE
-	 * @version 1.54.0
+	 * @version 1.54.1
 	 *
 	 * @constructor
 	 * @public

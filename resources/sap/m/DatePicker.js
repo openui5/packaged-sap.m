@@ -5,8 +5,28 @@
  */
 
 // Provides control sap.m.DatePicker.
-sap.ui.define(['jquery.sap.global', 'sap/ui/Device', './InputBase', './DateTimeField', 'sap/ui/core/date/UniversalDate', './library', 'sap/ui/core/Control', 'sap/ui/core/library'],
-	function(jQuery, Device, InputBase, DateTimeField, UniversalDate, library, Control, coreLibrary) {
+sap.ui.define([
+	'jquery.sap.global',
+	'sap/ui/Device',
+	'./InputBase',
+	'./DateTimeField',
+	'sap/ui/core/date/UniversalDate',
+	'./library',
+	'sap/ui/core/Control',
+	'sap/ui/core/library',
+	"./DatePickerRenderer"
+],
+	function(
+	jQuery,
+	Device,
+	InputBase,
+	DateTimeField,
+	UniversalDate,
+	library,
+	Control,
+	coreLibrary,
+	DatePickerRenderer
+	) {
 	"use strict";
 
 
@@ -93,7 +113,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/Device', './InputBase', './DateTimeF
 	 * the close event), or select Cancel.
 	 *
 	 * @extends sap.m.DateTimeField
-	 * @version 1.54.0
+	 * @version 1.54.1
 	 *
 	 * @constructor
 	 * @public

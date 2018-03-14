@@ -5,8 +5,26 @@
  */
 
 // Provides control sap.m.ObjectIdentifier.
-sap.ui.define(['./library', 'sap/ui/core/Control', 'sap/ui/core/IconPool', 'sap/ui/core/InvisibleText', 'sap/ui/core/library', 'sap/ui/Device', 'sap/ui/base/ManagedObject'],
-	function(library, Control, IconPool, InvisibleText, coreLibrary, Device, ManagedObject) {
+sap.ui.define([
+	'./library',
+	'sap/ui/core/Control',
+	'sap/ui/core/IconPool',
+	'sap/ui/core/InvisibleText',
+	'sap/ui/core/library',
+	'sap/ui/Device',
+	'sap/ui/base/ManagedObject',
+	'./ObjectIdentifierRenderer'
+],
+function(
+	library,
+	Control,
+	IconPool,
+	InvisibleText,
+	coreLibrary,
+	Device,
+	ManagedObject,
+	ObjectIdentifierRenderer
+	) {
 	"use strict";
 
 
@@ -25,7 +43,7 @@ sap.ui.define(['./library', 'sap/ui/core/Control', 'sap/ui/core/IconPool', 'sap/
 	 * @class
 	 * The ObjectIdentifier is a display control that enables the user to easily identify a specific object. The ObjectIdentifier title is the key identifier of the object and additional text and icons can be used to further distinguish it from other objects.
 	 * @extends sap.ui.core.Control
-	 * @version 1.54.0
+	 * @version 1.54.1
 	 *
 	 * @constructor
 	 * @public

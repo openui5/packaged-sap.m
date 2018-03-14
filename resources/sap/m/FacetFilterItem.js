@@ -5,8 +5,8 @@
  */
 
 // Provides control sap.m.FacetFilterItem.
-sap.ui.define(['./ListItemBase', './library'],
-	function(ListItemBase, library) {
+sap.ui.define(['./ListItemBase', './library', './FacetFilterItemRenderer'],
+	function(ListItemBase, library, FacetFilterItemRenderer) {
 	"use strict";
 
 
@@ -20,7 +20,7 @@ sap.ui.define(['./ListItemBase', './library'],
 	 * @class
 	 * Represents a value for the {@link sap.m.FacetFilterList} control.
 	 * @extends sap.m.ListItemBase
-	 * @version 1.54.0
+	 * @version 1.54.1
 	 *
 	 * @constructor
 	 * @public

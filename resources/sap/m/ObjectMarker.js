@@ -5,7 +5,31 @@
  */
 
 // Provides control sap.m.ObjectMarker.
-sap.ui.define(["sap/ui/core/Control", "sap/ui/core/Renderer", "sap/ui/Device", "sap/m/library", "sap/ui/core/library", "sap/ui/core/Icon", "sap/m/TextRenderer", "sap/m/Text", "sap/m/LinkRenderer", "sap/m/Link"], function(Control, Renderer, Device, library, coreLibrary, Icon, TextRenderer, Text, LinkRenderer, Link) {
+sap.ui.define([
+	"sap/ui/core/Control",
+	"sap/ui/core/Renderer",
+	"sap/ui/Device",
+	"sap/m/library",
+	"sap/ui/core/library",
+	"sap/ui/core/Icon",
+	"sap/m/TextRenderer",
+	"sap/m/Text",
+	"sap/m/LinkRenderer",
+	"sap/m/Link",
+	"./ObjectMarkerRenderer"
+], function(
+	Control,
+	Renderer,
+	Device,
+	library,
+	coreLibrary,
+	Icon,
+	TextRenderer,
+	Text,
+	LinkRenderer,
+	Link,
+	ObjectMarkerRenderer
+) {
 	"use strict";
 
 	// shortcut for sap.ui.core.TextAlign
@@ -38,7 +62,7 @@ sap.ui.define(["sap/ui/core/Control", "sap/ui/core/Renderer", "sap/ui/Device", "
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.54.0
+	 * @version 1.54.1
 	 *
 	 * @constructor
 	 * @public

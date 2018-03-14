@@ -5,8 +5,8 @@
  */
 
 // Provides control sap.m.PlanningCalendarLegend.
-sap.ui.define(['sap/ui/unified/CalendarLegend'],
-	function(CalendarLegend) {
+sap.ui.define(['sap/ui/unified/CalendarLegend', './PlanningCalendarLegendRenderer'],
+	function(CalendarLegend, PlanningCalendarLegendRenderer) {
 		"use strict";
 
 
@@ -23,7 +23,7 @@ sap.ui.define(['sap/ui/unified/CalendarLegend'],
 		 * @extends sap.ui.unified.CalendarLegend
 		 *
 		 * @author SAP SE
-		 * @version 1.54.0
+		 * @version 1.54.1
 		 *
 		 * @constructor
 		 * @public
@@ -50,7 +50,8 @@ sap.ui.define(['sap/ui/unified/CalendarLegend'],
 				 * The legend items which show color and type information about the calendar appointments.
 				 */
 				appointmentItems: {type: "sap.ui.unified.CalendarLegendItem", multiple: true, singularName: "appointmentItem"}
-			}
+			},
+			designtime: "sap/m/designtime/PlanningCalendarLegend.designtime"
 		}});
 
 		/** Default value for column width. */

@@ -5,8 +5,14 @@
  */
 
 // Provides control sap.m.BusyIndicator.
-sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/core/library'],
-	function(jQuery, library, Control, coreLibrary) {
+sap.ui.define([
+	'jquery.sap.global',
+	'./library',
+	'sap/ui/core/Control',
+	'sap/ui/core/library',
+	"./BusyIndicatorRenderer"
+],
+	function(jQuery, library, Control, coreLibrary, BusyIndicatorRenderer) {
 	"use strict";
 
 
@@ -43,7 +49,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.54.0
+	 * @version 1.54.1
 	 *
 	 * @constructor
 	 * @public

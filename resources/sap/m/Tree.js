@@ -5,8 +5,30 @@
  */
 
 // Provides control sap.m.Tree.
-sap.ui.define(['jquery.sap.global', './ListBase', './TreeItemBase', './library', 'sap/ui/model/ClientTreeBindingAdapter', 'sap/ui/model/TreeBindingCompatibilityAdapter', 'sap/ui/model/odata/ODataTreeBinding', 'sap/ui/model/odata/v2/ODataTreeBinding', 'sap/ui/model/ClientTreeBinding'],
-	function(jQuery, ListBase, TreeItemBase, library, ClientTreeBindingAdapter, TreeBindingCompatibilityAdapter, ODataTreeBinding, V2ODataTreeBinding, ClientTreeBinding) {
+sap.ui.define([
+	'jquery.sap.global',
+	'./ListBase',
+	'./TreeItemBase',
+	'./library',
+	'sap/ui/model/ClientTreeBindingAdapter',
+	'sap/ui/model/TreeBindingCompatibilityAdapter',
+	'sap/ui/model/odata/ODataTreeBinding',
+	'sap/ui/model/odata/v2/ODataTreeBinding',
+	'sap/ui/model/ClientTreeBinding',
+	'./TreeRenderer'
+],
+function(
+	jQuery,
+	ListBase,
+	TreeItemBase,
+	library,
+	ClientTreeBindingAdapter,
+	TreeBindingCompatibilityAdapter,
+	ODataTreeBinding,
+	V2ODataTreeBinding,
+	ClientTreeBinding,
+	TreeRenderer
+	) {
 	"use strict";
 
 
@@ -23,7 +45,7 @@ sap.ui.define(['jquery.sap.global', './ListBase', './TreeItemBase', './library',
 	 * @extends sap.m.ListBase
 	 *
 	 * @author SAP SE
-	 * @version 1.54.0
+	 * @version 1.54.1
 	 *
 	 * @constructor
 	 * @public

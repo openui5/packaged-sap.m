@@ -5,8 +5,22 @@
  */
 
 // Provides control sap.m.ObjectListItem.
-sap.ui.define(['./ListItemBase', './library', 'sap/ui/core/IconPool', 'sap/m/ObjectNumber', 'sap/ui/core/library'],
-	function(ListItemBase, library, IconPool, ObjectNumber, coreLibrary) {
+sap.ui.define([
+	'./ListItemBase',
+	'./library',
+	'sap/ui/core/IconPool',
+	'sap/m/ObjectNumber',
+	'sap/ui/core/library',
+	'./ObjectListItemRenderer'
+],
+function(
+	ListItemBase,
+	library,
+	IconPool,
+	ObjectNumber,
+	coreLibrary,
+	ObjectListItemRenderer
+	) {
 		"use strict";
 
 
@@ -39,7 +53,7 @@ sap.ui.define(['./ListItemBase', './library', 'sap/ui/core/IconPool', 'sap/m/Obj
 		 *
 		 * <b>Note:</b> The control must only be used in the context of a list.
 		 * @extends sap.m.ListItemBase
-		 * @version 1.54.0
+		 * @version 1.54.1
 		 *
 		 * @constructor
 		 * @public

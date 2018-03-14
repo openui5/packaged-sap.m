@@ -5,8 +5,13 @@
  */
 
 // Provides control sap.m.InputListItem.
-sap.ui.define(['./ListItemBase', './library', 'sap/ui/core/library'],
-	function(ListItemBase, library, coreLibrary) {
+sap.ui.define([
+	'./ListItemBase',
+	'./library',
+	'sap/ui/core/library',
+	'./InputListItemRenderer'
+],
+	function(ListItemBase, library, coreLibrary, InputListItemRenderer) {
 	"use strict";
 
 
@@ -27,7 +32,7 @@ sap.ui.define(['./ListItemBase', './library', 'sap/ui/core/library'],
 	 * @extends sap.m.ListItemBase
 	 *
 	 * @author SAP SE
-	 * @version 1.54.0
+	 * @version 1.54.1
 	 *
 	 * @constructor
 	 * @public

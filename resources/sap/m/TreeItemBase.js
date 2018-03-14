@@ -5,8 +5,16 @@
  */
 
 // Provides control sap.m.StandardListItem.
-sap.ui.define(['jquery.sap.global', './ListItemBase', './library', 'sap/ui/core/IconPool', 'sap/ui/core/Icon', 'jquery.sap.keycodes'],
-	function(jQuery, ListItemBase, library, IconPool, Icon) {
+sap.ui.define([
+	'jquery.sap.global',
+	'./ListItemBase',
+	'./library',
+	'sap/ui/core/IconPool',
+	'sap/ui/core/Icon',
+	'./TreeItemBaseRenderer',
+	'jquery.sap.keycodes'
+],
+	function(jQuery, ListItemBase, library, IconPool, Icon, TreeItemBaseRenderer) {
 	"use strict";
 
 	// shortcut for sap.m.ListMode
@@ -23,7 +31,7 @@ sap.ui.define(['jquery.sap.global', './ListItemBase', './library', 'sap/ui/core/
 	 * @extends sap.m.ListItemBase
 	 *
 	 * @author SAP SE
-	 * @version 1.54.0
+	 * @version 1.54.1
 	 *
 	 * @constructor
 	 * @public

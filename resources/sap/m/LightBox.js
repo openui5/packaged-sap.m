@@ -4,12 +4,38 @@
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
-sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/core/Popup', 'sap/m/Text',
-		'sap/m/Button', 'sap/ui/core/ResizeHandler', 'sap/ui/Device',
-		'sap/ui/core/Icon', 'sap/ui/layout/VerticalLayout', './InstanceManager', 'sap/ui/core/InvisibleText', 'sap/ui/core/library'],
-	function(jQuery, library, Control, Popup, Text,
-			Button, ResizeHandler, Device,
-			Icon, VerticalLayout, InstanceManager, InvisibleText, coreLibrary) {
+sap.ui.define([
+	'jquery.sap.global',
+	'./library',
+	'sap/ui/core/Control',
+	'sap/ui/core/Popup',
+	'sap/m/Text',
+	'sap/m/Button',
+	'sap/ui/core/ResizeHandler',
+	'sap/ui/Device',
+	'sap/ui/core/Icon',
+	'sap/ui/layout/VerticalLayout',
+	'./InstanceManager',
+	'sap/ui/core/InvisibleText',
+	'sap/ui/core/library',
+	'./LightBoxRenderer'
+],
+	function(
+		jQuery,
+		library,
+		Control,
+		Popup,
+		Text,
+		Button,
+		ResizeHandler,
+		Device,
+		Icon,
+		VerticalLayout,
+		InstanceManager,
+		InvisibleText,
+		coreLibrary,
+		LightBoxRenderer
+	) {
 
 		'use strict';
 
@@ -64,7 +90,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		 *
 		 * Check out the <a href="/#docs/api/symbols/sap.m.LightBox.html" >API Reference</a>.
 		 * @author SAP SE
-		 * @version 1.54.0
+		 * @version 1.54.1
 		 *
 		 * @constructor
 		 * @public

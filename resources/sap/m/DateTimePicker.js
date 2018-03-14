@@ -5,8 +5,30 @@
  */
 
 //Provides control sap.m.DateTimePicker.
-sap.ui.define(['jquery.sap.global', './DatePicker', 'sap/ui/model/type/Date', 'sap/ui/unified/DateRange', './library', 'sap/ui/core/Control', 'sap/ui/Device', 'sap/ui/core/format/DateFormat', 'sap/ui/core/LocaleData', 'jquery.sap.keycodes'],
-		function(jQuery, DatePicker, Date1, DateRange, library, Control, Device, DateFormat, LocaleData) {
+sap.ui.define([
+	'jquery.sap.global',
+	'./DatePicker',
+	'sap/ui/model/type/Date',
+	'sap/ui/unified/DateRange',
+	'./library',
+	'sap/ui/core/Control',
+	'sap/ui/Device',
+	'sap/ui/core/format/DateFormat',
+	'sap/ui/core/LocaleData',
+	'./DateTimePickerRenderer',
+	'jquery.sap.keycodes'
+], function(
+	jQuery,
+	DatePicker,
+	Date1,
+	DateRange,
+	library,
+	Control,
+	Device,
+	DateFormat,
+	LocaleData,
+	DateTimePickerRenderer
+	) {
 	"use strict";
 
 	// shortcut for sap.m.PlacementType
@@ -90,7 +112,7 @@ sap.ui.define(['jquery.sap.global', './DatePicker', 'sap/ui/model/type/Date', 's
 	 * mobile devices, it opens in full screen.
 	 *
 	 * @extends sap.m.DatePicker
-	 * @version 1.54.0
+	 * @version 1.54.1
 	 *
 	 * @constructor
 	 * @public
@@ -107,8 +129,8 @@ sap.ui.define(['jquery.sap.global', './DatePicker', 'sap/ui/model/type/Date', 's
 			 * Internal aggregation that contains the inner _picker pop-up.
 			 */
 			_popup: { type: "sap.m.ResponsivePopover", multiple: false, visibility: "hidden" }
-		}
-
+		},
+		designtime: "sap/m/designtime/DateTimePicker.designtime"
 	}});
 
 	var PopupContent = Control.extend("DateTimePickerPopup", {

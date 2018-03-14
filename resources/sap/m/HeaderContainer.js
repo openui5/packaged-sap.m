@@ -3,8 +3,29 @@
  * (c) Copyright 2009-2018 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
-sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/Device', 'sap/ui/core/delegate/ItemNavigation', 'sap/ui/core/library', 'sap/ui/base/ManagedObject', 'sap/ui/core/Icon', 'jquery.sap.events'],
-	function (jQuery, library, Control, Device, ItemNavigation, coreLibrary, ManagedObject, Icon) {
+sap.ui.define([
+	'jquery.sap.global',
+	'./library',
+	'sap/ui/core/Control',
+	'sap/ui/Device',
+	'sap/ui/core/delegate/ItemNavigation',
+	'sap/ui/core/library',
+	'sap/ui/base/ManagedObject',
+	'sap/ui/core/Icon',
+	'./HeaderContainerRenderer',
+	'jquery.sap.events'
+],
+function(
+	jQuery,
+	library,
+	Control,
+	Device,
+	ItemNavigation,
+	coreLibrary,
+	ManagedObject,
+	Icon,
+	HeaderContainerRenderer
+	) {
 		"use strict";
 
 		// shortcut for sap.ui.core.Orientation
@@ -48,7 +69,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		 * @since 1.44.0
 		 *
 		 * @author SAP SE
-		 * @version 1.54.0
+		 * @version 1.54.1
 		 *
 		 * @public
 		 * @alias sap.m.HeaderContainer

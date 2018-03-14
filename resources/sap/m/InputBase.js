@@ -4,8 +4,31 @@
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
-sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/core/EnabledPropagator', 'sap/ui/core/IconPool', './delegate/ValueStateMessage', 'sap/ui/core/message/MessageMixin', 'sap/ui/core/library', 'sap/ui/Device', 'jquery.sap.keycodes'],
-	function(jQuery, library, Control, EnabledPropagator, IconPool, ValueStateMessage, MessageMixin, coreLibrary, Device) {
+sap.ui.define([
+	'jquery.sap.global',
+	'./library',
+	'sap/ui/core/Control',
+	'sap/ui/core/EnabledPropagator',
+	'sap/ui/core/IconPool',
+	'./delegate/ValueStateMessage',
+	'sap/ui/core/message/MessageMixin',
+	'sap/ui/core/library',
+	'sap/ui/Device',
+	'./InputBaseRenderer',
+	'jquery.sap.keycodes'
+],
+function(
+	jQuery,
+	library,
+	Control,
+	EnabledPropagator,
+	IconPool,
+	ValueStateMessage,
+	MessageMixin,
+	coreLibrary,
+	Device,
+	InputBaseRenderer
+	) {
 	"use strict";
 
 	// shortcut for sap.ui.core.TextDirection
@@ -30,7 +53,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @implements sap.ui.core.IFormContent
 	 *
 	 * @author SAP SE
-	 * @version 1.54.0
+	 * @version 1.54.1
 	 *
 	 * @constructor
 	 * @public

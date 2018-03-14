@@ -4,8 +4,28 @@
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
-sap.ui.define(["./ListItemBase", "./Link", "./library", "./FormattedText", "sap/ui/core/Control", "sap/ui/core/IconPool", "sap/m/Button", "sap/ui/Device"],
-	function(ListItemBase, Link, library, FormattedText, Control, IconPool, Button, Device) {
+sap.ui.define([
+	"./ListItemBase",
+	"./Link",
+	"./library",
+	"./FormattedText",
+	"sap/ui/core/Control",
+	"sap/ui/core/IconPool",
+	"sap/m/Button",
+	"sap/ui/Device",
+	"./FeedListItemRenderer"
+],
+function(
+	ListItemBase,
+	Link,
+	library,
+	FormattedText,
+	Control,
+	IconPool,
+	Button,
+	Device,
+	FeedListItemRenderer
+	) {
 	"use strict";
 
 	// shortcut for sap.m.ListType
@@ -33,7 +53,7 @@ sap.ui.define(["./ListItemBase", "./Link", "./library", "./FormattedText", "sap/
 	 * @extends sap.m.ListItemBase
 	 *
 	 * @author SAP SE
-	 * @version 1.54.0
+	 * @version 1.54.1
 	 *
 	 * @constructor
 	 * @public

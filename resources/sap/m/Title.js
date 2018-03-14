@@ -9,8 +9,14 @@
   * @typedef {Object} sap.ui.core.Title
   */
 // Provides control sap.m.Title.
-sap.ui.define(['jquery.sap.global', 'sap/ui/core/Control', './library', 'sap/ui/core/library'],
-	function(jQuery, Control, library, coreLibrary) {
+sap.ui.define([
+	'jquery.sap.global',
+	'sap/ui/core/Control',
+	'./library',
+	'sap/ui/core/library',
+	'./TitleRenderer'
+],
+	function(jQuery, Control, library, coreLibrary, TitleRenderer) {
 	"use strict";
 
 	// shortcut for sap.ui.core.TextAlign
@@ -31,7 +37,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Control', './library', 'sap/ui/
 	 * @implements sap.ui.core.IShrinkable
 	 *
 	 * @author SAP SE
-	 * @version 1.54.0
+	 * @version 1.54.1
 	 * @since 1.27.0
 	 *
 	 * @constructor

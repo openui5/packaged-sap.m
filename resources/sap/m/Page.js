@@ -5,8 +5,34 @@
  */
 
 // Provides control sap.m.Page.
-sap.ui.define(["jquery.sap.global", "./library", "sap/ui/core/Control", "sap/ui/core/delegate/ScrollEnablement", "sap/m/Title", "sap/m/Button", "sap/m/Bar", "sap/ui/core/ContextMenuSupport", "sap/ui/core/library", "sap/ui/Device", "sap/ui/core/Element"],
-	function(jQuery, library, Control, ScrollEnablement, Title, Button, Bar, ContextMenuSupport, coreLibrary, Device, Element) {
+sap.ui.define([
+	"jquery.sap.global",
+	"./library",
+	"sap/ui/core/Control",
+	"sap/ui/core/delegate/ScrollEnablement",
+	"sap/m/Title",
+	"sap/m/Button",
+	"sap/m/Bar",
+	"sap/ui/core/ContextMenuSupport",
+	"sap/ui/core/library",
+	"sap/ui/Device",
+	"sap/ui/core/Element",
+	"./PageRenderer"
+],
+function(
+	jQuery,
+	library,
+	Control,
+	ScrollEnablement,
+	Title,
+	Button,
+	Bar,
+	ContextMenuSupport,
+	coreLibrary,
+	Device,
+	Element,
+	PageRenderer
+	) {
 		"use strict";
 
 
@@ -55,7 +81,7 @@ sap.ui.define(["jquery.sap.global", "./library", "sap/ui/core/Control", "sap/ui/
 		 * @extends sap.ui.core.Control
 		 * @mixes sap.ui.core.ContextMenuSupport
 		 * @author SAP SE
-		 * @version 1.54.0
+		 * @version 1.54.1
 		 *
 		 * @public
 		 * @alias sap.m.Page

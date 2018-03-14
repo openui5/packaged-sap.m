@@ -5,14 +5,53 @@
  */
 
 //Provides control sap.m.PlanningCalendar.
-sap.ui.define(['jquery.sap.global', 'sap/ui/core/Control', 'sap/ui/base/ManagedObjectObserver', './PlanningCalendarRow',
-		'./library', 'sap/ui/unified/library', 'sap/ui/unified/calendar/CalendarUtils', 'sap/ui/unified/calendar/CalendarDate',
-		'sap/ui/unified/DateRange', 'sap/ui/unified/CalendarDateInterval', 'sap/ui/unified/CalendarWeekInterval',
-		'sap/ui/unified/CalendarOneMonthInterval', 'sap/ui/Device', 'sap/ui/core/ResizeHandler', 'sap/ui/core/Item',
-		'sap/m/Select', 'sap/m/Button', 'sap/m/Toolbar', 'sap/m/Table', 'sap/m/Column', 'jquery.sap.events'],
-	function (jQuery, Control, ManagedObjectObserver, PlanningCalendarRow, library, unifiedLibrary, CalendarUtils, CalendarDate,
-			  DateRange, CalendarDateInterval, CalendarWeekInterval, CalendarOneMonthInterval, Device, ResizeHandler, Item,
-			  Select, Button, Toolbar, Table, Column) {
+sap.ui.define([
+	'jquery.sap.global',
+	'sap/ui/core/Control',
+	'sap/ui/base/ManagedObjectObserver',
+	'./PlanningCalendarRow',
+	'./library',
+	'sap/ui/unified/library',
+	'sap/ui/unified/calendar/CalendarUtils',
+	'sap/ui/unified/calendar/CalendarDate',
+	'sap/ui/unified/DateRange',
+	'sap/ui/unified/CalendarDateInterval',
+	'sap/ui/unified/CalendarWeekInterval',
+	'sap/ui/unified/CalendarOneMonthInterval',
+	'sap/ui/Device',
+	'sap/ui/core/ResizeHandler',
+	'sap/ui/core/Item',
+	'sap/m/Select',
+	'sap/m/Button',
+	'sap/m/Toolbar',
+	'sap/m/Table',
+	'sap/m/Column',
+	'./PlanningCalendarRenderer',
+	'jquery.sap.events'
+],
+	function(
+	jQuery,
+	Control,
+	ManagedObjectObserver,
+	PlanningCalendarRow,
+	library,
+	unifiedLibrary,
+	CalendarUtils,
+	CalendarDate,
+	DateRange,
+	CalendarDateInterval,
+	CalendarWeekInterval,
+	CalendarOneMonthInterval,
+	Device,
+	ResizeHandler,
+	Item,
+	Select,
+	Button,
+	Toolbar,
+	Table,
+	Column,
+	PlanningCalendarRenderer
+	) {
 		"use strict";
 
 	// shortcut for sap.ui.unified.CalendarDayType
@@ -95,7 +134,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Control', 'sap/ui/base/ManagedO
 	 * {@link sap.m.PlanningCalendarView PlanningCalendarView}'s properties.
 	 *
 	 * @extends sap.ui.core.Control
-	 * @version 1.54.0
+	 * @version 1.54.1
 	 *
 	 * @constructor
 	 * @public
@@ -405,7 +444,8 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Control', 'sap/ui/base/ManagedO
 				 */
 				row : {type : "sap.m.PlanningCalendarRow"}
 			}
-		}
+		},
+		designtime: "sap/m/designtime/PlanningCalendar.designtime"
 	},
 		constructor: function(vId, mSettings) {
 			Control.prototype.constructor.apply(this, arguments);
@@ -2414,6 +2454,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Control', 'sap/ui/base/ManagedO
 	 * Holds the selected appointments. If no appointments are selected, an empty array is returned.
 	 * @returns {sap.ui.unified.CalendarAppointment[]} Array of IDs of selected appointments
 	 * @since 1.54
+	 * @public
 	 */
 	PlanningCalendar.prototype.getSelectedAppointments = function() {
 		var aSelAppointments = [];

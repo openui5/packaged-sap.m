@@ -14,7 +14,7 @@ sap.ui.define([
 	'sap/ui/core/Control',
 	'sap/ui/core/EnabledPropagator',
 	'sap/ui/core/ResizeHandler',
-	"./ToolbarRenderer"
+	'./ToolbarRenderer'
 ],
 function(
 	jQuery,
@@ -68,7 +68,7 @@ function(
 	 * @implements sap.ui.core.Toolbar,sap.m.IBar
 	 *
 	 * @author SAP SE
-	 * @version 1.54.0
+	 * @version 1.54.1
 	 *
 	 * @constructor
 	 * @public

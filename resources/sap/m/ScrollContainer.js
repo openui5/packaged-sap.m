@@ -5,8 +5,22 @@
  */
 
 // Provides control sap.m.ScrollContainer
-sap.ui.define(["jquery.sap.global", "./library", "sap/ui/core/Control", "sap/ui/core/delegate/ScrollEnablement", "sap/ui/core/Element"],
-	function (jQuery, library, Control, ScrollEnablement, Element) {
+sap.ui.define([
+	"jquery.sap.global",
+	"./library",
+	"sap/ui/core/Control",
+	"sap/ui/core/delegate/ScrollEnablement",
+	"sap/ui/core/Element",
+	"./ScrollContainerRenderer"
+],
+	function(
+		jQuery,
+		library,
+		Control,
+		ScrollEnablement,
+		Element,
+		ScrollContainerRenderer
+	) {
 		"use strict";
 
 
@@ -23,7 +37,7 @@ sap.ui.define(["jquery.sap.global", "./library", "sap/ui/core/Control", "sap/ui/
 		 * @extends sap.ui.core.Control
 		 *
 		 * @author SAP SE
-		 * @version 1.54.0
+		 * @version 1.54.1
 		 *
 		 * @constructor
 		 * @public

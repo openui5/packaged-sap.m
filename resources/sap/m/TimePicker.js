@@ -5,8 +5,41 @@
  */
 
 // Provides control sap.m.TimePicker.
-sap.ui.define(['jquery.sap.global', './InputBase', './DateTimeField', './MaskInputRule', './ResponsivePopover', 'sap/ui/core/EnabledPropagator', 'sap/ui/core/IconPool', './TimePickerSliders', './MaskEnabler', 'sap/ui/Device', 'sap/ui/core/format/DateFormat', 'sap/ui/core/Locale', 'sap/m/library', 'sap/ui/core/LocaleData', 'jquery.sap.keycodes'],
-	function(jQuery, InputBase, DateTimeField, MaskInputRule, ResponsivePopover, EnabledPropagator, IconPool, TimePickerSliders, MaskEnabler, Device, DateFormat, Locale, library, LocaleData) {
+sap.ui.define([
+	'jquery.sap.global',
+	'./InputBase',
+	'./DateTimeField',
+	'./MaskInputRule',
+	'./ResponsivePopover',
+	'sap/ui/core/EnabledPropagator',
+	'sap/ui/core/IconPool',
+	'./TimePickerSliders',
+	'./MaskEnabler',
+	'sap/ui/Device',
+	'sap/ui/core/format/DateFormat',
+	'sap/ui/core/Locale',
+	'sap/m/library',
+	'sap/ui/core/LocaleData',
+	'./TimePickerRenderer',
+	'jquery.sap.keycodes'
+],
+function(
+	jQuery,
+	InputBase,
+	DateTimeField,
+	MaskInputRule,
+	ResponsivePopover,
+	EnabledPropagator,
+	IconPool,
+	TimePickerSliders,
+	MaskEnabler,
+	Device,
+	DateFormat,
+	Locale,
+	library,
+	LocaleData,
+	TimePickerRenderer
+	) {
 		"use strict";
 
 		// shortcut for sap.m.PlacementType
@@ -84,7 +117,7 @@ sap.ui.define(['jquery.sap.global', './InputBase', './DateTimeField', './MaskInp
 		 * @extends sap.m.DateTimeField
 		 *
 		 * @author SAP SE
-		 * @version 1.54.0
+		 * @version 1.54.1
 		 *
 		 * @constructor
 		 * @public
@@ -434,7 +467,7 @@ sap.ui.define(['jquery.sap.global', './InputBase', './DateTimeField', './MaskInp
 
 			if (oDate) {
 				// get the value in valueFormat
-				sValue = this._formatValue(oDate, true);
+				sThatValue = sValue = this._formatValue(oDate, true);
 			}
 
 			this.setProperty("value", sThatValue, true); // no rerendering

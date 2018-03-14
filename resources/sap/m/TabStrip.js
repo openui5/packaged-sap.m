@@ -4,9 +4,46 @@
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
-sap.ui.define(['jquery.sap.global', 'sap/ui/core/Control', 'sap/ui/core/IconPool', 'sap/ui/core/delegate/ItemNavigation',
-	'sap/ui/base/ManagedObject', 'sap/ui/core/delegate/ScrollEnablement', './AccButton', './TabStripItem', 'sap/m/Select', 'sap/m/SelectList', 'sap/ui/Device', 'sap/ui/core/Renderer', 'sap/ui/core/ResizeHandler', 'sap/m/library', 'sap/ui/core/Icon', 'sap/m/SelectRenderer', 'sap/m/SelectListRenderer'],
-	function(jQuery, Control, IconPool, ItemNavigation, ManagedObject, ScrollEnablement, AccButton, TabStripItem, Select, SelectList, Device, Renderer, ResizeHandler, library, Icon, SelectRenderer, SelectListRenderer) {
+sap.ui.define([
+	'jquery.sap.global',
+	'sap/ui/core/Control',
+	'sap/ui/core/IconPool',
+	'sap/ui/core/delegate/ItemNavigation',
+	'sap/ui/base/ManagedObject',
+	'sap/ui/core/delegate/ScrollEnablement',
+	'./AccButton',
+	'./TabStripItem',
+	'sap/m/Select',
+	'sap/m/SelectList',
+	'sap/ui/Device',
+	'sap/ui/core/Renderer',
+	'sap/ui/core/ResizeHandler',
+	'sap/m/library',
+	'sap/ui/core/Icon',
+	'sap/m/SelectRenderer',
+	'sap/m/SelectListRenderer',
+	'./TabStripRenderer'
+],
+function(
+	jQuery,
+	Control,
+	IconPool,
+	ItemNavigation,
+	ManagedObject,
+	ScrollEnablement,
+	AccButton,
+	TabStripItem,
+	Select,
+	SelectList,
+	Device,
+	Renderer,
+	ResizeHandler,
+	library,
+	Icon,
+	SelectRenderer,
+	SelectListRenderer,
+	TabStripRenderer
+	) {
 		"use strict";
 
 		// shortcut for sap.m.SelectType
@@ -26,7 +63,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Control', 'sap/ui/core/IconPool
 		 * space is exceeded, a horizontal scrollbar appears.
 		 *
 		 * @extends sap.ui.core.Control
-		 * @version 1.54.0
+		 * @version 1.54.1
 		 *
 		 * @constructor
 		 * @private
@@ -372,8 +409,8 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Control', 'sap/ui/core/IconPool
 			}
 
 			if (bScrollNeeded && oTabsDomRef && oTabsContainerDomRef) {
-				if (this._bRtl && Device.browser.firefox) {
-					iScrollLeft = -oTabsContainerDomRef.scrollLeft;
+				if (this._bRtl) {
+					iScrollLeft = jQuery(oTabsContainerDomRef).scrollLeftRTL();
 				} else {
 					iScrollLeft = oTabsContainerDomRef.scrollLeft;
 				}
@@ -385,14 +422,14 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Control', 'sap/ui/core/IconPool
 				}
 
 				if (iScrollLeft > 0) {
-					if (this._bRtl && Device.browser.webkit) {
+					if (this._bRtl) {
 						bScrollForward = true;
 					} else {
 						bScrollBack = true;
 					}
 				}
 				if ((realWidth > availableWidth) && (iScrollLeft + availableWidth < realWidth)) {
-					if (this._bRtl && Device.browser.webkit) {
+					if (this._bRtl) {
 						bScrollBack = true;
 					} else {
 						bScrollForward = true;

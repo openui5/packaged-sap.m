@@ -5,8 +5,14 @@
  */
 
 // Provides control sap.m.Image.
-sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'jquery.sap.keycodes'],
-	function(jQuery, library, Control) {
+sap.ui.define([
+	'jquery.sap.global',
+	'./library',
+	'sap/ui/core/Control',
+	'./ImageRenderer',
+	'jquery.sap.keycodes'
+],
+	function(jQuery, library, Control, ImageRenderer) {
 	"use strict";
 
 
@@ -35,7 +41,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'jquery.
 	 * @implements sap.ui.core.IFormContent
 	 *
 	 * @author SAP SE
-	 * @version 1.54.0
+	 * @version 1.54.1
 	 *
 	 * @constructor
 	 * @public

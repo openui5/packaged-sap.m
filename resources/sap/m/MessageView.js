@@ -26,9 +26,32 @@ sap.ui.define([
 	"./GroupHeaderListItem",
 	"sap/ui/core/library",
 	"sap/ui/base/ManagedObject",
+	"./MessageViewRenderer",
 	"jquery.sap.keycodes"
-], function (jQuery, Control, CustomData, IconPool, HTML, Icon, Button, Toolbar, ToolbarSpacer, List, StandardListItem,
-			 library, Text, SegmentedButton, Page, NavContainer, Link, MessageItem, GroupHeaderListItem, coreLibrary, ManagedObject) {
+], function(
+	jQuery,
+	Control,
+	CustomData,
+	IconPool,
+	HTML,
+	Icon,
+	Button,
+	Toolbar,
+	ToolbarSpacer,
+	List,
+	StandardListItem,
+	library,
+	Text,
+	SegmentedButton,
+	Page,
+	NavContainer,
+	Link,
+	MessageItem,
+	GroupHeaderListItem,
+	coreLibrary,
+	ManagedObject,
+	MessageViewRenderer
+) {
 	"use strict";
 
 	// shortcut for sap.ui.core.ValueState
@@ -75,7 +98,7 @@ sap.ui.define([
 	 * As part of the messaging concept, MessageView provides a way to centrally manage messages and show them to the user without additional work for the developer.
 	 * <br><br>
 	 * @author SAP SE
-	 * @version 1.54.0
+	 * @version 1.54.1
 	 *
 	 * @constructor
 	 * @public

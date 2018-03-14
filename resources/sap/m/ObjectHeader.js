@@ -5,8 +5,26 @@
  */
 
 // Provides control sap.m.ObjectHeader.
-sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/core/IconPool', 'sap/ui/core/library', 'sap/ui/Device', 'sap/m/Text'],
-	function(jQuery, library, Control, IconPool, coreLibrary, Device, Text) {
+sap.ui.define([
+	'jquery.sap.global',
+	'./library',
+	'sap/ui/core/Control',
+	'sap/ui/core/IconPool',
+	'sap/ui/core/library',
+	'sap/ui/Device',
+	'sap/m/Text',
+	'./ObjectHeaderRenderer'
+],
+	function(
+	jQuery,
+	library,
+	Control,
+	IconPool,
+	coreLibrary,
+	Device,
+	Text,
+	ObjectHeaderRenderer
+	) {
 	"use strict";
 
 
@@ -45,7 +63,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * a specific object. The object header title is the key identifier of the object and
 	 * additional text and icons can be used to further distinguish it from other objects.
 	 * @extends sap.ui.core.Control
-	 * @version 1.54.0
+	 * @version 1.54.1
 	 *
 	 * @constructor
 	 * @public

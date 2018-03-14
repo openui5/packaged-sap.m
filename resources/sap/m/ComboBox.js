@@ -4,8 +4,29 @@
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
-sap.ui.define(['jquery.sap.global', './ComboBoxTextField', './ComboBoxBase', './Popover', './SelectList', './library', 'sap/ui/Device', 'sap/ui/core/Item', 'jquery.sap.keycodes'],
-	function(jQuery, ComboBoxTextField, ComboBoxBase, Popover, SelectList, library, Device, Item) {
+sap.ui.define([
+	'jquery.sap.global',
+	'./ComboBoxTextField',
+	'./ComboBoxBase',
+	'./Popover',
+	'./SelectList',
+	'./library',
+	'sap/ui/Device',
+	'sap/ui/core/Item',
+	'./ComboBoxRenderer',
+	'jquery.sap.keycodes'
+],
+	function(
+	jQuery,
+	ComboBoxTextField,
+	ComboBoxBase,
+	Popover,
+	SelectList,
+	library,
+	Device,
+	Item,
+	ComboBoxRenderer
+	) {
 		"use strict";
 
 		/**
@@ -45,7 +66,7 @@ sap.ui.define(['jquery.sap.global', './ComboBoxTextField', './ComboBoxBase', './
 		 * </ul>
 		 *
 		 * @author SAP SE
-		 * @version 1.54.0
+		 * @version 1.54.1
 		 *
 		 * @constructor
 		 * @extends sap.m.ComboBoxBase

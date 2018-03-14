@@ -5,8 +5,8 @@
  */
 
 // Provides control sap.m.AccButton.
-sap.ui.define(['./Button'],
-	function(Button) {
+sap.ui.define(['./Button','./AccButtonRenderer'],
+	function(Button, AccButtonRenderer) {
 		"use strict";
 
 	/**
@@ -21,7 +21,7 @@ sap.ui.define(['./Button'],
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.54.0
+	 * @version 1.54.1
 	 *
 	 * @constructor
 	 * @private

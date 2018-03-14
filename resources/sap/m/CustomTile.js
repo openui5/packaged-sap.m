@@ -5,8 +5,8 @@
  */
 
 // Provides control sap.m.CustomTile.
-sap.ui.define(['./Tile', './library'],
-	function(Tile, library) {
+sap.ui.define(['./Tile', './library', './CustomTileRenderer'],
+	function(Tile, library, CustomTileRenderer) {
 	"use strict";
 
 
@@ -21,7 +21,7 @@ sap.ui.define(['./Tile', './library'],
 	 * Use the CustomTile control to display application specific content in the Tile control.
 	 * The tile width is 8.5em and height is 10em.
 	 * @extends sap.m.Tile
-	 * @version 1.54.0
+	 * @version 1.54.1
 	 *
 	 * @constructor
 	 * @public

@@ -4,8 +4,17 @@
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
-sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/Image', 'sap/ui/core/IconPool', 'sap/ui/Device', 'jquery.sap.keycodes'],
-	function(jQuery, library, Control, Image, IconPool, Device) {
+sap.ui.define([
+	'jquery.sap.global',
+	'./library',
+	'sap/ui/core/Control',
+	'sap/m/Image',
+	'sap/ui/core/IconPool',
+	'sap/ui/Device',
+	'./ImageContentRenderer',
+	'jquery.sap.keycodes'
+],
+	function(jQuery, library, Control, Image, IconPool, Device, ImageContentRenderer) {
 	"use strict";
 
 	/**
@@ -18,7 +27,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/I
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.54.0
+	 * @version 1.54.1
 	 * @since 1.38
 	 *
 	 * @public
