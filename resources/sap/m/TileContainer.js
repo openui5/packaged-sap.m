@@ -22,7 +22,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.52.8
+	 * @version 1.52.9
 	 *
 	 * @constructor
 	 * @public
@@ -455,13 +455,13 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 				},
 				oldCurrentPageIsLast: function() {
 					if (isNaN(iOldCurrentPage)) {
-						return;
+						return false;
 					}
 					return bRtl ? (iOldCurrentPage === 0) : (iOldCurrentPage === iOldCount - 1);
 				},
 				oldCurrentPageIsFirst: function() {
 					if (isNaN(iOldCurrentPage)) {
-						return;
+						return false;
 					}
 					return bRtl ? (iOldCurrentPage === iOldCount - 1) : (iOldCurrentPage === 0);
 				},
@@ -1240,7 +1240,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 			if (oPager.childNodes[this._oPagesInfo.getOldCurrentPage()]) {
 				oPager.childNodes[this._oPagesInfo.getOldCurrentPage()].className = "";
 			}
-			if (this._oPagesInfo.getCurrentPage() >= 2) { //deactivate the initially active page (span)
+			if (this._oPagesInfo.getCurrentPage() >= 1) { //deactivate the initially active page (span)
 				oPager.childNodes[0].className = "";
 			}
 		}

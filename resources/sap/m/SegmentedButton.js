@@ -30,7 +30,7 @@ sap.ui.define(['./library', 'sap/ui/core/Control', 'sap/ui/core/EnabledPropagato
 	 * @implements sap.ui.core.IFormContent
 	 *
 	 * @author SAP SE
-	 * @version 1.52.8
+	 * @version 1.52.9
 	 *
 	 * @constructor
 	 * @public
@@ -168,9 +168,10 @@ sap.ui.define(['./library', 'sap/ui/core/Control', 'sap/ui/core/EnabledPropagato
 
 		//Make sure when a button gets removed to reset the selected button
 		this.removeButton = function (sButton) {
-			SegmentedButton.prototype.removeButton.call(this, sButton);
+			var oRemovedButton = SegmentedButton.prototype.removeButton.call(this, sButton);
 			this.setSelectedButton(this.getButtons()[0]);
 			this._fireChangeEvent();
+			return oRemovedButton;
 		};
 	};
 
@@ -548,6 +549,8 @@ sap.ui.define(['./library', 'sap/ui/core/Control', 'sap/ui/core/EnabledPropagato
 			oRemovedButton.detachEvent("_change", this._fireChangeEvent, this);
 			this._syncSelect();
 		}
+
+		return oRemovedButton;
 	};
 
 	SegmentedButton.prototype.removeAllButtons = function () {
@@ -565,6 +568,8 @@ sap.ui.define(['./library', 'sap/ui/core/Control', 'sap/ui/core/EnabledPropagato
 			}
 			this._syncSelect();
 		}
+
+		return aButtons;
 	};
 
 	/**
@@ -585,8 +590,9 @@ sap.ui.define(['./library', 'sap/ui/core/Control', 'sap/ui/core/EnabledPropagato
 	 * @override
 	 */
 	SegmentedButton.prototype.removeItem = function (oItem) {
+		var oRemovedItem;
 		if (oItem !== null && oItem !== undefined) {
-			this.removeAggregation("items", oItem);
+			oRemovedItem = this.removeAggregation("items", oItem);
 			this.removeButton(oItem.oButton);//since this fires a "_change" event, it must be placed after public items are removed
 		}
 		// Reset selected button if the removed button is the currently selected one
@@ -597,6 +603,8 @@ sap.ui.define(['./library', 'sap/ui/core/Control', 'sap/ui/core/EnabledPropagato
 		}
 
 		this.setSelectedItem(this.getItems()[0]);
+
+		return oRemovedItem;
 	};
 
 	/**
@@ -618,13 +626,15 @@ sap.ui.define(['./library', 'sap/ui/core/Control', 'sap/ui/core/EnabledPropagato
 	 * @override
 	 */
 	SegmentedButton.prototype.removeAllItems = function (bSuppressInvalidate) {
-		this.removeAllAggregation("items", bSuppressInvalidate);
+		var oRemovedItems = this.removeAllAggregation("items", bSuppressInvalidate);
 		this.removeAllButtons();
 
 		// Reset selectedKey, selectedButton and selectedItem
 		this.setSelectedKey("");
 		this.setSelectedButton("");
 		this.setSelectedItem("");
+
+		return oRemovedItems;
 	};
 
 	/** Event handler for the internal button press events.

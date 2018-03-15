@@ -33,7 +33,7 @@ sap.ui.define(['./Tile', './library', 'sap/ui/core/IconPool', 'sap/ui/core/libra
 	 * @extends sap.m.Tile
 	 *
 	 * @author SAP SE
-	 * @version 1.52.8
+	 * @version 1.52.9
 	 *
 	 * @constructor
 	 * @public

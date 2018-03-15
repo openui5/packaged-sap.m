@@ -20,7 +20,7 @@ sap.ui.define(['./Select', './library'],
 		 * @extends sap.m.Select
 		 *
 		 * @author SAP SE
-		 * @version 1.52.8
+		 * @version 1.52.9
 		 *
 		 * @constructor
 		 * @public
