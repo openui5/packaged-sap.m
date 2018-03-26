@@ -20,7 +20,7 @@ sap.ui.define(["jquery.sap.global", "./library", "sap/ui/core/Item"],
 		 * @extends sap.ui.core.Item
 		 *
 		 * @author SAP SE
-		 * @version 1.44.29
+		 * @version 1.44.30
 		 *
 		 * @constructor
 		 * @public

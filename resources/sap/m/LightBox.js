@@ -51,7 +51,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		 * <br><br>
 		 * Check out the <a href="/#docs/api/symbols/sap.m.LightBox.html" >API Reference</a>.
 		 * @author SAP SE
-		 * @version 1.44.29
+		 * @version 1.44.30
 		 *
 		 * @constructor
 		 * @public
