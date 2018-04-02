@@ -16336,6 +16336,20 @@ html[dir=ltr] .sapMTabStrip .sapMTSRightOverflowButtons::after,
 html[dir=rtl] .sapMTabStrip .sapMTSLeftOverflowButtons::after {
   background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, #ffffff 25%, #ffffff 100%);
 }
+html .sapMTabStripSelectListItemCloseBtn .sapMBtnInner {
+  display: block;
+  height: 1.625rem;
+  min-width: 1.625rem;
+  width: 1.625rem;
+  padding: 0;
+  margin: 0 auto;
+}
+.sapMTabStripSelectListItemCloseBtn .sapMBtnIcon {
+  line-height: 1.45rem;
+  width: 100%;
+  height: 100%;
+  font-size: 1rem;
+}
 /* ============================================= */
 /* Form factor cozy                              */
 /* ============================================= */
@@ -16589,11 +16603,13 @@ html[data-sap-ui-browser="sf10"] .sapuiVltCell .sapMText {
   -webkit-transform: none;
   /* transform is blocking scroll */
   resize: none;
+  margin: 0;
 }
 .sapMTextArea .sapMInputDivWrapper {
   -webkit-overflow-scrolling: touch;
   height: 100%;
   width: 100%;
+  line-height: 0;
 }
 .sapMTextArea .sapMTextAreaInner {
   -webkit-overflow-scrolling: touch;
@@ -17026,7 +17042,7 @@ html.sap-phone .sapMTC .sapMTCScroller {
   cursor: move;
   box-shadow: 0 0 0 1px #ffffff;
 }
-.sapMTC.sapMTCEditable .sapMTile .sapMTCRemove {
+.sapMTC.sapMTCEditable .sapMTCRemove {
   position: absolute;
   display: block;
   height: 2rem;

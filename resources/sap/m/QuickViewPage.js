@@ -51,7 +51,7 @@ sap.ui.define([
 			* @extends sap.ui.core.Control
 			*
 			* @author SAP SE
-			* @version 1.52.9
+			* @version 1.52.10
 			*
 			* @constructor
 			* @public
@@ -616,6 +616,8 @@ sap.ui.define([
 					// in some cases the popover has display:none style here,
 					// which delays the simple form re-arranging and an unwanted scrollbar might appear.
 					mNavContext.popover.$().css('display', 'block');
+
+					mNavContext.quickView._adjustContainerHeight();
 
 					mNavContext.quickView._restoreFocus();
 				}
