@@ -81,7 +81,7 @@ function(
 		 * @extends sap.ui.core.Control
 		 * @mixes sap.ui.core.ContextMenuSupport
 		 * @author SAP SE
-		 * @version 1.54.2
+		 * @version 1.54.3
 		 *
 		 * @public
 		 * @alias sap.m.Page
@@ -321,7 +321,6 @@ function(
 			var bWasNull = !this._headerTitle;
 
 			this._headerTitle = this._headerTitle || new Title(this.getId() + "-title", {
-					text: sTitle,
 					level: this.getTitleLevel()
 				});
 			this._headerTitle.setText(sTitle);

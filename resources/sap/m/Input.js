@@ -124,7 +124,7 @@ function(
 	 *
 	 * @extends sap.m.InputBase
 	 * @author SAP SE
-	 * @version 1.54.2
+	 * @version 1.54.3
 	 *
 	 * @constructor
 	 * @public
@@ -1030,6 +1030,7 @@ function(
 			// if the property valueHelpOnly is set to true, the event is triggered in the ontap function
 			if (!that.getValueHelpOnly()) {
 				this.getParent().focus();
+				that.bValueHelpRequested = true;
 				that.fireValueHelpRequest({fromSuggestions: false});
 			}
 		});
@@ -1566,6 +1567,8 @@ function(
 			)) {
 			InputBase.prototype.onsapfocusleave.apply(this, arguments);
 		}
+
+		this.bValueHelpRequested = false;
 	};
 
 	/**
@@ -2651,6 +2654,7 @@ function(
 			return;
 		}
 
+		this.bValueHelpRequested = true;
 		this.fireValueHelpRequest({fromSuggestions: false});
 		oEvent.preventDefault();
 		oEvent.stopPropagation();
@@ -2925,6 +2929,17 @@ function(
 	 * @function
 	 */
 
+	/**
+	 * Hook method to prevent the change event from being fired when the text input field loses focus.
+	 *
+	 * @param {jQuery.Event} [oEvent] The event object.
+	 * @returns {boolean} Whether or not the change event should be prevented.
+	 * @protected
+	 * @since 1.46
+	 */
+	Input.prototype.preventChangeOnFocusLeave = function(oEvent) {
+		return this.bFocusoutDueRendering || this.bValueHelpRequested;
+	};
 
 
 	return Input;

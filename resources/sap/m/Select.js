@@ -77,7 +77,7 @@ function(
 		 * @implements sap.ui.core.IFormContent
 		 *
 		 * @author SAP SE
-		 * @version 1.54.2
+		 * @version 1.54.3
 		 *
 		 * @constructor
 		 * @public
@@ -1886,6 +1886,22 @@ function(
 			}
 		};
 
+		Select.prototype.updateAriaLabelledBy = function(sValueState, sOldValueState) {
+			var aIDs = this.$().attr("aria-labelledby").split(" "),
+				sNewIDs;
+
+			if (sOldValueState !== ValueState.None) {
+				aIDs.pop();
+			}
+
+			if (sValueState !== ValueState.None) {
+				aIDs.push(InvisibleText.getStaticId("sap.ui.core", "VALUE_STATE_" + sValueState.toUpperCase()));
+			}
+
+			sNewIDs = aIDs.join(" ");
+			this.$().attr("aria-labelledby", sNewIDs);
+		};
+
 		/**
 		 * Gets the labels referencing this control.
 		 *
@@ -2192,6 +2208,7 @@ function(
 			}
 
 			this.updateValueStateClasses(sValueState, sOldValueState);
+			this.updateAriaLabelledBy(sValueState, sOldValueState);
 			return this;
 		};
 

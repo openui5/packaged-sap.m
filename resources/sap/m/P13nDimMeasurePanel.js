@@ -37,7 +37,7 @@ sap.ui.define([
 	 *        dimensions and measures for table personalization.
 	 * @extends sap.m.P13nPanel
 	 * @author SAP SE
-	 * @version 1.54.2
+	 * @version 1.54.3
 	 * @constructor
 	 * @public
 	 * @since 1.34.0
@@ -775,9 +775,6 @@ sap.ui.define([
 	P13nDimMeasurePanel.prototype._onExecuteSearch = function() {
 		this._switchVisibilityOfUnselectedModelItems();
 		this._filterModelItemsBySearchText();
-
-		this._scrollToSelectedItem(this._getMarkedTableItem());
-
 		this._updateControlLogic();
 	};
 
@@ -1113,30 +1110,29 @@ sap.ui.define([
 		}
 
 		this._getVisibleModelItems().forEach(function(oMItem) {
+			var oItem = this._getTableItemByColumnKey(oMItem.columnKey);
+			var aCells = oItem.getCells();
+
 			oMItem.visible = false;
 			// Search in item text
-			if (oMItem.text && oMItem.text.match(oRegExp)) {
+			if (aCells[0] && aCells[0].getText().match(oRegExp)) {
 				oMItem.visible = true;
 			}
 			// Search in aggregationRole
-			if (oMItem.aggregationRole && oMItem.aggregationRole.match(oRegExp)) {
+			if (aCells[1] && aCells[1].getText().match(oRegExp)) {
 				oMItem.visible = true;
 			}
 			// Search in role
-			if (oMItem.role && oMItem.role.match(oRegExp)) {
+			if (aCells[2] && aCells[2].getSelectedItem() && aCells[2].getSelectedItem().getText().match(oRegExp)) {
 				oMItem.visible = true;
 			}
 			// Search in tooltip
 			if (oMItem.tooltip && oMItem.tooltip.match(oRegExp)) {
 				oMItem.visible = true;
 			}
-		});
+		}, this);
 		this._getInternalModel().refresh();
 	};
-
-	// P13nDimMeasurePanel.prototype._isDimMeasureItemEqualToModelItem = function(oDimMeasureItem, oMItem) {
-	// 	return oMItem.persistentIndex === oDimMeasureItem.getIndex() && oMItem.persistentSelected === oDimMeasureItem.getVisible() && oMItem.role === oDimMeasureItem.getRole();
-	// };
 
 	P13nDimMeasurePanel.prototype._updateInternalModel = function() {
 		if (!this._bUpdateInternalModel) {

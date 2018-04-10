@@ -76,7 +76,7 @@ function(
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.54.2
+	 * @version 1.54.3
 	 *
 	 * @constructor
 	 * @public
@@ -607,13 +607,17 @@ function(
 	 */
 	IconTabHeader.prototype.setSelectedItem = function(oItem, bAPIchange) {
 
-		if (!oItem || !oItem.getEnabled()) {
+		if (!oItem) {
 
 			if (this.oSelectedItem) {
 				this.oSelectedItem.$().removeClass("sapMITBSelected");
 				this.oSelectedItem = null;
 			}
 
+			return this;
+		}
+
+		if (!oItem.getEnabled()) {
 			return this;
 		}
 

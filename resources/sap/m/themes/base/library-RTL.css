@@ -2202,6 +2202,10 @@ html:not(.sap-phone) .sapMColorPaletteSquare > div {
   height: 100%;
   width: 100%;
 }
+html:not(.sap-phone)[data-sap-ui-browser^="ie"] .sapMColorPalette .sapMColorPaletteSquare:focus:after,
+html:not(.sap-phone)[data-sap-ui-browser^="ed"] .sapMColorPalette .sapMColorPaletteSquare:focus:after {
+  border-style: dashed;
+}
 .sap-phone .sapMColorPalettehtml:not(.sap-phone) .sapMBtnInner {
   border-radius: 0.25rem 0.25rem 0 0;
 }
@@ -2287,6 +2291,7 @@ html.sap-phone .sapMCustomTile {
 /* ===================================== */
 /* styles for popup */
 .sapMDateTimePopupCont {
+  display: flex;
   height: 25.25rem;
   min-width: 40.0625rem;
 }
@@ -2457,27 +2462,27 @@ html.sap-phone .sapMDateTimePopupCont .sapUiCalContent > .sapUiCalYearPicker {
   vertical-align: middle;
 }
 .sapMDialog.sapMDialogStretched {
-  border: none;
-  border-radius: 0;
-  box-shadow: ;
   transform: none;
-  -webkit-transform: none;
+  -webkit-transform: scale(1);
   top: 5% !important;
   bottom: 5% !important;
   right: 3.5% !important;
   left: 3.5% !important;
   max-height: none !important;
   max-width: none !important;
+  height: auto !important;
+  width: auto !important;
   min-width: 0 !important;
   min-height: 0 !important;
 }
 html.sap-phone .sapMDialog.sapMDialogStretched {
+  border: none;
+  box-shadow: ;
+  border-radius: 0;
   top: 0 !important;
   bottom: 0 !important;
   right: 0 !important;
   left: 0 !important;
-  height: auto !important;
-  width: auto !important;
 }
 html.sap-phone .sapMDialog {
   min-width: 18rem;
@@ -16837,6 +16842,20 @@ html[dir=ltr] .sapMTabStrip .sapMTSRightOverflowButtons::after,
 html[dir=rtl] .sapMTabStrip .sapMTSLeftOverflowButtons::after {
   background: linear-gradient(90deg, rgba(235, 235, 235, 0) 0%, #ebebeb 25%, #ebebeb 100%);
 }
+html .sapMTabStripSelectListItemCloseBtn .sapMBtnInner {
+  display: block;
+  height: 1.625rem;
+  min-width: 1.625rem;
+  width: 1.625rem;
+  padding: 0;
+  margin: 0 auto;
+}
+.sapMTabStripSelectListItemCloseBtn .sapMBtnIcon {
+  line-height: 1.45rem;
+  width: 100%;
+  height: 100%;
+  font-size: 1rem;
+}
 /* ============================================= */
 /* Form factor cozy                              */
 /* ============================================= */
@@ -17083,11 +17102,13 @@ html[data-sap-ui-browser="sf10"] .sapuiVltCell .sapMText {
   -webkit-transform: none;
   /* transform is blocking scroll */
   resize: none;
+  margin: 0;
 }
 .sapMTextArea .sapMInputDivWrapper {
   -webkit-overflow-scrolling: touch;
   height: 100%;
   width: 100%;
+  line-height: 0;
 }
 .sapMTextArea .sapMTextAreaInner {
   -webkit-overflow-scrolling: touch;
@@ -17134,9 +17155,6 @@ html[data-sap-ui-browser="sf10"] .sapuiVltCell .sapMText {
 .sapUiSizeCompact .sapMInputBase.sapMTextArea .sapMTextAreaInner {
   line-height: 1.4;
   padding: 0.1875rem 0.5rem;
-}
-.sapUiSizeCompact .sapMFocus.sapMTextArea .sapMInputDivWrapper:not(.sapMInputBaseDisabledInner)::before {
-  bottom: 5px;
 }
 .sapUiSizeCompact .sapMInputBase.sapMTextArea.sapMInputBaseState .sapMTextAreaInner {
   padding: 0.125rem 0.4375rem;
@@ -17523,7 +17541,7 @@ html.sap-phone .sapMTC .sapMTCScroller {
   cursor: move;
   box-shadow: 0 0 0 1px #000000;
 }
-.sapMTC.sapMTCEditable .sapMTile .sapMTCRemove {
+.sapMTC.sapMTCEditable .sapMTCRemove {
   position: absolute;
   display: block;
   height: 2rem;

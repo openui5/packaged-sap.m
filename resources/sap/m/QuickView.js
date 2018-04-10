@@ -62,7 +62,7 @@ sap.ui.define([
 	 * @extends sap.m.QuickViewBase
 	 *
 	 * @author SAP SE
-	 * @version 1.54.2
+	 * @version 1.54.3
 	 *
 	 * @constructor
 	 * @public
@@ -278,6 +278,14 @@ sap.ui.define([
 			this._oPopover.destroy();
 			this._oPopover = null;
 		}
+	};
+
+	/**
+	 * Invalidates the control.
+	 */
+	QuickView.prototype.invalidate = function() {
+		// nothing this control should do here
+		// changes are handled manually
 	};
 
 	/**

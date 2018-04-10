@@ -38,7 +38,7 @@ sap.ui.define([
 	 * Status information that can be either text with a value state, or an icon.
 	 * @extends sap.ui.core.Control
 	 * @implements sap.ui.core.IFormContent
-	 * @version 1.54.2
+	 * @version 1.54.3
 	 *
 	 * @constructor
 	 * @public
@@ -187,11 +187,7 @@ sap.ui.define([
 	 * @param {object} oEvent The fired event
 	 */
 	ObjectStatus.prototype.ontap = function(oEvent) {
-		var sSourceId = oEvent.target.id;
-
-		//event should only be fired if the click is on the text
-		if (this._isActive() && (sSourceId === this.getId() + "-link" || sSourceId === this.getId() + "-text" || sSourceId === this.getId() + "-icon")) {
-
+		if (this._isClickable(oEvent)) {
 			this.firePress();
 		}
 	};
@@ -238,6 +234,18 @@ sap.ui.define([
 	};
 
 	/**
+	 * Called when the control is touched.
+	 * @param {object} oEvent The fired event
+	 * @private
+	 */
+	ObjectStatus.prototype.ontouchstart = function(oEvent) {
+		if (this._isClickable(oEvent)) {
+			// mark the event that it is handled by the control
+			oEvent.setMarked();
+		}
+	};
+
+	/**
 	 * @see sap.ui.core.Control#getAccessibilityInfo
 	 *
 	 * @returns {Object} Current accessibility state of the control
@@ -249,6 +257,13 @@ sap.ui.define([
 		return {
 			description: ((this.getTitle() || "") + " " + (this.getText() || "") + " " + sState + " " + (this.getTooltip() || "")).trim()
 		};
+	};
+
+	ObjectStatus.prototype._isClickable = function(oEvent) {
+		var sSourceId = oEvent.target.id;
+
+		//event should only be fired if the click is on the text, link or icon
+		return this._isActive() && (sSourceId === this.getId() + "-link" || sSourceId === this.getId() + "-text" || sSourceId === this.getId() + "-icon");
 	};
 
 	return ObjectStatus;

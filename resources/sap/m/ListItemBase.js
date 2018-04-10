@@ -61,7 +61,7 @@ function(
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.54.2
+	 * @version 1.54.3
 	 *
 	 * @constructor
 	 * @public
@@ -820,7 +820,13 @@ function(
 	ListItemBase.prototype.ontap = function(oEvent) {
 
 		// do not handle already handled events
-		if (this._eventHandledByControl || window.getSelection().toString()) {
+		if (this._eventHandledByControl) {
+			return;
+		}
+
+		// do not handle in case of text selection
+		var sTextSelection = window.getSelection().toString().replace("\n", "");
+		if (sTextSelection) {
 			return;
 		}
 
