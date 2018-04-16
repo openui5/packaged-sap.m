@@ -17,7 +17,7 @@ sap.ui.define([
 	 * @param {object} [mSettings] initial settings for the new control
 	 * @class Base type for <code>panels</code> aggregation in <code>P13nDialog</code> control.
 	 * @extends sap.ui.core.Control
-	 * @version 1.52.10
+	 * @version 1.52.11
 	 * @constructor
 	 * @public
 	 * @since 1.26.0
@@ -130,7 +130,7 @@ sap.ui.define([
 	 *
 	 * @returns {object} Object which describes the state after Ok has been pressed
 	 * @deprecated As of version 1.50, replaced by the event of the respective inherited
-	 * control, for example {@link sap.m.P13nColumnsPanel.html#changeColumnsItems} of
+	 * control, for example {@link sap.m.P13nColumnsPanel#event:changeColumnsItems} of
 	 * <code>P13nColumnsPanel</code> control.
 	 * @public
 	 * @since 1.26.7

@@ -12,7 +12,7 @@ sap.ui.define(["sap/ui/fl/Utils"], function(FlexUtils) {
 		 *
 		 * @alias sap.m.changeHandler.SplitMenuButton
 		 * @author SAP SE
-		 * @version 1.52.10
+		 * @version 1.52.11
 		 * @experimental Since 1.48
 		 */
 		var SplitMenuButton = { };

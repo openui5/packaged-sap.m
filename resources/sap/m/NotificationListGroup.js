@@ -32,7 +32,7 @@ sap.ui.define(['jquery.sap.global', './library', './NotificationListBase', 'sap/
 	 * @extends sap.m.NotificationListBase
 	 *
 	 * @author SAP SE
-	 * @version 1.52.10
+	 * @version 1.52.11
 	 *
 	 * @constructor
 	 * @public

@@ -47,7 +47,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @implements sap.ui.core.Label, sap.ui.core.IShrinkable
 	 *
 	 * @author SAP SE
-	 * @version 1.52.10
+	 * @version 1.52.11
 	 *
 	 * @constructor
 	 * @public
@@ -163,7 +163,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	};
 
 	/**
-	 * @see sap.ui.core.Control#getAccessibilityInfo Provides the current accessibility state of the control.
+	 * Provides the current accessibility state of the control, see {@link sap.ui.core.Control#getAccessibilityInfo}.
 	 * @protected
 	 */
 	Label.prototype.getAccessibilityInfo = function() {

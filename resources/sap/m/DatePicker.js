@@ -93,7 +93,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/Device', './InputBase', './DateTimeF
 	 * the close event), or select Cancel.
 	 *
 	 * @extends sap.m.DateTimeField
-	 * @version 1.52.10
+	 * @version 1.52.11
 	 *
 	 * @constructor
 	 * @public
@@ -833,7 +833,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/Device', './InputBase', './DateTimeF
 	};
 
 	DatePicker.prototype._storeInputSelection = function (oInput) {
-		if (Device.browser.msie || Device.browser.edge) {
+		if ((Device.browser.msie || Device.browser.edge) && !Device.support.touch) {
 			//For IE & Edge, any selection of the underlying input must be removed before opening the picker popup,
 			//otherwise the input will receive focus via TAB during the picker is opened. The selection is restored back
 			//when the popup is closed
@@ -847,7 +847,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/Device', './InputBase', './DateTimeF
 	};
 
 	DatePicker.prototype._restoreInputSelection = function (oInput) {
-		if (Device.browser.msie || Device.browser.edge) {
+		if ((Device.browser.msie || Device.browser.edge) && !Device.support.touch) {
 			//The selection is restored back due to issue with IE & Edge. See _handleBeforeOpen
 			oInput.selectionStart = this._oInputSelBeforePopupOpen.iStart;
 			oInput.selectionEnd = this._oInputSelBeforePopupOpen.iEnd;
@@ -916,6 +916,8 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/Device', './InputBase', './DateTimeF
 		if (!this._oPopup) {
 			return;
 		}
+
+		this._storeInputSelection(this._$input.get(0));
 
 		this._oPopup.setAutoCloseAreas([this.getDomRef()]);
 
@@ -1178,8 +1180,6 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/Device', './InputBase', './DateTimeF
 	}
 
 	function _handleOpened(oEvent) {
-		this._storeInputSelection(this._$input.get(0));
-
 		this._renderedDays = this._oCalendar.$("-Month0-days").find(".sapUiCalItem").length;
 
 		this.$("inner").attr("aria-owns", this.getId() + "-cal");

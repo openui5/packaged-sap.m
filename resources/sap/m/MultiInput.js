@@ -61,7 +61,7 @@ sap.ui.define(['jquery.sap.global', './Input', './Tokenizer', './Token', './libr
 	* @extends sap.m.Input
 	*
 	* @author SAP SE
-	* @version 1.52.10
+	* @version 1.52.11
 	*
 	* @constructor
 	* @public
@@ -1489,8 +1489,9 @@ sap.ui.define(['jquery.sap.global', './Input', './Tokenizer', './Token', './libr
 	 *
 	 * @protected
 	 */
-	MultiInput.prototype.updateInputField = function() {
-		Input.prototype.updateInputField.call(this, '');
+	MultiInput.prototype.updateInputField = function(sNewValue) {
+		Input.prototype.updateInputField.call(this, sNewValue);
+		this.setDOMValue('');
 	};
 
 	/**

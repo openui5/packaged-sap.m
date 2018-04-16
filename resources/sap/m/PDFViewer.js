@@ -40,7 +40,7 @@ sap.ui.define([
 		 * @extends sap.ui.core.Control
 		 *
 		 * @author SAP SE
-		 * @version 1.52.10
+		 * @version 1.52.11
 		 * @since 1.48
 		 *
 		 * @constructor
@@ -71,7 +71,7 @@ sap.ui.define([
 						source: {type: "sap.ui.core.URI", group: "Misc", defaultValue: null},
 						/**
 						 * A custom error message that is displayed when the PDF file cannot be loaded.
-						 * @deprecated As of version 1.50.0, replaced by {@link sap.m.PDFViewer#getErrorPlaceholderMessage()}.
+						 * @deprecated As of version 1.50.0, replaced by {@link sap.m.PDFViewer#getErrorPlaceholderMessage}.
 						 */
 						errorMessage: {type: "string", group: "Misc", defaultValue: null, deprecated: true},
 						/**

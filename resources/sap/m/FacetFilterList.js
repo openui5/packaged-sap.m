@@ -42,7 +42,7 @@ sap.ui.define(['jquery.sap.global', './List', './library', 'sap/ui/model/ChangeR
 	 * be closed.
 	 *
 	 * @extends sap.m.List
-	 * @version 1.52.10
+	 * @version 1.52.11
 	 *
 	 * @constructor
 	 * @public
@@ -756,7 +756,7 @@ sap.ui.define(['jquery.sap.global', './List', './library', 'sap/ui/model/ChangeR
 	FacetFilterList.prototype.onItemTextChange = function(oItem, sNewValue) {
 		var sKeyName = oItem.getKey();
 
-		if (this._oSelectedKeys[sKeyName] && sNewValue) {
+		if (this._oSelectedKeys[sKeyName] && sNewValue && !this._filtering) {
 			this._oSelectedKeys[sKeyName] = sNewValue;
 		}
 	};

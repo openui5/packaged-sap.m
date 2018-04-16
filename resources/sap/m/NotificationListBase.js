@@ -41,7 +41,7 @@ sap.ui.define(['./library', 'sap/ui/core/Control', './ListItemBase', './Text',
          * @extends sap.m.ListItemBase
          *
          * @author SAP SE
-         * @version 1.52.10
+         * @version 1.52.11
          *
          * @constructor
          * @public
@@ -333,7 +333,7 @@ sap.ui.define(['./library', 'sap/ui/core/Control', './ListItemBase', './Text',
          * @public
          * @param {string} aggregationName The name of the aggregation.
          * @param {object} defaultObjectToBeCreated Default objects to be created.
-         * @returns {Array|NotificationListBase|null} Either the aggregation array in case of 0 through n-aggregations or in case of 0 to 1-aggregations <code>this</code> pointer or null.
+         * @returns {Array|sap.m.NotificationListBase|null} Either the aggregation array in case of 0 through n-aggregations or in case of 0 to 1-aggregations <code>this</code> pointer or null.
          */
         NotificationListBase.prototype.getAggregation = function (aggregationName, defaultObjectToBeCreated) {
             if (aggregationName == 'buttons') {

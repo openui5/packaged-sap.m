@@ -2009,6 +2009,7 @@ html.sapUiMedia-Std-Phone .sapMDateTimePopupCont {
   min-width: 20rem;
   overflow: auto !important;
   /* allow scrolling in landscape mode */
+  display: block;
 }
 html.sap-phone .sapUiSizeCompact .sapMDateTimePopupCont,
 html.sapUiMedia-Std-Phone .sapUiSizeCompact .sapMDateTimePopupCont {
@@ -11603,10 +11604,21 @@ html[data-sap-ui-browser^="ie"].sap-desktop .sapMPlanCal .sapUiCalRow:not(.sapUi
   line-height: 2rem;
   margin: 0.5rem 0 0.5rem 0.75rem;
 }
-.sapMPlanCal .sapMSLIImg {
-  height: 2rem;
-  width: 2rem;
-  margin: 0.5rem 0 0.5rem 0.75rem;
+.sapMPlanCal .sapMPlanCalRowHead .sapMLIBContent {
+  position: relative;
+}
+.sapMPlanCal .sapMPlanCalRowHead .sapMSLIImg {
+  max-width: 3rem;
+  max-height: 3rem;
+  width: auto;
+  height: auto;
+  margin: 0;
+}
+.sapMPlanCal .sapMPlanCalRowHead .sapMSLIDiv {
+  box-sizing: border-box;
+  position: absolute;
+  padding-right: calc(3.75rem);
+  width: 100%;
 }
 .sapMPlanCal .sapUiCalDateInt .sapUiCalHeadB1 {
   width: 12.5rem;

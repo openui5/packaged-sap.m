@@ -16,10 +16,10 @@ sap.ui.define(["./library", "./MessageItem"],
 		 *
 		 * @class
 		 * Items provide information about Error Messages in the page.
-		 * @extends sap.ui.core.Item
+		 * @extends sap.m.MessageItem
 		 *
 		 * @author SAP SE
-		 * @version 1.52.10
+		 * @version 1.52.11
 		 *
 		 * @constructor
 		 * @public

@@ -36,7 +36,7 @@ sap.ui.define([
 	 * @class The <code>P13nColumnsPanel</code> control is used to define column-specific settings for table personalization.
 	 * @extends sap.m.P13nPanel
 	 * @author SAP SE
-	 * @version 1.52.10
+	 * @version 1.52.11
 	 * @constructor
 	 * @public
 	 * @since 1.26.0
@@ -98,7 +98,7 @@ sap.ui.define([
 
 				/**
 				 * Event raised when a <code>columnsItem</code> is added.
-				 * @deprecated As of version 1.50, replaced by extended event {@link sap.m.P13nColumnsPanel.html#changeColumnsItems}
+				 * @deprecated As of version 1.50, replaced by extended event {@link sap.m.P13nColumnsPanel#event:changeColumnsItems}
 				 * @since 1.26.0
 				 */
 				addColumnsItem: {
