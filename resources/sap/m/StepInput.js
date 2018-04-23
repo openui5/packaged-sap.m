@@ -100,7 +100,7 @@ function(
 		 * @implements sap.ui.core.IFormContent
 		 *
 		 * @author SAP SE
-		 * @version 1.54.3
+		 * @version 1.54.4
 		 *
 		 * @constructor
 		 * @public
@@ -428,7 +428,7 @@ function(
 			return "-Descr";
 		};
 
-		var NumericInput = Input.extend("NumericInput", {
+		var NumericInput = Input.extend("sap.m.internal.NumericInput", {
 			constructor: function(sId, mSettings) {
 				return Input.apply(this, arguments);
 			},

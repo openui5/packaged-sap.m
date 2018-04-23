@@ -86,7 +86,7 @@ sap.ui.define([
 	 * @implements sap.m.ObjectHeaderContainer
 	 *
 	 * @author SAP SE
-	 * @version 1.54.3
+	 * @version 1.54.4
 	 *
 	 * @constructor
 	 * @public

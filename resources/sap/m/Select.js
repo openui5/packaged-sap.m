@@ -77,7 +77,7 @@ function(
 		 * @implements sap.ui.core.IFormContent
 		 *
 		 * @author SAP SE
-		 * @version 1.54.3
+		 * @version 1.54.4
 		 *
 		 * @constructor
 		 * @public
@@ -762,7 +762,7 @@ function(
 		 */
 		Select.prototype._onBeforeRenderingPopover = function() {
 			var oPopover = this.getPicker(),
-				sWidth = (this.$().outerWidth() / parseFloat(library.BaseFontSize)) + "rem";
+				sWidth = this.$().outerWidth() + "px"; // set popover content min-width in px due to rendering issue in Chrome and small %
 
 			if (oPopover) {
 				oPopover.setContentMinWidth(sWidth);
@@ -1887,7 +1887,9 @@ function(
 		};
 
 		Select.prototype.updateAriaLabelledBy = function(sValueState, sOldValueState) {
-			var aIDs = this.$().attr("aria-labelledby").split(" "),
+			var $this = this.$(),
+                            sAttr = $this.attr("aria-labelledby"),
+				aIDs = sAttr ? sAttr.split(" ") : [],
 				sNewIDs;
 
 			if (sOldValueState !== ValueState.None) {
@@ -1899,7 +1901,7 @@ function(
 			}
 
 			sNewIDs = aIDs.join(" ");
-			this.$().attr("aria-labelledby", sNewIDs);
+			$this.attr("aria-labelledby", sNewIDs);
 		};
 
 		/**

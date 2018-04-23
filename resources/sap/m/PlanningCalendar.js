@@ -134,7 +134,7 @@ sap.ui.define([
 	 * {@link sap.m.PlanningCalendarView PlanningCalendarView}'s properties.
 	 *
 	 * @extends sap.ui.core.Control
-	 * @version 1.54.3
+	 * @version 1.54.4
 	 *
 	 * @constructor
 	 * @public
@@ -2472,6 +2472,7 @@ sap.ui.define([
 	 * @param {appointmentsSorterCallback} fnSorter
 	 * @since 1.54
 	 * @returns {sap.m.PlanningCalendar} <code>this</code> for chaining
+	 * @public
 	 */
 	PlanningCalendar.prototype.setCustomAppointmentsSorterCallback = function(fnSorter) {
 		/**
@@ -2495,6 +2496,7 @@ sap.ui.define([
 	 * Getter for custom appointments sorter (if any).
 	 * @since 1.54
 	 * @returns {appointmentsSorterCallback}
+	 * @public
 	 */
 	PlanningCalendar.prototype.getCustomAppointmentsSorterCallback = function() {
 		return this._fnCustomSortedAppointments;

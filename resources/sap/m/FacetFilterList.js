@@ -49,7 +49,7 @@ sap.ui.define([
 	 * be closed.
 	 *
 	 * @extends sap.m.List
-	 * @version 1.54.3
+	 * @version 1.54.4
 	 *
 	 * @constructor
 	 * @public
@@ -764,7 +764,7 @@ sap.ui.define([
 	FacetFilterList.prototype.onItemTextChange = function(oItem, sNewValue) {
 		var sKeyName = oItem.getKey();
 
-		if (this._oSelectedKeys[sKeyName] && sNewValue) {
+		if (this._oSelectedKeys[sKeyName] && sNewValue && !this._filtering) {
 			this._oSelectedKeys[sKeyName] = sNewValue;
 		}
 	};

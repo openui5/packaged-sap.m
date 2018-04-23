@@ -23,7 +23,7 @@ sap.ui.define(['sap/m/ToggleButton', 'sap/m/ToggleButtonRenderer'],
 		 * @extends sap.m.ToggleButton
 		 *
 		 * @author SAP SE
-		 * @version 1.54.3
+		 * @version 1.54.4
 		 *
 		 * @constructor
 		 * @public
