@@ -21,7 +21,7 @@ sap.ui.define(["jquery.sap.global", "sap/ui/core/Icon", "./Input", "./InputRende
 		 * @implements sap.ui.core.IFormContent
 		 *
 		 * @author SAP SE
-		 * @version 1.44.30
+		 * @version 1.44.31
 		 *
 		 * @constructor
 		 * @public
@@ -239,7 +239,7 @@ sap.ui.define(["jquery.sap.global", "sap/ui/core/Icon", "./Input", "./InputRende
 			return "inner";
 		};
 
-		var NumericInput = sap.m.Input.extend("NumericInput", {
+		var NumericInput = sap.m.Input.extend("sap.m.internal.NumericInput", {
 			constructor: function(sId, mSettings) {
 				return Input.apply(this, arguments);
 			},

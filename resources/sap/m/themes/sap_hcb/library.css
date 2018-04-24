@@ -1238,6 +1238,7 @@ html.sapUiMedia-Std-Phone .sapMDateTimePopupCont {
   min-width: 20rem;
   overflow: auto !important;
   /* allow scrolling in landscape mode */
+  display: block;
 }
 html.sap-phone .sapUiSizeCompact .sapMDateTimePopupCont,
 html.sapUiMedia-Std-Phone .sapUiSizeCompact .sapMDateTimePopupCont {
@@ -2796,7 +2797,8 @@ html[data-sap-ui-browser*='ff'] .sapMGT:not(.sapMGTHeaderMode) .sapMGTHdrContent
 .sapMGHLIUpperCase {
   text-transform: uppercase;
 }
-.sapMGHLI > .sapMLIBContent {
+.sapMGHLI > .sapMLIBContent,
+.sapMGHLICell > .sapMLIBContent {
   display: -webkit-box;
   display: -moz-box;
   display: -ms-flexbox;
@@ -4126,14 +4128,32 @@ html[data-sap-ui-browser^="cr"] .sapMInputBaseInner::selection {
 /* text field                     */
 /* ------------------------------ */
 .sapMComboBoxTextField {
+  background-color: #000000;
   border: 1px solid #ffffff;
   margin: 0.25rem 0;
   height: 2.5rem;
+}
+.sapMComboBoxTextField:not(.sapMComboBoxTextFieldReadonly):not(.sapMComboBoxTextFieldState):not(.sapMComboBoxTextFieldDisabled):hover {
+  border-color: #ffffff !important;
+}
+.sapMComboBoxTextField .sapMInputDivWrapper {
+  height: 100% !important;
+  max-width: 100%;
+}
+.sapMComboBoxTextField .sapMInputDivWrapper:not(.sapMInputBaseReadonlyInner):not(.sapMInputBaseStateInner):not(.sapMInputBaseDisabledInner):hover {
+  background: transparent;
+  border-color: transparent;
 }
 input.sapMComboBoxTextFieldInner {
   border: none;
   margin: 0;
   height: 100% !important;
+}
+input.sapMComboBoxTextFieldInner:not(.sapMComboBoxTextFieldInnerReadonly) {
+  background-color: transparent;
+}
+.sapMComboBoxTextFieldInnerWidthExtraPadding:not(.sapMComboBoxTextFieldInnerReadonly) {
+  padding-right: 3rem;
 }
 .sapUiSizeCondensed .sapUiTableCell .sapMComboBoxTextField {
   margin: 0;
@@ -8493,6 +8513,29 @@ html[data-sap-ui-browser^="ie"].sap-desktop .sapMPlanCal .sapUiCalRow:not(.sapUi
 .sapMPlanCal .sapMListBGTranslucent .sapMLIB:not(.sapMLIBActive):not(.sapMLIBSelected):not(:hover),
 .sapMPlanCal .sapMListBGSolid .sapMLIB:not(.sapMLIBActive):not(.sapMLIBSelected):not(:hover) {
   background: transparent;
+}
+.sapMPlanCal .sapMListTbl .sapMSLIImgIcon.sapUiIcon:not(.sapMLIBImgNav):not(.sapMBtnIcon) {
+  font-size: 1.375rem;
+  height: 2rem;
+  width: 2rem;
+  line-height: 2rem;
+  margin: 0.5rem 0.75rem 0.5rem 0;
+}
+.sapMPlanCal .sapMPlanCalRowHead .sapMLIBContent {
+  position: relative;
+}
+.sapMPlanCal .sapMPlanCalRowHead .sapMSLIImg {
+  max-width: 3rem;
+  max-height: 3rem;
+  width: auto;
+  height: auto;
+  margin: 0;
+}
+.sapMPlanCal .sapMPlanCalRowHead .sapMSLIDiv {
+  box-sizing: border-box;
+  position: absolute;
+  padding-left: calc(3.75rem);
+  width: 100%;
 }
 /* ============================================= */
 /* CSS for controlsap.m/Popover.control */

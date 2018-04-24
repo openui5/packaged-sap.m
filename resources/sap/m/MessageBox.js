@@ -302,14 +302,14 @@ sap.ui.define(['jquery.sap.global', './Button', './Dialog', './Text', './TextAre
 
 						var oTextArea = new TextArea({
 							editable: false,
-							visible: false,
+							visible: true,
 							rows: 3
 						}).setValue(mOptions.details);
 
 						var oLink = new Link({
 							text: that._rb.getText("MSGBOX_LINK_TITLE"),
 							press: function () {
-								oTextArea.setVisible(true);
+								oDialog.addContent(oTextArea);
 								this.setVisible(false);
 								oDialog._setInitialFocus();
 							}
@@ -320,8 +320,7 @@ sap.ui.define(['jquery.sap.global', './Button', './Dialog', './Text', './TextAre
 						return new VBox({
 							items: [
 								oMessageText,
-								oLink,
-								oTextArea
+								oLink
 							]
 						});
 					}

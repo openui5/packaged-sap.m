@@ -1657,6 +1657,43 @@
 			equal(document.activeElement.id,  sMonthIdPrefix + "20160930", "30 of September focused");
 		});
 
+		QUnit.test("keyboard navigation ARROW_RIGHT for 1 Month view at the border of 2 months", function (assert) {
+			// Prepare
+			var oApp1stOct2016 = new sap.ui.unified.CalendarAppointment("app1stOct2016", {
+				startDate: new Date(2016, 9, 1, 17),
+				endDate: new Date(2016, 9, 1, 18)
+			}), $30Sep, $1stOct;
+
+
+			this.oPC2.getRows()[0].addAppointment(oApp1stOct2016);
+			_switchToView(sap.ui.unified.CalendarIntervalType.OneMonth, this.oPC2);
+			this.oPC2.setStartDate(this.o1Sep2016MidOfWeek);
+			sap.ui.getCore().applyChanges();
+
+			// Get days
+			this.oPC2Interval = this.oPC2.getAggregation("table").getAggregation("infoToolbar").getContent()[1];
+			this.oPC2IntervalRow = this.oPC2Interval.getAggregation('month')[0];
+
+			aDays = this.oPC2IntervalRow.$("days").children();
+			$30Sep = aDays[29];
+			$1stOct = aDays[30];
+
+			// Act
+			// Focus 30th of Sep, 2016 and move right via keyboard, expect appointment for 1 of Oct to be visible once
+			// the view is switched to October
+			qutils.triggerEvent("mousedown", $30Sep); //focus should be done via mouse events, since this is the way Month.js handles focusing
+			qutils.triggerEvent("mouseup", $30Sep);
+			_navFocusNext.call(this, $1stOct);
+
+			// Assert
+			aDays = this.oPC2IntervalRow.$("days").children();
+			$1stOct = aDays[0];
+
+			assert.ok(oApp1stOct2016.getDomRef(), "Once moved to October, the 1st appoint. should be visible");
+			assert.equal($1stOct.getAttribute("data-sap-day"), "20161001", "Once moved to October, the first day of the month is moved to the beginning of the CalendarOneMonthInterval");
+
+		});
+
 		test("When start date is defined the planning calendar should shift to the first day of the week that includes the start date ", function() {
 			//assert initial state
 			_assertDatesAreVisible.call(this, [
@@ -2830,9 +2867,14 @@
 			this._createCalendar();
 			oPCInterval = this._oPC.getAggregation('table').getAggregation('infoToolbar').getContent()[1];
 			oPCIntervalMonth = oPCInterval.getAggregation('month')[0];
+			var $EventTarget = oPCIntervalMonth.$('days').children().eq(0),
+				oEvent = { clientX: 100, clientY: 100, target: $EventTarget.children().get(0) },
+				oMouseDownEvent = jQuery.Event("mousedown", oEvent),
+				oMouseUpEvent = jQuery.Event("mouseup", oEvent);
+
 			//Calendar selection is implemented on 'mouseup' event so to test this you have to simulate 'mousedown' + 'mouseup' event sequence
-			oPCIntervalMonth.$('days').children().eq(0).trigger('mousedown');
-			oPCIntervalMonth.$('days').children().eq(0).trigger('mouseup');
+			$EventTarget.trigger(oMouseDownEvent);
+			$EventTarget.trigger(oMouseUpEvent);
 			//assert
 			strictEqual(oHandleCalendarSelectSpy.callCount, 1, "'_handleStartDateChange()' event handler is called once");
 			//clean
