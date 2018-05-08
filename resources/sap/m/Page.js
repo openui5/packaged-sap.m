@@ -81,7 +81,7 @@ function(
 		 * @extends sap.ui.core.Control
 		 * @mixes sap.ui.core.ContextMenuSupport
 		 * @author SAP SE
-		 * @version 1.54.4
+		 * @version 1.54.5
 		 *
 		 * @public
 		 * @alias sap.m.Page
@@ -403,10 +403,10 @@ function(
 
 			if (useAnimation) {
 				jQuery.sap.delayedCall(Page.FOOTER_ANIMATION_DURATION, this, function () {
-					$footer.toggleClass("sapUiHidden", bShowFooter);
+					$footer.toggleClass("sapUiHidden", !bShowFooter);
 				});
 			} else {
-				$footer.toggleClass("sapUiHidden", bShowFooter);
+				$footer.toggleClass("sapUiHidden", !bShowFooter);
 			}
 
 			return this;

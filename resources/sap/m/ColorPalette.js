@@ -90,7 +90,7 @@ sap.ui.define([
 		 * <code>ColorPalette</code> should also load the <code>sap.ui.unified</code> library.
 		 *
 		 * @extends sap.ui.core.Control
-		 * @version 1.54.4
+		 * @version 1.54.5
 		 *
 		 * @constructor
 		 * @public

@@ -44,7 +44,7 @@ sap.ui.define([
 	 * Tokens can only be used with the Tokenizer as a container.
 	 *
 	 * @author SAP SE
-	 * @version 1.54.4
+	 * @version 1.54.5
 	 *
 	 * @constructor
 	 * @public

@@ -22,14 +22,14 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/Device', 'sap/ui/base/DataType',
 	 * @namespace
 	 * @name sap.m
 	 * @author SAP SE
-	 * @version 1.54.4
+	 * @version 1.54.5
 	 * @public
 	 */
 
 	// delegate further initialization of this library to the Core
 	sap.ui.getCore().initLibrary({
 		name : "sap.m",
-		version: "1.54.4",
+		version: "1.54.5",
 		dependencies : ["sap.ui.core"],
 		designtime: "sap/m/designtime/library.designtime",
 		types: [
@@ -3397,7 +3397,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/Device', 'sap/ui/base/DataType',
 		 * @since 1.12
 		 * @name sap.m#BaseFontSize
 		 */
-		oLib.BaseFontSize = jQuery(document.documentElement).css("font-size");
+		oLib.BaseFontSize = jQuery(document.documentElement).css("font-size") || "16px";
 
 		/**
 		 * Hide the soft keyboard.

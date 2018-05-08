@@ -48,7 +48,7 @@ function(
 	 * @implements sap.ui.core.IFormContent
 	 *
 	 * @author SAP SE
-	 * @version 1.54.4
+	 * @version 1.54.5
 	 *
 	 * @constructor
 	 * @public
@@ -790,7 +790,7 @@ function(
 
 		for (; i < aButtons.length; i++) {
 			if (aButtons[i] && aButtons[i].getId() === selectedButtonId) {
-				this._oItemNavigation.setFocusedIndex(i);
+				this._oItemNavigation && this._oItemNavigation.setFocusedIndex(i);
 				break;
 			}
 		}
