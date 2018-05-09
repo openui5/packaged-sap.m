@@ -1,0 +1,112 @@
+<mvc:View
+	controllerName="sap.ui.demo.masterdetail.controller.Master"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns="sap.m"
+	xmlns:f="sap.f">
+
+	<f:DynamicPage
+		id="masterPage"
+		preserveHeaderStateOnScroll="true"
+		toggleHeaderOnTitleClick="false">
+		<!-- DynamicPage Title -->
+		<f:title>
+			<f:DynamicPageTitle>
+				<f:heading>
+					<Title
+						id="masterPageTitle"
+						text="{masterView>/title}"/>
+				</f:heading>
+			</f:DynamicPageTitle>
+		</f:title>
+		<f:content>
+			<VBox fitContainer="true">
+				<OverflowToolbar class="sapFDynamicPageAlignContent">
+					<ToolbarSpacer/>
+					<SearchField
+						id="searchField"
+						showRefreshButton="{= !${device>/support/touch} }"
+						tooltip="{i18n>masterSearchTooltip}"
+						search="onSearch"
+						width="auto">
+						<layoutData>
+							<OverflowToolbarLayoutData
+								minWidth="150px"
+								maxWidth="300px"
+								shrinkable="true"
+								priority="NeverOverflow"/>
+						</layoutData>
+					</SearchField>
+					<Button
+						id="sortButton"
+						press="onOpenViewSettings"
+						icon="sap-icon://sort"
+						type="Transparent">
+						<layoutData>
+							<OverflowToolbarLayoutData priority="NeverOverflow"/>
+						</layoutData>
+					</Button>
+					<Button
+						id="filterButton"
+						press="onOpenViewSettings"
+						icon="sap-icon://filter"
+						type="Transparent"/>
+					<Button
+						id="groupButton"
+						press="onOpenViewSettings"
+						icon="sap-icon://group-2"
+						type="Transparent"/>
+				</OverflowToolbar>
+				<PullToRefresh
+					id="pullToRefresh"
+					visible="{device>/support/touch}"
+					class="sapFDynamicPageAlignContent"
+					refresh="onRefresh" />
+
+			<!-- For client side filtering add this to the items attribute: parameters: {operationMode: 'Client'}}" -->
+			<List
+				id="list"
+				width="auto"
+				class="sapFDynamicPageAlignContent"
+				items="{
+					path: '/Objects',
+					sorter: {
+						path: 'Name',
+						descending: false
+						},
+					groupHeaderFactory: '.createGroupHeader'
+				}"
+				busyIndicatorDelay="{masterView>/delay}"
+				noDataText="{masterView>/noDataText}"
+				mode="{= ${device>/system/phone} ? 'None' : 'SingleSelectMaster'}"
+				growing="true"
+				growingScrollToLoad="true"
+				updateFinished="onUpdateFinished"
+				selectionChange="onSelectionChange">
+				<infoToolbar>
+					<Toolbar
+						active="true"
+						id="filterBar"
+						visible="{masterView>/isFilterBarVisible}"
+						press="onOpenViewSettings">
+						<Title
+							id="filterBarLabel"
+							text="{masterView>/filterBarLabel}" />
+					</Toolbar>
+				</infoToolbar>
+				<items>
+					<ObjectListItem
+						type="Navigation"
+						press="onSelectionChange"
+						title="{Name}"
+						number="{
+							path: 'UnitNumber',
+							formatter: '.formatter.currencyValue'
+						}"
+						numberUnit="{UnitOfMeasure}">
+					</ObjectListItem>
+				</items>
+			</List>
+			</VBox>
+		</f:content>
+	</f:DynamicPage>
+</mvc:View>
