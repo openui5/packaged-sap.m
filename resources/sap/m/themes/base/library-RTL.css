@@ -4283,7 +4283,8 @@ html[data-sap-ui-browser*='ff'] .sapMGT:not(.sapMGTHeaderMode) .sapMGTHdrContent
 .sapMGHLIUpperCase {
   text-transform: uppercase;
 }
-.sapMGHLI > .sapMLIBContent {
+.sapMGHLI > .sapMLIBContent,
+.sapMGHLICell > .sapMLIBContent {
   display: -webkit-box;
   display: flex;
   -webkit-box-align: center;
@@ -5848,17 +5849,28 @@ html[data-sap-ui-browser^="cr"] .sapMInputBaseInner::selection {
 /* text field                     */
 /* ------------------------------ */
 .sapMComboBoxTextField {
+  background-color: #ffffff;
   border: 1px solid #000000;
   margin: 0.25rem 0;
   height: 2.5rem;
+}
+.sapMComboBoxTextField:not(.sapMComboBoxTextFieldReadonly):not(.sapMComboBoxTextFieldState):not(.sapMComboBoxTextFieldDisabled):hover {
+  border-color: #000000 !important;
+}
+.sapMComboBoxTextField .sapMInputDivWrapper {
+  height: 100% !important;
+  max-width: 100%;
+}
+.sapMComboBoxTextField .sapMInputDivWrapper:not(.sapMInputBaseReadonlyInner):not(.sapMInputBaseStateInner):not(.sapMInputBaseDisabledInner):hover {
+  background: transparent;
+  border-color: transparent;
 }
 input.sapMComboBoxTextFieldInner {
   border: none;
   margin: 0;
 }
-.sapMComboBoxTextField .sapMInputDivWrapper {
-  height: 100% !important;
-  max-width: 100%;
+input.sapMComboBoxTextFieldInner:not(.sapMComboBoxTextFieldInnerReadonly) {
+  background-color: transparent;
 }
 .sapMComboBoxTextFieldInnerWidthExtraPadding:not(.sapMComboBoxTextFieldInnerReadonly) {
   padding-left: 3rem;
@@ -9220,14 +9232,20 @@ html[dir=rtl] .sapMNCValueScr {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+.sapMListTblCell .sapMObjectAttributeActive {
+  white-space: normal;
+}
 .sapMObjectAttributeActive .sapMObjectAttributeTitle,
 .sapMObjectAttributeActive .sapMObjectAttributeText {
-  display: inline-block;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 50%;
   vertical-align: middle;
+}
+.sapMListTblCell .sapMObjectAttributeActive .sapMObjectAttributeTitle,
+.sapMListTblCell .sapMObjectAttributeActive .sapMObjectAttributeText {
+  white-space: normal;
 }
 .sapMObjectAttributeText > .sapMLnk {
   display: inline;
@@ -11614,6 +11632,10 @@ html[data-sap-ui-browser^="ie"].sap-desktop .sapMPlanCal .sapUiCalRow:not(.sapUi
   position: absolute;
   padding-right: calc(3.75rem);
   width: 100%;
+}
+.sapMPlanCal .sapMPlanCalRowHead .sapMSLIDiv .sapMSLITitleOnly,
+.sapMPlanCal .sapMPlanCalRowHead .sapMSLIDiv .sapMSLITitle {
+  white-space: normal;
 }
 .sapMPlanCal .sapUiCalDateInt .sapUiCalHeadB1 {
   width: 12.5rem;

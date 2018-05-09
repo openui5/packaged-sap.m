@@ -35,7 +35,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'jquery.
 	 * @implements sap.ui.core.IFormContent
 	 *
 	 * @author SAP SE
-	 * @version 1.52.11
+	 * @version 1.52.12
 	 *
 	 * @constructor
 	 * @public
@@ -310,6 +310,28 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'jquery.
 		}
 
 		return this.setAggregation("detailBox", oLightBox);
+	};
+
+	/**
+	 * @override
+	 */
+	Image.prototype.clone = function () {
+		var oClone = Control.prototype.clone.apply(this, arguments),
+			oCloneDetailBox = oClone.getDetailBox();
+
+		// Handle press event if DetailBox is available
+		if (oCloneDetailBox) {
+
+			// Detach the old event
+			oClone.detachPress(this._fnLightBoxOpen, this.getDetailBox());
+
+			// Attach new event with the cloned detail box
+			oClone._fnLightBoxOpen = oCloneDetailBox.open;
+			oClone.attachPress(oClone._fnLightBoxOpen, oCloneDetailBox);
+
+		}
+
+		return oClone;
 	};
 
 	/**
