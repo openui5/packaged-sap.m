@@ -69,7 +69,7 @@ sap.ui.define(["jquery.sap.global", "sap/ui/core/Icon", "./Input", "./InputRende
 		 * @implements sap.ui.core.IFormContent
 		 *
 		 * @author SAP SE
-		 * @version 1.52.12
+		 * @version 1.52.13
 		 *
 		 * @constructor
 		 * @public

@@ -25,7 +25,7 @@ sap.ui.define(['./library', 'sap/ui/core/Control', 'sap/ui/core/IconPool', 'sap/
 	 * @class
 	 * The ObjectIdentifier is a display control that enables the user to easily identify a specific object. The ObjectIdentifier title is the key identifier of the object and additional text and icons can be used to further distinguish it from other objects.
 	 * @extends sap.ui.core.Control
-	 * @version 1.52.12
+	 * @version 1.52.13
 	 *
 	 * @constructor
 	 * @public
@@ -295,7 +295,8 @@ sap.ui.define(['./library', 'sap/ui/core/Control', 'sap/ui/core/IconPool', 'sap/
 			this.setAggregation("_titleControl", oTitleControl, true);
 		}
 
-		if (this.$("title").children().length > 0) {
+		// check if we have "-title" div rendered and if so rerender the Title inside it
+		if (this.$("title").length) {
 			oTitleControl.setProperty("text", this.getProperty("title"), true);
 
 			oRm = sap.ui.getCore().createRenderManager();

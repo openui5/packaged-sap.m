@@ -60,7 +60,7 @@ sap.ui.define(['jquery.sap.global', './InputBase', './Text', 'sap/ui/core/Resize
 	 * @extends sap.m.InputBase
 	 *
 	 * @author SAP SE
-	 * @version 1.52.12
+	 * @version 1.52.13
 	 *
 	 * @constructor
 	 * @public
