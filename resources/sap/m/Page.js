@@ -39,7 +39,7 @@ sap.ui.define(["jquery.sap.global", "./library", "sap/ui/core/Control", "sap/ui/
 		 * <b>Note:</b> All accessibility information for the different areas and their corresponding ARIA roles is set in the aggregation <code>landmarkInfo</code> of type {@link sap.m.PageAccessibleLandmarkInfo}
 		 *
 		 * @author SAP SE
-		 * @version 1.44.31
+		 * @version 1.44.32
 		 *
 		 * @constructor
 		 * @public
@@ -349,6 +349,7 @@ sap.ui.define(["jquery.sap.global", "./library", "sap/ui/core/Control", "sap/ui/
 			}
 			this.setProperty("showFooter", bShowFooter,true);
 
+			$footer.removeClass("sapUiHidden");
 			$footer.toggleClass("sapMPageFooterControlShow", bShowFooter);
 			$footer.toggleClass("sapMPageFooterControlHide", !bShowFooter);
 
@@ -358,11 +359,10 @@ sap.ui.define(["jquery.sap.global", "./library", "sap/ui/core/Control", "sap/ui/
 
 			if (useAnimation) {
 				jQuery.sap.delayedCall(Page.FOOTER_ANIMATION_DURATION, this, function () {
-					$footer.toggleClass("sapUiHidden", bShowFooter);
-			});
-
+					$footer.toggleClass("sapUiHidden", !bShowFooter);
+				});
 			} else {
-				$footer.toggleClass("sapUiHidden", bShowFooter);
+				$footer.toggleClass("sapUiHidden", !bShowFooter);
 			}
 
 			return this;

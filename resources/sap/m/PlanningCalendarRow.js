@@ -21,7 +21,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Element', './StandardListItem',
 	 * This element holds the data of one row in the @link sap.m.PlanningCalendar}. Once the header information (e.g. person information)
 	 * is assigned, the appointments are assigned.
 	 * @extends sap.ui.core.Element
-	 * @version 1.44.31
+	 * @version 1.44.32
 	 *
 	 * @constructor
 	 * @public
@@ -150,7 +150,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Element', './StandardListItem',
 	PlanningCalendarRow.prototype.init = function(){
 
 		var sId = this.getId();
-		var oCalendarRowHeader = new CalenderRowHeader(sId + "-Head", {parentRow: this});
+		var oCalendarRowHeader = new CalenderRowHeader(sId + "-Head", {parentRow: this, iconDensityAware: false});
 		var oCalendarRow = new sap.ui.unified.CalendarRow(sId + "-CalRow", {
 			checkResize: false,
 			updateCurrentTime: false,

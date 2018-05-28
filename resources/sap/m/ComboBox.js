@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './ComboBoxTextField', './ComboBoxBase', './
 		 * @extends sap.m.ComboBoxBase
 		 *
 		 * @author SAP SE
-		 * @version 1.44.31
+		 * @version 1.44.32
 		 *
 		 * @constructor
 		 * @public
@@ -304,6 +304,9 @@ sap.ui.define(['jquery.sap.global', './ComboBoxTextField', './ComboBoxBase', './
 
 			// The last selected item before opening the picker
 			this._oSelectedItemBeforeOpen = null;
+
+			// indicated if the ComboBox is already focused
+			this.bIsFocused = false;
 		};
 
 		ComboBox.prototype.onBeforeRendering = function() {
@@ -815,11 +818,13 @@ sap.ui.define(['jquery.sap.global', './ComboBoxTextField', './ComboBoxBase', './
 				if (bDropdownPickerType) {
 					setTimeout(function() {
 						if (document.activeElement === this.getFocusDomRef() &&
+							!this.bIsFocused &&
 							!this.bFocusoutDueRendering &&
 							!this.getSelectedText()) {
 
 							this.selectText(0, this.getValue().length);
 						}
+						this.bIsFocused = true;
 					}.bind(this), 0);
 				}
 
@@ -840,6 +845,9 @@ sap.ui.define(['jquery.sap.global', './ComboBoxTextField', './ComboBoxBase', './
 		 * @param {jQuery.Event} oEvent The event object.
 		 */
 		ComboBox.prototype.onsapfocusleave = function(oEvent) {
+
+			this.bIsFocused = false;
+
 			var bTablet, oPicker,
 				oRelatedControl, oFocusDomRef;
 

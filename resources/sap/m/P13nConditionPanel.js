@@ -17,7 +17,7 @@ sap.ui.define([
      * @param {object} [mSettings] initial settings for the new control
      * @class The ConditionPanel Control will be used to implement the Sorting, Filtering and Grouping panel of the new Personalization dialog.
      * @extends sap.ui.core.Control
-     * @version 1.44.31
+     * @version 1.44.32
      * @constructor
      * @public
      * @experimental since version 1.26 !!! THIS CONTROL IS ONLY FOR INTERNAL USE !!!
@@ -1821,9 +1821,14 @@ sap.ui.define([
             var sOldValue = oCtrl.getValue ? oCtrl.getValue() : "";
 
             var ctrlIndex = oConditionGrid.indexOfContent(oCtrl);
-            //oConditionGrid.removeContent(oCtrl);
-            oConditionGrid.removeAggregation("content", oCtrl, true);
-            if (oCtrl._oSuggestProvider) {
+
+            // we have to remove the control into the content with rerendering (bSuppressInvalidate=false) the UI,
+			// otherwise in some use cases the "between" value fields will not be rendered.
+			// This additional rerender might trigger some problems for screenreader.
+			oConditionGrid.removeContent(oCtrl);
+			//oConditionGrid.removeAggregation("content", oCtrl, true);
+
+			if (oCtrl._oSuggestProvider) {
                 oCtrl._oSuggestProvider.destroy();
                 oCtrl._oSuggestProvider = null;
             }
@@ -1831,8 +1836,12 @@ sap.ui.define([
             var fieldInfo = this._aConditionsFields[index];
             oCtrl = this._createValueField(oCurrentKeyField, fieldInfo, oConditionGrid);
             oConditionGrid[fieldInfo["ID"]] = oCtrl;
-            //oConditionGrid.insertContent(oCtrl, ctrlIndex);
-            oConditionGrid.insertAggregation("content", oCtrl, ctrlIndex, true);
+
+			// we have to insert the control into the content with rerendering (bSuppressInvalidate=false) the UI,
+			// otherwise in some use cases the "between" value fields will not be rendered.
+			// This additional rerender might trigger some problems for screenreader.
+			oConditionGrid.insertContent(oCtrl, ctrlIndex === -1 ? 0 : ctrlIndex);
+			//oConditionGrid.insertAggregation("content", oCtrl, ctrlIndex, true);
 
             var oValue, sValue;
             if (oConditionGrid.oFormatter && sOldValue) {
