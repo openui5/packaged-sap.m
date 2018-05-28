@@ -1394,7 +1394,7 @@
 				values: [{text: "Val1", key: "val1"}, {text: "Val2", key: "val3"}]
 			}));
 
-			assert.strictEqual(oFFL._searchValue, null, "Search value is cleared after items binding is reset");
+			assert.strictEqual(oFFL._searchValue, "", "Search value is cleared after items binding is reset");
 
 			assert.equal(oFFL.getSelectedItems().length, 2, "Selected items should not have been removed");
 
