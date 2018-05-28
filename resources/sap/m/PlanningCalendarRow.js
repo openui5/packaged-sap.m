@@ -47,7 +47,7 @@ sap.ui.define(['jquery.sap.global',
 	 * The <code>sap.m.PlanningCalendarRow</code> allows you to modify appointments at row level.
 	 *
 	 * @extends sap.ui.core.Element
-	 * @version 1.56.0
+	 * @version 1.56.1
 	 *
 	 * @constructor
 	 * @public
@@ -903,7 +903,7 @@ sap.ui.define(['jquery.sap.global',
 	PlanningCalendarRow.prototype.init = function(){
 
 		var sId = this.getId();
-		var oCalendarRowHeader = new CalenderRowHeader(sId + "-Head", {parentRow: this});
+		var oCalendarRowHeader = new CalenderRowHeader(sId + "-Head", {parentRow: this, iconDensityAware: false});
 		var oCalendarRow = new CalendarRowInPlanningCalendar(sId + "-CalRow", {
 			checkResize: false,
 			updateCurrentTime: false,

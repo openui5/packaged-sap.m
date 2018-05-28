@@ -22,7 +22,7 @@ sap.ui.define(['sap/m/ToolbarLayoutData', 'sap/m/library', 'jquery.sap.global'],
 	 * Holds layout data for the {@link sap.m.OverflowToolbar} items.
 	 * @extends sap.m.ToolbarLayoutData
 	 * @author SAP SE
-	 * @version 1.56.0
+	 * @version 1.56.1
 	 *
 	 * @constructor
 	 * @public

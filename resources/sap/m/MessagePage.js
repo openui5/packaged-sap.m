@@ -65,7 +65,7 @@ sap.ui.define([
 		 * @see {@link fiori:https://experience.sap.com/fiori-design-web/message-page/ Message Page}
 		 *
 		 * @extends sap.ui.core.Control
-		 * @version 1.56.0
+		 * @version 1.56.1
 		 *
 		 * @constructor
 		 * @public
