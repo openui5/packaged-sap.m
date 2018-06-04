@@ -23,7 +23,7 @@ sap.ui.define(['./library', 'sap/ui/core/LayoutData'],
 	 * <b>Note:</b> <code>ToolbarLayoutData</code> should not be used together with {@link sap.m.ToolbarSpacer}.
 	 *
 	 * @extends sap.ui.core.LayoutData
-	 * @version 1.52.13
+	 * @version 1.52.14
 	 *
 	 * @constructor
 	 * @public

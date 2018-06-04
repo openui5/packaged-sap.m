@@ -2620,8 +2620,8 @@ html[dir=rtl] .sapMDLIValue {
   padding: 1rem;
 }
 /* Allow MessagePage to be positioned inside ObjectPage */
-.sapUxAPBlockContainer .sapMMessagePageInner {
-  position: initial;
+.sapUxAPBlockContainer .sapMPageEnableScrolling {
+  position: static;
 }
 /* MessagePage inner controls styles*/
 .sapMMessagePage > .sapMPage > section .sapMText,

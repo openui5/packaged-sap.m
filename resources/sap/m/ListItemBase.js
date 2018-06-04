@@ -37,7 +37,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.52.13
+	 * @version 1.52.14
 	 *
 	 * @constructor
 	 * @public
@@ -796,7 +796,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 
 		// do not handle already handled events
 		if (this._eventHandledByControl) {
-			return;
+			return oEvent.setMarked();
 		}
 
 		// if includeItemInSelection all tap events will be used for the mode select and delete

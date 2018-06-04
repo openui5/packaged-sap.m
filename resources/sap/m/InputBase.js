@@ -30,7 +30,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @implements sap.ui.core.IFormContent
 	 *
 	 * @author SAP SE
-	 * @version 1.52.13
+	 * @version 1.52.14
 	 *
 	 * @constructor
 	 * @public
@@ -251,6 +251,11 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		 */
 		this._bIgnoreNextInputEventNonASCII = false;
 
+		/**
+		 * Indicates whether the <code>onAfterRendering</code> event was called.
+		 */
+		this.bAfterRenderingWasCalled = false;
+
 		this._oValueStateMessage = new ValueStateMessage(this);
 	};
 
@@ -287,6 +292,8 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 
 		// rendering phase is finished
 		this.bRenderingPhase = false;
+
+		this.bAfterRenderingWasCalled = true;
 	};
 
 	InputBase.prototype.exit = function() {
@@ -327,6 +334,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 			!!this.getPlaceholder() &&
 			!this._getInputValue() &&
 			this._getInputElementTagName() === "INPUT"; // Make sure that we are applying this fix only for input html elements
+
 		this.$().toggleClass("sapMFocus", true);
 
 		if (this.shouldValueStateMessageBeOpened()) {
@@ -566,11 +574,14 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	InputBase.prototype.oninput = function(oEvent) {
 
 		// ie 10+ fires the input event when an input field with a native placeholder is focused
-		if (this._bIgnoreNextInput) {
+		if (this._bIgnoreNextInput && this.bAfterRenderingWasCalled) {
 			this._bIgnoreNextInput = false;
+			this.bAfterRenderingWasCalled = false;
 			oEvent.setMarked("invalid");
 			return;
 		}
+
+		this.bAfterRenderingWasCalled = false;
 
 		// ie11 fires input event from read-only fields
 		if (!this.getEditable()) {

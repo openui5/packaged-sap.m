@@ -37,7 +37,7 @@ sap.ui.define(['./ListItemBase', './library', 'sap/ui/core/IconPool', 'sap/m/Obj
 		 * @class
 		 * ObjectListItem is a display control that provides summary information about an object as a list item. The ObjectListItem title is the key identifier of the object. Additional text and icons can be used to further distinguish it from other objects. Attributes and statuses can be used to provide additional meaning about the object to the user.
 		 * @extends sap.m.ListItemBase
-		 * @version 1.52.13
+		 * @version 1.52.14
 		 *
 		 * @constructor
 		 * @public
@@ -266,7 +266,7 @@ sap.ui.define(['./ListItemBase', './library', 'sap/ui/core/IconPool', 'sap/m/Obj
 		 */
 		ObjectListItem.prototype._hasBottomContent = function() {
 
-			return (this._hasAttributes() || this._hasStatus() || this.getShowMarkers() || this.getMarkLocked() || this._getVisibleMarkers().length > 0);
+			return (this._hasAttributes() || this._hasStatus() || this.getShowMarkers() || this.getMarkLocked() || this.getMarkers().length > 0);
 		};
 
 		/**
@@ -285,24 +285,6 @@ sap.ui.define(['./ListItemBase', './library', 'sap/ui/core/IconPool', 'sap/m/Obj
 			}
 
 			return aVisibleAttributes;
-		};
-
-		/**
-		 * @private
-		 * @returns {Array} The visible markers of the control
-		 */
-		ObjectListItem.prototype._getVisibleMarkers = function() {
-
-			var aAllMarkers = this.getMarkers();
-			var aVisibleMarkers = [];
-
-			for (var i = 0; i < aAllMarkers.length; i++) {
-				if (aAllMarkers[i].getVisible()) {
-					aVisibleMarkers.push(aAllMarkers[i]);
-				}
-			}
-
-			return aVisibleMarkers;
 		};
 
 		/**
