@@ -92,7 +92,7 @@ sap.ui.define([
 		 * @extends sap.ui.core.Control
 		 *
 		 * @author SAP SE
-		 * @version 1.56.1
+		 * @version 1.56.2
 		 *
 		 * @constructor
 		 * @public
@@ -191,14 +191,15 @@ sap.ui.define([
 		LightBox.prototype.onBeforeRendering = function () {
 			var oImageContent = this._getImageContent(),
 				oNativeImage = oImageContent._getNativeImage(),
+				sImageSrc = oImageContent.getImageSrc(),
 				sState = oImageContent._getImageState();
 
 			this._createErrorControls();
 
 			// Prevents image having 0 width and height when the LightBox rendered
 			// busy state first and then loaded the image in the meantime
-			if (!oNativeImage.src) {
-				oNativeImage.src = oImageContent.getImageSrc();
+			if (oNativeImage.src !== sImageSrc) {
+				oNativeImage.src = sImageSrc;
 			}
 
 			if (this._resizeListenerId) {
@@ -225,6 +226,7 @@ sap.ui.define([
 			}
 
 			var oInvisiblePopupText = this.getAggregation('_invisiblePopupText');
+
 			if (oImageContent && oInvisiblePopupText) {
 				oInvisiblePopupText.setText(this._rb.getText("LIGHTBOX_ARIA_ENLARGED", oImageContent.getTitle()));
 			}

@@ -40,7 +40,7 @@ sap.ui.define([
 	 * @extends sap.m.ListItemBase
 	 *
 	 * @author SAP SE
-	 * @version 1.56.1
+	 * @version 1.56.2
 	 *
 	 * @constructor
 	 * @public
@@ -76,6 +76,10 @@ sap.ui.define([
 	 */
 	var TablePopin = Element.extend("sap.m.TablePopin", {
 		ontap: function(oEvent) {
+			if (oEvent.isMarked()) {
+				return;
+			}
+
 			// focus to the main row if there is nothing to focus in the popin
 			if (oEvent.srcControl === this || !jQuery(oEvent.target).is(":sapFocusable")) {
 				this.getParent().focus();

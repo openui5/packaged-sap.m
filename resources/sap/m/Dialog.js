@@ -107,7 +107,7 @@ function(
 		*
 		* @implements sap.ui.core.PopupInterface
 		* @author SAP SE
-		* @version 1.56.1
+		* @version 1.56.2
 		*
 		* @constructor
 		* @public
@@ -1324,6 +1324,13 @@ function(
 			if (!this._oButtonDelegate) {
 				this._oButtonDelegate = {
 					ontap: function(){
+						that._oCloseTrigger = this;
+					},
+					//BCP: 1870320154
+					onkeyup: function(){
+						that._oCloseTrigger = this;
+					},
+					onkeydown: function(){
 						that._oCloseTrigger = this;
 					}
 				};

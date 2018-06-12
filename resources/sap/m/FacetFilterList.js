@@ -49,7 +49,7 @@ sap.ui.define([
 	 * be closed.
 	 *
 	 * @extends sap.m.List
-	 * @version 1.56.1
+	 * @version 1.56.2
 	 *
 	 * @constructor
 	 * @public
@@ -417,7 +417,7 @@ sap.ui.define([
 		this.setRememberSelections(false);
 
 		// Remember the search value so that it can be seeded into the search field
-		this._searchValue = null;
+		this._searchValue = "";
 
 		// Select items set from a variant when the growing list is updated
 		this.attachUpdateFinished(function(oEvent) {
@@ -489,7 +489,7 @@ sap.ui.define([
 
 		if (this.isBound("items")) {
 
-			this._searchValue = null; // Clear the search value since items are being reinitialized
+			this._searchValue = ""; // Clear the search value since items are being reinitialized
 			this._allowRemoveSelections = false;
 			sap.m.ListBase.prototype._resetItemsBinding.apply(this, arguments);
 			this._allowRemoveSelections = true;
