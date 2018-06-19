@@ -22,7 +22,7 @@ sap.ui.define(['sap/m/semantic/SemanticButton', 'sap/m/library', 'jquery.sap.key
 	 * @abstract
 	 *
 	 * @author SAP SE
-	 * @version 1.52.14
+	 * @version 1.52.15
 	 *
 	 * @constructor
 	 * @public

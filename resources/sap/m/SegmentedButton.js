@@ -30,7 +30,7 @@ sap.ui.define(['./library', 'sap/ui/core/Control', 'sap/ui/core/EnabledPropagato
 	 * @implements sap.ui.core.IFormContent
 	 *
 	 * @author SAP SE
-	 * @version 1.52.14
+	 * @version 1.52.15
 	 *
 	 * @constructor
 	 * @public
