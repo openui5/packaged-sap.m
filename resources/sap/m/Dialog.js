@@ -107,7 +107,7 @@ function(
 		*
 		* @implements sap.ui.core.PopupInterface
 		* @author SAP SE
-		* @version 1.56.2
+		* @version 1.56.3
 		*
 		* @constructor
 		* @public
@@ -1518,7 +1518,7 @@ function(
 			} else {
 				this._headerTitle = new sap.m.Title(this.getId() + "-title", {
 					text: sTitle,
-					level: "H1"
+					level: "H2"
 				}).addStyleClass("sapMDialogTitle");
 
 				this._createHeader();

@@ -53,7 +53,7 @@ function(
 		 *
 		 * <b>Note:</b> The control must only be used in the context of a list.
 		 * @extends sap.m.ListItemBase
-		 * @version 1.56.2
+		 * @version 1.56.3
 		 *
 		 * @constructor
 		 * @public
@@ -288,24 +288,6 @@ function(
 		ObjectListItem.prototype._hasBottomContent = function() {
 
 			return (this._hasAttributes() || this._hasStatus() || this.getShowMarkers() || this.getMarkLocked() || this.getMarkers().length > 0);
-		};
-
-		/**
-		 * @private
-		 * @returns {Array} The visible attributes of the control
-		 */
-		ObjectListItem.prototype._getVisibleAttributes = function() {
-
-			var aAllAttributes = this.getAttributes();
-			var aVisibleAttributes = [];
-
-			for (var i = 0; i < aAllAttributes.length; i++) {
-				if (aAllAttributes[i].getVisible()) {
-					aVisibleAttributes.push(aAllAttributes[i]);
-				}
-			}
-
-			return aVisibleAttributes;
 		};
 
 		/**

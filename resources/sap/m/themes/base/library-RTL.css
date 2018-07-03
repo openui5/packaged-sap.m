@@ -2332,6 +2332,11 @@ html[data-sap-ui-browser^=ie]:not(.sapUiMedia-Std-Phone) .sapUiSizeCompact .sapM
 }
 html.sap-phone .sapMDateTimePopupCont,
 html.sapUiMedia-Std-Phone .sapMDateTimePopupCont {
+  position: fixed;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  top: 0;
   height: 100%;
   min-width: 20rem;
   overflow: auto !important;
@@ -6833,6 +6838,9 @@ html[dir=rtl][data-sap-ui-browser^=ed] .sapUiFormResLayout .sapUiRFLRow:first-ch
   font-family: Arial, Helvetica, sans-serif;
   font-weight: bold;
 }
+.sapMLIBActive .sapMLabel {
+  color: #ffffff;
+}
 /* Info Toolbar Context */
 .sapMTB-Info-CTX .sapMLabel {
   font-style: italic;
@@ -9894,6 +9902,12 @@ html[dir=rtl] .sapMNCValueScr {
   max-width: 50%;
   vertical-align: middle;
 }
+html[data-sap-ui-browser^='ie'] .sapMObjectAttributeActive .sapMObjectAttributeTitle,
+html[data-sap-ui-browser^='ed'] .sapMObjectAttributeActive .sapMObjectAttributeTitle,
+html[data-sap-ui-browser^='ie'] .sapMObjectAttributeActive .sapMObjectAttributeText,
+html[data-sap-ui-browser^='ed'] .sapMObjectAttributeActive .sapMObjectAttributeText {
+  display: inline-block;
+}
 .sapMListTblCell .sapMObjectAttributeActive .sapMObjectAttributeTitle,
 .sapMListTblCell .sapMObjectAttributeActive .sapMObjectAttributeText {
   white-space: normal;
@@ -9924,7 +9938,7 @@ html.sap-desktop .sapMObjectAttributeActive:focus {
   line-height: normal;
 }
 html[data-sap-ui-browser^='ie'] .sapMObjectAttributeActive:focus .sapMObjectAttributeText::after,
-html[data-sap-ui-browser^='ie'] .sapMObjectAttributeActive:focus .sapMObjectAttributeText::after {
+html[data-sap-ui-browser^='ed'] .sapMObjectAttributeActive:focus .sapMObjectAttributeText::after {
   outline-style: dashed;
 }
 /*=========================================== */
@@ -11117,13 +11131,14 @@ html .sapUiContainer-Narrow .sapMText.sapMObjLTitle {
   margin-top: .25rem;
 }
 .sapMObjLAttrRow {
+  display: flex;
   font-size: .875rem;
-  padding-top: .313rem;
 }
 .sapMObjLAttrDiv {
   box-sizing: border-box;
   display: inline-block;
-  width: 50%;
+  min-width: 50%;
+  flex: 1;
   text-align: left;
   vertical-align: top;
 }
@@ -11135,6 +11150,7 @@ html[dir=rtl] .sapMObjLAttrDiv {
   white-space: nowrap;
   overflow: hidden;
   width: 100%;
+  padding-top: .313rem;
 }
 /* First and second attributes get one line with ellipsis */
 .sapMObjLAttrRow:nth-child(1) > .sapMObjLAttrDiv .sapMObjectAttributeDiv,
@@ -11150,9 +11166,12 @@ html[dir=rtl] .sapMObjLAttrDiv {
 .sapMObjLStatusDiv {
   box-sizing: border-box;
   display: inline-block;
-  width: 50%;
   text-align: right;
   vertical-align: top;
+}
+.sapMObjLStatusDiv > * {
+  padding-top: .313rem;
+  padding-bottom: 0.1875rem;
 }
 html[dir=rtl] .sapMObjLStatusDiv {
   text-align: left;
@@ -11182,7 +11201,7 @@ html[data-sap-ui-browser="ie11"] .sapMObjLItem > .sapMLIBContent {
   width: 100%;
 }
 /* overwrite transform for the markers favorite and flag icon */
-html[dir=rtl] .sapMObjStatusMarker > .sapUiIcon.sapUiIconMirrorInRTL {
+html[dir=rtl] .sapMObjLStatusDiv > .sapUiIcon.sapUiIconMirrorInRTL {
   -webkit-transform: none;
   /* Chrome, Safari, Opera */
   transform: none;
@@ -11191,15 +11210,15 @@ html[dir=rtl] .sapMObjStatusMarker > .sapUiIcon.sapUiIconMirrorInRTL {
   max-height: 3rem;
   max-width: 3rem;
 }
-.sapMObjLItem .sapMObjStatusMarker .sapMObjectMarkerText,
-.sapMObjLItem .sapMObjStatusMarker .sapMObjectMarkerIcon {
+.sapMObjLItem .sapMObjLStatusDiv .sapMObjectMarkerText,
+.sapMObjLItem .sapMObjLStatusDiv .sapMObjectMarkerIcon {
   margin-right: 0.5rem;
 }
-.sapMObjLItem .sapMObjStatusMarker .sapMText,
-.sapMObjLItem .sapMObjStatusMarker .sapUiIcon {
+.sapMObjLItem .sapMObjLStatusDiv .sapMText,
+.sapMObjLItem .sapMObjLStatusDiv .sapUiIcon {
   font-size: 0.875rem;
 }
-.sapMObjLItem .sapMObjStatusMarker .sapUiIcon:before {
+.sapMObjLItem .sapMObjLStatusDiv .sapUiIcon:before {
   vertical-align: top;
 }
 html[data-sap-ui-browser^="ie"] .sapMObjLAttrDiv > .sapMObjectAttributeActive.sapMObjectAttributeDiv,
@@ -11214,7 +11233,7 @@ html[data-sap-ui-browser^="ed"] .sapMObjLAttrDiv > .sapMObjectAttributeActive.sa
   color: #ffffff;
 }
 .sapMLIBActive .sapMObjLNumberDiv .sapMObjectNumber,
-.sapMLIBActive .sapMObjStatusMarker .sapMObjectMarker .sapUiIcon {
+.sapMLIBActive .sapMObjLStatusDiv .sapMObjectMarker .sapUiIcon {
   color: #ffffff;
 }
 .sapMObjLIconDiv {
@@ -12187,10 +12206,10 @@ html[data-sap-ui-animation='on'][data-sap-ui-browser^="ed"] .sapMPanelContent {
 .sapMPlanCal {
   background-color: #ffffff;
 }
-.sapMPlanCal > .sapMList > .sapMListInfoTBar.sapMTB-Transparent-CTX.sapMTB {
+.sapMPlanCal > .sapMList .sapMListInfoTBar.sapMTB-Transparent-CTX.sapMTB {
   padding: 0;
 }
-.sapMPlanCal > .sapMList > .sapMListInfoTBar.sapMTB-Transparent-CTX.sapMTB > :first-child {
+.sapMPlanCal > .sapMList .sapMListInfoTBar.sapMTB-Transparent-CTX.sapMTB > :first-child {
   margin-right: 0;
 }
 .sapMPlanCalHead {
@@ -12243,22 +12262,22 @@ html[data-sap-ui-animation='on'][data-sap-ui-browser^="ed"] .sapMPanelContent {
   flex: auto;
   /* to make the select as big as possible */
 }
-.sapMPlanCal > .sapMList > .sapMListInfoTBar > .sapMBarChild.sapUiCalInt {
+.sapMPlanCal > .sapMList .sapMListInfoTBar > .sapMBarChild.sapUiCalInt {
   width: 80%;
   padding: 0;
   margin-right: 0;
   margin-left: 0;
 }
-.sapMPlanCal > .sapMList > .sapMListInfoTBar > .sapMBarChild.sapMPlanCalHead {
+.sapMPlanCal > .sapMList .sapMListInfoTBar > .sapMBarChild.sapMPlanCalHead {
   margin-left: 0;
 }
-.sapMPlanCal > .sapMList > .sapMListInfoTBar > .sapUiCalInt > .sapUiCalHead > .sapUiCalHeadPrev {
+.sapMPlanCal > .sapMList .sapMListInfoTBar > .sapUiCalInt > .sapUiCalHead > .sapUiCalHeadPrev {
   right: 0;
 }
-.sapMPlanCal > .sapMList > .sapMListInfoTBar > .sapUiCalInt > .sapUiCalHead > .sapUiCalHeadNext {
+.sapMPlanCal > .sapMList .sapMListInfoTBar > .sapUiCalInt > .sapUiCalHead > .sapUiCalHeadNext {
   left: 0;
 }
-.sapMPlanCal > .sapMList > .sapMListInfoTBar > .sapUiCalInt > .sapUiCalContent > .sapUiCalRow {
+.sapMPlanCal > .sapMList .sapMListInfoTBar > .sapUiCalInt > .sapUiCalContent > .sapUiCalRow {
   padding-right: 0;
   padding-left: 0;
   padding-bottom: 0;
@@ -12266,7 +12285,7 @@ html[data-sap-ui-animation='on'][data-sap-ui-browser^="ed"] .sapMPanelContent {
 html[data-sap-ui-browser^="ie"].sap-desktop .sapMPlanCal .sapUiCalRow:not(.sapUiCalNoNameLine) > .sapUiCalItems {
   display: block;
 }
-.sapMPlanCal > .sapMList > .sapMListInfoTBar > .sapUiCalInt > .sapUiCalContent > .sapUiCalContentOver {
+.sapMPlanCal > .sapMList .sapMListInfoTBar > .sapUiCalInt > .sapUiCalContent > .sapUiCalContentOver {
   bottom: 0;
 }
 .sapMPlanCal > .sapMList .sapMListTblCell.sapMPlanCalRowHead,
@@ -12288,66 +12307,54 @@ html[data-sap-ui-browser^="ie"].sap-desktop .sapMPlanCal .sapUiCalRow:not(.sapUi
 .sapMPlanCal > .sapMList > table > tbody > tr > td > .sapMListTblSubCnt > .sapMListTblSubCntRow > .sapMListTblSubCntVal {
   margin: 0;
 }
-.sapMPlanCalStickyHeader {
-  position: sticky;
-  position: -webkit-sticky;
-  z-index: 1;
-  top: 0;
-}
-.sapMPlanCal .sapMPlanCalStickyHeader.sapMListHdrTBar {
+.sapMPlanCal .sapMSticky > .sapMTB-Transparent-CTX,
+.sapMPlanCal .sapMSticky > .sapMListInfoTBarContainer {
   background-color: #ffffff;
 }
-.sapMPlanCal .sapMPlanCalStickyHeader.sapMListInfoTBar {
-  top: 3rem;
-  background-color: #ffffff;
-}
-.sap-phone .sapMPlanCal .sapMPlanCalStickyHeader.sapMListInfoTBar {
-  top: 0;
-}
-.sapMPlanCal.sapMPlanCalNoHead > .sapMList > .sapMListInfoTBar,
-.sapMSize0.sapMPlanCal > .sapMList > .sapMListInfoTBar,
-.sapMSize1.sapMPlanCal > .sapMList > .sapMListInfoTBar {
+.sapMPlanCal.sapMPlanCalNoHead > .sapMList .sapMListInfoTBar,
+.sapMSize0.sapMPlanCal > .sapMList .sapMListInfoTBar,
+.sapMSize1.sapMPlanCal > .sapMList .sapMListInfoTBar {
   display: block;
 }
-.sapMPlanCal.sapMPlanCalNoHead > .sapMList > .sapMListInfoTBar > .sapMPlanCalHead,
-.sapMPlanCal.sapMPlanCalNoHead > .sapMList > .sapMListInfoTBar > .sapUiCalInt,
-.sapMSize0.sapMPlanCal > .sapMList > .sapMListInfoTBar > .sapMPlanCalHead,
-.sapMSize0.sapMPlanCal > .sapMList > .sapMListInfoTBar > .sapUiCalInt,
-.sapMSize1.sapMPlanCal > .sapMList > .sapMListInfoTBar > .sapMPlanCalHead,
-.sapMSize1.sapMPlanCal > .sapMList > .sapMListInfoTBar > .sapUiCalInt {
+.sapMPlanCal.sapMPlanCalNoHead > .sapMList .sapMListInfoTBar > .sapMPlanCalHead,
+.sapMPlanCal.sapMPlanCalNoHead > .sapMList .sapMListInfoTBar > .sapUiCalInt,
+.sapMSize0.sapMPlanCal > .sapMList .sapMListInfoTBar > .sapMPlanCalHead,
+.sapMSize0.sapMPlanCal > .sapMList .sapMListInfoTBar > .sapUiCalInt,
+.sapMSize1.sapMPlanCal > .sapMList .sapMListInfoTBar > .sapMPlanCalHead,
+.sapMSize1.sapMPlanCal > .sapMList .sapMListInfoTBar > .sapUiCalInt {
   width: 100%;
 }
-.sapMPlanCal.sapMPlanCalNoHead > .sapMList > .sapMListInfoTBar > .sapMPlanCalHead,
-.sapMSize0.sapMPlanCal > .sapMList > .sapMListInfoTBar > .sapMPlanCalHead,
-.sapMSize1.sapMPlanCal > .sapMList > .sapMListInfoTBar > .sapMPlanCalHead {
+.sapMPlanCal.sapMPlanCalNoHead > .sapMList .sapMListInfoTBar > .sapMPlanCalHead,
+.sapMSize0.sapMPlanCal > .sapMList .sapMListInfoTBar > .sapMPlanCalHead,
+.sapMSize1.sapMPlanCal > .sapMList .sapMListInfoTBar > .sapMPlanCalHead {
   height: auto;
 }
-.sapMPlanCal.sapMPlanCalNoHead.sapMPlanCalMultiSel > .sapMList > .sapMListInfoTBar > .sapUiCalInt {
+.sapMPlanCal.sapMPlanCalNoHead.sapMPlanCalMultiSel > .sapMList .sapMListInfoTBar > .sapUiCalInt {
   width: calc(100% - 3rem);
 }
-.sapMPlanCal.sapMPlanCalNoHead.sapMPlanCalMultiSel > .sapMList > .sapMListInfoTBar > .sapMCb {
+.sapMPlanCal.sapMPlanCalNoHead.sapMPlanCalMultiSel > .sapMList .sapMListInfoTBar > .sapMCb {
   width: 3rem;
   margin: 0;
   vertical-align: bottom;
 }
-.sapMPlanCal.sapMPlanCalNoHead.sapMPlanCalMultiSel > .sapMList > .sapMListInfoTBar > .sapMCb > .sapMCbLabel {
+.sapMPlanCal.sapMPlanCalNoHead.sapMPlanCalMultiSel > .sapMList .sapMListInfoTBar > .sapMCb > .sapMCbLabel {
   visibility: hidden;
 }
-.sapUiSizeCompact .sapMPlanCal.sapMPlanCalNoHead.sapMPlanCalMultiSel > .sapMList > .sapMListInfoTBar > .sapMCb {
+.sapUiSizeCompact .sapMPlanCal.sapMPlanCalNoHead.sapMPlanCalMultiSel > .sapMList .sapMListInfoTBar > .sapMCb {
   width: 2.25rem;
   margin-right: 0.25rem;
 }
-.sapMSize0.sapMPlanCal.sapMPlanCalMultiSel > .sapMList > .sapMListInfoTBar > .sapMCb,
-.sapMSize1.sapMPlanCal.sapMPlanCalMultiSel > .sapMList > .sapMListInfoTBar > .sapMCb {
+.sapMSize0.sapMPlanCal.sapMPlanCalMultiSel > .sapMList .sapMListInfoTBar > .sapMCb,
+.sapMSize1.sapMPlanCal.sapMPlanCalMultiSel > .sapMList .sapMListInfoTBar > .sapMCb {
   width: auto;
   margin-right: 0;
 }
-.sapMSize0.sapMPlanCal.sapMPlanCalMultiSel > .sapMList > .sapMListInfoTBar > .sapMCb > .sapMCbLabel,
-.sapMSize1.sapMPlanCal.sapMPlanCalMultiSel > .sapMList > .sapMListInfoTBar > .sapMCb > .sapMCbLabel {
+.sapMSize0.sapMPlanCal.sapMPlanCalMultiSel > .sapMList .sapMListInfoTBar > .sapMCb > .sapMCbLabel,
+.sapMSize1.sapMPlanCal.sapMPlanCalMultiSel > .sapMList .sapMListInfoTBar > .sapMCb > .sapMCbLabel {
   visibility: visible;
 }
-.sapMSize0.sapMPlanCal.sapMPlanCalMultiSel > .sapMList > .sapMListInfoTBar > .sapUiCalInt,
-.sapMSize1.sapMPlanCal.sapMPlanCalMultiSel > .sapMList > .sapMListInfoTBar > .sapUiCalInt {
+.sapMSize0.sapMPlanCal.sapMPlanCalMultiSel > .sapMList .sapMListInfoTBar > .sapUiCalInt,
+.sapMSize1.sapMPlanCal.sapMPlanCalMultiSel > .sapMList .sapMListInfoTBar > .sapUiCalInt {
   width: 100%;
   display: block;
 }
@@ -16849,7 +16856,7 @@ html[data-sap-ui-browser='ie11'] .sapMListTblHighlightCell > .sapMLIBHighlight {
 }
 /* sticky headerToolbar, infoToolbar and column headers */
 .sapMSticky > .sapMListHdr,
-.sapMSticky > .sapMListInfoTBar,
+.sapMSticky > .sapMListInfoTBarContainer,
 .sapMSticky .sapMTableTH {
   position: sticky;
   position: -webkit-sticky;
@@ -16857,11 +16864,14 @@ html[data-sap-ui-browser='ie11'] .sapMListTblHighlightCell > .sapMLIBHighlight {
 .sapMSticky > .sapMListHdr {
   z-index: 3;
 }
-.sapMSticky > .sapMListInfoTBar {
+.sapMSticky > .sapMListInfoTBarContainer {
   z-index: 2;
 }
 .sapMSticky .sapMTableTH {
   z-index: 1;
+}
+.sapMSticky > .sapMListInfoTBarContainer {
+  background-color: #ffffff;
 }
 /* .sapMSticky7 denotes that the headerToolbar, infoToolbar and column headers are sticky */
 /* .sapMSticky6 denotes that the infoToolbar and column headers are sticky */
@@ -16872,11 +16882,11 @@ html[data-sap-ui-browser='ie11'] .sapMListTblHighlightCell > .sapMLIBHighlight {
 /* .sapMSticky1 denotes that only the headerToolbar/headerText is sticky */
 /* top: 0 sticky conditions */
 .sapMSticky1 > .sapMListHdr,
-.sapMSticky2 > .sapMListInfoTBar,
+.sapMSticky2 > .sapMListInfoTBarContainer,
 .sapMSticky3 > .sapMListHdr,
 .sapMSticky4 .sapMTableTH,
 .sapMSticky5 > .sapMListHdr,
-.sapMSticky6 > .sapMListInfoTBar,
+.sapMSticky6 > .sapMListInfoTBarContainer,
 .sapMSticky7 > .sapMListHdr {
   top: 0;
 }
@@ -16885,10 +16895,9 @@ html[data-sap-ui-browser='ie11'] .sapMListTblHighlightCell > .sapMLIBHighlight {
   top: 2rem;
 }
 /* top: 3rem sticky conditions */
-.sapMSticky3 > .sapMListInfoTBar,
+.sapMSticky3 > .sapMListInfoTBarContainer,
 .sapMSticky5 .sapMTableTH,
-.sapMSticky7 > .sapMListInfoTBar,
-.sapMSticky7 > .sapMListInfoTBar {
+.sapMSticky7 > .sapMListInfoTBarContainer {
   top: 3rem;
 }
 /* top: 5rem conditions */

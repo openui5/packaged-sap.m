@@ -88,7 +88,7 @@ sap.ui.define([
 	 * </ul>
 	 * @extends sap.ui.core.Control
 	 * @author SAP SE
-	 * @version 1.56.2
+	 * @version 1.56.3
 	 *
 	 * @constructor
 	 * @public
@@ -340,7 +340,7 @@ sap.ui.define([
 		var oCustomHeader = new Bar(this.getId() + "-dialog-header", {
 			contentMiddle: [
 				new sap.m.Title(this.getId()  + "-dialog-title", {
-					level: "H1"
+					level: "H2"
 				})
 			],
 			contentRight: [

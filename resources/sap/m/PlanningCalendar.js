@@ -134,7 +134,7 @@ sap.ui.define([
 	 * {@link sap.m.PlanningCalendarView PlanningCalendarView}'s properties.
 	 *
 	 * @extends sap.ui.core.Control
-	 * @version 1.56.2
+	 * @version 1.56.3
 	 *
 	 * @constructor
 	 * @public
@@ -572,6 +572,7 @@ sap.ui.define([
 		});
 
 		var oTable = new Table(sId + "-Table", {
+			sticky: [], // set sticky property to an empty array this correspondents to PlanningCalendar stickyHeader = false
 			infoToolbar: this._oInfoToolbar,
 			mode: ListMode.SingleSelectMaster,
 			columns: [ new Column({
@@ -1343,17 +1344,20 @@ sap.ui.define([
 	};
 
 	PlanningCalendar.prototype._updateStickyHeader = function() {
-		var bStick = this.getStickyHeader(),
+		var aStickyParts = [],
+			bStick = this.getStickyHeader(),
 			bMobile1MonthView = this.getViewKey() === PlanningCalendarBuiltInView.OneMonth && this._iSize < 2,
 			bStickyToolbar = bStick && !Device.system.phone && !bMobile1MonthView,
 			bStickyInfoToolbar = bStick && !(Device.system.phone && Device.orientation.landscape) && !bMobile1MonthView;
 
-		if (this._oToolbar) {
-			this._oToolbar.toggleStyleClass("sapMPlanCalStickyHeader", bStickyToolbar);
+		if (this._oToolbar && bStickyToolbar) {
+			aStickyParts.push(sap.m.Sticky.HeaderToolbar);
 		}
-		if (this._oInfoToolbar) {
-			this._oInfoToolbar.toggleStyleClass("sapMPlanCalStickyHeader", bStickyInfoToolbar);
+		if (this._oInfoToolbar && bStickyInfoToolbar) {
+			aStickyParts.push(sap.m.Sticky.InfoToolbar);
 		}
+
+		this.getAggregation("table").setSticky(aStickyParts);
 	};
 
 	PlanningCalendar.prototype.addRow = function(oRow) {

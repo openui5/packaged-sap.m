@@ -41,7 +41,7 @@ sap.ui.define([
 	 *        tables.
 	 * @extends sap.m.Dialog
 	 * @author SAP SE
-	 * @version 1.56.2
+	 * @version 1.56.3
 	 * @constructor
 	 * @public
 	 * @since 1.26.0
@@ -193,7 +193,7 @@ sap.ui.define([
 				}),
 				contentMiddle: new Title(this.getId() + "-phoneTitle", {
 					text: this._oResourceBundle.getText("P13NDIALOG_VIEW_SETTINGS"),
-					level: "H1"
+					level: "H2"
 				})
 			}));
 			this.addButton(this._createOKButton());

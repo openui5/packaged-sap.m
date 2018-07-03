@@ -35,7 +35,7 @@ sap.ui.define([],
 					domRef: ":sap-domref > .sapMListHdrTBar"
 				},
 				infoToolbar: {
-					domRef: ":sap-domref > .sapMListInfoTBar"
+					domRef: ":sap-domref .sapMListInfoTBar"
 				},
 				contextMenu: {
 					ignore: true

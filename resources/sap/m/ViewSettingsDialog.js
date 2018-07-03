@@ -101,7 +101,7 @@ function(
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.56.2
+	 * @version 1.56.3
 	 *
 	 * @constructor
 	 * @public
@@ -161,7 +161,8 @@ function(
 			filterItems : {type : "sap.m.ViewSettingsItem", multiple : true, singularName : "filterItem", bindable : "bindable"},
 
 			/**
-			 * The list of preset filter items that allows the selection of more complex or custom filters. These entries are displayed at the top of the filter tab.
+			 * The list of preset filter items with key and value that allows the selection of more complex or custom filters.
+			 * These entries are displayed at the top of the filter tab.
 			 * @since 1.16
 			 */
 			presetFilterItems : {type : "sap.m.ViewSettingsItem", multiple : true, singularName : "presetFilterItem", bindable : "bindable"},
@@ -1101,10 +1102,8 @@ function(
 			filterCompoundKeys: this.getSelectedFilterCompoundKeys(),
 			navPage : this._getNavContainer().getCurrentPage(),
 			contentPage : this._vContentPage,
-			contentItem : this._oContentItem ? this._oContentItem.clone() : null
+			contentItem : this._oContentItem
 		};
-
-		this.addDependent(this._oPreviousState.contentItem);
 
 		//focus the first focusable item in current page's content
 		if (Device.system.desktop) {
