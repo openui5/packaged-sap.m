@@ -25,7 +25,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.44.32
+	 * @version 1.44.33
 	 *
 	 * @constructor
 	 * @public
@@ -211,6 +211,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 			if (sap.ui.Device.system.phone) {
 				this._oPopover._oControl.addButton(this._createPopoverCloseButton());
 			}
+			this.addDependent(this._oPopover);
 		}
 
 		var oSelectList = this._getSelectList();

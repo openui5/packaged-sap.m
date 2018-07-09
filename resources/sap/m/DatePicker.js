@@ -48,7 +48,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/Device', './InputBase', 'sap/ui/mode
 	 * This could lead to a waiting time before a <code>DatePicker</code> is opened the first time. To prevent this, applications using the <code>DatePicker</code> should also load
 	 * the <code>sap.ui.unified</code> library.
 	 * @extends sap.m.InputBase
-	 * @version 1.44.32
+	 * @version 1.44.33
 	 *
 	 * @constructor
 	 * @public
@@ -157,9 +157,10 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/Device', './InputBase', 'sap/ui/mode
 
 		this._bValid = true;
 
-		this._oMinDate = new Date(1, 0, 1);
+		this._oMinDate = new Date(1, 0, 1); // set the date to minimum possible for that day
 		this._oMinDate.setFullYear(1); // otherwise year 1 will be converted to year 1901
-		this._oMaxDate = new Date(9999, 11, 31, 23, 59, 59, 99);
+		this._oMaxDate = new Date(9999, 11, 31, 23, 59, 59, 999); // set the date for the maximum possible for that day
+
 
 	};
 
@@ -485,6 +486,8 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/Device', './InputBase', 'sap/ui/mode
 			this._oCalendar.setMinDate(oDate);
 		}
 
+		this._oMinDate.setHours(0, 0, 0, 0);//clear the time part
+
 		return this;
 
 	};
@@ -512,7 +515,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/Device', './InputBase', 'sap/ui/mode
 				this.setDateValue(new Date(oDate.getTime()));
 			}
 		} else {
-			this._oMaxDate = new Date(9999, 11, 31, 23, 59, 59, 99);
+			this._oMaxDate = new Date(9999, 11, 31, 23, 59, 59, 999);
 		}
 
 		// re-render because order of parameter changes not clear -> check onBeforeRendering
@@ -521,6 +524,8 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/Device', './InputBase', 'sap/ui/mode
 		if (this._oCalendar) {
 			this._oCalendar.setMaxDate(oDate);
 		}
+
+		this._oMaxDate.setHours(23, 59, 59, 999);//set to max possible hours for this day
 
 		return this;
 

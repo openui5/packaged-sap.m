@@ -1875,7 +1875,7 @@ html[data-sap-ui-animation='off'] .sapMDialogBlockLayerAnimation {
 }
 /* Allow MessagePage to be positioned inside ObjectPage */
 .sapUxAPBlockContainer .sapMPageEnableScrolling {
-  position: initial;
+  position: static;
 }
 /* MessagePage inner controls styles*/
 .sapMMessagePage > .sapMPage > section > .sapMText,

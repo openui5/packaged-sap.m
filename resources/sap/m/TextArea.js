@@ -22,7 +22,7 @@ sap.ui.define(['jquery.sap.global', './InputBase', './library'],
 	 * @extends sap.m.InputBase
 	 *
 	 * @author SAP SE
-	 * @version 1.44.32
+	 * @version 1.44.33
 	 *
 	 * @constructor
 	 * @public
@@ -274,9 +274,13 @@ sap.ui.define(['jquery.sap.global', './InputBase', './library'],
 	};
 
 	TextArea.prototype._updateOverflow = function() {
-		var oTextArea = this.getFocusDomRef();
-		var fMaxHeight = parseFloat(window.getComputedStyle(oTextArea)["max-height"]);
-		oTextArea.style.overflowY = (oTextArea.scrollHeight > fMaxHeight) ? "auto" : "";
+		var oTextAreaRef = this.getFocusDomRef(),
+			fMaxHeight;
+
+		if (oTextAreaRef) {
+			fMaxHeight = parseFloat(window.getComputedStyle(oTextAreaRef)["max-height"]);
+			oTextAreaRef.style.overflowY = (oTextAreaRef.scrollHeight > fMaxHeight) ? "auto" : "";
+		}
 	};
 
 	TextArea.prototype._getInputValue = function(sValue) {
