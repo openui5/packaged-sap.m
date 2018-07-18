@@ -2005,6 +2005,11 @@ html[data-sap-ui-browser^=ie]:not(.sapUiMedia-Std-Phone) .sapUiSizeCompact .sapM
 }
 html.sap-phone .sapMDateTimePopupCont,
 html.sapUiMedia-Std-Phone .sapMDateTimePopupCont {
+  position: fixed;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  top: 0;
   height: 100%;
   min-width: 20rem;
   overflow: auto !important;
@@ -9248,6 +9253,12 @@ html[dir=rtl] .sapMNCValueScr {
   max-width: 50%;
   vertical-align: middle;
 }
+html[data-sap-ui-browser^='ie'] .sapMObjectAttributeActive .sapMObjectAttributeTitle,
+html[data-sap-ui-browser^='ed'] .sapMObjectAttributeActive .sapMObjectAttributeTitle,
+html[data-sap-ui-browser^='ie'] .sapMObjectAttributeActive .sapMObjectAttributeText,
+html[data-sap-ui-browser^='ed'] .sapMObjectAttributeActive .sapMObjectAttributeText {
+  display: inline-block;
+}
 .sapMListTblCell .sapMObjectAttributeActive .sapMObjectAttributeTitle,
 .sapMListTblCell .sapMObjectAttributeActive .sapMObjectAttributeText {
   white-space: normal;
@@ -9278,7 +9289,7 @@ html.sap-desktop .sapMObjectAttributeActive:focus {
   line-height: normal;
 }
 html[data-sap-ui-browser^='ie'] .sapMObjectAttributeActive:focus .sapMObjectAttributeText::after,
-html[data-sap-ui-browser^='ie'] .sapMObjectAttributeActive:focus .sapMObjectAttributeText::after {
+html[data-sap-ui-browser^='ed'] .sapMObjectAttributeActive:focus .sapMObjectAttributeText::after {
   outline-style: dashed;
 }
 /*=========================================== */
@@ -9736,12 +9747,12 @@ html.sap-phone .sapMOHR,
 html .sapUiContainer-Narrow .sapMOHR {
   padding: 0.625rem 1rem 0 1rem;
 }
-div[class*='sapMOHRBg']:only-child {
+div[class*='sapMOHRBg']:last-of-type {
   padding-bottom: 1.5rem;
 }
-html.sap-desktop.sapUiMedia-Std-Phone div[class*='sapMOHRBg']:only-child,
-html.sap-phone div[class*='sapMOHRBg']:only-child,
-html .sapUiContainer-Narrow div[class*='sapMOHRBg']:only-child {
+html.sap-desktop.sapUiMedia-Std-Phone div[class*='sapMOHRBg']:last-of-type,
+html.sap-phone div[class*='sapMOHRBg']:last-of-type,
+html .sapUiContainer-Narrow div[class*='sapMOHRBg']:last-of-type {
   padding-bottom: 1rem;
 }
 /* Group1 (title, flags and number) */
@@ -10451,13 +10462,14 @@ html .sapUiContainer-Narrow .sapMText.sapMObjLTitle {
   margin-top: .25rem;
 }
 .sapMObjLAttrRow {
+  display: flex;
   font-size: .875rem;
-  padding-top: .313rem;
 }
 .sapMObjLAttrDiv {
   box-sizing: border-box;
   display: inline-block;
-  width: 50%;
+  min-width: 50%;
+  flex: 1;
   text-align: left;
   vertical-align: top;
 }
@@ -10469,6 +10481,7 @@ html[dir=rtl] .sapMObjLAttrDiv {
   white-space: nowrap;
   overflow: hidden;
   width: 100%;
+  padding-top: .313rem;
 }
 /* First and second attributes get one line with ellipsis */
 .sapMObjLAttrRow:nth-child(1) > .sapMObjLAttrDiv .sapMObjectAttributeDiv,
@@ -10484,9 +10497,12 @@ html[dir=rtl] .sapMObjLAttrDiv {
 .sapMObjLStatusDiv {
   box-sizing: border-box;
   display: inline-block;
-  width: 50%;
   text-align: right;
   vertical-align: top;
+}
+.sapMObjLStatusDiv > * {
+  padding-top: .313rem;
+  padding-bottom: 0.1875rem;
 }
 html[dir=rtl] .sapMObjLStatusDiv {
   text-align: left;
@@ -10516,7 +10532,7 @@ html[data-sap-ui-browser="ie11"] .sapMObjLItem > .sapMLIBContent {
   width: 100%;
 }
 /* overwrite transform for the markers favorite and flag icon */
-html[dir=rtl] .sapMObjStatusMarker > .sapUiIcon.sapUiIconMirrorInRTL {
+html[dir=rtl] .sapMObjLStatusDiv > .sapUiIcon.sapUiIconMirrorInRTL {
   -webkit-transform: none;
   /* Chrome, Safari, Opera */
   transform: none;
@@ -10525,15 +10541,15 @@ html[dir=rtl] .sapMObjStatusMarker > .sapUiIcon.sapUiIconMirrorInRTL {
   max-height: 3rem;
   max-width: 3rem;
 }
-.sapMObjLItem .sapMObjStatusMarker .sapMObjectMarkerText,
-.sapMObjLItem .sapMObjStatusMarker .sapMObjectMarkerIcon {
+.sapMObjLItem .sapMObjLStatusDiv .sapMObjectMarkerText,
+.sapMObjLItem .sapMObjLStatusDiv .sapMObjectMarkerIcon {
   margin-right: 0.5rem;
 }
-.sapMObjLItem .sapMObjStatusMarker .sapMText,
-.sapMObjLItem .sapMObjStatusMarker .sapUiIcon {
+.sapMObjLItem .sapMObjLStatusDiv .sapMText,
+.sapMObjLItem .sapMObjLStatusDiv .sapUiIcon {
   font-size: 0.875rem;
 }
-.sapMObjLItem .sapMObjStatusMarker .sapUiIcon:before {
+.sapMObjLItem .sapMObjLStatusDiv .sapUiIcon:before {
   vertical-align: top;
 }
 html[data-sap-ui-browser^="ie"] .sapMObjLAttrDiv > .sapMObjectAttributeActive.sapMObjectAttributeDiv,
@@ -10548,7 +10564,7 @@ html[data-sap-ui-browser^="ed"] .sapMObjLAttrDiv > .sapMObjectAttributeActive.sa
   color: #ffffff;
 }
 .sapMLIBActive .sapMObjLNumberDiv .sapMObjectNumber,
-.sapMLIBActive .sapMObjStatusMarker .sapMObjectMarker .sapUiIcon {
+.sapMLIBActive .sapMObjLStatusDiv .sapMObjectMarker .sapUiIcon {
   color: #ffffff;
 }
 .sapMObjLIconDiv {
@@ -11435,7 +11451,7 @@ html.sap-desktop .sapUiFioriObjectPage > section > .sapMPanel {
 }
 /* workaround for drawing issue in IE - ensures that the content will be redrawn */
 html[data-sap-ui-animation='on'][data-sap-ui-browser^="ie"] .sapMPanelContent {
-  transform: translate2d(0, 0);
+  transform: translate(0, 0);
 }
 /* workaround for drawing issue in Edge - ensures that the content will be redrawn */
 html[data-sap-ui-animation='on'][data-sap-ui-browser^="ed"] .sapMPanelContent {
@@ -12530,6 +12546,7 @@ html.sap-tablet.sap-ios .sapMPanel .sapMQuickViewCard {
 .sapMRbBInn {
   background-color: transparent;
   -webkit-user-select: none;
+  align-self: center;
 }
 .sapMRbB .sapMRbBInn {
   height: 0.625rem;
@@ -12633,6 +12650,27 @@ html.sap-tablet.sap-ios .sapMPanel .sapMQuickViewCard {
 .sapUiSizeCondensed .sapUiTable .sapMRbBLabel {
   line-height: 1.5rem;
   height: 1.5rem;
+}
+/* When printing border is needed for the selection */
+@media only print {
+  .sapMRbBInn {
+    box-sizing: border-box;
+  }
+  .sapMRbSel .sapMRbBInn {
+    border-color: #0f5d94;
+    border-style: solid;
+    border-width: 5px;
+  }
+  .sapMRbRo.sapMRbSel .sapMRbBInn {
+    border-color: #ffffff;
+  }
+  .sapMLIBActive .sapMRbSel .sapMRbBInn {
+    border-color: #ffffff;
+  }
+  /* Compact size */
+  .sapUiSizeCompact .sapMRbSel .sapMRbBInn {
+    border-width: 3px;
+  }
 }
 /* ======================================= */
 /* CSS for control sap.m/RadioButtonGroup  */
@@ -15850,6 +15888,7 @@ html[data-sap-ui-browser^='ed'] .sapMListTbl {
   /* hide content visually but have it available for screen readers */
   position: absolute;
   clip: rect(0, 0, 0, 0);
+  height: 0;
 }
 tr.sapMListTblHeaderNone > th {
   border: 0;
@@ -20897,6 +20936,29 @@ html.sap-desktop .sapMQuickViewPage .sapUiIcon:focus {
 }
 .sapMRbDis .sapMLabel {
   color: #666666;
+}
+/* When printing border is needed for the selection */
+@media only print {
+  .sapMRbB .sapMRbBOut {
+    border-color: #000000;
+    border-style: solid;
+  }
+  .sapMRbErr .sapMRbBOut {
+    border-color: #7a5100;
+    border-style: dashed;
+  }
+  .sapMRbWarn .sapMRbBOut {
+    border-color: #000000;
+    border-style: dashed;
+  }
+  /* Selected */
+  .sapMRbSel .sapMRbBInn {
+    border-color: #000000;
+  }
+  /* Disabled */
+  .sapMRbDis.sapMRbSel .sapMRbBInn {
+    border-color: #666666;
+  }
 }
 /* ====================================== */
 /* CSS for control sap.m/RatingIndicator  */

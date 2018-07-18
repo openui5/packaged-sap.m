@@ -74,7 +74,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './InstanceManager', './Associative
 		*
 		* @implements sap.ui.core.PopupInterface
 		* @author SAP SE
-		* @version 1.52.15
+		* @version 1.52.16
 		*
 		* @constructor
 		* @public
@@ -1483,7 +1483,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './InstanceManager', './Associative
 			} else {
 				this._headerTitle = new sap.m.Title(this.getId() + "-title", {
 					text: sTitle,
-					level: "H1"
+					level: "H2"
 				}).addStyleClass("sapMDialogTitle");
 
 				this._createHeader();

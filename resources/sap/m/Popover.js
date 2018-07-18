@@ -64,7 +64,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Button', './InstanceManager', '.
 		* @extends sap.ui.core.Control
 		* @implements sap.ui.core.PopupInterface
 		* @author SAP SE
-		* @version 1.52.15
+		* @version 1.52.16
 		*
 		* @public
 		* @alias sap.m.Popover
@@ -2199,7 +2199,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Button', './InstanceManager', '.
 			} else {
 				this._headerTitle = new sap.m.Title(this.getId() + "-title", {
 					text: this.getTitle(),
-					level: "H1"
+					level: "H2"
 				});
 
 				this._createInternalHeader();

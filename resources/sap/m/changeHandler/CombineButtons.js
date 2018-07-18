@@ -13,7 +13,7 @@ sap.ui.define(["sap/ui/fl/Utils", "jquery.sap.global"],
 		 *
 		 * @alias sap.m.changeHandler.CombineButtons
 		 * @author SAP SE
-		 * @version 1.52.15
+		 * @version 1.52.16
 		 * @experimental Since 1.48
 		 */
 		var CombineButtons = { };
