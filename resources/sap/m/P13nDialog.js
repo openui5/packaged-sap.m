@@ -41,7 +41,7 @@ sap.ui.define([
 	 *        tables.
 	 * @extends sap.m.Dialog
 	 * @author SAP SE
-	 * @version 1.56.3
+	 * @version 1.56.4
 	 * @constructor
 	 * @public
 	 * @since 1.26.0
@@ -294,12 +294,6 @@ sap.ui.define([
 						messageText: sap.ui.getCore().getLibraryResourceBundle("sap.m").getText("P13NDIALOG_VISIBLE_ITEMS_THRESHOLD_MESSAGE")
 					});
 					break;
-				case P13nPanelType.dimeasure:
-					aValidationResult.push({
-						messageType: MessageType.Error,
-						messageText: sap.ui.getCore().getLibraryResourceBundle("sap.m").getText("P13NDIALOG_VALIDATION_CHARTTYPE")
-					});
-					break;
 				default:
 					jQuery.sap.log.error("Panel type '" + sPanelType + "' is not supported jet.");
 			}
@@ -386,7 +380,7 @@ sap.ui.define([
 			oNavigationControl.setVisible(true);
 			var oPanel = this.getVisiblePanel();
 			oPanel.setVisible(false);
-			this._updateDialogTitle(oPanel);
+			this._updateDialogTitle();
 			this.getCustomHeader().getContentLeft()[0].setVisible(false);
 		}
 	};
@@ -458,34 +452,38 @@ sap.ui.define([
 	 *
 	 * @private
 	 */
-	P13nDialog.prototype._updateDialogTitle = function(oPanel) {
-		var sTitle = this._oResourceBundle.getText("P13NDIALOG_VIEW_SETTINGS");
-		if (oPanel && oPanel.getVisible()) {
-			switch (oPanel.getType()) {
-				case P13nPanelType.filter:
-					sTitle = this._oResourceBundle.getText("P13NDIALOG_TITLE_FILTER");
-					break;
-				case P13nPanelType.sort:
-					sTitle = this._oResourceBundle.getText("P13NDIALOG_TITLE_SORT");
-					break;
-				case P13nPanelType.group:
-					sTitle = this._oResourceBundle.getText("P13NDIALOG_TITLE_GROUP");
-					break;
-				case P13nPanelType.columns:
-					sTitle = this._oResourceBundle.getText("P13NDIALOG_TITLE_COLUMNS");
-					break;
-				case P13nPanelType.dimeasure:
-					sTitle = this._oResourceBundle.getText("P13NDIALOG_TITLE_DIMEASURE");
-					break;
-				default:
-					sTitle = oPanel.getTitleLarge() || this._oResourceBundle.getText("P13NDIALOG_VIEW_SETTINGS");
-			}
-		}
-		if (Device.system.phone) {
-			this.getCustomHeader().getContentMiddle()[0].setText(sTitle);
-		} else {
-			this.setTitle(sTitle);
-		}
+	P13nDialog.prototype._updateDialogTitle = function() {
+        var oPanelVisible = this.getVisiblePanel();
+        var sTitle = this._oResourceBundle.getText("P13NDIALOG_VIEW_SETTINGS");
+
+        // Only if one visible panel (i.e. NavigationControl) exists we set specific title
+        if (!this._isNavigationControlExpected() && oPanelVisible) {
+            switch (oPanelVisible.getType()) {
+                case P13nPanelType.filter:
+                    sTitle = this._oResourceBundle.getText("P13NDIALOG_TITLE_FILTER");
+                    break;
+                case P13nPanelType.sort:
+                    sTitle = this._oResourceBundle.getText("P13NDIALOG_TITLE_SORT");
+                    break;
+                case P13nPanelType.group:
+                    sTitle = this._oResourceBundle.getText("P13NDIALOG_TITLE_GROUP");
+                    break;
+                case P13nPanelType.columns:
+                    sTitle = this._oResourceBundle.getText("P13NDIALOG_TITLE_COLUMNS");
+                    break;
+                case P13nPanelType.dimeasure:
+                    sTitle = this._oResourceBundle.getText("P13NDIALOG_TITLE_DIMEASURE");
+                    break;
+                default:
+                    sTitle = oPanelVisible.getTitleLarge() || this._oResourceBundle.getText("P13NDIALOG_VIEW_SETTINGS");
+            }
+        }
+
+        if (Device.system.phone) {
+            this.getCustomHeader().getContentMiddle()[0].setText(sTitle);
+        } else {
+            this.setTitle(sTitle);
+        }
 	};
 
 	/**
@@ -847,10 +845,10 @@ sap.ui.define([
 				oNavigationControl.setSelectedItem(oNavigationItem);
 			}
 
-			// Update dialog's title
-			this._updateDialogTitle(oPanel);
-
 		}.bind(this));
+
+		// Update dialog's title
+		this._updateDialogTitle();
 
 		this._setVisibleOfNavigationControl(this._isNavigationControlExpected());
 	};

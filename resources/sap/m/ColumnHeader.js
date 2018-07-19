@@ -16,7 +16,7 @@ sap.ui.define(['sap/ui/core/Control', 'sap/ui/core/Icon', './ColumnHeaderRendere
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.56.3
+	 * @version 1.56.4
 	 *
 	 * @constructor
 	 * @since 1.52

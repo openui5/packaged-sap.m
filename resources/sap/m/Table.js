@@ -52,7 +52,7 @@ sap.ui.define([
 	 * @extends sap.m.ListBase
 	 *
 	 * @author SAP SE
-	 * @version 1.56.3
+	 * @version 1.56.4
 	 *
 	 * @constructor
 	 * @public
@@ -128,7 +128,7 @@ sap.ui.define([
 			/**
 			 * Defines the columns of the table.
 			 */
-			columns : {type : "sap.m.Column", multiple : true, singularName : "column"}
+			columns : {type : "sap.m.Column", multiple : true, singularName : "column", dnd : {draggable : true, droppable : true, layout : "Horizontal"} }
 		},
 		events : {
 			/**
@@ -835,6 +835,7 @@ sap.ui.define([
 
 	// event listener for theme changed
 	Table.prototype.onThemeChanged = function() {
+		ListBase.prototype.onThemeChanged.call(this);
 		this._bThemeChanged = true;
 	};
 
