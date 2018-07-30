@@ -2400,8 +2400,8 @@ html.sap-phone .sapMDateTimePopupCont .sapUiCalContent > .sapUiCalYearPicker {
   opacity: 0;
   -webkit-transition: opacity .15s, transform 0.2s;
   transition: opacity .15s, transform 0.2s;
-  -webkit-transform: translate(50%, -50%) scale(0.9);
   transform: translate(50%, -50%) scale(0.9);
+  -webkit-transform: translate(50%, -50%) scale(0.9) translateZ(0px);
   border-radius: 0.25rem;
   box-shadow: 0 0.625rem 4rem 0 rgba(255, 255, 255, 0.8), 0 0 0 2px #ffffff;
 }
@@ -2468,7 +2468,7 @@ html.sap-phone .sapMDateTimePopupCont .sapUiCalContent > .sapUiCalYearPicker {
 }
 .sapMDialog.sapMDialogStretched {
   transform: none;
-  -webkit-transform: scale(1);
+  -webkit-transform: scale(1) translateZ(0px);
   top: 5% !important;
   bottom: 5% !important;
   right: 3.5% !important;
@@ -2590,7 +2590,7 @@ html.sap-desktop .sapMDialog {
 .sapMDialogOpen {
   opacity: 1;
   transform: translate(50%, -50%) scale(1);
-  -webkit-transform: translate(50%, -50%) scale(1);
+  -webkit-transform: translate(50%, -50%) scale(1) translateZ(0px);
 }
 .sapMDialogBlockLayerAnimation {
   position: absolute;
@@ -2774,7 +2774,7 @@ html.sap-desktop .sapMDialog {
 }
 .sapMDialogTouched {
   transform: scale(1);
-  -webkit-transform: scale(1);
+  -webkit-transform: scale(1) translateZ(0px);
 }
 .sapDialogDisableTransition {
   transition: none;
@@ -7556,6 +7556,7 @@ html.sap-phone .sapMListInsetBG > .sapMListSwp {
 .sapMLIBIconDet,
 .sapMLIBIconDel {
   margin-right: 0.125rem;
+  margin-top: auto;
 }
 .sapMLIBContent {
   -webkit-box-flex: 1;
@@ -8565,6 +8566,10 @@ html.sap-desktop li.sapMMultiComboBoxItemRangeSelection {
 }
 html.sap-desktop .sapMMultiInputBorder {
   overflow: hidden;
+}
+html[data-sap-ui-browser^="ie"].sap-desktop .sapMInputFocused:not(.sapMInputBaseReadonly) .sapMMultiInputBorder::before,
+html[data-sap-ui-browser^="ed"].sap-desktop .sapMInputFocused:not(.sapMInputBaseReadonly) .sapMMultiInputBorder::before {
+  border-style: dashed;
 }
 .sapMMultiInput .sapMInputValHelp {
   display: inline-block;
@@ -10408,7 +10413,7 @@ html .sapUiContainer-Medium .sapMOHR,
 html:not(.sapUiMedia-Std-Phone) .sapMSplitContainer:not(.sapMSplitContainerHideMode) :not(div[class*='sapMOHRBg']:only-child) .sapMOHR {
   padding-bottom: 0;
 }
-div[class*='sapMOHRBg']:only-child {
+div[class*='sapMOHRBg']:last-of-type {
   padding-bottom: 1.5rem;
 }
 html.sap-desktop.sapUiMedia-Std-Phone .sapMOHR,
@@ -10416,9 +10421,9 @@ html.sap-phone .sapMOHR,
 html .sapUiContainer-Narrow .sapMOHR {
   padding: 0.625rem 1rem 0 1rem;
 }
-html.sap-desktop.sapUiMedia-Std-Phone div[class*='sapMOHRBg']:only-child,
-html.sap-phone div[class*='sapMOHRBg']:only-child,
-html .sapUiContainer-Narrow div[class*='sapMOHRBg']:only-child {
+html.sap-desktop.sapUiMedia-Std-Phone div[class*='sapMOHRBg']:last-of-type,
+html.sap-phone div[class*='sapMOHRBg']:last-of-type,
+html .sapUiContainer-Narrow div[class*='sapMOHRBg']:last-of-type {
   padding-bottom: 1rem;
 }
 /* Group1 (title, flags and number) */
@@ -13306,6 +13311,7 @@ html.sap-tablet.sap-ios .sapMPanel .sapMQuickViewCard {
 .sapMRbBInn {
   background-color: transparent;
   -webkit-user-select: none;
+  align-self: center;
 }
 .sapMRbB .sapMRbBInn {
   height: 0.625rem;
@@ -13409,6 +13415,27 @@ html.sap-tablet.sap-ios .sapMPanel .sapMQuickViewCard {
 .sapUiSizeCondensed .sapUiTable .sapMRbBLabel {
   line-height: 1.5rem;
   height: 1.5rem;
+}
+/* When printing border is needed for the selection */
+@media only print {
+  .sapMRbBInn {
+    box-sizing: border-box;
+  }
+  .sapMRbSel .sapMRbBInn {
+    border-color: #0f5d94;
+    border-style: solid;
+    border-width: 5px;
+  }
+  .sapMRbRo.sapMRbSel .sapMRbBInn {
+    border-color: #ffffff;
+  }
+  .sapMLIBActive .sapMRbSel .sapMRbBInn {
+    border-color: #ffffff;
+  }
+  /* Compact size */
+  .sapUiSizeCompact .sapMRbSel .sapMRbBInn {
+    border-width: 3px;
+  }
 }
 /* ======================================= */
 /* CSS for control sap.m/RadioButtonGroup  */
@@ -21795,6 +21822,29 @@ html.sap-desktop .sapMQuickViewPage .sapUiIcon:focus {
 }
 .sapMRbDis .sapMLabel {
   color: #666666;
+}
+/* When printing border is needed for the selection */
+@media only print {
+  .sapMRbB .sapMRbBOut {
+    border-color: #000000;
+    border-style: solid;
+  }
+  .sapMRbErr .sapMRbBOut {
+    border-color: #7a5100;
+    border-style: dashed;
+  }
+  .sapMRbWarn .sapMRbBOut {
+    border-color: #000000;
+    border-style: dashed;
+  }
+  /* Selected */
+  .sapMRbSel .sapMRbBInn {
+    border-color: #000000;
+  }
+  /* Disabled */
+  .sapMRbDis.sapMRbSel .sapMRbBInn {
+    border-color: #666666;
+  }
 }
 /* ====================================== */
 /* CSS for control sap.m/RatingIndicator  */

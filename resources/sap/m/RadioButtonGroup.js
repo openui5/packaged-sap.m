@@ -57,7 +57,7 @@ sap.ui.define([
 			 * @implements sap.ui.core.IFormContent
 			 *
 			 * @author SAP SE
-			 * @version 1.56.4
+			 * @version 1.56.5
 			 *
 			 * @constructor
 			 * @public
@@ -494,6 +494,8 @@ sap.ui.define([
 				if (!this._bUpdateButtons) {
 					this.setSelectedIndex(-1);
 				}
+
+				this.aRBs = [];
 
 				return this.removeAllAggregation("buttons");
 			};
