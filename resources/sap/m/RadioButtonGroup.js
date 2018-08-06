@@ -43,7 +43,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 			 * @implements sap.ui.core.IFormContent
 			 *
 			 * @author SAP SE
-			 * @version 1.52.16
+			 * @version 1.52.17
 			 *
 			 * @constructor
 			 * @public
@@ -503,6 +503,8 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 				if (!this._bUpdateButtons) {
 					this.setSelectedIndex(-1);
 				}
+
+				this.aRBs = [];
 
 				return this.removeAllAggregation("buttons");
 			};

@@ -34,7 +34,9 @@ sap.ui.define(["sap/ui/Device"],
 			sId = oSF.getId(),
 			bShowRefreshButton = oSF.getShowRefreshButton(),
 			bShowSearchBtn = oSF.getShowSearchButton(),
-			oAccAttributes = {}; // additional accessibility attributes
+			oAccAttributes = {}, // additional accessibility attributes
+			bAccessibility = sap.ui.getCore().getConfiguration().getAccessibility();
+
 
 		// container
 		rm.write("<div");
@@ -67,7 +69,7 @@ sap.ui.define(["sap/ui/Device"],
 			rm.write('>');
 
 			// self-made placeholder
-			if (!oSF._hasPlacehoder && sPlaceholder) {
+			if (!oSF._hasPlaceholder && sPlaceholder) {
 				rm.write("<label ");
 				rm.writeAttribute("id", sId + "-P");
 				rm.writeAttribute("for", sId + "-I");
@@ -119,9 +121,31 @@ sap.ui.define(["sap/ui/Device"],
 					append: true
 				};
 			}
+
+			var sInvisibleTextId = oSF.getId() + "-I" + "-labelledby";
+			oAccAttributes.labelledby = {
+				value: sInvisibleTextId,
+				append: true
+			};
+
 			rm.writeAccessibilityState(oSF, oAccAttributes);
 
 			rm.write(">");
+
+			//Invisible text for ACC purpose - announcing placeholder when there is Label or Tooltip for the Input
+			if (bAccessibility) {
+				var sAnnouncement = oSF.getPlaceholder() || "";
+				if (sAnnouncement) {
+					rm.write("<span");
+					rm.writeAttribute("id", sInvisibleTextId);
+					rm.writeAttribute("aria-hidden", "true");
+					rm.addClass("sapUiInvisibleText");
+					rm.writeClasses();
+					rm.write(">");
+					rm.writeEscaped(sAnnouncement.trim());
+					rm.write("</span>");
+				}
+			}
 
 			if (oSF.getEnabled()) {
 				// 2. Reset button
@@ -130,7 +154,7 @@ sap.ui.define(["sap/ui/Device"],
 				rm.addClass("sapMSFR"); // reset
 				rm.addClass("sapMSFB"); // button
 				if (Device.browser.firefox) {
-					rm.addClass("sapMSFBF"); // firefox, active state by peventDefault
+					rm.addClass("sapMSFBF"); // firefox, active state by preventDefault
 				}
 				if (!bShowSearchBtn) {
 					rm.addClass("sapMSFNS"); //no search button
@@ -145,7 +169,7 @@ sap.ui.define(["sap/ui/Device"],
 					rm.addClass("sapMSFS"); // search
 					rm.addClass("sapMSFB"); // button
 					if (Device.browser.firefox) {
-						rm.addClass("sapMSFBF"); // firefox, active state by peventDefault
+						rm.addClass("sapMSFBF"); // firefox, active state by preventDefault
 					}
 					rm.writeClasses();
 					if (oSF.getRefreshButtonTooltip()) {

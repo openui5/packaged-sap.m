@@ -93,7 +93,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/Device', './InputBase', './DateTimeF
 	 * the close event), or select Cancel.
 	 *
 	 * @extends sap.m.DateTimeField
-	 * @version 1.52.16
+	 * @version 1.52.17
 	 *
 	 * @constructor
 	 * @public
@@ -1073,6 +1073,9 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/Device', './InputBase', './DateTimeF
 					this._$input.val(sValue);
 					this._lastValue = sValue;
 				}
+				// we have to format the value with the existing format
+				// before setting it and firing the change event
+				sValue = this._formatValue(oDate, true);
 				this.setProperty("value", sValue, true); // no rerendering
 				this.fireChangeEvent(sValue, {valid: true});
 			}

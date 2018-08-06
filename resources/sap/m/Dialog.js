@@ -74,7 +74,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './InstanceManager', './Associative
 		*
 		* @implements sap.ui.core.PopupInterface
 		* @author SAP SE
-		* @version 1.52.16
+		* @version 1.52.17
 		*
 		* @constructor
 		* @public
@@ -923,9 +923,12 @@ sap.ui.define(['jquery.sap.global', './Bar', './InstanceManager', './Associative
 				}
 
 				sTranslateY = '-' + Math.floor(iDialogHeight / 2) + "px";
-				$dialog.css('transform', 'translate(' + sTranslateX + ',' + sTranslateY + ') scale(1)');
+				var sCalculatedPosition = 'translate(' + sTranslateX + ',' + sTranslateY + ') scale(1) ';
+				$dialog.css('transform', sCalculatedPosition );
+				$dialog.css('-webkit-transform', sCalculatedPosition + ' translateZ(0px)');
 			} else {
 				$dialog.css('transform', '');
+				$dialog.css('-webkit-transform', '');
 			}
 		};
 

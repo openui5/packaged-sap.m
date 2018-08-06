@@ -45,7 +45,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	* @extends sap.ui.core.Control
 	* @implements sap.ui.core.IFormContent
 	* @author SAP SE
-	* @version 1.52.16
+	* @version 1.52.17
 	*
 	* @constructor
 	* @public
@@ -274,7 +274,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		return this.getProperty("width") || "100%";
 	};
 
-	SearchField.prototype._hasPlacehoder = (function () {
+	SearchField.prototype._hasPlaceholder = (function () {
 		return "placeholder" in document.createElement("input");
 	}());
 

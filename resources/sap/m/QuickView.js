@@ -45,7 +45,7 @@ sap.ui.define([
 	 * @extends sap.m.QuickViewBase
 	 *
 	 * @author SAP SE
-	 * @version 1.52.16
+	 * @version 1.52.17
 	 *
 	 * @constructor
 	 * @public
@@ -338,6 +338,11 @@ sap.ui.define([
 	 * @private
 	 */
 	QuickView.prototype._adjustContainerHeight = function() {
+
+		if (this.getPages().length <= 1) {
+			return;
+		}
+
 		var oPopupControl = this._oPopover.getAggregation("_popup");
 		var $container = oPopupControl.$().find('.sapMPopoverCont');
 
