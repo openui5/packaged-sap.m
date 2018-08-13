@@ -6610,6 +6610,12 @@ html.sap-desktop .sapMComboBoxBasePressed .sapMComboBoxBaseArrow:hover {
 div.sapMComboBoxBasePicker .sapMDialogScrollCont {
   padding: 0;
 }
+/* ------------------------------ */
+/* list                           */
+/* ------------------------------ */
+.sapMComboBoxBaseList.sapUiLocalBusy {
+  min-height: 2rem;
+}
 /* =============================== */
 /* CSS for control sap.m/ComboBox  */
 /* Base theme                      */
@@ -6838,6 +6844,7 @@ html[dir=rtl][data-sap-ui-browser^=ed] .sapUiFormResLayout .sapUiRFLRow:first-ch
   font-family: Arial, Helvetica, sans-serif;
   font-weight: bold;
 }
+.sapMListTbl .sapMLIBActive .sapMLabel,
 .sapMLIBActive .sapMLabel {
   color: #ffffff;
 }
