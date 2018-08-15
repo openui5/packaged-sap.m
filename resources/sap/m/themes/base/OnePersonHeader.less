@@ -1,0 +1,29 @@
+/* ======================================= */
+/* CSS for control sap.m/OnePersonHeader   */
+/* Base theme                              */
+/* ======================================= */
+
+.sapMOnePerHead .sapMOnePerHeadActionsToolbar,
+.sapMOnePerHead .sapMOnePerHeadNavToolbar{
+	padding-left: 1rem;
+}
+
+.sapMOnePerHead .sapMOnePerHeadNavToolbar {
+	border-bottom: none;
+	flex-wrap: wrap;
+	white-space: normal;
+	min-height: 3rem;
+
+	&.sapMIBar {
+		height: auto;
+	}
+}
+
+.sapUiSizeCompact {
+	.sapMOnePerHead .sapMOnePerHeadActionsToolbar {
+		min-height: 3rem;
+	}
+	.sapMOnePerHead .sapMOnePerHeadNavToolbar {
+		min-height: 2rem;
+	}
+}
