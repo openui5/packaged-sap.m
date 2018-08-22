@@ -2337,16 +2337,18 @@ html[data-sap-ui-browser^=ie]:not(.sapUiMedia-Std-Phone) .sapUiSizeCompact .sapM
 }
 html.sap-phone .sapMDateTimePopupCont,
 html.sapUiMedia-Std-Phone .sapMDateTimePopupCont {
-  position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  top: 0;
   height: 100%;
   min-width: 20rem;
   overflow: auto !important;
   /* allow scrolling in landscape mode */
   display: block;
+}
+html.sap-phone .sapMDateTimePopupCont {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
 }
 html.sap-phone .sapUiSizeCompact .sapMDateTimePopupCont,
 html.sapUiMedia-Std-Phone .sapUiSizeCompact .sapMDateTimePopupCont {
@@ -2359,6 +2361,9 @@ html.sapUiMedia-Std-Phone .sapMTimePickerSep {
 html.sap-phone .sapMDateTimePopupCont > .sapUiCal,
 html.sapUiMedia-Std-Phone .sapMDateTimePopupCont > .sapUiCal {
   width: 100%;
+}
+html.sapUiMedia-Std-Phone .sapMDateTimePopupCont > div[class=sapUiCal] {
+  height: 25.25rem;
 }
 html.sapUiMedia-Std-Phone .sapMDateTimePopupCont.sapMTimePickerDropDown .sapMTimePickerContainer {
   height: 25.25rem;
@@ -2381,6 +2386,9 @@ html.sap-phone .sapMDateTimePopupCont .sapUiCalContent > .sapUiCalYearPicker {
   box-sizing: border-box;
   left: 0;
   margin: 0;
+}
+.sapUiSizeCompact .sapMTimePickerDropDown .sapMTimePickerContainer {
+  min-width: 17rem;
 }
 /* ============================= */
 /* CSS for control sap.m/Dialog  */
@@ -9878,9 +9886,6 @@ html[dir=rtl] .sapMNCValueScr {
   font-size: .875rem;
   color: #ffffff;
 }
-.sapMObjectAttributeActive {
-  pointer-events: none;
-}
 .sapMObjectAttributeActive .sapMObjectAttributeColon {
   vertical-align: middle;
 }
@@ -9918,11 +9923,7 @@ html[dir=rtl] .sapMNCValueScr {
   text-overflow: ellipsis;
   max-width: 50%;
   vertical-align: middle;
-}
-html[data-sap-ui-browser^='ie'] .sapMObjectAttributeActive .sapMObjectAttributeTitle,
-html[data-sap-ui-browser^='ed'] .sapMObjectAttributeActive .sapMObjectAttributeTitle,
-html[data-sap-ui-browser^='ie'] .sapMObjectAttributeActive .sapMObjectAttributeText,
-html[data-sap-ui-browser^='ed'] .sapMObjectAttributeActive .sapMObjectAttributeText {
+  /* we need this otherwise the focus get broken when the link is on more lines */
   display: inline-block;
 }
 .sapMListTblCell .sapMObjectAttributeActive .sapMObjectAttributeTitle,
@@ -19154,6 +19155,9 @@ html[data-sap-ui-browser^="ed"].sap-desktop .sapMTokenizer:focus:before {
   color: #ffffff;
   flex-shrink: 0;
 }
+.sapMTreeItemBaseLeaf > .sapMTreeItemBaseExpander {
+  opacity: 0;
+}
 .sapMLIBActive .sapMTreeItemBaseExpander {
   color: #ffffff;
 }
@@ -19184,6 +19188,9 @@ html[data-sap-ui-browser^="ed"].sap-desktop .sapMTokenizer:focus:before {
   width: 2rem;
   height: 1.5rem;
   line-height: 1.5rem;
+}
+.sapUiSizeCompact .sapMTreeItemBaseLeaf > .sapMTreeItemBaseExpander {
+  opacity: 0;
 }
 /* ======================================= */
 /* CSS for control sap.m/UploadCollection  */
@@ -21499,6 +21506,21 @@ html.sap-phone .sapMOTAPopover.sapMOTAPopoverNoShadowBottom {
 }
 .sapMPanelExpandableIcon:focus::after {
   border-width: 2px;
+}
+html.sap-desktop .sapMPlanCal .sapUiCalItem:not(.sapUiCalItemSel):hover {
+  background-color: #7a5100;
+}
+html.sap-desktop .sapMPlanCal .sapUiCalItemWeekEnd:not(.sapUiCalItemSel):hover {
+  background-color: #7a5100;
+}
+html.sap-desktop .sapMPlanCal .sapUiCalItemOtherMonth:not(.sapUiCalItemSel):hover {
+  background-color: #7a5100;
+}
+html.sap-desktop .sapMPlanCal .sapUiCalItem:not(.sapUiCalItemSel) :not(.sapUiCalWeekNum):hover {
+  background-color: transparent;
+}
+html.sap-desktop .sapMPlanCal .sapUiCalItemOtherMonth:hover > .sapUiCalItemText:not(.sapUiCalWeekNum):hover {
+  margin-left: 0;
 }
 /* ============================== */
 /* CSS for control sap.m/Popover  */

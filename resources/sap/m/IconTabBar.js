@@ -89,7 +89,7 @@ sap.ui.define([
 	 * @implements sap.m.ObjectHeaderContainer
 	 *
 	 * @author SAP SE
-	 * @version 1.56.6
+	 * @version 1.56.7
 	 *
 	 * @public
 	 * @alias sap.m.IconTabBar

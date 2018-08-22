@@ -79,7 +79,7 @@ sap.ui.define([
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.56.6
+	 * @version 1.56.7
 	 *
 	 * @constructor
 	 * @public
@@ -111,7 +111,7 @@ sap.ui.define([
 				if (bInstantUpload === false) {
 					this.bInstantUpload = bInstantUpload;
 					this._oFormatDecimal = FileSizeFormat.getInstance({
-						binaryFilesize: false,
+						binaryFilesize: true,
 						maxFractionDigits: 1,
 						maxIntegerDigits: 3
 					});

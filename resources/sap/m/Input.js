@@ -124,7 +124,7 @@ function(
 	 *
 	 * @extends sap.m.InputBase
 	 * @author SAP SE
-	 * @version 1.56.6
+	 * @version 1.56.7
 	 *
 	 * @constructor
 	 * @public
@@ -1430,6 +1430,11 @@ function(
 			return; // override InputBase.onsapescape()
 		}
 
+		if (this.getValueLiveUpdate()) {
+			// When valueLiveUpdate is true call setProperty to return back the last value.
+			this.setProperty("value", this._lastValue, true);
+		}
+
 		if (InputBase.prototype.onsapescape) {
 			InputBase.prototype.onsapescape.apply(this, arguments);
 		}
@@ -1772,7 +1777,7 @@ function(
 			var value = this.getDOMValue();
 
 			if (this.getValueLiveUpdate()) {
-				this.setProperty("value",value, true);
+				this.setProperty("value", value, true);
 				this._onValueUpdated(value);
 			}
 

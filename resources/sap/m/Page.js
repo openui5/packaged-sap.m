@@ -81,7 +81,7 @@ function(
 		 * @extends sap.ui.core.Control
 		 * @mixes sap.ui.core.ContextMenuSupport
 		 * @author SAP SE
-		 * @version 1.56.6
+		 * @version 1.56.7
 		 *
 		 * @public
 		 * @alias sap.m.Page
@@ -681,6 +681,14 @@ function(
 			this.setProperty("contentOnlyBusy", bContentOnly, true); // no re-rendering
 			this.$().toggleClass("sapMPageBusyCoversAll", !bContentOnly);
 			return this;
+		};
+
+		Page.prototype.setBusy = function () {
+			// If contentOnlyBusy property is set, then the busy indicator should cover only the content area
+			// Otherwise all clicks in the footer, header and subheader might be suppressed
+			this._sBusySection = this.getContentOnlyBusy() ? 'cont' : null;
+
+			return Control.prototype.setBusy.apply(this, arguments);
 		};
 
 		Page.prototype.setCustomHeader = function(oHeader) {

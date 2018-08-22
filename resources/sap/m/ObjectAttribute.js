@@ -35,7 +35,7 @@ function(jQuery, library, Control, coreLibrary, Text, ObjectAttributeRenderer) {
 	 * <code>text</code> property is styled and acts as a link. In this case the <code>text</code>
 	 * property must also be set, as otherwise there will be no link displayed for the user.
 	 * @extends sap.ui.core.Control
-	 * @version 1.56.6
+	 * @version 1.56.7
 	 *
 	 * @constructor
 	 * @public
@@ -170,8 +170,8 @@ function(jQuery, library, Control, coreLibrary, Text, ObjectAttributeRenderer) {
 	 * @param {object} oEvent The fired event
 	 */
 	ObjectAttribute.prototype.ontap = function(oEvent) {
-		//event should only be fired if the click is on the text
-		if (this._isSimulatedLink() && (oEvent.target.id != this.getId())) {
+		//event should only be fired if the click is on the text (acting like a link)
+		if (this._isSimulatedLink() && (oEvent.target.id === this.getId() + "-text")) {
 			this.firePress({
 				domRef : this.getDomRef()
 			});
