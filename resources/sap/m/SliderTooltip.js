@@ -35,10 +35,10 @@ function(
 		 * @class
 		 * A Control that visualizes <code>Slider</code> and <code>RangeSlider</code> tooltips.
 		 *
-		 * @extends sap.ui.core.Control
+		 * @extends sap.m.SliderTooltipBase
 		 *
 		 * @author SAP SE
-		 * @version 1.58.0
+		 * @version 1.58.1
 		 *
 		 * @constructor
 		 * @private

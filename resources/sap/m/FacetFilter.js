@@ -138,7 +138,7 @@ sap.ui.define([
 	 *
 	 * @extends sap.ui.core.Control
 	 * @implements sap.ui.core.IShrinkable
-	 * @version 1.58.0
+	 * @version 1.58.1
 	 *
 	 * @constructor
 	 * @public
@@ -1381,8 +1381,6 @@ sap.ui.define([
 				// Destroy the search field bar
 				oFromPage.destroySubHeader();
 
-				oFacetPage.getContent()[0].getModel().setData({ items: that._getMapFacetLists() });
-
 				assert(that._displayedList === null, "Filter items list should have been placed back in the FacetFilter aggregation before page content is destroyed.");
 				oFromPage.destroyContent(); // Destroy the select all checkbox bar
 
@@ -1657,6 +1655,20 @@ sap.ui.define([
 
 		oFacetList.setModel(oModel);
 		return oFacetList;
+	};
+
+	/**
+	 * This method refreshes the internal model for thr FacetList. It should be called everytime when the model
+	 * of FacetFilter is changed and update to the FacetList is needed
+	 *
+	 * @protected
+	 * @sap-restricted hpa.cei.mkt.cal -> FacetFilter.controller -> OnDisplayRefreshed
+	 * @returns {sap.m.FacetFilter}
+	 */
+	FacetFilter.prototype.refreshFacetList = function () {
+		this._oFacetList.getModel().setData({ items: this._getMapFacetLists() });
+
+		return this;
 	};
 
 	FacetFilter.prototype._getMapFacetLists = function () {

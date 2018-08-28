@@ -266,7 +266,7 @@ sap.ui.define(["./library", "sap/ui/Device", "sap/ui/core/InvisibleText"],
 		}
 
 		if (oLI.getMode() == ListMode.Delete) {
-			aDescribedBy.push(this.getAriaAnnouncement("deletable"));
+			aDescribedBy.push(this.getAriaAnnouncement("delete"));
 		}
 
 		if (sType == ListItemType.Navigation) {

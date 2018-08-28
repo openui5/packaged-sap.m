@@ -114,7 +114,7 @@ function(
 		*
 		* @implements sap.ui.core.PopupInterface
 		* @author SAP SE
-		* @version 1.58.0
+		* @version 1.58.1
 		*
 		* @constructor
 		* @public
@@ -736,6 +736,8 @@ function(
 			if (oEvent.originalEvent && oEvent.originalEvent._sapui_handledByControl) {
 				return;
 			}
+
+			this._oCloseTrigger = null;
 
 			if (typeof oEscapeHandler === 'function') {
 				// create a Promise to allow app developers to hook to the 'escape' event

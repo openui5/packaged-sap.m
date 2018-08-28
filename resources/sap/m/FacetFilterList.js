@@ -49,7 +49,7 @@ sap.ui.define([
 	 * be closed.
 	 *
 	 * @extends sap.m.List
-	 * @version 1.58.0
+	 * @version 1.58.1
 	 *
 	 * @constructor
 	 * @public
@@ -586,7 +586,7 @@ sap.ui.define([
 				// possible
 				if (sSearchVal || numberOfsPath > 0) {
 					var path = this.getBindingInfo("items").template.getBindingInfo("text").parts[0].path;
-					if (path) {
+					if (path || path === "") { // path="" will be resolved relativelly to the parent, i.e. actual path will match the parent's one.
 						var oUserFilter = new Filter(path, sap.ui.model.FilterOperator.Contains, sSearchVal);
 						if (this.getEnableCaseInsensitiveSearch() && isODataModel(oBinding.getModel())){
 							//notice the single quotes wrapping the value from the UI control!

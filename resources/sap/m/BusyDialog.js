@@ -43,7 +43,7 @@ sap.ui.define(['./library', 'sap/ui/core/Control', 'sap/m/Dialog', 'sap/m/BusyIn
 		 * @extends sap.ui.core.Control
 		 *
 		 * @author SAP SE
-		 * @version 1.58.0
+		 * @version 1.58.1
 		 *
 		 * @public
 		 * @alias sap.m.BusyDialog
@@ -161,7 +161,7 @@ sap.ui.define(['./library', 'sap/ui/core/Control', 'sap/m/Dialog', 'sap/m/BusyIn
 				showHeader: false,
 				afterOpen: onOpen,
 				afterClose: this._fnCloseHandler.bind(this),
-				initialFocus: this._busyIndicator
+				initialFocus: this._busyIndicator.getId() + '-busyIndicator'
 			}).addStyleClass('sapMBusyDialog');
 
 
@@ -470,7 +470,9 @@ sap.ui.define(['./library', 'sap/ui/core/Control', 'sap/m/Dialog', 'sap/m/BusyIn
 		["addStyleClass", "removeStyleClass", "toggleStyleClass", "hasStyleClass"].forEach(function (sActionName) {
 			BusyDialog.prototype[sActionName] = function () {
 				if (this._oDialog && this._oDialog[sActionName]) {
-					return this._oDialog[sActionName].apply(this._oDialog, arguments);
+					this._oDialog[sActionName].apply(this._oDialog, arguments);
+
+					return this;
 				}
 			};
 		});

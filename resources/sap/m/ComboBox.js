@@ -71,7 +71,7 @@ sap.ui.define([
 		 * </ul>
 		 *
 		 * @author SAP SE
-		 * @version 1.58.0
+		 * @version 1.58.1
 		 *
 		 * @constructor
 		 * @extends sap.m.ComboBoxBase
@@ -757,14 +757,14 @@ sap.ui.define([
 				this.onChange(null, mParam);
 			}
 
-			this.close();
-
 			this.setProperty("value", oItem.getText(), true);
 
 			// deselect the text and move the text cursor at the endmost position
 			if (this.getPickerType() === "Dropdown") {
 				setTimeout(this.selectText.bind(this, this.getValue().length, this.getValue().length), 0);
 			}
+
+			setTimeout(this.close.bind(this));
 		};
 
 		/**

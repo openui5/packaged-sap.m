@@ -1656,12 +1656,6 @@ html[data-sap-ui-animation='off'] .sapMCrslInner {
 .sapMCb:not(.sapMCbBgDis).sapMCbHasLabel:focus:before {
   pointer-events: none;
 }
-/* Only on IE 11 there is an unwanted scrollbar when sap.m.CheckBox is within an element with overflow set to auto.
- For more information see internal incident 1880283393. */
-/* TODO remove after 1.62 version */
-html[data-sap-ui-browser^="ie"] .sapMCb {
-  display: inline-table;
-}
 .sapUiForm .sapMCb {
   display: table-cell;
 }
@@ -2356,16 +2350,18 @@ html[data-sap-ui-browser^=ie]:not(.sapUiMedia-Std-Phone) .sapUiSizeCompact .sapM
 }
 html.sap-phone .sapMDateTimePopupCont,
 html.sapUiMedia-Std-Phone .sapMDateTimePopupCont {
-  position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  top: 0;
   height: 100%;
   min-width: 20rem;
   overflow: auto !important;
   /* allow scrolling in landscape mode */
   display: block;
+}
+html.sap-phone .sapMDateTimePopupCont {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
 }
 html.sap-phone .sapUiSizeCompact .sapMDateTimePopupCont,
 html.sapUiMedia-Std-Phone .sapUiSizeCompact .sapMDateTimePopupCont {
@@ -2378,6 +2374,9 @@ html.sapUiMedia-Std-Phone .sapMTimePickerSep {
 html.sap-phone .sapMDateTimePopupCont > .sapUiCal,
 html.sapUiMedia-Std-Phone .sapMDateTimePopupCont > .sapUiCal {
   width: 100%;
+}
+html.sapUiMedia-Std-Phone .sapMDateTimePopupCont > div[class=sapUiCal] {
+  height: 25.25rem;
 }
 html.sapUiMedia-Std-Phone .sapMDateTimePopupCont.sapMTimePickerDropDown .sapMTimePickerContainer {
   height: 25.25rem;
@@ -2400,6 +2399,9 @@ html.sap-phone .sapMDateTimePopupCont .sapUiCalContent > .sapUiCalYearPicker {
   box-sizing: border-box;
   left: 0;
   margin: 0;
+}
+.sapUiSizeCompact .sapMTimePickerDropDown .sapMTimePickerContainer {
+  min-width: 17rem;
 }
 /* ============================= */
 /* CSS for control sap.m/Dialog  */
@@ -6190,12 +6192,14 @@ html.sap-desktop .sapMImageContent:focus:not([tabindex]) {
   height: 2.5rem;
   background: transparent;
   position: relative;
-  display: inline-block;
+  display: inline-flex;
   vertical-align: top;
   outline: none;
-  overflow: hidden;
   box-sizing: border-box;
   line-height: 0;
+}
+.sapMInputBaseNoWidth {
+  max-width: 100%;
 }
 .sapMInputBaseHeightMargin {
   margin: 0.25rem 0;
@@ -6212,8 +6216,8 @@ html.sap-desktop .sapMImageContent:focus:not([tabindex]) {
   padding: 0 0.75rem;
   height: 100%;
   box-sizing: border-box;
-  flex: 1;
-  min-width: 0;
+  flex: auto;
+  min-width: 3rem;
   text-overflow: ellipsis;
 }
 .sapMInputBaseContentWrapper {
@@ -6221,8 +6225,11 @@ html.sap-desktop .sapMImageContent:focus:not([tabindex]) {
   box-sizing: border-box;
   display: inline-flex;
   flex-direction: row;
-  justify-content: flex-start;
+  justify-content: flex-end;
   position: relative;
+  overflow: hidden;
+  min-width: -moz-min-content;
+  min-width: min-content;
 }
 .sapMInputBaseHasBeginIcons .sapMInputBaseInner {
   padding-left: 0.25rem;
@@ -6278,8 +6285,7 @@ html[data-sap-ui-browser^="ed"].sap-desktop .sapMFocus .sapMInputBaseContentWrap
   font-style: italic;
 }
 .sapMInputBaseInner {
-  width: auto;
-  /* fit the parents(sapMInputBase) width */
+  width: 100%;
 }
 .sapMInputBaseInner::-webkit-outer-spin-button,
 .sapMInputBaseInner::-webkit-inner-spin-button {
@@ -6366,6 +6372,7 @@ html[data-sap-ui-browser^="ed"].sap-desktop .sapMFocus .sapMInputBaseContentWrap
 }
 .sapUiSizeCompact .sapMInputBaseInner {
   padding: 0 0.5rem;
+  min-width: 2rem;
 }
 .sapUiSizeCompact .sapMInputBaseIcon {
   width: 2rem;
@@ -6429,9 +6436,6 @@ html[data-sap-ui-browser^="ed"] .sapMInputBaseInner {
 .sapMInputBaseDisabled .sapMInputBaseInner:-ms-input-placeholder {
   color: #ffffff;
 }
-html[data-sap-ui-browser^="ie"] .sapMInputBaseNoWidth {
-  min-width: 13.5rem;
-}
 html[data-sap-ui-browser^="ie"] .sapMFocus .sapMInputBaseDisabledWrapper::before {
   display: none;
   pointer-events: none;
@@ -6479,6 +6483,12 @@ html.sap-desktop .sapMInputBaseIconPressed .sapMInputBaseIcon:hover {
 /* ------------------------------ */
 div.sapMComboBoxBasePicker .sapMDialogScrollCont {
   padding: 0;
+}
+/* ------------------------------ */
+/* list                           */
+/* ------------------------------ */
+.sapMComboBoxBaseList.sapUiLocalBusy {
+  min-height: 2rem;
 }
 /* =============================== */
 /* CSS for control sap.m/ComboBox  */
@@ -8292,6 +8302,9 @@ html[data-sap-ui-animation='on'] .sapMMsgStripCloseButton {
 .sapMMultiComboBoxReadOnlyPopover .sapMLIB.sapMLIBHoverable:hover {
   background: none;
 }
+.sapMMultiComboBox .sapMTokenizer {
+  flex: none;
+}
 .sapMMultiComboBox .sapMInputBaseInner {
   min-width: 3rem;
 }
@@ -8356,6 +8369,9 @@ html.sap-desktop li.sapMMultiComboBoxItemRangeSelection {
 }
 .sapMMultiInput.sapMMultiInputHasTokens .sapMInputBaseInner {
   padding-left: 0;
+}
+.sapMMultiInput .sapMTokenizer {
+  flex: none;
 }
 .sapMMultiInput .sapMInputBaseInner {
   min-width: 3rem;
@@ -9506,9 +9522,6 @@ html[dir=rtl] .sapMNCValueScr {
   font-size: .875rem;
   color: #000000;
 }
-.sapMObjectAttributeActive {
-  pointer-events: none;
-}
 .sapMObjectAttributeActive .sapMObjectAttributeColon {
   vertical-align: middle;
 }
@@ -9546,11 +9559,7 @@ html[dir=rtl] .sapMNCValueScr {
   text-overflow: ellipsis;
   max-width: 50%;
   vertical-align: middle;
-}
-html[data-sap-ui-browser^='ie'] .sapMObjectAttributeActive .sapMObjectAttributeTitle,
-html[data-sap-ui-browser^='ed'] .sapMObjectAttributeActive .sapMObjectAttributeTitle,
-html[data-sap-ui-browser^='ie'] .sapMObjectAttributeActive .sapMObjectAttributeText,
-html[data-sap-ui-browser^='ed'] .sapMObjectAttributeActive .sapMObjectAttributeText {
+  /* we need this otherwise the focus get broken when the link is on more lines */
   display: inline-block;
 }
 .sapMListTblCell .sapMObjectAttributeActive .sapMObjectAttributeTitle,
@@ -19759,4 +19768,4 @@ html.sap-tablet:not(.sap-desktop) .sapMVSPopover .sapMBarChild.sapMCb:focus {
 }
 
 /* Inline theming parameters */
-#sap-ui-theme-sap\.m { background-image: url('data:text/plain;utf-8,%7B%22_sap_m_Bar_AppHeight%22:%223333px%22,%22_sap_m_Bar_HeaderHeight%22:%2268px%22,%22_sap_m_Bar_MinHeightForHeader%22:%223401px%22,%22_sap_m_ColorPalette_SwatchesPerRow%22:%225%22,%22_sap_m_ColorPalette_SwatchContainerPaddingLeftRightCozy%22:%220.6875rem%22,%22_sap_m_ColorPalette_SwatchContainerPaddingTopBottomCozy%22:%220.3125rem%22,%22_sap_m_ColorPalette_SwatchWidthHitAreaCozy%22:%222.375rem%22,%22_sap_m_ColorPalette_SwatchWidthCozy%22:%221.75rem%22,%22_sap_m_ColorPalette_SwatchContainerPaddingLeftRightCompact%22:%220.8125rem%22,%22_sap_m_ColorPalette_SwatchContainerPaddingTopBottomCompact%22:%220.1875rem%22,%22_sap_m_ColorPalette_SwatchWidthHitAreaCompact%22:%221.625rem%22,%22_sap_m_ColorPalette_SwatchWidthCompact%22:%221.25rem%22,%22_sap_m_ColorPalette_SwatchContainerPaddingLeftRightPhone%22:%220.625rem%22,%22_sap_m_ColorPalette_SwatchContainerPaddingTopBottomPhone%22:%220.375rem%22,%22_sap_m_ColorPalette_SwatchMaxWidthPhone%22:%224.5rem%22,%22_sap_m_ColorPalette_SwatchMarginPhone%22:%220.375rem%22,%22_sap_m_Dialog_MarginHeight%22:%227%25%22,%22_sap_m_Dialog_BarHeight%22:%223rem%22,%22_sap_m_Dialog_BarCompactHeight%22:%222.5rem%22,%22_sap_m_Dialog_Padding%22:%221rem%22,%22_sap_m_LightBox_MinHeight%22:%2218rem%22,%22_sap_m_LightBox_FooterOneLineHeightDesktop%22:%222.5rem%22,%22_sap_m_LightBox_FooterTwoLinesHeightDesktop%22:%224rem%22,%22_sap_m_LightBox_FooterOneLineHeightMobile%22:%223rem%22,%22_sap_m_LightBox_FooterTwoLinesHeightMobile%22:%224.5rem%22,%22_sap_m_LightBox_BusyIndicatorHeight%22:%221rem%22,%22_sap_m_NotificationListBase_ContainerPaddingLeft%22:%221.5rem%22,%22_sap_m_NotificationListBase_ContainerPadding%22:%221rem%22,%22_sap_m_NotificationListBase_CloseButtonSize%22:%222.5rem%22,%22_sap_m_NotificationListBase_CloseButtonCompactSize%22:%221.625rem%22,%22_sap_m_NotificationListBase_CloseButtonCozyPosition%22:%220.25rem%22,%22_sap_m_NotificationListBase_CloseButtonCompactPosition%22:%220.5rem%22,%22_sap_m_NotificationListGroup_ContainerPadding%22:%221rem%22,%22_sap_m_NotificationListGroup_BottomMargin%22:%220.5rem%22,%22_sap_m_NotificationListGroup_BorderRadius%22:%220.25rem%22,%22_sap_m_NotificationListItem_ContainerPadding%22:%221rem%22,%22_sap_m_NotificationListItem_ContainerPaddingLeft%22:%221.5rem%22,%22sapMOnePersonGridRowHeadersWidth%22:%224rem%22,%22sapMOnePersonGridRowHeight%22:%224rem%22,%22sapMOnePersonGridCompactRowHeight%22:%223rem%22,%22_sap_m_Page_AppHeight%22:%223333px%22,%22_sap_m_Page_HeaderHeight%22:%2268px%22,%22_sap_m_Page_MinHeightForHeader%22:%223401px%22,%22_sap_m_Popover_ForceCompactArrowOffset%22:%22true%22,%22_sap_m_SelectListItem_Height%22:%222.5rem%22,%22_sap_m_SelectListItem_CompactHeight%22:%222rem%22,%22_sap_m_Shell_AppWidthLimit%22:%221280px%22,%22_sap_m_Shell_AppWidthLimitBy2%22:%22640px%22,%22_sap_m_Shell_AppWidthLimitPlusPadding%22:%221296px%22,%22_sap_m_Shell_AppHeight%22:%223333px%22,%22_sap_m_Shell_HeaderHeight%22:%2268px%22,%22_sap_m_Shell_MinHeightForHeader%22:%223401px%22,%22_sap_m_Shell_MinWidthForLogoAside%22:%221480px%22,%22_sap_m_Shell_MinWidthForBigLogoAside%22:%221680px%22,%22_sap_m_SplitContainer_AppHeight%22:%223333px%22,%22_sap_m_SplitContainer_HeaderHeight%22:%2268px%22,%22_sap_m_SplitContainer_MinHeightForHeader%22:%223401px%22,%22_sap_m_Switch_OnPosition%22:%22-32%22,%22_sap_m_Switch_OffPosition%22:%220%22,%22_sap_m_Switch_TransitionTime%22:%22175%22,%22_sap_m_Token_TokenPadding%22:%220.5rem%22,%22_sap_m_Token_TokenCompactPadding%22:%220.25rem%22,%22_sap_m_Token_TokenSize%22:%222rem%22,%22_sap_m_Token_TokenCompactSize%22:%221.25rem%22,%22_sap_m_Tokenizer_OutlineOffset%22:%223px%22,%22_sap_m_Wizard_NavHeight%22:%224rem%22,%22_sap_m_WizardProgressNavigator_NavHeight%22:%224rem%22,%22_sap_m_WizardProgressNavigator_ListHeight%22:%222rem%22,%22_sap_m_WizardProgressNavigator_StepWidth%22:%222rem%22,%22_sap_m_WizardProgressNavigator_StepPadding%22:%220.5rem%22,%22_sap_m_WizardProgressNavigator_SmallSeparator%22:%220.25rem%22,%22_sap_m_WizardProgressNavigator_StepUnderlineHeight%22:%220.125rem%22,%22_sap_m_WizardProgressNavigator_StepOverlapOnPhone%22:%221.75rem%22%7D'); }
+#sap-ui-theme-sap\.m { background-image: url('data:text/plain;utf-8,%7B%22_sap_m_Bar_AppHeight%22:%223333px%22,%22_sap_m_Bar_HeaderHeight%22:%2268px%22,%22_sap_m_Bar_MinHeightForHeader%22:%223401px%22,%22_sap_m_ColorPalette_SwatchesPerRow%22:%225%22,%22_sap_m_ColorPalette_SwatchContainerPaddingLeftRightCozy%22:%220.6875rem%22,%22_sap_m_ColorPalette_SwatchContainerPaddingTopBottomCozy%22:%220.3125rem%22,%22_sap_m_ColorPalette_SwatchWidthHitAreaCozy%22:%222.375rem%22,%22_sap_m_ColorPalette_SwatchWidthCozy%22:%221.75rem%22,%22_sap_m_ColorPalette_SwatchContainerPaddingLeftRightCompact%22:%220.8125rem%22,%22_sap_m_ColorPalette_SwatchContainerPaddingTopBottomCompact%22:%220.1875rem%22,%22_sap_m_ColorPalette_SwatchWidthHitAreaCompact%22:%221.625rem%22,%22_sap_m_ColorPalette_SwatchWidthCompact%22:%221.25rem%22,%22_sap_m_ColorPalette_SwatchContainerPaddingLeftRightPhone%22:%220.625rem%22,%22_sap_m_ColorPalette_SwatchContainerPaddingTopBottomPhone%22:%220.375rem%22,%22_sap_m_ColorPalette_SwatchMaxWidthPhone%22:%224.5rem%22,%22_sap_m_ColorPalette_SwatchMarginPhone%22:%220.375rem%22,%22_sap_m_Dialog_MarginHeight%22:%227%25%22,%22_sap_m_Dialog_BarHeight%22:%223rem%22,%22_sap_m_Dialog_BarCompactHeight%22:%222.5rem%22,%22_sap_m_Dialog_Padding%22:%221rem%22,%22_sap_m_LightBox_MinHeight%22:%2218rem%22,%22_sap_m_LightBox_FooterOneLineHeightDesktop%22:%222.5rem%22,%22_sap_m_LightBox_FooterTwoLinesHeightDesktop%22:%224rem%22,%22_sap_m_LightBox_FooterOneLineHeightMobile%22:%223rem%22,%22_sap_m_LightBox_FooterTwoLinesHeightMobile%22:%224.5rem%22,%22_sap_m_LightBox_BusyIndicatorHeight%22:%221rem%22,%22_sap_m_NotificationListBase_ContainerPaddingLeft%22:%221.5rem%22,%22_sap_m_NotificationListBase_ContainerPadding%22:%221rem%22,%22_sap_m_NotificationListBase_CloseButtonSize%22:%222.5rem%22,%22_sap_m_NotificationListBase_CloseButtonCompactSize%22:%221.625rem%22,%22_sap_m_NotificationListBase_CloseButtonCozyPosition%22:%220.25rem%22,%22_sap_m_NotificationListBase_CloseButtonCompactPosition%22:%220.5rem%22,%22_sap_m_NotificationListGroup_ContainerPadding%22:%221rem%22,%22_sap_m_NotificationListGroup_BottomMargin%22:%220.5rem%22,%22_sap_m_NotificationListGroup_BorderRadius%22:%220.25rem%22,%22_sap_m_NotificationListItem_ContainerPadding%22:%221rem%22,%22_sap_m_NotificationListItem_ContainerPaddingLeft%22:%221.5rem%22,%22_sap_m_OnePersonGrid_RowHeadersWidth%22:%224rem%22,%22_sap_m_OnePersonGrid_RowHeight%22:%224rem%22,%22_sap_m_OnePersonGrid_CompactRowHeight%22:%223rem%22,%22_sap_m_Page_AppHeight%22:%223333px%22,%22_sap_m_Page_HeaderHeight%22:%2268px%22,%22_sap_m_Page_MinHeightForHeader%22:%223401px%22,%22_sap_m_Popover_ForceCompactArrowOffset%22:%22true%22,%22_sap_m_SelectListItem_Height%22:%222.5rem%22,%22_sap_m_SelectListItem_CompactHeight%22:%222rem%22,%22_sap_m_Shell_AppWidthLimit%22:%221280px%22,%22_sap_m_Shell_AppWidthLimitBy2%22:%22640px%22,%22_sap_m_Shell_AppWidthLimitPlusPadding%22:%221296px%22,%22_sap_m_Shell_AppHeight%22:%223333px%22,%22_sap_m_Shell_HeaderHeight%22:%2268px%22,%22_sap_m_Shell_MinHeightForHeader%22:%223401px%22,%22_sap_m_Shell_MinWidthForLogoAside%22:%221480px%22,%22_sap_m_Shell_MinWidthForBigLogoAside%22:%221680px%22,%22_sap_m_SplitContainer_AppHeight%22:%223333px%22,%22_sap_m_SplitContainer_HeaderHeight%22:%2268px%22,%22_sap_m_SplitContainer_MinHeightForHeader%22:%223401px%22,%22_sap_m_Switch_OnPosition%22:%22-32%22,%22_sap_m_Switch_OffPosition%22:%220%22,%22_sap_m_Switch_TransitionTime%22:%22175%22,%22_sap_m_Token_TokenPadding%22:%220.5rem%22,%22_sap_m_Token_TokenCompactPadding%22:%220.25rem%22,%22_sap_m_Token_TokenSize%22:%222rem%22,%22_sap_m_Token_TokenCompactSize%22:%221.25rem%22,%22_sap_m_Tokenizer_OutlineOffset%22:%223px%22,%22_sap_m_Wizard_NavHeight%22:%224rem%22,%22_sap_m_WizardProgressNavigator_NavHeight%22:%224rem%22,%22_sap_m_WizardProgressNavigator_ListHeight%22:%222rem%22,%22_sap_m_WizardProgressNavigator_StepWidth%22:%222rem%22,%22_sap_m_WizardProgressNavigator_StepPadding%22:%220.5rem%22,%22_sap_m_WizardProgressNavigator_SmallSeparator%22:%220.25rem%22,%22_sap_m_WizardProgressNavigator_StepUnderlineHeight%22:%220.125rem%22,%22_sap_m_WizardProgressNavigator_StepOverlapOnPhone%22:%221.75rem%22%7D'); }

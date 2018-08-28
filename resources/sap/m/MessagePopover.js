@@ -78,7 +78,7 @@ function(
 		 * @extends sap.ui.core.Control
 		 *
 		 * @author SAP SE
-		 * @version 1.58.0
+		 * @version 1.58.1
 		 *
 		 * @constructor
 		 * @public
@@ -484,6 +484,10 @@ function(
 			// If MessagePopover is opened from an instance of sap.m.Toolbar and is instance of sap.m.Popover remove the Arrow
 			if (oResponsivePopoverControl instanceof Popover) {
 				if ((oParent instanceof Toolbar || oParent instanceof Bar || oParent instanceof SemanticPage)) {
+					oResponsivePopoverControl._minDimensions = {
+						width: 400,
+						height: 128
+					};
 					oResponsivePopoverControl.setShowArrow(false);
 					oResponsivePopoverControl.setResizable(true);
 				} else {

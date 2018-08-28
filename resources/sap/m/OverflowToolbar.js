@@ -115,7 +115,7 @@ sap.ui.define([
 	 * @implements sap.ui.core.Toolbar,sap.m.IBar
 	 *
 	 * @author SAP SE
-	 * @version 1.58.0
+	 * @version 1.58.1
 	 *
 	 * @constructor
 	 * @public
@@ -199,6 +199,10 @@ sap.ui.define([
 		this._applyFocus();
 	};
 
+	OverflowToolbar.prototype.onsapfocusleave = function() {
+		this._resetChildControlFocusInfo();
+	};
+
 	/*********************************************LAYOUT*******************************************************/
 
 
@@ -269,12 +273,13 @@ sap.ui.define([
 	};
 
 	OverflowToolbar.prototype._applyFocus = function () {
-		var oFocusedChildControl = sap.ui.getCore().byId(this.sFocusedChildControlId),
+		var oFocusedChildControl,
 			$FocusedChildControl,
 			$LastFocusableChildControl = this.$().lastFocusableDomRef();
 
-		if (oFocusedChildControl) {
-			$FocusedChildControl = oFocusedChildControl.$();
+		if (this.sFocusedChildControlId) {
+			oFocusedChildControl = sap.ui.getCore().byId(this.sFocusedChildControlId);
+			$FocusedChildControl = oFocusedChildControl && oFocusedChildControl.$();
 		}
 
 		if ($FocusedChildControl && $FocusedChildControl.length){
@@ -306,8 +311,18 @@ sap.ui.define([
 			this.sFocusedChildControlId = sActiveElementId;
 		} else if (sActiveElementId === this._getOverflowButton().getId()) {
 			this._bOverflowButtonWasFocused = true;
-			this.sFocusedChildControlId = null;
+			this.sFocusedChildControlId = "";
 		}
+	};
+
+	/**
+	 * Resets focus info.
+	 * @private
+	 */
+	OverflowToolbar.prototype._resetChildControlFocusInfo = function () {
+		this._bControlWasFocused = false;
+		this._bOverflowButtonWasFocused = false;
+		this.sFocusedChildControlId = "";
 	};
 
 	/**
