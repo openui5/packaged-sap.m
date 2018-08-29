@@ -55,7 +55,7 @@ sap.ui.define(["jquery.sap.global", "./library", "sap/ui/core/Control", "sap/ui/
 		 * @extends sap.ui.core.Control
 		 * @mixes sap.ui.core.ContextMenuSupport
 		 * @author SAP SE
-		 * @version 1.52.17
+		 * @version 1.52.18
 		 *
 		 * @public
 		 * @alias sap.m.Page
@@ -687,6 +687,13 @@ sap.ui.define(["jquery.sap.global", "./library", "sap/ui/core/Control", "sap/ui/
 			return this._getInternalHeader().destroyContentRight();
 		};
 
+		Page.prototype.setBusy = function (bBusy) {
+			// If contentOnlyBusy property is set, then the busy indicator should cover only the content area
+			// Otherwise all clicks in the footer, header and subheader might be suppressed
+			var sBusySection = this.getContentOnlyBusy() ? 'cont' : null;
+
+			return Control.prototype.setBusy.call(this, bBusy, sBusySection);
+		};
 
 		Page.prototype.setCustomHeader = function(oHeader) {
 

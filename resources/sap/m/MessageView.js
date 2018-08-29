@@ -74,7 +74,7 @@ sap.ui.define([
 	 * As part of the messaging concept, MessageView provides a way to centrally manage messages and show them to the user without additional work for the developer.
 	 * <br><br>
 	 * @author SAP SE
-	 * @version 1.52.17
+	 * @version 1.52.18
 	 *
 	 * @constructor
 	 * @public
@@ -766,14 +766,21 @@ sap.ui.define([
 
 		// If there is only the always-present 'all' button and a single group button
 		// no need for a segmented button
-
 		var bSegmentedButtonVisible = this._oSegmentedButton.getButtons().length > 2;
 		this._oSegmentedButton.setVisible(bSegmentedButtonVisible);
+		// If there's only one group reset filter and highlight the "All" button from the SegmentedButton list.
+		// Otherwise if the user has filtered and the model changes, he could be stuck to a "no data" page without a way
+		// to navigate back and see the remaining messages
+		if (!bSegmentedButtonVisible) {
+			this._oSegmentedButton.setSelectedButton(this._oSegmentedButton.getButtons()[0]);
+			this._fnFilterList('all');
+		}
 
 		// If SegmentedButton should not be visible,
 		// and there is no custom button - hide the initial page's header
 		var bListPageHeaderVisible = bSegmentedButtonVisible || this._bHasHeaderButton;
 		this._listPage.setShowHeader(bListPageHeaderVisible);
+
 
 		return this;
 	};

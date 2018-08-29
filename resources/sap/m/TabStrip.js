@@ -26,7 +26,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Control', 'sap/ui/core/IconPool
 		 * space is exceeded, a horizontal scrollbar appears.
 		 *
 		 * @extends sap.ui.core.Control
-		 * @version 1.52.17
+		 * @version 1.52.18
 		 *
 		 * @constructor
 		 * @private
@@ -284,10 +284,35 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Control', 'sap/ui/core/IconPool
 			this._addItemNavigation();
 
 			if (!Device.system.phone) {
+				// workaround for the problem that the scrollEnablement obtains this reference only after its hook to onAfterRendering of the TabStrip is called
+				this._oScroller._$Container = this.$("tabsContainer");
+
 				this._adjustScrolling();
+
+				if (this.getSelectedItem()) {
+					if (!sap.ui.getCore().isThemeApplied()) {
+						sap.ui.getCore().attachThemeChanged(this._handleInititalScrollToItem, this);
+					} else {
+						this._handleInititalScrollToItem();
+					}
+				}
 
 				this._sResizeListenerId = ResizeHandler.register(this.getDomRef(),  jQuery.proxy(this._adjustScrolling, this));
 			}
+		};
+
+		/**
+		 * Scrolls to initially selected item by setting it after the theme is applied
+		 * and on after rendering the Tab Strip.
+		 *
+		 * @private
+		 */
+		TabStrip.prototype._handleInititalScrollToItem = function() {
+			var $oItem = sap.ui.getCore().byId(this.getSelectedItem());
+			if ($oItem.$().length > 0) { // check if the item is already in the DOM
+				this._scrollIntoView($oItem, 500);
+			}
+			sap.ui.getCore().detachThemeChanged(this._handleInititalScrollToItem, this);
 		};
 
 		/**
@@ -555,7 +580,8 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Control', 'sap/ui/core/IconPool
 				oTabsContainerDomRef = this.getDomRef("tabsContainer"),
 				iScrollLeft = oTabsContainerDomRef.scrollLeft,
 				iContainerWidth = this.$("tabsContainer").width(),
-				iNewScrollLeft = iScrollLeft;
+				iNewScrollLeft = iScrollLeft,
+				bIE_Edge = Device.browser.internet_explorer || Device.browser.edge;
 
 			// check if item is outside of viewport
 			if (iItemPosLeft < 0 || iItemPosLeft > iContainerWidth - iItemWidth) {
@@ -565,6 +591,12 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Control', 'sap/ui/core/IconPool
 						iNewScrollLeft += iItemPosLeft + iItemWidth - iContainerWidth;
 					} else { // left side: make this the first item
 						iNewScrollLeft += iItemPosLeft;
+					}
+				} else if (this._bRtl && bIE_Edge) {
+					if (iItemPosLeft < 0) { // right side: make this the first item
+						iNewScrollLeft -= iItemPosLeft;
+					} else { // left side: make this the last item
+						iNewScrollLeft -= iItemPosLeft + iItemWidth - iContainerWidth;
 					}
 				} else {
 					if (iItemPosLeft < 0) { // left side: make this the first item
@@ -1109,8 +1141,9 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Control', 'sap/ui/core/IconPool
 		 * @private
 		 */
 		TabStrip.prototype._updateAriaSelectedAttributes = function(aItems, oSelectedItem) {
-			var sAriaSelected = "false";
+			var sAriaSelected;
 			aItems.forEach(function (oItem) {
+				sAriaSelected = "false";
 				if (oItem.$()) {
 					if (oSelectedItem && oSelectedItem.getId() === oItem.getId()) {
 						sAriaSelected = "true";

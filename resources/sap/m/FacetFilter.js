@@ -98,7 +98,7 @@ sap.ui.define(['jquery.sap.global', './NavContainer', './library', 'sap/ui/core/
 	 *
 	 * @extends sap.ui.core.Control
 	 * @implements sap.ui.core.IShrinkable
-	 * @version 1.52.17
+	 * @version 1.52.18
 	 *
 	 * @constructor
 	 * @public
@@ -1599,7 +1599,7 @@ sap.ui.define(['jquery.sap.global', './NavContainer', './library', 'sap/ui/core/
 	 */
 	FacetFilter.prototype._createFacetList = function() {
 
-		var oFacetList =  new sap.m.List({
+		var oFacetList = this._oFacetList = new sap.m.List({
 			mode: ListMode.None,
 			items: {
 				path: "/items",
@@ -1616,16 +1616,7 @@ sap.ui.define(['jquery.sap.global', './NavContainer', './library', 'sap/ui/core/
 		});
 
 		// Create the facet list from a model binding so that we can implement facet list search using a filter.
-		var aFacetFilterLists = [];
-		for ( var i = 0; i < this.getLists().length; i++) {
-			var oList = this.getLists()[i];
-
-			aFacetFilterLists.push({
-				text: oList.getTitle(),
-				count: oList.getAllCount(),
-				index : i
-			});
-		}
+		var aFacetFilterLists = this._getMapFacetLists();
 
 		var oModel = new sap.ui.model.json.JSONModel({
 			items: aFacetFilterLists
@@ -1649,6 +1640,30 @@ sap.ui.define(['jquery.sap.global', './NavContainer', './library', 'sap/ui/core/
 
 		oFacetList.setModel(oModel);
 		return oFacetList;
+	};
+
+	/**
+	 * This method refreshes the internal model for thr FacetList. It should be called everytime when the model
+	 * of FacetFilter is changed and update to the FacetList is needed
+	 *
+	 * @protected
+	 * @sap-restricted hpa.cei.mkt.cal -> FacetFilter.controller -> OnDisplayRefreshed
+	 * @returns {sap.m.FacetFilter}
+	 */
+	FacetFilter.prototype.refreshFacetList = function () {
+		this._oFacetList.getModel().setData({ items: this._getMapFacetLists() });
+
+		return this;
+	};
+
+	FacetFilter.prototype._getMapFacetLists = function () {
+		return this.getLists().map(function (oList, iIndex) {
+			return {
+				text: oList.getTitle(),
+				count: oList.getAllCount(),
+				index: iIndex
+			};
+		});
 	};
 
 	/**
