@@ -138,7 +138,7 @@ sap.ui.define([
 	 *
 	 * @extends sap.ui.core.Control
 	 * @implements sap.ui.core.IShrinkable
-	 * @version 1.58.1
+	 * @version 1.58.2
 	 *
 	 * @constructor
 	 * @public
@@ -1614,7 +1614,7 @@ sap.ui.define([
 	 */
 	FacetFilter.prototype._createFacetList = function() {
 
-		var oFacetList =  new sap.m.List({
+		var oFacetList = this._oFacetList = new sap.m.List({
 			mode: ListMode.None,
 			items: {
 				path: "/items",

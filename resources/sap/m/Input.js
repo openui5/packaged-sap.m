@@ -132,7 +132,7 @@ function(
 	 *
 	 * @extends sap.m.InputBase
 	 * @author SAP SE
-	 * @version 1.58.1
+	 * @version 1.58.2
 	 *
 	 * @constructor
 	 * @public
@@ -1005,7 +1005,19 @@ function(
 				press: function (oEvent) {
 					// if the property valueHelpOnly is set to true, the event is triggered in the ontap function
 					if (!that.getValueHelpOnly()) {
-						this.getParent().focus();
+						var oParent = this.getParent(),
+							$input;
+
+						if (Device.support.touch) {
+							// prevent opening the soft keyboard
+							$input = oParent.$('inner');
+							$input.attr('readonly', 'readonly');
+							oParent.focus();
+							$input.removeAttr('readonly');
+						} else {
+							oParent.focus();
+						}
+
 						that.bValueHelpRequested = true;
 						that.fireValueHelpRequest({ fromSuggestions: false });
 					}
@@ -1448,6 +1460,11 @@ function(
 			return; // override InputBase.onsapescape()
 		}
 
+		if (this.getValueLiveUpdate()) {
+			// When valueLiveUpdate is true call setProperty to return back the last value.
+			this.setProperty("value", this._lastValue, true);
+		}
+
 		if (InputBase.prototype.onsapescape) {
 			InputBase.prototype.onsapescape.apply(this, arguments);
 		}
@@ -1790,7 +1807,7 @@ function(
 			var value = this.getDOMValue();
 
 			if (this.getValueLiveUpdate()) {
-				this.setProperty("value",value, true);
+				this.setProperty("value", value, true);
 				this._onValueUpdated(value);
 			}
 

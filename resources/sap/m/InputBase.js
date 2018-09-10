@@ -62,7 +62,7 @@ function(
 	 * @implements sap.ui.core.IFormContent
 	 *
 	 * @author SAP SE
-	 * @version 1.58.1
+	 * @version 1.58.2
 	 *
 	 * @constructor
 	 * @public
@@ -1113,6 +1113,16 @@ function(
 		}
 		var oIcon = IconPool.createControlByURI(oIconSettings).addStyleClass(InputBase.ICON_CSS_CLASS);
 		this.addAggregation("_" + sIconPosition + "Icon", oIcon);
+
+		// this is a workaround that all non tabbable icons
+		// should forward the focus to their input fields
+		oIcon.addEventDelegate({
+			onAfterRendering: function () {
+				if (oIcon.getNoTabStop()) {
+					oIcon.$().attr("tabindex", "-1");
+				}
+			}
+		}, this);
 
 		return oIcon;
 	};

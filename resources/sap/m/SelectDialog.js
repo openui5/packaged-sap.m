@@ -107,7 +107,7 @@ function(
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.58.1
+	 * @version 1.58.2
 	 *
 	 * @constructor
 	 * @public
@@ -436,6 +436,20 @@ function(
 	SelectDialog.prototype.getBusy = function () {
 		// Overwrite getBusy as it should be handled in the "real" dialog
 		return this._oDialog.getBusy.apply(this._oDialog, arguments);
+	};
+
+	/**
+	 * Sets the busyIndicatorDelay value to the internal list
+	 * @public
+	 * @param {int} iValue Value for the busyIndicatorDelay.
+	 * @returns {sap.m.SelectDialog} this pointer for chaining
+	 */
+	SelectDialog.prototype.setBusyIndicatorDelay = function (iValue) {
+		this._oList.setBusyIndicatorDelay(iValue);
+		this._oDialog.setBusyIndicatorDelay(iValue);
+		this.setProperty("busyIndicatorDelay", iValue, true);
+
+		return this;
 	};
 
 	/**

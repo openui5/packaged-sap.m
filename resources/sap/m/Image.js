@@ -44,7 +44,7 @@ sap.ui.define([
 	 * @implements sap.ui.core.IFormContent
 	 *
 	 * @author SAP SE
-	 * @version 1.58.1
+	 * @version 1.58.2
 	 *
 	 * @constructor
 	 * @public
@@ -270,8 +270,11 @@ sap.ui.define([
 
 		// if src is empty or there's no image existing, just stop
 		if (!sSrc || this._iLoadImageDensity === 1) {
-			// remove the "sapMNoImg" in order to show the alt text
-			$DomNode.removeClass("sapMNoImg");
+			// BCP: 1880526262
+			if (this.getAlt() && !this.getDecorative()) {
+				// remove the "sapMNoImg" in order to show the alt text
+				$DomNode.removeClass("sapMNoImg");
+			}
 			this.fireError();
 			return;
 		}

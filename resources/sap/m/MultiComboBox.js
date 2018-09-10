@@ -130,7 +130,7 @@ function(
 	 * </ul>
 	 *
 	 * @author SAP SE
-	 * @version 1.58.1
+	 * @version 1.58.2
 	 *
 	 * @constructor
 	 * @public
@@ -410,9 +410,10 @@ function(
 		if (this.getDomRef()) {
 			var iWidth = this.getDomRef().offsetWidth,
 				iArrowButtonWidth = parseInt(this.getDomRef("arrow").offsetWidth, 10),
-				iInputWidth = parseInt(this.$().find(".sapMInputBaseInner").css("min-width"), 10) || 0;
+				iInputWidth = parseInt(this.$().find(".sapMInputBaseInner").css("min-width"), 10) || 0,
+				iInputPadding = parseInt(this.$().find(".sapMInputBaseInner").css("padding-right"), 10) || 0;
 
-			return iWidth - (iArrowButtonWidth + iInputWidth) + "px";
+			return iWidth - (iArrowButtonWidth + iInputWidth + iInputPadding) + "px";
 		} else {
 			return null;
 		}

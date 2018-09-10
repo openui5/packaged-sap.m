@@ -40,7 +40,7 @@ sap.ui.define([
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.58.1
+	 * @version 1.58.2
 	 * @since 1.34
 	 *
 	 * @public
@@ -307,9 +307,6 @@ sap.ui.define([
 			if (this.hasStyleClass("sapMSTIconPressed")) {
 				this._toggleAnimation();
 				this.removeStyleClass("sapMSTIconPressed");
-			} else if (Device.system.desktop) {
-				oEvent.preventDefault();
-				this.getTiles()[this._iCurrentTile].firePress();
 			}
 		}
 	};

@@ -103,7 +103,7 @@ function(
 		 * @implements sap.ui.core.IFormContent
 		 *
 		 * @author SAP SE
-		 * @version 1.58.1
+		 * @version 1.58.2
 		 *
 		 * @constructor
 		 * @public
@@ -379,6 +379,8 @@ function(
 			this._iRealPrecision = 0;
 			this._attachChange();
 			this._bPaste = false; //needed to indicate when a paste is made
+
+			this._onmousewheel = this._onmousewheel.bind(this);
 		};
 
 		/**
@@ -400,6 +402,16 @@ function(
 				this.setValue(fMax);
 			}
 			this._disableButtons(vValue, fMax, fMin);
+		};
+
+		StepInput.prototype.onAfterRendering = function () {
+			var $domRef = this.$();
+			$domRef.unbind(Device.browser.firefox ? "DOMMouseScroll" : "mousewheel", this._onmousewheel);
+			$domRef.bind(Device.browser.firefox ? "DOMMouseScroll" : "mousewheel", this._onmousewheel);
+		};
+
+		StepInput.prototype.exit = function () {
+			this.$().unbind(Device.browser.firefox ? "DOMMouseScroll" : "mousewheel", this._onmousewheel);
 		};
 
 		StepInput.prototype.setProperty = function (sPropertyName, oValue, bSuppressInvalidate) {
@@ -891,6 +903,15 @@ function(
 		StepInput.prototype.onsapdown = function (oEvent) {
 			oEvent.preventDefault(); //prevents the value to decrease by one (Chrome and Firefox default behavior)
 			this._applyValue(this._calculateNewValue(1, false).displayValue);
+			this._verifyValue();
+		};
+
+		StepInput.prototype._onmousewheel = function (oEvent) {
+			oEvent.preventDefault();
+			var oOriginalEvent = oEvent.originalEvent,
+				bDirectionPositive = oOriginalEvent.detail ? (-oOriginalEvent.detail > 0) : (oOriginalEvent.wheelDelta > 0);
+
+			this._applyValue(this._calculateNewValue(1, bDirectionPositive).displayValue);
 			this._verifyValue();
 		};
 
