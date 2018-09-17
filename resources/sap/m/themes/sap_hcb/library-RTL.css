@@ -10402,6 +10402,9 @@ html.sap-desktop .sapMOHRTitleArrow .sapUiIcon:hover {
 .sapMObjLItem {
   box-sizing: border-box;
   vertical-align: baseline;
+  /* set this otherwise if one of the parents has "nowrap" style this
+	affects the whole arrangement of the ObjectListItem */
+  white-space: normal;
 }
 .sapMObjLItem > .sapMLIBContent {
   overflow: hidden;

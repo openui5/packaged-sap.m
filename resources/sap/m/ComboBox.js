@@ -45,7 +45,7 @@ sap.ui.define(['jquery.sap.global', './ComboBoxTextField', './ComboBoxBase', './
 		 * </ul>
 		 *
 		 * @author SAP SE
-		 * @version 1.52.18
+		 * @version 1.52.19
 		 *
 		 * @constructor
 		 * @extends sap.m.ComboBoxBase
@@ -733,7 +733,7 @@ sap.ui.define(['jquery.sap.global', './ComboBoxTextField', './ComboBoxBase', './
 			this.updateDomValue(sText);
 
 			// if a highlighted item is pressed fire change event
-			if (this.getPickerType() === "Dropdown" && !bSelectedItemChanged) {
+			if (!bSelectedItemChanged) {
 				mParam.itemPressed = true;
 				this.onChange(null, mParam);
 			}

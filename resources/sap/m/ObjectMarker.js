@@ -38,7 +38,7 @@ sap.ui.define(["sap/ui/core/Control", 'sap/ui/core/Renderer', "sap/ui/Device", "
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.52.18
+	 * @version 1.52.19
 	 *
 	 * @constructor
 	 * @public
@@ -89,6 +89,18 @@ sap.ui.define(["sap/ui/core/Control", 'sap/ui/core/Renderer', "sap/ui/Device", "
 				 * for non-interactive <code>ObjectMarker</code>.
 				 */
 				_innerControl: {type: "sap.ui.core.Control", multiple: false, visibility: "hidden"}
+			},
+			associations: {
+
+				/**
+				 * Association to controls / ids which describe this control (see WAI-ARIA attribute aria-describedby).
+				 */
+				ariaDescribedBy: {type: "sap.ui.core.Control", multiple: true, singularName: "ariaDescribedBy"},
+
+				/**
+				 * Association to controls / ids which label this control (see WAI-ARIA attribute aria-labelledby).
+				 */
+				ariaLabelledBy: {type: "sap.ui.core.Control", multiple: true, singularName: "ariaLabelledBy"}
 			},
 			events: {
 
@@ -518,6 +530,19 @@ sap.ui.define(["sap/ui/core/Control", 'sap/ui/core/Renderer', "sap/ui/Device", "
 			textAlign: TextAlign.Initial
 		});
 	};
+
+	["getAriaLabelledBy", "addAriaLabelledBy", "removeAriaLabelledBy", "removeAllAriaLabelledBy",
+		"getAriaDescribedBy", "addAriaDescribedBy", "removeAriaDescribedBy", "removeAllAriaDescribedBy",
+		"getAccessibilityInfo"].map(function(sFn) {
+		ObjectMarker.prototype[sFn] = function() {
+			var oInnerControl = this._getInnerControl(),
+				oResult;
+			if (oInnerControl && oInnerControl[sFn]) {
+				oResult = oInnerControl[sFn].apply(oInnerControl, arguments);
+			}
+			return oResult === oInnerControl ? this : oResult;
+		};
+	});
 
 	/****************************************** CUSTOM TEXT CONTROL ****************************************************/
 
