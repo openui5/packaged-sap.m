@@ -34,7 +34,7 @@ sap.ui.define([
 	 * <li>If the execution needs to branch after a given step, you should set all possible next steps in the <code>subsequentSteps</code> aggregation.
 	 * @extends sap.ui.core.Control
 	 * @author SAP SE
-	 * @version 1.56.7
+	 * @version 1.56.10
 	 *
 	 * @constructor
 	 * @public
@@ -117,7 +117,7 @@ sap.ui.define([
 
 	WizardStep.prototype.init = function () {
 		this._resourceBundle = sap.ui.getCore().getLibraryResourceBundle("sap.m");
-		this._oNextButton = new Button({
+		this._oNextButton = new Button(this.getId() + "-nextButton", {
 			text: this._resourceBundle.getText("WIZARD_STEP") + 2,
 			type: "Emphasized",
 			enabled: this.getValidated(),

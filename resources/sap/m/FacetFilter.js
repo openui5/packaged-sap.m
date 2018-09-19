@@ -125,7 +125,7 @@ sap.ui.define([
 	 *
 	 * @extends sap.ui.core.Control
 	 * @implements sap.ui.core.IShrinkable
-	 * @version 1.56.7
+	 * @version 1.56.10
 	 *
 	 * @constructor
 	 * @public
@@ -1571,7 +1571,8 @@ sap.ui.define([
 				}),
 				// limit the dialog height on desktop and tablet in case there are many filter items (don't
 				// want the dialog height growing according to the number of filter items)
-				contentHeight : "500px"
+				contentHeight : "500px",
+				ariaLabelledBy: [InvisibleText.getStaticId("sap.m", "FACETFILTER_AVAILABLE_FILTER_NAMES")]
 			});
 
 			oDialog.addStyleClass("sapMFFDialog");
@@ -1584,6 +1585,7 @@ sap.ui.define([
 			};
 			this.setAggregation("dialog", oDialog, true);
 		}
+
 		return oDialog;
 	};
 

@@ -64,7 +64,7 @@ function(
 	 * @implements sap.ui.core.Label, sap.ui.core.IShrinkable
 	 *
 	 * @author SAP SE
-	 * @version 1.56.7
+	 * @version 1.56.10
 	 *
 	 * @constructor
 	 * @public

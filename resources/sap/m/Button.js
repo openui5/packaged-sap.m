@@ -67,7 +67,7 @@ sap.ui.define([
 	 * @mixes sap.ui.core.ContextMenuSupport
 	 *
 	 * @author SAP SE
-	 * @version 1.56.7
+	 * @version 1.56.10
 	 *
 	 * @constructor
 	 * @public
@@ -211,7 +211,10 @@ sap.ui.define([
 		// https://bugzilla.mozilla.org/show_bug.cgi?id=568313
 		if (Device.browser.firefox) {
 			var oDomRef = this.getDomRef();
-			if (oDomRef.draggable) {
+			// in some cases the domRef might not exist onAfterRendering
+			// for example if the Button is used from another control which doesn't render its Id
+			// in that case getDomRef returns null
+			if (oDomRef && oDomRef.draggable) {
 				oDomRef.draggable = false;
 				oDomRef.firstChild.draggable = true;
 			}

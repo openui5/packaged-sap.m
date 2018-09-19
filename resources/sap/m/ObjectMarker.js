@@ -62,7 +62,7 @@ sap.ui.define([
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.56.7
+	 * @version 1.56.10
 	 *
 	 * @constructor
 	 * @public
@@ -115,6 +115,18 @@ sap.ui.define([
 				 * for non-interactive <code>ObjectMarker</code>.
 				 */
 				_innerControl: {type: "sap.ui.core.Control", multiple: false, visibility: "hidden"}
+			},
+			associations: {
+
+				/**
+				 * Association to controls / ids which describe this control (see WAI-ARIA attribute aria-describedby).
+				 */
+				ariaDescribedBy: {type: "sap.ui.core.Control", multiple: true, singularName: "ariaDescribedBy"},
+
+				/**
+				 * Association to controls / ids which label this control (see WAI-ARIA attribute aria-labelledby).
+				 */
+				ariaLabelledBy: {type: "sap.ui.core.Control", multiple: true, singularName: "ariaLabelledBy"}
 			},
 			events: {
 
@@ -544,6 +556,19 @@ sap.ui.define([
 			textAlign: TextAlign.Initial
 		});
 	};
+
+	["getAriaLabelledBy", "addAriaLabelledBy", "removeAriaLabelledBy", "removeAllAriaLabelledBy",
+		"getAriaDescribedBy", "addAriaDescribedBy", "removeAriaDescribedBy", "removeAllAriaDescribedBy",
+		"getAccessibilityInfo"].map(function(sFn) {
+		ObjectMarker.prototype[sFn] = function() {
+			var oInnerControl = this._getInnerControl(),
+				oResult;
+			if (oInnerControl && oInnerControl[sFn]) {
+				oResult = oInnerControl[sFn].apply(oInnerControl, arguments);
+			}
+			return oResult === oInnerControl ? this : oResult;
+		};
+	});
 
 	/****************************************** CUSTOM TEXT CONTROL ****************************************************/
 

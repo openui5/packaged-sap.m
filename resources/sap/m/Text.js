@@ -35,7 +35,7 @@ sap.ui.define([
 	 * @implements sap.ui.core.IShrinkable, sap.ui.core.IFormContent
 	 *
 	 * @author SAP SE
-	 * @version 1.56.7
+	 * @version 1.56.10
 	 *
 	 * @constructor
 	 * @public

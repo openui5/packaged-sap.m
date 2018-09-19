@@ -21,7 +21,7 @@ sap.ui.define([
 	 * Applies mask support for input controls.
 	 * It should should be applied to the prototype of a <code>sap.m.InputBase</code>.
 	 *
-	 * @version 1.56.7
+	 * @version 1.56.10
 	 * @private
 	 * @mixin
 	 * @alias sap.m.MaskEnabler
@@ -133,7 +133,7 @@ sap.ui.define([
 				this.closeValueStateMessage();
 				this._inputCompletedHandler();
 			} else {
-				this._setValue();
+				this._inputCompletedHandlerNoMask();
 				InputBase.prototype.onfocusout.apply(this, arguments);
 			}
 		};
@@ -190,7 +190,7 @@ sap.ui.define([
 			} else {
 				var oKey = this._parseKeyBoardEvent(oEvent);
 				if (oKey.bEnter) {
-					this._setValue();
+					this._inputCompletedHandlerNoMask();
 				}
 				InputBase.prototype.onkeydown.apply(this, arguments);
 			}
@@ -365,17 +365,24 @@ sap.ui.define([
 		 * and fire change event if it is needed. This is not used for MaskMode On because this logic is handled by _inputCompletedHandler
 		 * @private
 		 */
-		this._setValue = function () {
+		this._inputCompletedHandlerNoMask = function () {
 			var sValue = this._getInputValue();
 
 			if (this._sOldInputValue !== sValue) {
-				InputBase.prototype.setValue.call(this, sValue);
+				// Altered value (if any) should be used only for updating <value>. Mask works on dom level.
+				InputBase.prototype.setValue.call(this, this._getAlteredUserInputValue ? this._getAlteredUserInputValue(sValue) : sValue);
 				this._sOldInputValue = sValue;
 				if (this.onChange && !this.onChange({value: sValue})) {//if the subclass didn't fire the "change" event by itself
 					this.fireChangeEvent(sValue);
 				}
 			}
 		};
+
+		/**
+		 * @name _getAlteredUserInputValue
+		 * Subclasses can override it in order to alter the value entered by the user right before it is transmitted
+		 * to the InputBase#value
+		 */
 
 		/********************************************************************************************
 		 ****************************** Private methods and classes *********************************
@@ -1048,7 +1055,8 @@ sap.ui.define([
 			}
 
 			if (this._sOldInputValue !== this._oTempValue.toString()) {
-				InputBase.prototype.setValue.call(this, sValue);
+				// Altered value (if any) should be used only for updating <value>. Mask works on dom level.
+				InputBase.prototype.setValue.call(this, this._getAlteredUserInputValue ? this._getAlteredUserInputValue(sValue) : sValue);
 				this._sOldInputValue = sValue;
 				if (this.onChange && !this.onChange({value: sValue})) {//if the subclass didn't fire the "change" event by itself
 					this.fireChangeEvent(sValue);

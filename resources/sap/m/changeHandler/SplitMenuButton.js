@@ -12,7 +12,7 @@ sap.ui.define(["sap/ui/fl/Utils", "jquery.sap.strings"], function(FlexUtils, jQu
 		 *
 		 * @alias sap.m.changeHandler.SplitMenuButton
 		 * @author SAP SE
-		 * @version 1.56.7
+		 * @version 1.56.10
 		 * @experimental Since 1.48
 		 */
 		var SplitMenuButton = { };
