@@ -5488,11 +5488,11 @@ html.sap-desktop.sapUiMedia-Std-Phone .sapMOHR,
 html.sap-phone .sapMOHR {
   padding: 0.625rem 1rem 0 1rem;
 }
-div[class*='sapMOHRBg']:only-child {
+div[class*='sapMOHRBg']:last-of-type {
   padding-bottom: 1.5rem;
 }
-html.sap-desktop.sapUiMedia-Std-Phone div[class*='sapMOHRBg']:only-child,
-html.sap-phone div[class*='sapMOHRBg']:only-child {
+html.sap-desktop.sapUiMedia-Std-Phone div[class*='sapMOHRBg']:last-of-type,
+html.sap-phone div[class*='sapMOHRBg']:last-of-type {
   padding-bottom: 1rem;
 }
 /* Group1 (title, flags and number) */
@@ -7255,6 +7255,27 @@ html.sap-phone .sapMQuickViewPage .sapUiHLayout {
   bottom: .3125rem;
   left: .4375rem;
   right: .325rem;
+}
+/* When printing border is needed for the selection */
+@media only print {
+  .sapMRbBInn {
+    box-sizing: border-box;
+  }
+  .sapMRbSel .sapMRbBInn {
+    border-color: #7a5100;
+    border-style: solid;
+    border-width: 4px;
+  }
+  .sapMRbRo.sapMRbSel .sapMRbBInn {
+    border-color: #ffffff;
+  }
+  .sapMLIBActive .sapMRbSel .sapMRbBInn {
+    border-color: #ffffff;
+  }
+  /* Compact size */
+  .sapUiSizeCompact .sapMRbSel .sapMRbBInn {
+    border-width: 2px;
+  }
 }
 /* ======================================= */
 /* CSS for control sap.m/RadioButtonGroup  */
@@ -16523,6 +16544,29 @@ html[data-sap-ui-browser^="ie"] .sapMRbB .sapMRbBInn {
 .sapUiSizeCondensed .sapUiTableCell .sapMRbBLabel {
   line-height: 1.5rem;
   height: 1.5rem;
+}
+/* When printing border is needed for the selection */
+@media only print {
+  .sapMRbB .sapMRbBOut {
+    border-color: #000000;
+    border-style: solid;
+  }
+  .sapMRbErr .sapMRbBOut {
+    border-color: #7a5100;
+    border-style: dashed;
+  }
+  .sapMRbWarn .sapMRbBOut {
+    border-color: #000000;
+    border-style: dashed;
+  }
+  /* Selected */
+  .sapMRbSel .sapMRbBInn {
+    border-color: #000000;
+  }
+  /* Disabled */
+  .sapMRbDis.sapMRbSel .sapMRbBInn {
+    border-color: #000000;
+  }
 }
 /* ===================================== */
 /* Less helper functions for gradients   */

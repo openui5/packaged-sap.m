@@ -22,7 +22,7 @@ function(jQuery, InputBase, library) {
 	 * @extends sap.m.InputBase
 	 *
 	 * @author SAP SE
-	 * @version 1.38.37
+	 * @version 1.38.38
 	 *
 	 * @constructor
 	 * @public
