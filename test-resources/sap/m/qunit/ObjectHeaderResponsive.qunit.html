@@ -471,6 +471,39 @@
 					oObjectHeader.destroy();
 				});
 
+				QUnit.test("Tap on ObjectAttribute should not lead to preventing default action", function(assert){
+					var oEvent_attr,
+						oSpyPreventDefaultOA,
+						oa1 = new sap.m.ObjectAttribute("attrId", {title: "title", text: "link", active: true}),
+						oObjectHeader = createObjectHeader({
+							title: "OH title",
+							responsive: true,
+							titleActive: true,
+							attributes: [oa1]
+						});
+
+					// System under test
+					oObjectHeader.placeAt("qunit-fixture");
+					oCore.applyChanges();
+
+					// click on ObjectAttribute link
+					oEvent_attr = {
+						setMarked: function(){},
+						preventDefault: function(){},
+						stopPropagation: function(){},
+						target: oa1.$().children()[2]
+					};
+
+					oSpyPreventDefaultOA = this.spy(oEvent_attr, "preventDefault");
+
+					oObjectHeader.ontap(oEvent_attr);
+					assert.equal(oSpyPreventDefaultOA.callCount, 0, "preventDefault wasn't called");
+
+					// Clean up
+					oSpyPreventDefaultOA.restore();
+					oObjectHeader.destroy();
+				});
+
 			QUnit.module("Basic aggregations rendering", {
 				afterEach: function () {
 					oCore.byId(sControlId).destroy();
@@ -501,6 +534,24 @@
 				QUnit.test("Attribute shouldn't be rendered", function (assert){
 					// Arrange
 					var oObjectHeader = createObjectHeader();
+
+					// System under test
+					oObjectHeader.placeAt("qunit-fixture");
+					oCore.applyChanges();
+
+					// Assert
+					var attr = oObjectHeader.$().find(".sapMOHRAttr");
+					assert.ok(!attr.length, "Zero attributes are rendered.");
+				});
+
+				QUnit.test("Attribute shouldn't be rendered if it has empty title and text", function (assert){
+					// Arrange
+					var oObjectHeader = createObjectHeader();
+					var oAttr = new sap.m.ObjectAttribute({
+						title: "",
+						text: ""
+					});
+					oObjectHeader.insertAttribute(oAttr, 0);
 
 					// System under test
 					oObjectHeader.placeAt("qunit-fixture");
@@ -638,6 +689,29 @@
 				QUnit.test("Status shouldn't be rendered", function (assert){
 					// Arrange
 					var oObjectHeader = createObjectHeader();
+
+					// System under test
+					oObjectHeader.placeAt("qunit-fixture");
+					oCore.applyChanges();
+
+					// Assert
+					var status = oObjectHeader.$().find(".sapMOHRStatus");
+					assert.ok(!status.length, "Zero statuses are rendered.");
+				});
+
+				QUnit.test("Status shouldn't be rendered if the title and text are empty", function (assert){
+					// Arrange
+					var oObjectHeader = createObjectHeader();
+					var oStatus = new sap.m.ObjectStatus({
+						title: "",
+						text: ""
+					});
+					var oAttr = new sap.m.ObjectAttribute({
+						title: "",
+						text: ""
+					});
+					oObjectHeader.insertAttribute(oAttr, 0);
+					oObjectHeader.insertStatus(oStatus, 0);
 
 					// System under test
 					oObjectHeader.placeAt("qunit-fixture");

@@ -117,7 +117,7 @@ function(
 		 * @extends sap.m.DateTimeField
 		 *
 		 * @author SAP SE
-		 * @version 1.56.10
+		 * @version 1.56.11
 		 *
 		 * @constructor
 		 * @public

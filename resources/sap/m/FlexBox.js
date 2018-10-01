@@ -64,7 +64,7 @@ function(
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.56.10
+	 * @version 1.56.11
 	 *
 	 * @public
 	 * @alias sap.m.FlexBox

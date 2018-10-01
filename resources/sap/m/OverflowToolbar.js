@@ -114,7 +114,7 @@ sap.ui.define([
 	 * @implements sap.ui.core.Toolbar,sap.m.IBar
 	 *
 	 * @author SAP SE
-	 * @version 1.56.10
+	 * @version 1.56.11
 	 *
 	 * @constructor
 	 * @public
@@ -610,12 +610,6 @@ sap.ui.define([
 		}
 
 		this._resetToolbar();
-
-		for (var iControlSize in this._aControlSizes) {
-			if (this._aControlSizes.hasOwnProperty(iControlSize)) {
-				this._aControlSizes[iControlSize] = 0; // reset saved control sizes
-			}
-		}
 
 		this._bControlsInfoCached = false;
 		this._bNestedInAPopover = null;
@@ -1116,6 +1110,12 @@ sap.ui.define([
 
 	OverflowToolbar.prototype.onThemeChanged = function () {
 		this._resetAndInvalidateToolbar();
+
+		for (var iControlSize in this._aControlSizes) {
+			if (this._aControlSizes.hasOwnProperty(iControlSize)) {
+				this._aControlSizes[iControlSize] = 0; // reset saved control sizes
+			}
+		}
 	};
 
 	/**
