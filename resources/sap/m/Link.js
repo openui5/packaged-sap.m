@@ -77,7 +77,7 @@ function(
 	 * @implements sap.ui.core.IShrinkable, sap.ui.core.IFormContent
 	 *
 	 * @author SAP SE
-	 * @version 1.58.2
+	 * @version 1.58.3
 	 *
 	 * @constructor
 	 * @public
@@ -503,6 +503,14 @@ function(
 	 */
 	Link.prototype.getFormDoNotAdjustWidth = function() {
 		return true;
+	};
+
+	/*
+	 * Provides hook for overriding the tabindex in case the link is used in a composite control
+	 * for example inside ObjectAttribute
+	 */
+	Link.prototype._getTabindex = function() {
+		return this.getText() ? "0" : "-1";
 	};
 
 	return Link;

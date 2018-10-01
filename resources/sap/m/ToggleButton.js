@@ -32,7 +32,7 @@ sap.ui.define([
 	 * @extends sap.m.Button
 	 *
 	 * @author SAP SE
-	 * @version 1.58.2
+	 * @version 1.58.3
 	 *
 	 * @constructor
 	 * @public

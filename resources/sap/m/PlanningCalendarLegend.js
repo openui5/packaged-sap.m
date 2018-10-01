@@ -23,7 +23,7 @@ sap.ui.define(['sap/ui/unified/CalendarLegend', './PlanningCalendarLegendRendere
 		 * @extends sap.ui.unified.CalendarLegend
 		 *
 		 * @author SAP SE
-		 * @version 1.58.2
+		 * @version 1.58.3
 		 *
 		 * @constructor
 		 * @public

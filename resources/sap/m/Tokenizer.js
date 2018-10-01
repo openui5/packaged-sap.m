@@ -57,7 +57,7 @@ sap.ui.define([
 	 *
 	 * @extends sap.ui.core.Control
 	 * @author SAP SE
-	 * @version 1.58.2
+	 * @version 1.58.3
 	 *
 	 * @constructor
 	 * @public
@@ -233,10 +233,6 @@ sap.ui.define([
 			iLabelWidth, iFreeSpace,
 			iCounter, iFirstTokenToHide = -1;
 
-		if (iTokensCount < 2) {
-			return;
-		}
-
 		// find the index of the first overflowing token
 		aTokens.some(function (oToken, iIndex) {
 			iTokenizerWidth = iTokenizerWidth - this._oTokensWidthMap[oToken.getId()];
@@ -292,7 +288,11 @@ sap.ui.define([
 			var sLabelKey = "MULTIINPUT_SHOW_MORE_TOKENS";
 
 			if (iHiddenTokensCount === this.getTokens().length) {
-				sLabelKey = "TOKENIZER_SHOW_ALL_ITEMS";
+				if (iHiddenTokensCount === 1) {
+					sLabelKey = "TOKENIZER_SHOW_ALL_ITEM";
+				} else {
+					sLabelKey = "TOKENIZER_SHOW_ALL_ITEMS";
+				}
 			}
 
 			this._oIndicator.removeClass("sapUiHidden");

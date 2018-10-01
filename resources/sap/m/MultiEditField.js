@@ -17,7 +17,7 @@ sap.ui.define(["sap/ui/core/XMLComposite", "./library", "sap/ui/core/Item"], fun
 	 * @implements sap.ui.core.IFormContent
 	 *
 	 * @author SAP SE
-	 * @version 1.58.2
+	 * @version 1.58.3
 	 * @public
 	 * @experimental since 1.52
 	 * @since 1.52.0

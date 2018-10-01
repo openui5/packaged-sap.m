@@ -22,7 +22,7 @@ sap.ui.define(['sap/ui/unified/CalendarAppointment'],
 		 *
 		 * Applications could inherit from this element to add own fields.
 		 * @extends sap.ui.unified.CalendarAppointment
-		 * @version 1.58.2
+		 * @version 1.58.3
 		 *
 		 * @constructor
 		 * @private

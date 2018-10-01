@@ -48,7 +48,7 @@ function(
 		 * @extends sap.ui.core.Control
 		 *
 		 * @author SAP SE
-		 * @version 1.58.2
+		 * @version 1.58.3
 		 *
 		 * @constructor
 		 * @sap-restricted sap.m.MenuButton,sap.ui.richtextEditor.ToolbarWrapper
