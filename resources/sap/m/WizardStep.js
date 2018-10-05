@@ -34,7 +34,7 @@ sap.ui.define([
 	 * <li>If the execution needs to branch after a given step, you should set all possible next steps in the <code>subsequentSteps</code> aggregation.
 	 * @extends sap.ui.core.Control
 	 * @author SAP SE
-	 * @version 1.56.11
+	 * @version 1.56.12
 	 *
 	 * @constructor
 	 * @public
@@ -146,16 +146,6 @@ sap.ui.define([
 		this.setAggregation("_nextButton", this._oNextButton);
 	};
 
-	/**
-	 * Called before the control is rendered.
-	 *
-	 * @private
-	 */
-	WizardStep.prototype.onBeforeRendering = function () {
-		var bVisible = this._getWizardParent() ? this._getWizardParent().getShowNextButton() : true;
-		this._oNextButton.setProperty("visible", bVisible, true);
-	};
-
 	WizardStep.prototype._handleNextButtonPress = function () {};
 
 	WizardStep.prototype.setValidated = function (validated) {
@@ -249,8 +239,14 @@ sap.ui.define([
 	};
 
 	WizardStep.prototype._activate = function () {
+		var parent = this._getWizardParent();
+
 		if (this.hasStyleClass("sapMWizardStepActivated")) {
 			return;
+		}
+
+		if (parent) {
+			this._oNextButton.setVisible(parent.getShowNextButton());
 		}
 
 		this._markAsLast();

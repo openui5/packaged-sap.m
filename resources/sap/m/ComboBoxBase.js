@@ -59,7 +59,7 @@ sap.ui.define([
 		 * @abstract
 		 *
 		 * @author SAP SE
-		 * @version 1.56.11
+		 * @version 1.56.12
 		 *
 		 * @constructor
 		 * @public
@@ -867,6 +867,10 @@ sap.ui.define([
 				}),
 				beforeOpen: function() {
 					that.updatePickerHeaderTitle();
+				},
+				afterClose: function() {
+					that.focus();
+					library.closeKeyboard();
 				},
 				ariaLabelledBy: that.getPickerInvisibleTextId() || undefined
 			});
