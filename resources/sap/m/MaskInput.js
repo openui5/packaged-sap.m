@@ -24,7 +24,7 @@ sap.ui.define([
 	 *
 	 * @author SAP SE
 	 * @extends sap.m.InputBase
-	 * @version 1.52.19
+	 * @version 1.52.20
 	 *
 	 * @constructor
 	 * @public

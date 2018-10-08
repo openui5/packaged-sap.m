@@ -26,7 +26,7 @@ sap.ui.define(['jquery.sap.global', './Dialog', './ComboBoxTextField', './Toolba
 		 * @abstract
 		 *
 		 * @author SAP SE
-		 * @version 1.52.19
+		 * @version 1.52.20
 		 *
 		 * @constructor
 		 * @public
@@ -850,6 +850,10 @@ sap.ui.define(['jquery.sap.global', './Dialog', './ComboBoxTextField', './Toolba
 				}),
 				beforeOpen: function() {
 					that.updatePickerHeaderTitle();
+				},
+				afterClose: function() {
+					that.focus();
+					library.closeKeyboard();
 				},
 				ariaLabelledBy: that.getPickerInvisibleTextId() || undefined
 			});

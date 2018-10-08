@@ -34,7 +34,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/T
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.52.19
+	 * @version 1.52.20
 	 * @since 1.34.0
 	 *
 	 * @public
@@ -690,9 +690,6 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/T
 		if (this.getMode() === library.GenericTileMode.LineMode) {
 			this.addStyleClass("sapMGTLineModePress");
 		}
-		if (Device.browser.internet_explorer && this.getState() !== library.LoadState.Disabled) {
-			this.$().focus();
-		}
 	};
 
 	GenericTile.prototype.ontouchcancel = function() {
@@ -707,9 +704,6 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/T
 		}
 		if (this.getMode() === library.GenericTileMode.LineMode) {
 			this.removeStyleClass("sapMGTLineModePress");
-		}
-		if (Device.browser.internet_explorer && this.getState() !== library.LoadState.Disabled) {
-			this.$().focus();
 		}
 	};
 

@@ -21,7 +21,7 @@ sap.ui.define([
 	 * Applies mask support for input controls.
 	 * It should should be applied to the prototype of a <code>sap.m.InputBase</code>.
 	 *
-	 * @version 1.52.19
+	 * @version 1.52.20
 	 * @private
 	 * @mixin
 	 * @alias sap.m.MaskEnabler
@@ -333,6 +333,12 @@ sap.ui.define([
 		this._feedReplaceChar = function (sChar, iPlacePosition, sCurrentInputValue) {
 			return sChar;
 		};
+
+		/**
+		 * @name _getAlteredUserInputValue
+		 * Subclasses can override it in order to alter the value entered by the user right before it is transmitted
+		 * to the InputBase#value
+		 */
 
 		/********************************************************************************************
 		 ****************************** Private methods and classes *********************************
@@ -1005,7 +1011,8 @@ sap.ui.define([
 			}
 
 			if (this._sOldInputValue !== this._oTempValue.toString()) {
-				InputBase.prototype.setValue.call(this, sValue);
+				// Altered value (if any) should be used only for updating <value>. Mask works on dom level.
+				InputBase.prototype.setValue.call(this, this._getAlteredUserInputValue ? this._getAlteredUserInputValue(sValue) : sValue);
 				this._sOldInputValue = sValue;
 				if (this.onChange && !this.onChange({value: sValue})) {//if the subclass didn't fire the "change" event by itself
 					this.fireChangeEvent(sValue);
