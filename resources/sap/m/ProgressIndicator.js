@@ -48,7 +48,7 @@ sap.ui.define([
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.58.3
+	 * @version 1.58.4
 	 *
 	 * @constructor
 	 * @public
@@ -242,11 +242,14 @@ sap.ui.define([
 	 * @returns {object} The <code>sap.m.ProgressIndicator</code> accessibility information
 	 */
 	ProgressIndicator.prototype.getAccessibilityInfo = function() {
-		var oBundle = sap.ui.getCore().getLibraryResourceBundle("sap.m");
+		var oBundle = sap.ui.getCore().getLibraryResourceBundle("sap.m"),
+			sDisplayValue = this.getDisplayValue(),
+			sDescription = sDisplayValue ? sDisplayValue : oBundle.getText("ACC_CTR_STATE_PROGRESS", [this.getPercentValue()]);
+
 		return {
 			role: "progressbar",
 			type: oBundle.getText("ACC_CTR_TYPE_PROGRESS"),
-			description: oBundle.getText("ACC_CTR_STATE_PROGRESS", [this.getPercentValue()]),
+			description: sDescription,
 			focusable: this.getEnabled(),
 			enabled: this.getEnabled()
 		};

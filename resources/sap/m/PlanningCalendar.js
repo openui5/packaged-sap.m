@@ -168,7 +168,7 @@ sap.ui.define([
 	 * {@link sap.m.PlanningCalendarView PlanningCalendarView}'s properties.
 	 *
 	 * @extends sap.ui.core.Control
-	 * @version 1.58.3
+	 * @version 1.58.4
 	 *
 	 * @constructor
 	 * @public

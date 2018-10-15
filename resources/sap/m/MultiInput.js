@@ -110,7 +110,7 @@ function(
 	* @extends sap.m.Input
 	*
 	* @author SAP SE
-	* @version 1.58.3
+	* @version 1.58.4
 	*
 	* @constructor
 	* @public
@@ -1424,6 +1424,9 @@ function(
 		this._oPopupInput.onsapenter = function (oEvent) {
 			that._validateCurrentText();
 			that._setValueInvisible();
+
+			// Fire through the MultiInput Popup's input value and save it
+			that.onChange(oEvent, null, this.getValue());
 		};
 
 		this._oPopupInput.attachLiveChange(function(){

@@ -6263,6 +6263,7 @@ html.sap-desktop .sapMImageContent:focus:not([tabindex]) {
   right: 1px;
   bottom: 1px;
   pointer-events: none;
+  z-index: 1;
 }
 html[data-sap-ui-browser^="ie"].sap-desktop .sapMFocus .sapMInputBaseContentWrapper:not(.sapMInputBaseDisabledWrapper)::before,
 html[data-sap-ui-browser^="ed"].sap-desktop .sapMFocus .sapMInputBaseContentWrapper:not(.sapMInputBaseDisabledWrapper)::before {
@@ -6274,6 +6275,7 @@ html[data-sap-ui-browser^="ed"].sap-desktop .sapMFocus .sapMInputBaseContentWrap
   bottom: 1px;
   border: 2px dashed #000000;
   pointer-events: none;
+  z-index: 1;
 }
 .sapMInputBaseInner::-webkit-input-placeholder {
   font-size: 0.875rem;
@@ -16741,12 +16743,6 @@ html[data-sap-ui-browser='ie11'] .sapMListTblHighlightCell > .sapMLIBHighlight {
 /* to make the focus outline visible on the all sides */
 .sapMSticky > .sapMListTbl {
   padding: 1px 1px 0 1px;
-}
-.sapMTableTBody {
-  background: #ffffff;
-}
-.sapMListTblRow {
-  background: transparent;
 }
 /* sticky headerToolbar/headerText background color when toolbar is transparent */
 .sapMSticky > .sapMTB-Transparent-CTX,

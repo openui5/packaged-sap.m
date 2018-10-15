@@ -66,7 +66,7 @@ sap.ui.define([
 		 * @abstract
 		 *
 		 * @author SAP SE
-		 * @version 1.58.3
+		 * @version 1.58.4
 		 *
 		 * @constructor
 		 * @public
@@ -935,6 +935,10 @@ sap.ui.define([
 				}),
 				beforeOpen: function() {
 					that.updatePickerHeaderTitle();
+				},
+				afterClose: function() {
+					that.focus();
+					library.closeKeyboard();
 				},
 				ariaLabelledBy: that.getPickerInvisibleTextId() || undefined
 			});
