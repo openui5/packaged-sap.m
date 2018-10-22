@@ -36,7 +36,7 @@ sap.ui.define(["jquery.sap.global", "./Slider", "./Input", "sap/ui/core/Invisibl
          * @extends sap.m.Slider
          *
          * @author SAP SE
-         * @version 1.44.36
+         * @version 1.44.37
          *
          * @constructor
          * @public
@@ -745,6 +745,17 @@ sap.ui.define(["jquery.sap.global", "./Slider", "./Input", "sap/ui/core/Invisibl
 		    }
 	    };
 
+		/**
+		 * Does nothing here, but is used in Slider's advanced tooltip and breaks the RangeSlider.
+		 *
+		 * @private
+		 */
+		RangeSlider.prototype._updateAdvancedTooltipDom = function () {};
+
+		/* ----------------------------------------------------------- */
+		/* Keyboard handling                                           */
+		/* ----------------------------------------------------------- */
+
         /**
          * Handle the touchend event happening on the slider.
          * @param {HTMLElement} aHandle The handle that should be updated
@@ -789,10 +800,6 @@ sap.ui.define(["jquery.sap.global", "./Slider", "./Input", "sap/ui/core/Invisibl
                 this._aInitialFocusRange = this.getRange();
             }
         };
-
-        /* ----------------------------------------------------------- */
-        /* Keyboard handling                                           */
-        /* ----------------------------------------------------------- */
 
 
         /**

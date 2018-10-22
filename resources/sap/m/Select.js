@@ -19,7 +19,7 @@ sap.ui.define(['jquery.sap.global', './Dialog', './Popover', './SelectList', './
 		 * @extends sap.ui.core.Control
 		 *
 		 * @author SAP SE
-		 * @version 1.44.36
+		 * @version 1.44.37
 		 *
 		 * @constructor
 		 * @public
