@@ -45,7 +45,7 @@ sap.ui.define([
 	// delegate further initialization of this library to the Core
 	sap.ui.getCore().initLibrary({
 		name : "sap.m",
-		version: "1.58.4",
+		version: "1.58.5",
 		dependencies : ["sap.ui.core"],
 		designtime: "sap/m/designtime/library.designtime",
 		types: [
@@ -480,7 +480,7 @@ sap.ui.define([
 	 * @namespace
 	 * @alias sap.m
 	 * @author SAP SE
-	 * @version 1.58.4
+	 * @version 1.58.5
 	 * @public
 	 */
 	var thisLib = sap.m;

@@ -23,7 +23,7 @@ sap.ui.define(['./library', 'sap/ui/core/Control', './ToolbarSpacerRenderer'],
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.58.4
+	 * @version 1.58.5
 	 *
 	 * @constructor
 	 * @public

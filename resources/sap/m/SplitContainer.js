@@ -62,7 +62,7 @@ function(
 	 *
 	 * NOTE: This control must be rendered as a full screen control in order to make the show/hide master area work properly.
 	 * @extends sap.ui.core.Control
-	 * @version 1.58.4
+	 * @version 1.58.5
 	 *
 	 * @constructor
 	 * @public

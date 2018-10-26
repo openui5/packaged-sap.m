@@ -69,7 +69,7 @@ function(
 		 * space is exceeded, a horizontal scrollbar appears.
 		 *
 		 * @extends sap.ui.core.Control
-		 * @version 1.58.4
+		 * @version 1.58.5
 		 *
 		 * @constructor
 		 * @private
