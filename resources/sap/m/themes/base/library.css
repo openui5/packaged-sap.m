@@ -1957,7 +1957,7 @@ html.sap-phone .sapMCustomTile {
 /* styles for popup */
 .sapMDateTimePopupCont {
   display: flex;
-  height: 25.25rem;
+  height: 25rem;
   min-width: 40.0625rem;
 }
 html[data-sap-ui-browser^=ie]:not(.sapUiMedia-Std-Phone) .sapMDateTimePopupCont {
@@ -1984,7 +1984,7 @@ html[data-sap-ui-browser^=ie]:not(.sapUiMedia-Std-Phone) .sapMDateTimePopupCont 
 }
 /* Compact mode */
 .sapUiSizeCompact .sapMDateTimePopupCont {
-  height: 17.25rem;
+  height: 17rem;
   min-width: 34.0625rem;
 }
 html[data-sap-ui-browser^=ie]:not(.sapUiMedia-Std-Phone) .sapUiSizeCompact .sapMDateTimePopupCont {
@@ -2038,7 +2038,7 @@ html.sapUiMedia-Std-Phone .sapUiSizeCompact .sapMDateTimePopupCont.sapMTimePicke
   width: 100%;
 }
 html.sap-phone .sapMDateTimePopupCont.sapMTimePickerDropDown .sapMTimePickerContainer {
-  height: calc(100% - 3.5rem);
+  height: calc(100% - 7rem);
 }
 html.sap-phone .sapMDateTimePopupCont {
   background-color: #ffffff;
@@ -15601,6 +15601,8 @@ html.sap-phone .sapMSupport .sapMDialogScrollCont {
   height: 2rem;
   /* use px instead of rem, borders sized in "rem" disappear when the page is zoomed out in Chrome. */
   border: 1px solid;
+  /* 1px margin from left and right, so the outline doesn't get cropped when focuses */
+  margin: 0 1px;
   /* note: some browsers like Samsung Galaxy S4 with Android 4.2 does not support the "border-radius" shorthand property
 	but does support the long-hand properties for each corner like "border-top-left-radius" */
   border-top-left-radius: 1rem;
@@ -17289,6 +17291,7 @@ html.sap-phone .sapMTC .sapMTCEdgeRight {
   text-align: center;
   box-sizing: border-box;
   cursor: pointer;
+  margin-top: 2rem;
 }
 .sapMTimePickerDropDown .sapMTimePickerContainer .sapMTPColumn .sapMTimePickerLabel {
   display: none;
@@ -17319,6 +17322,7 @@ html.sap-phone .sapMTC .sapMTCEdgeRight {
   position: absolute;
   box-sizing: border-box;
   display: none;
+  margin-top: 1rem;
 }
 .sapMTimePickerDropDown .sapMTimePickerContainer .sapMTPColumn .sapMTimePickerSlider > ul {
   list-style: none;
@@ -17621,6 +17625,7 @@ html.sap-phone .sapMTimePickerDropDown .sapMTimePickerContainer .sapMTPColumn .s
   position: absolute;
   display: none;
   box-sizing: border-box;
+  margin-top: 0;
 }
 html.sap-phone .sapMTimePickerDropDown .sapMTimePickerContainer .sapMTPColumn.sapMTPSliderExpanded {
   height: 100%;
