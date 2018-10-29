@@ -89,7 +89,7 @@ function(
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.56.13
+	 * @version 1.56.14
 	 *
 	 * @constructor
 	 * @public
@@ -287,7 +287,7 @@ function(
 		var oScrollCont;
 		while (this._aScrollContainers && this._aScrollContainers.length > 0) {
 			oScrollCont = this._aScrollContainers.pop();
-			oScrollCont.removeAllContent();
+			oScrollCont.destroyContent();
 			if (oScrollCont && typeof oScrollCont.destroy === 'function') {
 				oScrollCont.destroy();
 			}

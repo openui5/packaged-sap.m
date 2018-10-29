@@ -57,7 +57,7 @@ sap.ui.define([
 		 * On mobile devices the steps in the StepNavigator are grouped together and overlap. Tapping on them will show a popover to select the step to navigate to.
 		 * @extends sap.ui.core.Control
 		 * @author SAP SE
-		 * @version 1.56.13
+		 * @version 1.56.14
 		 *
 		 * @constructor
 		 * @public
@@ -343,7 +343,7 @@ sap.ui.define([
 		 * @returns {sap.m.Wizard} Pointer to the control instance for chaining.
 		 * @public
 		 */
-		Wizard.prototype.discardProgress = function (step) {
+		Wizard.prototype.discardProgress = function (step, preserveNextStep) {
 			var progressAchieved = this.getProgress(),
 				steps = this._stepPath,
 				index = this._stepPath.indexOf(step),
@@ -373,7 +373,7 @@ sap.ui.define([
 				}
 			}
 
-			if (step.getSubsequentSteps().length > 1) {
+			if (step.getSubsequentSteps().length > 1 && !preserveNextStep) {
 				step.setNextStep(null);
 			}
 
@@ -507,7 +507,7 @@ sap.ui.define([
 
 		Wizard.prototype._activateAllPreceedingSteps = function (step) {
 			if (this._stepPath.indexOf(step) >= 0) {
-				this.discardProgress(step);
+				this.discardProgress(step, true);
 				return;
 			}
 
