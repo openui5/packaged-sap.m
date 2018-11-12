@@ -36,7 +36,7 @@ sap.ui.define([
 	 * @class The <code>P13nColumnsPanel</code> control is used to define column-specific settings for table personalization.
 	 * @extends sap.m.P13nPanel
 	 * @author SAP SE
-	 * @version 1.56.14
+	 * @version 1.56.15
 	 * @constructor
 	 * @public
 	 * @since 1.26.0
@@ -761,6 +761,10 @@ sap.ui.define([
 	};
 
 	P13nColumnsPanel.prototype._sortModelItemsByPersistentIndex = function(aModelItems) {
+        // BCP 0020751295 0000514259 2018
+        aModelItems.forEach(function(oMItem, iIndex) {
+            oMItem.localIndex = iIndex;
+        });
 		aModelItems.sort(function(a, b) {
 			if (a.persistentSelected === true && (b.persistentSelected === false || b.persistentSelected === undefined)) {
 				return -1;
@@ -772,7 +776,7 @@ sap.ui.define([
 				} else if (b.persistentIndex > -1 && a.persistentIndex > b.persistentIndex) {
 					return 1;
 				} else {
-					return 0;
+                    return a.localIndex - b.localIndex;
 				}
 			} else if ((a.persistentSelected === false || a.persistentSelected === undefined) && (b.persistentSelected === false || b.persistentSelected === undefined)) {
 				if (a.text < b.text) {
@@ -780,10 +784,13 @@ sap.ui.define([
 				} else if (a.text > b.text) {
 					return 1;
 				} else {
-					return 0;
+                    return a.localIndex - b.localIndex;
 				}
 			}
 		});
+        aModelItems.forEach(function(oMItem) {
+            delete oMItem.localIndex;
+        });
 	};
 
 	P13nColumnsPanel.prototype._getColumnKeyByTableItem = function(oTableItem) {
