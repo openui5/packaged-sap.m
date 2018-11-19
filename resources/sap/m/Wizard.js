@@ -47,7 +47,7 @@ sap.ui.define([
 		 * On mobile devices the steps in the StepNavigator are grouped together and overlap. Tapping on them will show a popover to select the step to navigate to.
 		 * @extends sap.ui.core.Control
 		 * @author SAP SE
-		 * @version 1.52.21
+		 * @version 1.52.22
 		 *
 		 * @constructor
 		 * @public
@@ -496,18 +496,23 @@ sap.ui.define([
 			}
 		};
 
-		/**
-		 * Checks if in branching mode and the nextStep association of the currentStep is not set.
-		 * @returns {boolean} Whether the check passed
-		 */
-		Wizard.prototype._isNextStepDetermined = function () {
-			if (!this.getEnableBranching()) {
-				return true;
-			}
+	/**
+	 * Checks if in branching mode and the nextStep association of the currentStep is not set.
+	 *
+	 * @param step
+	 * @param progress
+	 * @returns {boolean} Whether the check passed
+	 * @private
+	 */
+	Wizard.prototype._isNextStepDetermined = function (step, progress) {
+		if (!this.getEnableBranching()) {
+			return true;
+		}
 
-			var currentStep = sap.ui.getCore().byId(this.getCurrentStep());
-			return currentStep._getNextStepReference() !== null;
-		};
+		step = step || sap.ui.getCore().byId(this.getCurrentStep());
+
+		return this._getNextStep(step, progress) !== null;
+	};
 
 		/**
 		 * Searches for the given step, starting from the firstStep, checking the nextStep in the path.
@@ -614,7 +619,7 @@ sap.ui.define([
 				var progressStep = this.getProgressStep();
 				progressStep._complete();
 
-				if (!this._isNextStepDetermined()) {
+				if (!this._isNextStepDetermined(progressStep, progressAchieved)) {
 					throw new Error("The wizard is in branching mode, and the nextStep association is not set.");
 				}
 
