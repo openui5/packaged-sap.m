@@ -24,7 +24,7 @@ sap.ui.define(['jquery.sap.global', './ViewSettingsItem', './library'],
 	 * @extends sap.m.ViewSettingsItem
 	 *
 	 * @author SAP SE
-	 * @version 1.44.37
+	 * @version 1.44.38
 	 *
 	 * @constructor
 	 * @public

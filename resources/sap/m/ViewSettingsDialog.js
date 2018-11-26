@@ -63,7 +63,7 @@ function(jQuery, library, Control, IconPool, Toolbar, CheckBox, SearchField, Lis
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.44.37
+	 * @version 1.44.38
 	 *
 	 * @constructor
 	 * @public
