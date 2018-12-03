@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './Select', './library'],
 		 * @extends sap.m.Select
 		 *
 		 * @author SAP SE
-		 * @version 1.38.38
+		 * @version 1.38.39
 		 *
 		 * @constructor
 		 * @public
