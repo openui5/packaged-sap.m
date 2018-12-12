@@ -66,7 +66,7 @@ sap.ui.define([
 		 * </ul>
 		 *
 		 * @author SAP SE
-		 * @version 1.56.15
+		 * @version 1.56.16
 		 *
 		 * @constructor
 		 * @extends sap.m.ComboBoxBase

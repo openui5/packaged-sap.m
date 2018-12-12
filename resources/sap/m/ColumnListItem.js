@@ -40,7 +40,7 @@ sap.ui.define([
 	 * @extends sap.m.ListItemBase
 	 *
 	 * @author SAP SE
-	 * @version 1.56.15
+	 * @version 1.56.16
 	 *
 	 * @constructor
 	 * @public
@@ -235,6 +235,15 @@ sap.ui.define([
 		if (this.hasPopin()) {
 			this.$Popin().attr("aria-selected", bSelected);
 		}
+	};
+
+	ColumnListItem.prototype.onfocusin = function(oEvent) {
+		if (oEvent.isMarked() || oEvent.srcControl !== this) {
+			return;
+		}
+
+		this.$().children(".sapMListTblCellDup").find(":sapTabbable").attr("tabindex", -1);
+		ListItemBase.prototype.onfocusin.apply(this, arguments);
 	};
 
 	// informs the table when item's type column requirement is changed

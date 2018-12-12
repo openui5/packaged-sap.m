@@ -43,7 +43,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/D
 		 * @extends sap.ui.core.Control
 		 *
 		 * @author SAP SE
-		 * @version 1.56.15
+		 * @version 1.56.16
 		 *
 		 * @public
 		 * @alias sap.m.BusyDialog
