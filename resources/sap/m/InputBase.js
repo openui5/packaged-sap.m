@@ -30,7 +30,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @implements sap.ui.core.IFormContent
 	 *
 	 * @author SAP SE
-	 * @version 1.52.22
+	 * @version 1.52.23
 	 *
 	 * @constructor
 	 * @public
@@ -329,11 +329,8 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 
 		this.$().toggleClass("sapMFocus", true);
 
-		if (this.shouldValueStateMessageBeOpened()) {
-
-			// open value state message popup when focus is in the input
-			this.openValueStateMessage();
-		}
+		// open value state message popup when focus is in the input
+		this.openValueStateMessage();
 	};
 
 	/**
@@ -570,6 +567,13 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 
 		// ie11 fires input event from read-only fields
 		if (!this.getEditable()) {
+			oEvent.setMarked("invalid");
+			return;
+		}
+
+		// ie11 fires input event whenever placeholder attribute is changed
+		if (document.activeElement !== oEvent.target &&
+			Device.browser.msie && this.getValue() === this._lastValue) {
 			oEvent.setMarked("invalid");
 			return;
 		}
@@ -820,7 +824,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @protected
 	 */
 	InputBase.prototype.openValueStateMessage = function() {
-		if (this._oValueStateMessage) {
+		if (this._oValueStateMessage && this.shouldValueStateMessageBeOpened()) {
 			this._oValueStateMessage.open();
 		}
 	};
@@ -891,7 +895,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		if ($Input[0] === document.activeElement) {
 			if (sValueState === mValueState.None) {
 				this.closeValueStateMessage();
-			} else if (this.shouldValueStateMessageBeOpened()) {
+			} else {
 				this.openValueStateMessage();
 			}
 		}

@@ -24,7 +24,7 @@ sap.ui.define(['./FlexBoxStylingHelper', './library', 'sap/ui/core/LayoutData'],
 	 * @class
 	 * Holds layout data for a FlexBox / HBox / VBox.
 	 * @extends sap.ui.core.LayoutData
-	 * @version 1.52.22
+	 * @version 1.52.23
 	 *
 	 * @constructor
 	 * @public
