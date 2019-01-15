@@ -1,6 +1,6 @@
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2018 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2019 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
@@ -49,7 +49,7 @@ sap.ui.define(["jquery.sap.global", "./ResponsivePopover", "./Button", "./Toolba
 		 * @extends sap.ui.core.Control
 		 *
 		 * @author SAP SE
-		 * @version 1.52.23
+		 * @version 1.52.24
 		 *
 		 * @constructor
 		 * @public
@@ -556,6 +556,16 @@ sap.ui.define(["jquery.sap.global", "./ResponsivePopover", "./Button", "./Toolba
 					that.fireUrlValidated();
 				}
 			});
+
+			// The MessagePopover wraps entirely the MessageView, therefore these checks should be done
+			// from the perspective of MessagePopover instead of MessageView
+			oMessageView._makeAutomaticBinding = function () {
+				var aItems = that.getItems();
+
+				if (!that.getBindingInfo("items") && !aItems.length) {
+					this._bindToMessageModel(); // MessageView's scope
+				}
+			};
 
 			return oMessageView;
 		};
