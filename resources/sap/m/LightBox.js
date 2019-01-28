@@ -1,6 +1,6 @@
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2018 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2019 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
@@ -92,7 +92,7 @@ sap.ui.define([
 		 * @extends sap.ui.core.Control
 		 *
 		 * @author SAP SE
-		 * @version 1.56.16
+		 * @version 1.56.18
 		 *
 		 * @constructor
 		 * @public
@@ -198,7 +198,7 @@ sap.ui.define([
 
 			// Prevents image having 0 width and height when the LightBox rendered
 			// busy state first and then loaded the image in the meantime
-			if (oNativeImage.src !== sImageSrc) {
+			if (oNativeImage.getAttribute('src') !== sImageSrc) {
 				oNativeImage.src = sImageSrc;
 			}
 

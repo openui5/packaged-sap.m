@@ -1,6 +1,6 @@
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2018 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2019 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
@@ -107,7 +107,7 @@ function(
 		*
 		* @implements sap.ui.core.PopupInterface
 		* @author SAP SE
-		* @version 1.56.16
+		* @version 1.56.18
 		*
 		* @constructor
 		* @public
@@ -1523,7 +1523,18 @@ function(
 			}
 
 			if (header) {
-				labels.unshift(header.getId());
+				var aTitles = header.findAggregatedObjects(true, function(oObject) {
+					return oObject.isA("sap.m.Title");
+				});
+
+				// if there are titles in the header, add all of them to labels, else use the full header
+				if (aTitles.length) {
+					labels = aTitles.map(function (oTitle) {
+						return oTitle.getId();
+					}).concat(labels);
+				} else {
+					labels.unshift(header.getId());
+				}
 			}
 
 			return labels;

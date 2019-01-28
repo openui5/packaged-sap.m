@@ -1,6 +1,6 @@
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2018 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2019 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
@@ -65,7 +65,7 @@ function(
 	 * @extends sap.m.ComboBoxBase
 	 *
 	 * @author SAP SE
-	 * @version 1.56.16
+	 * @version 1.56.18
 	 *
 	 * @constructor
 	 * @public
@@ -583,9 +583,7 @@ function(
 		}
 
 		// suppress invalid value
-		if (!this._bCompositionStart && !this._bCompositionEnd) {
-			this._handleInputValidation(oEvent, false);
-		}
+		this.handleInputValidation(oEvent, this.isComposingCharacter());
 	};
 
 	/**
@@ -805,7 +803,7 @@ function(
 		this.clearFilter();
 
 		// resets or not the value of the input depending on the event (enter does not clear the value)
-		!this._bPreventValueRemove && this.setValue("");
+		!this.isComposingCharacter() && !this._bPreventValueRemove && this.setValue("");
 		this._sOldValue = "";
 
 		if (this.isPickerDialog()) {
@@ -2469,27 +2467,16 @@ function(
 	 * @param {boolean} bCompositionEvent Is true if the fired event is a composition event
 	 * @private
 	 */
-	MultiComboBox.prototype._handleInputValidation = function(oEvent, bCompositionEvent) {
+	MultiComboBox.prototype.handleInputValidation = function(oEvent, bCompositionEvent) {
 		var sValue = oEvent.target.value,
-			aItems, bVisibleItemFound,
-			aItemsToCheck, bResetFilter,
-			sUpdateValue, oSelectedButton;
+			bValidInputValue = this.isValueValid(sValue),
+			aItemsToCheck, bResetFilter, oSelectedButton;
 
 		// "compositionstart" and "compositionend" are native events and don't have srcControl
-		var oInput = bCompositionEvent ? jQuery(oEvent.target).control(0) : oEvent.srcControl;
+		var oInput = oEvent.srcControl;
 
-		aItems = this._getItemsStartingText(sValue, true);
-		bVisibleItemFound = !!aItems.length;
-
-		if (!bVisibleItemFound && sValue !== "") {
-			sUpdateValue = bCompositionEvent ? this._sComposition : (this._sOldValue || "");
-			oInput.updateDomValue(sUpdateValue);
-
-			if (this._iOldCursorPos) {
-				jQuery(oInput.getFocusDomRef()).cursorPos(this._iOldCursorPos);
-			}
-
-			this._showWrongValueVisualEffect();
+		if (!bValidInputValue && sValue !== "" && !bCompositionEvent) {
+			this._handleFieldValidationState(oInput);
 			return;
 		}
 
@@ -2508,14 +2495,51 @@ function(
 
 		this.filterItems(aItemsToCheck, sValue);
 
+		this._sOldInput = sValue;
+
 		// First do manipulations on list items and then let the list render
-		if ((!this.getValue() || !bVisibleItemFound) && !this.bOpenedByKeyboardOrButton && !this.isPickerDialog())  {
+		if ((!this.getValue() || !bValidInputValue) && !this.bOpenedByKeyboardOrButton && !this.isPickerDialog())  {
 			this.close();
 		} else {
 			this.open();
 		}
+	};
 
-		this._sOldInput = sValue;
+	/**
+	 * Determines if a given value matches an item
+	 *
+	 * @param {string} sValue The string value to be checked
+	 * @private
+	 */
+	MultiComboBox.prototype.isValueValid = function (sValue) {
+		var aItems = this._getItemsStartingText(sValue, true);
+
+		return !!aItems.length;
+	};
+
+	/**
+	 * Shows invalid state to an input control
+	 *
+	 * @param {sap.m.InputBase} oInput Input to be validated
+	 * @param {boolean} bCompositionEvent Defines whether the event is composite
+	 * @private
+	 */
+	MultiComboBox.prototype._handleFieldValidationState = function (oInput, bCompositionEvent) {
+		// ensure that the value, which will be updated is valid
+		// needed for the composition characters
+		if (this._sOldInput && this.isValueValid(this._sOldInput)) {
+			oInput.updateDomValue(this._sOldInput);
+		} else if (this._sOldValue && this.isValueValid(this._sOldValue)) {
+			oInput.updateDomValue(this._sOldValue);
+		} else {
+			oInput.updateDomValue("");
+		}
+
+		if (this._iOldCursorPos) {
+			jQuery(oInput.getFocusDomRef()).cursorPos(this._iOldCursorPos);
+		}
+
+		this._showWrongValueVisualEffect();
 	};
 
 	MultiComboBox.prototype.init = function() {
@@ -2548,24 +2572,6 @@ function(
 		this._oTokenizer = this._createTokenizer();
 		this._aCustomerKeys = [];
 		this._aInitiallySelectedItems = [];
-
-		// handle composition events & validation of composition symbols
-		this._bCompositionStart = false;
-		this._bCompositionEnd = false;
-		this._sComposition = "";
-
-		this.attachBrowserEvent("compositionstart", function() {
-			this._bCompositionStart = true;
-			this._bCompositionEnd = false;
-		}, this);
-
-		this.attachBrowserEvent("compositionend", function(oEvent) {
-			this._bCompositionStart = false;
-			this._bCompositionEnd = true;
-			this._handleInputValidation(oEvent, true);
-			this._bCompositionEnd = false;
-			this._sComposition = oEvent.target.value;
-		}, this);
 	};
 
 	/**
