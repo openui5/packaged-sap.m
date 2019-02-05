@@ -1,6 +1,6 @@
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2018 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2019 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Element', 'sap/m/O
 	 * @extends sap.ui.core.Element
 	 *
 	 * @author SAP SE
-	 * @version 1.44.38
+	 * @version 1.44.39
 	 *
 	 * @constructor
 	 * @public
@@ -308,20 +308,24 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Element', 'sap/m/O
 			jQuery.sap.log.warning("Items to download do not have an URL.");
 			return false;
 		} else if (askForLocation) {
-			var oBlob = null;
-			var oXhr = new window.XMLHttpRequest();
-			oXhr.open("GET", this.getUrl());
-			oXhr.responseType = "blob";// force the HTTP response, response-type header to be blob
-			oXhr.onload = function() {
-				var sFileName = this.getFileName();
-				var oFileNameAndExtension = this._splitFileName(sFileName, false);
-				var sFileExtension = oFileNameAndExtension.extension;
-				sFileName = oFileNameAndExtension.name;
-				oBlob = oXhr.response; // oXhr.response is now a blob object
-				FileUtil.save(oBlob, sFileName, sFileExtension, this.getMimeType(), 'utf-8');
-			}.bind(this);
-			oXhr.send();
-			return true;
+            var sFileName = this.getFileName();
+            var oFileNameAndExtension = this._splitFileName(sFileName, false);
+            var data = null;
+            var oXhr = new window.XMLHttpRequest();
+            oXhr.open("GET", this.getUrl());
+            // For "csv" type response type should be "string" as sap.ui.core.util.File.save API expects data to be in string.
+            // To .csv files prepend utf-8 byte-order-mark will be added to string so blob type will fail.
+            if (oFileNameAndExtension.extension !== "csv") {
+                oXhr.responseType = "blob";// force the HTTP response, response-type header to be blob. Note:- by default it will be string.
+            }
+            oXhr.onload = function() {
+                var sFileExtension = oFileNameAndExtension.extension;
+                sFileName = oFileNameAndExtension.name;
+                data = oXhr.response; // oXhr.response is now a blob object
+                FileUtil.save(data, sFileName, sFileExtension, this.getMimeType(), 'utf-8');
+            }.bind(this);
+            oXhr.send();
+            return true;
 		} else {
 			library.URLHelper.redirect(this.getUrl(), true);
 			return true;
