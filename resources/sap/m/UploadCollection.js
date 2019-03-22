@@ -18,6 +18,7 @@ sap.ui.define([
 	"sap/m/Title",
 	"sap/m/Button",
 	"sap/m/List",
+	"sap/m/BusyIndicator",
 	"sap/m/StandardListItem",
 	"sap/ui/unified/FileUploaderParameter",
 	"sap/ui/unified/FileUploader",
@@ -32,8 +33,38 @@ sap.ui.define([
 	"sap/m/CustomListItem",
 	"sap/ui/core/ResizeHandler",
 	"sap/ui/Device",
-	"jquery.sap.keycodes"
-], function(jQuery, Library, MobileLibrary, MessageBox, Dialog, Control, Icon, IconPool, Image, Text, Title, Button, List, StandardListItem, FileUploaderParameter, FileUploader, FileSizeFormat, OverflowToolbar, ToolbarSpacer, ObjectAttribute, UploadCollectionItem, UploadCollectionParameter, UploadCollectionToolbarPlaceholder, HTML, CustomListItem, ResizeHandler, Device) {
+	"./UploadCollectionRenderer"
+], function(
+	jQuery,
+	Library,
+	MobileLibrary,
+	MessageBox,
+	Dialog,
+	Control,
+	Icon,
+	IconPool,
+	Image,
+	Text,
+	Title,
+	Button,
+	List,
+	BusyIndicator,
+	StandardListItem,
+	FileUploaderParameter,
+	FileUploader,
+	FileSizeFormat,
+	OverflowToolbar,
+	ToolbarSpacer,
+	ObjectAttribute,
+	UploadCollectionItem,
+	UploadCollectionParameter,
+	UploadCollectionToolbarPlaceholder,
+	HTML,
+	CustomListItem,
+	ResizeHandler,
+	Device,
+	UploadCollectionRenderer
+) {
 	"use strict";
 
 	/**
@@ -49,7 +80,7 @@ sap.ui.define([
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.52.25
+	 * @version 1.52.26
 	 *
 	 * @constructor
 	 * @public
@@ -1520,9 +1551,10 @@ sap.ui.define([
 		sFileNameLong = item.getFileName();
 
 		if (sStatus === UploadCollection._uploadingStatus) {
-			oBusyIndicator = item._getBusyIndicator ? item._getBusyIndicator() : item._getControl("sap.m.BusyIndicator", {
+			oBusyIndicator = new BusyIndicator({
 				id: sItemId + "-ia_indicator"
-			}, "BusyIndicator").addStyleClass("sapMUCloadingIcon");
+			});
+			oBusyIndicator.addStyleClass("sapMUCloadingIcon");
 		} else {
 			oItemIcon = this._createIcon(item, sItemId, sFileNameLong);
 		}

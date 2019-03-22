@@ -48,7 +48,7 @@ sap.ui.define(["jquery.sap.global", "./ResponsivePopover", "./Button", "./Toolba
 		 * @extends sap.ui.core.Control
 		 *
 		 * @author SAP SE
-		 * @version 1.52.25
+		 * @version 1.52.26
 		 *
 		 * @constructor
 		 * @private
