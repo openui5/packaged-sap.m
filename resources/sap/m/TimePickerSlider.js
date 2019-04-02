@@ -19,7 +19,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Control', './TimePickerSliderRe
 		 * @extends sap.ui.core.Control
 		 *
 		 * @author SAP SE
-		 * @version 1.52.26
+		 * @version 1.52.27
 		 *
 		 * @constructor
 		 * @private
@@ -483,7 +483,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Control', './TimePickerSliderRe
 		 * @private
 		 */
 		TimePickerSlider.prototype._getItemHeightInPx = function() {
-			return this.$("content").find("li:not(.TPSliderItemHidden)").outerHeight();
+			return this.$("content").find("li:not(.TPSliderItemHidden)")[0].getBoundingClientRect().height;
 		};
 
 		/**

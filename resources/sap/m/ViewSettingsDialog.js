@@ -71,7 +71,7 @@ function(jQuery, library, Control, IconPool, Toolbar, CheckBox, SearchField, Lis
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.52.26
+	 * @version 1.52.27
 	 *
 	 * @constructor
 	 * @public
@@ -1706,6 +1706,10 @@ function(jQuery, library, Control, IconPool, Toolbar, CheckBox, SearchField, Lis
 	 * @private
 	 */
 	ViewSettingsDialog.prototype._initFilterDetailItems = function(oItem) {
+		if (!(oItem instanceof sap.m.ViewSettingsFilterItem)) {
+			return;
+		}
+
 		var oListItem;
 		var bMultiSelectMode = oItem.getMultiSelect();
 		var aSubFilters = oItem.getItems();
