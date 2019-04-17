@@ -3937,8 +3937,7 @@ html[data-sap-ui-browser='ie9'] .sapMInputValHelp {
   background-color: #7a5100;
 }
 html.sap-desktop .sapMInputVH:not(.sapMInputBaseReadonly) .sapMInputValHelp > .sapMInputValHelpInner:focus {
-  outline: 1px dotted #ffffff;
-  outline-offset: -1px;
+  outline: none;
 }
 .sapMInputVH:not(.sapMInputBaseReadonly) .sapMInputValHelp > .sapMInputValHelpInner:active {
   /* works fine in desktop browsers, iOS6 and mobile Chrome; does not work well in older Android browser */
@@ -15927,11 +15926,6 @@ html.sap-desktop .sapMImageContent:focus:not([tabindex]) {
 .sapMInputVH:not(.sapMInputBaseReadonly) .sapMInputValHelp > .sapMInputValHelpInner:hover {
   border-right: 0.0625rem solid #ffffff;
   margin-right: -0.0625rem;
-}
-.sapMInputVH:not(.sapMInputBaseReadonly) .sapMInputValHelp > .sapMInputValHelpInner:focus {
-  outline-width: 0.125rem;
-  outline-style: dotted;
-  outline-offset: -0.125rem;
 }
 .sapMInputVH:not(.sapMInputBaseReadonly) .sapMInputValHelp > .sapMInputValHelpInner:active {
   /* works fine in desktop browsers, iOS6 and mobile Chrome; does not work well in older Android browser */

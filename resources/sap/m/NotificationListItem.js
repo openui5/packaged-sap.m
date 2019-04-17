@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', './Notif
 	 * @extends sap.m.NotificationListBase
 	 *
 	 * @author SAP SE
-	 * @version 1.44.40
+	 * @version 1.44.41
 	 *
 	 * @constructor
 	 * @public
@@ -252,17 +252,23 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', './Notif
 	 * @private
 	 */
 	NotificationListItem.prototype._canTruncate = function () {
-		var titleHeight = this.getDomRef('title').offsetHeight;
-		var titleWrapperHeight = this.getDomRef('title').parentElement.offsetHeight;
-		var textHeight;
-		var textWrapperHeight;
-		if (this._getDescriptionText().getText()) {
-			textHeight = this.getDomRef("body").offsetHeight;
-			textWrapperHeight = this.getDomRef("body").parentElement.offsetHeight;
+		var iTitleHeight = this.getDomRef('title-inner').scrollHeight,
+			iTitleWrapperHeight = this.$('title').parent().height();
+
+		if (iTitleHeight > iTitleWrapperHeight) {
+			return true;
 		}
 
+		if (this.getDomRef('body-inner')) {
+			var iBodyHeight = this.getDomRef('body-inner').scrollHeight,
+				iBodyWrapperHeight = this.$('body').parent().height();
 
-		return textHeight > textWrapperHeight || titleHeight > titleWrapperHeight;
+			if (iBodyHeight > iBodyWrapperHeight) {
+				return true;
+			}
+		}
+
+		return false;
 	};
 
 	NotificationListItem.prototype._showHideTruncateButton = function () {
