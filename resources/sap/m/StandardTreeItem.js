@@ -20,7 +20,7 @@ sap.ui.define(['./TreeItemBase', './library', 'sap/ui/core/IconPool'],
 	 * @extends sap.m.TreeItemBase
 	 *
 	 * @author SAP SE
-	 * @version 1.52.27
+	 * @version 1.52.28
 	 *
 	 * @constructor
 	 * @public

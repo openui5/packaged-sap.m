@@ -31,7 +31,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Element', './ListItemBase', './
 	 * @extends sap.m.ListItemBase
 	 *
 	 * @author SAP SE
-	 * @version 1.52.27
+	 * @version 1.52.28
 	 *
 	 * @constructor
 	 * @public

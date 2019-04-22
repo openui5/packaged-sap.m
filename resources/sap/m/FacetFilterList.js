@@ -42,7 +42,7 @@ sap.ui.define(['jquery.sap.global', './List', './library', 'sap/ui/model/ChangeR
 	 * be closed.
 	 *
 	 * @extends sap.m.List
-	 * @version 1.52.27
+	 * @version 1.52.28
 	 *
 	 * @constructor
 	 * @public

@@ -20,7 +20,7 @@ sap.ui.define(['./OverflowToolbar', './OverflowToolbarRenderer', './Toolbar'],
 		 * @extends sap.m.OverflowToolbar
 		 *
 		 * @author SAP SE
-		 * @version 1.52.27
+		 * @version 1.52.28
 		 *
 		 * @constructor
 		 * @private

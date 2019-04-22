@@ -30,7 +30,7 @@ sap.ui.define(['./library', './NotificationListBase', 'sap/ui/core/InvisibleText
 	 * @extends sap.m.NotificationListBase
 	 *
 	 * @author SAP SE
-	 * @version 1.52.27
+	 * @version 1.52.28
 	 *
 	 * @constructor
 	 * @public
@@ -360,17 +360,23 @@ sap.ui.define(['./library', './NotificationListBase', 'sap/ui/core/InvisibleText
 	 * @returns {boolean} Whether the control should be truncated.
 	 */
 	NotificationListItem.prototype._canTruncate = function () {
-		var titleHeight = this.getDomRef('title').offsetHeight;
-		var titleWrapperHeight = this.getDomRef('title').parentElement.offsetHeight;
-		var textHeight;
-		var textWrapperHeight;
-		if (this._getDescriptionText().getText()) {
-			textHeight = this.getDomRef("body").offsetHeight;
-			textWrapperHeight = this.getDomRef("body").parentElement.offsetHeight;
+		var iTitleHeight = this.getDomRef('title-inner').scrollHeight,
+			iTitleWrapperHeight = this.$('title').parent().height();
+
+		if (iTitleHeight > iTitleWrapperHeight) {
+			return true;
 		}
 
+		if (this.getDomRef('body-inner')) {
+			var iBodyHeight = this.getDomRef('body-inner').scrollHeight,
+				iBodyWrapperHeight = this.$('body').parent().height();
 
-		return textHeight > textWrapperHeight || titleHeight > titleWrapperHeight;
+			if (iBodyHeight > iBodyWrapperHeight) {
+				return true;
+			}
+		}
+
+		return false;
 	};
 
 	/**
@@ -381,7 +387,13 @@ sap.ui.define(['./library', './NotificationListBase', 'sap/ui/core/InvisibleText
 	 * @private
 	 */
 	NotificationListItem.prototype._showHideTruncateButton = function () {
-		var notificationDomRef = this.getDomRef();
+
+		var notificationDomRef = this.getDomRef(),
+			oCore = sap.ui.getCore();
+
+		if (!notificationDomRef) {
+			return;
+		}
 
 		if (this._canTruncate() && (!this.getHideShowMoreButton())) { // if the Notification has long text
 			// show the truncate button
@@ -415,6 +427,8 @@ sap.ui.define(['./library', './NotificationListBase', 'sap/ui/core/InvisibleText
 		if (this.getTitle()) {
 			notificationDomRef.querySelector('.sapMNLI-Header').classList.remove('sapMNLI-TitleWrapper--initial-overwrite');
 		}
+
+		oCore.detachThemeChanged(this._showHideTruncateButton, this);
 	};
 
 	/**
@@ -445,7 +459,6 @@ sap.ui.define(['./library', './NotificationListBase', 'sap/ui/core/InvisibleText
 			//exit for invisible items
 			return;
 		}
-
 		that._resizeNotification();
 
 		this._sNotificationResizeHandler = ResizeHandler.register(notificationDomRef, function () {

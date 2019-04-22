@@ -36,7 +36,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 *
 	 * NOTE: This control must be rendered as a full screen control in order to make the show/hide master area work properly.
 	 * @extends sap.ui.core.Control
-	 * @version 1.52.27
+	 * @version 1.52.28
 	 *
 	 * @constructor
 	 * @public
@@ -574,6 +574,11 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		if (this._bMasterisOpen && (this._portraitHide() || this._hideMode())) {
 			this._oShowMasterBtn.removeStyleClass("sapMSplitContainerMasterBtnHidden");
 			this._bMasterisOpen = false;
+		}
+
+		//BCP: 002028376500005408012018
+		if (this.getMode() === "HideMode" && Device.system.phone && this._aDetailPages) {
+			this._oMasterNav.setInitialPage(this.getInitialDetail() ? this.getInitialDetail() : (this.getInitialMaster() || this._aDetailPages[0]));
 		}
 
 		this._updateMasterButtonTooltip();

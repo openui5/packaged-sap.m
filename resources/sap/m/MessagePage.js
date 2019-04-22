@@ -47,7 +47,7 @@ sap.ui.define([
 		 * but rather used within controls such as <code>NavContainer</code>, <code>App</code>, <code>Shell</code> or other container controls.
 		 *
 		 * @extends sap.ui.core.Control
-		 * @version 1.52.27
+		 * @version 1.52.28
 		 *
 		 * @constructor
 		 * @public

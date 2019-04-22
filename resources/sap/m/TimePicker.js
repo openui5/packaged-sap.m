@@ -82,7 +82,7 @@ sap.ui.define(['jquery.sap.global', './InputBase', './DateTimeField', './MaskInp
 		 * @extends sap.m.DateTimeField
 		 *
 		 * @author SAP SE
-		 * @version 1.52.27
+		 * @version 1.52.28
 		 *
 		 * @constructor
 		 * @public
@@ -556,6 +556,11 @@ sap.ui.define(['jquery.sap.global', './InputBase', './DateTimeField', './MaskInp
 
 			return this;
 
+		};
+
+		TimePicker.prototype.setDateValue = function(sValue) {
+			this._initMask();
+			return DateTimeField.prototype.setDateValue.apply(this, arguments);
 		};
 
 		/**

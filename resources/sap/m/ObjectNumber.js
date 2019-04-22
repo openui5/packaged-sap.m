@@ -31,7 +31,7 @@ sap.ui.define(['./library', 'sap/ui/core/Control', 'sap/ui/core/Renderer', 'sap/
 	 * colors to provide additional meaning about the object to the user.
 	 * @extends sap.ui.core.Control
 	 * @implements sap.ui.core.IFormContent
-	 * @version 1.52.27
+	 * @version 1.52.28
 	 *
 	 * @constructor
 	 * @public

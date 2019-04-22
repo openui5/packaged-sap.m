@@ -43,7 +43,7 @@ sap.ui.define(['./library', 'sap/ui/core/Item',
 	 * @implements sap.m.IconTab
 	 *
 	 * @author SAP SE
-	 * @version 1.52.27
+	 * @version 1.52.28
 	 *
 	 * @constructor
 	 * @public
