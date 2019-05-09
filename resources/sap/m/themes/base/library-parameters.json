@@ -828,6 +828,8 @@
     "_sap_m_Switch_OnPosition": "-32",
     "_sap_m_Switch_OffPosition": "0",
     "_sap_m_Switch_TransitionTime": "175",
+    "_sapMTextAreaPadding": "0.625rem 0.75rem",
+    "_sapMTextAreaPadding_Compact": "0.1875rem 0.5rem",
     "_sap_m_Token_TokenPadding": "0.5rem",
     "_sap_m_Token_TokenCompactPadding": "0.25rem",
     "_sap_m_Token_TokenSize": "2rem",
