@@ -19,7 +19,7 @@ sap.ui.define(['sap/m/semantic/SemanticControl', 'sap/m/Select', 'jquery.sap.glo
 	 * @abstract
 	 *
 	 * @author SAP SE
-	 * @version 1.52.29
+	 * @version 1.52.30
 	 *
 	 * @constructor
 	 * @public

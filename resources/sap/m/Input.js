@@ -86,7 +86,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 	 *
 	 * @extends sap.m.InputBase
 	 * @author SAP SE
-	 * @version 1.52.29
+	 * @version 1.52.30
 	 *
 	 * @constructor
 	 * @public
@@ -725,6 +725,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 
 		if (!oItem) {
 			this.setAssociation("selectedItem", null, true);
+			this.setValue('');
 			return;
 		}
 
@@ -3065,6 +3066,10 @@ sap.ui.define(['jquery.sap.global', './Bar', './Dialog', './InputBase', './List'
 		}
 
 		oInputClone.setRowResultFunction(this._fnRowResultFilter);
+
+		// because of the "selectedKey", the input value can be reset,
+		// make sure it is the same as the original
+		oInputClone.setValue(this.getValue());
 
 		return oInputClone;
 	};

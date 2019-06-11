@@ -22,7 +22,7 @@ sap.ui.define(['./List', './library'],
 	 * @extends sap.m.List
 	 *
 	 * @author SAP SE
-	 * @version 1.52.29
+	 * @version 1.52.30
 	 *
 	 * @constructor
 	 * @public

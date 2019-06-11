@@ -22,7 +22,7 @@ sap.ui.define(['./InputBase', './library', 'sap/ui/core/InvisibleText', 'sap/ui/
 		 * @extends sap.m.InputBase
 		 *
 		 * @author SAP SE
-		 * @version 1.52.29
+		 * @version 1.52.30
 		 *
 		 * @constructor
 		 * @public

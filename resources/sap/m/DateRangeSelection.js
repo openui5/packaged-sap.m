@@ -94,7 +94,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/Device', './DatePicker', './library'
 	 * compact mode and provides a touch-friendly size in cozy mode.
 	 *
 	 * @extends sap.m.DatePicker
-	 * @version 1.52.29
+	 * @version 1.52.30
 	 *
 	 * @constructor
 	 * @public
@@ -754,6 +754,9 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/Device', './DatePicker', './library'
 			if (oDate1 && oDate2) {
 				var oDate1Old = this.getDateValue();
 				var oDate2Old = this.getSecondDateValue();
+
+				// the selected range includes all of the hours from the second date
+				oDate2.setHours(23, 59, 59, 999);
 
 				var sValue;
 				if (!jQuery.sap.equal(oDate1, oDate1Old) || !jQuery.sap.equal(oDate2, oDate2Old)) {

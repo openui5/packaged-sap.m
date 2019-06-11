@@ -47,7 +47,7 @@ sap.ui.define([
 		 * but rather used within controls such as <code>NavContainer</code>, <code>App</code>, <code>Shell</code> or other container controls.
 		 *
 		 * @extends sap.ui.core.Control
-		 * @version 1.52.29
+		 * @version 1.52.30
 		 *
 		 * @constructor
 		 * @public
@@ -225,10 +225,10 @@ sap.ui.define([
 				// check if the value is changed and if URIs are from different type(icon or image)
 				// in order to avoid destroying and creating of icon control
 				if (sOldIconUri !== sIconUri && IconPool.isIconURI(sOldIconUri) !== IconPool.isIconURI(sIconUri)) {
-					var oPage = this.getAggregation("_page");
+					var oVbox = this._getMessagePageContent();
 
-					oPage.removeContent(this._oIconControl); // remove current the current Icon or Image control
-					oPage.insertContent(this._getIconControl(), 0); // insert new Icon or Image control
+					oVbox.removeItem(this._oIconControl); // remove current the current Icon or Image control
+					oVbox.insertItem(this._getIconControl(), 0); // insert new Icon or Image control
 				} else {
 					this._oIconControl.setSrc(sIconUri); // just update the current Icon control
 				}

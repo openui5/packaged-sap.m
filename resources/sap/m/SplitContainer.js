@@ -36,7 +36,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 *
 	 * NOTE: This control must be rendered as a full screen control in order to make the show/hide master area work properly.
 	 * @extends sap.ui.core.Control
-	 * @version 1.52.29
+	 * @version 1.52.30
 	 *
 	 * @constructor
 	 * @public
@@ -576,11 +576,6 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 			this._bMasterisOpen = false;
 		}
 
-		//BCP: 002028376500005408012018
-		if (this.getMode() === "HideMode" && Device.system.phone && this._aDetailPages) {
-			this._oMasterNav.setInitialPage(this.getInitialDetail() ? this.getInitialDetail() : (this.getInitialMaster() || this._aDetailPages[0]));
-		}
-
 		this._updateMasterButtonTooltip();
 	};
 
@@ -615,6 +610,13 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 			this._oMasterNav.removeStyleClass("sapMSplitContainerNoTransition");
 		});
 	};
+
+	SplitContainer.prototype.applySettings = function (mSettings, oScope) {
+		Control.prototype.applySettings.call(this, mSettings, oScope);
+
+		this._updateMasterInitialPage();
+	};
+
 	/**************************************************************
 	* END - Life Cycle Methods
 	**************************************************************/
@@ -1627,6 +1629,16 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	/**************************************************************
 	* START - Private methods
 	**************************************************************/
+
+	/**
+	 * @private
+	 */
+	SplitContainer.prototype._updateMasterInitialPage = function() {
+		//BCP: 002028376500005408012018
+		if (this.getMode() === "HideMode" && Device.system.phone && this._aDetailPages) {
+			this._oMasterNav.setInitialPage(this.getInitialDetail() ? this.getInitialDetail() : (this.getInitialMaster() || this._aDetailPages[0]));
+		}
+	};
 
 	/**
 	 * @private
