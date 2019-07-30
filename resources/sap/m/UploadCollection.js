@@ -80,7 +80,7 @@ sap.ui.define([
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.52.30
+	 * @version 1.52.31
 	 *
 	 * @constructor
 	 * @public
@@ -1780,7 +1780,7 @@ sap.ui.define([
 		if (item.hasListeners("press")) {
 			item.firePress();
 		} else if (this.sErrorState !== "Error" && jQuery.trim(item.getProperty("url"))) {
-			this._triggerLink(event);
+			this._triggerLink(event, item);
 		}
 	};
 
@@ -2970,9 +2970,7 @@ sap.ui.define([
 	 * @param {sap.ui.base.Event} event The SAPUI5 event object
 	 * @private
 	 */
-	UploadCollection.prototype._triggerLink = function(event) {
-		var iLine, aId;
-
+	UploadCollection.prototype._triggerLink = function(event, item) {
 		if (this.editModeItem) {
 			//In case there is a list item in edit mode, the edit mode has to be finished first.
 			this._handleOk(event, this.editModeItem, true);
@@ -2982,9 +2980,7 @@ sap.ui.define([
 			}
 			this.sFocusId = event.getParameter("id");
 		}
-		aId = event.oSource.getId().split("-");
-		iLine = aId[aId.length - 2];
-		MobileLibrary.URLHelper.redirect(this.aItems[iLine].getProperty("url"), true);
+		MobileLibrary.URLHelper.redirect(item.getProperty("url"), true);
 	};
 
 	// ================================================================================

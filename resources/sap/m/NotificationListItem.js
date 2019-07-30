@@ -30,7 +30,7 @@ sap.ui.define(['./library', './NotificationListBase', 'sap/ui/core/InvisibleText
 	 * @extends sap.m.NotificationListBase
 	 *
 	 * @author SAP SE
-	 * @version 1.52.30
+	 * @version 1.52.31
 	 *
 	 * @constructor
 	 * @public
