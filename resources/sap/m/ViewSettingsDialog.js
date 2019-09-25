@@ -5,8 +5,8 @@
 */
 
 // Provides control sap.m.ViewSettingsDialog.
-sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/core/IconPool', './Toolbar', './CheckBox', './SearchField', './List', './StandardListItem', 'sap/ui/base/ManagedObject', 'sap/ui/base/EventProvider', 'sap/ui/Device', 'sap/ui/core/InvisibleText'],
-function(jQuery, library, Control, IconPool, Toolbar, CheckBox, SearchField, List, StandardListItem, ManagedObject, EventProvider, Device, InvisibleText) {
+sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/core/IconPool', './Toolbar', './CheckBox', './SearchField', './List', './StandardListItem', 'sap/ui/base/ManagedObject', 'sap/ui/base/EventProvider', 'sap/ui/Device', 'sap/ui/core/InvisibleText',"sap/m/GroupHeaderListItem"],
+function(jQuery, library, Control, IconPool, Toolbar, CheckBox, SearchField, List, StandardListItem, ManagedObject, EventProvider, Device, InvisibleText, GroupHeaderListItem) {
 	"use strict";
 
 	// shortcut for sap.m.ListMode
@@ -71,7 +71,7 @@ function(jQuery, library, Control, IconPool, Toolbar, CheckBox, SearchField, Lis
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.52.32
+	 * @version 1.52.34
 	 *
 	 * @constructor
 	 * @public
@@ -111,18 +111,21 @@ function(jQuery, library, Control, IconPool, Toolbar, CheckBox, SearchField, Lis
 
 			/**
 			 * The list of items with key and value that can be sorted over (for example, a list of columns for a table).
+			 * Have in mind that the first item of the sort order list is always the GroupHeaderListItem "Sort By" while the first item of the sort list is "Sort Object".
 			 * @since 1.16
 			 */
 			sortItems : {type : "sap.m.ViewSettingsItem", multiple : true, singularName : "sortItem", bindable : "bindable"},
 
 			/**
 			 * The list of items with key and value that can be grouped on (for example, a list of columns for a table).
+			 * Have in mind that the first item of the group order list is always the GroupHeaderListItem "Group By" while the first item of the group list is "Group Object".
 			 * @since 1.16
 			 */
 			groupItems : {type : "sap.m.ViewSettingsItem", multiple : true, singularName : "groupItem", bindable : "bindable"},
 
 			/**
 			 * The list of items with key and value that can be filtered on (for example, a list of columns for a table). A filterItem is associated with one or more detail filters.
+			 * Have in mind that the first item is always the GroupHeaderListItem "Filter By".
 			 *
 			 * <b>Note:</b> It is recommended to use the <code>sap.m.ViewSettingsFilterItem</code> as it fits best at the filter page.
 			 * @since 1.16
@@ -452,8 +455,11 @@ function(jQuery, library, Control, IconPool, Toolbar, CheckBox, SearchField, Lis
 
 	ViewSettingsDialog.prototype._createList = function(sType) {
 		var sListId = this.getId() + "-" + sType + "list",
-			oList = new List(sListId, this.mToList[sType].listOptions);
+			oList = new List(sListId, this.mToList[sType].listOptions),
+			sTitleSortObject = this._rb.getText("VIEWSETTINGS_SORT_OBJECT"),
+			oGHI = new GroupHeaderListItem({title: sTitleSortObject});
 
+		oList.addItem(oGHI);
 		this[this.mToList[sType].listName] = oList;
 
 		return oList;
@@ -1431,7 +1437,8 @@ function(jQuery, library, Control, IconPool, Toolbar, CheckBox, SearchField, Lis
 				contentHeight       : this._sDialogHeight,
 				content             : this._getNavContainer(),
 				beginButton         : new sap.m.Button(this.getId() + "-acceptbutton", {
-					text : this._rb.getText("VIEWSETTINGS_ACCEPT")
+					text : this._rb.getText("VIEWSETTINGS_ACCEPT"),
+					type: sap.m.ButtonType.Emphasized
 				}).attachPress(this._onConfirm, this),
 				endButton           : new sap.m.Button(this.getId() + "-cancelbutton", {
 					text : this._rb.getText("VIEWSETTINGS_CANCEL")
@@ -1802,7 +1809,8 @@ function(jQuery, library, Control, IconPool, Toolbar, CheckBox, SearchField, Lis
 	 * @private
 	 */
 	ViewSettingsDialog.prototype._initSortContent = function() {
-		var that = this;
+		var that = this,
+			sTitleSortBy = this._rb.getText("VIEWSETTINGS_SORT_BY");
 
 		if (this._sortContent) {
 			return;
@@ -1822,6 +1830,7 @@ function(jQuery, library, Control, IconPool, Toolbar, CheckBox, SearchField, Lis
 			},
 			ariaLabelledBy: this._ariaSortOrderInvisibleText
 		}).addStyleClass("sapMVSDUpperList");
+		this._sortOrderList.addItem(new GroupHeaderListItem({title: sTitleSortBy}));
 		this._sortOrderList.addItem(new StandardListItem({
 			title : this._rb.getText("VIEWSETTINGS_ASCENDING_ITEM")
 		}).data("item", false).setSelected(true));
@@ -1846,11 +1855,13 @@ function(jQuery, library, Control, IconPool, Toolbar, CheckBox, SearchField, Lis
 	ViewSettingsDialog.prototype._initGroupItems = function () {
 		var oListItem,
 			bHasSelections,
-			aGroupItems = this.getGroupItems();
+			aGroupItems = this.getGroupItems(),
+			sTitleGroupObject = this._rb.getText("VIEWSETTINGS_GROUP_OBJECT");
 
 		this._groupList.destroyItems();
 
 		if (!!aGroupItems.length) {
+			this._groupList.addItem(new GroupHeaderListItem({title: sTitleGroupObject}));
 			aGroupItems.forEach(function (oItem) {
 				oListItem = new StandardListItem({
 					id: oItem.getId() + LIST_ITEM_SUFFIX,
@@ -1896,7 +1907,8 @@ function(jQuery, library, Control, IconPool, Toolbar, CheckBox, SearchField, Lis
 	 * @private
 	 */
 	ViewSettingsDialog.prototype._initGroupContent = function() {
-		var that = this;
+		var that = this,
+			sTitleGroupBy = this._rb.getText("VIEWSETTINGS_GROUP_BY");
 
 		if (this._groupContent) {
 			return;
@@ -1916,6 +1928,8 @@ function(jQuery, library, Control, IconPool, Toolbar, CheckBox, SearchField, Lis
 			},
 			ariaLabelledBy: this._ariaGroupOrderInvisibleText
 		}).addStyleClass("sapMVSDUpperList");
+
+		this._groupOrderList.addItem(new GroupHeaderListItem({title: sTitleGroupBy}));
 		this._groupOrderList.addItem(new StandardListItem({
 			title : this._rb.getText("VIEWSETTINGS_ASCENDING_ITEM")
 		}).data("item", false).setSelected(true));
@@ -1950,10 +1964,14 @@ function(jQuery, library, Control, IconPool, Toolbar, CheckBox, SearchField, Lis
 		var aPresetFilterItems,
 			aFilterItems,
 			oListItem,
-			that = this;
+			that = this,
+			sTitleFilterBy = this._rb.getText("VIEWSETTINGS_FILTER_BY");
 
 		this._presetFilterList.destroyItems();
 		aPresetFilterItems = this.getPresetFilterItems();
+
+		this._filterList.addItem(new GroupHeaderListItem({title: sTitleFilterBy}));
+
 		if (aPresetFilterItems.length) {
 			aPresetFilterItems.forEach(function(oItem) {
 				oListItem = new StandardListItem({
@@ -1978,6 +1996,9 @@ function(jQuery, library, Control, IconPool, Toolbar, CheckBox, SearchField, Lis
 
 		this._filterList.destroyItems();
 		aFilterItems = this.getFilterItems();
+
+		this._filterList.addItem(new GroupHeaderListItem({title: sTitleFilterBy}));
+
 		if (aFilterItems.length) {
 			aFilterItems.forEach(function(oItem) {
 				oListItem = new StandardListItem(
@@ -2689,7 +2710,9 @@ function(jQuery, library, Control, IconPool, Toolbar, CheckBox, SearchField, Lis
 	 * @private
 	 */
 	ViewSettingsDialog.prototype._updateListSelection = function(oList, oItem) {
-		var items, i = 0;
+		var items,
+			i = 0,
+			bGroupHeaderItem;
 
 		if (!oList) {
 			return false;
@@ -2699,7 +2722,8 @@ function(jQuery, library, Control, IconPool, Toolbar, CheckBox, SearchField, Lis
 
 		oList.removeSelections();
 		for (; i < items.length; i++) {
-			if (items[i].data("item") === oItem || items[i].data("item") === null) { // null
+			bGroupHeaderItem = items[i] instanceof sap.m.GroupHeaderListItem; //group header items should not be selected
+			if (!bGroupHeaderItem && (items[i].data("item") === oItem || items[i].data("item") === null)) { // null
 				// is
 				// "None"
 				// item
