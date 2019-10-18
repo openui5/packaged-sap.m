@@ -22,7 +22,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.44.42
+	 * @version 1.44.43
 	 *
 	 * @constructor
 	 * @public
@@ -804,7 +804,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 			}, oTile);
 
 			var fnOnFocusIn = function(oEvent) {
-				var iIndex = that.indexOfAggregation("tiles", this),
+				var iIndex = that._getVisibleTiles().indexOf(this),
 					iExpectedPage = Math.floor(iIndex / that._iMaxTiles),
 					iPageDelta = iExpectedPage - that._oPagesInfo.getCurrentPage();
 
