@@ -20,7 +20,7 @@ sap.ui.define(['./TreeItemBase', './library', 'sap/ui/core/IconPool'],
 	 * @extends sap.m.TreeItemBase
 	 *
 	 * @author SAP SE
-	 * @version 1.52.34
+	 * @version 1.52.35
 	 *
 	 * @constructor
 	 * @public
@@ -69,13 +69,7 @@ sap.ui.define(['./TreeItemBase', './library', 'sap/ui/core/IconPool'],
 	};
 
 	StandardTreeItem.prototype.getContentAnnouncement = function() {
-		var sAnnouncement = "",
-		oIconInfo = IconPool.getIconInfo(this.getIcon()) || {};
-
-		sAnnouncement += (oIconInfo.text || oIconInfo.name || "") + " ";
-		sAnnouncement += this.getTitle() + " ";
-
-		return sAnnouncement;
+		return this.getTitle();
 	};
 
 	StandardTreeItem.prototype.exit = function() {
