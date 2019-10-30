@@ -34,7 +34,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/T
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.52.35
+	 * @version 1.52.36
 	 * @since 1.34.0
 	 *
 	 * @public
@@ -96,7 +96,12 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/T
 				 * Additional description for aria-label. The aria-label is rendered before the standard aria-label.
 				 * @since 1.50.0
 				 */
-				"ariaLabel": { type: "string", group: "Accessibility", defaultValue: null }
+				"ariaLabel": { type: "string", group: "Accessibility", defaultValue: null },
+				/**
+				* Width of the control.
+				* @since 1.52.37
+				*/
+				"width": {type: "sap.ui.core.CSSSize", group: "Appearance"}
 			},
 			defaultAggregation : "tileContent",
 			aggregations : {

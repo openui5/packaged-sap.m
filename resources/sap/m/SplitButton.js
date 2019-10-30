@@ -26,7 +26,7 @@ sap.ui.define(['./library', 'sap/ui/core/Control', './Button', 'sap/ui/core/Enab
 		 * @extends sap.ui.core.Control
 		 *
 		 * @author SAP SE
-		 * @version 1.52.35
+		 * @version 1.52.36
 		 *
 		 * @constructor
 		 * @private
