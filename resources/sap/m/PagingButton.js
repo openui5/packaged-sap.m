@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './Button', 'sap/ui/core/Control', 'sap/ui/c
 		 * @extends sap.ui.core.Control
 		 *
 		 * @author SAP SE
-		 * @version 1.44.43
+		 * @version 1.44.44
 		 *
 		 * @constructor
 		 * @public
