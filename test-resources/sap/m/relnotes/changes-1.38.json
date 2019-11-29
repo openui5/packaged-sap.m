@@ -5987,8 +5987,13 @@
       {
         "id": "7e93d3635189bf569cff1025b809ab0cf3fb8362",
         "type": "FIX",
-        "text": " sap.m.ListBase: swipe actions are only for touch devices",
-        "references": []
+        "text": "sap.m.ListBase: swipe actions are only for touch devices",
+        "references": [
+          {
+            "type": "BCP",
+            "reference": "002075129500001858022018"
+          }
+        ]
       }
     ]
   },
@@ -5998,44 +6003,79 @@
       {
         "id": "ba594c813f1d57178237e5a731e6c421d75c5e56",
         "type": "FIX",
-        "text": " sap.m.BusyDialog: Close event is now fired correctly",
-        "references": []
+        "text": "sap.m.BusyDialog: Close event is now fired correctly",
+        "references": [
+          {
+            "type": "BCP",
+            "reference": "1830116072"
+          }
+        ]
       },
       {
         "id": "a809a2f7df339f79ad5928c0d5db1dccdbdc768e",
         "type": "FIX",
-        "text": " sap.m.DatePicker: Precision of milliseconds set to the third digit",
-        "references": []
+        "text": "sap.m.DatePicker: Precision of milliseconds set to the third digit",
+        "references": [
+          {
+            "type": "BCP",
+            "reference": "002075129500002280482018"
+          }
+        ]
       },
       {
         "id": "455923765f3519079457ae952a1a3b15d3b84fc2",
         "type": "FIX",
-        "text": " sap.m.DateTimePicker: set min/max date does not modify its time part now.",
-        "references": []
+        "text": "sap.m.DateTimePicker: set min/max date does not modify its time part now.",
+        "references": [
+          {
+            "type": "BCP",
+            "reference": "002075129500002625952018"
+          }
+        ]
       },
       {
         "id": "32d351d42cfc6b5e9535eafb440d441dfbd05d2b",
         "type": "FIX",
-        "text": " sap.m.GenericTile: Ellipsis not added for truncated test in IE",
-        "references": []
+        "text": "sap.m.GenericTile: Ellipsis not added for truncated test in IE",
+        "references": [
+          {
+            "type": "BCP",
+            "reference": "002075129500003203002017"
+          }
+        ]
       },
       {
         "id": "9a7ea88d37e3f251230e11e2e1130bbfdf6e701f",
         "type": "FIX",
-        "text": " sap.m.ViewSettingsDialog - press reset then cancel button behavior is fixed.",
-        "references": []
+        "text": "sap.m.ViewSettingsDialog - press reset then cancel button behavior is fixed.",
+        "references": [
+          {
+            "type": "BCP",
+            "reference": "1870050515"
+          }
+        ]
       },
       {
         "id": "8b820028b986e4ce3b356884c6b2afab5fc6f2e7",
         "type": "FIX",
-        "text": " sap.m.ViewSettingsDialog: quint test works correctly now",
-        "references": []
+        "text": "sap.m.ViewSettingsDialog: quint test works correctly now",
+        "references": [
+          {
+            "type": "BCP",
+            "reference": "1880301184"
+          }
+        ]
       },
       {
         "id": "14822b2846333ef035e9f893db943f51c4a59738",
         "type": "FIX",
         "text": "sap.m.GenericTile: Ellipsis not added for truncated test in IE",
-        "references": []
+        "references": [
+          {
+            "type": "BCP",
+            "reference": "002075129500003203002017"
+          }
+        ]
       }
     ]
   },
@@ -6045,20 +6085,43 @@
       {
         "id": "3181e07c9efae308fd08d0b2730e23d91457f58d",
         "type": "FIX",
-        "text": " sap.m.FacetFilter: search with relative item binding works now.",
-        "references": []
+        "text": "sap.m.FacetFilter: search with relative item binding works now.",
+        "references": [
+          {
+            "type": "GitHub",
+            "reference": "2124"
+          },
+          {
+            "type": "BCP",
+            "reference": "1880474806"
+          }
+        ]
       },
       {
         "id": "44b15a0021e25e19e5a095820fa8a432e48ae19e",
         "type": "FIX",
-        "text": " sap.m.ObjectHeader: has padding now, when IconTabBar has no data",
-        "references": []
+        "text": "sap.m.ObjectHeader: has padding now, when IconTabBar has no data",
+        "references": [
+          {
+            "type": "GitHub",
+            "reference": "2092"
+          },
+          {
+            "type": "BCP",
+            "reference": "1880400634"
+          }
+        ]
       },
       {
         "id": "61d14d106d71359f997fbad009d64a420813a6db",
         "type": "FIX",
-        "text": " sap.m.RadioButton: Selection now visible in print",
-        "references": []
+        "text": "sap.m.RadioButton: Selection now visible in print",
+        "references": [
+          {
+            "type": "BCP",
+            "reference": "002075129500003242382018"
+          }
+        ]
       }
     ]
   },
@@ -6068,7 +6131,39 @@
       {
         "id": "810fa094493f13ab35f293e5dd00087499492112",
         "type": "FIX",
-        "text": " sap.m.TimePicker: if binding format differs from input, \"change\" is fired",
+        "text": "sap.m.TimePicker: if binding format differs from input, \"change\" is fired",
+        "references": [
+          {
+            "type": "BCP",
+            "reference": "002075129500004097892018"
+          }
+        ]
+      }
+    ]
+  },
+  "1.38.40": {
+    "date": "February 2019",
+    "notes": [
+      {
+        "id": "59d758e388a5255e76d446cf2eaf5382146fc797",
+        "type": "FIX",
+        "text": "sap.m.uploadCollectionItem : Fixed .csv file download issue.",
+        "references": [
+          {
+            "type": "BCP",
+            "reference": "002075129400005995842018"
+          }
+        ]
+      }
+    ]
+  },
+  "1.38.41": {
+    "date": "July 2019",
+    "notes": [
+      {
+        "id": "1f51f87394593cde8f68a90b3e1865d2fc24e20f",
+        "type": "FIX",
+        "text": " sap.m.TabStripItem: qunit test removed for 1.38 the testing in this version was made in another file",
         "references": []
       }
     ]
