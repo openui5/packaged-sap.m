@@ -21,7 +21,7 @@ sap.ui.define([
 	 * Applies mask support for input controls.
 	 * It should should be applied to the prototype of a <code>sap.m.InputBase</code>.
 	 *
-	 * @version 1.52.36
+	 * @version 1.52.37
 	 * @private
 	 * @mixin
 	 * @alias sap.m.MaskEnabler
