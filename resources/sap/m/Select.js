@@ -38,7 +38,7 @@ sap.ui.define(['jquery.sap.global', './Dialog', './Popover', './SelectList', './
 		 * @implements sap.ui.core.IFormContent
 		 *
 		 * @author SAP SE
-		 * @version 1.52.38
+		 * @version 1.52.39
 		 *
 		 * @constructor
 		 * @public

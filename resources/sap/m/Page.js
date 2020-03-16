@@ -55,7 +55,7 @@ sap.ui.define(["jquery.sap.global", "./library", "sap/ui/core/Control", "sap/ui/
 		 * @extends sap.ui.core.Control
 		 * @mixes sap.ui.core.ContextMenuSupport
 		 * @author SAP SE
-		 * @version 1.52.38
+		 * @version 1.52.39
 		 *
 		 * @public
 		 * @alias sap.m.Page

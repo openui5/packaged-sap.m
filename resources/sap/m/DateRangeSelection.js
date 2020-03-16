@@ -94,7 +94,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/Device', './DatePicker', './library'
 	 * compact mode and provides a touch-friendly size in cozy mode.
 	 *
 	 * @extends sap.m.DatePicker
-	 * @version 1.52.38
+	 * @version 1.52.39
 	 *
 	 * @constructor
 	 * @public
@@ -681,6 +681,10 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/Device', './DatePicker', './library'
 	DateRangeSelection.prototype._getInputValue = function(sValue) {
 
 		sValue = (typeof sValue == "undefined") ? this._$input.val() : sValue.toString();
+
+		if (!sValue) {
+			return "";
+		}
 
 		var aDates = this._parseValue(sValue);
 		sValue = this._formatValue( aDates[0], aDates[1]);
