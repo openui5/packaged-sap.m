@@ -20,7 +20,7 @@ sap.ui.define([
 	 *        tables.
 	 * @extends sap.m.Dialog
 	 * @author SAP SE
-	 * @version 1.38.44
+	 * @version 1.38.45
 	 * @constructor
 	 * @public
 	 * @since 1.26.0
