@@ -93,7 +93,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/Device', './InputBase', './DateTimeF
 	 * the close event), or select Cancel.
 	 *
 	 * @extends sap.m.DateTimeField
-	 * @version 1.52.39
+	 * @version 1.52.40
 	 *
 	 * @constructor
 	 * @public
