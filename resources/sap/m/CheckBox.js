@@ -70,7 +70,7 @@ sap.ui.define(['jquery.sap.global',
 	 * @implements sap.ui.core.IFormContent
 	 *
 	 * @author SAP SE
-	 * @version 1.52.40
+	 * @version 1.52.41
 	 *
 	 * @constructor
 	 * @public
