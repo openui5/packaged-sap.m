@@ -41,7 +41,7 @@ sap.ui.define([ 'jquery.sap.global', "sap/m/semantic/SemanticPage", "sap/m/seman
 	 * @extends sap.m.semantic.SemanticPage
 	 *
 	 * @author SAP SE
-	 * @version 1.38.46
+	 * @version 1.38.47
 	 *
 	 * @constructor
 	 * @public

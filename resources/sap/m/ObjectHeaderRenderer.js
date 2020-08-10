@@ -676,7 +676,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/IconPool'],
 
 		this._renderNumber(oRM, oOH);
 
-		oRM.write("<div class=\"sapMOHDivider\"/>");
+		oRM.write("<div class=\"sapMOHDivider\"></div>");
 		oRM.write("</div>"); // End Top row container
 
 		if (oOH._hasBottomContent()) {
@@ -687,7 +687,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/IconPool'],
 
 			this._renderAttributesAndStatuses(oRM, oOH);
 
-			oRM.write("<div class=\"sapMOHDivider\"/>");
+			oRM.write("<div class=\"sapMOHDivider\"></div>");
 			oRM.write("</div>"); // End Bottom row container
 		}
 	};
@@ -778,7 +778,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/IconPool'],
 			this._renderFullOH(oRM, oOH);
 		}
 
-		oRM.write("<div class=\"sapMOHLastDivider\"/>");
+		oRM.write("<div class=\"sapMOHLastDivider\"></div>");
 
 		oRM.write("</div>"); // End Main container\
 
