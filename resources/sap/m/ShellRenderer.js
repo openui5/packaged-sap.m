@@ -126,7 +126,7 @@
 			result += jQuery.sap.encodeHTML(sImage);
 			result += "' alt='";
 			result += oRb.getText("SHELL_ARIA_LOGO");
-			result += "' /></div>";
+			result += "'></div>";
 		}
 		return result;
 	};

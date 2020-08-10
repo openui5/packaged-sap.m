@@ -34,7 +34,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/T
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.52.42
+	 * @version 1.52.43
 	 * @since 1.34.0
 	 *
 	 * @public
@@ -424,7 +424,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/T
 			iLineHeight = Math.ceil(LineModeRenderer._getCSSPixelValue(this, "min-height")), //line height
 			iHeight = LineModeRenderer._getCSSPixelValue(this, "line-height"), //height including gap between lines
 			bLineBreak = this.$().is(":not(:first-child)") && iLines > 1,
-			$LineBreak = jQuery("<span><br /></span>"),
+			$LineBreak = jQuery("<span><br></span>"),
 			i = 0,
 			bRTL = sap.ui.getCore().getConfiguration().getRTL(),
 			oEndMarkerPosition = $End.position();
