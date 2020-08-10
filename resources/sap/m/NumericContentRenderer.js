@@ -1,6 +1,6 @@
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2019 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2020 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
@@ -92,9 +92,10 @@ sap.ui.define([],
 	 * @param {sap.ui.core.RenderManager} oRm the RenderManager that can be used for writing to the render output buffer
 	 * @param {sap.ui.core.Control} oControl an object representation of the control that should be rendered
 	 * @param {sap.ui.core.Icon} oIcon the icon inside the control
+	 * @param {String} sNumericContentFontClass font class of related NumericContent
 	 * @private
 	 */
-	NumericContentRenderer._prepareAndRenderIcon = function(oRm, oControl, oIcon) {
+	NumericContentRenderer._prepareAndRenderIcon = function (oRm, oControl, oIcon, sNumericContentFontClass) {
 		if (oIcon) {
 			var sState,
 			oLoadState = sap.m.LoadState,
@@ -110,6 +111,14 @@ sap.ui.define([],
 			}
 
 			oIcon.addStyleClass("sapMNCIconImage");
+			//adjust top margin depending on the NumericContent font size
+			oIcon.removeStyleClass("sapMNCIconImageMediumTopMargin");
+			oIcon.removeStyleClass("sapMNCIconImageSmallTopMargin");
+			if (sNumericContentFontClass === "sapMNCMediumFontSize") {
+				oIcon.addStyleClass("sapMNCIconImageMediumTopMargin");
+			} else if (sNumericContentFontClass === "sapMNCSmallFontSize") {
+				oIcon.addStyleClass("sapMNCIconImageSmallTopMargin");
+			}
 			oRm.renderControl(oIcon);
 		}
 	};
@@ -144,7 +153,7 @@ sap.ui.define([],
 			oRm.addClass(sState);
 			oRm.addClass(sColor);
 			oRm.writeClasses();
-			oRm.write("/>");
+			oRm.write("></div>");
 
 			if (isScale) {
 				oRm.write("<div");
@@ -154,7 +163,8 @@ sap.ui.define([],
 				oRm.addClass(sColor);
 				oRm.writeClasses();
 				oRm.write(">");
-				oRm.writeEscaped(textScale.substring(0, 3));
+				oRm.writeEscaped(textScale);
+
 				oRm.write("</div>");
 			}
 
@@ -187,26 +197,30 @@ sap.ui.define([],
 		oRm.writeClasses();
 		oRm.write(">");
 
+		var oMaxDigitsData = oControl._getMaxDigitsData();
+
 		oRm.write("<div");
 		oRm.writeAttribute("id", oControl.getId() + "-value-scr");
 		oRm.addClass("sapMNCValueScr");
 		oRm.addClass(withoutMargin);
+		if (oMaxDigitsData.fontClass) {
+			oRm.addClass(oMaxDigitsData.fontClass);
+		}
 		oRm.writeClasses();
 		oRm.write(">");
 
-		this._prepareAndRenderIcon(oRm, oControl, oControl._oIcon);
+		this._prepareAndRenderIcon(oRm, oControl, oControl._oIcon, oMaxDigitsData.fontClass);
 
-		var iChar = oControl.getTruncateValueTo();
+        var iChar = oControl.getTruncateValueTo() || oMaxDigitsData.maxLength;
+		oRm.write("<span id=\"" + oControl.getId() + "-value-inner\">");
 		//Control shows only iChar characters. If the last shown character is decimal separator - show only first N-1 characters. So "144.5" is shown like "144" and not like "144.".
 		if (value.length >= iChar && (value[iChar - 1] === "." || value[iChar - 1] === ",")) {
 			oRm.writeEscaped(value.substring(0, iChar - 1));
 		} else {
-			if (value) {
-				oRm.writeEscaped(value.substring(0, iChar));
-			} else {
-				oRm.writeEscaped(sEmptyValue);
-			}
+			oRm.writeEscaped(value ? value.substring(0, iChar) : sEmptyValue);
 		}
+
+		oRm.write("</span>");
 
 		oRm.write("</div>");
 		oRm.write("</div>");

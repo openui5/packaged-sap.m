@@ -1,6 +1,6 @@
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2019 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2020 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
@@ -18,7 +18,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/G
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.44.44
+	 * @version 1.44.46
 	 * @since 1.34
 	 *
 	 * @public
@@ -35,7 +35,12 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/G
 			/**
 			 * The time of the slide changing in milliseconds.
 			 */
-			"transitionTime" : {type : "int", group : "Appearance", defaultValue : 500}
+			"transitionTime" : {type : "int", group : "Appearance", defaultValue : 500},
+			/**
+			 * Width of the control.
+			 * @since 1.44.50
+			 */
+			"width": {type: "sap.ui.core.CSSSize", group: "Appearance"}
 		},
 		defaultAggregation : "tiles",
 		aggregations : {

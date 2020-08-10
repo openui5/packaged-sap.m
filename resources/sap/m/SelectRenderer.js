@@ -1,6 +1,6 @@
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2019 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2020 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
@@ -206,7 +206,7 @@ sap.ui.define(['jquery.sap.global', './Select', 'sap/ui/core/Renderer', 'sap/ui/
 			oRm.writeClasses();
 			oRm.writeAttributeEscaped("name", oSelect.getName());
 			oRm.writeAttributeEscaped("value", oSelect.getSelectedKey());
-			oRm.write("/>");
+			oRm.write(">");
 		};
 
 		/**

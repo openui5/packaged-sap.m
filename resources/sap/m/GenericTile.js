@@ -1,6 +1,6 @@
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2019 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2020 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
@@ -18,7 +18,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/T
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.44.44
+	 * @version 1.44.46
 	 * @since 1.34
 	 *
 	 * @public
@@ -70,7 +70,12 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/T
 				/**
 				 * Description of a header image that is used in the tooltip.
 				 */
-				"imageDescription" : {type : "string", group : "Misc", defaultValue : null}
+				"imageDescription" : {type : "string", group : "Misc", defaultValue : null},
+				/**
+				 * Width of the control.
+				 * @since 1.44.50
+				 */
+				"width": {type: "sap.ui.core.CSSSize", group: "Appearance"}
 			},
 			aggregations : {
 				/**
@@ -296,7 +301,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/T
 			iLineHeight = Math.ceil(LineModeRenderer._getCSSPixelValue(this, "min-height")), //line height
 			iHeight = LineModeRenderer._getCSSPixelValue(this, "line-height"), //height including gap between lines
 			bLineBreak = this.$().is(":not(:first-child)") && iLines > 1,
-			$LineBreak = jQuery("<span><br /></span>"),
+			$LineBreak = jQuery("<span><br></span>"),
 			i = 0,
 			bRTL = sap.ui.getCore().getConfiguration().getRTL(),
 			oEndMarkerPosition = $End.position();

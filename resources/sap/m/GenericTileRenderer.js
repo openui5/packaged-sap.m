@@ -1,6 +1,6 @@
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2019 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2020 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
@@ -44,11 +44,16 @@ sap.ui.define([ "sap/m/LoadState" ],
 			oRm.addClass("sapMPointer");
 			oRm.writeAttribute("tabindex", "0");
 		}
+		if (oControl.getWidth()) {
+			oRm.write(" style=\"width: " + oControl.getWidth() + ";");
+		}
 		if (oControl.getBackgroundImage()) {
-			oRm.write(" style='background-image:url(");
+			oRm.write(oControl.getWidth() ? " background-image:url('" : " style=\"background-image:url('");
 			oRm.writeEscaped(oControl.getBackgroundImage());
-			oRm.write(");'");
+			oRm.write("');\"");
 			oRm.addClass("sapMGTBackgroundImage");
+		} else {
+			oRm.write("\"");
 		}
 		if (oControl.getMode() === sap.m.GenericTileMode.HeaderMode) {
 			oRm.addClass("sapMGTHeaderMode");
