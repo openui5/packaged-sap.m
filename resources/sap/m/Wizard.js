@@ -47,7 +47,7 @@ sap.ui.define([
 		 * On mobile devices the steps in the StepNavigator are grouped together and overlap. Tapping on them will show a popover to select the step to navigate to.
 		 * @extends sap.ui.core.Control
 		 * @author SAP SE
-		 * @version 1.52.44
+		 * @version 1.52.45
 		 *
 		 * @constructor
 		 * @public
@@ -669,7 +669,7 @@ sap.ui.define([
 			 * we can't properly detect the offset of the step, that's why
 			 * additionalOffset is added like this.
 			 */
-			if (!Device.system.phone &&
+			if (!Device.system.phone && progressStep && this._nextButton &&
 				!jQuery.sap.containsOrEquals(progressStep.getDomRef(), this._nextButton.getDomRef())) {
 				additionalOffset = this._nextButton.$().outerHeight();
 			}
