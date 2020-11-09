@@ -21,7 +21,7 @@ sap.ui.define(['jquery.sap.global', './Input', './Token', './library', 'sap/ui/c
 	 * @extends sap.m.Input
 	 *
 	 * @author SAP SE
-	 * @version 1.38.47
+	 * @version 1.38.48
 	 *
 	 * @constructor
 	 * @public
