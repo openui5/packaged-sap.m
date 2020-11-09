@@ -21,7 +21,7 @@ sap.ui.define(["sap/ui/core/Control", "sap/m/Label", "sap/m/library", "jquery.sa
 	 * @abstract
 	 *
 	 * @author SAP SE
-	 * @version 1.52.45
+	 * @version 1.52.46
 	 *
 	 * @constructor
 	 * @public

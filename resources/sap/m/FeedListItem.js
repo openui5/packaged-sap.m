@@ -33,7 +33,7 @@ sap.ui.define(["./ListItemBase", "./Link", "./library", "./FormattedText", "sap/
 	 * @extends sap.m.ListItemBase
 	 *
 	 * @author SAP SE
-	 * @version 1.52.45
+	 * @version 1.52.46
 	 *
 	 * @constructor
 	 * @public
