@@ -1,6 +1,6 @@
 /*
  * ! UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2020 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2021 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
@@ -24,6 +24,8 @@ sap.ui.define([
 					CustomData, SimpleFormLayout) {
 			"use strict";
 
+			// shortcut for sap.m.URLHelper
+			var URLHelper = library.URLHelper;
 			/**
 			* Constructor for a new QuickViewPage.
 			*
@@ -37,7 +39,7 @@ sap.ui.define([
 			* @extends sap.ui.core.Control
 			*
 			* @author SAP SE
-			* @version 1.38.48
+			* @version 1.38.49
 			*
 			* @constructor
 			* @public
@@ -511,7 +513,7 @@ sap.ui.define([
 							sap.m.URLHelper.redirect(href);
 						}
 					} else  if (that.getTitleUrl()) {
-						window.open(that.getTitleUrl(), "_blank");
+						URLHelper.redirect(that.getTitleUrl(), true);
 					}
 				};
 			};

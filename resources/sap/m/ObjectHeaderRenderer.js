@@ -1,9 +1,9 @@
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2020 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2021 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
-sap.ui.define(['jquery.sap.global', 'sap/ui/core/IconPool'],
+sap.ui.define(['jquery.sap.global', 'sap/ui/core/IconPool', 'jquery.sap.script'],
 	function(jQuery, IconPool) {
 	"use strict";
 
@@ -546,6 +546,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/IconPool'],
 					oRM.writeAttributeEscaped("href", oOH.getTitleHref());
 					if (oOH.getTitleTarget()) {
 						oRM.writeAttributeEscaped("target", oOH.getTitleTarget());
+						oRM.writeAttributeEscaped("rel", jQuery.sap.defaultLinkTypes('', oOH.getTitleTarget()));
 					}
 				} else {
 					/*eslint-disable no-script-url */
@@ -1378,6 +1379,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/IconPool'],
 				oRM.writeAttributeEscaped("href", oOH.getTitleHref());
 				if (oOH.getTitleTarget()) {
 					oRM.writeAttributeEscaped("target", oOH.getTitleTarget());
+					oRM.writeAttributeEscaped("rel", jQuery.sap.defaultLinkTypes('', oOH.getTitleTarget()));
 				}
 			} else {
 				/*eslint-disable no-script-url */

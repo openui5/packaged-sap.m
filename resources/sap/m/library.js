@@ -1,6 +1,6 @@
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2020 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2021 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
@@ -22,14 +22,14 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/Device', 'sap/ui/base/DataType',
 	 * @namespace
 	 * @name sap.m
 	 * @author SAP SE
-	 * @version 1.38.48
+	 * @version 1.38.49
 	 * @public
 	 */
 
 	// delegate further initialization of this library to the Core
 	sap.ui.getCore().initLibrary({
 		name : "sap.m",
-		version: "1.38.48",
+		version: "1.38.49",
 		dependencies : ["sap.ui.core"],
 		types: [
 			"sap.m.BackgroundDesign",
@@ -2802,13 +2802,16 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/Device', 'sap/ui/base/DataType',
 			 * @function
 			 */
 			redirect : function (sURL, bNewWindow) {
+				var oWindow;
 				$.sap.assert(isValidString(sURL), this + "#redirect: URL must be a string" );
 				this.fireEvent("redirect", sURL);
 				if (!bNewWindow) {
 					window.location.href = sURL;
 				} else {
-					var oWindow = window.open(sURL, "_blank");
-					if (!oWindow) {
+					oWindow = window.open(sURL, "_blank");
+					if (oWindow) {
+						oWindow.opener = null;
+					} else {
 						$.sap.log.error(this + "#redirect: Could not open " + sURL);
 						if (Device.os.windows_phone || (Device.browser.edge && Device.browser.mobile)) {
 							jQuery.sap.log.warning("URL will be enforced to open in the same window as a fallback from a known Windows Phone system restriction. Check the documentation for more information.");
