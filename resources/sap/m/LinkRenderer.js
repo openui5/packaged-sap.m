@@ -1,11 +1,12 @@
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2020 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2021 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
- sap.ui.define(['sap/ui/core/Renderer', 'sap/ui/core/LabelEnablement', 'sap/ui/core/library'],
-	function(Renderer, LabelEnablement, coreLibrary) {
+ sap.ui.define(['sap/ui/core/Renderer', 'sap/ui/core/LabelEnablement', 'sap/ui/core/library',
+		 "jquery.sap.script"],
+	function(Renderer, LabelEnablement, coreLibrary, jQuery) {
 	"use strict";
 
 
@@ -37,7 +38,8 @@
 			oAccAttributes =  {
 				role: 'link',
 				labelledby: bShouldHaveOwnLabelledBy ? {value: oControl.getId(), append: true } : undefined
-			};
+			},
+			sRel = jQuery.sap.defaultLinkTypes(oControl.getRel(), oControl.getTarget());
 
 		// Link is rendered as a "<a>" element
 		oRm.write("<a");
@@ -88,6 +90,10 @@
 
 		if (oControl.getTarget()) {
 			oRm.writeAttributeEscaped("target", oControl.getTarget());
+		}
+
+		if (sRel) {
+			oRm.writeAttributeEscaped("rel", sRel);
 		}
 
 		if (oControl.getWidth()) {

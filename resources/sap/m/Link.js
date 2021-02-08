@@ -1,6 +1,6 @@
 /*!
  * UI development toolkit for HTML5 (OpenUI5)
- * (c) Copyright 2009-2020 SAP SE or an SAP affiliate company.
+ * (c) Copyright 2009-2021 SAP SE or an SAP affiliate company.
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
@@ -53,7 +53,7 @@ sap.ui.define(['./library', 'sap/ui/core/Control', 'sap/ui/core/InvisibleText', 
 	 * @implements sap.ui.core.IShrinkable, sap.ui.core.IFormContent
 	 *
 	 * @author SAP SE
-	 * @version 1.52.46
+	 * @version 1.52.47
 	 *
 	 * @constructor
 	 * @public
@@ -88,6 +88,15 @@ sap.ui.define(['./library', 'sap/ui/core/Control', 'sap/ui/core/InvisibleText', 
 			 * Alternatively, a frame name can be entered. This property is only used when the <code>href</code> property is set.
 			 */
 			target : {type : "string", group : "Behavior", defaultValue : null},
+
+			/**
+			 * Specifies the value of the HTML <code>rel</code> attribute.
+			 *
+			 * <b>Note:</b> A default value of <code>noopener noreferrer</code> is set only to links that have a cross-origin URL
+			 * and a specified <code>target</code> with value other than <code>_self</code>.
+			 * @since 1.52.49
+			 */
+			rel : {type : "string", group : "Behavior", defaultValue : null},
 
 			/**
 			 * Determines the width of the link (CSS-size such as % or px). When it is set, this is the exact size.
